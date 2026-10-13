@@ -38,12 +38,13 @@ export function makeLevel(index,phase=0){
    if(index>=3&&(row*9+col)%11===3)kind='explode';
    if(index===2&&(row===3&&(col===2||col===6)))kind='switch';
    if(index===7&&phase===2&&row<3)kind='armor';
+   if([2,3,5].includes(index)&&kind==='normal'&&(row===1||row===4)&&col===4)kind='armor';
    const hp=kind==='armor'?2+(index===7&&phase===2?1:0):1;
    bricks.push({id:id++,x:(col-4)*1.93,y:9-row*1.05,w:1.7,h:.72,kind,hp,maxHp:hp,color:WORLDS[index].colors[row%4],baseX:(col-4)*1.93,moving:(index===1||index===6)&&row%2===0,row});
  }
  const barriers=[];
- if(index===2)barriers.push({id:500,x:-4.6,y:.9,w:5,h:.5,gate:true},{id:501,x:4.6,y:.9,w:5,h:.5,gate:true});
- if(index===4)barriers.push({id:502,x:0,y:1,w:4,h:.5,moving:true},{id:503,x:0,y:-2,w:3,h:.5,moving:true});
+ if(index===2)barriers.push({id:500,x:-4.6,y:.9,w:5.4,h:.5,gate:true},{id:501,x:4.6,y:.9,w:5.4,h:.5,gate:true});
+ if(index===4)barriers.push({id:502,x:0,y:1,w:4.3,h:.5,moving:true},{id:503,x:0,y:-2,w:3.3,h:.5,moving:true});
  const portals=index===5||index===6?[{x:-7.8,y:.2},{x:7.8,y:3.4}]:[];
  return {bricks,barriers,portals};
 }

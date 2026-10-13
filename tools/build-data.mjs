@@ -13,8 +13,8 @@ if (!Context.request.body.matches(${JSON.stringify(scorePattern)})) {
  throw new HTTPResponse {status: 422, message: "<p>Submit one valid Prism Breaker run.</p>"}
 }
 </script></div></div>`;
-await fs.writeFile('public/scores.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Prism Breaker shared scores</title></head><body><h1>Prism Breaker scores</h1><p>Community scores are self-reported. <a href="/">Play Prism Breaker</a>.</p><ul id="scores"></ul>${rules}</body></html>`);
+if(!process.argv.includes('--worlds-only'))await fs.writeFile('public/scores.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Prism Breaker shared scores</title></head><body><h1>Prism Breaker scores</h1><p>Community scores are self-reported. <a href="/">Play Prism Breaker</a>.</p><ul id="scores"></ul>${rules}</body></html>`);
 let content='';for(let i=0;i<8;i++)for(let phase=0;phase<(i===7?3:1);phase++){
 const data=makeLevel(i,phase);content+=`<section data-world="${i}" data-phase="${phase}"><h2>${WORLDS[i].name}</h2><p>${WORLDS[i].note}</p>`+data.bricks.map(b=>'<code data-brick>'+JSON.stringify(b)+'</code>').join('')+'</section>';}
 await fs.writeFile('public/worlds.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Prism Breaker world definitions</title></head><body><main id="worlds">${content}</main></body></html>`);
-console.log('Generated structured world definitions and score rules.');
+console.log(process.argv.includes('--worlds-only')?'Generated structured world definitions.':'Generated structured world definitions and score rules.');

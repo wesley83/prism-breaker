@@ -1,5 +1,5 @@
-import {WORLDS,POWERS,daySeed} from './levels.js';
-import {Game} from './engine.js?v=2';
+import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
+import {Game,speedBonus} from './engine.js?v=3';
 import {Sound} from './audio.js?v=4';
 import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
@@ -9,7 +9,7 @@ import {VICTORY_TRACKS} from './victory-music.js';
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
 const storage={get(key,fallback=null){try{return JSON.parse(localStorage.getItem('prism.'+key))??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('prism.'+key,JSON.stringify(value));}catch{}},remove(key){try{localStorage.removeItem('prism.'+key);}catch{}}};
 const settings={music:.35,effects:.7,muted:false,interfaceTheme:'system',reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,lowEffects:matchMedia('(pointer:coarse)').matches,...storage.get('settings',{})};
-const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=2#'+name+'"/></svg>';
+const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=3#'+name+'"/></svg>';
 const powerIcons={wide:'arrows-horizontal',multi:'circles',sticky:'magnet',laser:'bolt',pierce:'diamond',slow:'clock',shield:'shield',life:'heart'};
 const powerDescriptions={wide:'A wider paddle for 18 seconds. Works with sticky or laser.',multi:'Three balls. Keep one in play.',sticky:'Holds each ball where it lands for 16 seconds. Launch with space or a tap.',laser:'Fire automatically for 14 seconds.',pierce:'Cut through bricks for 12 seconds.',slow:'Slower balls for 14 seconds.',shield:'Saves one ball at the bottom.',life:'One extra life, up to nine.'};
 function applyTheme(){document.documentElement.dataset.theme=settings.interfaceTheme;document.documentElement.dataset.reducedMotion=String(settings.reducedMotion);}
@@ -26,7 +26,7 @@ function toast(message){$('#toast').textContent=message;$('#toast').classList.ad
 function updateWorldCards(){
  const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(7,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
  all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
- $('#journey-summary').textContent=highest?'Adventure: '+highest+' of 8 worlds completed on this device.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
+ $('#journey-summary').textContent=highest?'Adventure: '+highest+' of 8 worlds completed.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
 }
 function updateWorld(){
  const w=WORLDS[game.level];document.documentElement.style.setProperty('--accent',w.accent);document.documentElement.style.setProperty('--accent-dark','#'+w.accent.slice(1).match(/../g).map(v=>Math.round(parseInt(v,16)*.35).toString(16).padStart(2,'0')).join(''));$('#arena-world').textContent='World '+(game.level+1)+' of 8';$('#music-credit').textContent=TRACKS[game.level].title+' · '+TRACKS[game.level].style;
@@ -35,10 +35,11 @@ function updateWorld(){
 }
 function hud(){
  const remaining=game.bricks.filter(b=>b.hp>0).length,held=game.balls.filter(b=>b.held).length;
- const signature=[game.score,game.lives,game.combo,remaining,game.state,held,game.balls.length,Object.entries(game.effects).map(([k,v])=>k+Math.ceil(v)).join(),game.shield].join('|');
+ const signature=[game.score,game.lives,game.combo,remaining,Math.floor(game.boardElapsed),game.state,held,game.balls.length,Object.entries(game.effects).map(([k,v])=>k+Math.ceil(v)).join(),game.shield].join('|');
  if(signature===lastHud)return;lastHud=signature;
  $('#score').textContent=String(game.score).padStart(6,'0');$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' lives');updateChase();
  $('#arena-bricks').textContent=remaining+' bricks left';
+ $('#arena-speed').textContent='Speed +'+speedBonus(game.boardElapsed).toLocaleString();
  $('#launch').hidden=!(view==='game'&&['ready','playing'].includes(game.state)&&game.balls.some(b=>b.held));
  updatePlayTip(held);
  $('#effects').replaceChildren();for(const [key,value]of Object.entries(game.effects))if(value>0){const el=document.createElement('span');el.className='effect';el.style.color=POWERS[key].color;el.innerHTML=icon(powerIcons[key])+POWERS[key].name+' · '+Math.ceil(value)+'s';$('#effects').append(el);}if(game.shield){const el=document.createElement('span');el.className='effect';el.innerHTML=icon('shield')+'Safety shield ready';$('#effects').append(el);}
@@ -46,7 +47,7 @@ function hud(){
 function persist(pendingNext=false){if(game.mode==='campaign'&&game.lives>0)storage.set('save',{pendingNext,game:game.snapshot()});}
 function updatePersonalBest(){
  $('#best').textContent=best?best.toLocaleString():'No runs yet';
- $('#result-best').textContent='Your personal best: '+(best?best.toLocaleString():'No runs yet')+' · On this device';
+ $('#result-best').textContent='Your personal best: '+(best?best.toLocaleString():'No runs yet');
 }
 function updateBest(){if(game.mode==='practice')return;if(game.score>best){best=game.score;storage.set('best',best);}updatePersonalBest();}
 function updatePlayTip(held){
@@ -66,11 +67,11 @@ function updatePlayTip(held){
 function handleEvent(e){
  sound.event(e);stage?.event(e);
  if(e.type==='level'){stage?.reset();updateWorld();lastHud='';}
- if(e.type==='power')toast(POWERS[e.kind].name);
+ if(e.type==='power')toast(POWERS[e.kind].name+(e.points?' · +'+e.points+' points':''));
  if(e.type==='gate')toast('Gate open. Find your angle.');
  if(e.type==='save')toast('Saved by the shield!');
  if(e.type==='life'){toast(game.lives+' lives left. You’ve got this.');persist();}
- if(e.type==='phase'){toast('Citadel · Formation '+(e.phase+1));persist();}
+ if(e.type==='phase'){toast('Formation cleared · +'+e.clearPoints+' clear · +'+e.speedPoints+' speed');persist();}
  if(e.type==='clear'){
    updateBest();if(game.mode==='campaign'){highest=Math.max(highest,game.level+1);storage.set('highest',highest);if(game.level<7)persist(true);else storage.remove('save');}
    beginCut();
@@ -90,6 +91,7 @@ function beginCut(){
  view='cut';cutTime=0;lastHud='';hud();$('#stage').classList.add('cinematic-mode');$('#cutscene').style.setProperty('--story-opacity',settings.reducedMotion?'1':'0');$('#launch').hidden=true;$('#effects').replaceChildren();$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#cutscene').hidden=false;
  $('#cut-kicker').textContent=game.level===7?'THE PRISM IS WHOLE':'WORLD '+String(game.level+1).padStart(2,'0')+' · RESTORED';
  $('#cut-title').textContent=game.level===7?'Every color. Home.':WORLDS[game.level].name+' restored.';$('#cut-story').textContent=WORLDS[game.level].story;const hasNext=game.mode==='campaign'&&game.level<7;$('#cut-next').textContent=hasNext?'Next: '+WORLDS[game.level+1].name:'';$('#skip-cut').textContent=hasNext?'Next world':'See your score';
+ $('#cut-bonus').textContent=game.lastClear?'Speed bonus +'+game.lastClear.speedPoints.toLocaleString()+' · Clear bonus +'+game.lastClear.clearPoints.toLocaleString():'';$('#cut-bonus').hidden=!game.lastClear;
  if(game.mode==='daily'){$('#cut-kicker').textContent='DAILY CHALLENGE · '+runDay+' UTC';$('#cut-title').textContent='You owned the day.';$('#cut-story').textContent='One shared challenge. One brilliant finish. The daily prism is restored.';$('#cut-next').textContent='Your score: '+game.score.toLocaleString();}
 }
 function finishCut(){if(view!=='cut')return;$('#stage').classList.remove('cinematic-mode');$('#cutscene').hidden=true;if(game.next()){view='game';showGame();persist();}else finish(true);}
@@ -98,6 +100,7 @@ function finish(won){
  endResult={id:game.runId,won,score:game.score,level:game.level+1,mode:game.mode,day:game.mode==='daily'?runDay:'all',seconds:Math.max(1,Math.round(game.elapsed))};
  $('#result-kicker').textContent=won?'WORLD COMPLETE':'RUN COMPLETE';$('#result-title').textContent=won?(game.mode==='campaign'?'You broke through.':'World complete.'):'One more try?';$('#result-description').textContent=(won?'Beautifully played. ':'You reached '+WORLDS[game.level].name+'. ')+(game.mode==='practice'?'Try another world or start an adventure.':'Save your score to join the shared leaderboard.');$('#result-score').textContent=game.score.toLocaleString();$('#score-form').hidden=game.mode==='practice';$('#player-name').value=storage.get('name','');$('#submit-score').disabled=false;$('#submit-score').textContent='Save score';$('#submit-status').textContent='2-16 letters, numbers, spaces, dashes or underscores.';$('#result-dialog').showModal();
  $('#result-best').hidden=game.mode==='practice';$('#result-dialog').classList.remove('record-result');$('#record-badge').hidden=true;
+ $('#result-bonuses').textContent='Speed bonuses +'+game.bonusTotals.speed.toLocaleString()+' · Power-ups +'+game.bonusTotals.pickups.toLocaleString();
  if(game.mode==='daily'&&runDay!==currentDay())$('#result-description').textContent='This run belongs to '+runDay+' UTC. You can save it, but the current Daily Challenge board has reset for '+currentDay()+'.';
  if(game.mode!=='practice')checkTopFinish(endResult);
 }
@@ -118,7 +121,7 @@ function finishCelebration(){if(view!=='champion')return;view='result';$('#recor
 $('#claim-record').onclick=finishCelebration;
 function openDialog(id){
  $('#play-tip').hidden=true;if(id==='#worlds-dialog')updateWorldCards();
- if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?WORLDS[game.level].name+' · '+game.score.toLocaleString()+' points. Your checkpoint is saved on this device.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Returning to the start screen ends this run.';$('#quit').textContent='Back to start screen';}
+ if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?WORLDS[game.level].name+' · '+game.score.toLocaleString()+' points. Your checkpoint is saved.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Returning to the start screen ends this run.';$('#quit').textContent='Back to start screen';}
  if(view==='game'&&['playing','ready'].includes(game.state)){modalResume=game.state;game.state='paused';persist();$('#launch').hidden=true;}
  sound.update(false,game.level);
  $(id).showModal();
@@ -179,12 +182,31 @@ function armDayRollover(){clearTimeout(rolloverTimer);const now=boardNow(),next=
 function rolloverDay(){const day=currentDay();if(boardDate===day)return;boardDate=day;$('#daily-detail').textContent=WORLDS[daySeed(day)%8].name+' · '+day+' UTC';updateTopScore();if(game.mode==='daily'&&runDay&&runDay!==day&&view!=='home')toast('A new UTC challenge day has started. This run belongs to '+runDay+'.');if($('#scores-dialog').open&&leaderMode==='daily'){renderScores(sharedScores?rankedScores(sharedScores,'daily',day):[]);$('#score-status').textContent='Challenge date: '+day+' UTC · A fresh daily board.';queueMicrotask(loadScores);}armDayRollover();}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){rolloverDay();armDayRollover();if($('#scores-dialog').open)loadScores();else refreshTopScore();}});
 window.addEventListener('focus',()=>{rolloverDay();armDayRollover();});
-function openLeaderboard(){leaderMode=view!=='home'&&game.mode==='daily'?'daily':'campaign';$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
-$('#scores-open').onclick=openLeaderboard;$('#top-score-open').onclick=openLeaderboard;$('#result-scores').onclick=openLeaderboard;$('#refresh-scores').onclick=loadScores;for(const mode of ['campaign','daily'])$('#tab-'+mode).onclick=()=>{leaderMode=mode;$('#tab-campaign').setAttribute('aria-pressed',String(mode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(mode==='daily'));loadScores();};
-async function loadCatalog(){try{const r=await fetch('/worlds.html',{headers:{Range:'selector=#worlds'}});if(!r.ok)return;const doc=new DOMParser().parseFromString(await r.text(),'text/html');const catalog=new Map();for(const section of doc.querySelectorAll('[data-world][data-phase]')){
+function resetSharing(){$('#share-status').textContent='';$('#share-link-fallback').hidden=true;}
+function openLeaderboard(){leaderMode=view!=='home'&&game.mode==='daily'?'daily':'campaign';resetSharing();$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
+$('#scores-open').onclick=openLeaderboard;$('#top-score-open').onclick=openLeaderboard;$('#result-scores').onclick=openLeaderboard;$('#refresh-scores').onclick=loadScores;for(const mode of ['campaign','daily'])$('#tab-'+mode).onclick=()=>{leaderMode=mode;resetSharing();$('#tab-campaign').setAttribute('aria-pressed',String(mode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(mode==='daily'));loadScores();};
+function leaderboardShareData(){
+ const board=leaderMode==='daily'?'Daily Challenge':'Adventure',leader=sharedScores&&rankedScores(sharedScores,leaderMode,currentDay())[0];
+ const url=new URL(document.querySelector('link[rel="canonical"]').href);url.searchParams.set('leaderboard',leaderMode);
+ return {title:'Prism Breaker · '+board+' leaderboard',text:leader?'Can you beat '+leader.player+'’s '+Number(leader.score).toLocaleString()+' points on the '+board+' leaderboard?':'Join the Prism Breaker '+board+' leaderboard.',url:url.href};
+}
+function showShareLink(message){$('#share-link').value=leaderboardShareData().url;$('#share-link-fallback').hidden=false;$('#share-status').textContent=message;}
+async function copyLeaderboardLink(){
+ const url=leaderboardShareData().url;
+ try{if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(url);$('#share-status').textContent='Leaderboard link copied. Paste it wherever you want to share.';}
+ catch{showShareLink('Select and copy this leaderboard link to share it.');$('#share-link').focus();$('#share-link').select();}
+}
+$('#share-leaderboard').onclick=async()=>{
+ const button=$('#share-leaderboard');button.disabled=true;$('#share-status').textContent='';$('#share-link-fallback').hidden=true;
+ try{if(navigator.share){try{await navigator.share(leaderboardShareData());$('#share-status').textContent='Share menu opened.';}catch(error){showShareLink(error.name==='AbortError'?'Sharing canceled. You can copy the link instead.':'Sharing is unavailable here. Copy the leaderboard link instead.');}}else await copyLeaderboardLink();}
+ finally{button.disabled=false;}
+};
+$('#copy-leaderboard-link').onclick=copyLeaderboardLink;
+async function loadCatalog(){try{const r=await fetch('/worlds.html?v=2',{headers:{Range:'selector=#worlds'},cache:'no-store'});if(!r.ok)return;const doc=new DOMParser().parseFromString(await r.text(),'text/html');const catalog=new Map();for(const section of doc.querySelectorAll('[data-world][data-phase]')){
  const bricks=[...section.querySelectorAll('[data-brick]')].map(el=>{const b=JSON.parse(el.textContent);if(!Number.isFinite(b.x)||!Number.isFinite(b.y)||b.x<-9||b.x>9||b.y<-8||b.y>11||b.hp<1||b.hp>3)throw Error('Invalid level data');return b;});if(bricks.length>0&&bricks.length<=80)catalog.set(section.dataset.world+':'+section.dataset.phase,bricks);
  }game.catalog=catalog;}catch{/* Bundled level definitions keep the game playable. */}}
 saveSettings();home();loadCatalog();refreshTopScore();all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=true);$('#stage').setAttribute('aria-busy','true');requestAnimationFrame(()=>requestAnimationFrame(initializeStage));if(matchMedia('(pointer:coarse)').matches)$('#launch-hint').textContent='TAP';
+const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['campaign','daily'].includes(sharedBoard)){leaderMode=sharedBoard;$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
 setInterval(()=>{if(document.hidden)return;rolloverDay();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
 armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open)loadScores();else if(view==='game')refreshTopScore();},60000);
 let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;

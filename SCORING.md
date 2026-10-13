@@ -34,13 +34,13 @@ For example, a 12-brick streak earns `5 × 100 + 6 × 200 + 1 × 300 = 2,000` po
 | 4 | 1,350 |
 | 9 (maximum) | 2,100 |
 
-Prism Citadel has three formations. The first two award 500 points each when cleared. Its final formation awards the normal clear bonus. There is no additional whole-adventure completion bonus. Clear bonuses are not multiplied by the combo.
+Prism Citadel has three formations. The first two award 500 clear points each. Its final formation awards the normal clear bonus. Each formation also earns its own speed bonus. There is no additional whole-adventure completion bonus. Clear and speed bonuses are not multiplied by the combo.
 
 Every 12,000 points awards an extra life, up to nine lives. Each Extra life pickup also adds one life up to that limit. Lives awarded by the clear bonus itself do not retroactively increase that bonus. Losing a life does not deduct points, but fewer lives reduce later clear bonuses.
 
 ## Power-ups
 
-Collecting any power-up awards **zero points**. Power-ups affect score indirectly through brick destruction, combos or retained lives; none introduces a separate score multiplier.
+Collecting any falling power-up awards **150 points**, even if the effect or life count is already at its limit. Pickup points are added directly and are not multiplied by the combo. Power-ups also affect score through brick destruction, combos or retained lives; none introduces a separate score multiplier. An automatic extra life earned at a 12,000-point milestone is not a pickup and awards no additional points.
 
 | Power-up | Effect | How it can affect scoring |
 |---|---|---|
@@ -55,9 +55,23 @@ Collecting any power-up awards **zero points**. Power-ups affect score indirectl
 
 Repeated timed pickups extend the remaining duration up to 1.5 times the base duration. Sticky and Laser replace one another; Wide can work alongside either. Timed effects count down during active play, including while Sticky holds a ball, and stop while paused. They are cleared on a new board or life loss.
 
-## Speed and leaderboard ranking
+## Speed bonuses and leaderboard ranking
 
-**There is no time bonus.** Clearing a board in 40 seconds instead of 100 seconds awards the same points if brick streaks and lives remaining are identical. Faster destruction can help exploit a timed power-up, but elapsed time does not enter the point formula.
+Each cleared board earns a speed bonus:
+
+`speed bonus = max(0, 2,000 − 10 × floor(active board seconds))`
+
+| Active board time | Speed bonus |
+|---|---|
+| 40 seconds | 1,600 |
+| 60 seconds | 1,400 |
+| 100 seconds | 1,000 |
+| 150 seconds | 500 |
+| 200 seconds or longer | 0 |
+
+The bonus falls by 10 points per completed active second, cannot become negative and is awarded once when that board is cleared. Every Citadel formation starts a new board timer and earns its own bonus. Losing a life does not reset the timer. Pauses, cutscenes and ready-to-launch time do not count; holding a ball with Sticky during active play does count. Saving and resuming preserves the board timer. Older checkpoints without this timer use their saved board time as a conservative fallback.
+
+For example, the same brick score and three-life clear at 40 seconds earns 600 more points than at 100 seconds. Three pickups add another 450 points. The normal clear bonus is calculated before clear/speed awards grant any milestone extra lives.
 
 The leaderboard sorts by:
 
@@ -67,6 +81,10 @@ The leaderboard sorts by:
 
 Time is measured across the run, rounded to whole seconds with a minimum of one second. Ready-to-launch time, pauses and cutscenes are excluded; holding a ball with Sticky during active play is included. Daily and Adventure have separate boards. The Daily board includes only its current UTC date.
 
+## Difficulty adjustment for worlds 3–6
+
+Worlds 3–6 use 5% faster ball movement before the existing speed cap. Electric City, Crystal Caverns and Frost Observatory each add two two-hit armored bricks. Electric City's gates grow from 5 to 5.4 units wide. Ember Foundry's two moving barriers grow from 4/3 to 4.3/3.3 units and move 10% faster. Other worlds retain their existing difficulty settings.
+
 ## Personal best versus the shared leaderboard
 
-“Your personal best … On this device” is one combined Adventure/Daily best saved under `prism.best` in this browser's local storage. It is independent of the leaderboard nickname, is not synced across browsers or devices, and is removed if that site's browser data is cleared. Saving a score to the shared Pagelove leaderboard is a separate operation.
+Your personal best is one combined Adventure/Daily best saved under `prism.best` in local storage. The interface omits device/storage qualifiers. Saving a score to the shared Pagelove leaderboard is a separate operation; existing scores retain their originally earned totals.
