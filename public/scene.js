@@ -16,13 +16,41 @@ export class Stage {
    this.box=new T.BoxGeometry(1,1,1);this.sphere=new T.SphereGeometry(1,14,10);this.octa=new T.OctahedronGeometry(1);this.bricks=new Map();this.balls=new Map();this.drops=new Map();this.shots=new Map();this.barriers=new Map();this.particles=[];this.decor=[];this.materials=[];
    this.haloTexture=this.makeHalo();this.powerGem=new T.IcosahedronGeometry(.46,1);this.powerOrb=new T.DodecahedronGeometry(.44);this.powerDiamond=new T.OctahedronGeometry(.5);this.powerRing=new T.TorusGeometry(.6,.045,8,32);this.powerDisc=new T.CircleGeometry(.34,24);const heart=new T.Shape();heart.moveTo(0,.1);heart.bezierCurveTo(0,.7,-.75,.65,-.75,.12);heart.bezierCurveTo(-.75,-.25,-.3,-.55,0,-.8);heart.bezierCurveTo(.3,-.55,.75,-.25,.75,.12);heart.bezierCurveTo(.75,.65,0,.7,0,.1);this.powerHeart=new T.ExtrudeGeometry(heart,{depth:.26,bevelEnabled:true,bevelThickness:.06,bevelSize:.06,bevelSegments:3,steps:1,curveSegments:12});this.powerHeart.center();this.powerHeart.scale(.55,.55,.55);this.makeBoard();this.resize();this.current=-1;this.ray=new T.Raycaster();this.plane=new T.Plane(new T.Vector3(0,0,1),0);this.point=new T.Vector3();
  }
+ async prepare(game){
+  // Keep compilation, texture uploads and bloom allocation out of the first brick hit.
+  const mode=this.settings.lowEffects?'low':'full';this.powerPools??=new Map();
+  if(this.preparedModes?.has(mode))return;
+  this.render(game,0,0,'home');this.preparing=true;this.canvas.style.visibility='hidden';
+  const warm=new T.Group();this.scene.add(warm);
+  try{
+   let i=0;
+   for(const kind of Object.keys(POWERS)){
+    const pool=[];this.powerPools.set(mode+':'+kind,pool);
+    for(let n=0;n<2;n++){const power=this.makePower(kind);power.userData.poolKey=mode+':'+kind;power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);pool.push(power);i++;}
+   }
+   await this.renderer.compileAsync(this.scene,this.camera);
+   this.renderer.initTexture(this.haloTexture);
+   warm.traverse(object=>{if(object.userData.texture)this.renderer.initTexture(object.userData.texture);});
+   this.ensureFX();this.draw(0,false,0,true);
+   await new Promise(resolve=>requestAnimationFrame(resolve));
+   this.draw(0,false,0,true);
+   this.preparedModes??=new Set();this.preparedModes.add(mode);
+  }finally{
+   this.scene.remove(warm);warm.clear();this.preparing=false;
+   this.render(game,0,0,'home');this.canvas.style.visibility='';
+  }
+ }
+ acquirePower(kind){const key=(this.settings.lowEffects?'low':'full')+':'+kind,pool=this.powerPools?.get(key);const power=pool?.pop()||this.makePower(kind);power.userData.poolKey=key;return power;}
  makeHalo(){const c=document.createElement('canvas');c.width=c.height=128;const ctx=c.getContext('2d'),g=ctx.createRadialGradient(64,64,0,64,64,64);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.15,'rgba(255,255,255,.65)');g.addColorStop(.42,'rgba(255,255,255,.13)');g.addColorStop(1,'rgba(255,255,255,0)');ctx.fillStyle=g;ctx.fillRect(0,0,128,128);return new T.CanvasTexture(c);}
  ensureFX(){if(this.composer||this.settings.lowEffects||this.fxUnavailable)return;try{this.composer=new EffectComposer(this.renderer);this.composer.setPixelRatio(Math.min(1.15,this.renderer.getPixelRatio()));this.composer.addPass(new RenderPass(this.scene,this.camera));this.bloom=new UnrealBloomPass(new T.Vector2(this.width,this.height),.7,.5,1.25);this.composer.addPass(this.bloom);this.lens=new ShaderPass({uniforms:{tDiffuse:{value:null},vignette:{value:0},fade:{value:0},split:{value:0}},vertexShader:'varying vec2 vUv;void main(){vUv=uv;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.0);}',fragmentShader:'uniform sampler2D tDiffuse;uniform float vignette;uniform float fade;uniform float split;varying vec2 vUv;void main(){vec2 d=vUv-0.5;vec2 offset=d*dot(d,d)*split;vec4 c=texture2D(tDiffuse,vUv);c.r=texture2D(tDiffuse,vUv+offset).r;c.b=texture2D(tDiffuse,vUv-offset).b;c.rgb*=1.0-vignette*smoothstep(0.1,0.7,length(d));c.rgb*=1.0-fade;gl_FragColor=c;}'});this.composer.addPass(this.lens);this.composer.addPass(new OutputPass());this.composer.setSize(this.width,this.height);}catch{this.composer?.dispose();this.composer=null;this.fxUnavailable=true;}}
  draw(dt,cinematic=false,fade=0,glowing=false){if(cinematic||glowing)this.ensureFX();if(this.composer&&!this.settings.lowEffects){this.bloom.strength=cinematic?.58:.5;this.bloom.threshold=cinematic?1.4:1.25;this.bloom.radius=cinematic?.68:.35;this.lens.uniforms.vignette.value=cinematic?.42:.08;this.lens.uniforms.fade.value=fade;this.lens.uniforms.split.value=cinematic&&!this.settings.reducedMotion?.009:0;this.composer.render(dt);}else this.renderer.render(this.scene,this.camera);}
  makePower(kind){const power=POWERS[kind],group=new T.Group(),rig=new T.Group();group.scale.setScalar(1.18);group.add(rig);group.userData.rig=rig;const bodyMaterial=new T.MeshPhysicalMaterial({color:power.color,metalness:.35,roughness:.18,clearcoat:this.settings.lowEffects?0:1,emissive:power.color,emissiveIntensity:.6});const geometry=kind==='life'?this.powerHeart:kind==='pierce'||kind==='laser'?this.powerDiamond:kind==='shield'||kind==='multi'?this.powerOrb:this.powerGem;const body=new T.Mesh(geometry,bodyMaterial);body.scale.z=1.2;if(kind==='wide')body.scale.set(1.35,.7,1.1);if(kind==='laser')body.scale.set(.7,1.3,1);rig.add(body);if(kind==='multi')for(let i=0;i<3;i++){const orb=new T.Mesh(this.powerGem,bodyMaterial);orb.scale.setScalar(.34);orb.position.set(Math.cos(i*2.09)*.45,Math.sin(i*2.09)*.45,.2);rig.add(orb);}
   const core=new T.Mesh(this.sphere,new T.MeshBasicMaterial({color:new T.Color(power.color).multiplyScalar(3.5)}));core.scale.setScalar(.22);rig.add(core);
   for(let i=0;i<(this.settings.lowEffects?1:2);i++){const ring=new T.Mesh(this.powerRing,new T.MeshBasicMaterial({color:new T.Color(power.color).multiplyScalar(2.2)}));ring.rotation.set(i?1.05:.45,i?.4:0,0);rig.add(ring);}
-  const label=this.label(power.symbol,'#f0ffe9',true);label.scale.set(.85,.55,1);label.position.z=.58;group.add(label);
+  this.powerLabels??=new Map();let labelTexture=this.powerLabels.get(kind),label;
+  if(labelTexture){label=new T.Sprite(new T.SpriteMaterial({map:labelTexture,transparent:true,depthTest:false}));}
+  else{label=this.label(power.symbol,'#f0ffe9',true);labelTexture=label.userData.texture;this.powerLabels.set(kind,labelTexture);}
+  label.userData.texture=labelTexture;label.userData.sharedTexture=true;label.scale.set(.85,.55,1);label.position.z=.58;group.add(label);
   const glow=new T.Sprite(new T.SpriteMaterial({map:this.haloTexture,color:power.color,transparent:true,opacity:.55,depthWrite:false,blending:T.AdditiveBlending,toneMapped:false}));glow.scale.set(2.6,2.6,1);group.add(glow);group.userData.glow=glow;
   if(!this.settings.lowEffects)for(let i=0;i<3;i++){const trail=new T.Sprite(new T.SpriteMaterial({map:this.haloTexture,color:power.color,transparent:true,opacity:.14/(i+1),depthWrite:false,blending:T.AdditiveBlending,toneMapped:false}));trail.position.set(0,.5+i*.38,-.12);trail.scale.setScalar(1-i*.17);group.add(trail);}return group;
  }
@@ -62,7 +90,7 @@ export class Stage {
    const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(stars,3));this.stars=new T.Points(g,new T.PointsMaterial({color:w.accent,size:.07,transparent:true,opacity:.6}));this.scene.add(this.stars);
  }
  label(text,color='#fff',outlined=false){const c=document.createElement('canvas');c.width=128;c.height=64;const ctx=c.getContext('2d');ctx.fillStyle=color;ctx.font='bold 48px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';if(outlined){ctx.strokeStyle='#14252a';ctx.lineWidth=7;ctx.strokeText(text,64,32);}ctx.fillText(text,64,32);const texture=new T.CanvasTexture(c);const mat=new T.SpriteMaterial({map:texture,transparent:true,depthTest:false});const s=new T.Sprite(mat);s.scale.set(.9,.45,1);s.userData.texture=texture;return s;}
- disposeObject(m){m.traverse(c=>{if(c.userData.texture)c.userData.texture.dispose();if(c.material)c.material.dispose();});this.dynamic.remove(m);}
+ disposeObject(m){this.dynamic.remove(m);if(m.userData.poolKey){const pool=this.powerPools.get(m.userData.poolKey);if(pool&&pool.length<8){pool.push(m);return;}}m.traverse(c=>{if(c.userData.texture&&!c.userData.sharedTexture)c.userData.texture.dispose();if(c.material)c.material.dispose();});}
  syncMap(map,items,create,update){const ids=new Set();for(const item of items){ids.add(item.id);let m=map.get(item.id);if(!m){m=create(item);map.set(item.id,m);this.dynamic.add(m);}update(m,item);}for(const [id,m]of map)if(!ids.has(id)){this.disposeObject(m);map.delete(id);}}
  reset(){for(const map of [this.bricks,this.balls,this.drops,this.shots,this.barriers]){for(const m of map.values())this.disposeObject(m);map.clear();}for(const m of this.portalMeshes||[]){this.board.remove(m);m.geometry.dispose();m.material.dispose();}this.portalMeshes=[];for(const p of this.particles){this.board.remove(p.mesh);p.mesh.material.dispose();}this.particles=[];}
  particle(x,y,color,n=12){if(this.settings.reducedMotion)return;if(this.settings.lowEffects)n=4;for(let i=0;i<n;i++){
@@ -72,6 +100,7 @@ export class Stage {
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.renderer.setSize(r.width,r.height,false);this.camera.aspect=r.width/r.height;this.camera.updateProjectionMatrix();this.width=r.width;this.height=r.height;if(this.composer){this.composer.setPixelRatio(Math.min(1.15,this.renderer.getPixelRatio()));this.composer.setSize(r.width,r.height);}}
  screenX(clientX,clientY){const r=this.canvas.getBoundingClientRect();this.ray.setFromCamera(new T.Vector2((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1),this.camera);this.ray.ray.intersectPlane(this.plane,this.point);return this.point.x-this.world.position.x;}
  render(game,dt,time,mode='game',cut=0){
+   if(this.preparing)return;
    if(this.current!==game.level){this.setWorld(game.level);this.reset();}
    const isHome=mode==='home',isChampion=mode==='champion',isCut=mode==='cut'||isChampion;
    const narrow=this.width<600;const desiredZ=narrow?Math.max(43,24/(this.camera.aspect*.75)):43;
@@ -89,7 +118,7 @@ export class Stage {
      if(b.kind!=='normal'){const text=this.label(b.kind==='armor'?'II':b.kind==='switch'?'◇':'✦','#12232d');text.position.z=.4;m.add(text);}return m;
    },(m,b)=>{m.position.set(b.x,b.y,0);m.children[0].material.emissiveIntensity=b.hp<b.maxHp?.04:.25;m.scale.setScalar(b.hp<b.maxHp?.95:1);});
    this.syncMap(this.balls,game.balls,b=>{const m=new T.Mesh(this.sphere,new T.MeshBasicMaterial({color:'#ffffff'}));m.scale.setScalar(b.r);return m;},(m,b)=>{m.position.set(b.x,b.y,.42);m.material.color.set(game.effects.pierce?'#d4b6ff':'#ffffff');});
-   this.syncMap(this.drops,game.drops,d=>this.makePower(d.kind),(m,d)=>{const t=this.settings.reducedMotion?0:time;m.position.set(d.x,d.y,.6);m.userData.rig.rotation.set(.3+Math.sin(t*1.7+d.id)*.2,t*.9+d.id,Math.sin(t*2+d.id)*.15);m.userData.glow.material.opacity=.48+Math.sin(t*3+d.id)*.08;});
+   this.syncMap(this.drops,game.drops,d=>this.acquirePower(d.kind),(m,d)=>{const t=this.settings.reducedMotion?0:time;m.position.set(d.x,d.y,.6);m.userData.rig.rotation.set(.3+Math.sin(t*1.7+d.id)*.2,t*.9+d.id,Math.sin(t*2+d.id)*.15);m.userData.glow.material.opacity=.48+Math.sin(t*3+d.id)*.08;});
    this.syncMap(this.shots,game.shots,()=>{const m=new T.Mesh(this.box,new T.MeshBasicMaterial({color:'#ffbdcc'}));m.scale.set(.08,.6,.12);return m;},(m,s)=>m.position.set(s.x,s.y,.3));
    this.syncMap(this.barriers,game.barriers,o=>{const m=new T.Mesh(this.box,new T.MeshStandardMaterial({color:WORLDS[game.level].accent,emissive:WORLDS[game.level].accent,emissiveIntensity:.45,metalness:.8,roughness:.2}));m.scale.set(o.w,o.h,.55);return m;},(m,o)=>m.position.set(o.x,o.y,.1));
    if(!this.portalMeshes?.length&&game.portals.length){this.portalMeshes=game.portals.map((p,i)=>{const m=new T.Mesh(new T.TorusGeometry(.7,.08,10,32),new T.MeshBasicMaterial({color:i?'#ec99ff':'#6ffff0'}));m.position.set(p.x,p.y,.2);this.board.add(m);return m;});}

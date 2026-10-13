@@ -12,8 +12,8 @@
  <meta property="og:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Prism Breaker title beside a luminous green prism, colorful 3D bricks, a glowing ball and a paddle.">
  <meta property="og:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker-square.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="1200"><meta property="og:image:alt" content="Square Prism Breaker artwork with a glowing green prism surrounded by pink, cyan and golden bricks above the paddle.">
  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Prism Breaker · Break through."><meta name="twitter:description" content="Eight colorful 3D worlds, glowing powerups, cinematic endings and shared high scores. Play free on Pagelove."><meta name="twitter:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker.jpg"><meta name="twitter:image:alt" content="Prism Breaker title beside a luminous green prism, colorful 3D bricks, a glowing ball and a paddle.">
- <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=14">
- <script type="module" src="/app.js?v=13"></script>
+ <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=15">
+ <script type="module" src="/app.js?v=14"></script>
 </head>
 <body>
  <div class="shell">
@@ -29,8 +29,8 @@
      <h1>BREAK<br>THROUGH<span class="title-dot">.</span></h1>
      <p>Eight colorful worlds. Catch powerups,<br>chase the record, and bring the prism home.</p>
      <button id="resume" class="button primary" hidden><span>Continue adventure<small id="resume-detail"></small></span><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#arrow-right"/></svg></button>
-     <button id="play" class="button primary">Start adventure</button>
-     <button id="daily" class="daily-link"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#sparkles"/></svg><span>Play the daily challenge<small id="daily-detail"></small></span><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#arrow-right"/></svg></button>
+     <button id="play" class="button primary start-choice"><span>Start adventure<small>Journey through all eight worlds</small></span></button>
+     <button id="daily" class="button primary start-choice"><span>Play the daily challenge<small id="daily-detail"></small></span></button>
      <div class="home-best"><span>Your personal best</span><strong id="best">No runs yet</strong></div>
     </section>
     <div id="hud" class="hud" hidden><div><span>SCORE</span><strong id="score">000000</strong><small id="score-chase">Beat the record</small></div><div class="hud-combo"><span>COMBO</span><strong id="combo">×1</strong></div><button id="top-score-open" class="top-score" aria-label="Open leaderboard"><span id="top-score-label">TOP SCORE</span><strong id="top-score">-</strong><span id="top-player">Loading…</span><small id="record-status" hidden>Last loaded</small></button><div class="hud-lives"><span>LIVES</span><strong id="lives" aria-label="3 lives">♥ ♥ ♥</strong></div><button id="pause" class="icon-button" aria-label="Pause game"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#player-pause"/></svg></button></div>

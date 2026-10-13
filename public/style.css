@@ -84,7 +84,7 @@ body>div[style*="position: fixed"]:has(a[href^="https://pagelove.com"]){position
 @media(max-height:560px) and (min-width:651px){.scene-copy{padding:14px 22px;bottom:calc(7% + 8px)}.scene-copy h2{font-size:32px}.scene-copy p{font-size:15px}.record-score strong{font-size:54px}.record-copy{gap:8px 20px}}
 
 /* Scoring and leaderboard sharing */
-.scene-copy .cut-bonus{font-size:15px;line-height:1.4;color:#ffe4a5;margin:8px 0}.result-bonuses{font-variant-numeric:tabular-nums;margin:0 0 12px}.leaderboard-sharing{margin-top:18px}.leaderboard-sharing label{display:block;font-size:13px;margin-bottom:8px}.share-link-row{display:flex;align-items:center;gap:8px}.share-link-row input{min-width:0;flex:1;min-height:48px;padding:12px;background:var(--field);border:1px solid var(--line);border-radius:8px;color:var(--text);font:inherit;font-size:12px}.share-link-row .button{width:auto;margin:0;padding:12px;min-height:48px}#share-status:empty{display:none}
+.scene-copy .cut-bonus{font-size:15px;line-height:1.4;color:#ffe4a5;margin:8px auto 0;text-align:center}.result-bonuses{font-variant-numeric:tabular-nums;margin:0 0 12px}.leaderboard-sharing{margin-top:18px}.leaderboard-sharing label{display:block;font-size:13px;margin-bottom:8px}.share-link-row{display:flex;align-items:center;gap:8px}.share-link-row input{min-width:0;flex:1;min-height:48px;padding:12px;background:var(--field);border:1px solid var(--line);border-radius:8px;color:var(--text);font:inherit;font-size:12px}.share-link-row .button{width:auto;margin:0;padding:12px;min-height:48px}#share-status:empty{display:none}
 .leaderboard-share-actions{display:flex;align-items:stretch;gap:8px}.leaderboard-share-actions #share-leaderboard{flex:1;min-width:0;white-space:normal}.leaderboard-share-actions #copy-leaderboard-link{width:auto;min-width:94px;padding:12px}.share-link-row input{width:100%}
 .leaderboard-sharing{margin-bottom:18px}
 
@@ -93,3 +93,6 @@ body>div[style*="position: fixed"]:has(a[href^="https://pagelove.com"]){position
 
 .share-action-layout{display:grid;grid-template-columns:1fr;gap:18px}.scorecard-frame img{max-height:240px}@media(min-width:651px){.share-action-layout:has(.share-qr-block:not([hidden])){grid-template-columns:minmax(0,1fr) 110px}.share-action-layout .share-qr-block{flex-direction:column;text-align:center;gap:7px;padding:0;margin:0;border:0}.share-action-layout .share-qr-block strong{font-size:12px}.share-action-layout .share-qr-block p{display:none}.share-dialog .share-preview-actions{align-content:start}}
 .share-preview-actions:has(#share-image[hidden]):has(#share-invitation:not([hidden])) #save-scorecard{grid-column:1/-1}
+
+/* Both start modes carry the same action weight and detail hierarchy. */
+.home-panel .start-choice{min-height:66px;white-space:normal;text-align:left}.home-panel .start-choice small{font-size:12px;line-height:1.4;opacity:.85}.home-panel .start-choice>span{min-width:0}
