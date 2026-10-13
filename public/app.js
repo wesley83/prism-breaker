@@ -15,7 +15,7 @@ const powerDescriptions={wide:'A wider paddle for 18 seconds. Works with sticky 
 function applyTheme(){document.documentElement.dataset.theme=settings.interfaceTheme;document.documentElement.dataset.reducedMotion=String(settings.reducedMotion);}
 applyTheme();
 const sound=new Sound(settings);let game=new Game(),stage,view='home',accumulator=0,cutTime=0,toastUntil=0,modalResume=null,lastHud='',leaderMode='campaign',scoreLoading=false,runDay='',endResult=null;
-const keys=new Set();let best=storage.get('best',0),highest=storage.get('highest',0);$('#best').textContent=best?best.toLocaleString():'-';
+const keys=new Set();let best=storage.get('best',0),highest=storage.get('highest',0);
 let sharedScores=null,scoresRequest=null,scoresUnavailable=false;
 let boardDate=utcDay(),rolloverTimer,clockOffset=0;
 const boardNow=()=>Date.now()+clockOffset;
@@ -24,25 +24,45 @@ async function initializeStage(){try{const {Stage}=await import('./scene.js?v=5'
 game.emit=handleEvent;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');toastUntil=performance.now()+2600;}
 function updateWorldCards(){
- all('.world-card').forEach(card=>{const current=Number(card.dataset.world)===game.level;card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
+ const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(7,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
+ all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
+ $('#journey-summary').textContent=highest?'Adventure: '+highest+' of 8 worlds completed on this device.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
 }
 function updateWorld(){
- const w=WORLDS[game.level];document.documentElement.style.setProperty('--accent',w.accent);document.documentElement.style.setProperty('--accent-dark','#'+w.accent.slice(1).match(/../g).map(v=>Math.round(parseInt(v,16)*.35).toString(16).padStart(2,'0')).join(''));$('#world-overline').textContent='WORLD '+String(game.level+1).padStart(2,'0');$('#world-title').textContent=w.name;$('#world-tag').textContent=w.tag;$('#journey-count').textContent=String(game.level+1).padStart(2,'0')+' / 08';$('#level-tip').textContent=w.note;$('#arena-world').textContent='World '+(game.level+1)+' of 8';$('#music-credit').textContent=TRACKS[game.level].title+' · '+TRACKS[game.level].style;
- $('#world-list').replaceChildren();WORLDS.forEach((world,i)=>{const current=i===game.level,row=document.createElement('div');row.className='world-row'+(current?' active':'');if(current)row.setAttribute('aria-current','step');row.style.setProperty('--world-color',world.accent);row.innerHTML='<span class="num">'+String(i+1).padStart(2,'0')+'</span><i class="dot"></i><span class="world-name">'+world.name+'</span><span class="row-end'+(current?' current-badge':'')+'">'+(current?'Current':i<highest?'✓':'')+'</span>';$('#world-list').append(row);});
+ const w=WORLDS[game.level];document.documentElement.style.setProperty('--accent',w.accent);document.documentElement.style.setProperty('--accent-dark','#'+w.accent.slice(1).match(/../g).map(v=>Math.round(parseInt(v,16)*.35).toString(16).padStart(2,'0')).join(''));$('#arena-world').textContent='World '+(game.level+1)+' of 8';$('#music-credit').textContent=TRACKS[game.level].title+' · '+TRACKS[game.level].style;
  updateWorldCards();
  if(view!=='home')$('#stage-label').textContent=w.name.toUpperCase()+(game.level===7?' · PHASE '+(game.phase+1):'');
 }
 function hud(){
- const remaining=game.bricks.filter(b=>b.hp>0).length,complete=Math.round((1-remaining/game.bricks.length)*100);
- const signature=[game.score,game.lives,game.combo,remaining,game.state,Object.entries(game.effects).map(([k,v])=>k+Math.ceil(v)).join(),game.shield].join('|');
+ const remaining=game.bricks.filter(b=>b.hp>0).length,held=game.balls.filter(b=>b.held).length;
+ const signature=[game.score,game.lives,game.combo,remaining,game.state,held,game.balls.length,Object.entries(game.effects).map(([k,v])=>k+Math.ceil(v)).join(),game.shield].join('|');
  if(signature===lastHud)return;lastHud=signature;
  $('#score').textContent=String(game.score).padStart(6,'0');$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' lives');updateChase();
- $('#progress-label').textContent=view==='home'?'Your adventure awaits':remaining+' bricks to go';$('#progress-count').textContent=complete+'%';$('#progress-bar').style.width='100%';$('#progress-bar').style.transform='scaleX('+complete/100+')';$('#world-progress-meter').setAttribute('aria-valuenow',String(complete));$('#arena-bricks').textContent=remaining+' bricks left';
+ $('#arena-bricks').textContent=remaining+' bricks left';
  $('#launch').hidden=!(view==='game'&&['ready','playing'].includes(game.state)&&game.balls.some(b=>b.held));
+ updatePlayTip(held);
  $('#effects').replaceChildren();for(const [key,value]of Object.entries(game.effects))if(value>0){const el=document.createElement('span');el.className='effect';el.style.color=POWERS[key].color;el.innerHTML=icon(powerIcons[key])+POWERS[key].name+' · '+Math.ceil(value)+'s';$('#effects').append(el);}if(game.shield){const el=document.createElement('span');el.className='effect';el.innerHTML=icon('shield')+'Safety shield ready';$('#effects').append(el);}
 }
 function persist(pendingNext=false){if(game.mode==='campaign'&&game.lives>0)storage.set('save',{pendingNext,game:game.snapshot()});}
-function updateBest(){if(game.mode==='practice')return;if(game.score>best){best=game.score;storage.set('best',best);$('#best').textContent=best.toLocaleString();}}
+function updatePersonalBest(){
+ $('#best').textContent=best?best.toLocaleString():'No runs yet';
+ $('#result-best').textContent='Your personal best: '+(best?best.toLocaleString():'No runs yet')+' · On this device';
+}
+function updateBest(){if(game.mode==='practice')return;if(game.score>best){best=game.score;storage.set('best',best);}updatePersonalBest();}
+function updatePlayTip(held){
+ const tip=$('#play-tip');tip.hidden=$('#launch').hidden;
+ if(tip.hidden)return;
+ let text=WORLDS[game.level].note;
+ if(game.effects.sticky>0)text=game.effects.wide>0?'Wide + sticky: catches beyond the normal paddle launch when it shrinks.':'Sticky paddle: move to aim, then launch from the catch point.';
+ else if(game.effects.laser>0)text='Laser paddle: aim underneath bricks. The lasers fire automatically.';
+ else if(game.effects.pierce>0)text='Piercing ball: launch through clusters while the power-up is active.';
+ else if(game.effects.wide>0)text='Wide paddle: use the extra reach to set up your next shot.';
+ else if(game.effects.slow>0)text='Slow motion: use the extra time to line up your paddle.';
+ else if(game.shield)text='Safety shield: one missed ball will bounce back into play.';
+ else if(game.balls.length>1)text='Multiball: keep at least one ball in play.';
+ if(held>1)text+=' Launch releases all '+held+' held balls.';
+ tip.textContent=text;
+}
 function handleEvent(e){
  sound.event(e);stage?.event(e);
  if(e.type==='level'){stage?.reset();updateWorld();lastHud='';}
@@ -60,24 +80,24 @@ function handleEvent(e){
 function closeDialogs(){all('dialog[open]').forEach(d=>d.close());modalResume=null;}
 function begin(mode='campaign',level=0){
  if(!stage)return;sound.unlock();closeDialogs();view='game';runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
- if(mode==='daily')level=seed%8;game.start(mode,level,seed);showGame();persist();toast(WORLDS[level].note);
+ if(mode==='daily')level=seed%8;game.start(mode,level,seed);showGame();persist();
 }
 function showGame(){
  $('#record-celebration').hidden=true;$('#home').hidden=true;$('#stage').classList.remove('home-mode','cinematic-mode');$('#hud').hidden=false;$('#arena-progress').hidden=false;$('#cutscene').hidden=true;$('#mode-label').textContent=game.mode==='daily'?runDay+' · UTC':game.mode==='practice'?'PRACTICE':'ADVENTURE';updateWorld();hud();updateTopScore();refreshTopScore();$('#game-canvas').focus({preventScroll:true});
 }
-function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Eight worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;$('#play').classList.toggle('primary',!saved);$('#play').classList.toggle('secondary',!!saved);if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[daySeed(day)%8].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
+function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';updatePersonalBest();game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#play-tip').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Eight worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;$('#play').classList.toggle('primary',!saved);$('#play').classList.toggle('secondary',!!saved);if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[daySeed(day)%8].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
 function beginCut(){
  view='cut';cutTime=0;lastHud='';hud();$('#stage').classList.add('cinematic-mode');$('#cutscene').style.setProperty('--story-opacity',settings.reducedMotion?'1':'0');$('#launch').hidden=true;$('#effects').replaceChildren();$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#cutscene').hidden=false;
  $('#cut-kicker').textContent=game.level===7?'THE PRISM IS WHOLE':'WORLD '+String(game.level+1).padStart(2,'0')+' · RESTORED';
  $('#cut-title').textContent=game.level===7?'Every color. Home.':WORLDS[game.level].name+' restored.';$('#cut-story').textContent=WORLDS[game.level].story;const hasNext=game.mode==='campaign'&&game.level<7;$('#cut-next').textContent=hasNext?'Next: '+WORLDS[game.level+1].name:'';$('#skip-cut').textContent=hasNext?'Next world':'See your score';
  if(game.mode==='daily'){$('#cut-kicker').textContent='DAILY CHALLENGE · '+runDay+' UTC';$('#cut-title').textContent='You owned the day.';$('#cut-story').textContent='One shared challenge. One brilliant finish. The daily prism is restored.';$('#cut-next').textContent='Your score: '+game.score.toLocaleString();}
 }
-function finishCut(){if(view!=='cut')return;$('#stage').classList.remove('cinematic-mode');$('#cutscene').hidden=true;if(game.next()){view='game';showGame();persist();toast(WORLDS[game.level].note);}else finish(true);}
+function finishCut(){if(view!=='cut')return;$('#stage').classList.remove('cinematic-mode');$('#cutscene').hidden=true;if(game.next()){view='game';showGame();persist();}else finish(true);}
 function finish(won){
- view='result';game.state=won?'won':'over';updateBest();if(game.mode==='campaign')storage.remove('save');$('#launch').hidden=true;$('#cutscene').hidden=true;$('#arena-progress').hidden=true;
+ view='result';$('#play-tip').hidden=true;game.state=won?'won':'over';updateBest();if(game.mode==='campaign')storage.remove('save');$('#launch').hidden=true;$('#cutscene').hidden=true;$('#arena-progress').hidden=true;
  endResult={id:game.runId,won,score:game.score,level:game.level+1,mode:game.mode,day:game.mode==='daily'?runDay:'all',seconds:Math.max(1,Math.round(game.elapsed))};
  $('#result-kicker').textContent=won?'WORLD COMPLETE':'RUN COMPLETE';$('#result-title').textContent=won?(game.mode==='campaign'?'You broke through.':'World complete.'):'One more try?';$('#result-description').textContent=(won?'Beautifully played. ':'You reached '+WORLDS[game.level].name+'. ')+(game.mode==='practice'?'Try another world or start an adventure.':'Save your score to join the shared leaderboard.');$('#result-score').textContent=game.score.toLocaleString();$('#score-form').hidden=game.mode==='practice';$('#player-name').value=storage.get('name','');$('#submit-score').disabled=false;$('#submit-score').textContent='Save score';$('#submit-status').textContent='2-16 letters, numbers, spaces, dashes or underscores.';$('#result-dialog').showModal();
- $('#result-dialog').classList.remove('record-result');$('#record-badge').hidden=true;
+ $('#result-best').hidden=game.mode==='practice';$('#result-dialog').classList.remove('record-result');$('#record-badge').hidden=true;
  if(game.mode==='daily'&&runDay!==currentDay())$('#result-description').textContent='This run belongs to '+runDay+' UTC. You can save it, but the current Daily Challenge board has reset for '+currentDay()+'.';
  if(game.mode!=='practice')checkTopFinish(endResult);
 }
@@ -96,6 +116,7 @@ function setRecordResult(result){
 function finishCelebration(){if(view!=='champion')return;view='result';$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');$('#result-dialog').showModal();}
 $('#claim-record').onclick=finishCelebration;
 function openDialog(id){
+ $('#play-tip').hidden=true;if(id==='#worlds-dialog')updateWorldCards();
  if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?WORLDS[game.level].name+' · '+game.score.toLocaleString()+' points. Your checkpoint is saved on this device.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Return to the arcade to end it.';$('#quit').textContent=game.mode==='campaign'?'Save & return home':'End run & return home';}
  if(view==='game'&&['playing','ready'].includes(game.state)){modalResume=game.state;game.state='paused';persist();$('#launch').hidden=true;}
  sound.update(false,game.level);
@@ -106,9 +127,9 @@ $('#result-dialog').addEventListener('cancel',e=>{e.preventDefault();home();});a
 $('#play').onclick=()=>{const saved=storage.get('save');if(saved){$('#new-run-detail').textContent='Your checkpoint in '+(WORLDS[saved.game.level]?.name||'Adventure')+' will be replaced when the new run starts.';openDialog('#new-run-dialog');}else begin();};$('#confirm-new-run').onclick=()=>begin();$('#daily').onclick=()=>begin('daily');$('#resume').onclick=()=>{const saved=storage.get('save');if(!saved||!game.restore(saved.game)){storage.remove('save');toast('That save could not be restored. Start a new adventure.');home();return;}sound.unlock();view='game';if(saved.pendingNext)game.next();showGame();stage?.reset();};
 $('#launch').onclick=()=>{sound.unlock();game.launch();lastHud='';hud();};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=()=>{persist();home();};$('#skip-cut').onclick=finishCut;
 $('#play-again').onclick=()=>begin(endResult.mode,endResult.mode==='practice'?endResult.level-1:0);$('#result-home').onclick=home;
-$('#settings-open').onclick=()=>openDialog('#settings-dialog');$('#help-open').onclick=()=>openDialog('#help-dialog');$('#worlds-open').onclick=()=>openDialog('#worlds-dialog');$('#worlds-menu').onclick=()=>openDialog('#worlds-dialog');
+$('#settings-open').onclick=()=>openDialog('#settings-dialog');$('#help-open').onclick=()=>openDialog('#help-dialog');$('#worlds-menu').onclick=()=>openDialog('#worlds-dialog');
 Object.entries(POWERS).forEach(([key,power])=>{const item=document.createElement('div');item.innerHTML='<span class="power-symbol" style="color:'+power.color+'">'+icon(powerIcons[key])+'</span><div><strong>'+power.name+'</strong><p>'+powerDescriptions[key]+'</p></div>';$('#power-guide').append(item);});
-WORLDS.forEach((w,i)=>{const number=String(i+1).padStart(2,'0'),card=document.createElement('button');card.className='world-card';card.dataset.world=i;card.innerHTML='<img class="world-preview" src="/assets/world-preview-'+number+'.png" alt="" aria-hidden="true" width="800" height="420" loading="lazy" decoding="async"><span class="world-card-copy"><span class="world-card-meta"><small>WORLD '+number+'</small><span class="world-current" hidden>Current</span></span><strong>'+w.name+'</strong><span class="world-mechanic">'+w.mechanic+'</span></span>';card.onclick=()=>begin('practice',i);$('#world-grid').append(card);});
+WORLDS.forEach((w,i)=>{const number=String(i+1).padStart(2,'0'),card=document.createElement('button');card.className='world-card';card.dataset.world=i;card.innerHTML='<img class="world-preview" src="/assets/world-preview-'+number+'.png" alt="" aria-hidden="true" width="800" height="420" loading="lazy" decoding="async"><span class="world-card-copy"><span class="world-card-meta"><small>WORLD '+number+'</small><span class="world-current" hidden>Current</span><span class="world-completed" hidden>Completed</span></span><strong>'+w.name+'</strong><span class="world-mechanic">'+w.mechanic+'</span></span>';card.onclick=()=>begin('practice',i);$('#world-grid').append(card);});
 updateWorldCards();
 function saveSettings(){storage.set('settings',settings);applyTheme();$('#sound-toggle').innerHTML=icon(settings.muted?'volume-off':'volume');$('#sound-toggle').setAttribute('aria-label',settings.muted?'Unmute sound':'Mute sound');$('#sound-toggle').title=settings.muted?'Unmute sound':'Mute sound';}
 $('#interface-theme').value=settings.interfaceTheme;$('#interface-theme').onchange=e=>{settings.interfaceTheme=e.target.value;saveSettings();};
