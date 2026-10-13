@@ -4,7 +4,7 @@ export const PICKUP_POINTS=150;
 export const speedBonus=seconds=>Math.max(0,2000-10*Math.floor(Math.max(0,seconds)));
 export class Game {
  constructor(onEvent=()=>{}){this.emit=onEvent;this.uid=0;this.start('campaign',0,8399);}
- start(mode='campaign',level=0,seed=8399){this.mode=mode;this.seed=seed;this.level=level;this.score=0;this.lives=3;this.nextLife=12000;this.elapsed=0;this.phase=0;this.bonusTotals={speed:0,pickups:0,clear:0};this.runId=globalThis.crypto?.randomUUID?.()||String(Date.now());this.loadLevel();}
+ start(mode='campaign',level=0,seed=8399){this.mode=mode;this.seed=seed;this.level=level;this.score=0;this.lives=3;this.nextLife=12000;this.elapsed=0;this.phase=0;this.launchCount=0;this.bonusTotals={speed:0,pickups:0,clear:0};this.runId=globalThis.crypto?.randomUUID?.()||String(Date.now());this.loadLevel();}
  loadLevel(){
    Object.assign(this,makeLevel(this.level,this.phase));
    const stored=this.catalog?.get(this.level+':'+this.phase);if(stored)this.bricks=structuredClone(stored);
@@ -13,7 +13,20 @@ export class Game {
  }
  addBall(held=false,x=this.paddle.x,y=LIMIT.paddleY+.58,vx=3,vy=14){const b={id:++this.uid,x,y,vx,vy,r:.23,held,holdOffset:held?x-this.paddle.x:0,holdHeight:y-LIMIT.paddleY,portal:0,hits:new Set()};this.balls.push(b);return b;}
  speed(){return Math.min(21,(13.5+this.level*.6+this.hits*.065)*(this.level>=2&&this.level<=5?1.05:1));}
- releaseBall(b){b.held=false;const vx=b.holdVX??3.2,vy=Math.abs(b.holdVY??this.speed()),length=Math.hypot(vx,vy)||1;b.vx=vx/length*this.speed();b.vy=vy/length*this.speed();delete b.holdVX;delete b.holdVY;}
+ freshLaunchAngle(){
+   // Separate from drop randomness; the daily challenge has a shared launch sequence.
+   let seed=this.seed|0;
+   if(this.mode!=='daily')for(const char of String(this.runId))seed=Math.imul(seed^char.charCodeAt(0),16777619);
+   const random=rng(seed^Math.imul(++this.launchCount,0x9e3779b9)^this.level*97^this.phase*541);
+   return (random()<.5?-1:1)*(8+random()*10)*Math.PI/180;
+ }
+ releaseBall(b){
+   b.held=false;const speed=this.speed();
+   if(Number.isFinite(b.holdVX)&&Number.isFinite(b.holdVY)){
+     const vx=b.holdVX,vy=Math.abs(b.holdVY),length=Math.hypot(vx,vy)||1;b.vx=vx/length*speed;b.vy=vy/length*speed;
+   }else{const angle=this.freshLaunchAngle();b.vx=Math.sin(angle)*speed;b.vy=Math.cos(angle)*speed;}
+   delete b.holdVX;delete b.holdVY;
+ }
  launch(){if(this.state==='ready')this.state='playing';if(this.state!=='playing')return;let released=false;for(const b of this.balls)if(b.held){this.releaseBall(b);released=true;}if(released)this.emit({type:'launch'});}
  syncHeldBalls(shrunk=false){let released=false;for(const b of this.balls)if(b.held){b.x=this.paddle.x+(b.holdOffset||0);b.y=LIMIT.paddleY+(b.holdHeight??.58);if(shrunk&&Math.abs(b.holdOffset||0)>this.paddle.w/2){this.releaseBall(b);released=true;}}if(released){if(this.state==='ready')this.state='playing';this.emit({type:'launch',automatic:true});}}
  syncPaddleWidth(){const previous=this.paddle.w;this.paddle.w=this.effects.wide>0?4.9:3.3;const edge=10-this.paddle.w/2;this.paddle.x=Math.max(-edge,Math.min(edge,this.paddle.x));this.move(this.target);this.syncHeldBalls(this.paddle.w<previous);}
@@ -109,10 +122,11 @@ export class Game {
      if(this.lives<=0){this.state='over';this.emit({type:'over'});}else{this.addBall(true);this.state='ready';this.emit({type:'life'});}}
  }
  next(){if(this.level===7||this.mode!=='campaign'){this.state='won';return false;}this.level++;this.phase=0;this.loadLevel();return true;}
- snapshot(){return {version:1,mode:this.mode,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits};}
+ snapshot(){return {version:1,mode:this.mode,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits};}
  restore(s){if(!s||s.version!==1||!Number.isInteger(s.level)||s.level<0||s.level>7||s.lives<1||s.lives>9||!Array.isArray(s.bricks)||s.bricks.length>80)return false;
    this.start(s.mode,s.level,s.seed);for(const k of ['phase','score','lives','nextLife','elapsed','runId','time','hits'])this[k]=s[k];this.bricks=s.bricks;this.barriers=s.barriers||[];
    this.boardElapsed=Number.isFinite(s.boardElapsed)&&s.boardElapsed>=0?s.boardElapsed:Math.max(0,Number(s.time)||0);
+   this.launchCount=Number.isSafeInteger(s.launchCount)&&s.launchCount>=0?s.launchCount:0;
    for(const key of ['speed','pickups','clear'])this.bonusTotals[key]=Number.isFinite(s.bonusTotals?.[key])&&s.bonusTotals[key]>=0?s.bonusTotals[key]:0;
    this.lastClear=s.lastClear||null;this.state='ready';return true;}
 }

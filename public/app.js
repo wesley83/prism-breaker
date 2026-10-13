@@ -1,5 +1,5 @@
 import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
-import {Game,speedBonus} from './engine.js?v=3';
+import {Game,speedBonus} from './engine.js?v=4';
 import {SharePreview,formatShareDate} from './sharing.js?v=2';
 import {Sound} from './audio.js?v=4';
 import {TRACKS} from './music.js';
