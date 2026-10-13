@@ -1,0 +1,57 @@
+import {PWA_RELEASE} from './pwa-release.js';
+
+// Installation is optional: a completely downloaded game also works offline in a tab.
+export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+ const status=document.querySelector('#offline-status'),detail=document.querySelector('#offline-detail'),install=document.querySelector('#install-game'),update=document.querySelector('#update-game'),retry=document.querySelector('#retry-download');
+ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null;
+ const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+ function render(){
+  if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
+  install.hidden=standalone();
+  status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
+  detail.textContent=applying?'Applying the update…':newVersion?'An update is ready. Apply it from the start screen.':ready?'All eight worlds, music and cutscenes are saved.':failed?'Reconnect and retry to finish downloading the game.':'Keep this page open while the complete game downloads.';
+  update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
+  retry.hidden=!failed;retry.disabled=applying;
+ }
+ function requestStatus(worker,message={type:'GET_STATUS'}){return new Promise((resolve,reject)=>{
+  if(!worker)return reject(Error('No offline worker'));
+  const channel=new MessageChannel(),timer=setTimeout(()=>{channel.port1.close();reject(Error('Offline worker did not respond'));},message.type==='REPAIR_CACHE'?90000:6000);
+  channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};
+  worker.postMessage(message,[channel.port2]);
+ });}
+ async function repair(worker){
+  if(repairing)return repairing;
+  repairing=requestStatus(worker,{type:'REPAIR_CACHE',version:PWA_RELEASE}).then(info=>{ready=info.ready===true;failed=!ready;render();}).catch(()=>{failed=true;render();}).finally(()=>{repairing=null;});return repairing;
+ }
+ async function inspect(){
+  const controller=navigator.serviceWorker.controller;
+  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(registration?.active&&!ready)failed=true;}
+  if(registration?.waiting)newVersion=true;render();
+ }
+ function watch(worker){if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'||worker.state==='activated')inspect();else if(worker.state==='redundant'){failed=true;render();}});}
+ async function start(){
+  if(!('serviceWorker' in navigator)||!isSecureContext){unavailable='unsupported';render();return;}
+  // Local cinematic fixtures must never register or alter the production-scope worker.
+  if(location.pathname.startsWith('/__qa/')){unavailable='preview';render();return;}
+  try{registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect();}
+  catch{failed=true;render();}
+ }
+ window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;render();});
+ window.addEventListener('appinstalled',()=>{prompt=null;install.hidden=true;});
+ install.onclick=async()=>{
+  if(prompt){const invitation=prompt;prompt=null;try{await invitation.prompt();await invitation.userChoice;}catch{openHelp();}}
+  else openHelp();
+  // A denied persistence request is harmless; normal browser storage still works.
+  navigator.storage?.persist?.().catch(()=>{});
+ };
+ update.onclick=async()=>{
+  if(!isSafeToUpdate()||applying)return;beforeUpdate();applying=true;render();
+  if(registration?.waiting){registration.waiting.postMessage({type:'SKIP_WAITING'});setTimeout(()=>{if(applying){applying=false;failed=true;render();}},12000);}
+  else location.reload();
+ };
+ retry.onclick=async()=>{failed=false;render();if(!registration)return start();try{await registration.update();await inspect();}catch{failed=true;render();}};
+ navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying&&isSafeToUpdate())location.reload();else inspect();});
+ const check=()=>{render();if(registration&&navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}};
+ window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+ render();start();return {refresh:render};
+}

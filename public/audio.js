@@ -31,7 +31,7 @@ export class Sound{
  scheduleStep(level,step,at,cinematic=false,victory=null){for(const event of victory?victoryEvents(victory,step):musicEvents(level,step,cinematic))this.play(event,at);}
  stopMusic(){if(!this.ctx)return;const now=this.ctx.currentTime;for(const voice of this.voices)if(voice.music){try{voice.gain.cancelScheduledValues(now);voice.gain.setTargetAtTime(.0001,now,.012);voice.source.stop(now+.045);}catch{}}}
  event(e){
-  this.syncGain();if(this.settings.muted)return;
+  this.syncGain();if(this.settings.muted||this.settings.effects<=0)return;
   if(e.type==='paddle')this.tone(240,.1,'sine',.23,0,false,460);
   if(e.type==='wall')this.tone(145,.045,'sine',.08);
   if(e.type==='hit')this.tone(330,.07,'triangle',.11);
@@ -46,8 +46,9 @@ export class Sound{
  }
  update(active,level,cinematic=false,victory=null){
   if(!this.ctx)return;const trackKey=victory?'victory:'+victory:'level:'+level;if(this.trackKey!==trackKey){this.stopMusic();this.trackKey=trackKey;this.level=level;this.victory=victory;this.step=0;this.next=0;}
-  if(this.active&&!active)this.stopMusic();this.active=active;this.syncGain();
-  if(!active||this.ctx.state!=='running'){this.next=0;return;}
+  const audible=active&&!this.settings.muted&&this.settings.music>0;
+  if(this.active&&!audible)this.stopMusic();this.active=audible;this.syncGain();
+  if(!audible||this.ctx.state!=='running'){this.next=0;return;}
   const track=victory?VICTORY_TRACKS[victory]:TRACKS[level],tick=60/track.bpm/4;if(!this.next||this.next<this.ctx.currentTime-.2)this.next=this.ctx.currentTime+.015;
   while(this.next<this.ctx.currentTime+.12){this.scheduleStep(level,this.step++,this.next,cinematic,victory);this.next+=tick;}
  }

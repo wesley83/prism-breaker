@@ -22,7 +22,9 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Sharing:** leaderboard invitations and personal scorecards, native sharing where supported, complete-message copying, PNG downloads and QR codes. Android invitations combine message and link into one text body; daily dates use readable UTC labels.
 - **Presentation and access:** responsive keyboard/mouse/touch controls, fullscreen, pause, reduced motion/effects, light/dark/system interface themes and readable cinematic captions.
 - **Progress:** campaign checkpoints, personal best, preferences and the last entered nickname persist in browser storage.
-- **Performance preparation:** power-up shaders, textures and glow effects prepare before play. Power-up objects are pooled and symbol textures reused.
+- **Offline play and installation:** install the game or keep playing in a browser tab after its complete download. All worlds, music, cinematics and scorecards work offline; saved scores queue for reconnection.
+- **Safe updates:** complete releases download before becoming available. Players apply updates from the start screen; open games retain their existing assets.
+- **Performance:** shaders and textures prepare before play, power-ups and particles reuse objects, hidden pages stop rendering, and muted music stops scheduling new voices.
 - **Social artwork:** SVG/ICO/PNG favicons, touch icons, and landscape/square Open Graph and Twitter card images.
 
 ## Technology
@@ -41,6 +43,8 @@ Versions below come from the repository's dependency manifest and Bun lockfile.
 | qrcode-generator **2.0.4** | Locally bundled QR encoding for scorecards and desktop share previews |
 | Space Grotesk and Tabler icons **3.49.0** | Bundled font and SVG icon sprite |
 | Browser platform APIs | Pointer input, fullscreen, resize observation, preferences and local storage |
+| Web app manifest, service worker and Cache Storage | Installation, complete offline releases, asset integrity checks and updates between runs |
+| IndexedDB | Durable pending scores, recent submission receipts and the last downloaded leaderboard with its refresh time |
 | Node.js | Local preview, publishing, asset utilities and existing `node:test` checks |
 | Bun | Dependency installation and rebuilding the postprocessing bundle |
 | Sharp **0.35.5** | Development-time poster conversion and favicon exports |
@@ -72,8 +76,9 @@ A regular static file server can render the arena and its animations. Pagelove's
 1. The browser loads `public/index.html` and its same-origin modules/assets.
 2. It requests the structured world catalog. Bundled level definitions remain available if that read fails.
 3. Gameplay, collisions, music and score calculation happen in the browser.
-4. When a player chooses **Save score**, the client posts one HTML run record to the score selector. Pagelove applies the authorization, shape, schema and trigger rules.
-5. The client reads the shared records, filters by mode and UTC challenge day, and ranks the top 25.
+4. When a player chooses **Save score**, the client commits the run to its IndexedDB queue, then attempts to post one HTML record to the score selector. Pagelove applies the authorization, shape, schema and trigger rules.
+5. A successful submission leaves a local receipt. Interrupted requests retry with the same unique run key; an already accepted run is recognized through a fresh leaderboard read.
+6. The client reads the shared records, filters by mode and UTC challenge day, and ranks the top 25. It saves a snapshot for offline display.
 
 Leaderboards refresh at run start, after submission, on focus/visibility changes, through the Refresh button, and periodically during visible play. Updates use HTTP requests; the game does not use a WebSocket or server-event subscription.
 
@@ -83,12 +88,36 @@ Leaderboards refresh at run start, after submission, on focus/visibility changes
 - The client schedules a midnight rollover and checks the date when returning to the game. The host's HTTP `Date` header helps align its clock.
 - **Rollover filters the active board to the new date.** Earlier daily entries remain in the score resource; no background cleanup job deletes them.
 - A run crossing midnight keeps its original challenge day. It can be saved under that day, but does not appear on the new day's active board.
+- Offline submissions also retain that original day. `submittedAt` records the send attempt, so board age starts when the score is submitted, rather than when the offline run finished.
 - Daily share links open the current daily leaderboard. Invitation text and PNG cards capture the record/date shown when the share preview opens.
 - Scores, elapsed play time and `submittedAt` are supplied by the client. Nicknames are public, accountless labels. Older rows without submission time show an em dash for age.
 - Rules accept scores from **0 to 500,000**, worlds **1–8**, durations **1–99,999 seconds**, and nicknames of **2–16 ASCII letters, numbers, spaces, dashes or underscores**. Practice submissions are excluded.
 - Ranking orders by score descending, world reached descending, then elapsed active time ascending. A tied top score can qualify for a record celebration.
 
 These rules validate record structure and ranges. Scores are self-reported; there is no authoritative replay verification or account identity. The client currently reads the full score container and applies the top-25 limit locally. Pagination, retention and additional anti-abuse measures would require further work as the board grows.
+
+## Install and play offline
+
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **48 cached files, approximately 1.92 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+
+- **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
+- **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
+- **Desktop:** use the browser's install control when available. The game shows installation instructions if a native prompt is unavailable.
+
+| Feature | Offline behavior |
+| --- | --- |
+| Adventure, Practice and Daily Challenge | Fully playable; the daily world uses the UTC date and the most recently learned server clock offset |
+| Music, power-ups, cinematics and scorecards | Available from the downloaded game; no separate media service |
+| Campaign progress and preferences | Saved as usual; checkpoint validation rejects damaged or incompatible records |
+| Leaderboards | Show the last downloaded standings and refresh time; a fresh server read is required to confirm a top-score celebration |
+| Save score | Durably queues the run; sends when the game is open and a connection returns |
+| Rejected submissions | Remain visible with Retry and Remove controls; temporary failures retry with backoff |
+
+An update downloads into a separate release cache and becomes available only after the full asset set passes its checks. **Update game** becomes usable on the start screen. It reloads into the new release while retaining progress, preferences and pending scores. Open tabs keep their release's assets, including modules loaded later. Pagelove selector responses and score writes bypass the static asset cache.
+
+Browser storage can be cleared or evicted under storage pressure. The install action requests persistent storage where supported, but the browser decides whether to grant it. A new browser or cleared installation must download the game again; unsent scores and local progress are lost if their storage is removed. Sync runs while the game is open; it does not depend on, or promise, background submission after the app closes.
+
+See [PWA-UPGRADE.md](PWA-UPGRADE.md) for release integrity, queue behavior, optimization details and validation limits.
 
 ## Scoring
 
@@ -115,9 +144,9 @@ cd prism-breaker
 node tools/serve.mjs
 ```
 
-Open **http://127.0.0.1:4173**. No dependency install or build is required.
+Open **http://127.0.0.1:4173**. No dependency install or build is required to serve the committed release. After changing runtime files, rebuild the offline release with `node tools/build-pwa.mjs` before reviewing it in a controlled browser tab.
 
-The preview supports `GET`/`HEAD` and serves the committed site and local preview fixtures. It does not emulate Pagelove's score writes or rule enforcement. `public/scores.html` is an empty template, so local play has no live community scores.
+The preview supports `GET`/`HEAD` and serves the committed site and local preview fixtures. Loopback permits service-worker development. It does not emulate Pagelove's score writes or rule enforcement. `public/scores.html` is an empty template, so local play has no live community scores. Fixtures under `/__qa/` do not register the game service worker.
 
 ### Controls
 
@@ -141,11 +170,15 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | `public/champion.js`, `public/daily-ending.js`, `public/daily-score.js` | Adventure record and Daily Challenge endings |
 | `public/audio.js`, `public/music.js`, `public/victory-music.js` | Synthesized music and sound effects |
 | `public/leaderboard.js`, `public/sharing.js` | Ranking, record eligibility, date formatting, share payloads, PNGs and QR codes |
+| `public/offline.js` | IndexedDB leaderboard snapshot, durable score queue, cross-tab send leases, retries and receipts |
+| `public/pwa.js`, `public/manifest.webmanifest` | Installation help, offline readiness and update controls |
+| `public/sw.js`, `public/pwa-release.js` | Generated offline worker, asset inventory and release identity |
 | `public/worlds.html`, `public/scores.html` | Hosted world catalog and score store template with Pagelove rules |
 | `public/vendor/`, `public/assets/` | Bundled libraries, licenses, font, icons and artwork |
 | `artwork/` | Original generated poster images, prompts and export notes |
 | `tools/` | Publisher, local server, asset builders and manual preview generators |
-| `tests/` | Existing engine, music and cinematic camera checks |
+| `tools/build-pwa.mjs`, `tools/service-worker.template.js` | Deterministic release generation, stale-build checks and editable worker source |
+| `tests/` | Engine, checkpoint, audio, cinematic, offline-queue and service-worker checks |
 | `AGENTS.md` | Interface conventions for future changes |
 
 ## Asset rebuilds and preview tools
@@ -182,7 +215,7 @@ When validating changes, the existing suites can be run with:
 node --test tests/*.test.mjs
 ```
 
-They cover seeded random generation, core collisions, multiball/lives, powers, gates/explosions, checkpoints, progression, synthesized arrangements and camera frames. The collision bot replenishes lives while checking world completion; it does not establish human difficulty balance. Test files do not provide exhaustive coverage of every later feature. This README update was based on source review; suites were not run for the documentation change.
+They cover seeded randomness, core collisions, powers, progression, checkpoint validation, synthesized arrangements, camera frames, offline queue recovery and service-worker release behavior. Queue and worker tests use controlled storage/network adapters; browser checks complement them. The collision bot replenishes lives while checking world completion, so it does not establish human difficulty balance. Release-time results and remaining device checks are recorded in [PWA-UPGRADE.md](PWA-UPGRADE.md).
 
 ## Deployment and maintenance
 
@@ -193,9 +226,18 @@ The publisher in `tools/remote.mjs` pins:
 
 Publishing requires the host owner's credential. Start `node tools/remote.mjs` in an interactive terminal and wait for **Ready for hidden JSON input**. Authenticate through the publisher's hidden stdin `auth` operation. Keep the key out of command arguments, environment variables, files, source control and browser code. The publisher keeps it in process memory and checks that the authorized console identifies the expected DAV host.
 
+After all runtime and asset edits, generate and check the offline release:
+
+```sh
+node tools/build-pwa.mjs
+node tools/build-pwa.mjs --check
+```
+
+The builder derives a release identity from the assets and worker template, updates the entry-page marker, and generates `public/pwa-release.js` and `public/sw.js`. Edit worker behavior in `tools/service-worker.template.js`; regenerate after any runtime change. The publisher refuses a stale build and checks it again before uploading the worker.
+
 After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op":"quit"}`. Normal deployment:
 
-1. Uploads runtime modules/assets, then `app.js`, then `index.html`.
+1. Uploads runtime modules/assets, then `app.js`, then `index.html`, and **`sw.js` last**.
 2. **Excludes `scores.html`**, preserving community entries and their rules.
 3. Reads uploaded files back and compares non-HTML bytes. Pagelove may normalize HTML.
 4. Writes a non-secret release receipt to ignored `deployment.json`.
@@ -204,18 +246,20 @@ A fresh host needs its score template installed once. Only use the publisher's `
 
 When switching hosts, update the publisher, entry-page canonical/social URLs, score type/schema, score grammar and `tools/build-data.mjs` together. Vocabulary IRIs such as `https://pagelove.org/Schema` identify platform rule types; they are separate from the game host and Pagelove website link.
 
-Private backups, credentials, live score exports, generated preview files and deployment receipts are excluded from Git. The public score template stays empty. Source changes that affect cached runtime modules need version bumps at their importing modules and the entry page.
+Private backups, credentials, live score exports, generated preview files and deployment receipts are excluded from Git. The public score template stays empty. Keep import/entry-page version parameters current for browsers without an active worker, then regenerate the offline release. A complete release cache resolves runtime URLs by path so query variants use the same release's asset.
 
 ### Operational limits
 
 - Gameplay requires WebGL 2 support. Reduced effects lowers rendering cost, but smoothness and audio behavior vary across hardware and browser settings.
 - Native share destinations and their handling of text/files are controlled by the browser, OS and receiving app. Copy invitation and download remain fallbacks. Physical Android-to-Slack delivery is not established by desktop preview review.
 - Progress and preferences use browser storage; clearing that storage removes them. The game has no accounts or cloud progress synchronization.
-- Live score reads/submissions require the Pagelove host. Failed reads show recoverable UI states while gameplay can continue.
+- Fresh score reads and publishing queued scores require the Pagelove host. Offline standings remain a dated snapshot; queued scores sync when connectivity returns and the game is open.
+- Physical Android installation, airplane-mode relaunch, and updates between two installed production releases still require device verification. Local browser checks do not establish those results.
 
 ## Further documentation
 
 - [SCORING.md](SCORING.md) — current point formulas, timing, combos, powers and ranking.
+- [PWA-UPGRADE.md](PWA-UPGRADE.md) — installation, offline releases, queued scores, updates and performance changes.
 - [SHARING-UPGRADE.md](SHARING-UPGRADE.md) — platform-specific sharing, generated scorecards and readable dates.
 - [LAUNCH-VARIATION.md](LAUNCH-VARIATION.md) — launch angles, seeded fairness and checkpoint behavior.
 - [UI-PERFORMANCE-UPGRADE.md](UI-PERFORMANCE-UPGRADE.md) — cinematic alignment, scene progression and effect preparation.

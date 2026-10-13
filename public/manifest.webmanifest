@@ -1,0 +1,22 @@
+{
+  "id": "/",
+  "name": "Prism Breaker",
+  "short_name": "Prism Breaker",
+  "description": "Break through eight colorful 3D worlds. Play Adventure, Practice and the Daily Challenge online or offline.",
+  "lang": "en",
+  "start_url": "/?source=installed",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#111d20",
+  "theme_color": "#111d20",
+  "categories": ["games", "entertainment"],
+  "icons": [
+    {"src": "/assets/prism-icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/prism-icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+    {"src": "/assets/prism-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Daily Challenge leaderboard", "short_name": "Daily Challenge", "url": "/?leaderboard=daily", "icons": [{"src": "/assets/prism-icon-192.png", "sizes": "192x192", "type": "image/png"}]},
+    {"name": "Adventure leaderboard", "short_name": "Leaderboard", "url": "/?leaderboard=campaign", "icons": [{"src": "/assets/prism-icon-192.png", "sizes": "192x192", "type": "image/png"}]}
+  ]
+}

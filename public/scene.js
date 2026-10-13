@@ -13,7 +13,7 @@ export class Stage {
    this.glow=new T.PointLight(0x99ffc9,40,50);this.glow.position.set(0,5,7);this.scene.add(this.glow);
    this.world=new T.Group();this.scene.add(this.world);this.board=new T.Group();this.world.add(this.board);this.scenery=new T.Group();this.scene.add(this.scenery);
    this.dynamic=new T.Group();this.board.add(this.dynamic);this.cutGroup=new T.Group();this.scene.add(this.cutGroup);this.cutGroup.visible=false;
-   this.box=new T.BoxGeometry(1,1,1);this.sphere=new T.SphereGeometry(1,14,10);this.octa=new T.OctahedronGeometry(1);this.bricks=new Map();this.balls=new Map();this.drops=new Map();this.shots=new Map();this.barriers=new Map();this.particles=[];this.decor=[];this.materials=[];
+   this.box=new T.BoxGeometry(1,1,1);this.sphere=new T.SphereGeometry(1,14,10);this.octa=new T.OctahedronGeometry(1);this.bricks=new Map();this.balls=new Map();this.drops=new Map();this.shots=new Map();this.barriers=new Map();this.particles=[];this.particlePool=[];this.syncToken=0;this.pointer=new T.Vector2();this.decor=[];this.materials=[];
    this.haloTexture=this.makeHalo();this.powerGem=new T.IcosahedronGeometry(.46,1);this.powerOrb=new T.DodecahedronGeometry(.44);this.powerDiamond=new T.OctahedronGeometry(.5);this.powerRing=new T.TorusGeometry(.6,.045,8,32);this.powerDisc=new T.CircleGeometry(.34,24);const heart=new T.Shape();heart.moveTo(0,.1);heart.bezierCurveTo(0,.7,-.75,.65,-.75,.12);heart.bezierCurveTo(-.75,-.25,-.3,-.55,0,-.8);heart.bezierCurveTo(.3,-.55,.75,-.25,.75,.12);heart.bezierCurveTo(.75,.65,0,.7,0,.1);this.powerHeart=new T.ExtrudeGeometry(heart,{depth:.26,bevelEnabled:true,bevelThickness:.06,bevelSize:.06,bevelSegments:3,steps:1,curveSegments:12});this.powerHeart.center();this.powerHeart.scale(.55,.55,.55);this.makeBoard();this.resize();this.current=-1;this.ray=new T.Raycaster();this.plane=new T.Plane(new T.Vector3(0,0,1),0);this.point=new T.Vector3();
  }
  async prepare(game){
@@ -28,6 +28,9 @@ export class Stage {
     const pool=[];this.powerPools.set(mode+':'+kind,pool);
     for(let n=0;n<2;n++){const power=this.makePower(kind);power.userData.poolKey=mode+':'+kind;power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);pool.push(power);i++;}
    }
+   // Upload reusable fragments before play, including their transparent material variant.
+   const fragments=this.settings.lowEffects?32:96;
+   while(this.particlePool.length<fragments){const particle=this.makeParticle();particle.mesh.position.set(0,0,.4);warm.add(particle.mesh);this.particlePool.push(particle);}
    await this.renderer.compileAsync(this.scene,this.camera);
    this.renderer.initTexture(this.haloTexture);
    warm.traverse(object=>{if(object.userData.texture)this.renderer.initTexture(object.userData.texture);});
@@ -91,14 +94,16 @@ export class Stage {
  }
  label(text,color='#fff',outlined=false){const c=document.createElement('canvas');c.width=128;c.height=64;const ctx=c.getContext('2d');ctx.fillStyle=color;ctx.font='bold 48px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';if(outlined){ctx.strokeStyle='#14252a';ctx.lineWidth=7;ctx.strokeText(text,64,32);}ctx.fillText(text,64,32);const texture=new T.CanvasTexture(c);const mat=new T.SpriteMaterial({map:texture,transparent:true,depthTest:false});const s=new T.Sprite(mat);s.scale.set(.9,.45,1);s.userData.texture=texture;return s;}
  disposeObject(m){this.dynamic.remove(m);if(m.userData.poolKey){const pool=this.powerPools.get(m.userData.poolKey);if(pool&&pool.length<8){pool.push(m);return;}}m.traverse(c=>{if(c.userData.texture&&!c.userData.sharedTexture)c.userData.texture.dispose();if(c.material)c.material.dispose();});}
- syncMap(map,items,create,update){const ids=new Set();for(const item of items){ids.add(item.id);let m=map.get(item.id);if(!m){m=create(item);map.set(item.id,m);this.dynamic.add(m);}update(m,item);}for(const [id,m]of map)if(!ids.has(id)){this.disposeObject(m);map.delete(id);}}
- reset(){for(const map of [this.bricks,this.balls,this.drops,this.shots,this.barriers]){for(const m of map.values())this.disposeObject(m);map.clear();}for(const m of this.portalMeshes||[]){this.board.remove(m);m.geometry.dispose();m.material.dispose();}this.portalMeshes=[];for(const p of this.particles){this.board.remove(p.mesh);p.mesh.material.dispose();}this.particles=[];}
+ syncMap(map,items,create,update,liveBricks=false){const token=++this.syncToken;for(const item of items){if(liveBricks&&item.hp<=0)continue;let m=map.get(item.id);if(!m){m=create(item);map.set(item.id,m);this.dynamic.add(m);}m.userData.syncToken=token;update(m,item);}for(const [id,m]of map)if(m.userData.syncToken!==token){this.disposeObject(m);map.delete(id);}}
+ reset(){for(const map of [this.bricks,this.balls,this.drops,this.shots,this.barriers]){for(const m of map.values())this.disposeObject(m);map.clear();}for(const m of this.portalMeshes||[]){this.board.remove(m);m.geometry.dispose();m.material.dispose();}this.portalMeshes=[];for(const p of this.particles)this.recycleParticle(p);this.particles.length=0;}
+ makeParticle(){return {mesh:new T.Mesh(this.octa,new T.MeshBasicMaterial({color:'#fff',transparent:true})),vx:0,vy:0,vz:0,life:0,total:.85};}
+ recycleParticle(particle){this.board.remove(particle.mesh);if(this.particlePool.length<384)this.particlePool.push(particle);else particle.mesh.material.dispose();}
  particle(x,y,color,n=12){if(this.settings.reducedMotion)return;if(this.settings.lowEffects)n=4;for(let i=0;i<n;i++){
-   const mesh=new T.Mesh(this.octa,new T.MeshBasicMaterial({color,transparent:true}));mesh.scale.setScalar(.04+Math.random()*.13);mesh.position.set(x,y,.4);this.board.add(mesh);this.particles.push({mesh,vx:(Math.random()-.5)*10,vy:(Math.random()-.5)*10,vz:Math.random()*5,life:.6+Math.random()*.25,total:.85});
+   const particle=this.particlePool.pop()||this.makeParticle(),mesh=particle.mesh;mesh.material.color.set(color);mesh.material.opacity=1;mesh.rotation.set(0,0,0);mesh.scale.setScalar(.04+Math.random()*.13);mesh.position.set(x,y,.4);particle.vx=(Math.random()-.5)*10;particle.vy=(Math.random()-.5)*10;particle.vz=Math.random()*5;particle.life=.6+Math.random()*.25;this.board.add(mesh);this.particles.push(particle);
  }}
  event(e){if(e.type==='break')this.particle(e.x,e.y,e.color,e.kind==='explode'?26:12);if(e.type==='paddle'||e.type==='portal')this.particle(e.x,e.y,WORLDS[this.current<0?0:this.current].accent,5);}
  resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.renderer.setSize(r.width,r.height,false);this.camera.aspect=r.width/r.height;this.camera.updateProjectionMatrix();this.width=r.width;this.height=r.height;if(this.composer){this.composer.setPixelRatio(Math.min(1.15,this.renderer.getPixelRatio()));this.composer.setSize(r.width,r.height);}}
- screenX(clientX,clientY){const r=this.canvas.getBoundingClientRect();this.ray.setFromCamera(new T.Vector2((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1),this.camera);this.ray.ray.intersectPlane(this.plane,this.point);return this.point.x-this.world.position.x;}
+ screenX(clientX,clientY){const r=this.canvas.getBoundingClientRect();this.pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);this.ray.setFromCamera(this.pointer,this.camera);this.ray.ray.intersectPlane(this.plane,this.point);return this.point.x-this.world.position.x;}
  render(game,dt,time,mode='game',cut=0){
    if(this.preparing)return;
    if(this.current!==game.level){this.setWorld(game.level);this.reset();}
@@ -112,11 +117,11 @@ export class Stage {
    this.camera.position.y=-7;this.camera.lookAt(0,0,0);this.camera.updateProjectionMatrix();
    const homeX=narrow?0:7.4;this.world.position.x=this.settings.reducedMotion?(isHome?homeX:0):this.world.position.x+((isHome?homeX:0)-this.world.position.x)*Math.min(1,dt*4);
    for(const d of this.decor)if(!this.settings.reducedMotion){d.position.y=d.userData.baseY+Math.sin(time*.35+d.userData.phase)*.35;if(game.level!==2&&game.level!==4)d.rotation.y+=dt*.1;}
-   this.syncMap(this.bricks,game.bricks.filter(b=>b.hp>0),b=>{
+   this.syncMap(this.bricks,game.bricks,b=>{
      const m=new T.Group();const block=new T.Mesh(this.box,new T.MeshStandardMaterial({color:b.color,emissive:b.color,emissiveIntensity:.25,roughness:.23,metalness:.25}));block.scale.set(b.w,b.h,.62);m.add(block);
      const shine=new T.Mesh(this.box,new T.MeshBasicMaterial({color:b.color,toneMapped:false}));shine.scale.set(b.w*.94,b.h*.76,.02);shine.position.set(0,0,.32);m.add(shine);
      if(b.kind!=='normal'){const text=this.label(b.kind==='armor'?'II':b.kind==='switch'?'◇':'✦','#12232d');text.position.z=.4;m.add(text);}return m;
-   },(m,b)=>{m.position.set(b.x,b.y,0);m.children[0].material.emissiveIntensity=b.hp<b.maxHp?.04:.25;m.scale.setScalar(b.hp<b.maxHp?.95:1);});
+   },(m,b)=>{m.position.set(b.x,b.y,0);m.children[0].material.emissiveIntensity=b.hp<b.maxHp?.04:.25;m.scale.setScalar(b.hp<b.maxHp?.95:1);},true);
    this.syncMap(this.balls,game.balls,b=>{const m=new T.Mesh(this.sphere,new T.MeshBasicMaterial({color:'#ffffff'}));m.scale.setScalar(b.r);return m;},(m,b)=>{m.position.set(b.x,b.y,.42);m.material.color.set(game.effects.pierce?'#d4b6ff':'#ffffff');});
    this.syncMap(this.drops,game.drops,d=>this.acquirePower(d.kind),(m,d)=>{const t=this.settings.reducedMotion?0:time;m.position.set(d.x,d.y,.6);m.userData.rig.rotation.set(.3+Math.sin(t*1.7+d.id)*.2,t*.9+d.id,Math.sin(t*2+d.id)*.15);m.userData.glow.material.opacity=.48+Math.sin(t*3+d.id)*.08;});
    this.syncMap(this.shots,game.shots,()=>{const m=new T.Mesh(this.box,new T.MeshBasicMaterial({color:'#ffbdcc'}));m.scale.set(.08,.6,.12);return m;},(m,s)=>m.position.set(s.x,s.y,.3));
@@ -124,7 +129,7 @@ export class Stage {
    if(!this.portalMeshes?.length&&game.portals.length){this.portalMeshes=game.portals.map((p,i)=>{const m=new T.Mesh(new T.TorusGeometry(.7,.08,10,32),new T.MeshBasicMaterial({color:i?'#ec99ff':'#6ffff0'}));m.position.set(p.x,p.y,.2);this.board.add(m);return m;});}
    this.paddle.position.x=game.paddle.x;this.paddle.scale.x=game.paddle.w;this.paddleLight.position.x=game.paddle.x;this.paddleLight.scale.x=game.paddle.w*.8;this.paddleLight.material.color.set(game.effects.laser?'#ff718a':game.effects.sticky?'#ffd77c':WORLDS[game.level].accent);this.shield.visible=game.shield;
    for(const p of this.particles){p.life-=dt;p.mesh.position.x+=p.vx*dt;p.mesh.position.y+=p.vy*dt;p.mesh.position.z+=p.vz*dt;p.vz-=dt*8;p.mesh.rotation.x+=dt*5;p.mesh.material.opacity=Math.max(0,p.life/p.total);}
-   this.particles=this.particles.filter(p=>{if(p.life>0)return true;this.board.remove(p.mesh);p.mesh.material.dispose();return false;});
+   let kept=0;for(const p of this.particles){if(p.life>0)this.particles[kept++]=p;else this.recycleParticle(p);}this.particles.length=kept;
    this.draw(dt,false,0,game.drops.length>0);
  }
 }
