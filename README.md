@@ -93,6 +93,12 @@ The publisher accepts JSON through hidden stdin, holds the key in process memory
 
 To adapt the game to another Pagelove host, update the host URLs in the publisher, entry-page social metadata, score record/schema type and score rules. Accountless scores are public and self-reported; the leaderboard is not an authoritative anti-cheat service. Daily dates use UTC. Older scores without recorded submission times display an em dash for age.
 
+## World scene previews
+
+The world chooser uses still images captured from the game's Three.js scenes, with neutral card borders and a Current badge for the active world. All eight previews together are approximately 183 KiB and load when the chooser is opened.
+
+To refresh them, copy `tools/world-preview.html` to `test-results/fixture/world-preview.html`, run `node tools/serve.mjs`, and open `http://127.0.0.1:4173/__qa/world-preview.html`. Select each world and capture only its 800-by-420 canvas as `public/assets/world-preview-01.png` through `world-preview-08.png`. The capture page uses a fixed seed and reduced motion for reproducible scenery. It is a development tool and is not deployed.
+
 ## Credits
 
 - [Three.js](https://threejs.org/) — [MIT license](public/vendor/THREE-LICENSE.txt).

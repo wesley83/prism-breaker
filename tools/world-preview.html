@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Prism Breaker world preview capture</title>
+<style>
+body{margin:0;background:#101c20;color:#eef3ed;font:16px system-ui}
+label{display:block;padding:12px}
+.scene{width:800px;height:420px;margin:0 12px}
+canvas{display:block;width:100%;height:100%}
+</style>
+<label>Preview world <select id="world"></select></label>
+<div class="scene"><canvas aria-label="World scene preview"></canvas></div>
+<p id="status" role="status"></p>
+<script type="module">
+import {Game} from '/engine.js';
+import {Stage} from '/scene.js';
+import {WORLDS} from '/levels.js';
+const select=document.querySelector('#world'),status=document.querySelector('#status');
+WORLDS.forEach((world,index)=>select.add(new Option(world.name,index)));
+const game=new Game(),stage=new Stage(document.querySelector('canvas'),{lowEffects:false,reducedMotion:true});
+function render(){
+  game.start('practice',Number(select.value),8399);
+  stage.reset();
+  stage.render(game,0,0,'game');
+  status.textContent=WORLDS[game.level].name+' preview ready';
+}
+select.addEventListener('change',render);
+render();
+</script>
+</html>
