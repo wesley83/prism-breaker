@@ -118,7 +118,7 @@ function finishCelebration(){if(view!=='champion')return;view='result';$('#recor
 $('#claim-record').onclick=finishCelebration;
 function openDialog(id){
  $('#play-tip').hidden=true;if(id==='#worlds-dialog')updateWorldCards();
- if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?WORLDS[game.level].name+' · '+game.score.toLocaleString()+' points. Your checkpoint is saved on this device.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Return to the arcade to end it.';$('#quit').textContent=game.mode==='campaign'?'Save & return home':'End run & return home';}
+ if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?WORLDS[game.level].name+' · '+game.score.toLocaleString()+' points. Your checkpoint is saved on this device.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Returning to the start screen ends this run.';$('#quit').textContent='Back to start screen';}
  if(view==='game'&&['playing','ready'].includes(game.state)){modalResume=game.state;game.state='paused';persist();$('#launch').hidden=true;}
  sound.update(false,game.level);
  $(id).showModal();
