@@ -1,5 +1,6 @@
 import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
 import {Game,speedBonus} from './engine.js?v=3';
+import {SharePreview} from './sharing.js?v=1';
 import {Sound} from './audio.js?v=4';
 import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
@@ -9,12 +10,13 @@ import {VICTORY_TRACKS} from './victory-music.js';
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
 const storage={get(key,fallback=null){try{return JSON.parse(localStorage.getItem('prism.'+key))??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('prism.'+key,JSON.stringify(value));}catch{}},remove(key){try{localStorage.removeItem('prism.'+key);}catch{}}};
 const settings={music:.35,effects:.7,muted:false,interfaceTheme:'system',reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,lowEffects:matchMedia('(pointer:coarse)').matches,...storage.get('settings',{})};
-const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=3#'+name+'"/></svg>';
+const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#'+name+'"/></svg>';
 const powerIcons={wide:'arrows-horizontal',multi:'circles',sticky:'magnet',laser:'bolt',pierce:'diamond',slow:'clock',shield:'shield',life:'heart'};
 const powerDescriptions={wide:'A wider paddle for 18 seconds. Works with sticky or laser.',multi:'Three balls. Keep one in play.',sticky:'Holds each ball where it lands for 16 seconds. Launch with space or a tap.',laser:'Fire automatically for 14 seconds.',pierce:'Cut through bricks for 12 seconds.',slow:'Slower balls for 14 seconds.',shield:'Saves one ball at the bottom.',life:'One extra life, up to nine.'};
 function applyTheme(){document.documentElement.dataset.theme=settings.interfaceTheme;document.documentElement.dataset.reducedMotion=String(settings.reducedMotion);}
 applyTheme();
 const sound=new Sound(settings);let game=new Game(),stage,view='home',accumulator=0,cutTime=0,toastUntil=0,modalResume=null,lastHud='',leaderMode='campaign',scoreLoading=false,runDay='',endResult=null;
+const sharePreview=$('#share-dialog')?new SharePreview($('#share-dialog')):{open:()=>copyLeaderboardLink()};
 const keys=new Set();let best=storage.get('best',0),highest=storage.get('highest',0);
 let sharedScores=null,scoresRequest=null,scoresUnavailable=false;
 let boardDate=utcDay(),rolloverTimer,clockOffset=0;
@@ -126,7 +128,7 @@ function openDialog(id){
  sound.update(false,game.level);
  $(id).showModal();
 }
-all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'){game.state=modalResume;modalResume=null;lastHud='';hud();}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
+all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length){game.state=modalResume;modalResume=null;lastHud='';hud();}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
 $('#result-dialog').addEventListener('cancel',e=>{e.preventDefault();home();});all('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 $('#play').onclick=()=>{const saved=storage.get('save');if(saved){$('#new-run-detail').textContent='Your checkpoint in '+(WORLDS[saved.game.level]?.name||'Adventure')+' will be replaced when the new run starts.';openDialog('#new-run-dialog');}else begin();};$('#confirm-new-run').onclick=()=>begin();$('#daily').onclick=()=>begin('daily');$('#resume').onclick=()=>{const saved=storage.get('save');if(!saved||!game.restore(saved.game)){storage.remove('save');toast('That save could not be restored. Start a new adventure.');home();return;}sound.unlock();view='game';if(saved.pendingNext)game.next();showGame();stage?.reset();};
 $('#launch').onclick=()=>{sound.unlock();game.launch();lastHud='';hud();};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=()=>{persist();home();};$('#skip-cut').onclick=finishCut;
@@ -188,7 +190,13 @@ $('#scores-open').onclick=openLeaderboard;$('#top-score-open').onclick=openLeade
 function leaderboardShareData(){
  const board=leaderMode==='daily'?'Daily Challenge':'Adventure',leader=sharedScores&&rankedScores(sharedScores,leaderMode,currentDay())[0];
  const url=new URL(document.querySelector('link[rel="canonical"]').href);url.searchParams.set('leaderboard',leaderMode);
- return {title:'Prism Breaker · '+board+' leaderboard',text:leader?'Can you beat '+leader.player+'’s '+Number(leader.score).toLocaleString()+' points on the '+board+' leaderboard?':'Join the Prism Breaker '+board+' leaderboard.',url:url.href};
+ const day=leaderMode==='daily'?currentDay():'all',date=day==='all'?'':' ('+day+' UTC)';
+ return {kind:'leaderboard',mode:leaderMode,title:'Prism Breaker · '+board+' leaderboard',text:leader?'Can you beat '+leader.player+'’s '+Number(leader.score).toLocaleString()+' points on the '+board+' leaderboard'+date+'?':'Join the Prism Breaker '+board+' leaderboard'+date+'.',url:url.href,boardLabel:board,day,player:leader?.player||'',score:leader?Number(leader.score):null,world:leader?Number(leader.level):0,seconds:leader?Number(leader.seconds):null,rank:leader?1:null,badge:leader?'THE SCORE TO BEAT':'SET THE FIRST RECORD'};
+}
+function personalShareData(){
+ const result=endResult;if(!result)return null;const board=result.mode==='daily'?'Daily Challenge':result.mode==='practice'?'Practice':'Adventure',rows=sharedScores&&rankedScores(sharedScores,result.mode,result.day),index=rows?.findIndex(r=>r.runKey===result.id)??-1;
+ const entered=$('#player-name').value.trim(),player=index>=0?rows[index].player:/^[A-Za-z0-9 _-]{2,16}$/.test(entered)?entered:'Your run',url=new URL(document.querySelector('link[rel="canonical"]').href);if(result.mode!=='practice')url.searchParams.set('leaderboard',result.mode);
+ return {kind:'result',mode:result.mode,title:'Prism Breaker · My '+board+' score',text:'I scored '+result.score.toLocaleString()+' points in Prism Breaker’s '+board+(result.mode==='daily'?' on '+result.day+' UTC':'')+'. Can you beat my score?',url:url.href,boardLabel:board,day:result.day,player,score:result.score,world:result.level,seconds:result.seconds,rank:index>=0?index+1:null,badge:result.mode==='practice'?'PRACTICE RUN':index>=0?'YOUR SCORE · RANK #'+(index+1):'YOUR RESULT',speed:game.bonusTotals.speed,pickups:game.bonusTotals.pickups};
 }
 function showShareLink(message){$('#share-link').value=leaderboardShareData().url;$('#share-link-fallback').hidden=false;$('#share-status').textContent=message;}
 async function copyLeaderboardLink(){
@@ -196,11 +204,8 @@ async function copyLeaderboardLink(){
  try{if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(url);$('#share-status').textContent='Leaderboard link copied. Paste it wherever you want to share.';}
  catch{showShareLink('Select and copy this leaderboard link to share it.');$('#share-link').focus();$('#share-link').select();}
 }
-$('#share-leaderboard').onclick=async()=>{
- const button=$('#share-leaderboard');button.disabled=true;$('#share-status').textContent='';$('#share-link-fallback').hidden=true;
- try{if(navigator.share){try{await navigator.share(leaderboardShareData());$('#share-status').textContent='Share menu opened.';}catch(error){showShareLink(error.name==='AbortError'?'Sharing canceled. You can copy the link instead.':'Sharing is unavailable here. Copy the leaderboard link instead.');}}else await copyLeaderboardLink();}
- finally{button.disabled=false;}
-};
+$('#share-leaderboard').onclick=()=>sharePreview.open(leaderboardShareData());
+if($('#share-result'))$('#share-result').onclick=()=>{const data=personalShareData();if(data)sharePreview.open(data);};
 $('#copy-leaderboard-link').onclick=copyLeaderboardLink;
 async function loadCatalog(){try{const r=await fetch('/worlds.html?v=2',{headers:{Range:'selector=#worlds'},cache:'no-store'});if(!r.ok)return;const doc=new DOMParser().parseFromString(await r.text(),'text/html');const catalog=new Map();for(const section of doc.querySelectorAll('[data-world][data-phase]')){
  const bricks=[...section.querySelectorAll('[data-brick]')].map(el=>{const b=JSON.parse(el.textContent);if(!Number.isFinite(b.x)||!Number.isFinite(b.y)||b.x<-9||b.x>9||b.y<-8||b.y>11||b.hp<1||b.hp>3)throw Error('Invalid level data');return b;});if(bricks.length>0&&bricks.length<=80)catalog.set(section.dataset.world+':'+section.dataset.phase,bricks);
