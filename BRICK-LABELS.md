@@ -15,3 +15,13 @@ Validation recorded October 13, 2026:
 - Preview fixtures are local and do not submit community scores. Physical phone performance was not measured.
 
 Rebuild the complete offline release before deployment. Normal publishing preserves the live score resource.
+
+## Crystal artwork update
+
+The header uses a custom vector interpretation of the stacked geometric lime lettering in the OG artwork. Its artwork dimensions are reserved in the page and it stays sharp at phone and desktop sizes. The light theme supplies a dark backing for contrast.
+
+`public/crystal-bricks.js` builds shared gemstone geometry: a broad front face, eight cut corners/bevels and a body with real alpha transparency. A polished Three.js physical material uses small, locally drawn cube-map reflections. This avoids a screen-sized transmission/refraction pass while letting the arena show through the colored crystal. Collision sizes remain those of the original game.
+
+Every surviving hit adds cracks according to `maxHp - hp`. The second fracture stage retains the first fissures and extends their branches. Three cached patterns give adjacent armored bricks different scars. Restored checkpoints use their stored hit counts to restore the right fracture stage. The final hit removes the brick and uses the existing shard effect.
+
+Shared geometry, reflection sources and nine small crack textures are created once per Stage. Shader variants and crack textures are warmed during arena preparation. A hit swaps the crack texture and hit-count label; it does not create geometry, draw a texture or run a new full-screen effect. Both graphics settings use the same crystal/crack art.

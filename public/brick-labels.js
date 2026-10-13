@@ -3,7 +3,7 @@ export const STAR_PATH='M64 14 79 46 114 50 88 75 94 110 64 93 34 110 40 75 14 5
 export const DIAMOND_PATH='M64 18 110 64 64 110 18 64Z';
 export const BRICK_GUIDE=Object.freeze([
  {kind:'normal',name:'Regular',mark:null,description:'No symbol. Breaks with one hit.'},
- {kind:'armor',name:'Armored',mark:'3',description:'The number shows hits remaining: 3 → 2 → 1. Most start at 2; armored bricks in the Citadel’s final formation start at 3.'},
+ {kind:'armor',name:'Armored',mark:'3',description:'The number shows hits remaining: 3 → 2 → 1. Cracks spread after each hit. Most start at 2; armored bricks in the Citadel’s final formation start at 3.'},
  {kind:'explode',name:'Explosive',mark:'★',description:'Break the star to deal one hit to nearby bricks. Explosives can trigger chain reactions; armored neighbors may survive.'},
  {kind:'switch',name:'Switch',mark:'◇',description:'Break the outlined diamond to open Electric City’s glowing gates.'}
 ]);

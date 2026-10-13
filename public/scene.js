@@ -1,6 +1,7 @@
 import * as T from './vendor/three.module.min.js';
 import {WORLDS,POWERS,rng} from './levels.js';
 import {brickMark,drawBrickMarker,updateBrickMarker} from './brick-labels.js';
+import {crystalResources,makeCrystalBrick,updateCrystalBrick} from './crystal-bricks.js';
 import {Cinematic} from './cinematics.js';
 import {Champion} from './champion.js';
 import {DailyEnding} from './daily-ending.js';
@@ -30,12 +31,16 @@ export class Stage {
     for(let n=0;n<2;n++){const power=this.makePower(kind);power.userData.poolKey=mode+':'+kind;power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);pool.push(power);i++;}
    }
    const markerWarmup=new T.Sprite(this.brickMarkerBase());markerWarmup.position.set(0,-8,2);markerWarmup.scale.set(.82,.82,1);warm.add(markerWarmup);
+   // Retain and warm the crystal/crack shader variants even when world one has no armor.
+   const crystal=this.crystals;
+   const crystalWarmup=new T.Mesh(crystal.body,crystal.bodyMaterial),crackWarmup=new T.Mesh(crystal.crackPlane,crystal.crackMaterial);warm.add(crystalWarmup,crackWarmup);
    // Upload reusable fragments before play, including their transparent material variant.
    const fragments=this.settings.lowEffects?32:96;
    while(this.particlePool.length<fragments){const particle=this.makeParticle();particle.mesh.position.set(0,0,.4);warm.add(particle.mesh);this.particlePool.push(particle);}
    await this.renderer.compileAsync(this.scene,this.camera);
    this.renderer.initTexture(this.haloTexture);
    for(const mark of ['1','2','3','★','◇'])this.renderer.initTexture(this.brickMarkerTexture(mark));
+   for(const texture of crystal.textures.values())this.renderer.initTexture(texture);
    warm.traverse(object=>{if(object.userData.texture)this.renderer.initTexture(object.userData.texture);});
    this.ensureFX();this.draw(0,false,0,true);
    await new Promise(resolve=>requestAnimationFrame(resolve));
@@ -98,7 +103,7 @@ export class Stage {
  label(text,color='#fff',outlined=false){const c=document.createElement('canvas');c.width=128;c.height=64;const ctx=c.getContext('2d');ctx.fillStyle=color;ctx.font='bold 48px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';if(outlined){ctx.strokeStyle='#14252a';ctx.lineWidth=7;ctx.strokeText(text,64,32);}ctx.fillText(text,64,32);const texture=new T.CanvasTexture(c);const mat=new T.SpriteMaterial({map:texture,transparent:true,depthTest:false});const s=new T.Sprite(mat);s.scale.set(.9,.45,1);s.userData.texture=texture;return s;}
  brickMarkerTexture(mark){this.brickMarkerTextures??=new Map();if(!this.brickMarkerTextures.has(mark)){const canvas=document.createElement('canvas');canvas.width=canvas.height=128;drawBrickMarker(canvas.getContext('2d'),mark);const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;this.brickMarkerTextures.set(mark,texture);}return this.brickMarkerTextures.get(mark);}
  brickMarkerBase(){return this.brickMarkerMaterial??=new T.SpriteMaterial({map:this.brickMarkerTexture('2'),transparent:true,depthTest:false,fog:false,toneMapped:false});}
- makeBrickMarker(brick){const mark=brickMark(brick);if(mark===null)return null;const texture=this.brickMarkerTexture(mark),material=this.brickMarkerBase().clone();material.map=texture;const sprite=new T.Sprite(material);sprite.scale.set(.82,.82,1);sprite.position.z=.42;sprite.renderOrder=3;sprite.userData.texture=texture;sprite.userData.sharedTexture=true;sprite.userData.brickMark=mark;return sprite;}
+ makeBrickMarker(brick){const mark=brickMark(brick);if(mark===null)return null;const texture=this.brickMarkerTexture(mark),material=this.brickMarkerBase().clone();material.map=texture;const sprite=new T.Sprite(material);sprite.scale.set(.67,.67,1);sprite.position.z=.48;sprite.renderOrder=3;sprite.userData.texture=texture;sprite.userData.sharedTexture=true;sprite.userData.brickMark=mark;return sprite;}
  disposeObject(m){this.dynamic.remove(m);if(m.userData.poolKey){const pool=this.powerPools.get(m.userData.poolKey);if(pool&&pool.length<8){pool.push(m);return;}}m.traverse(c=>{if(c.userData.texture&&!c.userData.sharedTexture)c.userData.texture.dispose();if(c.material)c.material.dispose();});}
  syncMap(map,items,create,update,liveBricks=false){const token=++this.syncToken;for(const item of items){if(liveBricks&&item.hp<=0)continue;let m=map.get(item.id);if(!m){m=create(item);map.set(item.id,m);this.dynamic.add(m);}m.userData.syncToken=token;update(m,item);}for(const [id,m]of map)if(m.userData.syncToken!==token){this.disposeObject(m);map.delete(id);}}
  reset(){for(const map of [this.bricks,this.balls,this.drops,this.shots,this.barriers]){for(const m of map.values())this.disposeObject(m);map.clear();}for(const m of this.portalMeshes||[]){this.board.remove(m);m.geometry.dispose();m.material.dispose();}this.portalMeshes=[];for(const p of this.particles)this.recycleParticle(p);this.particles.length=0;}
@@ -124,10 +129,9 @@ export class Stage {
    const homeX=narrow?0:7.4;this.world.position.x=this.settings.reducedMotion?(isHome?homeX:0):this.world.position.x+((isHome?homeX:0)-this.world.position.x)*Math.min(1,dt*4);
    for(const d of this.decor)if(!this.settings.reducedMotion){d.position.y=d.userData.baseY+Math.sin(time*.35+d.userData.phase)*.35;if(game.level!==2&&game.level!==4)d.rotation.y+=dt*.1;}
    this.syncMap(this.bricks,game.bricks,b=>{
-     const m=new T.Group();const block=new T.Mesh(this.box,new T.MeshStandardMaterial({color:b.color,emissive:b.color,emissiveIntensity:.25,roughness:.23,metalness:.25}));block.scale.set(b.w,b.h,.62);m.add(block);
-     const shine=new T.Mesh(this.box,new T.MeshBasicMaterial({color:b.color,toneMapped:false}));shine.scale.set(b.w*.94,b.h*.76,.02);shine.position.set(0,0,.32);m.add(shine);
+     this.crystals??=crystalResources();const m=makeCrystalBrick(b,this.crystals);
      const marker=this.makeBrickMarker(b);if(marker){m.add(marker);m.userData.brickMarker=marker;}return m;
-   },(m,b)=>{m.position.set(b.x,b.y,0);m.children[0].material.emissiveIntensity=b.hp<b.maxHp?.04:.25;m.scale.setScalar(b.hp<b.maxHp?.95:1);if(m.userData.brickMarker&&m.userData.brickMarker.userData.brickMark!==brickMark(b))updateBrickMarker(m.userData.brickMarker,b,mark=>this.brickMarkerTexture(mark));},true);
+   },(m,b)=>{updateCrystalBrick(m,b,this.crystals);if(m.userData.brickMarker&&m.userData.brickMarker.userData.brickMark!==brickMark(b))updateBrickMarker(m.userData.brickMarker,b,mark=>this.brickMarkerTexture(mark));},true);
    this.syncMap(this.balls,game.balls,b=>{const m=new T.Mesh(this.sphere,new T.MeshBasicMaterial({color:'#ffffff'}));m.scale.setScalar(b.r);return m;},(m,b)=>{m.position.set(b.x,b.y,.42);m.material.color.set(game.effects.pierce?'#d4b6ff':'#ffffff');});
    this.syncMap(this.drops,game.drops,d=>this.acquirePower(d.kind),(m,d)=>{const t=this.settings.reducedMotion?0:time;m.position.set(d.x,d.y,.6);m.userData.rig.rotation.set(.3+Math.sin(t*1.7+d.id)*.2,t*.9+d.id,Math.sin(t*2+d.id)*.15);m.userData.glow.material.opacity=.48+Math.sin(t*3+d.id)*.08;});
    this.syncMap(this.shots,game.shots,()=>{const m=new T.Mesh(this.box,new T.MeshBasicMaterial({color:'#ffbdcc'}));m.scale.set(.08,.6,.12);return m;},(m,s)=>m.position.set(s.x,s.y,.3));
