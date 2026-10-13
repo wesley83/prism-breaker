@@ -1,5 +1,11 @@
 import qrcode from './vendor/qr.js?v=1';
 
+export function formatShareDate(day){
+ const date=new Date(day+'T00:00:00Z');
+ return Number.isNaN(date.getTime())?day:new Intl.DateTimeFormat('en-US',{year:'numeric',month:'long',day:'numeric',timeZone:'UTC'}).format(date)+' (UTC)';
+}
+function invitationText(model){return model.text+'\n\n'+model.url;}
+
 export function platformProfile(nav=navigator){
  const platform=nav.userAgentData?.platform||nav.platform||'',agent=nav.userAgent||'';
  const ios=/iPhone|iPad|iPod/i.test(agent)||(/Mac/i.test(platform)&&nav.maxTouchPoints>1);
@@ -32,9 +38,9 @@ async function drawScorecard(model,profile){
  fitText(ctx,model.boardLabel,pad,portrait?887:363,portrait?34:26,w-pad*2,'#e5edf4',500);
  const details=[model.world?'World '+String(model.world).padStart(2,'0'):null,model.seconds?duration(model.seconds):null,model.rank?'Rank #'+model.rank:null].filter(Boolean).join('   ·   ');
  fitText(ctx,details,pad,portrait?986:411,portrait?26:21,portrait?w-pad*2:850,'#d0dde3',500);
- if(model.kind!=='result'&&model.day&&model.day!=='all')fitText(ctx,model.day+' UTC',pad,portrait?936:451,portrait?24:20,w-pad*2,'#d0dde3',500);
+ if(model.kind!=='result'&&model.day&&model.day!=='all')fitText(ctx,formatShareDate(model.day),pad,portrait?936:451,portrait?24:20,w-pad*2,'#d0dde3',500);
  if(model.kind==='result')fitText(ctx,'Speed +'+model.speed.toLocaleString()+'   ·   Power-ups +'+model.pickups.toLocaleString(),pad,portrait?1044:451,portrait?25:20,w-pad*2,'#d0dde3',500);
- if(model.kind==='result'&&model.day&&model.day!=='all')fitText(ctx,model.day+' UTC',pad,portrait?936:486,portrait?24:18,w-pad*2,'#d0dde3',500);
+ if(model.kind==='result'&&model.day&&model.day!=='all')fitText(ctx,formatShareDate(model.day),pad,portrait?936:486,portrait?24:18,w-pad*2,'#d0dde3',500);
  const qr=qrCanvas(model.url,portrait?164:144),qx=w-pad-qr.width,qy=h-pad-qr.height;ctx.drawImage(qr,qx,qy);
  fitText(ctx,model.kind==='result'?'CAN YOU BEAT IT?':'YOUR NEXT CHALLENGE',pad,h-(portrait?161:112),portrait?34:27,qx-pad-24);
  fitText(ctx,'Play Prism Breaker',pad,h-(portrait?108:69),portrait?27:22,qx-pad-24,'#cce6f1',500);
@@ -63,18 +69,23 @@ export class SharePreview {
   if(!this.dialog.open)this.dialog.showModal();
   try{const blob=await drawScorecard(model,profile);if(token!==this.token)return;this.blob=blob;this.filename='prism-breaker-'+(model.kind==='result'?'score-':'leaderboard-')+model.mode+(model.score!==null?'-'+model.score:'')+'.png';this.file=typeof File==='function'?new File([blob],this.filename,{type:'image/png'}):null;
    this.previewUrl=URL.createObjectURL(blob);const preview=this.find('#scorecard-preview');preview.src=this.previewUrl;preview.alt=model.score===null?'Prism Breaker invitation to set the first record':model.player+' · '+Number(model.score).toLocaleString()+' points · '+model.boardLabel;preview.hidden=false;this.find('#scorecard-placeholder').hidden=true;this.find('#save-scorecard').disabled=false;
-   this.find('#share-image').hidden=!(this.file&&typeof navigator.canShare==='function'&&canShare({files:[this.file]}));this.find('#share-preview-status').textContent='';
+   this.find('#share-image').hidden=!(this.file&&typeof navigator.canShare==='function'&&canShare(this.shareData(true)));this.find('#share-preview-status').textContent='';
   }catch{if(token!==this.token)return;this.find('.scorecard-frame').hidden=true;this.find('#share-preview-status').textContent='The scorecard could not be prepared. Your invitation is ready to share or copy.';}
  }
- shareData(){return {title:this.model.title,text:this.model.text,url:this.model.url};}
+ shareData(image=false){
+  // Android destinations receive the complete invitation as one text body.
+  if(image)return {files:[this.file],title:this.model.title,text:invitationText(this.model)};
+  if(this.profile.os==='android')return {title:this.model.title,text:invitationText(this.model)};
+  return {title:this.model.title,text:this.model.text,url:this.model.url};
+ }
  async nativeShare(image){
   const button=this.find(image?'#share-image':'#share-invitation'),token=this.token;if(this.nativePending||(image&&!this.file))return;this.nativePending=true;this.find('#share-invitation').disabled=true;this.find('#share-image').disabled=true;
-  try{await navigator.share(image?{files:[this.file],title:this.model.title}:this.shareData());if(token===this.token)this.find('#share-preview-status').textContent='Share menu opened.';}
+  try{await navigator.share(this.shareData(image));if(token===this.token)this.find('#share-preview-status').textContent='Share menu opened.';}
   catch(error){if(token!==this.token)return;this.find('#share-preview-status').textContent=error.name==='AbortError'?'Sharing canceled. You can still copy the invitation or save the scorecard.':'Sharing is unavailable here. Copy the invitation or save the scorecard.';if(error.name!=='AbortError'){button.hidden=true;if(!image){this.find('#copy-invitation').classList.add('primary');this.find('#copy-invitation').classList.remove('secondary');}}}
   finally{this.nativePending=false;this.find('#share-invitation').disabled=false;this.find('#share-image').disabled=false;}
  }
  async copy(){
-  const text=this.model.text+'\n'+this.model.url,token=this.token;
+  const text=invitationText(this.model),token=this.token;
   try{if(!navigator.clipboard?.writeText)throw Error('Clipboard unavailable');await navigator.clipboard.writeText(text);if(token===this.token){this.find('#share-preview-status').textContent='Invitation copied. Paste it into your message.';this.find('#share-manual-copy').hidden=true;}}
   catch{if(token!==this.token)return;this.find('#share-copy-text').value=text;this.find('#share-manual-copy').hidden=false;this.find('#share-copy-text').focus();this.find('#share-copy-text').select();this.find('#share-preview-status').textContent='Select and copy the invitation below.';}
  }

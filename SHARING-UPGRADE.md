@@ -40,3 +40,11 @@ The CSP allows locally generated blob images. Deployment sends assets/modules be
 ## Review evidence and limits
 
 Manual browser review covered the desktop invitation, complete-message copying, PNG downloading, portrait personal-result preview at 390px, portrait PNG dimensions and download, and platform-specific labels. PNGs were visually inspected at full resolution. Local preview records were not submitted to the public leaderboard. Platform presentation previews use the desktop browser's real capability checks; they do not establish behavior in every physical OS share picker. Available destinations remain controlled by the browser, OS and installed apps.
+
+## Android invitation compatibility and readable dates
+
+Android invitation sharing now supplies the message and link together in one text body, without a separate URL field. Copy invitation uses the same complete message. Scorecard shares include the invitation text and link, and capability checks use the complete file-and-text payload.
+
+Daily leaderboard invitations, personal score invitations and PNG scorecards format the UTC challenge date with a full month name, such as October 13, 2026 (UTC). Raw challenge keys remain ISO dates. Leaderboard invitations use “Daily Challenge for [date]” rather than a trailing numeric timestamp.
+
+Reviewed the local share preview and published preview. A physical Android-to-Slack handoff is unavailable in this workspace; receiving apps still control how they display the shared payload. Automated suites were not run.

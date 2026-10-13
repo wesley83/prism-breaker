@@ -1,6 +1,6 @@
 import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
 import {Game,speedBonus} from './engine.js?v=3';
-import {SharePreview} from './sharing.js?v=1';
+import {SharePreview,formatShareDate} from './sharing.js?v=2';
 import {Sound} from './audio.js?v=4';
 import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
@@ -190,13 +190,14 @@ $('#scores-open').onclick=openLeaderboard;$('#top-score-open').onclick=openLeade
 function leaderboardShareData(){
  const board=leaderMode==='daily'?'Daily Challenge':'Adventure',leader=sharedScores&&rankedScores(sharedScores,leaderMode,currentDay())[0];
  const url=new URL(document.querySelector('link[rel="canonical"]').href);url.searchParams.set('leaderboard',leaderMode);
- const day=leaderMode==='daily'?currentDay():'all',date=day==='all'?'':' ('+day+' UTC)';
- return {kind:'leaderboard',mode:leaderMode,title:'Prism Breaker · '+board+' leaderboard',text:leader?'Can you beat '+leader.player+'’s '+Number(leader.score).toLocaleString()+' points on the '+board+' leaderboard'+date+'?':'Join the Prism Breaker '+board+' leaderboard'+date+'.',url:url.href,boardLabel:board,day,player:leader?.player||'',score:leader?Number(leader.score):null,world:leader?Number(leader.level):0,seconds:leader?Number(leader.seconds):null,rank:leader?1:null,badge:leader?'THE SCORE TO BEAT':'SET THE FIRST RECORD'};
+ const day=leaderMode==='daily'?currentDay():'all',date=day==='all'?'':' for '+formatShareDate(day);
+ const challenge=leaderMode==='daily'?'in Prism Breaker’s Daily Challenge'+date:'on the Prism Breaker Adventure leaderboard';
+ return {kind:'leaderboard',mode:leaderMode,title:'Prism Breaker · '+board+' leaderboard',text:leader?'Can you beat '+leader.player+'’s '+Number(leader.score).toLocaleString()+' points '+challenge+'?':leaderMode==='daily'?'Play Prism Breaker’s Daily Challenge'+date+'. Set the first score to beat!':'Join the Prism Breaker Adventure leaderboard.',url:url.href,boardLabel:board,day,player:leader?.player||'',score:leader?Number(leader.score):null,world:leader?Number(leader.level):0,seconds:leader?Number(leader.seconds):null,rank:leader?1:null,badge:leader?'THE SCORE TO BEAT':'SET THE FIRST RECORD'};
 }
 function personalShareData(){
  const result=endResult;if(!result)return null;const board=result.mode==='daily'?'Daily Challenge':result.mode==='practice'?'Practice':'Adventure',rows=sharedScores&&rankedScores(sharedScores,result.mode,result.day),index=rows?.findIndex(r=>r.runKey===result.id)??-1;
  const entered=$('#player-name').value.trim(),player=index>=0?rows[index].player:/^[A-Za-z0-9 _-]{2,16}$/.test(entered)?entered:'Your run',url=new URL(document.querySelector('link[rel="canonical"]').href);if(result.mode!=='practice')url.searchParams.set('leaderboard',result.mode);
- return {kind:'result',mode:result.mode,title:'Prism Breaker · My '+board+' score',text:'I scored '+result.score.toLocaleString()+' points in Prism Breaker’s '+board+(result.mode==='daily'?' on '+result.day+' UTC':'')+'. Can you beat my score?',url:url.href,boardLabel:board,day:result.day,player,score:result.score,world:result.level,seconds:result.seconds,rank:index>=0?index+1:null,badge:result.mode==='practice'?'PRACTICE RUN':index>=0?'YOUR SCORE · RANK #'+(index+1):'YOUR RESULT',speed:game.bonusTotals.speed,pickups:game.bonusTotals.pickups};
+ return {kind:'result',mode:result.mode,title:'Prism Breaker · My '+board+' score',text:'I scored '+result.score.toLocaleString()+' points in Prism Breaker’s '+board+(result.mode==='daily'?' for '+formatShareDate(result.day):'')+'. Can you beat my score?',url:url.href,boardLabel:board,day:result.day,player,score:result.score,world:result.level,seconds:result.seconds,rank:index>=0?index+1:null,badge:result.mode==='practice'?'PRACTICE RUN':index>=0?'YOUR SCORE · RANK #'+(index+1):'YOUR RESULT',speed:game.bonusTotals.speed,pickups:game.bonusTotals.pickups};
 }
 function showShareLink(message){$('#share-link').value=leaderboardShareData().url;$('#share-link-fallback').hidden=false;$('#share-status').textContent=message;}
 async function copyLeaderboardLink(){
