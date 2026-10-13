@@ -4,13 +4,13 @@ Release work reviewed on October 13, 2026. Prism Breaker now downloads a complet
 
 ## Player experience
 
-1. Open the game while connected and wait for **Ready to play offline**. The current package contains 48 cached files, approximately 1.92 MB before browser storage overhead.
+1. Open the game while connected and wait for **Ready to play offline**. The current package contains 50 cached files, approximately 1.93 MB before browser storage overhead.
 2. Use **Install game**, the browser's install command, or **Share → Add to Home Screen** on iPhone/iPad. Playing offline in a prepared browser tab also works.
 3. Adventure, Practice, Daily Challenge, power-ups, music, cinematics and generated scorecards remain available without a connection.
 4. Save a score normally. The game confirms it is queued only after its storage transaction commits. It submits when the game is open and connectivity returns.
 5. Apply a downloaded update from the start screen. Progress, preferences and queued scores survive the update.
 
-Installation prompts depend on the browser. The game shows platform-specific instructions when a native prompt is unavailable, hides installation controls in standalone mode, and explains when offline play is unsupported.
+Installation prompts depend on the browser. The game shows platform-specific instructions when a native prompt is unavailable, hides installation controls in standalone and fullscreen modes, and explains when offline play is unsupported.
 
 ## Complete releases and safe updates
 
@@ -18,7 +18,7 @@ Installation prompts depend on the browser. The game shows platform-specific ins
 
 The service worker downloads assets in bounded batches into a separate cache for that release. It checks successful, non-redirected responses and SHA-256 asset hashes. Pagelove normalizes HTML, so the entry page is checked using its content type and release marker. A completion marker is written only after the entire download succeeds; a failed installation removes its incomplete cache.
 
-The manifest supplies the app name, standalone launch behavior, colors and regular/maskable icons. The full download includes modules that load later, world previews, the font and scorecard artwork. Procedural music and sound effects need no audio downloads. The world catalog has bundled level definitions as its offline fallback.
+The manifest supplies the app name, fullscreen launch preference, colors and regular/maskable icons. Browsers that cannot provide fullscreen fall back to standalone or another supported display mode. The full download includes modules that load later, world previews, the font and scorecard artwork. Procedural music and sound effects need no audio downloads. The world catalog has bundled level definitions as its offline fallback.
 
 New workers wait until the player chooses **Update game** from the start screen. Each open tab identifies its release, and the worker retains the corresponding cache so a later module request cannot mix code from different releases. Release pins survive worker restarts. Cleanup retains caches used by open tabs and a previous complete release. Missing files are not filled with arbitrary newer modules; incomplete downloads can be retried or repaired while connected.
 

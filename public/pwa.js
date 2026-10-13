@@ -4,7 +4,7 @@ import {PWA_RELEASE} from './pwa-release.js';
 export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
  const status=document.querySelector('#offline-status'),detail=document.querySelector('#offline-detail'),install=document.querySelector('#install-game'),update=document.querySelector('#update-game'),retry=document.querySelector('#retry-download');
  let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null;
- const standalone=()=>matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+ const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true;
  function render(){
   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
   install.hidden=standalone();
@@ -53,5 +53,6 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
  navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying&&isSafeToUpdate())location.reload();else inspect();});
  const check=()=>{render();if(registration&&navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}};
  window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+ document.addEventListener('fullscreenchange',render);
  render();start();return {refresh:render};
 }

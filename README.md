@@ -20,7 +20,7 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Procedural audio:** eight original synthesized level soundtracks, two victory arrangements and sound effects, with separate volume controls and mute.
 - **Shared records:** the current board leader's name and score appear during play. Adventure and Daily Challenge have separate top-25 rankings; the daily board displays minutes since submission.
 - **Sharing:** leaderboard invitations and personal scorecards, native sharing where supported, complete-message copying, PNG downloads and QR codes. Android invitations combine message and link into one text body; daily dates use readable UTC labels.
-- **Presentation and access:** responsive keyboard/mouse/touch controls, fullscreen, pause, reduced motion/effects, light/dark/system interface themes and readable cinematic captions.
+- **Presentation and access:** responsive keyboard/mouse/touch controls, fullscreen launch for installed apps where supported, automatic phone fullscreen from start/resume taps, pause-menu settings, reduced motion/effects, light/dark/system interface themes and readable cinematic captions. Phone gameplay fills the available viewport when native fullscreen is unavailable, with space for notches and gesture areas.
 - **Progress:** campaign checkpoints, personal best, preferences and the last entered nickname persist in browser storage.
 - **Offline play and installation:** install the game or keep playing in a browser tab after its complete download. All worlds, music, cinematics and scorecards work offline; saved scores queue for reconnection.
 - **Safe updates:** complete releases download before becoming available. Players apply updates from the start screen; open games retain their existing assets.
@@ -98,7 +98,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **48 cached files, approximately 1.92 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **50 cached files, approximately 1.93 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -164,6 +164,7 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | Path | Responsibility |
 | --- | --- |
 | `public/app.js` | UI, game loop, checkpoints, score reads/submission, UTC rollover and share message models |
+| `public/display.js`, `public/display.css` | Gesture-triggered fullscreen, phone viewport layout, safe-area spacing and accessible exit controls |
 | `public/engine.js`, `public/levels.js` | Physics, points, powers, seeded randomness and eight world definitions |
 | `public/scene.js`, `public/postprocessing.js` | Three.js rendering, power-up preparation/pooling and effects |
 | `public/cinematics.js`, `public/cinematic-score.js` | World transition geometry and camera timing |
@@ -260,6 +261,7 @@ Private backups, credentials, live score exports, generated preview files and de
 
 - [SCORING.md](SCORING.md) — current point formulas, timing, combos, powers and ranking.
 - [PWA-UPGRADE.md](PWA-UPGRADE.md) — installation, offline releases, queued scores, updates and performance changes.
+- [FULLSCREEN-UPGRADE.md](FULLSCREEN-UPGRADE.md) — phone fullscreen defaults, safe-area layout, pause controls and browser/device limits.
 - [SHARING-UPGRADE.md](SHARING-UPGRADE.md) — platform-specific sharing, generated scorecards and readable dates.
 - [LAUNCH-VARIATION.md](LAUNCH-VARIATION.md) — launch angles, seeded fairness and checkpoint behavior.
 - [UI-PERFORMANCE-UPGRADE.md](UI-PERFORMANCE-UPGRADE.md) — cinematic alignment, scene progression and effect preparation.

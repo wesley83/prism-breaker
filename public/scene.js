@@ -102,7 +102,7 @@ export class Stage {
    const particle=this.particlePool.pop()||this.makeParticle(),mesh=particle.mesh;mesh.material.color.set(color);mesh.material.opacity=1;mesh.rotation.set(0,0,0);mesh.scale.setScalar(.04+Math.random()*.13);mesh.position.set(x,y,.4);particle.vx=(Math.random()-.5)*10;particle.vy=(Math.random()-.5)*10;particle.vz=Math.random()*5;particle.life=.6+Math.random()*.25;this.board.add(mesh);this.particles.push(particle);
  }}
  event(e){if(e.type==='break')this.particle(e.x,e.y,e.color,e.kind==='explode'?26:12);if(e.type==='paddle'||e.type==='portal')this.particle(e.x,e.y,WORLDS[this.current<0?0:this.current].accent,5);}
- resize(){const r=this.canvas.parentElement.getBoundingClientRect();this.renderer.setSize(r.width,r.height,false);this.camera.aspect=r.width/r.height;this.camera.updateProjectionMatrix();this.width=r.width;this.height=r.height;if(this.composer){this.composer.setPixelRatio(Math.min(1.15,this.renderer.getPixelRatio()));this.composer.setSize(r.width,r.height);}}
+ resize(){const r=this.canvas.getBoundingClientRect();if(!r.width||!r.height)return;this.renderer.setSize(r.width,r.height,false);this.camera.aspect=r.width/r.height;this.camera.updateProjectionMatrix();this.width=r.width;this.height=r.height;if(this.composer){this.composer.setPixelRatio(Math.min(1.15,this.renderer.getPixelRatio()));this.composer.setSize(r.width,r.height);}}
  screenX(clientX,clientY){const r=this.canvas.getBoundingClientRect();this.pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);this.ray.setFromCamera(this.pointer,this.camera);this.ray.ray.intersectPlane(this.plane,this.point);return this.point.x-this.world.position.x;}
  render(game,dt,time,mode='game',cut=0){
    if(this.preparing)return;
