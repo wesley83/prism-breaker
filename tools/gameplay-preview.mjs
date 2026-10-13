@@ -1,0 +1,15 @@
+import fs from 'node:fs/promises';
+const dir='test-results/fixture';
+let html=await fs.readFile(dir+'/index.html','utf8');
+html=html.replace('<button id="qa-clear">','<button id="qa-sticky">Preview wide sticky catches</button><button id="qa-shift">Move held balls</button><button id="qa-shrink">Expire wide paddle</button><button id="qa-daily-end">Preview daily completion</button><button id="qa-daily-record">Preview daily record</button><button id="qa-clear">').replace('</body>','<output id="qa-status" style="position:fixed;right:5px;top:5px;z-index:998;background:#071118;color:#fff;font:12px monospace;padding:8px;max-width:50%"></output></body>');
+await fs.writeFile(dir+'/index.html',html);
+let app=await fs.readFile(dir+'/app.js','utf8');
+app=app.replace('cutTime+=dt;const daily=','if(!qaDailyHold)cutTime+=dt;const daily=');
+app+=`\nlet qaDailyHold=false;const qaSummary=()=>{$('#qa-status').textContent='Width '+game.paddle.w.toFixed(2)+' · '+game.balls.map(b=>(b.held?'held':'flying')+' @ '+(b.x-game.paddle.x).toFixed(2)).join(' / ')+' · music: '+(sound.trackKey||'idle');};
+$('#qa-sticky').onclick=()=>{qaDailyHold=false;qaRecordHold=false;closeDialogs();sound.unlock();game.start('practice',0,8399);game.power('wide');game.power('sticky');game.balls=[];for(const x of [1.05,2.1,-2.1])game.addBall(false,x,-9.9,0,-14);game.state='playing';game.tick(1/30);game.state='paused';view='game';showGame();qaSummary();};
+$('#qa-shift').onclick=()=>{game.state='playing';game.move(2);game.tick(1/30);game.state='paused';qaSummary();};
+$('#qa-shrink').onclick=()=>{game.state='playing';game.effects.wide=.001;game.tick(1/120);game.state='paused';qaSummary();};
+$('#qa-daily-end').onclick=()=>{qaDailyHold=true;qaRecordHold=false;closeDialogs();sound.unlock();game.start('daily',6,8399);runDay=currentDay();game.score=1000;game.state='cleared';showGame();beginCut();cutTime=7;};
+$('#qa-daily-record').onclick=()=>{qaDailyHold=false;qaRecordHold=true;closeDialogs();sound.unlock();game.start('daily',6,8399);runDay=currentDay();game.score=30000;game.elapsed=65;showGame();finish(true);};setInterval(qaSummary,500);\n`;
+await fs.writeFile(dir+'/app.js',app);
+console.log('Local gameplay and distinct daily-ending controls created.');
