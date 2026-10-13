@@ -2,9 +2,9 @@ import {WORLDS,POWERS,daySeed} from './levels.js';
 import {Game} from './engine.js?v=2';
 import {Sound} from './audio.js?v=4';
 import {TRACKS} from './music.js';
-import {CINEMATICS,cameraFrame} from './cinematic-score.js';
+import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
 import {utcDay,rankedScores,scoreAge,topFinish} from './leaderboard.js?v=2';
-import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js';
+import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=2';
 import {VICTORY_TRACKS} from './victory-music.js';
 const $=s=>document.querySelector(s),all=s=>[...document.querySelectorAll(s)];
 const storage={get(key,fallback=null){try{return JSON.parse(localStorage.getItem('prism.'+key))??fallback;}catch{return fallback;}},set(key,value){try{localStorage.setItem('prism.'+key,JSON.stringify(value));}catch{}},remove(key){try{localStorage.removeItem('prism.'+key);}catch{}}};
@@ -111,7 +111,8 @@ async function checkTopFinish(result){
  }catch{/* A result is still available when the shared board cannot be checked. */}
 }
 function setRecordResult(result){
- $('#result-dialog').classList.add('record-result');$('#record-badge').hidden=false;$('#record-badge').textContent=result.tied?'TOP SCORE TIED':'NEW HIGH SCORE';$('#result-kicker').textContent=result.mode==='daily'?'DAILY CHALLENGE CHAMPION':'THE HIGH-SCORE CLUB';$('#result-title').textContent=result.tied?'You reached the top.':result.mode==='daily'?'You won the daily crown.':'You took the crown.';$('#result-description').textContent=(result.won?(result.mode==='daily'?'Daily Challenge complete. ':'Adventure complete. '):'Record run. ')+result.score.toLocaleString()+' points at the top of the '+(result.mode==='daily'?'Daily Challenge':'Adventure')+' board. Save your name to claim your place.';
+ const board=result.mode==='daily'?'Daily Challenge':'Adventure';
+ $('#result-dialog').classList.add('record-result');$('#record-badge').hidden=false;$('#record-badge').textContent=result.tied?'TOP SCORE TIED':'NEW HIGH SCORE';$('#result-kicker').textContent=result.mode==='daily'?'DAILY CHALLENGE CHAMPION':'THE HIGH-SCORE CLUB';$('#result-title').textContent=result.tied?'You reached the top.':result.mode==='daily'?'You won the daily crown.':'You took the crown.';$('#result-description').textContent=(result.tied?'You matched the top '+board+' score. ':result.won?board+' complete with a new top score. ':'New '+board+' top score. ')+'Save your name to join the leaderboard.';
 }
 function finishCelebration(){if(view!=='champion')return;view='result';$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');$('#result-dialog').showModal();}
 $('#claim-record').onclick=finishCelebration;
@@ -190,8 +191,8 @@ let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;
 function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage){
  if(view==='game'&&!document.hidden){if(keys.has('ArrowLeft')||keys.has('KeyA'))game.move(game.target-dt*22);if(keys.has('ArrowRight')||keys.has('KeyD'))game.move(game.target+dt*22);accumulator+=dt;while(accumulator>=1/120){game.tick(1/120);accumulator-=1/120;}saveTimer+=dt;if(saveTimer>10&&view==='game'){saveTimer=0;persist();}hud();}
  if(view==='home'){game.time+=dt;game.paddle.x=settings.reducedMotion?0:Math.sin(now*.0006)*3.3;game.balls[0].x=game.paddle.x;game.balls[0].y=-9.5+(settings.reducedMotion?0:Math.sin(now*.0007)*.2);}
- if(view==='cut'&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;const daily=game.mode==='daily',duration=settings.reducedMotion?4:daily?DAILY_DURATION:CINEMATICS[game.level].duration;$('#cut-progress-bar').style.transform='scaleX('+Math.min(1,cutTime/duration)+')';const frame=daily?dailyFrame(cutTime,stage.camera.aspect,settings.reducedMotion):cameraFrame(game.level,cutTime,stage.camera.aspect,settings.reducedMotion);$('#cutscene').style.setProperty('--story-opacity',String(frame.titleAlpha));$('#cutscene').style.setProperty('--story-shift',(1-frame.titleAlpha)*12+'px');if(cutTime>=duration)finishCut();}
- if(view==='champion'&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;if(cutTime>=(settings.reducedMotion?4:game.mode==='daily'?DAILY_RECORD_DURATION:9))finishCelebration();}
+ if(view==='cut'&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;const daily=game.mode==='daily',duration=settings.reducedMotion?9:daily?DAILY_DURATION:CINEMATICS[game.level].duration;$('#cut-progress-bar').style.transform='scaleX('+Math.min(1,cutTime/duration)+')';const frame=daily?dailyFrame(cutTime,stage.camera.aspect,settings.reducedMotion):cameraFrame(game.level,cutTime,stage.camera.aspect,settings.reducedMotion);$('#cutscene').style.setProperty('--story-opacity',String(frame.titleAlpha));$('#cutscene').style.setProperty('--story-shift',(1-frame.titleAlpha)*12+'px');if(cutTime>=duration)finishCut();}
+ if(view==='champion'&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;if(cutTime>=(settings.reducedMotion?9:game.mode==='daily'?DAILY_RECORD_DURATION:9))finishCelebration();}
  const victory=endResult?.record&&['champion','result'].includes(view)?endResult.mode:null,dialogs=all('dialog[open]'),musicActive=!document.hidden&&((!dialogs.length&&['game','cut','champion'].includes(view)&&game.state!=='paused')||(view==='result'&&victory&&dialogs.length===1&&$('#result-dialog').open));
  sound.update(musicActive,game.level,view==='cut'||view==='champion',victory);sceneDelta+=dt;const renderInterval=view==='home'||settings.lowEffects?1000/30:1000/60;if(!document.hidden&&now-lastScenePaint>=renderInterval){stage.render(game,sceneDelta,now/1000,view,cutTime);lastScenePaint=now;sceneDelta=0;}
  }if(now>toastUntil)$('#toast').classList.remove('visible');requestAnimationFrame(frame);}
