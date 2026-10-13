@@ -14,6 +14,7 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Daily Challenge:** one world selected from a UTC-date seed, with shared launch and power-up random sequences. Its active leaderboard rolls over at 00:00 UTC.
 - **Practice:** play individual worlds. Practice scores stay out of the shared boards and personal best.
 - **Brick mechanics:** armored, moving, explosive and switch bricks, gates, moving barriers and paired portals. Worlds 3–6 have a modest difficulty increase.
+- **Brick labels:** armored bricks show their remaining hit count; explosives use a filled star and switches an outlined diamond. How to play explains each type with matching visual examples.
 - **Eight power-ups:** wide paddle, multiball, sticky paddle, laser, piercing ball, slow motion, safety shield and extra life. Sticky catches hold at the impact position; a shrinking wide paddle releases catches beyond its new edge.
 - **Fresh-ball variation:** new balls launch 8–18° left or right of vertical. Checkpoints preserve sequence progress, while sticky catches retain their rebound direction.
 - **Cinematics:** unique scenes for each world, a dedicated Daily Challenge completion, and separate Adventure and Daily Challenge top-score celebrations and victory music.
@@ -98,7 +99,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **50 cached files, approximately 1.93 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **51 cached files, approximately 1.93 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -166,6 +167,7 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | `public/app.js` | UI, game loop, checkpoints, score reads/submission, UTC rollover and share message models |
 | `public/display.js`, `public/display.css` | Gesture-triggered fullscreen, phone viewport layout, safe-area spacing and accessible exit controls |
 | `public/engine.js`, `public/levels.js` | Physics, points, powers, seeded randomness and eight world definitions |
+| `public/brick-labels.js` | Remaining-hit labels and shared symbol artwork for the arena and How to play |
 | `public/scene.js`, `public/postprocessing.js` | Three.js rendering, power-up preparation/pooling and effects |
 | `public/cinematics.js`, `public/cinematic-score.js` | World transition geometry and camera timing |
 | `public/champion.js`, `public/daily-ending.js`, `public/daily-score.js` | Adventure record and Daily Challenge endings |
@@ -262,6 +264,7 @@ Private backups, credentials, live score exports, generated preview files and de
 - [SCORING.md](SCORING.md) — current point formulas, timing, combos, powers and ranking.
 - [PWA-UPGRADE.md](PWA-UPGRADE.md) — installation, offline releases, queued scores, updates and performance changes.
 - [FULLSCREEN-UPGRADE.md](FULLSCREEN-UPGRADE.md) — phone fullscreen defaults, safe-area layout, pause controls and browser/device limits.
+- [BRICK-LABELS.md](BRICK-LABELS.md) — dynamic armor counts, readable explosive/switch symbols and the brick legend.
 - [SHARING-UPGRADE.md](SHARING-UPGRADE.md) — platform-specific sharing, generated scorecards and readable dates.
 - [LAUNCH-VARIATION.md](LAUNCH-VARIATION.md) — launch angles, seeded fairness and checkpoint behavior.
 - [UI-PERFORMANCE-UPGRADE.md](UI-PERFORMANCE-UPGRADE.md) — cinematic alignment, scene progression and effect preparation.
