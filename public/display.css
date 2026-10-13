@@ -1,7 +1,7 @@
 /* Fullscreen includes dialogs; the arena owns the available play space. */
 .arena-display{position:absolute;z-index:9;right:12px;bottom:10px;pointer-events:auto}.arena-display .icon-button{background:#10262bc9}
 .cinematic-mode .arena-display{top:calc(7% + 12px);left:22px;right:auto;bottom:auto}
-:root.game-focus{overflow:hidden;overscroll-behavior:none;--play-top:138px;--play-bottom:96px}
+:root.game-focus{overflow:hidden;overscroll-behavior:none;--play-top:154px;--play-bottom:96px}
 :root.game-focus body{overflow:hidden;overscroll-behavior:none}
 .game-focus .shell{max-width:none;padding:0;margin:0}.game-focus .layout{display:block;padding:0}
 .game-focus .topbar,.game-focus .footer,.game-focus .offline-bar{display:none}
@@ -10,8 +10,8 @@
 .game-focus .stage:not(.cinematic-mode) canvas{top:calc(var(--play-top) + env(safe-area-inset-top,0px));left:env(safe-area-inset-left,0px);width:calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));height:calc(100% - var(--play-top) - var(--play-bottom) - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
 .game-focus .stage-top{top:calc(14px + env(safe-area-inset-top,0px));left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px))}
 .game-focus .hud{top:calc(42px + env(safe-area-inset-top,0px));left:calc(16px + env(safe-area-inset-left,0px));right:calc(12px + env(safe-area-inset-right,0px))}
-.game-focus .effects{top:calc(112px + env(safe-area-inset-top,0px));left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px))}
-.game-focus .toast{top:calc(142px + env(safe-area-inset-top,0px))}
+.game-focus .effects{top:calc(128px + env(safe-area-inset-top,0px));left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px))}
+.game-focus .toast{top:calc(158px + env(safe-area-inset-top,0px))}
 .game-focus .stage-bottom{left:calc(16px + env(safe-area-inset-left,0px));right:calc(76px + env(safe-area-inset-right,0px));bottom:calc(8px + env(safe-area-inset-bottom,0px))}
 .game-focus .arena-display{right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px))}
 .game-focus .arena-progress{left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(110px + env(safe-area-inset-bottom,0px))}
@@ -23,3 +23,4 @@
 @media(max-height:550px){
  :root.game-focus{--play-top:90px;--play-bottom:64px}.game-focus .hud{top:calc(24px + env(safe-area-inset-top,0px));gap:12px}.game-focus .hud strong{font-size:18px}.game-focus .hud>div>span,.game-focus .top-score>span:first-child{font-size:9px;margin-bottom:2px}.game-focus .top-score{padding:5px 10px}.game-focus .top-score #top-player{font-size:10px;margin-top:2px}.game-focus .hud #score-chase{display:none}.game-focus .effects{top:calc(79px + env(safe-area-inset-top,0px))}.game-focus .effect{font-size:10px;padding:3px 7px}.game-focus .toast{top:calc(96px + env(safe-area-inset-top,0px))}.game-focus .arena-progress{bottom:calc(58px + env(safe-area-inset-bottom,0px))}.game-focus .play-tip{display:none}.game-focus .launch-controls{display:flex;justify-content:center;gap:0}.game-focus .launch{min-height:44px;padding:10px 16px}
 }
+@media(max-height:550px){.game-focus .hud .hud-player{padding:4px 10px}.game-focus .hud .hud-player>span{font-size:9px;margin-bottom:2px}.game-focus .hud .hud-player #score{font-size:25px}.game-focus .hud .hud-actions{padding-top:4px;gap:14px}}

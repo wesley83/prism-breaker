@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" prefix="og: https://ogp.me/ns#">
 <head>
- <meta name="prism-release" content="18a97917414fb89c7f44">
+ <meta name="prism-release" content="366b3e43284dc7d37096">
  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
  <meta name="description" content="Break through eight colorful worlds in Prism Breaker. A Three.js arcade adventure with power-ups, cinematic transitions and a shared leaderboard. Play free on Pagelove.">
  <meta name="theme-color" content="#111d20"><meta name="color-scheme" content="dark light">
@@ -13,9 +13,9 @@
  <meta property="og:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Prism Breaker title beside a luminous green prism, colorful 3D bricks, a glowing ball and a paddle.">
  <meta property="og:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker-square.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="1200"><meta property="og:image:alt" content="Square Prism Breaker artwork with a glowing green prism surrounded by pink, cyan and golden bricks above the paddle.">
  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Prism Breaker · Break through."><meta name="twitter:description" content="Eight colorful 3D worlds, glowing powerups, cinematic endings and shared high scores. Play free on Pagelove."><meta name="twitter:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker.jpg"><meta name="twitter:image:alt" content="Prism Breaker title beside a luminous green prism, colorful 3D bricks, a glowing ball and a paddle.">
- <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=19">
+ <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=20">
  <link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Prism Breaker"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
- <link rel="stylesheet" href="/display.css?v=1"><script type="module" src="/app.js?v=20"></script>
+ <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=21"></script>
 </head>
 <body>
  <div class="shell">
@@ -35,7 +35,11 @@
      <button id="daily" class="button primary start-choice"><span>Play the daily challenge<small id="daily-detail"></small></span></button>
      <div class="home-best"><span>Your personal best</span><strong id="best">No runs yet</strong></div>
     </section>
-    <div id="hud" class="hud" hidden><div><span>SCORE</span><strong id="score">000000</strong><small id="score-chase">Beat the record</small></div><div class="hud-combo"><span>COMBO</span><strong id="combo">×1</strong></div><button id="top-score-open" class="top-score" aria-label="Open leaderboard"><span id="top-score-label">TOP SCORE</span><strong id="top-score">-</strong><span id="top-player">Loading…</span><small id="record-status" hidden>Last loaded</small></button><div class="hud-lives"><span>LIVES</span><strong id="lives" aria-label="3 lives">♥ ♥ ♥</strong></div><button id="pause" class="icon-button" aria-label="Pause game"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#player-pause"/></svg></button></div>
+    <div id="hud" class="hud" hidden>
+     <button id="top-score-open" class="top-score" aria-label="Open leaderboard"><span id="top-score-label">TOP SCORE</span><strong id="top-score">-</strong><span id="top-player">Loading…</span><small id="record-status" hidden>Last loaded</small></button>
+     <div class="hud-player"><span>YOUR SCORE</span><strong id="score">0</strong><small id="score-chase">Beat the record</small></div>
+     <div class="hud-actions"><div class="hud-combo"><span>COMBO</span><strong id="combo">×1</strong></div><div class="hud-lives"><span>LIVES</span><strong id="lives" aria-label="3 lives">♥ ♥ ♥</strong></div><button id="pause" class="icon-button" aria-label="Pause game"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#player-pause"/></svg></button></div>
+    </div>
     <div id="arena-progress" class="arena-progress" hidden><span id="arena-world"></span><span id="arena-speed" title="Speed bonus available if you clear the board now"></span><span id="arena-bricks"></span></div>
     <div id="effects" class="effects" role="group" aria-label="Active power-ups"></div>
     <div id="toast" class="toast" role="status"></div>

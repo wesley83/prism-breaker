@@ -49,7 +49,7 @@ function hud(){
  const remaining=game.bricks.filter(b=>b.hp>0).length,held=game.balls.filter(b=>b.held).length;
  const signature=[game.score,game.lives,game.combo,remaining,Math.floor(game.boardElapsed),game.state,held,game.balls.length,Object.entries(game.effects).map(([k,v])=>k+Math.ceil(v)).join(),game.shield].join('|');
  if(signature===lastHud)return;lastHud=signature;
- $('#score').textContent=String(game.score).padStart(6,'0');$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' lives');updateChase();
+ $('#score').textContent=game.score.toLocaleString();$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' lives');updateChase();
  $('#arena-bricks').textContent=remaining+' bricks left';
  $('#arena-speed').textContent='Speed +'+speedBonus(game.boardElapsed).toLocaleString();
  $('#launch').hidden=!(view==='game'&&['ready','playing'].includes(game.state)&&game.balls.some(b=>b.held));
