@@ -40,3 +40,10 @@
 - Actor: Codex; reference PB-20261014-03.
 - Failed attempt: invoked the private source-copy helper from the publication checkout instead of the authoring root; Node reported MODULE_NOT_FOUND. No source copy occurred. Git staging that followed contained the already-copied source and the earlier audit version. Re-ran the helper from the correct root, checked byte equality for all 11 changed source/document/test/tool files, refreshed the audit, and staged the corrected evidence before committing.
 - Verification: generated SHA-256 inventory for all 11 files and a 28,974-byte review patch; staged diff whitespace check clean. Runtime release unchanged. No unrelated files or package/lockfile changes staged. Commit and remote verification pending.
+
+## PB-20261014-05 — Source publication verified
+
+- UTC: 2026-10-14T01:38:47.649Z.
+- Actor: Codex; reference PB-20261014-01 through 04.
+- Published the reviewed source, tests and evidence to wesley83/prism-breaker main as **df4e39586f9ef47fe0eb5b1cb6853eee017187bc**. The GitHub commits API returned that exact SHA after push. This documentation-only follow-up records the verification; it does not change the deployed runtime or require another game release.
+- Final outcome: paddle misses reproduced and fixed; 71 tests passed; real browser update flow and storage retention verified; Pagelove files and live update confirmed. Local lab and publisher processes stopped; temporary test tabs closed. Physical installed-phone checks remain the explicit limitation above.
