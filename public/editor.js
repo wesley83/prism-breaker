@@ -1,3 +1,5 @@
+import {editorSlug} from './world-identity.js';
+import {THEMES} from './world-schema.js';
 import {WORLDS} from './levels.js';
 import {WORLD_SLUGS,originalWorld,normalizeWorld,parseWorld,worldHTML,worldDocument,formationCatalog} from './world-format.js';
 import {Game} from './engine.js?v=8';
@@ -10,18 +12,18 @@ const message=text=>$('#editor-status').textContent=text;
 const safeStorage={get(key){try{return JSON.parse(localStorage.getItem(key));}catch{return null;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}};
 const current=()=>world.formations[phase];
 const selectedBrick=()=>current().bricks.find(b=>b.id===selected);
-const slugFromPath=location.pathname.match(/^\/editor\/([a-z0-9-]+)\/?$/)?.[1]||new URLSearchParams(location.search).get('world')||WORLD_SLUGS[0];
+const slugFromPath=editorSlug(location.pathname,location.search);
 const index=WORLD_SLUGS.indexOf(slugFromPath);
 WORLDS.forEach((w,i)=>$('#edit-world').add(new Option(w.name,WORLD_SLUGS[i])));
-$('#edit-world').value=index>=0?slugFromPath:WORLD_SLUGS[0];
+if(index<0){const missing=new Option('Choose a world','');missing.disabled=true;$('#edit-world').add(missing,0);}$('#edit-world').value=index>=0?slugFromPath:'';
 $('#edit-world').onchange=()=>{location.href='/editor/'+$('#edit-world').value;};
 
-function saveDraft(){
+function saveDraft(){if(!world)return;
  const saved=safeStorage.set(draftKey(world.slug),{world,baseHTML,savedAt:Date.now()});
- message(saved?'Draft saved · '+world.name+' · Formation '+(phase+1):'Draft storage is full. Download your world to keep it.');
+ message(saved?(baseHTML?'Draft saved':'Offline draft saved; reload published before publishing')+' · '+world.name+' · Formation '+(phase+1):'Draft storage is full. Download your world to keep it.');
 }
 function remember(){history.push(clone(world));if(history.length>50)history.shift();future=[];}
-function commit(change){const previous=clone(world);try{change();world=normalizeWorld(world);history.push(previous);if(history.length>50)history.shift();future=[];render();saveDraft();return true;}catch(error){world=previous;message(error.message);return false;}}
+function commit(change){if(!world)return false;const previous=clone(world);try{change();world=normalizeWorld(world);phase=Math.min(phase,world.formations.length-1);populatePhases();history.push(previous);if(history.length>50)history.shift();future=[];render();saveDraft();return true;}catch(error){world=previous;message(error.message);return false;}}
 function syncTypes(){
  const value=$('#brick-type').value;$('#brick-type').replaceChildren();
  for(const [key,label]of [['normal','Regular'],['armor','Armored'],['explode','Explosive'],['switch','Switch']])$('#brick-type').add(new Option(label,key));
@@ -29,12 +31,13 @@ function syncTypes(){
  $('#brick-type').value=[...$('#brick-type').options].some(o=>o.value===value)?value:'normal';
 }
 function fillInspector(){
- const b=selectedBrick();$('#inspector-title').textContent=b?'Brick '+b.id:'Your brush';$('#delete-brick').hidden=!b;$('#apply-brick').textContent=b?'Apply changes':'Set brush';
+ const b=world?selectedBrick():null;$('#inspector-title').textContent=b?'Brick '+b.id:'Your brush';$('#delete-brick').hidden=!b;$('#apply-brick').textContent=b?'Apply changes':'Set brush';
  if(b){$('#brick-type').value=b.customType||b.kind;$('#brick-hp').value=String(b.maxHp);$('#brick-color').value=b.color;$('#brick-x').value=b.x;$('#brick-y').value=b.y;$('#brick-moving').checked=b.moving;}
 }
 const left=x=>(x+10)/20*100,top=y=>(11-y)/20*100;
 function place(node,b){node.style.left=left(b.x-b.w/2)+'%';node.style.top=top(b.y+b.h/2)+'%';node.style.width=b.w/20*100+'%';node.style.height=b.h/20*100+'%';}
 function render(){
+ $('#publish').disabled=!baseHTML;for(const key of ['name','note','tag','story','mechanic','shape','music','sky','accent'])$('#world-'+key).value=world[key];$('#world-colors').value=world.colors.join(' ');
  $('#undo').disabled=!history.length;$('#redo').disabled=!future.length;syncTypes();
  const root=new DOMParser().parseFromString(worldHTML(world),'text/html').querySelector('#world');
  for(const section of root.querySelectorAll('[itemtype="urn:Formation"]'))section.hidden=Number(section.querySelector('meta[itemprop="phase"]').content)!==phase;
@@ -52,10 +55,10 @@ function render(){
 function brush(){const value=$('#brick-type').value,type=world.types.find(t=>t.type===value);return {kind:type?.base||value,...(type?{customType:type.type}:{}),maxHp:Number($('#brick-hp').value),color:$('#brick-color').value,moving:$('#brick-moving').checked};}
 function choose(id){selected=id;for(const node of $('#edit-board').querySelectorAll('[data-brick-id]')){const on=Number(node.dataset.brickId)===id;node.classList.toggle('selected',on);node.setAttribute('aria-pressed',String(on));}fillInspector();}
 function position(event){const r=$('#edit-board').getBoundingClientRect(),x=(event.clientX-r.left)/r.width*20-10,y=11-(event.clientY-r.top)/r.height*20;const col=Math.max(-4,Math.min(4,Math.round(x/1.93))),row=Math.max(0,Math.min(15,Math.round((9-y)/1.05)));return {x:Math.round(col*1.93*100)/100,y:Math.round((9-row*1.05)*100)/100,row};}
-function paint(event){const p=position(event),f=current();if(f.bricks.length>=80)throw Error('A formation supports at most 80 bricks');if(f.bricks.some(b=>Math.abs(b.x-p.x)<.4&&Math.abs(b.y-p.y)<.3))return false;const b=brush();f.bricks.push({id:Math.max(-1,...f.bricks.map(b=>b.id))+1,...p,w:1.7,h:.72,baseX:p.x,...b,hp:b.maxHp});return true;}
+function paint(event){const p=position(event),f=current();if(f.bricks.length>=80)throw Error('A formation supports at most 80 bricks');if(f.bricks.some(b=>Math.abs(b.x-p.x)<.4&&Math.abs(b.y-p.y)<.3))return false;const b=brush();f.bricks.push({id:f.nextBrickId++,...p,w:1.7,h:.72,baseX:p.x,...b,hp:b.maxHp});return true;}
 for(const name of ['select','paint','erase'])$('#tool-'+name).onclick=()=>{tool=name;for(const n of ['select','paint','erase'])$('#tool-'+n).setAttribute('aria-pressed',String(n===name));if(name==='paint'){selected=null;fillInspector();}message(name==='paint'?'Click or drag on empty grid cells to add bricks.':name==='erase'?'Click a brick to erase it.':'Select a brick to inspect or move it.');};
 $('#edit-board').onpointerdown=event=>{
- if(event.button!==0)return;const node=event.target.closest('[data-brick-id]');
+ if(!world||event.button!==0)return;const node=event.target.closest('[data-brick-id]');
  if(tool==='erase'){if(node)commit(()=>{current().bricks=current().bricks.filter(b=>b.id!==Number(node.dataset.brickId));selected=null;});return;}
  if(tool==='select'&&!node){choose(null);return;}
  if(node&&tool==='select')choose(Number(node.dataset.brickId));
@@ -95,13 +98,14 @@ $('#export').onclick=()=>{const url=URL.createObjectURL(new Blob([worldDocument(
 $('#import').onclick=()=>$('#import-file').click();
 $('#import-file').onchange=async()=>{const file=$('#import-file').files[0];$('#import-file').value='';if(!file)return;try{if(file.size>1000000)throw Error('World file is too large');const imported=parseWorld(await file.text(),{expectedSlug:world.slug});commit(()=>{world=imported;selected=null;});}catch(e){message(e.message);}};
 $('#restore').onclick=()=>commit(()=>{world=originalWorld(world.index);selected=null;});
-async function published(slug){const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Could not load the published world ('+response.status+').');return parseWorld(await response.text(),{expectedSlug:slug});}
-$('#reload').onclick=async()=>{try{const fresh=await published(world.slug);commit(()=>{world=fresh;selected=null;});baseHTML=worldHTML(fresh);saveDraft();}catch(e){message(e.message);}};
+async function published(slug){const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Could not load the published world ('+response.status+').');const fresh=parseWorld(await response.text(),{expectedSlug:slug});safeStorage.set('prism.world-published.'+slug,{world:fresh,savedAt:Date.now()});return fresh;}
+$('#reload').onclick=async()=>{try{const fresh=await published(slugFromPath);baseHTML=worldHTML(fresh);commit(()=>{world=fresh;selected=null;phase=0;});populatePhases();saveDraft();}catch(e){message(e.message);}};
 
-$('#publish').onclick=()=>{$('#publish-status').textContent='';$('#owner-key').value='';$('#publish-dialog').showModal();};
+$('#publish').onclick=()=>{if(!world||!baseHTML)return;$('#publish-status').textContent='';$('#owner-key').value='';$('#publish-dialog').showModal();};
 $('#publish-form').onsubmit=async event=>{
  event.preventDefault();const key=$('#owner-key').value.trim();$('#owner-key').value='';const button=$('#confirm-publish');button.disabled=true;$('#publish-status').textContent='Checking the latest shared world…';
  try{
+  if(!world||!baseHTML)throw Error('Load the published world before publishing.');
   const snapshot=normalizeWorld(world),path='/worlds/'+snapshot.slug+'/definition.html',url='https://dav-sane-guild-8399.onpagelove.com'+path;
   const read=await fetch(url,{headers:{Authorization:'Bearer '+key},cache:'no-store',signal:AbortSignal.timeout(15000)});
   if(!read.ok)throw Error(read.status===401||read.status===403?'This key cannot publish to this host.':'Could not read the shared world ('+read.status+').');
@@ -111,7 +115,7 @@ $('#publish-form').onsubmit=async event=>{
   if(write.status===412)throw Error('Someone changed this world while it was saving. Download your draft, then Reload published.');
   if(!write.ok)throw Error('Publish failed ('+write.status+'). Your draft is saved.');
   const check=await fetch(url,{headers:{Authorization:'Bearer '+key},cache:'no-store',signal:AbortSignal.timeout(15000)});if(!check.ok||worldHTML(parseWorld(await check.text(),{expectedSlug:snapshot.slug}))!==worldHTML(snapshot))throw Error('The save was sent, but its readback could not be confirmed. Reload published before retrying.');
-  baseHTML=worldHTML(snapshot);saveDraft();$('#publish-status').textContent='Published. This layout is now available in shared Practice.';
+  baseHTML=worldHTML(snapshot);saveDraft();$('#publish-status').textContent=worldHTML(world)===worldHTML(snapshot)?'Published. This world is now available in shared Practice.':'Snapshot published. Your newer changes remain a draft.';
  }catch(e){$('#publish-status').textContent=e.message;}finally{button.disabled=false;}
 };
 
@@ -137,12 +141,25 @@ window.addEventListener('resize',()=>{if($('#preview-dialog').open)stage?.resize
 let last=performance.now(),accumulator=0;
 function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if($('#preview-dialog').open&&previewReady&&!document.hidden){previewClock+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}stage.render(previewGame,dt,previewClock,'game');$('#preview-score').textContent='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;$('#preview-launch').hidden=!previewGame.balls.some(b=>b.held)||previewGame.state==='over'||previewGame.state==='cleared';}requestAnimationFrame(frame);}requestAnimationFrame(frame);
 
+function setEditing(enabled){
+ for(const selector of ['.editor-layout','.workshop-actions'])$(selector).inert=!enabled;
+ $('#edit-phase').disabled=!enabled;$('#publish').disabled=!enabled||!baseHTML;
+}
+function populatePhases(){ $('#edit-phase').replaceChildren();world.formations.forEach((_,i)=>$('#edit-phase').add(new Option('Formation '+(i+1),String(i))));phase=Math.min(phase,world.formations.length-1);$('#edit-phase').value=String(phase);}
+function openWorld(value,status){world=normalizeWorld(value);phase=0;selected=null;populatePhases();$('#brick-color').value=world.accent;setEditing(true);render();message(status);}
+for(const key of ['shape','music'])for(const theme of THEMES)$('#world-'+key).add(new Option(theme,theme));
+$('#world-details').onsubmit=event=>{event.preventDefault();commit(()=>{for(const key of ['name','note','tag','story','mechanic','shape','music','sky','accent'])world[key]=$('#world-'+key).value.trim();world.colors=$('#world-colors').value.trim().split(/\s+/);});};
+$('#retry-world').onclick=initialize;
+$('#use-original').onclick=()=>{baseHTML='';openWorld(originalWorld(index),'Original release opened as an offline draft. Reload published before publishing.');};
+$('#use-draft').onclick=()=>{try{const draft=safeStorage.get(draftKey(slugFromPath));if(!draft||draft.world.slug!==slugFromPath)throw Error('No valid draft for this world');baseHTML='';openWorld(draft.world,'Your offline draft is open. Reload published before publishing; download your draft first to keep both versions.');}catch(e){message(e.message);}};
 async function initialize(){
+ setEditing(false);$('#world-recovery').hidden=true;
+ if(index<0){message('Unknown world. Choose a world from the menu.');$('#edit-world').focus();return;}
  try{
-  if(index<0)throw Error('Unknown world. Choose a world from the menu.');
-  const routed=$('#routed-world #world');world=routed?parseWorld(routed,{expectedSlug:slugFromPath}):await published(slugFromPath);baseHTML=worldHTML(world);
- }catch(error){world=originalWorld(Math.max(0,index));baseHTML=worldHTML(world);message(error.message+' Loaded the original layout.');}
- const draft=safeStorage.get(draftKey(world.slug));if(draft)try{const restored=normalizeWorld(draft.world);if(restored.slug===world.slug){world=restored;baseHTML=draft.baseHTML||baseHTML;message('Your saved draft is restored.');}}catch{/* Invalid storage does not replace the original. */}
- world=normalizeWorld(world);world.formations.forEach((_,i)=>$('#edit-phase').add(new Option('Formation '+(i+1),String(i))));$('#brick-color').value=WORLDS[world.index].accent;render();if(!draft)message('Ready · '+world.name+' · Changes save as a draft.');
+  const routed=$('#routed-world #world');const fresh=routed?parseWorld(routed,{expectedSlug:slugFromPath}):await published(slugFromPath);routed?.remove();baseHTML=worldHTML(fresh);
+  const draft=safeStorage.get(draftKey(slugFromPath));let restored;
+  if(draft?.world?.slug===slugFromPath)try{restored=normalizeWorld(draft.world);baseHTML=draft.baseHTML?worldHTML(parseWorld(draft.baseHTML,{expectedSlug:slugFromPath})):'';}catch{restored=null;}
+  openWorld(restored||fresh,restored?(baseHTML?'Your saved draft is restored. Publishing checks for changes to the shared world.':'Offline draft restored. Download it, then reload published before publishing.'):'Ready · '+fresh.name+' · Changes save as a draft.');
+ }catch(error){world=null;baseHTML='';$('#world-recovery').hidden=false;$('#use-draft').hidden=!safeStorage.get(draftKey(slugFromPath));message(error.message+' Choose Retry, your saved draft, or the original release.');}
 }
 initialize();

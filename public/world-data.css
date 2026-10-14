@@ -1,7 +1,7 @@
 /* The data is HTML: specializations are directly addressable by CSS. */
 @font-face{font-family:Arcade;src:url('/assets/display.woff2') format('woff2');font-display:swap}
 body{margin:24px;background:#102025;color:#eef3ed;font:14px/1.5 Arcade,Arial,sans-serif}
-#world>meta[itemprop=name]{display:block}#world>meta[itemprop=name]::after{content:attr(content);font-size:28px;font-weight:700}
+#world>h1{font-size:28px;font-weight:700}
 [itemtype="urn:Formation"]{display:flex;flex-wrap:wrap;gap:8px;padding:16px 0;max-width:900px;border-bottom:1px solid #3c5056}
 [itemtype~="urn:Brick"]{display:grid;place-items:center;width:75px;height:32px;background:#72c8ab;color:#102025;border-radius:5px}
 [itemtype~="urn:Brick:Armor"]::after{content:attr(data-remaining-hitpoints)}

@@ -12,8 +12,8 @@ export class Cinematic{
  haloAt(color,size,p,parent=this.group){const m=new T.SpriteMaterial({map:this.halo,color,transparent:true,opacity:.18,depthWrite:false,blending:T.AdditiveBlending});this.materials.add(m);const o=new T.Sprite(m);o.position.set(...p);o.scale.setScalar(size);parent.add(o);return o;}
  animate(mesh,kind,phase=0){this.nodes.push({mesh,kind,phase,position:mesh.position.clone(),scale:mesh.scale.clone(),rotation:mesh.rotation.clone()});return mesh;}
  clear(){this.group.clear();for(const g of this.geometries)g.dispose();for(const m of this.materials)m.dispose();this.geometries.clear();this.materials.clear();this.nodes=[];}
- build(index,low=false){
-  this.clear();this.current=index;this.lowEffects=this.low=low;const w=WORLDS[index],rand=rng(19381+index),TAU=Math.PI*2;
+ build(index,low=false,definition=WORLDS[index]){
+  this.clear();this.currentDefinition=definition;this.current=index;this.lowEffects=this.low=low;const w=definition,rand=rng(19381+index),TAU=Math.PI*2;
   const box=this.geometry(new T.BoxGeometry(1,1,1)),gem=this.geometry(new T.OctahedronGeometry(1)),sphere=this.geometry(new T.SphereGeometry(1,low?20:40,low?12:24)),pillar=this.geometry(new T.CylinderGeometry(.65,.9,1,8));
   const colors=w.colors.map(c=>this.material(c)),light=w.colors.map(c=>this.material(c,true)),stone=this.material('#142631'),gold=this.material('#dcc390');
   const M=(g,m,p,s,parent=this.group)=>this.mesh(g,m,p,s,parent),R=(r,m,p,t=.06,parent=this.group)=>this.ring(r,m,p,t,parent);
@@ -82,8 +82,8 @@ export class Cinematic{
   }
   this.fragments=[];for(let i=0;i<(low?18:44);i++){const o=M(gem,light[i%4],[0,0,0],[.08,.18,.08]);o.userData={a:rand()*TAU,r:7+rand()*10,y:rand()*13};this.fragments.push(o);}
  }
- render(level,seconds,aspect,settings){
-  if(this.current!==level||this.lowEffects!==settings.lowEffects)this.build(level,settings.lowEffects);
+ render(level,seconds,aspect,settings,definition=WORLDS[level]){
+  if(this.current!==level||this.currentDefinition!==definition||this.lowEffects!==settings.lowEffects)this.build(level,settings.lowEffects,definition);
   const frame=cameraFrame(level,seconds,aspect,settings.reducedMotion),p=frame.progress,t=settings.reducedMotion?12:seconds,activation=smooth((p-.12)/.43);
   this.group.visible=true;this.key.intensity=65+activation*50;this.glow.material.opacity=.1+activation*.12;this.beamMaterial.uniforms.power.value=activation;this.dust.rotation.y=t*.012;
   for(const n of this.nodes){const o=n.mesh,a=n.phase;o.position.copy(n.position);o.rotation.copy(n.rotation);o.scale.copy(n.scale);

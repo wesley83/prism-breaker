@@ -1,9 +1,10 @@
+import {compatibleRuleset} from './world-identity.js';
 export const utcDay=(now=Date.now())=>new Date(now).toISOString().slice(0,10);
 export const SCORE_LIFETIME=5*24*60*60*1000;
 export function scoreExpiry(row){const server=Number(row.expiresAt);return Number.isSafeInteger(server)&&server>0?server:Date.parse(row.submittedAt)+SCORE_LIFETIME;}
 export const activeScores=(scores,now=Date.now())=>scores.filter(r=>scoreExpiry(r)>now);
 export function rankedScores(scores,mode,day=utcDay(),now=Date.now()){
- return activeScores(scores,now).filter(r=>r.mode===mode&&(mode!=='daily'||r.day===day)).sort((a,b)=>Number(b.score)-Number(a.score)||Number(b.level)-Number(a.level)||Number(a.seconds)-Number(b.seconds)).slice(0,25);
+ return activeScores(scores,now).filter(r=>compatibleRuleset(r.ruleset)&&r.mode===mode&&(mode!=='daily'||r.day===day)).sort((a,b)=>Number(b.score)-Number(a.score)||Number(b.level)-Number(a.level)||Number(a.seconds)-Number(b.seconds)).slice(0,25);
 }
 export function scoreAge(row,now=Date.now()){
  const time=scoreExpiry(row)-SCORE_LIFETIME;return Number.isFinite(time)?Math.max(0,Math.floor((now-time)/60000)):null;

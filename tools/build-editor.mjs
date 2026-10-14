@@ -1,6 +1,7 @@
 import fs from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {WORLD_SLUGS} from '../public/world-format.js';
+import {readWorldCatalog} from './read-world-catalog.mjs';
+const WORLD_SLUGS=(await readWorldCatalog()).entries.map(w=>w.slug);
 let shell=await fs.readFile('public/editor.html','utf8');
 const fingerprint=file=>fs.readFile(file).then(data=>createHash('sha256').update(data).digest('hex').slice(0,12));
 const bootstrap=(await fs.readFile('tools/editor-bootstrap.js','utf8')).replaceAll('__EDITOR_CODE__',await fingerprint('public/editor.js')).replaceAll('__EDITOR_STYLE__',await fingerprint('public/editor.css')),hash=createHash('sha256').update(bootstrap).digest('base64');

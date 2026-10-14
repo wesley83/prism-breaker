@@ -3,6 +3,8 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {buildPwa} from './build-pwa.mjs';
 import {WORLD_SLUGS} from '../public/world-format.js';
+import {parseWorld,worldDocument} from '../public/world-format.js';
+import {DOMParser} from 'linkedom';
 const origin='https://sane-guild-8399.onpagelove.com';
 const dav='https://dav-sane-guild-8399.onpagelove.com';
 let key=''; let buffer='';
@@ -23,7 +25,7 @@ process.stdin.on('data', async chunk=>{
         const html=await r.text();
         if(!r.ok||!html.includes('dav-sane-guild-8399.onpagelove.com'))throw Error('Host identity or authentication failed: '+r.status);
         const p=await fetch(dav+'/',{method:'PROPFIND',headers:{Authorization:'Bearer '+key,Depth:'1'}});
-        result={console:r.status,hostMatched:true,dav:p.status,inventory:await p.text()};
+        await p.text();result={console:r.status,hostMatched:true,dav:p.status};
       }else if(c.op==='request'){
         const base=c.authoring?dav:origin;
         const r=await fetch(base+c.path,{method:c.method||'GET',headers:{...(c.authoring?{Authorization:'Bearer '+key}:{}),...c.headers},body:c.body});
@@ -50,6 +52,50 @@ process.stdin.on('data', async chunk=>{
           done=true;result={migrated:true,preservedRuns:ids.length,legacyWithoutTime,status:write.status,sha256:createHash('sha256').update(read).digest('hex')};await fs.writeFile('score-rules-release.json',JSON.stringify(result,null,2));
         }
         if(!done)throw Error('Concurrent score writes prevented migration; no stale copy was uploaded');
+      }else if(c.op==='probeTriggerDiscovery'){
+        const id=crypto.randomUUID(),target='/_prism-trigger-probe-'+id+'.html',policyPath='/_prism-trigger-policy-'+id+'.html';
+        const auth={Authorization:'Bearer '+key,'Content-Type':'text/html'};
+        const trigger='<div itemscope itemtype="https://pagelove.org/Trigger"><meta itemprop="resource" content="'+target+'"><meta itemprop="method" content="GET"><div itemprop="action" itemscope itemtype="https://pagelove.org/JavaScript/Module"><script itemprop="source" type="module">export default function(){throw {schema_url:"https://pagelove.org/HTTPResponse",status:418,body:"isolated trigger probe"};}</script></div></div>';
+        try{
+          for(const [p,b]of [[target,'<!doctype html><html><body>Probe</body></html>'],[policyPath,'<!doctype html><html><body>'+trigger+'</body></html>']]){const r=await fetch(dav+p,{method:'PUT',headers:{...auth,'If-None-Match':'*'},body:b});if(!r.ok)throw Error('Probe creation '+r.status);}
+          const external=await fetch(origin+target);await external.text();
+          const embedded=await fetch(dav+target,{method:'PUT',headers:auth,body:'<!doctype html><html><body>Probe'+trigger+'</body></html>'});if(!embedded.ok)throw Error('Embedded probe '+embedded.status);
+          const internal=await fetch(origin+target);await internal.text();
+          result={externalTrigger:external.status,embeddedTrigger:internal.status};
+        }finally{for(const p of [policyPath,target]){const r=await fetch(dav+p,{method:'DELETE',headers:auth});if(!r.ok&&r.status!==404)throw Error('Probe cleanup '+r.status);}}
+      }else if(c.op==='probeWorldPolicy'){
+        const writeOrigin=c.pipeline==='public'?origin:dav;
+        const {worldPolicy}=await import('./world-policy.mjs');
+        const {originalWorld,worldDocument}=await import('../public/world-format.js');
+        const id=crypto.randomUUID(),target='/_prism-world-data-probe-'+id+'.html',policyPath='/_prism-world-policy-probe-'+id+'.html';
+        const auth={Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8'};
+        const checks=[];let installed=false;
+        try{
+          const policy=(await worldPolicy({paths:[target]})).html;
+          const putPolicy=await fetch(dav+policyPath,{method:'PUT',headers:{...auth,'If-None-Match':'*'},body:policy});
+          if(!putPolicy.ok)throw Error('Probe policy installation '+putPolicy.status);installed=true;
+          const body=worldDocument(originalWorld(0));
+          const valid=await fetch(writeOrigin+target,{method:'PUT',headers:{...auth,'If-None-Match':'*'},body});
+          checks.push({name:'valid-world',status:valid.status,detail:valid.ok?'':(await valid.text()).slice(0,1000)});
+          if(!valid.ok)throw Error('Valid world rejected: '+JSON.stringify(checks));
+          const read=await fetch(dav+target,{headers:auth}),etag=read.headers.get('etag');
+          if(!etag)throw Error('Probe did not expose an ETag');
+          for(const [name,content,headers]of [
+            ['invalid-hitpoints',body.replace('itemprop="hitpoints" content="1"','itemprop="hitpoints" content="99"'),{'If-Match':etag}],
+            ['executable-markup',body.replace('</body>','<script>alert(1)</script></body>'),{'If-Match':etag}],
+            ['missing-condition',body,{}],
+            ['stale-condition',body,{'If-Match':'"prism-stale-probe"'}]
+          ]){const r=await fetch(writeOrigin+target,{method:'PUT',headers:{...auth,...headers},body:content});checks.push({name,status:r.status,detail:r.ok?'unexpected acceptance':(await r.text()).slice(0,180)});}
+          const final=await fetch(dav+target,{headers:auth});checks.push({name:'unchanged-after-rejections',equal:worldDocument(parseWorld(await final.text(),{Parser:DOMParser}))===body});
+          const expected={'invalid-hitpoints':422,'executable-markup':422,'missing-condition':428,'stale-condition':412};
+          if(checks.some(check=>check.name in expected&&check.status!==expected[check.name])||!checks.at(-1).equal)throw Error('World policy probe failed: '+JSON.stringify(checks));
+          const policyBytes=await fs.readFile('policy-candidates/world-policy.html');
+          const proof={origin,writeOrigin,utc:new Date().toISOString(),sha256:createHash('sha256').update(policyBytes).digest('hex'),checks};
+          await fs.mkdir('.private',{recursive:true});await fs.writeFile('.private/world-policy-validation.json',JSON.stringify(proof,null,2));result={passed:true,checks};
+        }finally{
+          if(installed){const r=await fetch(dav+policyPath,{method:'DELETE',headers:auth});if(!r.ok&&r.status!==404)throw Error('Probe policy cleanup '+r.status);}
+          const r=await fetch(dav+target,{method:'DELETE',headers:auth});if(!r.ok&&r.status!==404)throw Error('Probe data cleanup '+r.status);
+        }
       }else if(c.op==='upload'){
         const data=await fs.readFile(c.file);
         const r=await fetch(dav+c.path,{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':c.type},body:data});
@@ -57,8 +103,16 @@ process.stdin.on('data', async chunk=>{
       }else if(c.op==='seedWorlds'){
         const headers={Authorization:'Bearer '+key};let created=0,preserved=0;
         for(const folder of ['/worlds/',...WORLD_SLUGS.map(s=>'/worlds/'+s+'/')]){const r=await fetch(dav+folder,{method:'MKCOL',headers});if(![201,405].includes(r.status))throw Error('World directory '+r.status);}
-        for(const slug of WORLD_SLUGS){const target='/worlds/'+slug+'/definition.html',existing=await fetch(dav+target,{headers});if(existing.ok){preserved++;continue;}if(existing.status!==404)throw Error('World read '+existing.status);const body=await fs.readFile('public'+target);const write=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8','If-None-Match':'*'},body});if(write.status===412){preserved++;continue;}if(!write.ok)throw Error('World initialization '+write.status);created++;}
+        for(const slug of WORLD_SLUGS){const target='/worlds/'+slug+'/definition.html',existing=await fetch(dav+target,{headers});if(existing.ok){preserved++;continue;}if(existing.status!==404)throw Error('World read '+existing.status);const body=worldDocument(parseWorld(await fs.readFile('public'+target,'utf8'),{Parser:DOMParser,expectedSlug:slug}));const write=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8','If-None-Match':'*'},body});if(write.status===412){preserved++;continue;}if(!write.ok)throw Error('World initialization '+write.status);created++;}
         result={created,preserved};
+      }else if(c.op==='activateWorldPolicy'){
+        const policyBytes=await fs.readFile('policy-candidates/world-policy.html');
+        const policyHash=createHash('sha256').update(policyBytes).digest('hex');
+        let proof;try{proof=JSON.parse(await fs.readFile('.private/world-policy-validation.json','utf8'));}catch{}
+        const age=Date.now()-Date.parse(proof?.utc);
+        if(proof?.origin!==origin||proof.writeOrigin!==dav||proof.sha256!==policyHash||!Number.isFinite(age)||age<0||age>86400000)throw Error('Run the authorized isolated DAV world-policy probe for this policy before activation.');
+        const r=await fetch(dav+'/world-policy.html',{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8'},body:policyBytes});
+        if(!r.ok)throw Error('World policy activation '+r.status);result={activated:true,status:r.status};
       }else if(c.op==='deploy'){
         // Refuse to publish stale hashes or a release marker from an earlier edit.
         const pwa=await buildPwa({check:true});

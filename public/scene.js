@@ -1,3 +1,4 @@
+import {THEMES} from './world-schema.js';
 import * as T from './vendor/three.module.min.js';
 import {WORLDS,POWERS,rng} from './levels.js';
 import {brickMark,drawBrickMarker,updateBrickMarker} from './brick-labels.js?v=2';
@@ -22,7 +23,7 @@ export class Stage {
  async prepareCut(game,mode='cut'){
   if(game.mode==='daily'){this.dailyEnding??=new DailyEnding(this.scene,this.haloTexture,this.crystals.environment);this.dailyEnding.render(0,this.camera.aspect,this.settings,mode==='champion',game.seed);}
   else if(mode==='champion'){this.champion??=new Champion(this.scene,this.haloTexture,this.crystals.environment);this.champion.render(0,this.camera.aspect,this.settings);}
-  else{this.cinematic??=new Cinematic(this.scene,this.haloTexture,this.crystals.environment);this.cinematic.render(game.level,0,this.camera.aspect,this.settings);}
+  else{this.cinematic??=new Cinematic(this.scene,this.haloTexture,this.crystals.environment);this.cinematic.render(THEMES.indexOf(game.world.shape),0,this.camera.aspect,this.settings,game.world);}
   await this.renderer.compileAsync(this.scene,this.camera);
  }
  async prepare(game){
@@ -94,8 +95,8 @@ export class Stage {
    this.shards=[];for(let i=0;i<24;i++){const m=new T.Mesh(this.octa,this.material(WORLDS[0].colors[i%4],.6));m.scale.set(.12,.36,.12);this.cutGroup.add(m);this.shards.push(m);}
  }
  clearGroup(group){for(const child of [...group.children]){group.remove(child);if(child.userData.ownedGeometry)child.geometry.dispose();if(child.userData.ownedMaterial)child.material.dispose();}}
- setWorld(index){
-   this.current=index;const w=WORLDS[index];this.scene.background=new T.Color(w.sky);this.scene.fog=new T.FogExp2(w.sky,.011);this.floor.material.color.set(w.sky);this.floor.material.emissive.set(w.sky);this.glow.color.set(w.accent);this.frame.forEach(m=>{m.material.color.set(w.accent);m.material.emissive.set(w.accent);});this.prism.material.color.set(w.accent);this.prism.material.emissive.set(w.accent);this.rings.forEach(m=>{m.material.color.set(w.accent);m.material.emissive.set(w.accent);});
+ setWorld(index,definition=WORLDS[index]){
+   this.current=index;this.currentDefinition=definition;const w=definition;index=THEMES.indexOf(w.shape);this.scene.background=new T.Color(w.sky);this.scene.fog=new T.FogExp2(w.sky,.011);this.floor.material.color.set(w.sky);this.floor.material.emissive.set(w.sky);this.glow.color.set(w.accent);this.frame.forEach(m=>{m.material.color.set(w.accent);m.material.emissive.set(w.accent);});this.prism.material.color.set(w.accent);this.prism.material.emissive.set(w.accent);this.rings.forEach(m=>{m.material.color.set(w.accent);m.material.emissive.set(w.accent);});
    for(const d of this.decor){if(d.geometry!==this.box&&d.geometry!==this.octa&&d.geometry!==this.sphere)d.geometry.dispose();d.material.dispose();}this.clearGroup(this.scenery);this.decor=[];const rand=rng(338+index);
    for(let i=0;i<46;i++){
      let geometry=this.octa;let scale=.6+rand()*1.4;
@@ -139,23 +140,23 @@ export class Stage {
  particle(x,y,color,n=12){if(this.settings.reducedMotion)return;if(this.settings.lowEffects)n=4;for(let i=0;i<n;i++){
    const particle=this.particlePool.pop()||this.makeParticle(),mesh=particle.mesh;mesh.material.color.set(color);mesh.material.opacity=1;mesh.rotation.set(0,0,0);mesh.scale.setScalar(.04+Math.random()*.13);mesh.position.set(x,y,.4);particle.vx=(Math.random()-.5)*10;particle.vy=(Math.random()-.5)*10;particle.vz=Math.random()*5;particle.life=.6+Math.random()*.25;this.board.add(mesh);this.particles.push(particle);
  }}
- event(e){if(e.type==='break')this.particle(e.x,e.y,e.color,e.kind==='explode'?26:12);if(e.type==='paddle'||e.type==='portal')this.particle(e.x,e.y,WORLDS[this.current<0?0:this.current].accent,5);}
+ event(e){if(e.type==='break')this.particle(e.x,e.y,e.color,e.kind==='explode'?26:12);if(e.type==='paddle'||e.type==='portal')this.particle(e.x,e.y,(this.currentDefinition||WORLDS[0]).accent,5);}
  resize(){const r=this.canvas.getBoundingClientRect();if(!r.width||!r.height)return;this.renderer.setSize(r.width,r.height,false);this.camera.aspect=r.width/r.height;this.camera.updateProjectionMatrix();this.width=r.width;this.height=r.height;if(this.composer){this.composer.setPixelRatio(Math.min(1.15,this.renderer.getPixelRatio()));this.composer.setSize(r.width,r.height);}}
  screenX(clientX,clientY){const r=this.canvas.getBoundingClientRect();this.pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);this.ray.setFromCamera(this.pointer,this.camera);this.ray.ray.intersectPlane(this.plane,this.point);return this.point.x-this.world.position.x;}
  render(game,dt,time,mode='game',cut=0){
    if(this.preparing)return;
-   if(this.current!==game.level){this.setWorld(game.level);this.reset();}
+   if(this.current!==game.level||this.currentDefinition!==game.world){this.setWorld(game.level,game.world);this.reset();}
    this.syncAppearance();
    const isHome=mode==='home',isChampion=mode==='champion',isCut=mode==='cut'||isChampion;
    const narrow=this.width<600;const desiredZ=narrow?Math.max(43,24/(this.camera.aspect*.75)):43;
-   const isDaily=isCut&&game.mode==='daily';this.scene.background.set(isDaily?'#051925':WORLDS[game.level].sky);this.scene.fog.color.set(isDaily?'#051925':WORLDS[game.level].sky);
+   const isDaily=isCut&&game.mode==='daily';this.scene.background.set(isDaily?'#051925':game.world.sky);this.scene.fog.color.set(isDaily?'#051925':game.world.sky);
    this.renderer.toneMappingExposure=isCut?.85:1;this.board.visible=!isCut;this.scenery.visible=!isCut;if(this.stars)this.stars.visible=!isCut;this.cutGroup.visible=false;if(this.cinematic)this.cinematic.group.visible=isCut&&!isChampion&&!isDaily;if(this.champion)this.champion.group.visible=isChampion&&!isDaily;if(this.dailyEnding)this.dailyEnding.group.visible=isDaily;
-   if(isCut){let frame;if(isDaily){if(!this.dailyEnding)this.dailyEnding=new DailyEnding(this.scene,this.haloTexture,this.crystals.environment);frame=this.dailyEnding.render(cut,this.camera.aspect,this.settings,isChampion,game.seed);}else if(isChampion){if(!this.champion)this.champion=new Champion(this.scene,this.haloTexture,this.crystals.environment);frame=this.champion.render(cut,this.camera.aspect,this.settings);}else{if(!this.cinematic)this.cinematic=new Cinematic(this.scene,this.haloTexture,this.crystals.environment);frame=this.cinematic.render(game.level,cut,this.camera.aspect,this.settings);}this.camera.position.set(...frame.position);this.camera.up.set(Math.sin(frame.roll),Math.cos(frame.roll),0);this.camera.fov=frame.fov;this.camera.lookAt(...frame.target);this.camera.updateProjectionMatrix();this.wasCut=true;this.draw(dt,true,frame.fade);return;}
+   if(isCut){let frame;if(isDaily){if(!this.dailyEnding)this.dailyEnding=new DailyEnding(this.scene,this.haloTexture,this.crystals.environment);frame=this.dailyEnding.render(cut,this.camera.aspect,this.settings,isChampion,game.seed);}else if(isChampion){if(!this.champion)this.champion=new Champion(this.scene,this.haloTexture,this.crystals.environment);frame=this.champion.render(cut,this.camera.aspect,this.settings);}else{if(!this.cinematic)this.cinematic=new Cinematic(this.scene,this.haloTexture,this.crystals.environment);frame=this.cinematic.render(THEMES.indexOf(game.world.shape),cut,this.camera.aspect,this.settings,game.world);}this.camera.position.set(...frame.position);this.camera.up.set(Math.sin(frame.roll),Math.cos(frame.roll),0);this.camera.fov=frame.fov;this.camera.lookAt(...frame.target);this.camera.updateProjectionMatrix();this.wasCut=true;this.draw(dt,true,frame.fade);return;}
    if(this.wasCut){this.camera.position.set(0,-7,desiredZ);this.wasCut=false;}this.camera.position.x=0;this.camera.up.set(0,1,0);this.camera.fov=42;
    this.camera.position.z=this.settings.reducedMotion?desiredZ:this.camera.position.z+(desiredZ-this.camera.position.z)*Math.min(1,dt*5);
    this.camera.position.y=-7;this.camera.lookAt(0,0,0);this.camera.updateProjectionMatrix();
    const homeX=narrow?0:7.4;this.world.position.x=this.settings.reducedMotion?(isHome?homeX:0):this.world.position.x+((isHome?homeX:0)-this.world.position.x)*Math.min(1,dt*4);
-   for(const d of this.decor)if(!this.settings.reducedMotion){d.position.y=d.userData.baseY+Math.sin(time*.35+d.userData.phase)*.35;if(game.level!==2&&game.level!==4)d.rotation.y+=dt*.1;}
+   for(const d of this.decor)if(!this.settings.reducedMotion){d.position.y=d.userData.baseY+Math.sin(time*.35+d.userData.phase)*.35;if(!['city','forge'].includes(game.world.shape))d.rotation.y+=dt*.1;}
    this.syncMap(this.bricks,game.bricks,b=>{
      const m=this.classicAppearance?this.makeClassicBrick(b):makeCrystalBrick(b,this.crystals);
      const marker=this.makeBrickMarker(b);if(marker){m.add(marker);m.userData.brickMarker=marker;}return m;
@@ -163,9 +164,9 @@ export class Stage {
    this.syncMap(this.balls,game.balls,b=>{const m=new T.Mesh(this.sphere,new T.MeshBasicMaterial({color:'#ffffff'}));m.scale.setScalar(b.r);return m;},(m,b)=>{m.position.set(b.x,b.y,.42);m.material.color.set(game.effects.pierce?'#d4b6ff':'#ffffff');});
    this.syncMap(this.drops,game.drops,d=>this.acquirePower(d.kind),(m,d)=>{const t=this.settings.reducedMotion?0:time;m.position.set(d.x,d.y,.6);m.userData.rig.rotation.set(.3+Math.sin(t*1.7+d.id)*.2,t*.9+d.id,Math.sin(t*2+d.id)*.15);m.userData.glow.material.opacity=.48+Math.sin(t*3+d.id)*.08;});
    this.syncMap(this.shots,game.shots,()=>{const m=new T.Mesh(this.box,new T.MeshBasicMaterial({color:'#ffbdcc'}));m.scale.set(.08,.6,.12);return m;},(m,s)=>m.position.set(s.x,s.y,.3));
-   this.syncMap(this.barriers,game.barriers,o=>{const m=new T.Mesh(this.box,new T.MeshStandardMaterial({color:WORLDS[game.level].accent,emissive:WORLDS[game.level].accent,emissiveIntensity:.45,metalness:.8,roughness:.2}));m.scale.set(o.w,o.h,.55);return m;},(m,o)=>m.position.set(o.x,o.y,.1));
+   this.syncMap(this.barriers,game.barriers,o=>{const m=new T.Mesh(this.box,new T.MeshStandardMaterial({color:game.world.accent,emissive:game.world.accent,emissiveIntensity:.45,metalness:.8,roughness:.2}));m.scale.set(o.w,o.h,.55);return m;},(m,o)=>m.position.set(o.x,o.y,.1));
    if(!this.portalMeshes?.length&&game.portals.length){this.portalMeshes=game.portals.map((p,i)=>{const m=new T.Mesh(new T.TorusGeometry(.7,.08,10,32),new T.MeshBasicMaterial({color:i?'#ec99ff':'#6ffff0'}));m.position.set(p.x,p.y,.2);this.board.add(m);return m;});}
-   if(this.classicAppearance){this.classicPaddle.position.set(game.paddle.x,-10.6,.1);this.classicPaddleBody.scale.x=game.paddle.w;this.classicPaddleLight.scale.x=game.paddle.w*.8;this.classicPaddleLight.material.color.set(game.effects.laser?'#ff718a':game.effects.sticky?'#ffd77c':WORLDS[game.level].accent);}else updatePaddle(this.paddle,game.paddle,game.effects,this.settings.lowEffects);this.shield.visible=game.shield;
+   if(this.classicAppearance){this.classicPaddle.position.set(game.paddle.x,-10.6,.1);this.classicPaddleBody.scale.x=game.paddle.w;this.classicPaddleLight.scale.x=game.paddle.w*.8;this.classicPaddleLight.material.color.set(game.effects.laser?'#ff718a':game.effects.sticky?'#ffd77c':game.world.accent);}else updatePaddle(this.paddle,game.paddle,game.effects,this.settings.lowEffects);this.shield.visible=game.shield;
    for(const p of this.particles){p.life-=dt;p.mesh.position.x+=p.vx*dt;p.mesh.position.y+=p.vy*dt;p.mesh.position.z+=p.vz*dt;p.vz-=dt*8;p.mesh.rotation.x+=dt*5;p.mesh.material.opacity=Math.max(0,p.life/p.total);}
    let kept=0;for(const p of this.particles){if(p.life>0)this.particles[kept++]=p;else this.recycleParticle(p);}this.particles.length=kept;
    this.draw(dt,false,0,game.drops.length>0);

@@ -32,6 +32,18 @@ The browser runs the gameplay and creates the music and scorecards. Native Pagel
 - **Performance:** shaders and textures prepare before play, power-ups and particles reuse objects, hidden pages stop rendering, and muted music stops scheduling new voices.
 - **Social artwork:** SVG/ICO/PNG favicons, touch icons, and landscape/square Open Graph and Twitter card images.
 
+## Document-first architecture
+
+World metadata and formations are authoritative HTML documents. The catalog provides permanent IDs, campaign order and legacy mappings; the build produces the complete offline runtime snapshot without depending on its previous output. Practice reads the same model, including edited instructions, narratives, colors and scene/music presets.
+
+- [Architecture and all 23 standards](DOCUMENT-FIRST-ARCHITECTURE.md): ownership, events, versioning, recovery, offline state and justified runtime exceptions.
+- [Reusable development rule](DOCUMENT-FIRST-DEVELOPMENT.md): the governing project philosophy.
+- [Implementation audit](audit/2026-10-14-document-first-implementation.md): exact verification and deployment status. Local completion does not establish live enforcement.
+
+Checkpoint v2 stores stable world identity, definition and ruleset revisions, and a complete definition including portals. Compatible legacy saves migrate; incompatible saves remain recoverable. Scores carry an optional ruleset fingerprint, and rankings compare compatible rulesets. Existing unversioned scores use a frozen legacy mapping.
+
+The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. Server-authoritative world validation remains a known gap: the live DAV probe accepted invalid data despite a separate trigger. The generated trigger candidate is kept outside deployed assets in policy-candidates/; it cannot be activated by the publisher without a passing DAV probe. No anonymous world-write grant was added. See the audit for the evidence and remaining platform dependency.
+
 ## The sixteen worlds
 
 | World | Mechanic | Music |
@@ -101,6 +113,7 @@ Pagelove supplies the shared data store, request rules, server composition and o
 | Guarded selector DELETE | A DELETE trigger permits only the exact expired-row selector and rejects cutoffs later than server time. The client can request cleanup without gaining permission to delete arbitrary scores. | [Retention rules](tools/retention-rules.mjs), [cleanup client](public/app.js) |
 | Response processors and native HTTP actions | A GET processor detects expired score rows and schedules a native HTTP DELETE to the same game's score resource. Cleanup uses the same guarded selector as the client fallback. | [Processor and HTTP action](tools/retention-rules.mjs) |
 | WebDAV authoring | The publisher uses owner-authenticated WebDAV operations to create directories and upload files. The workshop publishes complete world HTML through the pinned DAV endpoint. Normal site releases preserve score records and edited worlds. | [Publisher](tools/remote.mjs), [workshop publishing](public/editor.js) |
+| World validation boundary | The shared schema validates editor/build/import data; owner DAV publishing uses ETags and readback. The server trigger candidate is **not deployed**: live DAV writes bypassed it. | [Policy candidate and limitation](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary), [schema](public/world-schema.js) |
 | ETags and conditional writes | World publishing reads the current document and ETag, then sends `If-Match` to reject concurrent changes. Missing-world initialization uses `If-None-Match: *`; score-rule migrations also use ETags. Successful owner writes are read back. | [Editor publisher](public/editor.js), [initialization and migration](tools/remote.mjs) |
 
 The 3D renderer, physics, music, CSS brick styling, DOM strike/damage events, PWA installation, offline cache and sharing run through ordinary browser APIs and bundled JavaScript. Pagelove stores and composes the HTML that those features consume. There is no external runtime API, database, CDN or scheduling service in this design.
@@ -117,7 +130,7 @@ Opening the native editor requires a connection. The type builder combines suppo
 ### Leaderboard flow
 
 1. The browser loads `public/index.html` and its same-origin modules/assets.
-2. Official play uses a validated offline snapshot generated from the checked-in HTML worlds. Practice fetches the selected shared world document, or uses a saved draft/original layout when offline.
+2. Official play uses a validated, revisioned offline snapshot of complete world definitions generated from the catalog and checked-in HTML worlds. Practice fetches the selected shared world document, or uses a cached published world, saved draft, or original release when the network is unavailable.
 3. Gameplay, collisions, music and score calculation happen in the browser.
 4. When a player chooses **Save score**, the client commits the run to its IndexedDB queue, then attempts to post one HTML record to the score selector. Pagelove applies the authorization, shape, schema and trigger rules.
 5. A successful submission leaves a local receipt. Interrupted requests retry with the same unique run key; an already accepted run is recognized through a fresh leaderboard read.
@@ -152,7 +165,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **68 cached files, approximately 2.40 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **70 cached files, approximately 2.41 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -295,10 +308,7 @@ Publishing requires the host owner's credential. Start `bun tools/remote.mjs` in
 After all runtime and asset edits, generate and check the offline release:
 
 ```sh
-bun tools/build-worlds.mjs
-bun tools/build-bundled-worlds.mjs
-bun tools/build-editor.mjs
-bun tools/build-pwa.mjs
+bun run build
 bun tools/build-pwa.mjs --check
 ```
 

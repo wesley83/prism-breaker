@@ -1,0 +1,311 @@
+{
+  "capturedAt": "2026-10-14T17:11:29.295Z",
+  "scope": "Working-tree bytes for the staged implementation plus its binary patch, before this manifest and the later publication receipt. Manifest excludes its own hash.",
+  "files": [
+    {
+      "file": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "bytes": 14070,
+      "sha256": "b4ad99e00d53c949bc785c2e8e63778adebf98cf0a1a745a32702a2fc8f0b497"
+    },
+    {
+      "file": "DOCUMENT-FIRST-DEVELOPMENT.md",
+      "bytes": 27368,
+      "sha256": "66ab5a233e480700818922b0c8f094fd9f65901e9c376876881c64e75c970d81"
+    },
+    {
+      "file": "README.md",
+      "bytes": 42124,
+      "sha256": "3c14ae1da3b73686967b47c10ae3b961e1df5566d7362715e0c84ce36a3e8170"
+    },
+    {
+      "file": "WORLD-EDITOR.md",
+      "bytes": 11259,
+      "sha256": "ac4dc69fc82b413df79c21f7b0bad049575b1860f62ef06c30ab7c010f7a9e1d"
+    },
+    {
+      "file": "audit/2026-10-14-document-first-editor.png",
+      "bytes": 52879,
+      "sha256": "20d659614eb413f947509b656e995ea32a08e6a0be1fd004451ff828d62a883c"
+    },
+    {
+      "file": "audit/2026-10-14-document-first-implementation.md",
+      "bytes": 16668,
+      "sha256": "523fbce33871e4b74c36d3e5fd61605ebec19dd9dc022c972fa890eb36a242f9"
+    },
+    {
+      "file": "audit/2026-10-14-document-first-live-editor.png",
+      "bytes": 55709,
+      "sha256": "98ce18bc2ec7634271857ad3d2e0126705c06f1c992df22b8042c5589390c80d"
+    },
+    {
+      "file": "audit/2026-10-14-document-first-live-release.png",
+      "bytes": 55871,
+      "sha256": "bd6419d1101df0817b394b01058f3048fd0b3f9fd3855e0346d4732e1141521c"
+    },
+    {
+      "file": "audit/2026-10-14-document-first-release.json",
+      "bytes": 13644,
+      "sha256": "03c75538181b0258dba2454b1e13987b6c58f39da732b62af4947ea474002709"
+    },
+    {
+      "file": "package.json",
+      "bytes": 717,
+      "sha256": "0feaa325e7dbdd8a4494d74fcf9d840387f0ff66f5b7323f57de98a3ca43fa35"
+    },
+    {
+      "file": "policy-candidates/world-policy.html",
+      "bytes": 14240,
+      "sha256": "03d2e1e16317f483c37fe15d11e4d3e9ba982591e3f0964ddec6bf65db967525"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 53478,
+      "sha256": "a4f415bc1a40a40a3f647d4771b606743b6ff3d92665246bd29252ec8d29538c"
+    },
+    {
+      "file": "public/brick-events.js",
+      "bytes": 3945,
+      "sha256": "548828a2306da7c6b9b12a73f8815ef0b2df64b7bd8a5c695afbf839e97e8cad"
+    },
+    {
+      "file": "public/bundled-worlds.js",
+      "bytes": 127892,
+      "sha256": "46ded10b86f0a915465149cdbb14dc7e3e8e0cd7582787f8a4619b4644073990"
+    },
+    {
+      "file": "public/cinematics.js",
+      "bytes": 15555,
+      "sha256": "d9dc77d96e678144a677759b94f9cc90b009438c17d8198fcf09c0e02b5ee6e0"
+    },
+    {
+      "file": "public/editor-route.html",
+      "bytes": 2739,
+      "sha256": "a2172b2e1692ce3ed89e2f0a999c34819837f2939ea7c0c4dcaedebfa73c7e44"
+    },
+    {
+      "file": "public/editor-template.html",
+      "bytes": 8791,
+      "sha256": "2792f173eed603869fe4f9d3ec122b977f2521a3415a4b48f821c7776a3fe6a2"
+    },
+    {
+      "file": "public/editor.css",
+      "bytes": 7616,
+      "sha256": "88533e2bb067e23e40ccc8d12c96b5448ac6160561c898c9ef4d40860203fdf8"
+    },
+    {
+      "file": "public/editor.html",
+      "bytes": 10233,
+      "sha256": "577755f9f64acc49d9a6d8cec656c6c9c7da067e74072bb23e59b8556d6c2eff"
+    },
+    {
+      "file": "public/editor.js",
+      "bytes": 21725,
+      "sha256": "5f42dc72cfbe593bc3440565f82b9967096806e93436791b73650e003c3cb1a9"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 16755,
+      "sha256": "5f35b7b3ab55a83a44f85e5a02e190e554c76000ca72c5678d5c005cfabd34be"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 23279,
+      "sha256": "366cf6a9a1ec5025579ca2a678721d49646277a6e610e9b3ad1be9494eedbfd0"
+    },
+    {
+      "file": "public/leaderboard.js",
+      "bytes": 1447,
+      "sha256": "e147243419aa5413a4159c14e9be3cbd6d708aa21f453c086d416c0d38c37521"
+    },
+    {
+      "file": "public/levels.js",
+      "bytes": 1660,
+      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6"
+    },
+    {
+      "file": "public/offline.js",
+      "bytes": 10290,
+      "sha256": "34b4858a74f33453bc530dc78d1d5c0668566d47bbcca49e057459f4a844d665"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "743693f31998fad1d42c320af56170209018319748f36cd59cc72400ddb80878"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 26441,
+      "sha256": "24181057c2c4e9318d8e703ad3e99f6271e45499685fa3ab004dc2da3a50decf"
+    },
+    {
+      "file": "public/scores.html",
+      "bytes": 6892,
+      "sha256": "14302fea38504e70816ad3f6a13ef0072433edd3969e64d25760964c3f94668d"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 19330,
+      "sha256": "fd3df8580540b246f34ea89940beb05e5778b5dd9db8bfa619c2d76b84e6bc34"
+    },
+    {
+      "file": "public/world-catalog.html",
+      "bytes": 4928,
+      "sha256": "b8523df347366596add13b1c870568d37c643b21365043a22733d125478e78d4"
+    },
+    {
+      "file": "public/world-data.css",
+      "bytes": 870,
+      "sha256": "9a5f828ea7255e5645d648c4e43ca2d0666765aeb46a1583771d9551646f8c70"
+    },
+    {
+      "file": "public/world-format.js",
+      "bytes": 2820,
+      "sha256": "b8af124a0420f14636211a54e4b110e10e3dc10e0f78e1c9725361f285fdcf96"
+    },
+    {
+      "file": "public/world-identity.js",
+      "bytes": 780,
+      "sha256": "6a8cf537960bcdb828f74acdd144c2b8adb7a1e733ca8dcc6eac2649c41e4011"
+    },
+    {
+      "file": "public/world-schema.js",
+      "bytes": 10802,
+      "sha256": "4bc2096d6d0d566e8b57be405cc7fdb82ece25a5839a9e3358e888d7b3775163"
+    },
+    {
+      "file": "public/worlds/aurora-passage/definition.html",
+      "bytes": 23134,
+      "sha256": "4ac7eaa56c0adaa0dc9d812310e1ab7c35a9ccfdd65623024159af47f546dcde"
+    },
+    {
+      "file": "public/worlds/clockwork-canopy/definition.html",
+      "bytes": 25599,
+      "sha256": "1ecc8abc05559cc512f0cfe350841d606fa5b3835b72b0cb367284d140b6ad88"
+    },
+    {
+      "file": "public/worlds/cloud-carnival/definition.html",
+      "bytes": 21508,
+      "sha256": "0b1b65202b651bb94b29e99643e6180cc5517d6076eb0e46ccbc8d63e65c185b"
+    },
+    {
+      "file": "public/worlds/cosmic-reef/definition.html",
+      "bytes": 20420,
+      "sha256": "a948f40e93569de3b8b049094bacd079f301c351f39ced8f67d294a403dc8edd"
+    },
+    {
+      "file": "public/worlds/crystal-caverns/definition.html",
+      "bytes": 24241,
+      "sha256": "48670a3202e20fbd5aee0bb6b4baead6cec34ad0180a0ad6814a342bc47cdd31"
+    },
+    {
+      "file": "public/worlds/dawn-nexus/definition.html",
+      "bytes": 69770,
+      "sha256": "2a75b433b1ac788620d44ee870b236212aef0f7f498eb3f75903837e37afc868"
+    },
+    {
+      "file": "public/worlds/electric-city/definition.html",
+      "bytes": 21348,
+      "sha256": "7ce2e110f16a6931221670ca80fb382a0d6b233e3b040ab0327b909ce975c648"
+    },
+    {
+      "file": "public/worlds/ember-foundry/definition.html",
+      "bytes": 22678,
+      "sha256": "8289f8ece6727c5269aaa78c8e20e0cc5a9b744620a7d554fbdc4cb48590a0b4"
+    },
+    {
+      "file": "public/worlds/event-horizon/definition.html",
+      "bytes": 25190,
+      "sha256": "77e800fbfaca735164b0a78dd4e4f78bbfc061fa10fd96b317b0f2c720f47362"
+    },
+    {
+      "file": "public/worlds/frost-observatory/definition.html",
+      "bytes": 24481,
+      "sha256": "6498763094b63630cd2018246e09010c82f0b6f2c6bfe00faba2975ec11365a4"
+    },
+    {
+      "file": "public/worlds/lunar-harbor/definition.html",
+      "bytes": 23966,
+      "sha256": "efddd91699375a2e4aa4cec5132b8fe5e734e04013253ad5f0d93f326791cb39"
+    },
+    {
+      "file": "public/worlds/mirage-dunes/definition.html",
+      "bytes": 21337,
+      "sha256": "8121b8dc2cb90353b7911f4c06e89ff5338922abf9744e03e6a4959a7f788aa1"
+    },
+    {
+      "file": "public/worlds/prism-citadel/definition.html",
+      "bytes": 53821,
+      "sha256": "42a13f307825e801ece1a7a36d4ed40c08c51dcccbf90ef4515a02d009e2fdc4"
+    },
+    {
+      "file": "public/worlds/prism-garden/definition.html",
+      "bytes": 22028,
+      "sha256": "66a8346edfc1eca493258281e5adf824f0a04bdc9f0d3dac800e748ccd190f26"
+    },
+    {
+      "file": "public/worlds/sunken-archive/definition.html",
+      "bytes": 24646,
+      "sha256": "9e96b76d8860f43c16c246e51bbae09e0506014e8c418afde08a1d404d66e8ee"
+    },
+    {
+      "file": "public/worlds/thunder-spire/definition.html",
+      "bytes": 16748,
+      "sha256": "4b8785451898748dc8a5409d500e6062744ca90bc26ad98290c0e041254cf853"
+    },
+    {
+      "file": "tests/document-first.test.mjs",
+      "bytes": 9107,
+      "sha256": "29855bc92440d01cc9983e56d2b3159297d3cfe3c18b7f39a2bcb0fabf4655bf"
+    },
+    {
+      "file": "tools/build-bundled-worlds.mjs",
+      "bytes": 1502,
+      "sha256": "c738067337327fa80ff67df25f2c1729f7c547257977fe045438791ca84461d9"
+    },
+    {
+      "file": "tools/build-data.mjs",
+      "bytes": 3532,
+      "sha256": "a96995d96c00b20ed008e0aee9ca0a411d384d6e40af7e82c5fa0b51ca1b32a1"
+    },
+    {
+      "file": "tools/build-editor.mjs",
+      "bytes": 2540,
+      "sha256": "c11a8437670561c174bdd5919d19cea92d551d1679f9173d8eec78e6e3a7ea2b"
+    },
+    {
+      "file": "tools/build-pwa.mjs",
+      "bytes": 4272,
+      "sha256": "2f448e2bd1cff28c7a326ce761ff29d210c840bb07e564a1a0e78d9d5cd75e5b"
+    },
+    {
+      "file": "tools/build-world-policy.mjs",
+      "bytes": 320,
+      "sha256": "12a75533e5fd4c16d0d008d07fdc51319d96a8a3bc53acc070e4d91dcc884408"
+    },
+    {
+      "file": "tools/build-worlds.mjs",
+      "bytes": 969,
+      "sha256": "38df6faf28b69003b157f298a60fb136caf01fc6b784eca3c6f640aa47c3205e"
+    },
+    {
+      "file": "tools/read-world-catalog.mjs",
+      "bytes": 1348,
+      "sha256": "1270b823568a183ebbb6a3a4297dd607a706ead45d2c0995f6505baaad964e93"
+    },
+    {
+      "file": "tools/remote.mjs",
+      "bytes": 16058,
+      "sha256": "1f526589da6f784689eb8659e37fae9a591368003a49c4deceae55deb4cca7aa"
+    },
+    {
+      "file": "tools/world-policy.mjs",
+      "bytes": 2283,
+      "sha256": "e9ed5863ab92ee69dde66ac1b712ccad98fc19f8ccea1bfda133a080a3f66074"
+    },
+    {
+      "file": "audit/2026-10-14-document-first-changes.patch",
+      "bytes": 765594,
+      "sha256": "ceb5976c55db9298fe5496856486f4c40de9ee30f865d644a6962bbf489ba457"
+    }
+  ]
+}

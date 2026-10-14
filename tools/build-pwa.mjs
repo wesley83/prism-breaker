@@ -7,7 +7,8 @@ const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const hash = data => createHash('sha256').update(data).digest('hex');
 const markerPattern = /<meta\b(?=[^>]*\bname=["']prism-release["'])[^>]*>/i;
 const marker = version => '<meta name="prism-release" content="' + version + '">';
-const excluded = new Set(['sw.js', 'pwa-release.js', 'scores.html', 'worlds.html', 'editor.html', 'editor-template.html', 'editor-route.html']);
+// Mutable/composed authoring HTML is reserialized by Pagelove; offline gameplay uses the generated bundle.
+const excluded = new Set(['sw.js', 'pwa-release.js', 'scores.html', 'worlds.html', 'world-catalog.html', 'editor.html', 'editor-template.html', 'editor-route.html', 'world-policy.html']);
 
 async function filesIn(directory) {
   const files = [];
