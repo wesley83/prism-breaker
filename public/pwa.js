@@ -3,13 +3,14 @@ import {PWA_RELEASE} from './pwa-release.js';
 // Installation is optional: a completely downloaded game also works offline in a tab.
 export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
  const status=document.querySelector('#offline-status'),detail=document.querySelector('#offline-detail'),install=document.querySelector('#install-game'),update=document.querySelector('#update-game'),retry=document.querySelector('#retry-download');
- let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null;
+ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0;
  const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true;
  function render(){
+  if(applying&&reloadReady&&isSafeToUpdate()&&!reloading){reloading=true;location.reload();}
   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
   install.hidden=standalone();
   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
-  detail.textContent=applying?'Applying the update…':newVersion?'An update is ready. Apply it from the start screen.':ready?'All eight worlds, music and cutscenes are saved.':failed?'Reconnect and retry to finish downloading the game.':'Keep this page open while the complete game downloads.';
+  detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All eight worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
   update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
   retry.hidden=!failed;retry.disabled=applying;
  }
@@ -17,15 +18,15 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   if(!worker)return reject(Error('No offline worker'));
   const channel=new MessageChannel(),timer=setTimeout(()=>{channel.port1.close();reject(Error('Offline worker did not respond'));},message.type==='REPAIR_CACHE'?90000:6000);
   channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};
-  worker.postMessage(message,[channel.port2]);
+  try{worker.postMessage(message,[channel.port2]);}catch(error){clearTimeout(timer);channel.port1.close();reject(error);}
  });}
  async function repair(worker){
   if(repairing)return repairing;
   repairing=requestStatus(worker,{type:'REPAIR_CACHE',version:PWA_RELEASE}).then(info=>{ready=info.ready===true;failed=!ready;render();}).catch(()=>{failed=true;render();}).finally(()=>{repairing=null;});return repairing;
  }
  async function inspect(){
-  const controller=navigator.serviceWorker.controller;
-  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(registration?.active&&!ready)failed=true;}
+  const controller=navigator.serviceWorker.controller,revision=++inspection;
+  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});if(revision!==inspection)return;ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(revision!==inspection)return;if(registration?.active&&!ready)failed=true;}
   if(registration?.waiting)newVersion=true;render();
  }
  function watch(worker){if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'||worker.state==='activated')inspect();else if(worker.state==='redundant'){failed=true;render();}});}
@@ -45,12 +46,19 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   navigator.storage?.persist?.().catch(()=>{});
  };
  update.onclick=async()=>{
-  if(!isSafeToUpdate()||applying)return;beforeUpdate();applying=true;render();
-  if(registration?.waiting){registration.waiting.postMessage({type:'SKIP_WAITING'});setTimeout(()=>{if(applying){applying=false;failed=true;render();}},12000);}
-  else location.reload();
+  if(!newVersion||unavailable||!isSafeToUpdate()||applying)return;
+  applying=true;updateError='';reloadReady=false;render();
+  const failedActivation=()=>{clearTimeout(activationTimer);activationTimer=null;applying=false;reloadReady=false;updateError='The update could not finish. Try Update game again.';render();};
+  try{
+   await beforeUpdate();
+   if(!isSafeToUpdate()){applying=false;render();return;}
+   const waiting=registration?.waiting;
+   if(waiting){activationTimer=setTimeout(failedActivation,12000);waiting.postMessage({type:'SKIP_WAITING'});}
+   else{reloadReady=true;render();}
+  }catch{failedActivation();}
  };
  retry.onclick=async()=>{failed=false;render();if(!registration)return start();try{await registration.update();await inspect();}catch{failed=true;render();}};
- navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying&&isSafeToUpdate())location.reload();else inspect();});
+ navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
  const check=()=>{render();if(registration&&navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}};
  window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
  document.addEventListener('fullscreenchange',render);

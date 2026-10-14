@@ -1,0 +1,72 @@
+{
+  "id": "PB-20261014-03",
+  "at": "2026-10-14T01:38:06.317Z",
+  "actor": "Codex",
+  "request": "Fix missed paddle contacts and fully test Update game",
+  "release": "e9c440412d0198375444",
+  "tests": {
+    "passed": 71,
+    "failed": 0
+  },
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 27285,
+      "sha256": "ca2abc83ad15afcf42670badfcd08b6a3f9464095b11410d7acdb044a188ed81"
+    },
+    {
+      "file": "PWA-UPGRADE.md",
+      "bytes": 9864,
+      "sha256": "cd319aac715450887c8014ab3efab0e102e98b1e3784c262902f34fca0fa03fe"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 47492,
+      "sha256": "16c6d0a8ae61f23b93a7e1b6ce9cfc11cf2beeb50878d72f7e88e9d60ff592fd"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 14891,
+      "sha256": "5bded21bed6c38f868bbc378c58e542c49c0b4b3a848ec5c0a78299f38c51f38"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 22824,
+      "sha256": "07d1281cbdcd39b60d774555633a89d7800e9f14ea8cd59f92e1db8b236e37f7"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "c33ae27003e633bce340b5e2b01af57f46784f5203b5ac91da44c4e046febf4b"
+    },
+    {
+      "file": "public/pwa.js",
+      "bytes": 6236,
+      "sha256": "b83d6bd695f21ef95c4226d97f9268cb745aaebb7f6d6c5119fc491ad43504f6"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 16876,
+      "sha256": "3d918c1ff7702259551794fc387418934113e64abe5a2badc7340cd3678f6734"
+    },
+    {
+      "file": "tests/paddle-collision.test.mjs",
+      "bytes": 3547,
+      "sha256": "426042346c8f040af4ff28d4567c90e20693ea329d47d9e3870d26b543df9779"
+    },
+    {
+      "file": "tests/pwa-client.test.mjs",
+      "bytes": 8013,
+      "sha256": "60a28404405f0f6465a8a3bdfa01e8bc3bf0500b2b9e4647f1b7e39fcd10ce2d"
+    },
+    {
+      "file": "tools/update-lab.mjs",
+      "bytes": 5209,
+      "sha256": "688c82114c07a75e3e50215b0fdca48c8f16f2ca15a34d116a08eaccbe1a8a18"
+    }
+  ],
+  "patch": {
+    "file": "audit/2026-10-14-paddle-update.patch",
+    "sha256": "2318749ee36b5f2ac8afab4f098ea7d50999d4c2bfaa500824ae0f02202b6fd6"
+  }
+}

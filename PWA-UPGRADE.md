@@ -14,6 +14,8 @@ Installation prompts depend on the browser. The game shows platform-specific ins
 
 ## Complete releases and safe updates
 
+The October 14 update review adds explicit recovery from activation errors and timeouts, prevents duplicate reloads, and rechecks whether play has started during update preparation. If activation completes after a run started, the requested reload waits until the start screen. A timed-out attempt requires another Update game click. See [the review audit](audit/2026-10-14-paddle-update.md) for tests, browser evidence and device limits.
+
 `tools/build-pwa.mjs` inventories the runtime files and derives a release ID from their contents and `tools/service-worker.template.js`. It writes the HTML release marker, `public/pwa-release.js`, and `public/sw.js`.
 
 The service worker downloads assets in bounded batches into a separate cache for that release. It checks successful, non-redirected responses and SHA-256 asset hashes. Pagelove normalizes HTML, so the entry page is checked using its content type and release marker. A completion marker is written only after the entire download succeeds; a failed installation removes its incomplete cache.

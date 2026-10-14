@@ -119,6 +119,8 @@ Open the game while connected and wait for **Ready to play offline**. The servic
 
 An update downloads into a separate release cache and becomes available only after the full asset set passes its checks. **Update game** becomes usable on the start screen. It reloads into the new release while retaining progress, preferences and pending scores. Open tabs keep their release's assets, including modules loaded later. Pagelove selector responses and score writes bypass the static asset cache.
 
+An activation failure offers another **Update game** attempt. If play starts while activation is finishing, the requested reload waits until the start screen. The reproducible browser lab (`node tools/update-lab.mjs`, loopback port 4174) can switch between two local releases and simulate failed asset downloads or unavailable game network routes without writing production scores. It creates disposable files under `.private/update-lab` and uses that local origin's browser storage. The [October 14 review](audit/2026-10-14-paddle-update.md) records the collision fix and update verification.
+
 Browser storage can be cleared or evicted under storage pressure. The install action requests persistent storage where supported, but the browser decides whether to grant it. A new browser or cleared installation must download the game again; unsent scores and local progress are lost if their storage is removed. Sync runs while the game is open; it does not depend on, or promise, background submission after the app closes.
 
 See [PWA-UPGRADE.md](PWA-UPGRADE.md) for release integrity, queue behavior, optimization details and validation limits.

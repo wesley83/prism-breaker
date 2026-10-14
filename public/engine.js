@@ -3,6 +3,18 @@ export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
 export const PICKUP_POINTS=150;
 export const speedBonus=seconds=>Math.max(0,2000-10*Math.floor(Math.max(0,seconds)));
 const DROP_KINDS=['wide','multi','sticky','laser','pierce','slow','shield'];
+// Sweep relative motion through the paddle's upper catching area. Testing only
+// the top-plane crossing misses side catches and uses the wrong paddle position.
+function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
+ if(b.vy>=0||oldY<LIMIT.paddleY)return null;
+ const half=paddle.w/2+b.r,surface=LIMIT.paddleY+.17+b.r;
+ const fall=oldY-b.y;if(fall<=0)return null;
+ let enter=Math.max(0,(oldY-surface)/fall),leave=Math.min(1,(oldY-LIMIT.paddleY)/fall);
+ const start=oldX-oldPaddleX,delta=(b.x-oldX)-(paddle.x-oldPaddleX);
+ if(Math.abs(delta)<1e-12){if(start < -half||start>half)return null;}
+ else{const a=(-half-start)/delta,c=(half-start)/delta;enter=Math.max(enter,Math.min(a,c));leave=Math.min(leave,Math.max(a,c));}
+ return enter<=leave?enter:null;
+}
 // Compact the small, frequently updated lists without allocating new arrays every tick.
 function retainBetween(items,minY,maxY){let kept=0;for(let i=0;i<items.length;i++){const item=items[i];if(item.y>minY&&item.y<maxY)items[kept++]=item;}items.length=kept;}
 const finiteBetween=(value,min,max)=>Number.isFinite(value)&&value>=min&&value<=max;
@@ -104,6 +116,7 @@ export class Game {
  tick(dt){
    if(this.state!=='playing'&&this.state!=='ready')return;
    this.time+=dt;if(this.state==='playing'){this.elapsed+=dt;this.boardElapsed+=dt;for(const key in this.effects)this.effects[key]=Math.max(0,this.effects[key]-dt);}this.syncPaddleWidth();
+   const oldPaddleX=this.paddle.x;
    this.move(this.target);this.paddle.x+=(this.target-this.paddle.x)*Math.min(1,dt*25);
    for(const b of this.bricks)if(b.moving)b.x=b.baseX+Math.sin(this.time*.7+b.row)*.28;
    for(const o of this.barriers)if(o.moving)o.x=Math.sin(this.time*(this.level===4?.88:.8)+o.id)*5.7;
@@ -124,13 +137,12 @@ export class Game {
      if(b.x>10-b.r){b.x=10-b.r;b.vx=-Math.abs(b.vx);this.emit({type:'wall'});}
      if(b.y>12-b.r){b.y=12-b.r;b.vy=-Math.abs(b.vy);this.emit({type:'wall'});}
      const surface=LIMIT.paddleY+.17+b.r;
-     if(b.vy<0&&oldY>=surface&&b.y<=surface){
-       const impactX=oldX+(b.x-oldX)*(oldY-surface)/(oldY-b.y);
-       if(Math.abs(impactX-this.paddle.x)<this.paddle.w/2+b.r){
-        b.x=impactX;const offset=Math.max(-1,Math.min(1,(b.x-this.paddle.x)/(this.paddle.w/2)));
+     const contact=paddleImpact(b,oldX,oldY,this.paddle,oldPaddleX);
+     if(contact!==null){
+        const impactPaddleX=oldPaddleX+(this.paddle.x-oldPaddleX)*contact;
+        b.x=oldX+(b.x-oldX)*contact;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
         const angle=offset*1.05;b.vx=Math.sin(angle)*speed;b.vy=Math.cos(angle)*speed;b.y=surface+.005;
-        this.combo=0;if(this.effects.sticky>0){b.held=true;b.holdOffset=b.x-this.paddle.x;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
-       }
+        this.combo=0;if(this.effects.sticky>0){b.held=true;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
      }
      if(this.shield&&b.y<-11.9&&b.vy<0){this.shield=false;b.y=-11.9;b.vy=Math.abs(b.vy);this.emit({type:'save'});}
      for(const o of this.barriers)this.reflectBox(b,o,oldX,oldY);

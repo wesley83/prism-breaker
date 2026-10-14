@@ -1,13 +1,13 @@
 import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
 import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=5';
+import {Game,speedBonus,isValidSnapshot} from './engine.js?v=6';
 import {SharePreview,formatShareDate} from './sharing.js?v=2';
 import {Sound} from './audio.js?v=5';
 import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
 import {utcDay,rankedScores as rankScores,scoreAge,topFinish} from './leaderboard.js?v=2';
 import {offlineStore,ScoreOutbox} from './offline.js';
-import {setupOfflinePlay} from './pwa.js';
+import {setupOfflinePlay} from './pwa.js?v=2';
 import {setupGameDisplay} from './display.js';
 import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=2';
 import {VICTORY_TRACKS} from './victory-music.js';

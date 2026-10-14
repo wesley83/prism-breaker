@@ -1,0 +1,322 @@
+diff --git a/public/app.js b/public/app.js
+index 07f3839..ef298ea 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -1,13 +1,13 @@
+ import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
+ import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
+-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=5';
++import {Game,speedBonus,isValidSnapshot} from './engine.js?v=6';
+ import {SharePreview,formatShareDate} from './sharing.js?v=2';
+ import {Sound} from './audio.js?v=5';
+ import {TRACKS} from './music.js';
+ import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
+ import {utcDay,rankedScores as rankScores,scoreAge,topFinish} from './leaderboard.js?v=2';
+ import {offlineStore,ScoreOutbox} from './offline.js';
+-import {setupOfflinePlay} from './pwa.js';
++import {setupOfflinePlay} from './pwa.js?v=2';
+ import {setupGameDisplay} from './display.js';
+ import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=2';
+ import {VICTORY_TRACKS} from './victory-music.js';
+diff --git a/public/engine.js b/public/engine.js
+index 9ff3177..26640e1 100644
+--- a/public/engine.js
++++ b/public/engine.js
+@@ -3,6 +3,18 @@ export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
+ export const PICKUP_POINTS=150;
+ export const speedBonus=seconds=>Math.max(0,2000-10*Math.floor(Math.max(0,seconds)));
+ const DROP_KINDS=['wide','multi','sticky','laser','pierce','slow','shield'];
++// Sweep relative motion through the paddle's upper catching area. Testing only
++// the top-plane crossing misses side catches and uses the wrong paddle position.
++function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
++ if(b.vy>=0||oldY<LIMIT.paddleY)return null;
++ const half=paddle.w/2+b.r,surface=LIMIT.paddleY+.17+b.r;
++ const fall=oldY-b.y;if(fall<=0)return null;
++ let enter=Math.max(0,(oldY-surface)/fall),leave=Math.min(1,(oldY-LIMIT.paddleY)/fall);
++ const start=oldX-oldPaddleX,delta=(b.x-oldX)-(paddle.x-oldPaddleX);
++ if(Math.abs(delta)<1e-12){if(start < -half||start>half)return null;}
++ else{const a=(-half-start)/delta,c=(half-start)/delta;enter=Math.max(enter,Math.min(a,c));leave=Math.min(leave,Math.max(a,c));}
++ return enter<=leave?enter:null;
++}
+ // Compact the small, frequently updated lists without allocating new arrays every tick.
+ function retainBetween(items,minY,maxY){let kept=0;for(let i=0;i<items.length;i++){const item=items[i];if(item.y>minY&&item.y<maxY)items[kept++]=item;}items.length=kept;}
+ const finiteBetween=(value,min,max)=>Number.isFinite(value)&&value>=min&&value<=max;
+@@ -104,6 +116,7 @@ export class Game {
+  tick(dt){
+    if(this.state!=='playing'&&this.state!=='ready')return;
+    this.time+=dt;if(this.state==='playing'){this.elapsed+=dt;this.boardElapsed+=dt;for(const key in this.effects)this.effects[key]=Math.max(0,this.effects[key]-dt);}this.syncPaddleWidth();
++   const oldPaddleX=this.paddle.x;
+    this.move(this.target);this.paddle.x+=(this.target-this.paddle.x)*Math.min(1,dt*25);
+    for(const b of this.bricks)if(b.moving)b.x=b.baseX+Math.sin(this.time*.7+b.row)*.28;
+    for(const o of this.barriers)if(o.moving)o.x=Math.sin(this.time*(this.level===4?.88:.8)+o.id)*5.7;
+@@ -124,13 +137,12 @@ export class Game {
+      if(b.x>10-b.r){b.x=10-b.r;b.vx=-Math.abs(b.vx);this.emit({type:'wall'});}
+      if(b.y>12-b.r){b.y=12-b.r;b.vy=-Math.abs(b.vy);this.emit({type:'wall'});}
+      const surface=LIMIT.paddleY+.17+b.r;
+-     if(b.vy<0&&oldY>=surface&&b.y<=surface){
+-       const impactX=oldX+(b.x-oldX)*(oldY-surface)/(oldY-b.y);
+-       if(Math.abs(impactX-this.paddle.x)<this.paddle.w/2+b.r){
+-        b.x=impactX;const offset=Math.max(-1,Math.min(1,(b.x-this.paddle.x)/(this.paddle.w/2)));
++     const contact=paddleImpact(b,oldX,oldY,this.paddle,oldPaddleX);
++     if(contact!==null){
++        const impactPaddleX=oldPaddleX+(this.paddle.x-oldPaddleX)*contact;
++        b.x=oldX+(b.x-oldX)*contact;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
+         const angle=offset*1.05;b.vx=Math.sin(angle)*speed;b.vy=Math.cos(angle)*speed;b.y=surface+.005;
+-        this.combo=0;if(this.effects.sticky>0){b.held=true;b.holdOffset=b.x-this.paddle.x;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
+-       }
++        this.combo=0;if(this.effects.sticky>0){b.held=true;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
+      }
+      if(this.shield&&b.y<-11.9&&b.vy<0){this.shield=false;b.y=-11.9;b.vy=Math.abs(b.vy);this.emit({type:'save'});}
+      for(const o of this.barriers)this.reflectBox(b,o,oldX,oldY);
+diff --git a/public/pwa.js b/public/pwa.js
+index f599bbb..d2f0ef8 100644
+--- a/public/pwa.js
++++ b/public/pwa.js
+@@ -3,13 +3,14 @@ import {PWA_RELEASE} from './pwa-release.js';
+ // Installation is optional: a completely downloaded game also works offline in a tab.
+ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+  const status=document.querySelector('#offline-status'),detail=document.querySelector('#offline-detail'),install=document.querySelector('#install-game'),update=document.querySelector('#update-game'),retry=document.querySelector('#retry-download');
+- let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null;
++ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0;
+  const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true;
+  function render(){
++  if(applying&&reloadReady&&isSafeToUpdate()&&!reloading){reloading=true;location.reload();}
+   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
+   install.hidden=standalone();
+   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
+-  detail.textContent=applying?'Applying the update…':newVersion?'An update is ready. Apply it from the start screen.':ready?'All eight worlds, music and cutscenes are saved.':failed?'Reconnect and retry to finish downloading the game.':'Keep this page open while the complete game downloads.';
++  detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All eight worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
+   update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
+   retry.hidden=!failed;retry.disabled=applying;
+  }
+@@ -17,15 +18,15 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+   if(!worker)return reject(Error('No offline worker'));
+   const channel=new MessageChannel(),timer=setTimeout(()=>{channel.port1.close();reject(Error('Offline worker did not respond'));},message.type==='REPAIR_CACHE'?90000:6000);
+   channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};
+-  worker.postMessage(message,[channel.port2]);
++  try{worker.postMessage(message,[channel.port2]);}catch(error){clearTimeout(timer);channel.port1.close();reject(error);}
+  });}
+  async function repair(worker){
+   if(repairing)return repairing;
+   repairing=requestStatus(worker,{type:'REPAIR_CACHE',version:PWA_RELEASE}).then(info=>{ready=info.ready===true;failed=!ready;render();}).catch(()=>{failed=true;render();}).finally(()=>{repairing=null;});return repairing;
+  }
+  async function inspect(){
+-  const controller=navigator.serviceWorker.controller;
+-  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(registration?.active&&!ready)failed=true;}
++  const controller=navigator.serviceWorker.controller,revision=++inspection;
++  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});if(revision!==inspection)return;ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(revision!==inspection)return;if(registration?.active&&!ready)failed=true;}
+   if(registration?.waiting)newVersion=true;render();
+  }
+  function watch(worker){if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'||worker.state==='activated')inspect();else if(worker.state==='redundant'){failed=true;render();}});}
+@@ -45,12 +46,19 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+   navigator.storage?.persist?.().catch(()=>{});
+  };
+  update.onclick=async()=>{
+-  if(!isSafeToUpdate()||applying)return;beforeUpdate();applying=true;render();
+-  if(registration?.waiting){registration.waiting.postMessage({type:'SKIP_WAITING'});setTimeout(()=>{if(applying){applying=false;failed=true;render();}},12000);}
+-  else location.reload();
++  if(!newVersion||unavailable||!isSafeToUpdate()||applying)return;
++  applying=true;updateError='';reloadReady=false;render();
++  const failedActivation=()=>{clearTimeout(activationTimer);activationTimer=null;applying=false;reloadReady=false;updateError='The update could not finish. Try Update game again.';render();};
++  try{
++   await beforeUpdate();
++   if(!isSafeToUpdate()){applying=false;render();return;}
++   const waiting=registration?.waiting;
++   if(waiting){activationTimer=setTimeout(failedActivation,12000);waiting.postMessage({type:'SKIP_WAITING'});}
++   else{reloadReady=true;render();}
++  }catch{failedActivation();}
+  };
+  retry.onclick=async()=>{failed=false;render();if(!registration)return start();try{await registration.update();await inspect();}catch{failed=true;render();}};
+- navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying&&isSafeToUpdate())location.reload();else inspect();});
++ navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
+  const check=()=>{render();if(registration&&navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}};
+  window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+  document.addEventListener('fullscreenchange',render);
+diff --git a/tests/paddle-collision.test.mjs b/tests/paddle-collision.test.mjs
+new file mode 100644
+index 0000000..78621ed
+--- /dev/null
++++ b/tests/paddle-collision.test.mjs
+@@ -0,0 +1,56 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {Game,LIMIT} from '../public/engine.js';
++
++function game({x=0,y=LIMIT.paddleY+.45,vx=0,paddleX=0,target=paddleX,wide=false,sticky=false}={}){
++ const g=new Game();g.launch();g.paddle.x=paddleX;g.target=target;
++ if(wide)g.power('wide');if(sticky)g.power('sticky');
++ Object.assign(g.balls[0],{x,y,vx,vy:-18});return g;
++}
++test('a paddle moving away still catches a ball that crossed its top earlier in the tick',()=>{
++ const g=game({x:-1.7,y:LIMIT.paddleY+.41,target:8});g.tick(1/120);
++ assert.ok(g.balls[0].vy>0,'contact must use the paddle position at impact');
++});
++test('moving the paddle into a descending ball beside its upper edge catches it',()=>{
++ const g=game({x:2,y:LIMIT.paddleY+.30,target:8});g.tick(1/120);
++ assert.ok(g.balls[0].vy>0,'side contact must not pass through the paddle');
++});
++test('descending balls already touching the upper paddle are recovered',()=>{
++ const g=game({y:LIMIT.paddleY+.25});g.tick(1/120);assert.ok(g.balls[0].vy>0);
++});
++test('a late paddle cannot rescue a ball below its center or one moving upward',()=>{
++ for(const y of [LIMIT.paddleY-.01,LIMIT.paddleY-1]){const g=game({x:2,y,target:8});g.tick(1/120);assert.ok(g.balls[0].vy<0);}
++ const g=game({y:LIMIT.paddleY+.2});g.balls[0].vy=18;g.tick(1/120);assert.ok(g.balls[0].vy>0);assert.equal(g.combo,0);
++});
++test('clear misses stay misses, including a paddle arriving after the ball has passed',()=>{
++ const g=game({x:4,y:LIMIT.paddleY+.05,target:8});g.tick(1/120);assert.ok(g.balls[0].vy<0);
++ const h=game({x:3});h.tick(1/60);assert.ok(h.balls[0].vy<0);
++});
++test('Sticky stores the moving catch point and follows the paddle without snapping to center',()=>{
++ const g=game({x:2,y:LIMIT.paddleY+.30,target:8,sticky:true});g.tick(1/120);
++ const b=g.balls[0];assert.equal(b.held,true);assert.ok(b.holdOffset>1);
++ assert.ok(Math.abs(b.x-g.paddle.x-b.holdOffset)<1e-9);
++ const offset=b.holdOffset;g.move(-4);g.tick(1/120);assert.equal(b.holdOffset,offset);assert.ok(Math.abs(b.x-g.paddle.x-offset)<1e-9);
++});
++test('Wide catches at its outer edge and releases a Sticky ball if its support expires',()=>{
++ const g=game({x:2.3,wide:true,sticky:true});g.tick(1/60);const b=g.balls[0];assert.equal(b.held,true);assert.ok(b.holdOffset>1.65);
++ g.effects.wide=.001;g.tick(1/120);assert.equal(b.held,false);assert.equal(g.paddle.w,3.3);assert.ok(b.vy>0);
++});
++test('stationary paddle catches high-speed balls across different frame intervals and both edges',()=>{
++ for(const dt of [1/240,1/120,1/60,.05])for(const x of [-1.8,-1,0,1,1.8]){
++  const g=game({x,y:LIMIT.paddleY+.401});g.hits=200;g.tick(dt);assert.ok(g.balls[0].vy>0,`${x}, ${dt}`);
++ }
++});
++test('moving edge catches are symmetric and independent for every ball in multiball',()=>{
++ for(const direction of [-1,1])for(const wide of [false,true])for(const slow of [false,true]){
++  const g=game({x:direction*(wide?2.8:2),y:LIMIT.paddleY+.3,target:direction*8,wide});
++  if(slow)g.effects.slow=10;
++  const b=g.balls[0];g.addBall(false,b.x,LIMIT.paddleY-1,0,-18);g.tick(1/120);
++  assert.ok(b.vy>0);assert.equal(Math.sign(b.vx),direction);assert.ok(g.balls[1].vy<0);
++ }
++});
++test('Wide expiry preserves an inner held ball and releases only unsupported balls',()=>{
++ const g=game({x:.8,wide:true,sticky:true});g.tick(1/60);const inner=g.balls[0];
++ const outer=g.addBall(true,2.3);outer.holdVX=10;outer.holdVY=10;
++ g.effects.wide=.001;g.tick(1/120);assert.equal(inner.held,true);assert.equal(outer.held,false);assert.equal(inner.holdOffset,.8);
++});
+diff --git a/tests/pwa-client.test.mjs b/tests/pwa-client.test.mjs
+new file mode 100644
+index 0000000..63f045a
+--- /dev/null
++++ b/tests/pwa-client.test.mjs
+@@ -0,0 +1,74 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs/promises';
++import vm from 'node:vm';
++const source=(await fs.readFile(new URL('../public/pwa.js',import.meta.url),'utf8')).replace(/import .*?;\s*/,"const PWA_RELEASE='aaaaaaaaaaaaaaaaaaaa';\n").replace('export function','function');
++const flush=async()=>{for(let i=0;i<20;i++)await Promise.resolve();};
++function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type){for(const fn of handlers.get(type)||[])fn();}});}
++function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){
++ const elements=new Map(['offline-status','offline-detail','install-game','update-game','retry-download'].map(id=>['#'+id,{hidden:false,disabled:false,textContent:''}]));
++ const timers=new Map();let tid=0,now=100000,reloads=0,skips=0,checks=0;
++ const active=emitter({state:'activated',postMessage(message,ports){ports?.[0].postMessage({version,ready});}});
++ const next=emitter({state:'installed',postMessage(message){if(throwSkip)throw Error('worker disappeared');if(message.type==='SKIP_WAITING')skips++;}});
++ const registration=emitter({active,waiting:waiting?next:null,installing:null,update:async()=>{checks++;}});
++ const sw=emitter({controller:active,register:async()=>{if(failRegister)throw Error('offline');return registration;}});
++ const navigator={onLine:online,...(unsupported?{}:{serviceWorker:sw})};
++ const document=emitter({hidden:false,querySelector:s=>elements.get(s)}),window=emitter();
++ const location={pathname:'/',reload(){reloads++;}};
++ class Channel{constructor(){this.port1={close(){},onmessage:null};this.port2={postMessage:data=>this.port1.onmessage?.({data})};}}
++ const context=vm.createContext({navigator,document,window,location,isSecureContext:true,matchMedia:()=>({matches:false}),MessageChannel:Channel,Date:{now:()=>now},setTimeout:(fn,ms)=>{const id=++tid;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)});
++ vm.runInContext(source+'\nglobalThis.setup=setupOfflinePlay;',context);
++ const api=context.setup({isSafeToUpdate:()=>safe,openHelp(){},beforeUpdate});
++ return {api,sw,registration,next,navigator,document,window,elements,button:elements.get('#update-game'),detail:elements.get('#offline-detail'),retry:elements.get('#retry-download'),status:elements.get('#offline-status'),
++  get reloads(){return reloads;},get skips(){return skips;},get checks(){return checks;},safe(value){safe=value;api.refresh();},advance(ms){now+=ms;},timeout(ms){for(const [id,timer]of [...timers])if(timer.ms===ms){timers.delete(id);timer.fn();}},activate(){version='bbbbbbbbbbbbbbbbbbbb';registration.waiting=null;sw.controller=next;next.postMessage=(message,ports)=>ports?.[0].postMessage({version,ready});sw.emit('controllerchange');}};
++}
++test('a waiting complete release is offered; one click activates then reloads once',async()=>{
++ const f=fixture();await flush();assert.equal(f.button.hidden,false);assert.equal(f.button.disabled,false);
++ await f.button.onclick();await f.button.onclick();assert.equal(f.skips,1);assert.equal(f.reloads,0);assert.equal(f.button.disabled,true);
++ f.activate();await flush();assert.equal(f.reloads,1);
++});
++test('active runs block both the button and direct invocation',async()=>{
++ const f=fixture({safe:false});await flush();assert.equal(f.button.disabled,true);assert.equal(f.button.textContent,'Update after this run');await f.button.onclick();assert.equal(f.skips,0);assert.equal(f.reloads,0);
++ f.safe(true);await f.button.onclick();assert.equal(f.skips,1);
++});
++test('another tab activating the update never reloads this tab without a click',async()=>{
++ const f=fixture({waiting:false});await flush();f.safe(false);f.activate();await flush();assert.equal(f.reloads,0);assert.equal(f.button.hidden,false);
++ f.safe(true);await f.button.onclick();assert.equal(f.reloads,1);assert.equal(f.skips,0);
++});
++test('a downloaded update activates while offline',async()=>{
++ const f=fixture({online:false});await flush();assert.match(f.status.textContent,/Offline · ready/);await f.button.onclick();f.activate();assert.equal(f.reloads,1);
++});
++test('failed worker activation shows an actionable retry instead of a stuck Applying label',async()=>{
++ const f=fixture({throwSkip:true});await flush();await f.button.onclick();assert.equal(f.button.disabled,false);assert.match(f.detail.textContent,/update.*try.*again/i);assert.equal(f.reloads,0);
++});
++test('activation timeout preserves readiness and permits another Update game click',async()=>{
++ const f=fixture();await flush();await f.button.onclick();f.timeout(12000);assert.equal(f.button.disabled,false);assert.match(f.detail.textContent,/update.*try.*again/i);assert.match(f.status.textContent,/Ready to play offline/);await f.button.onclick();assert.equal(f.skips,2);
++});
++test('starting a run during activation defers the requested reload until returning home',async()=>{
++ const f=fixture();await flush();await f.button.onclick();f.safe(false);f.activate();await flush();assert.equal(f.reloads,0);f.safe(true);assert.equal(f.reloads,1);
++});
++test('no update or unsupported browser cannot trigger an accidental reload',async()=>{
++ for(const options of [{waiting:false},{unsupported:true}]){const f=fixture(options);await flush();assert.equal(f.button.hidden,true);await f.button.onclick();assert.equal(f.reloads,0);}
++});
++test('foreground and reconnect checks are throttled; offline and hidden tabs do not check',async()=>{
++ const f=fixture({waiting:false});await flush();f.window.emit('online');assert.equal(f.checks,0);f.advance(60001);f.document.hidden=true;f.document.emit('visibilitychange');assert.equal(f.checks,0);
++ f.document.hidden=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.window.emit('online');assert.equal(f.checks,1);f.advance(60001);f.navigator.onLine=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.navigator.onLine=true;f.window.emit('online');assert.equal(f.checks,2);
++});
++test('a failed install is retryable while the current release stays ready',async()=>{
++ const f=fixture({waiting:false});await flush();f.registration.installing=f.next;f.registration.emit('updatefound');f.next.state='redundant';f.next.emit('statechange');assert.equal(f.retry.hidden,false);assert.match(f.status.textContent,/Ready to play offline/);await f.retry.onclick();assert.equal(f.checks,1);
++});
++test('registration failure offers Retry download',async()=>{
++ const f=fixture({failRegister:true,waiting:false});await flush();assert.equal(f.retry.hidden,false);assert.match(f.status.textContent,/unavailable/);
++});
++test('a failing preparation callback is caught and remains retryable',async()=>{
++ const f=fixture({beforeUpdate:()=>{throw Error('Save failed');}});await flush();await f.button.onclick();assert.equal(f.skips,0);assert.equal(f.button.disabled,false);assert.match(f.detail.textContent,/update.*try.*again/i);
++});
++test('a run starting during asynchronous preparation cancels activation',async()=>{
++ let finish;const f=fixture({beforeUpdate:()=>new Promise(resolve=>finish=resolve)});await flush();const click=f.button.onclick();f.safe(false);finish();await click;assert.equal(f.skips,0);assert.equal(f.reloads,0);f.safe(true);assert.equal(f.button.disabled,false);
++});
++test('late activation after timeout needs a new click and does not interrupt a run',async()=>{
++ const f=fixture();await flush();await f.button.onclick();f.timeout(12000);f.safe(false);f.activate();await flush();assert.equal(f.reloads,0);f.safe(true);assert.equal(f.reloads,0);await f.button.onclick();assert.equal(f.reloads,1);
++});
++test('repeated controller and refresh events cannot issue duplicate reloads',async()=>{
++ const f=fixture();await flush();await f.button.onclick();f.activate();f.activate();f.api.refresh();f.timeout(12000);assert.equal(f.reloads,1);
++});
+diff --git a/tools/update-lab.mjs b/tools/update-lab.mjs
+new file mode 100644
+index 0000000..19ca267
+--- /dev/null
++++ b/tools/update-lab.mjs
+@@ -0,0 +1,40 @@
++// Isolated browser update lab. Never serves or writes to the production host.
++// Run from the game root; visit http://127.0.0.1:4174/. All data is disposable.
++import http from 'node:http';
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {buildPwa} from './build-pwa.mjs';
++const root=path.resolve('.private/update-lab'),releases={};
++const script=`import {PWA_RELEASE} from '/pwa-release.js';
++import {offlineStore,ScoreOutbox} from '/offline.js';
++const out=document.querySelector('#lab-state');
++async function inspect(){const r=await navigator.serviceWorker.getRegistration();let info={};if(navigator.serviceWorker.controller){const channel=new MessageChannel();info=await new Promise(resolve=>{const timer=setTimeout(()=>resolve({timeout:true}),2000);channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};navigator.serviceWorker.controller.postMessage({type:'GET_STATUS'},[channel.port2]);});}out.textContent=JSON.stringify({page:PWA_RELEASE,worker:info.version,pinned:info.clientVersion,ready:info.ready,waiting:r?.waiting?.state||null,checkpoint:!!localStorage.getItem('prism.save'),classic:JSON.parse(localStorage.getItem('prism.settings')||'{}').classicMode,queued:(await offlineStore.all()).length},null,2);}
++for(const button of document.querySelectorAll('[data-lab]'))button.onclick=async()=>{try{const action=button.dataset.lab;if(action==='inspect')return inspect();if(action==='check'){const r=await navigator.serviceWorker.getRegistration();await r.update();}else if(action==='seed'){const q=new ScoreOutbox({store:offlineStore,isOnline:()=>false,send:async()=>{throw Error('Local test only');}});await q.enqueue({id:'11111111-1111-4111-8111-111111111111',mode:'campaign',day:'all',score:100,level:1,seconds:20},'Update QA');q.dispose();}else await fetch('/__qa/control',{method:'POST',body:action});await inspect();}catch(error){out.textContent=String(error);}};
++navigator.serviceWorker.addEventListener('controllerchange',inspect);setInterval(inspect,2000);inspect();`;
++const panel=`<aside id="update-lab" style="position:relative;z-index:20;padding:16px;background:#182b32;color:white;font:14px sans-serif"><strong>Local update verification only</strong><div>${[['b','Serve release B'],['a','Serve release A'],['broken','Break asset download'],['offline','Network unavailable'],['online','Restore network'],['check','Check for update'],['seed','Seed queued score'],['inspect','Inspect release and storage']].map(([id,label])=>'<button type="button" data-lab="'+id+'" style="margin:6px;padding:8px">'+label+'</button>').join('')}</div><pre id="lab-state" style="white-space:pre-wrap"></pre></aside><script type="module" src="/lab-diagnostics.js"></script>`;
++for(const release of ['a','b']){
++ const dir=path.join(root,release);await fs.mkdir(path.join(dir,'public'),{recursive:true});await fs.mkdir(path.join(dir,'tools'),{recursive:true});
++ await fs.cp(path.resolve('public'),path.join(dir,'public'),{recursive:true});
++ await fs.copyFile('tools/service-worker.template.js',path.join(dir,'tools/service-worker.template.js'));
++ const html=await fs.readFile(path.join(dir,'public/index.html'),'utf8');
++ await fs.writeFile(path.join(dir,'public/index.html'),html.replace(/<body([^>]*)>/,'<body$1><!-- Lab release '+release+' -->'+panel));
++ await fs.writeFile(path.join(dir,'public/lab-diagnostics.js'),script);
++ releases[release]=await buildPwa({root:dir});
++}
++let release='a',failure='';
++const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.webmanifest':'application/manifest+json','.woff2':'font/woff2','.ico':'image/vnd.microsoft.icon'};
++http.createServer(async(req,res)=>{try{
++ const url=new URL(req.url,'http://127.0.0.1:4174');
++ if(url.pathname==='/__qa/control'&&req.method==='POST'){
++  if(req.headers.origin&&req.headers.origin!=='http://127.0.0.1:4174'){res.writeHead(403).end();return;}
++  let command='';for await(const chunk of req){command+=chunk;if(command.length>32)throw Error('Invalid command');}
++  if(command==='a'||command==='b')release=command;else if(command==='online')failure='';else if(['offline','broken'].includes(command))failure=command;
++  console.log(JSON.stringify({time:new Date().toISOString(),release,failure}));res.writeHead(200,{'Content-Type':'application/json'}).end(JSON.stringify({release,failure}));return;
++ }
++ if(!['GET','HEAD'].includes(req.method)){res.writeHead(503).end('Local test: score writes unavailable');return;}
++ if(failure==='offline'||(failure==='broken'&&url.pathname==='/engine.js')){res.writeHead(503).end('Intentional test network failure');return;}
++ const pathname=url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname),base=path.join(root,release,'public'),file=path.resolve(base,'.'+pathname);
++ if(!file.startsWith(base+path.sep)){res.writeHead(403).end();return;}
++ const body=await fs.readFile(file);res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'}).end(req.method==='HEAD'?undefined:body);
++ }catch{res.writeHead(404).end('Not found');}
++}).listen(4174,'127.0.0.1',()=>console.log(JSON.stringify({url:'http://127.0.0.1:4174/',releases})));
