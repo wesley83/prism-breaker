@@ -1,0 +1,91 @@
+diff --git a/README.md b/README.md
+index 590a8f9..3bb4d63 100644
+--- a/README.md
++++ b/README.md
+@@ -74,36 +74,46 @@ Versions below come from the repository's dependency manifest and Bun lockfile.
+ | Node.js | Local preview, publishing, asset utilities and existing `node:test` checks |
+ | Bun | Dependency installation and rebuilding the postprocessing bundle |
+ | Sharp **0.35.5** | Development-time poster conversion and favicon exports |
++| Linkedom **0.18.12** | Development-time HTML parsing to validate world documents and generate the official offline formations |
+ | Pagelove HTML resources and Sessel | Shared score persistence, schemas, shape rules, authorization and request validation |
+ 
+ All browser runtime code, fonts, icons, images, QR encoding and postprocessing files are included in `public/`. Installing development dependencies is optional when playing or serving the committed site.
+ 
+ ## Pagelove features used
+ 
+-These are the platform capabilities wired into this game. The source for the score rules is [public/scores.html](public/scores.html); the client integration is in [public/app.js](public/app.js).
++Pagelove supplies the shared data store, request rules, server composition and owner authoring endpoint. The following capabilities are implemented in this repository; the source links show where each one is configured or called.
+ 
+-| Pagelove capability | Game feature / implementation |
+-| --- | --- |
+-| Site and asset hosting | Serves the game, vendored libraries, fonts, icons, world previews and social artwork from one host |
+-| CSS-selector resource reads | Reads the score container with `Range: selector=#scores`; native world composition selects each `#world` fragment |
+-| Mutable HTML resources / selector-scoped POST | Appends one structured run to `/scores.html` inside `#scores`, giving every visitor the same persistent leaderboard |
+-| HTML microdata | Structured world/formation/row/brick/type/obstacle records, plus score runs with player, score, world, mode, day, duration and expiry fields |
+-| Parameterized routes and reusable templates | `/editor/:worldname` selects a world through a reusable native editor template |
+-| Native fragment composition | Includes the shared editor shell and its specific world; the catalog includes all sixteen world documents |
+-| JavaScript schema methods | An allowlisted route parameter produces the native world include |
+-| Declarative authorization | Grants anonymous `POST` access specifically to the score container; no publishing credential is shipped to the browser |
+-| Shape constraints | Restricts score markup to the permitted `ul`, run `li`, and property `meta` structure |
+-| Typed schemas, cardinality and uniqueness | Defines required run properties, their types and a unique `runKey`; `submittedAt` is optional for compatibility with older records |
+-| Server-side defaults | Assigns an immutable five-day `expiresAt` deadline using the server clock; the submission grammar rejects client-supplied expiry values |
+-| Guarded selector DELETE | Deletes only rows whose stored deadline is before a cutoff no later than server time; broader selectors and future cutoffs are rejected |
+-| Processors and native outbound HTTP | An expired-row read queues a same-host cleanup request. No external scheduler or service is used |
+-| Request triggers with Sessel | Rejects submissions that fail the exact payload grammar, nickname format or numeric limits with HTTP 422 |
+-| WebDAV authoring | Publishes owner-managed site files through the pinned DAV host; normal releases preserve scores and editable world resources |
+-| ETags and conditional writes | Editor publishing and score-rule migration use `If-Match`; world initialization uses `If-None-Match` and preserves existing documents |
+-
+-Pagelove supplies persistent shared scores, composed editor routes and authorable HTML worlds without a separate application server.
+-
+-### Data flow
++| Pagelove capability | How Prism Breaker uses it | Implementation |
++| --- | --- | --- |
++| Site and asset hosting | Serves the game, libraries, fonts, icons, world previews and social artwork from the game host, with every runtime asset bundled locally. | [Entry page](public/index.html), [publisher](tools/remote.mjs) |
++| Selector-based HTTP reads | `GET /scores.html` with `Range: selector=#scores` returns the shared leaderboard fragment. The client reads its microdata to build the Adventure and Daily rankings. | [Score client](public/app.js) |
++| Mutable HTML resources and selector-scoped POST | Posting one run to the same selector appends it to the persistent HTML score document. Players share one board without a separate database service. | [Score store and rules](public/scores.html), [score client](public/app.js) |
++| HTML microdata as structured data | Score records carry typed properties such as player, score, mode, day and expiry. World documents contain nested formations, rows, bricks, custom types, barriers and portals. HTML microdata is a web standard that Pagelove can store, compose and process. | [Score schema generator](tools/build-data.mjs), [example world](public/worlds/prism-garden/definition.html), [world parser](public/world-format.js) |
++| Parameterized routes | The stored route `/editor/:worldname` serves addresses such as `/editor/prism-garden`. Pagelove exposes the captured slug through `Context.request.params.worldname`. | [Editor route](public/editor-route.html), [route builder](tools/build-editor.mjs) |
++| Reusable templates and native fragment composition | `p:include` selects `#editor-shell` from a shared template and `#world` from the chosen world document. The world catalog composes all sixteen world fragments. | [Editor shell](public/editor-template.html), [world catalog](public/worlds.html) |
++| Schema methods and server-side JavaScript | The `urn:PrismBreaker:EditorTemplate` schema defines a `world` method. Its JavaScript implementation checks the route slug against the sixteen supported worlds and returns that world's native include. | [Editor route](public/editor-route.html) |
++| Declarative authorization | Anonymous visitors may append scores only within `#scores`. Publishing site files and shared world edits requires the owner's credential; that credential is never embedded in the released assets. | [Authorization rules](public/scores.html), [editor publisher](public/editor.js) |
++| Shape constraints | The score container accepts only the configured list, run and property markup. This constrains the HTML structure accepted by the shared resource. | [Shape rules](tools/build-data.mjs) |
++| Typed schemas, cardinality and uniqueness | Required properties have declared types and counts. A unique `runKey` supports retrying an interrupted submission without creating a second accepted run. `submittedAt` remains optional for compatibility with older records. | [Score schema](tools/build-data.mjs), [submission queue](public/offline.js) |
++| Request triggers with Sessel | A POST trigger checks the exact one-run payload grammar, nickname format, mode and numeric bounds; rejected submissions receive HTTP 422. | [Sessel trigger](tools/build-data.mjs) |
++| Computed server defaults | Pagelove supplies `expiresAt` as server time plus five days. The POST grammar does not accept a client-chosen expiry, so changing the submitted payload cannot extend that deadline. | [Expiry property](tools/retention-rules.mjs) |
++| Guarded selector DELETE | A DELETE trigger permits only the exact expired-row selector and rejects cutoffs later than server time. The client can request cleanup without gaining permission to delete arbitrary scores. | [Retention rules](tools/retention-rules.mjs), [cleanup client](public/app.js) |
++| Response processors and native HTTP actions | A GET processor detects expired score rows and schedules a native HTTP DELETE to the same game's score resource. Cleanup uses the same guarded selector as the client fallback. | [Processor and HTTP action](tools/retention-rules.mjs) |
++| WebDAV authoring | The publisher uses owner-authenticated WebDAV operations to create directories and upload files. The workshop publishes complete world HTML through the pinned DAV endpoint. Normal site releases preserve score records and edited worlds. | [Publisher](tools/remote.mjs), [workshop publishing](public/editor.js) |
++| ETags and conditional writes | World publishing reads the current document and ETag, then sends `If-Match` to reject concurrent changes. Missing-world initialization uses `If-None-Match: *`; score-rule migrations also use ETags. Successful owner writes are read back. | [Editor publisher](public/editor.js), [initialization and migration](tools/remote.mjs) |
++
++The 3D renderer, physics, music, CSS brick styling, DOM strike/damage events, PWA installation, offline cache and sharing run through ordinary browser APIs and bundled JavaScript. Pagelove stores and composes the HTML that those features consume. There is no external runtime API, database, CDN or scheduling service in this design.
++
++### World editor flow
++
++1. A visitor opens [the workshop](https://sane-guild-8399.onpagelove.com/editor/prism-garden). Pagelove resolves `/editor/:worldname`, executes its schema method and composes the shared shell with `/worlds/prism-garden/definition.html`'s `#world` fragment.
++2. Browser code validates that HTML and exposes visual editing, local drafts, undo/redo and a Three.js preview. Bricks retain their microdata types, so CSS selectors such as `[itemtype~="urn:Brick:Moving"]` can style specializations and application code can handle their strike events.
++3. An owner can publish through the editor using the existing host key. The editor checks the current document and ETag, writes with `If-Match`, and verifies the result. The key is cleared from the input and is not saved in drafts, exports or browser storage.
++4. Practice loads the published world. Adventure and Daily Challenge use the official offline snapshot generated from the checked-in HTML definitions, so a live edit does not change an ongoing ranked challenge. Normal deployments exclude mutable world documents.
++
++Opening the native editor requires a connection. The type builder combines supported behavior recipes; arbitrary new physics or rendering still requires trusted application code. See [WORLD-EDITOR.md](WORLD-EDITOR.md) for the data format, event API and publishing details.
++
++### Leaderboard flow
+ 
+ 1. The browser loads `public/index.html` and its same-origin modules/assets.
+ 2. Official play uses a validated offline snapshot generated from the checked-in HTML worlds. Practice fetches the selected shared world document, or uses a saved draft/original layout when offline.
+@@ -114,6 +124,8 @@ Pagelove supplies persistent shared scores, composed editor routes and authorabl
+ 
+ Leaderboards refresh at run start, after submission, on focus/visibility changes, through the Refresh button, and periodically during visible play. Updates use HTTP requests; the game does not use a WebSocket or server-event subscription.
+ 
++Five-day expiry removes an entry from eligible rankings as soon as its deadline passes. Physical deletion is request-driven: the native GET processor and guarded client fallback remove expired rows when the online board is accessed. There is no background timer that deletes stored rows while the site receives no traffic. Daily rollover is a separate browser rule that selects the new UTC challenge date; it does not reset the whole stored score document at midnight.
++
+ ### Daily Challenge and score records
+ 
+ - A daily seed comes from the UTC date at run start. All players for that challenge get the same world and the same fresh-launch sequence. Power-up randomness uses a separate seeded generator.
+@@ -314,6 +326,7 @@ Private backups, credentials, live score exports, generated preview files and de
+ 
+ ## Further documentation
+ 
++- [WORLD-EDITOR.md](WORLD-EDITOR.md) — native Pagelove routing/templates, HTML world definitions, brick events, custom types and owner publishing.
+ - [SCORING.md](SCORING.md) — current point formulas, timing, combos, powers and ranking.
+ - [PWA-UPGRADE.md](PWA-UPGRADE.md) — installation, offline releases, queued scores, updates and performance changes.
+ - [FULLSCREEN-UPGRADE.md](FULLSCREEN-UPGRADE.md) — phone fullscreen defaults, safe-area layout, pause controls and browser/device limits.

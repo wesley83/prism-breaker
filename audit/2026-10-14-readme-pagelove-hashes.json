@@ -1,0 +1,25 @@
+{
+  "id": "PB-DOC-02",
+  "at": "2026-10-14T13:24:10.383Z",
+  "actor": "Codex",
+  "request": "Document the Pagelove features used by Prism Breaker in README",
+  "baseCommit": "057ddb0ff570f2d91d1b2502b4ab4998f2fda042",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 37375,
+      "sha256": "ec0921c4efe05409242ef93f3268014ff3dd3c9c5d2941573c1e6668f2848d7d"
+    }
+  ],
+  "verification": {
+    "relativeLinkOccurrences": 53,
+    "relativeLinks": "all exist",
+    "sourceReview": "matched documented capabilities to implementation",
+    "whitespace": "passed",
+    "runtimeTests": "not run; documentation-only change"
+  },
+  "patch": {
+    "path": "audit/2026-10-14-readme-pagelove.patch",
+    "sha256": "b7f9989f471772c83b29e402142cdc21f4bc2f97e1dc6aeb11e66aaf423e14e1"
+  }
+}
