@@ -16,6 +16,7 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Brick mechanics:** armored, moving, explosive and switch bricks, gates, moving barriers and paired portals. Worlds 3–6 have a modest difficulty increase.
 - **Brick labels:** armored bricks show their remaining hit count; explosives use a filled star and switches an outlined diamond. How to play explains each type with matching visual examples.
 - **Crystal artwork:** the stacked vector wordmark follows the OG lettering. Bricks have beveled gemstone geometry, translucent colored faces and local studio reflections. Armored bricks accumulate branching cracks after each surviving hit.
+- **OG-style paddle:** a dark inset face, polished beveled frame and glowing cyan/pink end brackets. Wide Paddle extends the body while preserving the cap proportions; Sticky adds an amber rail and Laser adds a red rail and visible emitters.
 - **Eight power-ups:** wide paddle, multiball, sticky paddle, laser, piercing ball, slow motion, safety shield and extra life. Sticky catches hold at the impact position; a shrinking wide paddle releases catches beyond its new edge.
 - **Fresh-ball variation:** new balls launch 8–18° left or right of vertical. Checkpoints preserve sequence progress, while sticky catches retain their rebound direction.
 - **Cinematics:** unique scenes for each world, a dedicated Daily Challenge completion, and separate Adventure and Daily Challenge top-score celebrations and victory music.
@@ -100,7 +101,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **53 cached files, approximately 1.94 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **54 cached files, approximately 1.95 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -170,6 +171,7 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | `public/engine.js`, `public/levels.js` | Physics, points, powers, seeded randomness and eight world definitions |
 | `public/brick-labels.js` | Remaining-hit labels and shared symbol artwork for the arena and How to play |
 | `public/crystal-bricks.js`, `public/assets/prism-wordmark.svg` | Faceted translucent bricks, cached fracture artwork, local reflections and OG-inspired vector lettering |
+| `public/paddle-art.js` | Beveled OG-style paddle, fixed-size end caps, shared reflections and power-up indicators; artwork is created before play |
 | `public/scene.js`, `public/postprocessing.js` | Three.js rendering, power-up preparation/pooling and effects |
 | `public/cinematics.js`, `public/cinematic-score.js` | World transition geometry and camera timing |
 | `public/champion.js`, `public/daily-ending.js`, `public/daily-score.js` | Adventure record and Daily Challenge endings |

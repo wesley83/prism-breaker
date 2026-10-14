@@ -4,7 +4,7 @@ Release work reviewed on October 13, 2026. Prism Breaker now downloads a complet
 
 ## Player experience
 
-1. Open the game while connected and wait for **Ready to play offline**. The current package contains 53 cached files, approximately 1.94 MB before browser storage overhead.
+1. Open the game while connected and wait for **Ready to play offline**. The current package contains 54 cached files, approximately 1.95 MB before browser storage overhead.
 2. Use **Install game**, the browser's install command, or **Share → Add to Home Screen** on iPhone/iPad. Playing offline in a prepared browser tab also works.
 3. Adventure, Practice, Daily Challenge, power-ups, music, cinematics and generated scorecards remain available without a connection.
 4. Save a score normally. The game confirms it is queued only after its storage transaction commits. It submits when the game is open and connectivity returns.

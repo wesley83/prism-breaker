@@ -2,6 +2,7 @@ import * as T from './vendor/three.module.min.js';
 import {WORLDS,POWERS,rng} from './levels.js';
 import {brickMark,drawBrickMarker,updateBrickMarker} from './brick-labels.js';
 import {crystalResources,makeCrystalBrick,updateCrystalBrick} from './crystal-bricks.js';
+import {makePaddle,updatePaddle} from './paddle-art.js';
 import {Cinematic} from './cinematics.js';
 import {Champion} from './champion.js';
 import {DailyEnding} from './daily-ending.js';
@@ -73,7 +74,7 @@ export class Stage {
    this.frame.push(this.cube(21,.25,.6,'#49766b',0,12.25,-.3));this.cube(21,.6,.6,'#112a28',0,-13,-.6);
    const pts=[];for(let x=-10;x<=10;x+=2)pts.push(x,-13,-.69,x,12,-.69);for(let y=-12;y<=12;y+=2)pts.push(-10,y,-.69,10,y,-.69);
    const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pts,3));this.grid=new T.LineSegments(geo,new T.LineBasicMaterial({color:0x70b8a3,transparent:true,opacity:.065}));this.board.add(this.grid);
-   this.paddle=this.cube(3.3,.34,.55,'#e7ffcd',0,-10.6,.1);this.paddleLight=this.cube(2.7,.065,.06,'#b5ff6c',0,-10.82,.44);
+   this.crystals??=crystalResources();this.paddle=makePaddle(this.haloTexture,this.crystals.environment);this.board.add(this.paddle);
    this.shield=this.cube(19.8,.06,.2,'#6af6d2',0,-12,.1);this.shield.visible=false;
    this.prism=new T.Mesh(new T.OctahedronGeometry(2),this.material('#b5ff6c',.8));this.cutGroup.add(this.prism);
    this.rings=[];for(let i=0;i<3;i++){const r=new T.Mesh(new T.TorusGeometry(3.6+i*.55,.025,8,80),this.material('#b5ff6c',.7));r.rotation.x=i*.7;r.rotation.y=i*.9;this.cutGroup.add(r);this.rings.push(r);}
@@ -137,7 +138,7 @@ export class Stage {
    this.syncMap(this.shots,game.shots,()=>{const m=new T.Mesh(this.box,new T.MeshBasicMaterial({color:'#ffbdcc'}));m.scale.set(.08,.6,.12);return m;},(m,s)=>m.position.set(s.x,s.y,.3));
    this.syncMap(this.barriers,game.barriers,o=>{const m=new T.Mesh(this.box,new T.MeshStandardMaterial({color:WORLDS[game.level].accent,emissive:WORLDS[game.level].accent,emissiveIntensity:.45,metalness:.8,roughness:.2}));m.scale.set(o.w,o.h,.55);return m;},(m,o)=>m.position.set(o.x,o.y,.1));
    if(!this.portalMeshes?.length&&game.portals.length){this.portalMeshes=game.portals.map((p,i)=>{const m=new T.Mesh(new T.TorusGeometry(.7,.08,10,32),new T.MeshBasicMaterial({color:i?'#ec99ff':'#6ffff0'}));m.position.set(p.x,p.y,.2);this.board.add(m);return m;});}
-   this.paddle.position.x=game.paddle.x;this.paddle.scale.x=game.paddle.w;this.paddleLight.position.x=game.paddle.x;this.paddleLight.scale.x=game.paddle.w*.8;this.paddleLight.material.color.set(game.effects.laser?'#ff718a':game.effects.sticky?'#ffd77c':WORLDS[game.level].accent);this.shield.visible=game.shield;
+   updatePaddle(this.paddle,game.paddle,game.effects,this.settings.lowEffects);this.shield.visible=game.shield;
    for(const p of this.particles){p.life-=dt;p.mesh.position.x+=p.vx*dt;p.mesh.position.y+=p.vy*dt;p.mesh.position.z+=p.vz*dt;p.vz-=dt*8;p.mesh.rotation.x+=dt*5;p.mesh.material.opacity=Math.max(0,p.life/p.total);}
    let kept=0;for(const p of this.particles){if(p.life>0)this.particles[kept++]=p;else this.recycleParticle(p);}this.particles.length=kept;
    this.draw(dt,false,0,game.drops.length>0);
