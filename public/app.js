@@ -5,7 +5,7 @@ import {SharePreview,formatShareDate} from './sharing.js?v=2';
 import {Sound} from './audio.js?v=5';
 import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=3';
-import {utcDay,rankedScores as rankScores,scoreAge,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=3';
+import {utcDay,rankedScores as rankScores,scoreAge,scoreAgeBand,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=4';
 import {offlineStore,ScoreOutbox} from './offline.js';
 import {setupOfflinePlay} from './pwa.js?v=2';
 import {setupGameDisplay} from './display.js';
@@ -247,7 +247,40 @@ function updateTopScore(){
 }
 function updateChase(){const leader=sharedScores&&rankedScores(sharedScores,game.mode==='daily'?'daily':'campaign',currentDay())[0];$('#score-chase').textContent=game.mode==='practice'?'Practice run':game.mode==='daily'&&runDay!==currentDay()?'Previous day’s challenge':leader?(game.score>Number(leader.score)?(scoresUnavailable?'Above saved top score':'Record beaten!'):(Number(leader.score)-game.score+1).toLocaleString()+' to take the lead'):sharedScores&&!scoresUnavailable?'Set the first score':'Chase the record';}
 async function refreshTopScore(){try{await fetchScores();}catch{/* The score display reports unavailable; gameplay continues. */}}
-function renderScores(rows){const daily=leaderMode==='daily';$('#score-detail-heading').textContent=daily?'AGE (MIN)':'WORLD';$('#score-caption').textContent=daily?'Daily Challenge leaderboard. Age is minutes since the score was submitted. Scores expire after five days.':'Adventure leaderboard ranked by score, world reached, then time. Scores expire after five days.';$('#score-rows').replaceChildren();$('#leader-summary').hidden=!rows.length;if(rows.length){$('#leader-name').textContent=rows[0].player;$('#leader-points').textContent=Number(rows[0].score).toLocaleString();}rows.forEach((r,i)=>{const tr=document.createElement('tr');if(i===0)tr.className='leading';const age=scoreAge(r,boardNow());[String(i+1).padStart(2,'0'),r.player,daily?(age===null?'—':age.toLocaleString()):String(r.level).padStart(2,'0'),Number(r.score).toLocaleString()].forEach((t,col)=>{const td=document.createElement('td');td.textContent=t;if(daily&&col===2){td.dataset.scoreTime=new Date(scoreExpiry(r)-SCORE_LIFETIME).toISOString();td.title=age===null?'Submission time was not recorded for this older score.':'Minutes since submission';}tr.append(td);});$('#score-rows').append(tr);});}
+const scoreAgeLabels={green:'0–48 hours old',yellow:'Over 48–96 hours old',red:'Over 96 hours old'};
+function updateScoreOutlines(){
+ const now=boardNow();
+ for(const row of all('#score-rows tr[data-score-expiry]')){
+  const band=scoreAgeBand({expiresAt:row.dataset.scoreExpiry},now);
+  if(row.dataset.ageBand===(band||''))continue;
+  row.dataset.ageBand=band||'';
+  const label=band?scoreAgeLabels[band]:'';
+  row.title=label;
+  row.querySelector('[data-score-age-label]').textContent=label?' · '+label:'';
+ }
+}
+function renderScores(rows){
+ const daily=leaderMode==='daily';
+ $('#score-table').classList.toggle('age-outlines',!daily);
+ $('#score-age-legend').hidden=daily;
+ $('#daily-reset-note').hidden=!daily;
+ $('#score-detail-heading').textContent=daily?'AGE (MIN)':'WORLD';
+ $('#score-caption').textContent=daily?'Daily Challenge leaderboard. Age is minutes since the score was submitted. Scores expire after 5 days.':'Adventure leaderboard ranked by score, world reached, then time. Green outlines: 0–48 hours old. Yellow: over 48–96 hours. Red: over 96 hours. Scores expire after 5 days.';
+ $('#score-rows').replaceChildren();$('#leader-summary').hidden=!rows.length;
+ if(rows.length){$('#leader-name').textContent=rows[0].player;$('#leader-points').textContent=Number(rows[0].score).toLocaleString();}
+ rows.forEach((r,i)=>{
+  const tr=document.createElement('tr');if(i===0)tr.className='leading';
+  const age=scoreAge(r,boardNow()),expiry=scoreExpiry(r);
+  if(!daily&&Number.isFinite(expiry))tr.dataset.scoreExpiry=String(expiry);
+  [String(i+1).padStart(2,'0'),r.player,daily?(age===null?'—':age.toLocaleString()):String(r.level).padStart(2,'0'),Number(r.score).toLocaleString()].forEach((t,col)=>{
+   const td=document.createElement('td');td.textContent=t;
+   if(!daily&&col===1){const ageLabel=document.createElement('span');ageLabel.className='sr-only';ageLabel.dataset.scoreAgeLabel='';td.append(ageLabel);}
+   if(daily&&col===2&&Number.isFinite(expiry)){td.dataset.scoreTime=new Date(expiry-SCORE_LIFETIME).toISOString();td.title='Minutes since submission';}
+   tr.append(td);
+  });$('#score-rows').append(tr);
+ });
+ if(!daily)updateScoreOutlines();
+}
 async function loadScores(){if(scoreLoading)return;scoreLoading=true;const mode=leaderMode,day=leaderboardDay(),status=$('#score-status');status.classList.remove('state-panel');status.textContent=sharedScores?'Refreshing shared scores…':'Loading shared scores…';$('#scores-dialog').setAttribute('aria-busy','true');$('#refresh-scores').disabled=true;$('#score-skeleton').hidden=!!sharedScores;renderScores(sharedScores?rankedScores(sharedScores,mode,day):[]);
  try{const rows=rankedScores(await fetchScores(),mode,day);if(leaderMode!==mode||day!==leaderboardDay())return;renderScores(rows);status.classList.toggle('state-panel',!rows.length);status.textContent=(mode==='daily'?'Challenge date: '+day+' UTC · Resets at 00:00 UTC. ':'')+(rows.length?(mode==='daily'?'Age is minutes since submission.':'Top 25 adventure runs'):'No scores yet. Finish a run and save your name to set the first record.');
  }catch{if(leaderMode!==mode||day!==leaderboardDay())return;const rows=sharedScores?rankedScores(sharedScores,mode,day):[];status.classList.toggle('state-panel',!rows.length);renderScores(rows);status.textContent=(navigator.onLine?'Unable to refresh. ':'Offline. ')+(sharedScores?'Showing saved standings. Last refreshed '+lastRefresh()+'.':'No saved standings yet. Play a run and save your score to sync later.');}
@@ -285,7 +318,7 @@ async function loadCatalog(){if(!navigator.onLine)return;try{const r=await fetch
  }game.catalog=catalog;}catch{/* Bundled level definitions keep the game playable. */}}
 saveSettings();home();loadCatalog();hydrateOfflineScores();refreshTopScore();all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=true);$('#stage').setAttribute('aria-busy','true');requestAnimationFrame(()=>requestAnimationFrame(initializeStage));if(matchMedia('(pointer:coarse)').matches)$('#launch-hint').textContent='TAP';
 const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['campaign','daily'].includes(sharedBoard)){leaderMode=sharedBoard;$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
-setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
+setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='campaign'&&$('#scores-dialog').open)updateScoreOutlines();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
 armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);
 let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;
 function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing){

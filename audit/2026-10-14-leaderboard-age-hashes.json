@@ -1,0 +1,54 @@
+{
+  "id": "PB-AGE-04",
+  "at": "2026-10-14T11:16:23.664Z",
+  "actor": "Codex",
+  "request": "Adventure age outlines and simplified leaderboard expiry footer",
+  "release": "15b0961f51c7574e8e67",
+  "verification": {
+    "syntax": "passed",
+    "pwaBuild": "passed",
+    "localVisual": "green/yellow/red Adventure and neutral Daily reviewed",
+    "automatedSuite": "not run"
+  },
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 30849,
+      "sha256": "1d8e81cdb1d7398ea5543ca797156910cd6ab5ff96daa5aaa0b24bafa2ad71c8"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 49963,
+      "sha256": "0d33b96555fb6b7693041fde638be7f4d581ef9b713b90346982b298c76a75c8"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 23170,
+      "sha256": "7ff0262c1b7b1e76d2396bc59aa4699022c4d8d5c990445c9b0b6fbf39326d41"
+    },
+    {
+      "file": "public/leaderboard.js",
+      "bytes": 1342,
+      "sha256": "f1d6ee806b66d5c4b06eb40fc728e6580b004db1b808c945622d57ba4a8e1801"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "e90273c164ba0492f8ead84ca7a8442aef4d68371b4da1a287e9099eff080ab6"
+    },
+    {
+      "file": "public/style.css",
+      "bytes": 36763,
+      "sha256": "6f1ebabf79ef00abfe5956a5fa0556afb06c32885c8b0175f41150ea0ed4cfda"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 18109,
+      "sha256": "a8ed92db060957d114d91810d1dba4fca3a69beecce5f26883cbf59e955678ae"
+    }
+  ],
+  "patch": {
+    "file": "audit/2026-10-14-leaderboard-age.patch",
+    "sha256": "243c94b11fffed6bf431e4c35685ecd65d0f8320673d3f9a8fa16ea079024c21"
+  }
+}

@@ -1,0 +1,215 @@
+diff --git a/README.md b/README.md
+index 563e194..bdfbdc2 100644
+--- a/README.md
++++ b/README.md
+@@ -22,7 +22,7 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
+ - **Fresh-ball variation:** new balls launch 8–18° left or right of vertical. Checkpoints preserve sequence progress, while sticky catches retain their rebound direction.
+ - **Cinematics:** sixteen distinct procedural sets with establishing, activation and reveal shots, local reflections, layered atmosphere, bloom, and readable captions. Daily completion, the daily crown and Adventure champion have separate sequences. Reduced-motion compositions and lower-cost rendering remain available.
+ - **Procedural audio:** sixteen original synthesized level soundtracks, two victory arrangements and sound effects, with separate volume controls and mute.
+-- **Score display and shared records:** the current player's score is centered in larger, bold type, with readable thousands separators. The board leader's name and score appear on the left; lives and pause stay on the right. Adventure and Daily Challenge have separate top-25 rankings; the daily board displays minutes since submission.
++- **Score display and shared records:** the current player's score is centered in larger, bold type, with readable thousands separators. The board leader's name and score appear on the left; lives and pause stay on the right. Adventure and Daily Challenge have separate top-25 rankings; the daily board displays minutes since submission. Adventure rows have a full green outline through 48 hours, yellow over 48–96 hours, and red over 96 hours. These age indicators update while the board stays open; both boards explain the five-day expiry.
+ - **Sharing:** leaderboard invitations and personal scorecards, native sharing where supported, complete-message copying, PNG downloads and QR codes. Android invitations combine message and link into one text body; daily dates use readable UTC labels.
+ - **Presentation and access:** responsive keyboard/mouse/touch controls, fullscreen launch for installed apps where supported, automatic phone fullscreen from start/resume taps, pause-menu settings, reduced motion/effects, light/dark/system interface themes and readable cinematic captions. Phone gameplay fills the available viewport when native fullscreen is unavailable, with space for notches and gesture areas.
+ - **Progress:** campaign checkpoints, personal best, preferences and the last entered nickname persist in browser storage.
+diff --git a/public/app.js b/public/app.js
+index baa67e5..494213a 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -5,7 +5,7 @@ import {SharePreview,formatShareDate} from './sharing.js?v=2';
+ import {Sound} from './audio.js?v=5';
+ import {TRACKS} from './music.js';
+ import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=3';
+-import {utcDay,rankedScores as rankScores,scoreAge,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=3';
++import {utcDay,rankedScores as rankScores,scoreAge,scoreAgeBand,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=4';
+ import {offlineStore,ScoreOutbox} from './offline.js';
+ import {setupOfflinePlay} from './pwa.js?v=2';
+ import {setupGameDisplay} from './display.js';
+@@ -247,7 +247,40 @@ function updateTopScore(){
+ }
+ function updateChase(){const leader=sharedScores&&rankedScores(sharedScores,game.mode==='daily'?'daily':'campaign',currentDay())[0];$('#score-chase').textContent=game.mode==='practice'?'Practice run':game.mode==='daily'&&runDay!==currentDay()?'Previous day’s challenge':leader?(game.score>Number(leader.score)?(scoresUnavailable?'Above saved top score':'Record beaten!'):(Number(leader.score)-game.score+1).toLocaleString()+' to take the lead'):sharedScores&&!scoresUnavailable?'Set the first score':'Chase the record';}
+ async function refreshTopScore(){try{await fetchScores();}catch{/* The score display reports unavailable; gameplay continues. */}}
+-function renderScores(rows){const daily=leaderMode==='daily';$('#score-detail-heading').textContent=daily?'AGE (MIN)':'WORLD';$('#score-caption').textContent=daily?'Daily Challenge leaderboard. Age is minutes since the score was submitted. Scores expire after five days.':'Adventure leaderboard ranked by score, world reached, then time. Scores expire after five days.';$('#score-rows').replaceChildren();$('#leader-summary').hidden=!rows.length;if(rows.length){$('#leader-name').textContent=rows[0].player;$('#leader-points').textContent=Number(rows[0].score).toLocaleString();}rows.forEach((r,i)=>{const tr=document.createElement('tr');if(i===0)tr.className='leading';const age=scoreAge(r,boardNow());[String(i+1).padStart(2,'0'),r.player,daily?(age===null?'—':age.toLocaleString()):String(r.level).padStart(2,'0'),Number(r.score).toLocaleString()].forEach((t,col)=>{const td=document.createElement('td');td.textContent=t;if(daily&&col===2){td.dataset.scoreTime=new Date(scoreExpiry(r)-SCORE_LIFETIME).toISOString();td.title=age===null?'Submission time was not recorded for this older score.':'Minutes since submission';}tr.append(td);});$('#score-rows').append(tr);});}
++const scoreAgeLabels={green:'0–48 hours old',yellow:'Over 48–96 hours old',red:'Over 96 hours old'};
++function updateScoreOutlines(){
++ const now=boardNow();
++ for(const row of all('#score-rows tr[data-score-expiry]')){
++  const band=scoreAgeBand({expiresAt:row.dataset.scoreExpiry},now);
++  if(row.dataset.ageBand===(band||''))continue;
++  row.dataset.ageBand=band||'';
++  const label=band?scoreAgeLabels[band]:'';
++  row.title=label;
++  row.querySelector('[data-score-age-label]').textContent=label?' · '+label:'';
++ }
++}
++function renderScores(rows){
++ const daily=leaderMode==='daily';
++ $('#score-table').classList.toggle('age-outlines',!daily);
++ $('#score-age-legend').hidden=daily;
++ $('#daily-reset-note').hidden=!daily;
++ $('#score-detail-heading').textContent=daily?'AGE (MIN)':'WORLD';
++ $('#score-caption').textContent=daily?'Daily Challenge leaderboard. Age is minutes since the score was submitted. Scores expire after 5 days.':'Adventure leaderboard ranked by score, world reached, then time. Green outlines: 0–48 hours old. Yellow: over 48–96 hours. Red: over 96 hours. Scores expire after 5 days.';
++ $('#score-rows').replaceChildren();$('#leader-summary').hidden=!rows.length;
++ if(rows.length){$('#leader-name').textContent=rows[0].player;$('#leader-points').textContent=Number(rows[0].score).toLocaleString();}
++ rows.forEach((r,i)=>{
++  const tr=document.createElement('tr');if(i===0)tr.className='leading';
++  const age=scoreAge(r,boardNow()),expiry=scoreExpiry(r);
++  if(!daily&&Number.isFinite(expiry))tr.dataset.scoreExpiry=String(expiry);
++  [String(i+1).padStart(2,'0'),r.player,daily?(age===null?'—':age.toLocaleString()):String(r.level).padStart(2,'0'),Number(r.score).toLocaleString()].forEach((t,col)=>{
++   const td=document.createElement('td');td.textContent=t;
++   if(!daily&&col===1){const ageLabel=document.createElement('span');ageLabel.className='sr-only';ageLabel.dataset.scoreAgeLabel='';td.append(ageLabel);}
++   if(daily&&col===2&&Number.isFinite(expiry)){td.dataset.scoreTime=new Date(expiry-SCORE_LIFETIME).toISOString();td.title='Minutes since submission';}
++   tr.append(td);
++  });$('#score-rows').append(tr);
++ });
++ if(!daily)updateScoreOutlines();
++}
+ async function loadScores(){if(scoreLoading)return;scoreLoading=true;const mode=leaderMode,day=leaderboardDay(),status=$('#score-status');status.classList.remove('state-panel');status.textContent=sharedScores?'Refreshing shared scores…':'Loading shared scores…';$('#scores-dialog').setAttribute('aria-busy','true');$('#refresh-scores').disabled=true;$('#score-skeleton').hidden=!!sharedScores;renderScores(sharedScores?rankedScores(sharedScores,mode,day):[]);
+  try{const rows=rankedScores(await fetchScores(),mode,day);if(leaderMode!==mode||day!==leaderboardDay())return;renderScores(rows);status.classList.toggle('state-panel',!rows.length);status.textContent=(mode==='daily'?'Challenge date: '+day+' UTC · Resets at 00:00 UTC. ':'')+(rows.length?(mode==='daily'?'Age is minutes since submission.':'Top 25 adventure runs'):'No scores yet. Finish a run and save your name to set the first record.');
+  }catch{if(leaderMode!==mode||day!==leaderboardDay())return;const rows=sharedScores?rankedScores(sharedScores,mode,day):[];status.classList.toggle('state-panel',!rows.length);renderScores(rows);status.textContent=(navigator.onLine?'Unable to refresh. ':'Offline. ')+(sharedScores?'Showing saved standings. Last refreshed '+lastRefresh()+'.':'No saved standings yet. Play a run and save your score to sync later.');}
+@@ -285,7 +318,7 @@ async function loadCatalog(){if(!navigator.onLine)return;try{const r=await fetch
+  }game.catalog=catalog;}catch{/* Bundled level definitions keep the game playable. */}}
+ saveSettings();home();loadCatalog();hydrateOfflineScores();refreshTopScore();all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=true);$('#stage').setAttribute('aria-busy','true');requestAnimationFrame(()=>requestAnimationFrame(initializeStage));if(matchMedia('(pointer:coarse)').matches)$('#launch-hint').textContent='TAP';
+ const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['campaign','daily'].includes(sharedBoard)){leaderMode=sharedBoard;$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
+-setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
++setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='campaign'&&$('#scores-dialog').open)updateScoreOutlines();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
+ armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);
+ let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;
+ function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing){
+diff --git a/public/index.html b/public/index.html
+index 3bce53a..5038bdd 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -1,7 +1,7 @@
+ <!doctype html>
+ <html lang="en" prefix="og: https://ogp.me/ns#">
+ <head>
+- <meta name="prism-release" content="27244bdbe305705f99d6">
++ <meta name="prism-release" content="15b0961f51c7574e8e67">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Break through sixteen colorful worlds in Prism Breaker. A Three.js arcade adventure with power-ups, cinematic transitions and a shared leaderboard. Play free on Pagelove.">
+  <meta name="theme-color" content="#111d20"><meta name="color-scheme" content="dark light">
+@@ -13,9 +13,9 @@
+  <meta property="og:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Prism Breaker title beside a luminous green prism, colorful 3D bricks, a glowing ball and a paddle.">
+  <meta property="og:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker-square.jpg"><meta property="og:image:type" content="image/jpeg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="1200"><meta property="og:image:alt" content="Square Prism Breaker artwork with a glowing green prism surrounded by pink, cyan and golden bricks above the paddle.">
+  <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Prism Breaker · Break through."><meta name="twitter:description" content="Sixteen colorful 3D worlds, glowing powerups, cinematic endings and shared high scores. Play free on Pagelove."><meta name="twitter:image" content="https://sane-guild-8399.onpagelove.com/assets/og-prism-breaker.jpg"><meta name="twitter:image:alt" content="Prism Breaker title beside a luminous green prism, colorful 3D bricks, a glowing ball and a paddle.">
+- <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=23">
++ <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=24">
+  <link rel="manifest" href="/manifest.webmanifest"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Prism Breaker"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+- <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=26"></script>
++ <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=27"></script>
+ </head>
+ <body>
+  <div class="shell">
+@@ -60,7 +60,7 @@
+  <dialog id="pause-dialog"><button class="close icon-button" data-close aria-label="Close pause menu"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Take a breather.</h2><p id="pause-description">Your adventure is saved.</p><button id="unpause" class="button primary">Back to the game →</button><button id="pause-settings" class="button secondary">Settings</button><button id="pause-fullscreen" class="button secondary">Enter fullscreen</button><button id="quit" class="button secondary">Back to start screen</button></dialog>
+  <dialog id="settings-dialog"><button class="close icon-button" data-close aria-label="Close settings"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Your kind of arcade.</h2><label class="setting">Interface theme<select id="interface-theme" aria-label="Interface theme"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label><label class="setting"><span>Classic mode<small id="classic-mode-description">Original bricks and paddle</small></span><input id="classic-mode" type="checkbox" aria-label="Classic mode" aria-describedby="classic-mode-description"></label><label class="setting">Music <input id="music-volume" type="range" min="0" max="100" value="35"></label><label class="setting">Sound effects <input id="effects-volume" type="range" min="0" max="100" value="70"></label><label class="setting">Reduced motion <input id="reduced-motion" type="checkbox"></label><label class="setting">Fewer visual effects <input id="low-effects" type="checkbox"></label><p id="music-credit" class="music-credit"></p><p class="small">The arena keeps each world’s colors. Your preferences are saved.</p><button class="button primary" data-close>All set →</button></dialog>
+  <dialog id="worlds-dialog" class="wide-dialog"><button class="close icon-button" data-close aria-label="Close world selection"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Sixteen worlds to explore.</h2><p>Jump into any world in practice mode. Campaign scores begin in Prism Garden.</p><p id="journey-summary" class="journey-summary"></p><div id="world-grid" class="world-grid"></div></dialog>
+- <dialog id="scores-dialog" class="wide-dialog"><button class="close icon-button" data-close aria-label="Close leaderboard"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>The high-score club.</h2><div class="score-tabs"><button id="tab-campaign" aria-pressed="true">Adventure</button><button id="tab-daily" aria-pressed="false">Daily challenge</button><button id="refresh-scores" aria-label="Refresh scores"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#refresh"/></svg><span>Refresh</span></button></div><div id="leader-summary" class="leader-summary" hidden><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#trophy"/></svg><div><span>Score to beat</span><strong id="leader-name"></strong></div><strong id="leader-points"></strong></div><div id="score-skeleton" class="score-skeleton" hidden aria-hidden="true"><i></i><i></i><i></i></div><p id="score-status" class="small" role="status">Loading shared scores…</p><section id="pending-scores" class="pending-scores" hidden aria-labelledby="pending-title"><h3 id="pending-title">Scores waiting to sync</h3><p class="small">Queued scores keep their original challenge date. Open the game when connected to send them.</p><div id="pending-list"></div></section><div class="leaderboard-sharing"><div class="leaderboard-share-actions"><button id="share-leaderboard" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share leaderboard</span></button><button id="copy-leaderboard-link" class="button secondary">Copy link</button></div><p id="share-status" class="small" role="status"></p><div id="share-link-fallback" hidden><label for="share-link">Leaderboard link</label><div class="share-link-row"><input id="share-link" type="url" readonly autocomplete="off"></div></div></div><div class="table-wrap"><table><caption id="score-caption" class="sr-only">Shared leaderboard ranked by score, world reached, then time</caption><thead><tr><th scope="col">RANK</th><th scope="col">PLAYER</th><th scope="col" id="score-detail-heading">WORLD</th><th scope="col">SCORE</th></tr></thead><tbody id="score-rows"></tbody></table></div><p class="small muted">Scores expire after five days. Daily standings reset at 00:00 UTC. Community scores are self-reported.</p></dialog>
++ <dialog id="scores-dialog" class="wide-dialog"><button class="close icon-button" data-close aria-label="Close leaderboard"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>The high-score club.</h2><div class="score-tabs"><button id="tab-campaign" aria-pressed="true">Adventure</button><button id="tab-daily" aria-pressed="false">Daily challenge</button><button id="refresh-scores" aria-label="Refresh scores"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#refresh"/></svg><span>Refresh</span></button></div><div id="leader-summary" class="leader-summary" hidden><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#trophy"/></svg><div><span>Score to beat</span><strong id="leader-name"></strong></div><strong id="leader-points"></strong></div><div id="score-skeleton" class="score-skeleton" hidden aria-hidden="true"><i></i><i></i><i></i></div><p id="score-status" class="small" role="status">Loading shared scores…</p><section id="pending-scores" class="pending-scores" hidden aria-labelledby="pending-title"><h3 id="pending-title">Scores waiting to sync</h3><p class="small">Queued scores keep their original challenge date. Open the game when connected to send them.</p><div id="pending-list"></div></section><div class="leaderboard-sharing"><div class="leaderboard-share-actions"><button id="share-leaderboard" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share leaderboard</span></button><button id="copy-leaderboard-link" class="button secondary">Copy link</button></div><p id="share-status" class="small" role="status"></p><div id="share-link-fallback" hidden><label for="share-link">Leaderboard link</label><div class="share-link-row"><input id="share-link" type="url" readonly autocomplete="off"></div></div></div><p id="score-age-legend" class="score-age-legend" aria-label="Adventure score age"><span data-age-band="green"><i aria-hidden="true"></i>0–48 hours</span><span data-age-band="yellow"><i aria-hidden="true"></i>Over 48–96 hours</span><span data-age-band="red"><i aria-hidden="true"></i>Over 96 hours</span></p><div class="table-wrap"><table id="score-table"><caption id="score-caption" class="sr-only">Shared leaderboard ranked by score, world reached, then time</caption><thead><tr><th scope="col">RANK</th><th scope="col">PLAYER</th><th scope="col" id="score-detail-heading">WORLD</th><th scope="col">SCORE</th></tr></thead><tbody id="score-rows"></tbody></table></div><p class="small muted">Scores expire after 5 days.<span id="daily-reset-note" hidden> Daily standings reset at 00:00 UTC.</span></p></dialog>
+  <dialog id="result-dialog"><span class="eyebrow" id="result-kicker">WHAT A RUN</span><h2 id="result-title">One more try?</h2><p id="result-description"></p><div id="record-badge" class="record-badge" hidden>NEW HIGH SCORE</div><div class="result-score"><span>FINAL SCORE</span><strong id="result-score">0</strong></div><p id="result-bonuses" class="result-bonuses"></p><p id="result-best" class="result-best"></p><form id="score-form"><label for="player-name">Name on the leaderboard</label><div class="submit-row"><input id="player-name" name="player" placeholder="Your arcade name" minlength="2" maxlength="16" pattern="[A-Za-z0-9 _\-]{2,16}" required autocomplete="nickname" aria-describedby="submit-status"><button class="button primary" type="submit" id="submit-score">Save score</button></div><p id="submit-status" role="status" class="small">2-16 letters, numbers, spaces, dashes or underscores.</p></form><button id="result-scores" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#trophy"/></svg><span>View leaderboard</span></button><button id="share-result" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share my score</span></button><button id="play-again" class="button primary">Play again →</button><button id="result-home" class="button secondary">Back to start screen</button></dialog>
+  <dialog id="new-run-dialog" aria-labelledby="new-run-title"><button class="close icon-button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="new-run-title">Start a new adventure?</h2><p id="new-run-detail"></p><button id="confirm-new-run" class="button primary">Start adventure</button><button class="button secondary" data-close>Keep my checkpoint</button></dialog>
+  <dialog id="help-dialog" class="wide-dialog" aria-labelledby="help-title"><button class="close icon-button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="help-title">One paddle. Your angle.</h2><p>Clear the bricks without losing all three lives. Hit with the paddle’s edges to steer the ball.</p><div class="control-guide"><div><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#keyboard"/></svg><strong>Keyboard</strong><p><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move.<br><kbd>SPACE</kbd> to launch. <kbd>P</kbd> or <kbd>ESC</kbd> to pause.</p></div><div><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#hand-finger"/></svg><strong>Mouse & touch</strong><p>Move the mouse or drag your finger to steer.<br>Click or tap the arena to launch.</p></div></div><section aria-labelledby="brick-guide-title"><h3 id="brick-guide-title">Know your bricks.</h3><div id="brick-guide" class="brick-guide"></div></section><h3>Catch a little advantage.</h3><div id="power-guide" class="power-guide"></div><section aria-labelledby="scoring-title"><h3 id="scoring-title">How scoring works.</h3><p>Destroying a brick earns <strong>100 × your combo multiplier</strong>. The combo counts bricks destroyed since the last paddle contact.</p><div class="table-wrap"><table><caption class="sr-only">Points per brick within a combo streak</caption><thead><tr><th scope="col">BRICKS IN STREAK</th><th scope="col">MULTIPLIER</th><th scope="col">POINTS EACH</th></tr></thead><tbody><tr><td>1–5</td><td>×1</td><td>100</td></tr><tr><td>6–11</td><td>×2</td><td>200</td></tr><tr><td>12–17</td><td>×3</td><td>300</td></tr><tr><td>18–23</td><td>×4</td><td>400</td></tr><tr><td>24 onward</td><td>×5</td><td>500</td></tr></tbody></table></div><p>A 12-brick streak earns <strong>2,000 points</strong>. Any ball touching the paddle resets the shared combo, including a Sticky catch. Losing all balls or starting a new board also resets it. Laser shots and explosion chains build that same combo; armored bricks score only when destroyed.</p><p><strong>Clear bonus: 750 + 150 × lives remaining.</strong> Clear with three lives for 1,200 bonus points. The first two Citadel and Nexus formations award 500 each; the final formation uses the normal clear bonus. Earn an extra life every 12,000 points, up to nine lives.</p><p><strong>Every collected power-up earns 150 points.</strong> Pickup points are added directly, without a combo multiplier. Multiball, Laser and Piercing can build brick combos. Wide, Slow and Shield help preserve lives. Sticky helps you aim, but each catch resets the combo. Each Extra life retained at a normal clear adds 150 to its bonus.</p><p><strong>Speed bonus: up to 2,000 points for each board.</strong> Subtract 10 points for every whole active second: a 40-second clear earns 1,600; a 100-second clear earns 1,000; at 200 seconds the bonus reaches zero. Each Citadel and Nexus formation earns its own speed bonus. Leaderboards rank by score, then world reached, then shortest active play time. Pauses, cutscenes and waiting to launch after a life loss do not count toward time. Losing a life or saving and resuming does not reset the board timer.</p><p>Your personal best combines Adventure and Daily Challenge runs. Practice does not update it.</p></section><p class="small">Adventure follows all sixteen worlds. Practice lets you try any world. The daily challenge is the same seeded world for everyone on its UTC date.</p><button class="button primary" data-close>Got it</button></dialog>
+diff --git a/public/leaderboard.js b/public/leaderboard.js
+index ed1f127..6df5f86 100644
+--- a/public/leaderboard.js
++++ b/public/leaderboard.js
+@@ -8,6 +8,10 @@ export function rankedScores(scores,mode,day=utcDay(),now=Date.now()){
+ export function scoreAge(row,now=Date.now()){
+  const time=scoreExpiry(row)-SCORE_LIFETIME;return Number.isFinite(time)?Math.max(0,Math.floor((now-time)/60000)):null;
+ }
++export function scoreAgeBand(row,now=Date.now()){
++ const age=now-(scoreExpiry(row)-SCORE_LIFETIME);
++ return !Number.isFinite(age)?null:age>96*3600000?'red':age>48*3600000?'yellow':'green';
++}
+ export function topFinish(result,scores,day=utcDay(),now=Date.now()){
+  if(result.score<=0||result.mode==='practice'||(result.mode==='daily'&&result.day!==day))return false;
+  const leader=rankedScores(scores,result.mode,day,now).find(r=>r.runKey!==result.id);
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index fcff6de..d2ae77c 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -1,2 +1,2 @@
+ // Generated by tools/build-pwa.mjs.
+-export const PWA_RELEASE = "27244bdbe305705f99d6";
++export const PWA_RELEASE = "15b0961f51c7574e8e67";
+diff --git a/public/style.css b/public/style.css
+index abebf85..b95d81f 100644
+--- a/public/style.css
++++ b/public/style.css
+@@ -13,6 +13,20 @@ dialog{background:var(--panel);border:1px solid var(--line);border-radius:16px;c
+ @media(max-width:1100px){.shell{padding:0 22px}.layout{grid-template-columns:minmax(0,1fr)}.home-panel{width:53%}.home-panel h1{font-size:62px}.hud-combo{display:none}.hud{gap:14px}}
+ @media(max-width:900px){.layout{grid-template-columns:1fr}.stage{height:calc(100dvh - 146px);min-height:610px;max-height:880px}.home-panel{width:50%}.home-panel h1{font-size:72px}.hud-combo{display:block}.nav-button{font-size:12px;padding:9px}.topbar{gap:12px}}
+ @media(max-width:650px){.shell{padding:0 12px}.topbar{height:98px;display:grid;grid-template-columns:1fr;gap:0;padding:8px 0}.brand{font-size:15px;justify-content:center;gap:8px}.brand>svg{width:23px;height:27px}nav{justify-content:center;gap:4px}.nav-button{font-size:10px;gap:5px;padding:7px;min-height:42px}.nav-button .icon{width:17px}.icon-button{min-width:42px;min-height:42px;width:42px;padding:8px}.layout{padding:14px 0}.stage{height:calc(100dvh - 156px);min-height:600px}.home-panel{left:7%;width:86%;top:47%;max-width:none}.home-panel h1{font-size:clamp(52px,14vw,72px);letter-spacing:-2.4px;margin-bottom:20px}.home-panel p{font-size:14px;margin-bottom:20px}.home-panel .button{max-width:290px;font-size:13px}.home-mode:after{background:linear-gradient(90deg,#092320f3,#092320d9 55%,#0923208c)}.stage-top{left:16px;right:16px;top:18px;font-size:10px}.stage-top .eyebrow{font-size:10px;letter-spacing:.2px}.stage-number{font-size:9px}.hud{top:46px;left:15px;right:12px;gap:8px}.hud-combo{display:none}.hud strong{font-size:21px}.hud>div>span,.top-score>span:first-child{font-size:9px;letter-spacing:.2px}.hud #score-chase{max-width:95px;font-size:9px;line-height:1.3}.top-score{min-width:94px;max-width:118px;padding:7px 9px}.top-score #top-player{font-size:10px}.hud .hud-lives{min-width:40px}.hud-lives .icon{width:12px;height:19px}.hud .icon-button{width:42px;min-width:42px;padding:8px}.hud small{font-size:9px}.effects{top:148px;left:14px;right:14px}.effect{font-size:10px;padding:5px 7px}.toast{top:146px;font-size:11px;max-width:88%;width:max-content}.stage-bottom{left:15px;right:12px;font-size:9px;bottom:7px}.stage-bottom kbd{font-size:9px}.arena-progress{left:16px;right:16px;bottom:56px;font-size:10px}.launch-controls{bottom:8px;display:flex;flex-direction:column;gap:6px;width:max-content;max-width:calc(100% - 104px)}.launch{min-width:195px;font-size:13px}.launch span{font-size:9px}dialog{padding:26px 22px}dialog h2{font-size:29px}.world-grid{gap:8px}.world-card{grid-template-columns:minmax(0,1fr);align-content:start;gap:10px;padding:10px;min-height:0}.world-preview{width:100%;height:auto;aspect-ratio:800/420}.world-card-meta{gap:4px 6px}.world-card small{font-size:10px}.world-current{font-size:9px;padding:2px 4px}.world-card strong{font-size:18px}.world-mechanic{font-size:11px}.control-guide{grid-template-columns:1fr}.power-guide{gap:14px 10px}.power-guide p{font-size:10px}.power-guide strong{font-size:11px}.power-guide .power-symbol{width:28px;height:30px}.score-tabs{gap:5px}.score-tabs button{font-size:11px;padding:9px}.score-tabs button:last-child span{display:none}.leader-summary{padding:13px;gap:9px}.leader-summary>strong{font-size:22px}.leader-summary>div>strong{font-size:16px}table{font-size:12px}th,td{padding:12px 5px}.footer{font-size:10px;gap:12px;padding-bottom:12px}.result-score strong{font-size:48px}}
++/* Requested Adventure score-age outlines; these communicate retention status. */
++#scores-dialog{--score-green:#66d99a;--score-yellow:#edcb62;--score-red:#f28c91}
++:root[data-theme=light] #scores-dialog{--score-green:#237747;--score-yellow:#92700a;--score-red:#b13c48}
++@media(prefers-color-scheme:light){:root:not([data-theme=dark]) #scores-dialog{--score-green:#237747;--score-yellow:#92700a;--score-red:#b13c48}}
++#scores-dialog [data-age-band=green]{--score-age-color:var(--score-green)}
++#scores-dialog [data-age-band=yellow]{--score-age-color:var(--score-yellow)}
++#scores-dialog [data-age-band=red]{--score-age-color:var(--score-red)}
++#score-table.age-outlines{border-collapse:separate;border-spacing:0 7px}
++#score-table.age-outlines tbody td{border-top:2px solid var(--score-age-color,var(--line));border-bottom:2px solid var(--score-age-color,var(--line))}
++#score-table.age-outlines tbody td:first-child{border-left:2px solid var(--score-age-color,var(--line));border-radius:7px 0 0 7px;padding-left:10px}
++#score-table.age-outlines tbody td:last-child{border-right:2px solid var(--score-age-color,var(--line));border-radius:0 7px 7px 0;padding-right:10px}
++.score-age-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin:16px 0 4px!important;font-size:12px;color:var(--muted)}
++.score-age-legend span{display:inline-flex;align-items:center;gap:7px}
++.score-age-legend i{width:13px;height:13px;border:2px solid var(--score-age-color);border-radius:3px;flex-shrink:0}
+ /* Arena-focused layout and contextual information. */
+ 
+ .record-result{border-color:#bda260}.record-badge{display:inline-block;font-size:11px;letter-spacing:1.2px;padding:9px 13px;border:1px solid #bda260;border-radius:7px;background:#baa15a17;color:var(--text)}.record-result .result-score strong{color:var(--accent-text)}
+diff --git a/public/sw.js b/public/sw.js
+index 98bae86..eba41d9 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -1,10 +1,10 @@
+ // Generated by tools/build-pwa.mjs. Keep runtime edits in this template.
+-const VERSION = "27244bdbe305705f99d6";
++const VERSION = "15b0961f51c7574e8e67";
+ const PRECACHE = [
+   {
+     "path": "/app.js",
+-    "sha256": "a06f6fcd40fa782df82d5be99de67f72753741be37251a8194edfa5509bc0604",
+-    "bytes": 48870
++    "sha256": "0d33b96555fb6b7693041fde638be7f4d581ef9b713b90346982b298c76a75c8",
++    "bytes": 49963
+   },
+   {
+     "path": "/apple-touch-icon.png",
+@@ -223,13 +223,13 @@ const PRECACHE = [
+   },
+   {
+     "path": "/index.html",
+-    "sha256": "76511a89c4ce1c66f328c44d190175f9e02620000829faf595af1e236f34fe7a",
+-    "bytes": 22838
++    "sha256": "7ff0262c1b7b1e76d2396bc59aa4699022c4d8d5c990445c9b0b6fbf39326d41",
++    "bytes": 23170
+   },
+   {
+     "path": "/leaderboard.js",
+-    "sha256": "f20fe170ce078db4fcc8f2b141558ef14c2ff52ee92ed9236ec3ed1642cb2f6a",
+-    "bytes": 1151
++    "sha256": "f1d6ee806b66d5c4b06eb40fc728e6580b004db1b808c945622d57ba4a8e1801",
++    "bytes": 1342
+   },
+   {
+     "path": "/levels.js",
+@@ -263,7 +263,7 @@ const PRECACHE = [
+   },
+   {
+     "path": "/pwa-release.js",
+-    "sha256": "934cf8dfbb9e69624d9bcec73dbe8ac6a982a6b959f2d29b8bd10f7749b88e48",
++    "sha256": "e90273c164ba0492f8ead84ca7a8442aef4d68371b4da1a287e9099eff080ab6",
+     "bytes": 88
+   },
+   {
+@@ -283,8 +283,8 @@ const PRECACHE = [
+   },
+   {
+     "path": "/style.css",
+-    "sha256": "6c09f1c141423f0c200e0669f7d5feebd7bb4934097c9a4279f1ddcb12152eae",
+-    "bytes": 35294
++    "sha256": "6f1ebabf79ef00abfe5956a5fa0556afb06c32885c8b0175f41150ea0ed4cfda",
++    "bytes": 36763
+   },
+   {
+     "path": "/vendor/qr.js",
