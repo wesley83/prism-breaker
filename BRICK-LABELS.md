@@ -4,7 +4,7 @@ Armored bricks now display the number of hits remaining. Ordinary armor starts a
 
 Explosive bricks display a filled five-point star. Destroying one applies one hit to nearby bricks and can trigger an explosion chain; armored neighbors may survive. Switch bricks display an outlined diamond and open Electric City's glowing gates when destroyed. Regular one-hit bricks have no marker.
 
-`public/brick-labels.js` provides the shared marker definitions and artwork used by the renderer and the How to play legend. White symbols and numbers sit on a dark badge; markers retain their contrast independently of world fog and tone mapping. Number textures and the star/diamond textures are cached and uploaded before play. Each brick has its own material so damaging one label cannot change another label that originally used the same texture.
+`public/brick-labels.js` provides the shared marker definitions and artwork used by the renderer and the How to play legend. Numbers use distinct colors: cyan for 3 hits, gold for 2 and coral for 1. Explosive and switch symbols remain white. All sit on a dark badge; markers retain their contrast independently of world fog and tone mapping. Number textures and the star/diamond textures are cached and uploaded before play. Each brick has its own material so damaging one label cannot change another label that originally used the same texture. Damage swaps both the number and its color; color supplements the numeral and growing cracks rather than replacing them.
 
 The How to play section includes labeled previews of Regular, Armored, Explosive and Switch bricks, including the 3 → 2 → 1 countdown and the Citadel's three-hit armor. The legend uses one column on phones and two on larger screens.
 

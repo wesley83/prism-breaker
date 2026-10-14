@@ -14,7 +14,7 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Daily Challenge:** one world selected from a UTC-date seed, with shared launch and power-up random sequences. Its active leaderboard rolls over at 00:00 UTC.
 - **Practice:** play individual worlds. Practice scores stay out of the shared boards and personal best.
 - **Brick mechanics:** armored, moving, explosive and switch bricks, gates, moving barriers and paired portals. Worlds 3–6 have a modest difficulty increase.
-- **Brick labels:** armored bricks show their remaining hit count; explosives use a filled star and switches an outlined diamond. How to play explains each type with matching visual examples.
+- **Brick labels:** armored bricks show their remaining hit count in distinct colors: cyan 3, gold 2, coral 1. Explosives use a filled star and switches an outlined diamond. How to play explains each type with matching visual examples.
 - **Crystal artwork:** the stacked vector wordmark follows the OG lettering. Bricks have beveled gemstone geometry, translucent colored faces and local studio reflections. Armored bricks accumulate branching cracks after each surviving hit.
 - **OG-style paddle:** a dark inset face, polished beveled frame and glowing cyan/pink end brackets. Wide Paddle extends the body while preserving the cap proportions; Sticky adds an amber rail and Laser adds a red rail and visible emitters.
 - **Eight power-ups:** wide paddle, multiball, sticky paddle, laser, piercing ball, slow motion, safety shield and extra life. Sticky catches hold at the impact position; a shrinking wide paddle releases catches beyond its new edge.

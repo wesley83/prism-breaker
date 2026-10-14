@@ -1,6 +1,6 @@
 import * as T from './vendor/three.module.min.js';
 import {WORLDS,POWERS,rng} from './levels.js';
-import {brickMark,drawBrickMarker,updateBrickMarker} from './brick-labels.js';
+import {brickMark,drawBrickMarker,updateBrickMarker} from './brick-labels.js?v=2';
 import {crystalResources,makeCrystalBrick,updateCrystalBrick} from './crystal-bricks.js';
 import {makePaddle,updatePaddle} from './paddle-art.js';
 import {Cinematic} from './cinematics.js';
