@@ -15,7 +15,5 @@ if (!Context.request.body.matches(${JSON.stringify(scorePattern)})) {
 }
 </script></div></div>${retentionRules()}`;
 if(!process.argv.includes('--worlds-only'))await fs.writeFile('public/scores.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Prism Breaker shared scores</title></head><body><h1>Prism Breaker scores</h1><p>Community scores are self-reported. <a href="/">Play Prism Breaker</a>.</p><ul id="scores"></ul>${rules}</body></html>`);
-let content='';for(let i=0;i<WORLD_COUNT;i++)for(let phase=0;phase<formationCount(i);phase++){
-const data=makeLevel(i,phase);content+=`<section data-world="${i}" data-phase="${phase}"><h2>${WORLDS[i].name}</h2><p>${WORLDS[i].note}</p>`+data.bricks.map(b=>'<code data-brick>'+JSON.stringify(b)+'</code>').join('')+'</section>';}
-await fs.writeFile('public/worlds.html',`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Prism Breaker world definitions</title></head><body><main id="worlds">${content}</main></body></html>`);
+await import('./build-worlds.mjs');
 console.log(process.argv.includes('--worlds-only')?'Generated structured world definitions.':'Generated structured world definitions and score rules.');

@@ -87,10 +87,18 @@ test('offline deep-link navigation and versioned/unversioned lazy imports come f
 
 test('selector requests, score reads, writes and cross-origin requests never enter the static cache handler', async () => {
   const instance = worker(); await instance.dispatch('install');
-  for (const [pathname, options] of [['/scores.html?cb=1', {}], ['/worlds.html?v=2', {}], ['/app.js', {headers: {Range: 'selector=#scores'}}], ['/scores.html', {method: 'POST'}], ['/app.js', {method: 'POST'}]]) {
+  for (const [pathname, options] of [['/scores.html?cb=1', {}], ['/worlds.html?v=2', {}], ['/worlds/prism-garden/definition.html', {}], ['/editor/prism-garden', {}], ['/app.js', {headers: {Range: 'selector=#scores'}}], ['/scores.html', {method: 'POST'}], ['/app.js', {method: 'POST'}]]) {
     assert.equal(await instance.request(pathname, options), undefined);
   }
   assert.equal(await instance.dispatch('fetch', {request: {url: 'https://other.example/app.js', method: 'GET', headers: new Headers(), mode: 'cors'}}), undefined);
+});
+test('a live workshop can opt its own client into network assets without unpinning an active game',async()=>{
+ const instance=worker();await instance.dispatch('install');await instance.message('CLIENT_VERSION',{id:'active-game'});
+ instance.resources.set('/editor.js','new editor');instance.resources.set('/app.js','new game on network');
+ assert.equal((await instance.request('/editor.js',{id:'workshop'})).status,503);
+ assert.equal((await instance.message('CLIENT_VERSION',{id:'workshop',version:'network'})).ready,true);
+ assert.equal(await(await instance.request('/editor.js',{id:'workshop'})).text(),'new editor');
+ assert.match(await(await instance.request('/app.js',{id:'active-game'})).text(),new RegExp(versionA));
 });
 
 test('updates wait for explicit consent, then retain old client assets across worker restarts', async () => {

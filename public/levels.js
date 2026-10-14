@@ -1,3 +1,4 @@
+import {BUNDLED_FORMATIONS} from './bundled-worlds.js';
 export const WORLDS = [
  {name:'Prism Garden',tag:'Where the light begins',colors:['#b5ff6c','#4de3bc','#ffbd82','#f475a2'],sky:'#092c29',accent:'#b5ff6c',shape:'garden',note:'Aim with the edge of your paddle. Catch falling power-ups.',story:'A sleeping prism wakes. Follow its light above the clouds.',mechanic:'Find your rhythm',root:48},
  {name:'Cloud Carnival',tag:'A little above ordinary',colors:['#f9a8df','#a9bfff','#ffdc99','#98edf1'],sky:'#24203f',accent:'#f9a8df',shape:'cloud',note:'Drifting formations and armored bricks enter the arena.',story:'The carnival lights flicker. A city below needs your spark.',mechanic:'Moving formations',root:53},
@@ -34,45 +35,6 @@ export function daySeed(day){let h=2166136261;for(const c of day)h=Math.imul(h^c
 export const dailyWorld=day=>daySeed(day)%(day<'2026-10-15'?8:WORLD_COUNT);
 export function makeLevel(index,phase=0){
  if(!Number.isInteger(index)||index<0||index>=WORLD_COUNT)throw new RangeError('Unknown world');
- const bricks=[];let id=0;
- for(let row=0;row<(index>=8?7:6);row++)for(let col=0;col<9;col++){
-   let include=true;
-   if(index===0)include=!(row<2&&(col===0||col===8))&&!(row===5&&col%2===0);
-   if(index===1)include=(row+col)%5!==0;
-   if(index===2)include=row>=3||col%2===0;
-   if(index===3)include=Math.abs(col-4)+Math.abs(row-2.5)<6;
-   if(index===4)include=row%2===0||col%3!==1;
-   if(index===5)include=!(row===2&&col%2===1);
-   if(index===6)include=(row+col)%4!==0;
-   if(index===7)include=phase===0?Math.abs(col-4)<row+1:phase===1?(row+col)%3!==0:Math.abs(col-4)+Math.abs(row-2.5)<5;
-   if(index===8)include=row===0||row===6||col%3!==1;
-   if(index===9)include=(col+row*2)%5!==0&&!(row===6&&col%2===0);
-   if(index===10)include=Math.abs(col-4)+Math.abs(row-3)<=5;
-   if(index===11)include=row>=Math.abs(col-4)*.7&&!(row===5&&col%3===1);
-   if(index===12)include=Math.abs(col-4)<=3-Math.abs(row-3)*.6||row===3;
-   if(index===13)include=row%3===0||col%2===0;
-   if(index===14)include=Math.abs(col-4)+Math.abs(row-3)>=2&&(row+col)%6!==0;
-   if(index===15)include=phase===0?(row+col)%4!==1:phase===1?(Math.abs(col-4)+Math.abs(row-3)<=5):row===3||col===4||Math.abs(col-4)===Math.abs(row-3)||row===0||row===6;
-   if(index===15&&row===3&&(col===2||col===6))include=true;
-   if(!include)continue;
-   let kind='normal';
-   if(index>=1&&(row+col)%7===0)kind='armor';
-   if(index>=3&&(row*9+col)%11===3)kind='explode';
-   if(index===2&&(row===3&&(col===2||col===6)))kind='switch';
-   if(index===7&&phase===2&&row<3)kind='armor';
-   if([2,3,5].includes(index)&&kind==='normal'&&(row===1||row===4)&&col===4)kind='armor';
-   if(index>=8&&kind==='normal'&&(row+col)%4===0)kind='armor';
-   if([8,12,15].includes(index)&&row===3&&(col===2||col===6))kind='switch';
-   if(index===15&&phase===2&&kind==='normal')kind='armor';
-   const hp=kind==='armor'?2+((index===7&&phase===2)||(index>=12&&(row+col)%3===0)||(index===15&&phase===2)?1:0):1;
-   bricks.push({id:id++,x:(col-4)*1.93,y:9-row*1.05,w:1.7,h:.72,kind,hp,maxHp:hp,color:WORLDS[index].colors[(row+(index>=8?col%2:0))%4],baseX:(col-4)*1.93,moving:([1,6,9,13,14].includes(index)||(index===15&&phase===1))&&row%2===0,row});
- }
- const barriers=[];
- if(index===2)barriers.push({id:500,x:-4.6,y:.9,w:5.4,h:.5,gate:true},{id:501,x:4.6,y:.9,w:5.4,h:.5,gate:true});
- if(index===4)barriers.push({id:502,x:0,y:1,w:4.3,h:.5,moving:true},{id:503,x:0,y:-2,w:3.3,h:.5,moving:true});
- if([8,12,15].includes(index))barriers.push({id:500,x:-4.5,y:.2,w:4.8,h:.45,gate:true},{id:501,x:4.5,y:.2,w:4.8,h:.45,gate:true});
- if(index===10)barriers.push({id:502,x:-3,y:.5,w:3.6,h:.45,moving:true},{id:503,x:3,y:-2.1,w:2.8,h:.45,moving:true});
- if(index===14||index===15&&phase===2)barriers.push({id:504,x:0,y:-1,w:3.8,h:.45,moving:true});
- const portals=[5,6,8,11,13,14].includes(index)||index===15&&phase>0?[{x:-7.8,y:index<8?.2:-.6},{x:7.8,y:index<8?3.4:2.4}]:[];
- return {bricks,barriers,portals};
+ if(!Number.isInteger(phase)||phase<0||phase>=formationCount(index))throw new RangeError('Unknown formation');
+ return structuredClone(BUNDLED_FORMATIONS[index][phase]);
 }

@@ -1,6 +1,8 @@
 import {WORLDS,POWERS,daySeed,dailyWorld,WORLD_COUNT,LAST_WORLD,formationCount} from './levels.js?v=3';
 import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=7';
+import {Game,speedBonus,isValidSnapshot} from './engine.js?v=8';
+import {worldSlug,parseWorld,worldHTML,formationCatalog,normalizeWorld,originalWorld} from './world-format.js';
+import {attachBrickDOM} from './brick-events.js';
 import {SharePreview,formatShareDate} from './sharing.js?v=2';
 import {Sound} from './audio.js?v=5';
 import {TRACKS} from './music.js';
@@ -38,6 +40,7 @@ game.emit=handleEvent;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');toastUntil=performance.now()+2600;}
 function updateWorldCards(){
  const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(LAST_WORLD,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
+ $('#world-editor-link').href='/editor/'+worldSlug(activeWorld);
  all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
  $('#journey-summary').textContent=highest?'Adventure: '+highest+' of '+WORLD_COUNT+' worlds completed.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
 }
@@ -84,7 +87,7 @@ function handleEvent(e){
  if(e.type==='gate')toast('Gate open. Find your angle.');
  if(e.type==='save')toast('Saved by the shield!');
  if(e.type==='life'){toast(game.lives+' lives left. You’ve got this.');persist();}
- if(e.type==='phase'){toast('Formation cleared · +'+e.clearPoints+' clear · +'+e.speedPoints+' speed');persist();}
+ if(e.type==='phase'){bindWorldDOM();toast('Formation cleared · +'+e.clearPoints+' clear · +'+e.speedPoints+' speed');persist();}
  if(e.type==='clear'){
    updateBest();if(game.mode==='campaign'){highest=Math.max(highest,game.level+1);storage.set('highest',highest);if(game.level<LAST_WORLD)persist(true);else storage.remove('save');}
    beginCut();
@@ -92,11 +95,25 @@ function handleEvent(e){
  if(e.type==='over')finish(false);
 }
 function closeDialogs(){all('dialog[open]').forEach(d=>d.close());modalResume=null;}
-function begin(mode='campaign',level=0){
- if(!stage)return;closeDialogs();view='game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
+let beginGeneration=0,detachWorldDOM,activePracticeWorld;
+function bindWorldDOM(){
+ detachWorldDOM?.();
+ const source=game.mode==='practice'&&activePracticeWorld?.index===game.level?activePracticeWorld:originalWorld(game.level);
+ const root=new DOMParser().parseFromString(worldHTML(source),'text/html').querySelector('#world');root.dataset.activePhase=String(game.phase);
+ for(const brick of game.bricks){const node=root.querySelector('#f'+game.phase+'-brick-'+brick.id);if(node){node.dataset.remainingHitpoints=String(brick.hp);node.classList.toggle('destroyed',brick.hp===0);}}
+ let model=$('#game-world-model');if(!model){model=document.createElement('div');model.id='game-world-model';model.hidden=true;document.body.append(model);}model.replaceChildren(root);
+ detachWorldDOM=attachBrickDOM(game,root);
+}
+async function begin(mode='campaign',level=0){
+ if(!stage)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
+ const generation=++beginGeneration;detachWorldDOM?.();
+ let practiceData;
+ if(mode==='practice'){all('#play,#resume,#daily,.world-card').forEach(b=>b.disabled=true);toast('Loading the shared Practice world…');practiceData=await loadPracticeWorld(level);all('#play,#resume,#daily,.world-card').forEach(b=>b.disabled=false);if(generation!==beginGeneration)return;activePracticeWorld=practiceData?.world;game.catalog=practiceData?formationCatalog(practiceData.world):new Map();view='game';}
+ stage.reset();
  if(mode==='daily')level=dailyWorld(runDay);game.start(mode,level,seed);accumulator=0;saveTimer=0;offlinePlay.refresh();showGame();persist();
 }
 function showGame(){
+ bindWorldDOM();
  offlinePlay.refresh();gameDisplay.refresh();$('#record-celebration').hidden=true;$('#home').hidden=true;$('#stage').classList.remove('home-mode','cinematic-mode');$('#hud').hidden=false;$('#arena-progress').hidden=false;$('#cutscene').hidden=true;$('#mode-label').textContent=game.mode==='daily'?runDay+' · UTC':game.mode==='practice'?'PRACTICE':'ADVENTURE';updateWorld();hud();updateTopScore();refreshTopScore();$('#game-canvas').focus({preventScroll:true});
 }
 function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';gameDisplay.leave();offlinePlay.refresh();updatePersonalBest();game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#play-tip').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Sixteen worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;for(const button of [$('#play'),$('#daily')]){button.classList.toggle('primary',!saved);button.classList.toggle('secondary',!!saved);}if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[dailyWorld(day)].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
@@ -313,10 +330,16 @@ async function copyLeaderboardLink(){
 $('#share-leaderboard').onclick=()=>sharePreview.open(leaderboardShareData());
 if($('#share-result'))$('#share-result').onclick=()=>{const data=personalShareData();if(data)sharePreview.open(data);};
 $('#copy-leaderboard-link').onclick=copyLeaderboardLink;
-async function loadCatalog(){if(!navigator.onLine)return;try{const r=await fetch('/worlds.html?v=2',{headers:{Range:'selector=#worlds'},cache:'no-store',signal:AbortSignal.timeout(6000)});if(!r.ok)return;const doc=new DOMParser().parseFromString(await r.text(),'text/html');const catalog=new Map();for(const section of doc.querySelectorAll('[data-world][data-phase]')){
- const bricks=[...section.querySelectorAll('[data-brick]')].map(el=>{const b=JSON.parse(el.textContent);if(!Number.isFinite(b.x)||!Number.isFinite(b.y)||b.x<-9||b.x>9||b.y<-8||b.y>11||b.hp<1||b.hp>3)throw Error('Invalid level data');return b;});if(bricks.length>0&&bricks.length<=80)catalog.set(section.dataset.world+':'+section.dataset.phase,bricks);
- }game.catalog=catalog;}catch{/* Bundled level definitions keep the game playable. */}}
-saveSettings();home();loadCatalog();hydrateOfflineScores();refreshTopScore();all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=true);$('#stage').setAttribute('aria-busy','true');requestAnimationFrame(()=>requestAnimationFrame(initializeStage));if(matchMedia('(pointer:coarse)').matches)$('#launch-hint').textContent='TAP';
+async function loadPracticeWorld(level){
+ const slug=worldSlug(level);
+ try{
+  let world;
+  if(!navigator.onLine){const draft=JSON.parse(localStorage.getItem('prism.world-draft.'+slug)||'null');if(!draft)throw Error('No offline draft');world=normalizeWorld(draft.world);if(world.slug!==slug)throw Error('Wrong draft');}
+  else{const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(6000)});if(!response.ok)throw Error('World unavailable');world=parseWorld(await response.text(),{expectedSlug:slug});}
+  return {world};
+ }catch{toast('Shared layout unavailable. Playing the original world.');return null;}
+}
+saveSettings();home();hydrateOfflineScores();refreshTopScore();all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=true);$('#stage').setAttribute('aria-busy','true');requestAnimationFrame(()=>requestAnimationFrame(initializeStage));if(matchMedia('(pointer:coarse)').matches)$('#launch-hint').textContent='TAP';
 const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['campaign','daily'].includes(sharedBoard)){leaderMode=sharedBoard;$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
 setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='campaign'&&$('#scores-dialog').open)updateScoreOutlines();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
 armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);

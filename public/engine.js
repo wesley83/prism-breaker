@@ -1,4 +1,5 @@
 import {makeLevel,POWERS,rng,LAST_WORLD,formationCount} from './levels.js?v=3';
+import {BrickBehaviors} from './brick-events.js';
 export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
 export const PICKUP_POINTS=150;
 export const speedBonus=seconds=>Math.max(0,2000-10*Math.floor(Math.max(0,seconds)));
@@ -47,11 +48,13 @@ export function isValidSnapshot(s){
  return true;
 }
 export class Game {
- constructor(onEvent=()=>{}){this.emit=onEvent;this.uid=0;this.start('campaign',0,8399);}
+ constructor(onEvent=()=>{}){this.emit=onEvent;this.uid=0;this.events=new EventTarget();this.behaviors=new BrickBehaviors();this.start('campaign',0,8399);}
  start(mode='campaign',level=0,seed=8399){this.mode=mode;this.seed=seed;this.level=level;this.score=0;this.lives=3;this.nextLife=12000;this.elapsed=0;this.phase=0;this.launchCount=0;this.bonusTotals={speed:0,pickups:0,clear:0};this.runId=globalThis.crypto?.randomUUID?.()||String(Date.now());this.loadLevel();}
  loadLevel(){
    Object.assign(this,makeLevel(this.level,this.phase));
-   const stored=this.catalog?.get(this.level+':'+this.phase);if(stored)this.bricks=structuredClone(stored);
+   const stored=this.mode==='practice'&&this.catalog?.get(this.level+':'+this.phase);
+   if(stored){if(Array.isArray(stored))this.bricks=structuredClone(stored);else{const {bricks,barriers,portals}=stored;Object.assign(this,structuredClone({bricks,barriers,portals}));}}
+   this.behaviors.configure(stored?.types||[]);
    this.resetRandom();
    this.paddle={x:0,w:3.3};this.target=0;this.balls=[];this.drops=[];this.shots=[];this.effects={};this.shield=false;this.combo=0;this.time=0;this.boardElapsed=0;this.lastClear=null;this.lastShot=0;this.hits=0;this.total=this.bricks.length;this.state='ready';this.addBall(true);this.emit({type:'level'});
  }
@@ -94,12 +97,12 @@ export class Game {
  }
  award(n){this.score+=n;while(this.score>=this.nextLife){this.nextLife+=12000;this.lives=Math.min(9,this.lives+1);this.emit({type:'power',kind:'life'});}}
  damage(brick,chain=false){
-   if(brick.hp<=0)return;brick.hp--;this.hits++;
+   if(brick.hp<=0||!this.behaviors.strike(this,brick,chain))return;brick.hp--;this.hits++;
+   this.events.dispatchEvent(new CustomEvent('brickdamage',{detail:{game:this,brick,chain}}));
    if(brick.hp>0){this.emit({type:'hit',x:brick.x,y:brick.y,color:brick.color});return;}
    this.combo++;this.award(100*Math.min(5,1+Math.floor(this.combo/6)));
    this.emit({type:'break',x:brick.x,y:brick.y,color:brick.color,kind:brick.kind});
-   if(brick.kind==='switch'){this.barriers=this.barriers.filter(b=>!b.gate);this.emit({type:'gate'});}
-   if(brick.kind==='explode')for(const other of this.bricks)if(other.hp>0&&Math.hypot(other.x-brick.x,other.y-brick.y)<2.65)this.damage(other,true);
+   this.behaviors.broken(this,brick,chain);
    if(!chain&&(this.random()<.19||this.hits===4)){
      const kind=this.random()<.025?'life':DROP_KINDS[Math.floor(this.random()*DROP_KINDS.length)];
      this.drops.push({id:++this.uid,x:brick.x,y:brick.y,kind});

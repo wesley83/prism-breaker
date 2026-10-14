@@ -1,0 +1,19 @@
+<!doctype html><html lang="en" xmlns:p="https://pagelove.org/1.0" xmlns:pb="urn:PrismBreaker:EditorTemplate"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-/UUy82WZCbQi0Q/O4B0PIrfl8sgsJEGsT/d7jL/h5OI='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
+<title>World workshop · Prism Breaker</title><link rel="icon" href="/favicon.svg"><script id="editor-bootstrap">(async()=>{
+ const controller=navigator.serviceWorker?.controller;
+ if(controller)await new Promise((resolve,reject)=>{
+  const channel=new MessageChannel(),timer=setTimeout(()=>reject(Error('The installed game did not respond.')),5000);
+  channel.port1.onmessage=()=>{clearTimeout(timer);channel.port1.close();resolve();};
+  controller.postMessage({type:'CLIENT_VERSION',version:'network'},[channel.port2]);
+ });
+ const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=13a2be24665e';document.head.append(stylesheet);
+ await import('/editor.js?v=358eb84ca79c');
+})().catch(error=>{console.error('Workshop startup:',error);document.querySelector('#editor-status').textContent='The workshop could not load. Return to the start screen, apply Update game, then reopen the workshop.';});
+</script></head><body><p:include resource="/editor-template.html" selector="#editor-shell"></p:include><div id="routed-world" hidden><pb:world></pb:world></div><div hidden itemscope itemtype="https://pagelove.org/Schema"><meta itemprop="type" content="urn:PrismBreaker:EditorTemplate"><div itemprop="property" itemscope itemtype="https://pagelove.org/Method"><meta itemprop="name" content="world"><meta itemprop="returns" content="https://pagelove.org/Element"><div itemprop="implementation" itemscope itemtype="https://pagelove.org/JavaScript/Module"><script itemprop="source" type="text/plain">export default () => {
+ const slug=Context.request.params.worldname;
+ if(!["prism-garden","cloud-carnival","electric-city","crystal-caverns","ember-foundry","frost-observatory","cosmic-reef","prism-citadel","sunken-archive","aurora-passage","clockwork-canopy","mirage-dunes","thunder-spire","lunar-harbor","event-horizon","dawn-nexus"].includes(slug))return null;
+ const d=new DOMParser().parseFromString('<p:include xmlns:p="https://pagelove.org/1.0" resource="/worlds/'+slug+'/definition.html" selector="#world"></p:include>','text/html');
+ return d.querySelector('[resource]');
+};</script></div></div></div></body></html>

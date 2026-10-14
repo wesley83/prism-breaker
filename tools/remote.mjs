@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {buildPwa} from './build-pwa.mjs';
+import {WORLD_SLUGS} from '../public/world-format.js';
 const origin='https://sane-guild-8399.onpagelove.com';
 const dav='https://dav-sane-guild-8399.onpagelove.com';
 let key=''; let buffer='';
@@ -26,7 +27,7 @@ process.stdin.on('data', async chunk=>{
       }else if(c.op==='request'){
         const base=c.authoring?dav:origin;
         const r=await fetch(base+c.path,{method:c.method||'GET',headers:{...(c.authoring?{Authorization:'Bearer '+key}:{}),...c.headers},body:c.body});
-        const body=await r.text();result={status:r.status,headers:{type:r.headers.get('content-type'),range:r.headers.get('content-range')},body:body.slice(0,c.limit||1500)};
+        const body=await r.text();result={status:r.status,headers:{type:r.headers.get('content-type'),range:r.headers.get('content-range'),etag:r.headers.get('etag'),cors:r.headers.get('access-control-allow-origin'),exposed:r.headers.get('access-control-expose-headers')},body:body.slice(0,c.limit||1500)};
       }else if(c.op==='backup'){
         const r=await fetch(dav+c.path,{headers:{Authorization:'Bearer '+key}});
         if(r.ok){await fs.mkdir('.private/backup',{recursive:true});await fs.writeFile(path.join('.private/backup',c.name),Buffer.from(await r.arrayBuffer()));}
@@ -53,15 +54,20 @@ process.stdin.on('data', async chunk=>{
         const data=await fs.readFile(c.file);
         const r=await fetch(dav+c.path,{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':c.type},body:data});
         result={path:c.path,status:r.status,bytes:data.length,body:r.ok?'':(await r.text()).slice(0,1000)};
+      }else if(c.op==='seedWorlds'){
+        const headers={Authorization:'Bearer '+key};let created=0,preserved=0;
+        for(const folder of ['/worlds/',...WORLD_SLUGS.map(s=>'/worlds/'+s+'/')]){const r=await fetch(dav+folder,{method:'MKCOL',headers});if(![201,405].includes(r.status))throw Error('World directory '+r.status);}
+        for(const slug of WORLD_SLUGS){const target='/worlds/'+slug+'/definition.html',existing=await fetch(dav+target,{headers});if(existing.ok){preserved++;continue;}if(existing.status!==404)throw Error('World read '+existing.status);const body=await fs.readFile('public'+target);const write=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8','If-None-Match':'*'},body});if(write.status===412){preserved++;continue;}if(!write.ok)throw Error('World initialization '+write.status);created++;}
+        result={created,preserved};
       }else if(c.op==='deploy'){
         // Refuse to publish stale hashes or a release marker from an earlier edit.
         const pwa=await buildPwa({check:true});
         const headers={Authorization:'Bearer '+key};const receipt=[];
-        for(const folder of ['/assets/','/vendor/']){const r=await fetch(dav+folder,{method:'MKCOL',headers});if(![201,405].includes(r.status))throw Error('MKCOL '+folder+' '+r.status);}
+        for(const folder of ['/assets/','/vendor/','/editor/']){const r=await fetch(dav+folder,{method:'MKCOL',headers});if(![201,405].includes(r.status))throw Error('MKCOL '+folder+' '+r.status);}
         const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.webmanifest':'application/manifest+json','.json':'application/json'};
         async function list(dir){let result=[];for(const entry of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,entry.name);if(entry.isDirectory())result.push(...await list(f));else result.push(f);}return result;}
-        const files=(await list('public')).filter(f=>c.initializeScores||!f.endsWith('scores.html')).sort((a,b)=>{const priority=f=>path.basename(f)==='sw.js'?3:path.basename(f)==='index.html'?2:path.basename(f)==='app.js'?1:0;return priority(a)-priority(b)||a.localeCompare(b);});
-        for(const file of files){if(path.basename(file)==='sw.js')await buildPwa({check:true});const target='/'+path.relative('public',file).split(path.sep).join('/'),bytes=await fs.readFile(file);const r=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':types[path.extname(file)]||'application/octet-stream'},body:bytes});if(!r.ok)throw Error(target+' upload '+r.status);const check=await fetch(dav+target,{headers});const read=Buffer.from(await check.arrayBuffer());if(!check.ok)throw Error(target+' readback '+check.status);if(!target.endsWith('.html')&&!bytes.equals(read))throw Error(target+' byte mismatch');const entry={path:target,status:r.status,bytes:read.length,sha256:createHash('sha256').update(read).digest('hex')};receipt.push(entry);console.log(JSON.stringify({uploaded:target,status:r.status}));}
+        const files=(await list('public')).filter(f=>{const name=path.relative('public',f).split(path.sep).join('/');return !name.startsWith('worlds/')&&(c.initializeScores||name!=='scores.html');}).sort((a,b)=>{const priority=f=>path.basename(f)==='sw.js'?3:path.basename(f)==='index.html'?2:path.basename(f)==='app.js'?1:0;return priority(a)-priority(b)||a.localeCompare(b);});
+        for(const file of files){if(path.basename(file)==='sw.js')await buildPwa({check:true});let target='/'+path.relative('public',file).split(path.sep).join('/');if(target==='/editor-route.html')target='/editor/:worldname';const bytes=await fs.readFile(file);const r=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':types[path.extname(file)]||'application/octet-stream'},body:bytes});if(!r.ok)throw Error(target+' upload '+r.status);const check=await fetch(dav+target,{headers});const read=Buffer.from(await check.arrayBuffer());if(!check.ok)throw Error(target+' readback '+check.status);if(!target.endsWith('.html')&&target!=='/editor/:worldname'&&!bytes.equals(read))throw Error(target+' byte mismatch');const entry={path:target,status:r.status,bytes:read.length,sha256:createHash('sha256').update(read).digest('hex')};receipt.push(entry);console.log(JSON.stringify({uploaded:target,status:r.status}));if(target==='/editor.html'){const alias=await fetch(dav+'/editor/index.html',{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8'},body:bytes});if(!alias.ok)throw Error('Editor index '+alias.status);}}
         await fs.writeFile('deployment.json',JSON.stringify({origin,authoringHost:dav,deployedAt:new Date().toISOString(),pwa,files:receipt},null,2));result={deployed:true,files:receipt.length,pwa};
       }else if(c.op==='testScores'){
         const row=(key,score='100',player='QA Check')=>'<li itemscope itemtype="https://sane-guild-8399.onpagelove.com/ProbeRun"><meta itemprop="probeRunKey" content="'+key+'"><meta itemprop="player" content="'+player+'"><meta itemprop="score" content="'+score+'"><meta itemprop="level" content="1"><meta itemprop="mode" content="campaign"><meta itemprop="day" content="all"><meta itemprop="seconds" content="15"></li>';

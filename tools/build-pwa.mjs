@@ -7,7 +7,7 @@ const project = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const hash = data => createHash('sha256').update(data).digest('hex');
 const markerPattern = /<meta\b(?=[^>]*\bname=["']prism-release["'])[^>]*>/i;
 const marker = version => '<meta name="prism-release" content="' + version + '">';
-const excluded = new Set(['sw.js', 'pwa-release.js', 'scores.html', 'worlds.html']);
+const excluded = new Set(['sw.js', 'pwa-release.js', 'scores.html', 'worlds.html', 'editor.html', 'editor-template.html', 'editor-route.html']);
 
 async function filesIn(directory) {
   const files = [];
@@ -23,7 +23,7 @@ async function filesIn(directory) {
 export async function buildPwa({check = false, root = project} = {}) {
   const publicRoot = path.join(root, 'public');
   const template = await fs.readFile(path.join(root, 'tools/service-worker.template.js'), 'utf8');
-  const files = (await filesIn(publicRoot)).filter(file => !excluded.has(path.relative(publicRoot, file).split(path.sep).join('/')));
+  const files = (await filesIn(publicRoot)).filter(file => {const name=path.relative(publicRoot,file).split(path.sep).join('/');return !excluded.has(name)&&!name.startsWith('worlds/');});
   const assets = [];
   let normalizedIndex;
   for (const file of files) {

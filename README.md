@@ -6,13 +6,14 @@ A colorful brick-breaker game built with Three.js on [Pagelove](https://pagelove
 
 **[Play the game](https://sane-guild-8399.onpagelove.com/)** · **[Public source](https://github.com/wesley83/prism-breaker)**
 
-The browser runs the gameplay and creates the music and scorecards. Pagelove hosts the complete site and stores and validates shared scores through HTML resources. No separate application server, external runtime API, or CDN is required.
+The browser runs the gameplay and creates the music and scorecards. Native Pagelove routes and composed templates power the world editor; editable worlds are stored as HTML microdata. Pagelove hosts the complete site and stores and validates shared scores through HTML resources. No separate application server, external runtime API, or CDN is required.
 
 ## Game features
 
 - **Adventure:** sixteen themed worlds and twenty formations. Prism Citadel is a three-formation midpoint; Dawn Nexus is the three-formation finale. Existing checkpoints can continue into the second half.
 - **Daily Challenge:** one world selected from a UTC-date seed, with shared launch and power-up random sequences. Its active leaderboard rolls over at 00:00 UTC.
-- **Practice:** play individual worlds. Practice scores stay out of the shared boards and personal best.
+- **Practice:** play individual worlds, including shared edited HTML layouts and custom brick recipes. Practice scores stay out of the shared boards and personal best.
+- **World workshop:** native `/editor/<worldname>` routes, inspectable HTML microdata, visual brick editing, undo/redo, local drafts, import/export, custom types and a Three.js play preview. Owner publishing uses ETags and preserves concurrent edits. See [WORLD-EDITOR.md](WORLD-EDITOR.md).
 - **Brick mechanics:** armored, moving, explosive and switch bricks, gates, moving barriers and paired portals. Worlds 3–6 have a modest difficulty increase.
 - **Brick labels:** armored bricks show their remaining hit count in distinct colors: cyan 3, gold 2, coral 1. Explosives use a filled star and switches an outlined diamond. How to play explains each type with matching visual examples.
 - **Crystal artwork:** the stacked vector wordmark follows the OG lettering. Bricks have beveled gemstone geometry, translucent colored faces and local studio reflections. Armored bricks accumulate branching cracks after each surviving hit.
@@ -84,9 +85,12 @@ These are the platform capabilities wired into this game. The source for the sco
 | Pagelove capability | Game feature / implementation |
 | --- | --- |
 | Site and asset hosting | Serves the game, vendored libraries, fonts, icons, world previews and social artwork from one host |
-| CSS-selector resource reads | Reads the world catalog with `Range: selector=#worlds` and the score container with `Range: selector=#scores` |
+| CSS-selector resource reads | Reads the score container with `Range: selector=#scores`; native world composition selects each `#world` fragment |
 | Mutable HTML resources / selector-scoped POST | Appends one structured run to `/scores.html` inside `#scores`, giving every visitor the same persistent leaderboard |
-| HTML microdata | Represents each run as an `itemscope` record with `itemprop` fields for player, score, world, mode, challenge day, duration and submission time |
+| HTML microdata | Structured world/formation/row/brick/type/obstacle records, plus score runs with player, score, world, mode, day, duration and expiry fields |
+| Parameterized routes and reusable templates | `/editor/:worldname` selects a world through a reusable native editor template |
+| Native fragment composition | Includes the shared editor shell and its specific world; the catalog includes all sixteen world documents |
+| JavaScript schema methods | An allowlisted route parameter produces the native world include |
 | Declarative authorization | Grants anonymous `POST` access specifically to the score container; no publishing credential is shipped to the browser |
 | Shape constraints | Restricts score markup to the permitted `ul`, run `li`, and property `meta` structure |
 | Typed schemas, cardinality and uniqueness | Defines required run properties, their types and a unique `runKey`; `submittedAt` is optional for compatibility with older records |
@@ -94,15 +98,15 @@ These are the platform capabilities wired into this game. The source for the sco
 | Guarded selector DELETE | Deletes only rows whose stored deadline is before a cutoff no later than server time; broader selectors and future cutoffs are rejected |
 | Processors and native outbound HTTP | An expired-row read queues a same-host cleanup request. No external scheduler or service is used |
 | Request triggers with Sessel | Rejects submissions that fail the exact payload grammar, nickname format or numeric limits with HTTP 422 |
-| WebDAV authoring | Publishes owner-managed site files through the pinned DAV host; normal releases preserve the live score resource |
-| ETags and conditional writes | The score-rule migration helper uses `If-Match` to update rules while preserving existing runs and avoiding stale overwrites |
+| WebDAV authoring | Publishes owner-managed site files through the pinned DAV host; normal releases preserve scores and editable world resources |
+| ETags and conditional writes | Editor publishing and score-rule migration use `If-Match`; world initialization uses `If-None-Match` and preserves existing documents |
 
-A regular static file server can render the arena and its animations. Pagelove's persistent score appends and server-side validation provide the shared state used by this game.
+Pagelove supplies persistent shared scores, composed editor routes and authorable HTML worlds without a separate application server.
 
 ### Data flow
 
 1. The browser loads `public/index.html` and its same-origin modules/assets.
-2. It requests the structured world catalog. Bundled level definitions remain available if that read fails.
+2. Official play uses a validated offline snapshot generated from the checked-in HTML worlds. Practice fetches the selected shared world document, or uses a saved draft/original layout when offline.
 3. Gameplay, collisions, music and score calculation happen in the browser.
 4. When a player chooses **Save score**, the client commits the run to its IndexedDB queue, then attempts to post one HTML record to the score selector. Pagelove applies the authorization, shape, schema and trigger rules.
 5. A successful submission leaves a local receipt. Interrupted requests retry with the same unique run key; an already accepted run is recognized through a fresh leaderboard read.
@@ -135,7 +139,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **62 cached files, approximately 2.24 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **68 cached files, approximately 2.40 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -204,7 +208,7 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | --- | --- |
 | `public/app.js` | UI, game loop, checkpoints, score reads/submission, UTC rollover and share message models |
 | `public/display.js`, `public/display.css` | Gesture-triggered fullscreen, phone viewport layout, safe-area spacing and accessible exit controls |
-| `public/engine.js`, `public/levels.js` | Physics, points, powers, seeded randomness and sixteen world definitions |
+| `public/engine.js`, `public/levels.js`, `public/bundled-worlds.js` | Physics, points, powers, seeded randomness and the official snapshot generated from HTML worlds |
 | `public/brick-labels.js` | Remaining-hit labels and shared symbol artwork for the arena and How to play |
 | `public/crystal-bricks.js`, `public/assets/prism-wordmark.svg` | Faceted translucent bricks, cached fracture artwork, local reflections and OG-inspired vector lettering |
 | `public/paddle-art.js` | Beveled OG-style paddle, fixed-size end caps, shared reflections and power-up indicators; artwork is created before play |
@@ -216,7 +220,10 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | `public/offline.js` | IndexedDB leaderboard snapshot, durable score queue, cross-tab send leases, retries and receipts |
 | `public/pwa.js`, `public/manifest.webmanifest` | Installation help, offline readiness and update controls |
 | `public/sw.js`, `public/pwa-release.js` | Generated offline worker, asset inventory and release identity |
-| `public/worlds.html`, `public/scores.html` | Hosted world catalog and score store template with Pagelove rules |
+| `public/worlds.html`, `public/worlds/*/definition.html` | Native included world catalog and editable microdata world documents |
+| `public/world-format.js`, `public/brick-events.js` | Validated HTML conversion, bounded custom types and strike/damage events |
+| `public/editor.*`, `public/editor-template.html`, `public/editor-route.html` | Visual workshop, native route template, owner publishing and Practice preview |
+| `public/scores.html` | Score store template with Pagelove rules |
 | `public/vendor/`, `public/assets/` | Bundled libraries, licenses, font, icons and artwork |
 | `artwork/` | Original generated poster images, prompts and export notes |
 | `tools/retention-rules.mjs` | Server expiry defaults, exact DELETE guard and native cleanup processor |
@@ -247,6 +254,8 @@ node tools/build-data.mjs --worlds-only
 
 Running that tool without `--worlds-only` also regenerates an **empty score template**. Never replace an existing live leaderboard with it.
 
+The world workshop is available locally at `/editor/prism-garden`; local preview reads seed HTML and does not emulate native template composition or owner writes. [WORLD-EDITOR.md](WORLD-EDITOR.md) describes publishing and the event API.
+
 For local manual previews, generate `node tools/make-qa.mjs`, start the local server, and open `/__qa/index.html`. Other tools extend that fixture with music, cinematic, record, paddle or typography preview controls. Read the relevant upgrade notes below for their required order. Generated files stay under ignored `test-results/` and are outside the deployed `public/` tree.
 
 For world thumbnails, copy `tools/world-preview.html` into `test-results/fixture/`, open `/__qa/world-preview.html`, select a world and capture its 800×420 canvas into `public/assets/world-preview-01.png` through `world-preview-16.png`. The preview uses a fixed seed and reduced motion for consistent scenery.
@@ -273,6 +282,9 @@ Publishing requires the host owner's credential. Start `node tools/remote.mjs` i
 After all runtime and asset edits, generate and check the offline release:
 
 ```sh
+node tools/build-worlds.mjs
+node tools/build-bundled-worlds.mjs
+node tools/build-editor.mjs
 node tools/build-pwa.mjs
 node tools/build-pwa.mjs --check
 ```
@@ -282,7 +294,7 @@ The builder derives a release identity from the assets and worker template, upda
 After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op":"quit"}`. Normal deployment:
 
 1. Uploads runtime modules/assets, then `app.js`, then `index.html`, and **`sw.js` last**.
-2. **Excludes `scores.html`**, preserving community entries and their rules.
+2. **Excludes `scores.html` and all `worlds/*/definition.html` data**, preserving community scores, rules and edited worlds. Native editor routes are stored at `/editor/:worldname`; `seedWorlds` creates only missing world resources.
 3. Reads uploaded files back and compares non-HTML bytes. Pagelove may normalize HTML.
 4. Writes a non-secret release receipt to ignored `deployment.json`.
 

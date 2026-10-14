@@ -1,0 +1,279 @@
+{
+  "id": "PB-EDIT-12",
+  "at": "2026-10-14T13:18:26.009Z",
+  "actor": "Codex",
+  "request": "Native world editor, structured HTML definitions, CSS brick specializations and strike-event extensibility",
+  "baseCommit": "58640fb0b0c1200feef980b6b967e56d8823f324",
+  "release": "28088acf54c782449c8b",
+  "verification": {
+    "relevantTests": {
+      "passed": 60,
+      "failed": 0
+    },
+    "finalWorkerTests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "pwaConsistency": "passed in authoring and publishing checkout",
+    "deployedAt": "2026-10-14T12:59:34.315Z",
+    "deployedStaticFiles": 73,
+    "nativeComposition": "Prism Garden and Dawn Nexus; all sixteen choices",
+    "browser": "Draft restore, painting/undo, movement, 3D preview, duplicate rejection, owner publish/readback, Update game and Adventure HTML model",
+    "writeProtection": "Anonymous 401; stale ETag 412; unchanged owner publish succeeded; key field cleared",
+    "limits": "Opening native editor requires connection; hosted edits/custom recipes apply to Practice; official Adventure/Daily use checked-in HTML-derived snapshot"
+  },
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 32667,
+      "sha256": "0f9756791c2e9cdca1918835346be226d8cdab939c2ad397fe6a3970cd1257af"
+    },
+    {
+      "file": "WORLD-EDITOR.md",
+      "bytes": 8749,
+      "sha256": "256cd874ec0984a184dedc27dfbc7c97969630580cc4177f3b4e0aefe6927ff4"
+    },
+    {
+      "file": "bun.lock",
+      "bytes": 12183,
+      "sha256": "c39b760d354a6356a24a48029440418c1b707c1372f7be1317650d243292fe6c",
+      "publicationVariant": "Retains existing Sharp 0.35.5; adds Linkedom 0.18.12 development dependency."
+    },
+    {
+      "file": "package.json",
+      "bytes": 381,
+      "sha256": "aaad2ed31d4954fee2b6c64f3ba1bfbae41745462e0b129edaead77bdfa2d3aa",
+      "publicationVariant": "Retains existing Sharp 0.35.5; adds Linkedom 0.18.12 development dependency."
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 51424,
+      "sha256": "1d4ab748ee45c3bace1c61ba2ded79606a3d5b9b978fe74f7c7917cfc2b6bc17"
+    },
+    {
+      "file": "public/brick-events.js",
+      "bytes": 3027,
+      "sha256": "d110294bbd7264a0b8f576c5dcada91eb69c0d627342c3b2b8f7f898cced433f"
+    },
+    {
+      "file": "public/brick-labels.js",
+      "bytes": 2674,
+      "sha256": "f662152af6fd60ce439bc2733a2ec1c03601c219d70a35178541f66c12bfba6d"
+    },
+    {
+      "file": "public/bundled-worlds.js",
+      "bytes": 118529,
+      "sha256": "6b25bb8740f50ac571d991937dcad5f87a3280e6e0e4797d34e7e59f6e494475"
+    },
+    {
+      "file": "public/editor-route.html",
+      "bytes": 2736,
+      "sha256": "4c2e012dfab80167224484d3bfe01e1c2ddcaf617de431f996ddc70f5884fec1"
+    },
+    {
+      "file": "public/editor-template.html",
+      "bytes": 7308,
+      "sha256": "4e0762999bdebed2df90630e5a5913ba4de861d1344ee0688585f6fbb55f38f6"
+    },
+    {
+      "file": "public/editor.css",
+      "bytes": 7331,
+      "sha256": "13a2be24665e486d5387cedb2f0d92ef57cf66477da39e729f92225ece76a585"
+    },
+    {
+      "file": "public/editor.html",
+      "bytes": 8744,
+      "sha256": "f0b7ec7c432a3ad2b1880a68cacc7ca2ea65f447bfc8323fe9e1f31eb7d7c299"
+    },
+    {
+      "file": "public/editor.js",
+      "bytes": 19011,
+      "sha256": "358eb84ca79c67962e79fce4491e0395b2ffe18098622de6f9ab77461b735e58"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 15277,
+      "sha256": "e8160be1e63ae791e12d30960c05ba5a92010817e63f33cfed1fe069663efec2"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 23279,
+      "sha256": "7dcba9130447418d3019bf47f75a42a0420b5995003357c26687019dc78578bd"
+    },
+    {
+      "file": "public/levels.js",
+      "bytes": 6732,
+      "sha256": "1346cce31a2b29b4958747e7c6cdf818ba360e1a23902088a6b4a8943829a0b1"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "e10e8939981585c8f618b3ab42882241c402c5cb473afeb80dffb2fe66c6d963"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 19045,
+      "sha256": "53e394af31d928a7b25b6b7ae587bcb02a94d49d39f5324f4372f71f1298d672"
+    },
+    {
+      "file": "public/world-data.css",
+      "bytes": 946,
+      "sha256": "adc51d968f11a8df4a26d26ab619857ff29bbcb4af621df6977516e9bf0ed838"
+    },
+    {
+      "file": "public/world-format.js",
+      "bytes": 9535,
+      "sha256": "511a7f685e3401ee95f358516282841aaea3c0b81ef2cf583b8fc4047e6df745"
+    },
+    {
+      "file": "public/worlds.html",
+      "bytes": 1689,
+      "sha256": "7ecb9bde68feadf2b639bb259dae67be8e3567f855e601d5e800cc7744b916a0"
+    },
+    {
+      "file": "public/worlds/aurora-passage/definition.html",
+      "bytes": 22495,
+      "sha256": "75757c1b9170a5119703d35e3d8b678c83787fff01905045fd9336befe1cfeb2"
+    },
+    {
+      "file": "public/worlds/clockwork-canopy/definition.html",
+      "bytes": 24957,
+      "sha256": "00a1edc3e132ece79c99c9e6ec370030684d50296c0f4b5c6b93da7ca28259e1"
+    },
+    {
+      "file": "public/worlds/cloud-carnival/definition.html",
+      "bytes": 20879,
+      "sha256": "5031d6ceac27038a1494b71f7ab77ca45e0103d1d605625e68908a291c510702"
+    },
+    {
+      "file": "public/worlds/cosmic-reef/definition.html",
+      "bytes": 19800,
+      "sha256": "c0a39ec3bcc378b77b711bb343d1be3f2bb6ae87b4c9d6c088f83850d344050c"
+    },
+    {
+      "file": "public/worlds/crystal-caverns/definition.html",
+      "bytes": 23604,
+      "sha256": "c450987b7a7be668b84c04f711e83798ead3ff2b8cda4855af0dbe9abe7f1f6f"
+    },
+    {
+      "file": "public/worlds/dawn-nexus/definition.html",
+      "bytes": 69059,
+      "sha256": "65b66b4fd0772becba3c7f23ad267704539c99170e41720f2a5946a7b4afbd49"
+    },
+    {
+      "file": "public/worlds/electric-city/definition.html",
+      "bytes": 20723,
+      "sha256": "948ccab39e0fe60c534890c83799f6a8810d6a17a4a99f025cc9ae9204fcb0fc"
+    },
+    {
+      "file": "public/worlds/ember-foundry/definition.html",
+      "bytes": 22058,
+      "sha256": "3b25f169b18572244157915eef8fc4ca8f9865fe776ff0ba009e453dbf192e38"
+    },
+    {
+      "file": "public/worlds/event-horizon/definition.html",
+      "bytes": 24540,
+      "sha256": "d626294c5df94f86af6da0b8b75c0fb7491606acbb3f05f27f9e878039a55c7b"
+    },
+    {
+      "file": "public/worlds/frost-observatory/definition.html",
+      "bytes": 23864,
+      "sha256": "00ad34fa969e27114b838dc868ec18923f234346662f5bb436eccd0aea113adc"
+    },
+    {
+      "file": "public/worlds/lunar-harbor/definition.html",
+      "bytes": 23323,
+      "sha256": "d384d1094a002d73ce9cdcf8bbd469072828a9d9e0e9b2914435c6ebe4b71232"
+    },
+    {
+      "file": "public/worlds/mirage-dunes/definition.html",
+      "bytes": 20687,
+      "sha256": "5ef6d50b47bfcaa438d6632a5cac0a472d6e29afb9bf4973d421858905eb94cb"
+    },
+    {
+      "file": "public/worlds/prism-citadel/definition.html",
+      "bytes": 53099,
+      "sha256": "f6327c2087fb861552237f5bac37f6857dd2ca14d1253da7d42ee882c1af97c5"
+    },
+    {
+      "file": "public/worlds/prism-garden/definition.html",
+      "bytes": 21401,
+      "sha256": "81615ce9a7f9c7567c6c8e1e9a84b9fe217925de656bd1fd21fe49c59dbaf759"
+    },
+    {
+      "file": "public/worlds/sunken-archive/definition.html",
+      "bytes": 23986,
+      "sha256": "20c12093aad64194770811676567db03d39427e46bc6dc3ccb0460965fe0876c"
+    },
+    {
+      "file": "public/worlds/thunder-spire/definition.html",
+      "bytes": 16130,
+      "sha256": "2d5e7f1eec2f04fa605413231ac47843596a595769e6ba4ff42bcb6d938c8b7d"
+    },
+    {
+      "file": "tests/brick-events.test.mjs",
+      "bytes": 2193,
+      "sha256": "7b658af89b4e81d6892e2377fadc794aad16402379bd9b11f1c673854e977745"
+    },
+    {
+      "file": "tests/pwa-worker.test.mjs",
+      "bytes": 11179,
+      "sha256": "1a1154275861e42a610225af6bd6cd27f656e48dd1a1f5c7804c9e17224d23ae"
+    },
+    {
+      "file": "tests/world-format.test.mjs",
+      "bytes": 3238,
+      "sha256": "6df99d17e0f2196b8aec0c09780d98dcb53463acc15a14aea0467ce9210b16a3"
+    },
+    {
+      "file": "tools/build-bundled-worlds.mjs",
+      "bytes": 886,
+      "sha256": "1f6f3c0b19fa9d31f57ddc9d6e9b7ca30fe1bc4e2f5db2d018282c5807f56b58"
+    },
+    {
+      "file": "tools/build-data.mjs",
+      "bytes": 3346,
+      "sha256": "4d888b2d7852ee99ad624bb22ed5284f9f239f8da02953f97826cd27491607bc"
+    },
+    {
+      "file": "tools/build-editor.mjs",
+      "bytes": 2444,
+      "sha256": "b579e8cc3d4093fb23040d7011450026a9142db55c880aa0b1895e8d93dbfa5c"
+    },
+    {
+      "file": "tools/build-pwa.mjs",
+      "bytes": 4122,
+      "sha256": "c6f798e1f9978aba167c1b85e0362230e4f1ba616e6d320ee92e9915276f55a9"
+    },
+    {
+      "file": "tools/build-worlds.mjs",
+      "bytes": 994,
+      "sha256": "74b50bb6c6c9c6a758b4dc9496ce426e55c4a57979eae986d0a6a1528e02c068"
+    },
+    {
+      "file": "tools/editor-bootstrap.js",
+      "bytes": 842,
+      "sha256": "92bdabb595c0a0cf60376623f107972f94863c665a91bfea5b8ff67f6f37d682"
+    },
+    {
+      "file": "tools/remote.mjs",
+      "bytes": 10186,
+      "sha256": "2e6daa86ad9165a1766ec59d34f97c688a0ecdd9813492c00301cb078027c7a6"
+    },
+    {
+      "file": "tools/serve.mjs",
+      "bytes": 1448,
+      "sha256": "c1f8cdca9b94b5a57189e400e5cd0263d09e2c3f53cb2a4abad57550bda23137"
+    },
+    {
+      "file": "tools/service-worker.template.js",
+      "bytes": 9139,
+      "sha256": "ca3b4f85cd811897876633153bc089d9641bfce8e065d8b2603bcab5f8870aed"
+    }
+  ],
+  "patch": {
+    "file": "audit/2026-10-14-world-editor.patch",
+    "bytes": 853443,
+    "sha256": "667407c7e1553b301b51a60e767fa34dd67ad4152a9747162bbf65126e8fe5e1"
+  }
+}

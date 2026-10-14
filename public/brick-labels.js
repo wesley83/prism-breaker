@@ -10,7 +10,7 @@ export const BRICK_GUIDE=Object.freeze([
 ]);
 export function brickMark(brick){
  if(!brick||!Number.isInteger(brick.hp)||brick.hp<=0)return null;
- if(brick.kind==='armor')return String(brick.hp);
+ if(brick.kind==='armor'||brick.maxHp>1)return String(brick.hp);
  return brick.kind==='explode'?'★':brick.kind==='switch'?'◇':null;
 }
 export function updateBrickMarker(sprite,brick,textureFor){

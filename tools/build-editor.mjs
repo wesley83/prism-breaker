@@ -1,0 +1,22 @@
+import fs from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+import {WORLD_SLUGS} from '../public/world-format.js';
+let shell=await fs.readFile('public/editor.html','utf8');
+const fingerprint=file=>fs.readFile(file).then(data=>createHash('sha256').update(data).digest('hex').slice(0,12));
+const bootstrap=(await fs.readFile('tools/editor-bootstrap.js','utf8')).replaceAll('__EDITOR_CODE__',await fingerprint('public/editor.js')).replaceAll('__EDITOR_STYLE__',await fingerprint('public/editor.css')),hash=createHash('sha256').update(bootstrap).digest('base64');
+shell=shell.replace(/script-src 'self'(?: 'sha256-[^']+')?;/,"script-src 'self' 'sha256-"+hash+"';");
+shell=shell.replace(/<script id="editor-bootstrap">[\s\S]*?<\/script>/,'<script id="editor-bootstrap">'+bootstrap+'</script>');
+await fs.writeFile('public/editor.html',shell);
+const body=shell.match(/<div id="editor-shell">[\s\S]*<\/div><!-- editor-shell-end -->/);
+if(!body)throw Error('Editor shell boundary missing');
+await fs.writeFile('public/editor-template.html','<!doctype html><html><body>'+body[0]+'</body></html>');
+const head=shell.match(/<head>[\s\S]*?<\/head>/)[0];
+const implementation=`export default () => {
+ const slug=Context.request.params.worldname;
+ if(!${JSON.stringify(WORLD_SLUGS)}.includes(slug))return null;
+ const d=new DOMParser().parseFromString('<p:include xmlns:p="https://pagelove.org/1.0" resource="/worlds/'+slug+'/definition.html" selector="#world"></p:include>','text/html');
+ return d.querySelector('[resource]');
+};`;
+const schema='<div hidden itemscope itemtype="https://pagelove.org/Schema"><meta itemprop="type" content="urn:PrismBreaker:EditorTemplate"><div itemprop="property" itemscope itemtype="https://pagelove.org/Method"><meta itemprop="name" content="world"><meta itemprop="returns" content="https://pagelove.org/Element"><div itemprop="implementation" itemscope itemtype="https://pagelove.org/JavaScript/Module"><script itemprop="source" type="text/plain">'+implementation+'</script></div></div></div>';
+await fs.writeFile('public/editor-route.html','<!doctype html><html lang="en" xmlns:p="https://pagelove.org/1.0" xmlns:pb="urn:PrismBreaker:EditorTemplate">'+head+'<body><p:include resource="/editor-template.html" selector="#editor-shell"></p:include><div id="routed-world" hidden><pb:world></pb:world></div>'+schema+'</body></html>');
+console.log('Built reusable editor shell and native parameterized route.');

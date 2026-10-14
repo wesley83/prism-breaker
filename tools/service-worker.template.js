@@ -154,7 +154,7 @@ self.addEventListener('fetch', event => {
   const request = event.request;
   const url = new URL(request.url);
   // Selector responses, score reads and writes remain exclusively owned by Pagelove.
-  if (request.method !== 'GET' || url.origin !== self.location.origin || request.headers.has('range') || url.pathname.startsWith('/__qa/') || url.pathname === '/scores.html' || url.pathname === '/worlds.html') return;
+  if (request.method !== 'GET' || url.origin !== self.location.origin || request.headers.has('range') || url.pathname.startsWith('/__qa/') || url.pathname.startsWith('/worlds/') || url.pathname.startsWith('/editor/') || url.pathname === '/scores.html' || url.pathname === '/worlds.html') return;
   const navigation = request.mode === 'navigate' && (url.pathname === '/' || url.pathname === '/index.html');
   // A still-open older tab may request a lazy module removed from the latest release.
   const staticPath = url.pathname !== '/sw.js' && (/^\/assets\//.test(url.pathname) || /^\/vendor\//.test(url.pathname) || /\.(?:js|css|webmanifest|ico|svg|png)$/.test(url.pathname));
@@ -164,7 +164,7 @@ self.addEventListener('fetch', event => {
     if (navigation && event.resultingClientId) await rememberClient(event.resultingClientId, version);
     // Storage can be evicted independently of registration. Only a newly loaded document
     // may recover from the network; an already-running release must never mix its modules.
-    if (version === 'network') return fetch(request);
+    if (version === 'network') return fetch(request, {cache:'no-store'});
     const cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
     if (cached) return cached;
     if (navigation || paths.has(url.pathname)) {
