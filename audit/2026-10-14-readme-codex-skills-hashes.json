@@ -1,0 +1,25 @@
+{
+  "id": "PB-SKILL-DOC-02",
+  "at": "2026-10-14T14:22:41.855Z",
+  "actor": "Codex",
+  "request": "Add Codex skills and tools used to README",
+  "baseCommit": "05eab17b6b0bd469dd55e28d00992521a64e2e03",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 39307,
+      "sha256": "ccec5d2711934ba69a8721057a3bba4ea6ec38b921f28d705f5058490fb05f3a"
+    }
+  ],
+  "verification": {
+    "relativeLinks": 56,
+    "links": "passed",
+    "whitespace": "passed",
+    "sourceCopy": "identical",
+    "runtimeTests": "not run; documentation only"
+  },
+  "patch": {
+    "path": "audit/2026-10-14-readme-codex-skills.patch",
+    "sha256": "2077535ed409ab096d3565d026ec17a296b47ee1970d1a933ccbaa719188a870"
+  }
+}

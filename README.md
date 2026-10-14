@@ -324,6 +324,23 @@ Private backups, credentials, live score exports, generated preview files and de
 - Fresh score reads and publishing queued scores require the Pagelove host. Offline standings remain a dated snapshot; queued scores sync when connectivity returns and the game is open.
 - Physical Android installation, airplane-mode relaunch, and updates between two installed production releases still require device verification. Local browser checks do not establish those results.
 
+## Codex skills and development tools
+
+Codex helped build and refine the game using the skills and tools below. This account is based on the project's design notes and audit records; it is not a complete log of every historical skill invocation.
+
+| Skill or guidance | Contribution | Project record |
+| --- | --- | --- |
+| [Taste](https://github.com/Leonxlnx/taste-skill), installed with Bun as `design-taste-frontend` | Guided the interface review and improvements to typography, spacing, navigation, menus, light/dark themes, accessibility and responsive layouts. Its redesign guidance was adapted to the game's existing HTML/CSS/Three.js interface. | [Design review and implementation plan](DESIGN-REVIEW.md) |
+| HyperFrames animation guidance | Informed the cinematic upgrade with staged camera shots, reveals, depth, atmosphere, animation timing and reduced-motion handling. These techniques were applied within the interactive Three.js renderer; the game does not depend on the HyperFrames video runtime. | [Sixteen-world cinematic audit](audit/2026-10-14-sixteen-worlds.md) |
+
+Codex also used these development tools:
+
+- **Image generation:** created the landscape and square Open Graph posters. The [artwork notes](artwork/README.md) confirm use of the built-in image generation tool, but do not establish whether the separate `imagegen` skill was loaded. The favicon was authored as SVG.
+- **Browser automation:** inspected layouts and exercised gameplay, settings, installed-game updates and the world editor. Browser checks complement the automated checks and retain the device limitations documented in the release notes.
+- **Terminal and file-editing tools:** implemented the game, ran checks, published files to Pagelove and maintained the public GitHub repository.
+
+Three.js, Web Audio and Pagelove are the game's technologies. The project records do not identify a dedicated Pagelove skill used during development.
+
 ## Further documentation
 
 - [WORLD-EDITOR.md](WORLD-EDITOR.md) — native Pagelove routing/templates, HTML world definitions, brick events, custom types and owner publishing.
