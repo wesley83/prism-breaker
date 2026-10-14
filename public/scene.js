@@ -35,6 +35,9 @@ export class Stage {
    // Retain and warm the crystal/crack shader variants even when world one has no armor.
    const crystal=this.crystals;
    const crystalWarmup=new T.Mesh(crystal.body,crystal.bodyMaterial),crackWarmup=new T.Mesh(crystal.crackPlane,crystal.crackMaterial);warm.add(crystalWarmup,crackWarmup);
+   // Warm both appearances before play; changing the saved style only swaps artwork.
+   warm.add(new T.Mesh(this.box,this.classicBrickMaterial()),new T.Mesh(this.box,this.classicShineMaterial()));
+   for(const paddle of [this.paddle,this.classicPaddle])paddle.traverse(object=>{if(object.isMesh||object.isSprite){const sample=object.isSprite?new T.Sprite(object.material):new T.Mesh(object.geometry,object.material);sample.position.set(0,-8,2);warm.add(sample);}});
    // Upload reusable fragments before play, including their transparent material variant.
    const fragments=this.settings.lowEffects?32:96;
    while(this.particlePool.length<fragments){const particle=this.makeParticle();particle.mesh.position.set(0,0,.4);warm.add(particle.mesh);this.particlePool.push(particle);}
@@ -75,6 +78,10 @@ export class Stage {
    const pts=[];for(let x=-10;x<=10;x+=2)pts.push(x,-13,-.69,x,12,-.69);for(let y=-12;y<=12;y+=2)pts.push(-10,y,-.69,10,y,-.69);
    const geo=new T.BufferGeometry();geo.setAttribute('position',new T.Float32BufferAttribute(pts,3));this.grid=new T.LineSegments(geo,new T.LineBasicMaterial({color:0x70b8a3,transparent:true,opacity:.065}));this.board.add(this.grid);
    this.crystals??=crystalResources();this.paddle=makePaddle(this.haloTexture,this.crystals.environment);this.board.add(this.paddle);
+   this.classicPaddle=new T.Group();this.board.add(this.classicPaddle);
+   this.classicPaddleBody=this.cube(3.3,.34,.55,'#e7ffcd',0,0,0,this.classicPaddle);
+   this.classicPaddleLight=this.cube(2.7,.065,.06,'#b5ff6c',0,-.22,.34,this.classicPaddle);
+   this.classicPaddle.visible=!!this.settings.classicMode;this.paddle.visible=!this.classicPaddle.visible;
    this.shield=this.cube(19.8,.06,.2,'#6af6d2',0,-12,.1);this.shield.visible=false;
    this.prism=new T.Mesh(new T.OctahedronGeometry(2),this.material('#b5ff6c',.8));this.cutGroup.add(this.prism);
    this.rings=[];for(let i=0;i<3;i++){const r=new T.Mesh(new T.TorusGeometry(3.6+i*.55,.025,8,80),this.material('#b5ff6c',.7));r.rotation.x=i*.7;r.rotation.y=i*.9;this.cutGroup.add(r);this.rings.push(r);}
@@ -105,6 +112,18 @@ export class Stage {
  brickMarkerTexture(mark){this.brickMarkerTextures??=new Map();if(!this.brickMarkerTextures.has(mark)){const canvas=document.createElement('canvas');canvas.width=canvas.height=128;drawBrickMarker(canvas.getContext('2d'),mark);const texture=new T.CanvasTexture(canvas);texture.colorSpace=T.SRGBColorSpace;this.brickMarkerTextures.set(mark,texture);}return this.brickMarkerTextures.get(mark);}
  brickMarkerBase(){return this.brickMarkerMaterial??=new T.SpriteMaterial({map:this.brickMarkerTexture('2'),transparent:true,depthTest:false,fog:false,toneMapped:false});}
  makeBrickMarker(brick){const mark=brickMark(brick);if(mark===null)return null;const texture=this.brickMarkerTexture(mark),material=this.brickMarkerBase().clone();material.map=texture;const sprite=new T.Sprite(material);sprite.scale.set(.67,.67,1);sprite.position.z=.48;sprite.renderOrder=3;sprite.userData.texture=texture;sprite.userData.sharedTexture=true;sprite.userData.brickMark=mark;return sprite;}
+ classicBrickMaterial(){return this.classicBrickBase??=new T.MeshStandardMaterial({color:'#fff',emissive:'#fff',emissiveIntensity:.25,roughness:.23,metalness:.25});}
+ classicShineMaterial(){return this.classicShineBase??=new T.MeshBasicMaterial({color:'#fff',toneMapped:false});}
+ makeClassicBrick(brick){
+  const group=new T.Group(),material=this.classicBrickMaterial().clone();material.color.set(brick.color);material.emissive.set(brick.color);
+  const body=new T.Mesh(this.box,material);body.scale.set(brick.w,brick.h,.62);group.add(body);
+  const face=new T.Mesh(this.box,this.classicShineMaterial().clone());face.material.color.set(brick.color);face.scale.set(brick.w*.94,brick.h*.76,.02);face.position.z=.32;group.add(face);return group;
+ }
+ syncAppearance(){
+  const classic=!!this.settings.classicMode;if(classic===this.classicAppearance)return;
+  for(const mesh of this.bricks.values())this.disposeObject(mesh);this.bricks.clear();this.classicAppearance=classic;
+  this.classicPaddle.visible=classic;this.paddle.visible=!classic;
+ }
  disposeObject(m){this.dynamic.remove(m);if(m.userData.poolKey){const pool=this.powerPools.get(m.userData.poolKey);if(pool&&pool.length<8){pool.push(m);return;}}m.traverse(c=>{if(c.userData.texture&&!c.userData.sharedTexture)c.userData.texture.dispose();if(c.material)c.material.dispose();});}
  syncMap(map,items,create,update,liveBricks=false){const token=++this.syncToken;for(const item of items){if(liveBricks&&item.hp<=0)continue;let m=map.get(item.id);if(!m){m=create(item);map.set(item.id,m);this.dynamic.add(m);}m.userData.syncToken=token;update(m,item);}for(const [id,m]of map)if(m.userData.syncToken!==token){this.disposeObject(m);map.delete(id);}}
  reset(){for(const map of [this.bricks,this.balls,this.drops,this.shots,this.barriers]){for(const m of map.values())this.disposeObject(m);map.clear();}for(const m of this.portalMeshes||[]){this.board.remove(m);m.geometry.dispose();m.material.dispose();}this.portalMeshes=[];for(const p of this.particles)this.recycleParticle(p);this.particles.length=0;}
@@ -119,6 +138,7 @@ export class Stage {
  render(game,dt,time,mode='game',cut=0){
    if(this.preparing)return;
    if(this.current!==game.level){this.setWorld(game.level);this.reset();}
+   this.syncAppearance();
    const isHome=mode==='home',isChampion=mode==='champion',isCut=mode==='cut'||isChampion;
    const narrow=this.width<600;const desiredZ=narrow?Math.max(43,24/(this.camera.aspect*.75)):43;
    const isDaily=isCut&&game.mode==='daily';this.scene.background.set(isDaily?'#051925':WORLDS[game.level].sky);this.scene.fog.color.set(isDaily?'#051925':WORLDS[game.level].sky);
@@ -130,15 +150,15 @@ export class Stage {
    const homeX=narrow?0:7.4;this.world.position.x=this.settings.reducedMotion?(isHome?homeX:0):this.world.position.x+((isHome?homeX:0)-this.world.position.x)*Math.min(1,dt*4);
    for(const d of this.decor)if(!this.settings.reducedMotion){d.position.y=d.userData.baseY+Math.sin(time*.35+d.userData.phase)*.35;if(game.level!==2&&game.level!==4)d.rotation.y+=dt*.1;}
    this.syncMap(this.bricks,game.bricks,b=>{
-     this.crystals??=crystalResources();const m=makeCrystalBrick(b,this.crystals);
+     const m=this.classicAppearance?this.makeClassicBrick(b):makeCrystalBrick(b,this.crystals);
      const marker=this.makeBrickMarker(b);if(marker){m.add(marker);m.userData.brickMarker=marker;}return m;
-   },(m,b)=>{updateCrystalBrick(m,b,this.crystals);if(m.userData.brickMarker&&m.userData.brickMarker.userData.brickMark!==brickMark(b))updateBrickMarker(m.userData.brickMarker,b,mark=>this.brickMarkerTexture(mark));},true);
+   },(m,b)=>{if(this.classicAppearance){m.position.set(b.x,b.y,0);m.children[0].material.emissiveIntensity=b.hp<b.maxHp?.04:.25;m.scale.setScalar(b.hp<b.maxHp?.95:1);}else updateCrystalBrick(m,b,this.crystals);if(m.userData.brickMarker&&m.userData.brickMarker.userData.brickMark!==brickMark(b))updateBrickMarker(m.userData.brickMarker,b,mark=>this.brickMarkerTexture(mark));},true);
    this.syncMap(this.balls,game.balls,b=>{const m=new T.Mesh(this.sphere,new T.MeshBasicMaterial({color:'#ffffff'}));m.scale.setScalar(b.r);return m;},(m,b)=>{m.position.set(b.x,b.y,.42);m.material.color.set(game.effects.pierce?'#d4b6ff':'#ffffff');});
    this.syncMap(this.drops,game.drops,d=>this.acquirePower(d.kind),(m,d)=>{const t=this.settings.reducedMotion?0:time;m.position.set(d.x,d.y,.6);m.userData.rig.rotation.set(.3+Math.sin(t*1.7+d.id)*.2,t*.9+d.id,Math.sin(t*2+d.id)*.15);m.userData.glow.material.opacity=.48+Math.sin(t*3+d.id)*.08;});
    this.syncMap(this.shots,game.shots,()=>{const m=new T.Mesh(this.box,new T.MeshBasicMaterial({color:'#ffbdcc'}));m.scale.set(.08,.6,.12);return m;},(m,s)=>m.position.set(s.x,s.y,.3));
    this.syncMap(this.barriers,game.barriers,o=>{const m=new T.Mesh(this.box,new T.MeshStandardMaterial({color:WORLDS[game.level].accent,emissive:WORLDS[game.level].accent,emissiveIntensity:.45,metalness:.8,roughness:.2}));m.scale.set(o.w,o.h,.55);return m;},(m,o)=>m.position.set(o.x,o.y,.1));
    if(!this.portalMeshes?.length&&game.portals.length){this.portalMeshes=game.portals.map((p,i)=>{const m=new T.Mesh(new T.TorusGeometry(.7,.08,10,32),new T.MeshBasicMaterial({color:i?'#ec99ff':'#6ffff0'}));m.position.set(p.x,p.y,.2);this.board.add(m);return m;});}
-   updatePaddle(this.paddle,game.paddle,game.effects,this.settings.lowEffects);this.shield.visible=game.shield;
+   if(this.classicAppearance){this.classicPaddle.position.set(game.paddle.x,-10.6,.1);this.classicPaddleBody.scale.x=game.paddle.w;this.classicPaddleLight.scale.x=game.paddle.w*.8;this.classicPaddleLight.material.color.set(game.effects.laser?'#ff718a':game.effects.sticky?'#ffd77c':WORLDS[game.level].accent);}else updatePaddle(this.paddle,game.paddle,game.effects,this.settings.lowEffects);this.shield.visible=game.shield;
    for(const p of this.particles){p.life-=dt;p.mesh.position.x+=p.vx*dt;p.mesh.position.y+=p.vy*dt;p.mesh.position.z+=p.vz*dt;p.vz-=dt*8;p.mesh.rotation.x+=dt*5;p.mesh.material.opacity=Math.max(0,p.life/p.total);}
    let kept=0;for(const p of this.particles){if(p.life>0)this.particles[kept++]=p;else this.recycleParticle(p);}this.particles.length=kept;
    this.draw(dt,false,0,game.drops.length>0);
