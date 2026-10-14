@@ -38,13 +38,15 @@ process.stdin.on('data', async chunk=>{
           const live=await fetch(dav+'/scores.html',{headers:{Authorization:'Bearer '+key}});if(!live.ok)throw Error('Score migration read '+live.status);
           const etag=live.headers.get('etag');if(!etag)throw Error('No ETag: refusing to replace live scores without a concurrency guard');
           const html=await live.text(),rows=html.match(/<ul\b[^>]*\bid="scores"[^>]*>[\s\S]*?<\/ul>/i)?.[0];if(!rows)throw Error('Missing live score container');
-          const merged=template.replace('<ul id="scores"></ul>',rows);if(merged===template&&rows!=='<ul id="scores"></ul>')throw Error('Score merge failed');
+          const migrationTime=Date.now();let legacyWithoutTime=0;
+          const retainedRows=rows.replace(/<li\b[^>]*>[\s\S]*?<\/li>/g,row=>{if(/itemprop="expiresAt"/.test(row))return row;const submitted=row.match(/itemprop="submittedAt" content="([^"]+)"/)?.[1],time=Date.parse(submitted);if(!Number.isFinite(time))legacyWithoutTime++;const expiresAt=(Number.isFinite(time)?Math.min(time,migrationTime):migrationTime)+432000000;return row.replace('</li>','<meta itemprop="expiresAt" content="'+expiresAt+'"></li>');});
+          const merged=template.replace('<ul id="scores"></ul>',retainedRows);if(merged===template&&rows!=='<ul id="scores"></ul>')throw Error('Score merge failed');
           await fs.mkdir('.private/backup',{recursive:true});await fs.writeFile('.private/backup/score-rules-migration-'+attempt+'.html',html);
           const write=await fetch(dav+'/scores.html',{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8','If-Match':etag},body:merged});
           if(write.status===412)continue;if(!write.ok)throw Error('Score migration write '+write.status+': '+(await write.text()).slice(0,300));
           const check=await fetch(dav+'/scores.html',{headers:{Authorization:'Bearer '+key}}),read=await check.text();if(!check.ok||!read.includes('submittedAt'))throw Error('Score rules readback failed');
           const ids=[...rows.matchAll(/itemprop="runKey" content="([^"]+)"/g)].map(m=>m[1]);if(ids.some(id=>!read.includes('content="'+id+'"')))throw Error('A preserved score is missing');
-          done=true;result={migrated:true,preservedRuns:ids.length,status:write.status,sha256:createHash('sha256').update(read).digest('hex')};await fs.writeFile('score-rules-release.json',JSON.stringify(result,null,2));
+          done=true;result={migrated:true,preservedRuns:ids.length,legacyWithoutTime,status:write.status,sha256:createHash('sha256').update(read).digest('hex')};await fs.writeFile('score-rules-release.json',JSON.stringify(result,null,2));
         }
         if(!done)throw Error('Concurrent score writes prevented migration; no stale copy was uploaded');
       }else if(c.op==='upload'){

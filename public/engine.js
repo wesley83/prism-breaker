@@ -1,4 +1,4 @@
-import {makeLevel,POWERS,rng} from './levels.js?v=2';
+import {makeLevel,POWERS,rng,LAST_WORLD,formationCount} from './levels.js?v=3';
 export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
 export const PICKUP_POINTS=150;
 export const speedBonus=seconds=>Math.max(0,2000-10*Math.floor(Math.max(0,seconds)));
@@ -35,10 +35,10 @@ function validBoxes(items,bricks=false){
 }
 // Check storage before touching live game state. Newer optional fields stay optional.
 export function isValidSnapshot(s){
- if(!s||s.version!==1||!integerBetween(s.level,0,7)||!integerBetween(s.lives,1,9)||!integerBetween(s.score,0,10000000)||!validBoxes(s.bricks,true)||!validBoxes(s.barriers??[]))return false;
+ if(!s||s.version!==1||!integerBetween(s.level,0,LAST_WORLD)||!integerBetween(s.lives,1,9)||!integerBetween(s.score,0,10000000)||!validBoxes(s.bricks,true)||!validBoxes(s.barriers??[]))return false;
  if(s.mode!==undefined&&!['campaign','daily','practice'].includes(s.mode))return false;
  if(s.seed!==undefined&&!Number.isSafeInteger(s.seed))return false;
- if(s.phase!==undefined&&(!integerBetween(s.phase,0,s.level===7?2:0)))return false;
+ if(s.phase!==undefined&&(!integerBetween(s.phase,0,formationCount(s.level)-1)))return false;
  if(s.runId!==undefined&&(typeof s.runId!=='string'||!s.runId.length||s.runId.length>64))return false;
  for(const key of ['elapsed','time'])if(s[key]!==undefined&&!finiteBetween(s[key],0,1000000000))return false;
  if(s.hits!==undefined&&!integerBetween(s.hits,0,10000000))return false;
@@ -158,18 +158,18 @@ export class Game {
    }
    retainBetween(this.balls,-13.5,Infinity);
    if(!this.bricks.some(b=>b.hp>0)){
-     const speedPoints=speedBonus(this.boardElapsed),clearPoints=this.level===7&&this.phase<2?500:750+this.lives*150;
+     const speedPoints=speedBonus(this.boardElapsed),clearPoints=this.phase<formationCount(this.level)-1?500:750+this.lives*150;
      this.lastClear={seconds:Math.floor(this.boardElapsed),speedPoints,clearPoints};this.bonusTotals.speed+=speedPoints;this.bonusTotals.clear+=clearPoints;this.award(speedPoints+clearPoints);
-     if(this.level===7&&this.phase<2){this.phase++;this.loadLevel();this.emit({type:'phase',phase:this.phase,speedPoints,clearPoints});}
+     if(this.phase<formationCount(this.level)-1){this.phase++;this.loadLevel();this.emit({type:'phase',phase:this.phase,speedPoints,clearPoints});}
      else{this.state='cleared';this.emit({type:'clear',speedPoints,clearPoints});}return;
    }
    if(!this.balls.length){this.lives--;this.effects={};this.drops=[];this.shots=[];this.combo=0;this.shield=false;
      if(this.lives<=0){this.state='over';this.emit({type:'over'});}else{this.addBall(true);this.state='ready';this.emit({type:'life'});}}
  }
- next(){if(this.level===7||this.mode!=='campaign'){this.state='won';return false;}this.level++;this.phase=0;this.loadLevel();return true;}
+ next(){if(this.level===LAST_WORLD||this.mode!=='campaign'){this.state='won';return false;}this.level++;this.phase=0;this.loadLevel();return true;}
  snapshot(){return {version:1,mode:this.mode,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,randomDraws:this.randomDraws,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits};}
  restore(s){if(!isValidSnapshot(s))return false;
-   this.start(s.mode,s.level,s.seed);for(const k of ['phase','score','lives','nextLife','elapsed','runId','time','hits'])if(s[k]!==undefined)this[k]=s[k];this.nextLife=s.nextLife??(Math.floor(this.score/12000)+1)*12000;this.bricks=structuredClone(s.bricks);this.barriers=structuredClone(s.barriers??[]);this.total=this.bricks.length;
+   this.start(s.mode,s.level,s.seed);for(const k of ['phase','score','lives','nextLife','elapsed','runId','time','hits'])if(s[k]!==undefined)this[k]=s[k];this.nextLife=s.nextLife??(Math.floor(this.score/12000)+1)*12000;this.bricks=structuredClone(s.bricks);this.barriers=structuredClone(s.barriers??[]);this.total=this.bricks.length;this.portals=makeLevel(this.level,this.phase).portals;
    this.resetRandom(Number.isSafeInteger(s.randomDraws)&&s.randomDraws>=0&&s.randomDraws<=10000?s.randomDraws:0);
    this.boardElapsed=Number.isFinite(s.boardElapsed)&&s.boardElapsed>=0?s.boardElapsed:Math.max(0,Number(s.time)||0);
    this.launchCount=Number.isSafeInteger(s.launchCount)&&s.launchCount>=0?s.launchCount:0;

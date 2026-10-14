@@ -16,7 +16,7 @@ Only destroying a brick awards points. The destruction increments the combo befo
 | 18–23 | ×4 | 400 |
 | 24 onward | ×5 | 500 |
 
-The combo is shared by all balls, laser shots and explosion chains. Any ball contacting the paddle resets it, including a Sticky paddle catch. Losing the last ball, starting a new world or starting another Citadel formation also resets it. Walls, barriers, portals and Safety shield bounces do not reset it.
+The combo is shared by all balls, laser shots and explosion chains. Any ball contacting the paddle resets it, including a Sticky paddle catch. Losing the last ball, starting a new world or starting another Citadel or Nexus formation also resets it. Walls, barriers, portals and Safety shield bounces do not reset it.
 
 Armored bricks award no points for damage before destruction. Their final hit earns the normal combo award. An explosion applies one hit to each nearby brick; every brick actually destroyed earns its normal combo points. Destroying a switch earns normal brick points; opening its gate adds no points.
 
@@ -34,7 +34,7 @@ For example, a 12-brick streak earns `5 × 100 + 6 × 200 + 1 × 300 = 2,000` po
 | 4 | 1,350 |
 | 9 (maximum) | 2,100 |
 
-Prism Citadel has three formations. The first two award 500 clear points each. Its final formation awards the normal clear bonus. Each formation also earns its own speed bonus. There is no additional whole-adventure completion bonus. Clear and speed bonuses are not multiplied by the combo.
+Prism Citadel (world 8) and Dawn Nexus (world 16) each have three formations. The first two formations in each world award 500 clear points each; the final formation awards the normal clear bonus. Each formation also earns its own speed bonus. There is no additional whole-adventure completion bonus. Clear and speed bonuses are not multiplied by the combo.
 
 Every 12,000 points awards an extra life, up to nine lives. Each Extra life pickup also adds one life up to that limit. Lives awarded by the clear bonus itself do not retroactively increase that bonus. Losing a life does not deduct points, but fewer lives reduce later clear bonuses.
 
@@ -88,3 +88,5 @@ Worlds 3–6 use 5% faster ball movement before the existing speed cap. Electric
 ## Personal best versus the shared leaderboard
 
 Your personal best is one combined Adventure/Daily best saved under `prism.best` in local storage. The interface omits device/storage qualifiers. Saving a score to the shared Pagelove leaderboard is a separate operation; existing scores retain their originally earned totals.
+
+Leaderboard entries expire five days after reaching the server. Expired entries cannot qualify as the top score or appear in shared standings. Daily standings also filter to the current UTC challenge date.

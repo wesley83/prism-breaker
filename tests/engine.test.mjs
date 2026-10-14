@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {Game,LIMIT,isValidSnapshot} from '../public/engine.js';import {makeLevel,POWERS,rng,daySeed} from '../public/levels.js';
-test('all worlds have reachable brick positions and unique identifiers',()=>{for(let i=0;i<8;i++)for(let p=0;p<(i===7?3:1);p++){const l=makeLevel(i,p);assert.ok(l.bricks.length>20);assert.equal(new Set(l.bricks.map(b=>b.id)).size,l.bricks.length);for(const b of l.bricks){assert.ok(Math.abs(b.x)+b.w/2<10);assert.ok(b.y<12&&b.hp>0);}}});
+import {Game,LIMIT,isValidSnapshot} from '../public/engine.js';import {makeLevel,POWERS,rng,daySeed,WORLD_COUNT,LAST_WORLD,formationCount} from '../public/levels.js';
+test('all worlds have reachable brick positions and unique identifiers',()=>{for(let i=0;i<WORLD_COUNT;i++)for(let p=0;p<formationCount(i);p++){const l=makeLevel(i,p);assert.ok(l.bricks.length>20);assert.equal(new Set(l.bricks.map(b=>b.id)).size,l.bricks.length);for(const b of l.bricks){assert.ok(Math.abs(b.x)+b.w/2<10);assert.ok(b.y<12&&b.hp>0);}}});
 test('daily seed and drop generator are repeatable',()=>{assert.equal(daySeed('2026-10-12'),daySeed('2026-10-12'));assert.notEqual(daySeed('2026-10-12'),daySeed('2026-10-13'));const a=rng(12),b=rng(12);for(let i=0;i<100;i++)assert.equal(a(),b());});
 test('wall, ceiling and paddle contacts return the ball to play',()=>{const g=new Game();g.launch();const b=g.balls[0];b.x=9.76;b.y=0;b.vx=14;b.vy=2;g.tick(1/120);assert.ok(b.vx<0);b.x=0;b.y=11.76;b.vx=1;b.vy=14;g.tick(1/120);assert.ok(b.vy<0);b.x=.8;b.y=LIMIT.paddleY+.45;b.vx=0;b.vy=-14;g.tick(1/60);assert.ok(b.vy>0);assert.ok(b.vx>0);});
 test('multiball consumes one life only after every ball is lost',()=>{const g=new Game();g.launch();g.power('multi');assert.equal(g.balls.length,3);g.balls[0].y=-15;g.tick(1/120);assert.equal(g.lives,3);g.balls.forEach(b=>b.y=-15);g.tick(1/120);assert.equal(g.lives,2);assert.equal(g.state,'ready');});
@@ -25,9 +25,9 @@ test('older optional checkpoint fields default safely and restored formations us
  assert.equal(isValidSnapshot(save),true);const restored=new Game();assert.equal(restored.restore(save),true);assert.equal(restored.total,save.bricks.length);assert.equal(restored.nextLife,12000);assert.equal(restored.elapsed,0);
  restored.bricks[0].hp=0;assert.notEqual(save.bricks[0].hp,0);restored.launch();restored.tick(1/120);assert.ok(restored.balls.every(ball=>Number.isFinite(ball.x)&&Number.isFinite(ball.y)));
 });
-test('all eight campaign levels advance, including every final-boss stage',()=>{const g=new Game();for(let level=0;level<8;level++){assert.equal(g.level,level);for(let p=0;p<(level===7?3:1);p++){g.launch();g.bricks.forEach(b=>b.hp=0);g.tick(1/120);if(level===7&&p<2){assert.equal(g.state,'ready');assert.equal(g.phase,p+1);}else assert.equal(g.state,'cleared');}assert.equal(g.next(),level<7);}assert.equal(g.state,'won');});
+test('all sixteen campaign levels advance, including every final-boss stage',()=>{const g=new Game();for(let level=0;level<WORLD_COUNT;level++){assert.equal(g.level,level);for(let p=0;p<formationCount(level);p++){g.launch();g.bricks.forEach(b=>b.hp=0);g.tick(1/120);if(p<formationCount(level)-1){assert.equal(g.state,'ready');assert.equal(g.phase,p+1);}else assert.equal(g.state,'cleared');}assert.equal(g.next(),level<LAST_WORLD);}assert.equal(g.state,'won');});
 test('bot can clear each world through actual ball collisions',()=>{
- for(let level=0;level<8;level++){
+ for(let level=0;level<WORLD_COUNT;level++){
    const g=new Game();g.start('practice',level,8399);const random=rng(54+level);let offset=.2;let contacts=0;
    g.emit=e=>{if(e.type==='paddle'){offset=(random()-.5)*1.8;contacts++;}};
    for(let frame=0;frame<180000&&!['cleared','over'].includes(g.state);frame++){
@@ -38,3 +38,4 @@ test('bot can clear each world through actual ball collisions',()=>{
    assert.equal(g.state,'cleared','World '+(level+1)+' remaining '+g.bricks.filter(b=>b.hp>0).length+' contacts '+contacts);
  }
 });
+

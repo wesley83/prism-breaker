@@ -1,14 +1,19 @@
-export const CINEMATICS=[
- {name:'The garden awakens',duration:13,points:[[-7,5,13],[8,7,20],[12,10,31],[3,16,34],[0,8,29]],fov:[38,48,42,35,38]},
- {name:'Above the carnival',duration:14,points:[[0,-1,14],[-11,5,23],[7,12,29],[13,9,30],[0,7,29]],fov:[40,48,43,36,38]},
- {name:'Power to the skyline',duration:13.5,points:[[-5,-1,15],[0,3,24],[14,8,27],[10,16,35],[0,7,29]],fov:[42,48,42,36,38]},
- {name:'A passage of light',duration:14,points:[[-7,3,12],[8,5,21],[-12,10,28],[0,12,32],[0,7,29]],fov:[36,48,40,34,38]},
- {name:'The last ember',duration:13,points:[[8,-2,16],[-11,3,22],[-12,9,29],[10,14,31],[0,7,29]],fov:[40,48,44,34,38]},
- {name:'Beyond the lens',duration:14.5,points:[[-8,5,13],[12,9,24],[13,17,29],[-10,15,32],[0,7,29]],fov:[35,46,42,34,38]},
- {name:'An ocean of stars',duration:15,points:[[0,2,13],[-12,9,22],[12,13,32],[4,19,36],[0,7,29]],fov:[42,52,43,35,38]},
- {name:'Every color comes home',duration:17,points:[[7,3,13],[-11,6,23],[12,13,32],[0,19,39],[0,8,33]],fov:[36,50,44,34,38]}
-];
+// Three composed shots per world: establish, activate, reveal. Motion uses elapsed time.
 export const clamp01=x=>Math.max(0,Math.min(1,x));
 export const smooth=x=>{x=clamp01(x);return x*x*(3-2*x);};
-function curve(points,p){const position=clamp01(p)*(points.length-1),i=Math.min(points.length-2,Math.floor(position)),t=position-i;return [0,1,2].map(axis=>{const a=points[Math.max(0,i-1)][axis],b=points[i][axis],c=points[i+1][axis],d=points[Math.min(points.length-1,i+2)][axis];return .5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t);});}
-export function cameraFrame(level,seconds,aspect=1,reducedMotion=false){const scene=CINEMATICS[level],p=reducedMotion?.74:clamp01(seconds/scene.duration),position=curve(scene.points,p);if(aspect<.85){position[0]*=.7;position[2]*=Math.min(1.65,.85/aspect);}const slot=p*4,index=Math.min(3,Math.floor(slot)),fov=scene.fov[index]+(scene.fov[index+1]-scene.fov[index])*smooth(slot-index);return {position,target:[0,3.2,0],fov,roll:reducedMotion?0:Math.sin(p*Math.PI*2+level)*.055,progress:p,titleAlpha:reducedMotion?1:smooth((p-.28)/.12),fade:reducedMotion?0:Math.max(1-smooth(p/.065),smooth((p-.95)/.05))};}
+export const CHAMPION_DURATION=16;
+const names=['The garden awakens','A city above the clouds','Power to the skyline','The crystal cathedral','Fire becomes a star','Beyond the lens','The celestial migration','A door beyond the prism','The lost constellations','A bridge of living light','The forest keeps time','A doorway in the desert','Stillness inside the storm','The last departure','Through the impossible','All the light returns'];
+const approaches=[[-17,3,24],[15,0,26],[-15,-1,28],[-16,2,25],[18,0,23],[-17,8,25],[18,5,28],[-19,0,28],[-16,1,25],[17,7,27],[-18,4,25],[18,1,29],[-17,0,27],[17,9,30],[-16,9,26],[19,3,32]];
+export const CINEMATICS=names.map((name,i)=>({name,duration:i===15?21:i===7?18:16.5,shots:[
+ {from:approaches[i],to:[approaches[i][0]*.6,6,22],target:[0,3,0],fov:48},
+ {from:[i%2?9:-9,7,18],to:[i%2?-3:3,5,19],target:[0,4,0],fov:39},
+ {from:[i%2?-6:6,9,34],to:[i%2?-2:2,8,37],target:[0,.5,0],fov:43}
+]}));
+export function shotFrame(shots,p,aspect,reduced=false){
+ const shot=reduced?2:p<.28?0:p<.58?1:2,start=[0,.28,.58][shot],end=[.28,.58,1][shot],q=smooth((p-start)/(end-start)),s=shots[shot];
+ const position=s.from.map((v,i)=>v+(s.to[i]-v)*q),target=[...s.target];
+ if(aspect<.85){position[0]*=.68;position[2]*=Math.min(1.8,.85/Math.max(.32,aspect));target[1]-=shot===2?1.4:0;}
+ const dissolve=Math.max(0,1-Math.abs(p-.28)/.017,1-Math.abs(p-.58)/.017);
+ return {position,target,fov:s.fov,roll:0,shot,progress:p,titleAlpha:reduced?1:smooth((p-.61)/.07),fade:reduced?0:Math.max(1-smooth(p/.045),dissolve,smooth((p-.975)/.025))};
+}
+export function cameraFrame(level,seconds,aspect=1,reducedMotion=false){const scene=CINEMATICS[level]??CINEMATICS[0],p=reducedMotion?.82:clamp01(seconds/scene.duration);return shotFrame(scene.shots,p,aspect,reducedMotion);}

@@ -1,10 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import * as T from '../public/vendor/three.module.min.js';
-import {Game} from '../public/engine.js';import {makeLevel} from '../public/levels.js';import {Stage} from '../public/scene.js';
+import {Game} from '../public/engine.js';import {makeLevel,WORLD_COUNT,formationCount} from '../public/levels.js';import {Stage} from '../public/scene.js';
 import {brickMark,updateBrickMarker,BRICK_GUIDE,brickMarkerSVG,STAR_PATH,DIAMOND_PATH} from '../public/brick-labels.js';
 function stageForMarkers(){const stage=Object.create(Stage.prototype),textures=new Map();stage.dynamic=new T.Group();stage.syncToken=0;stage.brickMarkerTexture=mark=>{if(!textures.has(mark))textures.set(mark,new T.Texture());return textures.get(mark);};return stage;}
 test('every generated world and Citadel formation labels its actual brick kind and hit count',()=>{
- const kinds=new Set();for(let level=0;level<8;level++)for(let phase=0;phase<(level===7?3:1);phase++)for(const brick of makeLevel(level,phase).bricks){kinds.add(brick.kind);assert.equal(brickMark(brick),brick.kind==='armor'?String(brick.hp):brick.kind==='explode'?'★':brick.kind==='switch'?'◇':null);}
+ const kinds=new Set();for(let level=0;level<WORLD_COUNT;level++)for(let phase=0;phase<formationCount(level);phase++)for(const brick of makeLevel(level,phase).bricks){kinds.add(brick.kind);assert.equal(brickMark(brick),brick.kind==='armor'?String(brick.hp):brick.kind==='explode'?'★':brick.kind==='switch'?'◇':null);}
  assert.deepEqual([...kinds].sort(),['armor','explode','normal','switch']);
 });
 test('three-hit armor counts down after actual damage, then its rendered marker is removed',()=>{

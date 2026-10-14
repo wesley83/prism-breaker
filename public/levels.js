@@ -5,9 +5,19 @@ export const WORLDS = [
  {name:'Crystal Caverns',tag:'Beautiful chain reactions',colors:['#61e3fb','#a796ff','#fa92da','#73ffc7'],sky:'#101a38',accent:'#69e5ff',shape:'crystal',note:'Star-marked explosive bricks break their neighbors.',story:'The cavern opens in a shower of crystals. Warmth waits beyond.',mechanic:'Explosive clusters',root:55},
  {name:'Ember Foundry',tag:'Forged under pressure',colors:['#ff9961','#ff5579','#ffd881','#db79ba'],sky:'#351414',accent:'#ffa568',shape:'forge',note:'Read the moving barriers. Find the gaps between them.',story:'The forge releases its last ember. The world turns to ice.',mechanic:'Moving barriers',root:45},
  {name:'Frost Observatory',tag:'A different point of view',colors:['#b5ebff','#f1d6ff','#7a9dff','#7bf6eb'],sky:'#11243e',accent:'#b4e9ff',shape:'ice',note:'Paired portals send your ball across the arena.',story:'The telescope finds a signal. An ocean of stars answers.',mechanic:'Portal paths',root:57},
- {name:'Cosmic Reef',tag:'Drift into the extraordinary',colors:['#6fffd3','#f07bff','#8f9aff','#ffe39d'],sky:'#092a36',accent:'#6fffd3',shape:'reef',note:'Portals, moving bricks and explosions work together.',story:'The fragments become a bridge. The last prism is within reach.',mechanic:'Everything connects',root:52},
- {name:'Prism Citadel',tag:'Bring every color home',colors:['#faff94','#ff9ebc','#b19aff','#70efe2'],sky:'#242031',accent:'#edffa0',shape:'citadel',note:'Break three formations to restore the heart of the prism.',story:'Every world shines again. You brought the color home.',mechanic:'Three-stage finale',root:60}
+ {name:'Cosmic Reef',tag:'Drift into the extraordinary',colors:['#6fffd3','#f07bff','#8f9aff','#ffe39d'],sky:'#092a36',accent:'#6fffd3',shape:'reef',note:'Portals, moving bricks and explosions work together.',story:'A river of stars carries the fragments to the citadel.',mechanic:'Everything connects',root:52},
+ {name:'Prism Citadel',tag:'Beyond the first horizon',colors:['#faff94','#ff9ebc','#b19aff','#70efe2'],sky:'#242031',accent:'#edffa0',shape:'citadel',note:'Clear three formations to open the passage beyond the prism.',story:'The prism opens. Eight forgotten worlds answer its call.',mechanic:'Three-stage gateway',root:60},
+ {name:'Sunken Archive',tag:'Stories beneath the surface',colors:['#5ce6d0','#62bdf5','#d6b889','#b1f9e6'],sky:'#061f2b',accent:'#71eadb',shape:'archive',note:'Open the diamond gates, then follow the portals into the archive.',story:'Lost constellations rise from the deep. Their light points north.',mechanic:'Floodgates & portals',root:46},
+ {name:'Aurora Passage',tag:'Follow the living sky',colors:['#97ffa1','#7bdef9','#cf9aff','#ffc4e0'],sky:'#0c2035',accent:'#a7ffc5',shape:'aurora',note:'Drifting armored ribbons leave narrow routes through the sky.',story:'The aurora folds into a bridge. A forest of turning gears awaits.',mechanic:'Armored ribbons',root:59},
+ {name:'Clockwork Canopy',tag:'A forest keeping time',colors:['#f3cd7a','#97dcb2','#ec9969','#86bfe1'],sky:'#162725',accent:'#f0d088',shape:'clockwork',note:'Time the moving barriers. Explosive stars open the canopy.',story:'A thousand mechanisms turn as one. Sand begins to shine.',mechanic:'Synchronized barriers',root:51},
+ {name:'Mirage Dunes',tag:'Nothing stands still',colors:['#ffc085','#e89dcc','#c3a0ff','#ffe5a3'],sky:'#342035',accent:'#ffd09b',shape:'dunes',note:'Portals cross the dunes. Use explosion chains to break the armored ridges.',story:'The mirage becomes a doorway. Thunder gathers on the other side.',mechanic:'Portal chain reactions',root:49},
+ {name:'Thunder Spire',tag:'Catch the storm',colors:['#b5acff','#70daff','#ffe891','#ff98bc'],sky:'#161d38',accent:'#b8caff',shape:'storm',note:'Break the diamond switches to release the storm gates.',story:'The storm splits. A quiet moon rises above the harbor.',mechanic:'Storm gates & armor',root:44},
+ {name:'Lunar Harbor',tag:'A moment beyond gravity',colors:['#c9eaff','#e1c4ff','#82e3df','#d0d5ff'],sky:'#101b32',accent:'#d0e8ff',shape:'harbor',note:'Bounce through paired portals and moving dock formations.',story:'The last ship leaves its mooring. Beyond it, a star falls inward.',mechanic:'Moving docks & portals',root:56},
+ {name:'Event Horizon',tag:'Through the impossible',colors:['#b393ff','#ff91d7','#ffba7b','#93e8ff'],sky:'#120d27',accent:'#c6a2ff',shape:'horizon',note:'Read the moving barrier and use explosions to reach the armored core.',story:'You cross the darkness. On the far side, every color is waiting.',mechanic:'The collapsing core',root:43},
+ {name:'Dawn Nexus',tag:'Let every world shine',colors:['#fff4ac','#ffaec6','#a3c9ff','#96ffe0'],sky:'#192634',accent:'#fff0ac',shape:'nexus',note:'Clear three final formations. Restore all sixteen worlds.',story:'Sixteen worlds. One unbroken light. You brought the dawn.',mechanic:'Three-stage grand finale',root:60}
 ];
+export const WORLD_COUNT=WORLDS.length,LAST_WORLD=WORLD_COUNT-1;
+export const formationCount=index=>index===7||index===LAST_WORLD?3:1;
 export const POWERS={
  wide:{name:'Wide paddle',symbol:'↔',color:'#b5ff6c',duration:18},
  multi:{name:'Multiball',symbol:'●●',color:'#f39aff',duration:0},
@@ -20,9 +30,12 @@ export const POWERS={
 };
 export function rng(seed){return ()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
 export function daySeed(day){let h=2166136261;for(const c of day)h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0;}
+// Keep the release-day challenge identical for players still finishing the old build.
+export const dailyWorld=day=>daySeed(day)%(day<'2026-10-15'?8:WORLD_COUNT);
 export function makeLevel(index,phase=0){
+ if(!Number.isInteger(index)||index<0||index>=WORLD_COUNT)throw new RangeError('Unknown world');
  const bricks=[];let id=0;
- for(let row=0;row<6;row++)for(let col=0;col<9;col++){
+ for(let row=0;row<(index>=8?7:6);row++)for(let col=0;col<9;col++){
    let include=true;
    if(index===0)include=!(row<2&&(col===0||col===8))&&!(row===5&&col%2===0);
    if(index===1)include=(row+col)%5!==0;
@@ -32,6 +45,15 @@ export function makeLevel(index,phase=0){
    if(index===5)include=!(row===2&&col%2===1);
    if(index===6)include=(row+col)%4!==0;
    if(index===7)include=phase===0?Math.abs(col-4)<row+1:phase===1?(row+col)%3!==0:Math.abs(col-4)+Math.abs(row-2.5)<5;
+   if(index===8)include=row===0||row===6||col%3!==1;
+   if(index===9)include=(col+row*2)%5!==0&&!(row===6&&col%2===0);
+   if(index===10)include=Math.abs(col-4)+Math.abs(row-3)<=5;
+   if(index===11)include=row>=Math.abs(col-4)*.7&&!(row===5&&col%3===1);
+   if(index===12)include=Math.abs(col-4)<=3-Math.abs(row-3)*.6||row===3;
+   if(index===13)include=row%3===0||col%2===0;
+   if(index===14)include=Math.abs(col-4)+Math.abs(row-3)>=2&&(row+col)%6!==0;
+   if(index===15)include=phase===0?(row+col)%4!==1:phase===1?(Math.abs(col-4)+Math.abs(row-3)<=5):row===3||col===4||Math.abs(col-4)===Math.abs(row-3)||row===0||row===6;
+   if(index===15&&row===3&&(col===2||col===6))include=true;
    if(!include)continue;
    let kind='normal';
    if(index>=1&&(row+col)%7===0)kind='armor';
@@ -39,12 +61,18 @@ export function makeLevel(index,phase=0){
    if(index===2&&(row===3&&(col===2||col===6)))kind='switch';
    if(index===7&&phase===2&&row<3)kind='armor';
    if([2,3,5].includes(index)&&kind==='normal'&&(row===1||row===4)&&col===4)kind='armor';
-   const hp=kind==='armor'?2+(index===7&&phase===2?1:0):1;
-   bricks.push({id:id++,x:(col-4)*1.93,y:9-row*1.05,w:1.7,h:.72,kind,hp,maxHp:hp,color:WORLDS[index].colors[row%4],baseX:(col-4)*1.93,moving:(index===1||index===6)&&row%2===0,row});
+   if(index>=8&&kind==='normal'&&(row+col)%4===0)kind='armor';
+   if([8,12,15].includes(index)&&row===3&&(col===2||col===6))kind='switch';
+   if(index===15&&phase===2&&kind==='normal')kind='armor';
+   const hp=kind==='armor'?2+((index===7&&phase===2)||(index>=12&&(row+col)%3===0)||(index===15&&phase===2)?1:0):1;
+   bricks.push({id:id++,x:(col-4)*1.93,y:9-row*1.05,w:1.7,h:.72,kind,hp,maxHp:hp,color:WORLDS[index].colors[(row+(index>=8?col%2:0))%4],baseX:(col-4)*1.93,moving:([1,6,9,13,14].includes(index)||(index===15&&phase===1))&&row%2===0,row});
  }
  const barriers=[];
  if(index===2)barriers.push({id:500,x:-4.6,y:.9,w:5.4,h:.5,gate:true},{id:501,x:4.6,y:.9,w:5.4,h:.5,gate:true});
  if(index===4)barriers.push({id:502,x:0,y:1,w:4.3,h:.5,moving:true},{id:503,x:0,y:-2,w:3.3,h:.5,moving:true});
- const portals=index===5||index===6?[{x:-7.8,y:.2},{x:7.8,y:3.4}]:[];
+ if([8,12,15].includes(index))barriers.push({id:500,x:-4.5,y:.2,w:4.8,h:.45,gate:true},{id:501,x:4.5,y:.2,w:4.8,h:.45,gate:true});
+ if(index===10)barriers.push({id:502,x:-3,y:.5,w:3.6,h:.45,moving:true},{id:503,x:3,y:-2.1,w:2.8,h:.45,moving:true});
+ if(index===14||index===15&&phase===2)barriers.push({id:504,x:0,y:-1,w:3.8,h:.45,moving:true});
+ const portals=[5,6,8,11,13,14].includes(index)||index===15&&phase>0?[{x:-7.8,y:index<8?.2:-.6},{x:7.8,y:index<8?3.4:2.4}]:[];
  return {bricks,barriers,portals};
 }

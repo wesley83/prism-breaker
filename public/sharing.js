@@ -1,3 +1,4 @@
+import {WORLD_COUNT} from './levels.js';
 import qrcode from './vendor/qr.js?v=1';
 
 export function formatShareDate(day){
@@ -25,7 +26,7 @@ function duration(seconds){return Math.floor(seconds/60)+'m '+String(seconds%60)
 
 async function drawScorecard(model,profile){
  const portrait=profile.mobile,w=portrait?1080:1200,h=portrait?1350:630,pad=portrait?64:60;
- const [scene,mark]=await Promise.all([loadImage('/assets/world-preview-'+String(model.world||8).padStart(2,'0')+'.png'),loadImage('/assets/prism-icon-192.png')]);
+ const [scene,mark]=await Promise.all([loadImage('/assets/world-preview-'+String(model.world||WORLD_COUNT).padStart(2,'0')+'.png'),loadImage('/assets/prism-icon-192.png')]);
  try{await document.fonts.load('700 24px Arcade');}catch{/* System font keeps the scorecard available. */}
  const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');if(!ctx)throw Error('Scorecard drawing unavailable');ctx.fillStyle='#071218';ctx.fillRect(0,0,w,h);
  if(portrait){cover(ctx,scene,0,100,w,540);const fade=ctx.createLinearGradient(0,100,0,640);fade.addColorStop(0,'#07121866');fade.addColorStop(.55,'#07121822');fade.addColorStop(1,'#071218');ctx.fillStyle=fade;ctx.fillRect(0,100,w,540);}

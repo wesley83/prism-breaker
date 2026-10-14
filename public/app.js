@@ -1,19 +1,19 @@
-import {WORLDS,POWERS,daySeed} from './levels.js?v=2';
+import {WORLDS,POWERS,daySeed,dailyWorld,WORLD_COUNT,LAST_WORLD,formationCount} from './levels.js?v=3';
 import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=6';
+import {Game,speedBonus,isValidSnapshot} from './engine.js?v=7';
 import {SharePreview,formatShareDate} from './sharing.js?v=2';
 import {Sound} from './audio.js?v=5';
 import {TRACKS} from './music.js';
-import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=2';
-import {utcDay,rankedScores as rankScores,scoreAge,topFinish} from './leaderboard.js?v=2';
+import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=3';
+import {utcDay,rankedScores as rankScores,scoreAge,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=3';
 import {offlineStore,ScoreOutbox} from './offline.js';
 import {setupOfflinePlay} from './pwa.js?v=2';
 import {setupGameDisplay} from './display.js';
-import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=2';
+import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=3';
+import {CHAMPION_DURATION} from './cinematic-score.js?v=3';
 import {VICTORY_TRACKS} from './victory-music.js';
 const elements=new Map(),$=s=>{if(!/^#[\w-]+$/.test(s))return document.querySelector(s);if(!elements.has(s))elements.set(s,document.querySelector(s));return elements.get(s);},all=s=>[...document.querySelectorAll(s)];
-const rankings=new WeakMap();
-function rankedScores(scores,mode,day=utcDay()){let cache=rankings.get(scores);if(!cache){cache=new Map();rankings.set(scores,cache);}const key=mode+':'+day;if(!cache.has(key))cache.set(key,rankScores(scores,mode,day));return cache.get(key);}
+function rankedScores(scores,mode,day=utcDay()){return rankScores(scores,mode,day,boardNow());}
 const storage={get(key,fallback=null){try{const value=JSON.parse(localStorage.getItem('prism.'+key))??fallback;return key==='save'&&!isValidSnapshot(value?.game)?fallback:value;}catch{return fallback;}},set(key,value){try{localStorage.setItem('prism.'+key,JSON.stringify(value));}catch{}},remove(key){try{localStorage.removeItem('prism.'+key);}catch{}}};
 const settings={music:.35,effects:.7,muted:false,interfaceTheme:'system',classicMode:false,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,lowEffects:matchMedia('(pointer:coarse)').matches,...storage.get('settings',{})};
 const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#'+name+'"/></svg>';
@@ -22,7 +22,7 @@ const powerDescriptions={wide:'A wider paddle for 18 seconds. Works with sticky 
 function brickDescription(brick){return settings.classicMode?brick.description.replace('Cracks spread after each hit.','Damaged bricks become dimmer.'):brick.description;}
 function applyTheme(){document.documentElement.dataset.theme=settings.interfaceTheme;document.documentElement.dataset.reducedMotion=String(settings.reducedMotion);document.documentElement.dataset.classic=String(!!settings.classicMode);const armorCopy=$('#brick-guide')?.querySelector('[data-brick-kind="armor"] p');if(armorCopy)armorCopy.textContent=brickDescription(BRICK_GUIDE.find(brick=>brick.kind==='armor'));}
 applyTheme();
-const sound=new Sound(settings);let game=new Game(),stage,view='home',accumulator=0,cutTime=0,toastUntil=0,modalResume=null,lastHud='',leaderMode='campaign',scoreLoading=false,runDay='',endResult=null;
+const sound=new Sound(settings);let cutReady=true,cutGeneration=0;let game=new Game(),stage,view='home',accumulator=0,cutTime=0,toastUntil=0,modalResume=null,lastHud='',leaderMode='campaign',scoreLoading=false,runDay='',endResult=null;
 const sharePreview=$('#share-dialog')?new SharePreview($('#share-dialog')):{open:()=>copyLeaderboardLink()};
 const keys=new Set();let best=storage.get('best',0),highest=storage.get('highest',0);
 let sharedScores=null,scoresRequest=null,scoresUnavailable=false,scoresFetchedAt=0;
@@ -33,18 +33,18 @@ const gameDisplay=setupGameDisplay({isPlaying:()=>view!=='home',onExit:()=>{if(v
 const offlinePlay=setupOfflinePlay({isSafeToUpdate:()=>view==='home',openHelp:()=>openDialog('#install-dialog')});
 const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 $('#install-instructions').textContent=ios?'Open the browser’s Share menu, choose Add to Home Screen, then Add. Launch Prism Breaker from its new icon.':/Android/i.test(navigator.userAgent)?'Open your browser’s menu and choose Install app or Add to Home screen. Launch Prism Breaker from its new icon.':'Use the install icon in your browser’s address bar or the Install app command in its menu. If installation is unavailable, you can still play offline in this browser after the download completes.';
-async function initializeStage(){try{const {Stage}=await import('./scene.js?v=13');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
+async function initializeStage(){try{const {Stage}=await import('./scene.js?v=14');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
 game.emit=handleEvent;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');toastUntil=performance.now()+2600;}
 function updateWorldCards(){
- const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(7,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
+ const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(LAST_WORLD,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
  all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
- $('#journey-summary').textContent=highest?'Adventure: '+highest+' of 8 worlds completed.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
+ $('#journey-summary').textContent=highest?'Adventure: '+highest+' of '+WORLD_COUNT+' worlds completed.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
 }
 function updateWorld(){
- const w=WORLDS[game.level];document.documentElement.style.setProperty('--accent',w.accent);document.documentElement.style.setProperty('--accent-dark','#'+w.accent.slice(1).match(/../g).map(v=>Math.round(parseInt(v,16)*.35).toString(16).padStart(2,'0')).join(''));$('#arena-world').textContent='World '+(game.level+1)+' of 8';$('#music-credit').textContent=TRACKS[game.level].title+' · '+TRACKS[game.level].style;
+ const w=WORLDS[game.level];document.documentElement.style.setProperty('--accent',w.accent);document.documentElement.style.setProperty('--accent-dark','#'+w.accent.slice(1).match(/../g).map(v=>Math.round(parseInt(v,16)*.35).toString(16).padStart(2,'0')).join(''));$('#arena-world').textContent='World '+(game.level+1)+' of '+WORLD_COUNT;$('#music-credit').textContent=TRACKS[game.level].title+' · '+TRACKS[game.level].style;
  updateWorldCards();
- if(view!=='home')$('#stage-label').textContent=w.name.toUpperCase()+(game.level===7?' · PHASE '+(game.phase+1):'');
+ if(view!=='home')$('#stage-label').textContent=w.name.toUpperCase()+(formationCount(game.level)>1?' · PHASE '+(game.phase+1):'');
 }
 function hud(){
  const remaining=game.bricks.filter(b=>b.hp>0).length,held=game.balls.filter(b=>b.held).length;
@@ -86,7 +86,7 @@ function handleEvent(e){
  if(e.type==='life'){toast(game.lives+' lives left. You’ve got this.');persist();}
  if(e.type==='phase'){toast('Formation cleared · +'+e.clearPoints+' clear · +'+e.speedPoints+' speed');persist();}
  if(e.type==='clear'){
-   updateBest();if(game.mode==='campaign'){highest=Math.max(highest,game.level+1);storage.set('highest',highest);if(game.level<7)persist(true);else storage.remove('save');}
+   updateBest();if(game.mode==='campaign'){highest=Math.max(highest,game.level+1);storage.set('highest',highest);if(game.level<LAST_WORLD)persist(true);else storage.remove('save');}
    beginCut();
  }
  if(e.type==='over')finish(false);
@@ -94,16 +94,18 @@ function handleEvent(e){
 function closeDialogs(){all('dialog[open]').forEach(d=>d.close());modalResume=null;}
 function begin(mode='campaign',level=0){
  if(!stage)return;closeDialogs();view='game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
- if(mode==='daily')level=seed%8;game.start(mode,level,seed);accumulator=0;saveTimer=0;offlinePlay.refresh();showGame();persist();
+ if(mode==='daily')level=dailyWorld(runDay);game.start(mode,level,seed);accumulator=0;saveTimer=0;offlinePlay.refresh();showGame();persist();
 }
 function showGame(){
  offlinePlay.refresh();gameDisplay.refresh();$('#record-celebration').hidden=true;$('#home').hidden=true;$('#stage').classList.remove('home-mode','cinematic-mode');$('#hud').hidden=false;$('#arena-progress').hidden=false;$('#cutscene').hidden=true;$('#mode-label').textContent=game.mode==='daily'?runDay+' · UTC':game.mode==='practice'?'PRACTICE':'ADVENTURE';updateWorld();hud();updateTopScore();refreshTopScore();$('#game-canvas').focus({preventScroll:true});
 }
-function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';gameDisplay.leave();offlinePlay.refresh();updatePersonalBest();game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#play-tip').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Eight worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;for(const button of [$('#play'),$('#daily')]){button.classList.toggle('primary',!saved);button.classList.toggle('secondary',!!saved);}if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[daySeed(day)%8].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
+function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';gameDisplay.leave();offlinePlay.refresh();updatePersonalBest();game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#play-tip').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Sixteen worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;for(const button of [$('#play'),$('#daily')]){button.classList.toggle('primary',!saved);button.classList.toggle('secondary',!!saved);}if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[dailyWorld(day)].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
+function prepareCut(mode){const generation=++cutGeneration;cutReady=false;stage.prepareCut(game,mode).catch(error=>console.warn('Cinematic warmup:',error)).finally(()=>{if(generation===cutGeneration)cutReady=true;});}
 function beginCut(){
+ prepareCut('cut');
  view='cut';cutTime=0;lastHud='';hud();$('#stage').classList.add('cinematic-mode');$('#cutscene').style.setProperty('--story-opacity',settings.reducedMotion?'1':'0');$('#launch').hidden=true;$('#effects').replaceChildren();$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#cutscene').hidden=false;
- $('#cut-kicker').textContent=game.level===7?'THE PRISM IS WHOLE':'WORLD '+String(game.level+1).padStart(2,'0')+' · RESTORED';
- $('#cut-title').textContent=game.level===7?'Every color. Home.':WORLDS[game.level].name+' restored.';$('#cut-story').textContent=WORLDS[game.level].story;const hasNext=game.mode==='campaign'&&game.level<7;$('#cut-next').textContent=hasNext?'Next: '+WORLDS[game.level+1].name:'';$('#skip-cut').textContent=hasNext?'Next world':'See your score';
+ $('#cut-kicker').textContent=game.level===LAST_WORLD?'SIXTEEN WORLDS · RESTORED':'WORLD '+String(game.level+1).padStart(2,'0')+' · RESTORED';
+ $('#cut-title').textContent=game.level===LAST_WORLD?'You brought the dawn.':WORLDS[game.level].name+' restored.';$('#cut-story').textContent=WORLDS[game.level].story;const hasNext=game.mode==='campaign'&&game.level<LAST_WORLD;$('#cut-next').textContent=hasNext?'Next: '+WORLDS[game.level+1].name:'';$('#skip-cut').textContent=hasNext?'Next world':'See your score';
  $('#cut-bonus').textContent=game.lastClear?'Speed bonus +'+game.lastClear.speedPoints.toLocaleString()+' · Clear bonus +'+game.lastClear.clearPoints.toLocaleString():'';$('#cut-bonus').hidden=!game.lastClear;
  if(game.mode==='daily'){$('#cut-kicker').textContent='DAILY CHALLENGE · '+runDay+' UTC';$('#cut-title').textContent='You owned the day.';$('#cut-story').textContent='One shared challenge. One brilliant finish. The daily prism is restored.';$('#cut-next').textContent='Your score: '+game.score.toLocaleString();}
 }
@@ -119,9 +121,9 @@ function finish(won){
  if(game.mode!=='practice')checkTopFinish(endResult);
 }
 async function checkTopFinish(result,confirmedScores){
- try{const scores=confirmedScores??await fetchScores();if(endResult!==result||view!=='result'||!$('#result-dialog').open||all('dialog[open]').length!==1||!topFinish(result,scores,currentDay()))return;
-  result.record=true;result.tied=scores.some(r=>r.runKey!==result.id&&r.mode===result.mode&&(r.mode!=='daily'||r.day===result.day)&&Number(r.score)===result.score);
-  $('#result-dialog').close();view='champion';cutTime=0;$('#stage').classList.add('cinematic-mode');$('#hud').hidden=true;$('#record-celebration').hidden=false;
+ try{const scores=confirmedScores??await fetchScores();if(endResult!==result||view!=='result'||!$('#result-dialog').open||all('dialog[open]').length!==1||!topFinish(result,scores,currentDay(),boardNow()))return;
+  result.record=true;result.tied=activeScores(scores,boardNow()).some(r=>r.runKey!==result.id&&r.mode===result.mode&&(r.mode!=='daily'||r.day===result.day)&&Number(r.score)===result.score);
+  $('#result-dialog').close();view='champion';cutTime=0;prepareCut('champion');$('#stage').classList.add('cinematic-mode');$('#hud').hidden=true;$('#record-celebration').hidden=false;
   $('#record-overline').textContent=result.mode==='daily'?'DAILY CHALLENGE CHAMPION':'THE HIGH-SCORE CLUB';$('#record-heading').textContent=result.mode==='daily'?(result.tied?'Daily top score reached.':'The crown of the day.'):(result.tied?'Top score reached.':'A new champion.');$('#record-total').textContent=result.score.toLocaleString();$('#record-message').textContent=(result.mode==='daily'?'Daily Challenge · '+result.day+' UTC':result.won?'Adventure complete':'Adventure record')+' · Save your name to claim your place.';
   const victory=VICTORY_TRACKS[result.mode];$('#music-credit').textContent=victory.title+' · '+victory.style;
   sound.event({type:'champion'});setRecordResult(result);$('#claim-record').textContent=result.savedPlayer?'View your score':'Save your name';if(result.savedPlayer)$('#record-message').textContent=(result.mode==='daily'?'Daily Challenge · '+formatShareDate(result.day):'Adventure record')+' · Your score is on the shared leaderboard.';$('#claim-record').focus({preventScroll:true});
@@ -221,12 +223,18 @@ async function hydrateOfflineScores(){
 function reconnectScores(){if(document.hidden)return;rolloverDay();armDayRollover();outbox.sync().catch(()=>{});renderPendingScores();if($('#scores-dialog').open)loadScores();else refreshTopScore();}
 window.addEventListener('online',reconnectScores);window.addEventListener('focus',()=>outbox.sync().catch(()=>{}));
 window.addEventListener('offline',()=>{scoresUnavailable=true;updateTopScore();renderPendingScores();if($('#scores-dialog').open)loadScores();});
+let expiryCleanup=null;
+function cleanExpiredScores(rows){
+ if(expiryCleanup||!navigator.onLine||!rows.some(r=>Number.isSafeInteger(Number(r.expiresAt))&&Number(r.expiresAt)<=boardNow()))return;
+ const range='selector=#scores > li:has(meta[itemprop="expiresAt"]:value-less-than("'+Math.floor(boardNow())+'"))';
+ expiryCleanup=fetch('/scores.html',{method:'DELETE',headers:{Range:range},cache:'no-store',signal:AbortSignal.timeout(10000)}).catch(()=>{}).finally(()=>{expiryCleanup=null;});
+}
 async function fetchScores(){
  if(scoresRequest)return scoresRequest;
  if(!navigator.onLine){scoresUnavailable=true;updateTopScore();throw Error('Offline');}
  scoresRequest=(async()=>{const r=await fetch('/scores.html?cb='+Date.now(),{headers:{Range:'selector=#scores'},cache:'no-store',signal:AbortSignal.timeout(10000)});if(!r.ok)throw Error('Score board unavailable');
  const serverDate=Date.parse(r.headers.get('Date'));if(Number.isFinite(serverDate)){clockOffset=serverDate-Date.now();armDayRollover();}
- const doc=new DOMParser().parseFromString(await r.text(),'text/html');if(!doc.querySelector('#scores'))throw Error('Invalid leaderboard response');sharedScores=[...doc.querySelectorAll('li[itemtype$="/Run"]')].map(li=>{const v={};li.querySelectorAll('meta[itemprop]').forEach(m=>v[m.getAttribute('itemprop')]=m.getAttribute('content'));return v;}).filter(r=>r.player&&Number.isFinite(Number(r.score)));scoresUnavailable=false;scoresFetchedAt=Date.now();offlineStore.writeBoard({scores:sharedScores,fetchedAt:scoresFetchedAt,clockOffset}).catch(()=>{});rolloverDay();updateTopScore();return sharedScores;
+ const doc=new DOMParser().parseFromString(await r.text(),'text/html');if(!doc.querySelector('#scores'))throw Error('Invalid leaderboard response');sharedScores=[...doc.querySelectorAll('li[itemtype$="/Run"]')].map(li=>{const v={};li.querySelectorAll('meta[itemprop]').forEach(m=>v[m.getAttribute('itemprop')]=m.getAttribute('content'));return v;}).filter(r=>r.player&&Number.isFinite(Number(r.score)));cleanExpiredScores(sharedScores);sharedScores=activeScores(sharedScores,boardNow());scoresUnavailable=false;scoresFetchedAt=Date.now();offlineStore.writeBoard({scores:sharedScores,fetchedAt:scoresFetchedAt,clockOffset}).catch(()=>{});rolloverDay();updateTopScore();return sharedScores;
  })();try{return await scoresRequest;}catch(error){scoresUnavailable=true;updateTopScore();throw error;}finally{scoresRequest=null;}
 }
 function leaderboardDay(){return currentDay();}
@@ -239,13 +247,13 @@ function updateTopScore(){
 }
 function updateChase(){const leader=sharedScores&&rankedScores(sharedScores,game.mode==='daily'?'daily':'campaign',currentDay())[0];$('#score-chase').textContent=game.mode==='practice'?'Practice run':game.mode==='daily'&&runDay!==currentDay()?'Previous day’s challenge':leader?(game.score>Number(leader.score)?(scoresUnavailable?'Above saved top score':'Record beaten!'):(Number(leader.score)-game.score+1).toLocaleString()+' to take the lead'):sharedScores&&!scoresUnavailable?'Set the first score':'Chase the record';}
 async function refreshTopScore(){try{await fetchScores();}catch{/* The score display reports unavailable; gameplay continues. */}}
-function renderScores(rows){const daily=leaderMode==='daily';$('#score-detail-heading').textContent=daily?'AGE (MIN)':'WORLD';$('#score-caption').textContent=daily?'Daily Challenge leaderboard. Age is minutes since the score was submitted.':'Adventure leaderboard ranked by score, world reached, then time';$('#score-rows').replaceChildren();$('#leader-summary').hidden=!rows.length;if(rows.length){$('#leader-name').textContent=rows[0].player;$('#leader-points').textContent=Number(rows[0].score).toLocaleString();}rows.forEach((r,i)=>{const tr=document.createElement('tr');if(i===0)tr.className='leading';const age=scoreAge(r,boardNow());[String(i+1).padStart(2,'0'),r.player,daily?(age===null?'—':age.toLocaleString()):String(r.level).padStart(2,'0'),Number(r.score).toLocaleString()].forEach((t,col)=>{const td=document.createElement('td');td.textContent=t;if(daily&&col===2){td.dataset.scoreTime=r.submittedAt||'';td.title=age===null?'Submission time was not recorded for this older score.':'Minutes since submission';}tr.append(td);});$('#score-rows').append(tr);});}
+function renderScores(rows){const daily=leaderMode==='daily';$('#score-detail-heading').textContent=daily?'AGE (MIN)':'WORLD';$('#score-caption').textContent=daily?'Daily Challenge leaderboard. Age is minutes since the score was submitted. Scores expire after five days.':'Adventure leaderboard ranked by score, world reached, then time. Scores expire after five days.';$('#score-rows').replaceChildren();$('#leader-summary').hidden=!rows.length;if(rows.length){$('#leader-name').textContent=rows[0].player;$('#leader-points').textContent=Number(rows[0].score).toLocaleString();}rows.forEach((r,i)=>{const tr=document.createElement('tr');if(i===0)tr.className='leading';const age=scoreAge(r,boardNow());[String(i+1).padStart(2,'0'),r.player,daily?(age===null?'—':age.toLocaleString()):String(r.level).padStart(2,'0'),Number(r.score).toLocaleString()].forEach((t,col)=>{const td=document.createElement('td');td.textContent=t;if(daily&&col===2){td.dataset.scoreTime=new Date(scoreExpiry(r)-SCORE_LIFETIME).toISOString();td.title=age===null?'Submission time was not recorded for this older score.':'Minutes since submission';}tr.append(td);});$('#score-rows').append(tr);});}
 async function loadScores(){if(scoreLoading)return;scoreLoading=true;const mode=leaderMode,day=leaderboardDay(),status=$('#score-status');status.classList.remove('state-panel');status.textContent=sharedScores?'Refreshing shared scores…':'Loading shared scores…';$('#scores-dialog').setAttribute('aria-busy','true');$('#refresh-scores').disabled=true;$('#score-skeleton').hidden=!!sharedScores;renderScores(sharedScores?rankedScores(sharedScores,mode,day):[]);
  try{const rows=rankedScores(await fetchScores(),mode,day);if(leaderMode!==mode||day!==leaderboardDay())return;renderScores(rows);status.classList.toggle('state-panel',!rows.length);status.textContent=(mode==='daily'?'Challenge date: '+day+' UTC · Resets at 00:00 UTC. ':'')+(rows.length?(mode==='daily'?'Age is minutes since submission.':'Top 25 adventure runs'):'No scores yet. Finish a run and save your name to set the first record.');
  }catch{if(leaderMode!==mode||day!==leaderboardDay())return;const rows=sharedScores?rankedScores(sharedScores,mode,day):[];status.classList.toggle('state-panel',!rows.length);renderScores(rows);status.textContent=(navigator.onLine?'Unable to refresh. ':'Offline. ')+(sharedScores?'Showing saved standings. Last refreshed '+lastRefresh()+'.':'No saved standings yet. Play a run and save your score to sync later.');}
  finally{scoreLoading=false;$('#score-skeleton').hidden=true;$('#refresh-scores').disabled=false;$('#scores-dialog').setAttribute('aria-busy','false');if(leaderMode!==mode||day!==leaderboardDay())loadScores();}}
 function armDayRollover(){clearTimeout(rolloverTimer);const now=boardNow(),next=Date.parse(currentDay()+'T00:00:00Z')+86400000;rolloverTimer=setTimeout(()=>{rolloverDay();armDayRollover();},Math.max(50,next-now+50));}
-function rolloverDay(){const day=currentDay();if(boardDate===day)return;boardDate=day;$('#daily-detail').textContent=WORLDS[daySeed(day)%8].name+' · '+day+' UTC';updateTopScore();if(game.mode==='daily'&&runDay&&runDay!==day&&view!=='home')toast('A new UTC challenge day has started. This run belongs to '+runDay+'.');if($('#scores-dialog').open&&leaderMode==='daily'){renderScores(sharedScores?rankedScores(sharedScores,'daily',day):[]);$('#score-status').textContent='Challenge date: '+day+' UTC · A fresh daily board.';queueMicrotask(loadScores);}armDayRollover();}
+function rolloverDay(){const day=currentDay();if(boardDate===day)return;boardDate=day;$('#daily-detail').textContent=WORLDS[dailyWorld(day)].name+' · '+day+' UTC';updateTopScore();if(game.mode==='daily'&&runDay&&runDay!==day&&view!=='home')toast('A new UTC challenge day has started. This run belongs to '+runDay+'.');if($('#scores-dialog').open&&leaderMode==='daily'){renderScores(sharedScores?rankedScores(sharedScores,'daily',day):[]);$('#score-status').textContent='Challenge date: '+day+' UTC · A fresh daily board.';queueMicrotask(loadScores);}armDayRollover();}
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)reconnectScores();});
 window.addEventListener('focus',()=>{rolloverDay();armDayRollover();});
 function resetSharing(){$('#share-status').textContent='';$('#share-link-fallback').hidden=true;}
@@ -277,14 +285,14 @@ async function loadCatalog(){if(!navigator.onLine)return;try{const r=await fetch
  }game.catalog=catalog;}catch{/* Bundled level definitions keep the game playable. */}}
 saveSettings();home();loadCatalog();hydrateOfflineScores();refreshTopScore();all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=true);$('#stage').setAttribute('aria-busy','true');requestAnimationFrame(()=>requestAnimationFrame(initializeStage));if(matchMedia('(pointer:coarse)').matches)$('#launch-hint').textContent='TAP';
 const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['campaign','daily'].includes(sharedBoard)){leaderMode=sharedBoard;$('#tab-campaign').setAttribute('aria-pressed',String(leaderMode==='campaign'));$('#tab-daily').setAttribute('aria-pressed',String(leaderMode==='daily'));openDialog('#scores-dialog');loadScores();}
-setInterval(()=>{if(document.hidden)return;rolloverDay();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
-armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else if(view==='game')refreshTopScore();},60000);
+setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
+armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);
 let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;
 function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing){
  if(view==='game'&&!document.hidden){if(keys.has('ArrowLeft')||keys.has('KeyA'))game.move(game.target-dt*22);if(keys.has('ArrowRight')||keys.has('KeyD'))game.move(game.target+dt*22);accumulator+=dt;while(accumulator>=1/120){game.tick(1/120);accumulator-=1/120;}saveTimer+=dt;if(saveTimer>10&&view==='game'){saveTimer=0;persist();}hud();}
  if(view==='home'&&!document.hidden){game.time+=dt;game.paddle.x=settings.reducedMotion?0:Math.sin(now*.0006)*3.3;game.balls[0].x=game.paddle.x;game.balls[0].y=-9.5+(settings.reducedMotion?0:Math.sin(now*.0007)*.2);}
- if(view==='cut'&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;const daily=game.mode==='daily',duration=settings.reducedMotion?9:daily?DAILY_DURATION:CINEMATICS[game.level].duration;$('#cut-progress-bar').style.transform='scaleX('+Math.min(1,cutTime/duration)+')';const frame=daily?dailyFrame(cutTime,stage.camera.aspect,settings.reducedMotion):cameraFrame(game.level,cutTime,stage.camera.aspect,settings.reducedMotion);$('#cutscene').style.setProperty('--story-opacity',String(frame.titleAlpha));$('#cutscene').style.setProperty('--story-shift',(1-frame.titleAlpha)*12+'px');if(cutTime>=duration)finishCut();}
- if(view==='champion'&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;if(cutTime>=(settings.reducedMotion?9:game.mode==='daily'?DAILY_RECORD_DURATION:9))finishCelebration();}
+ if(view==='cut'&&cutReady&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;const daily=game.mode==='daily',duration=settings.reducedMotion?9:daily?DAILY_DURATION:CINEMATICS[game.level].duration;$('#cut-progress-bar').style.transform='scaleX('+Math.min(1,cutTime/duration)+')';const frame=daily?dailyFrame(cutTime,stage.camera.aspect,settings.reducedMotion):cameraFrame(game.level,cutTime,stage.camera.aspect,settings.reducedMotion);$('#cutscene').style.setProperty('--story-opacity',String(frame.titleAlpha));$('#cutscene').style.setProperty('--story-shift',(1-frame.titleAlpha)*12+'px');if(cutTime>=duration)finishCut();}
+ if(view==='champion'&&cutReady&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;if(cutTime>=(settings.reducedMotion?9:game.mode==='daily'?DAILY_RECORD_DURATION:CHAMPION_DURATION))finishCelebration();}
  const victory=endResult?.record&&['champion','result'].includes(view)?endResult.mode:null,dialogs=all('dialog[open]'),musicActive=!document.hidden&&((!dialogs.length&&['game','cut','champion'].includes(view)&&game.state!=='paused')||(view==='result'&&victory&&dialogs.length===1&&$('#result-dialog').open));
  sound.update(musicActive,game.level,view==='cut'||view==='champion',victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderInterval=view==='home'||dialogs.length||game.state==='paused'||settings.lowEffects?1000/30:1000/60;if(!document.hidden&&now-lastScenePaint>=renderInterval){stage.render(game,sceneDelta,now/1000,view,cutTime);lastScenePaint=now;sceneDelta=0;}
  }if(toastUntil&&now>toastUntil){$('#toast').classList.remove('visible');toastUntil=0;}requestAnimationFrame(frame);}

@@ -2,7 +2,7 @@
 
 ![Prism Breaker](public/assets/og-prism-breaker.jpg)
 
-A colorful brick-breaker game built with Three.js on [Pagelove](https://pagelove.com). Explore eight 3D worlds, catch glowing power-ups, watch cinematic transitions, and chase shared high scores.
+A colorful brick-breaker game built with Three.js on [Pagelove](https://pagelove.com). Explore sixteen 3D worlds, catch glowing power-ups, watch cinematic transitions, and chase shared high scores.
 
 **[Play the game](https://sane-guild-8399.onpagelove.com/)** · **[Public source](https://github.com/wesley83/prism-breaker)**
 
@@ -10,7 +10,7 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 
 ## Game features
 
-- **Adventure:** eight themed worlds—Prism Garden, Cloud Carnival, Electric City, Crystal Caverns, Ember Foundry, Frost Observatory, Cosmic Reef and Prism Citadel—with a three-formation finale.
+- **Adventure:** sixteen themed worlds and twenty formations. Prism Citadel is a three-formation midpoint; Dawn Nexus is the three-formation finale. Existing checkpoints can continue into the second half.
 - **Daily Challenge:** one world selected from a UTC-date seed, with shared launch and power-up random sequences. Its active leaderboard rolls over at 00:00 UTC.
 - **Practice:** play individual worlds. Practice scores stay out of the shared boards and personal best.
 - **Brick mechanics:** armored, moving, explosive and switch bricks, gates, moving barriers and paired portals. Worlds 3–6 have a modest difficulty increase.
@@ -20,8 +20,8 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Classic mode:** an optional saved setting restores the original opaque rectangular bricks and pale paddle with its colored stripe. Colored hit counts remain available. Switching styles preserves the current run and its power-ups; the brick legend follows the selected appearance.
 - **Eight power-ups:** wide paddle, multiball, sticky paddle, laser, piercing ball, slow motion, safety shield and extra life. Sticky catches hold at the impact position; a shrinking wide paddle releases catches beyond its new edge.
 - **Fresh-ball variation:** new balls launch 8–18° left or right of vertical. Checkpoints preserve sequence progress, while sticky catches retain their rebound direction.
-- **Cinematics:** unique scenes for each world, a dedicated Daily Challenge completion, and separate Adventure and Daily Challenge top-score celebrations and victory music.
-- **Procedural audio:** eight original synthesized level soundtracks, two victory arrangements and sound effects, with separate volume controls and mute.
+- **Cinematics:** sixteen distinct procedural sets with establishing, activation and reveal shots, local reflections, layered atmosphere, bloom, and readable captions. Daily completion, the daily crown and Adventure champion have separate sequences. Reduced-motion compositions and lower-cost rendering remain available.
+- **Procedural audio:** sixteen original synthesized level soundtracks, two victory arrangements and sound effects, with separate volume controls and mute.
 - **Score display and shared records:** the current player's score is centered in larger, bold type, with readable thousands separators. The board leader's name and score appear on the left; lives and pause stay on the right. Adventure and Daily Challenge have separate top-25 rankings; the daily board displays minutes since submission.
 - **Sharing:** leaderboard invitations and personal scorecards, native sharing where supported, complete-message copying, PNG downloads and QR codes. Android invitations combine message and link into one text body; daily dates use readable UTC labels.
 - **Presentation and access:** responsive keyboard/mouse/touch controls, fullscreen launch for installed apps where supported, automatic phone fullscreen from start/resume taps, pause-menu settings, reduced motion/effects, light/dark/system interface themes and readable cinematic captions. Phone gameplay fills the available viewport when native fullscreen is unavailable, with space for notches and gesture areas.
@@ -30,6 +30,27 @@ The browser runs the gameplay and creates the music and scorecards. Pagelove hos
 - **Safe updates:** complete releases download before becoming available. Players apply updates from the start screen; open games retain their existing assets.
 - **Performance:** shaders and textures prepare before play, power-ups and particles reuse objects, hidden pages stop rendering, and muted music stops scheduling new voices.
 - **Social artwork:** SVG/ICO/PNG favicons, touch icons, and landscape/square Open Graph and Twitter card images.
+
+## The sixteen worlds
+
+| World | Mechanic | Music |
+| --- | --- | --- |
+| 1. Prism Garden | Find your rhythm | Glasswing |
+| 2. Cloud Carnival | Moving formations | Cloud Waltz |
+| 3. Electric City | Switches & gates | Afterimage Avenue |
+| 4. Crystal Caverns | Explosive clusters | Beneath the Glass |
+| 5. Ember Foundry | Moving barriers | Molten Engine |
+| 6. Frost Observatory | Portal paths | Northern Lens |
+| 7. Cosmic Reef | Everything connects | Tidal Orbit |
+| 8. Prism Citadel | Three-stage gateway | Heart of the Prism |
+| 9. Sunken Archive | Floodgates & portals | Letters from the Deep |
+| 10. Aurora Passage | Armored ribbons | Ribbon of the North |
+| 11. Clockwork Canopy | Synchronized barriers | Branches of Time |
+| 12. Mirage Dunes | Portal chain reactions | Glass over Sand |
+| 13. Thunder Spire | Storm gates & armor | Eye of the Storm |
+| 14. Lunar Harbor | Moving docks & portals | Departure from Selene |
+| 15. Event Horizon | The collapsing core | The Last Orbit |
+| 16. Dawn Nexus | Three-stage grand finale | All the Light Returns |
 
 ## Technology
 
@@ -69,6 +90,9 @@ These are the platform capabilities wired into this game. The source for the sco
 | Declarative authorization | Grants anonymous `POST` access specifically to the score container; no publishing credential is shipped to the browser |
 | Shape constraints | Restricts score markup to the permitted `ul`, run `li`, and property `meta` structure |
 | Typed schemas, cardinality and uniqueness | Defines required run properties, their types and a unique `runKey`; `submittedAt` is optional for compatibility with older records |
+| Server-side defaults | Assigns an immutable five-day `expiresAt` deadline using the server clock; the submission grammar rejects client-supplied expiry values |
+| Guarded selector DELETE | Deletes only rows whose stored deadline is before a cutoff no later than server time; broader selectors and future cutoffs are rejected |
+| Processors and native outbound HTTP | An expired-row read queues a same-host cleanup request. No external scheduler or service is used |
 | Request triggers with Sessel | Rejects submissions that fail the exact payload grammar, nickname format or numeric limits with HTTP 422 |
 | WebDAV authoring | Publishes owner-managed site files through the pinned DAV host; normal releases preserve the live score resource |
 | ETags and conditional writes | The score-rule migration helper uses `If-Match` to update rules while preserving existing runs and avoiding stale overwrites |
@@ -82,7 +106,7 @@ A regular static file server can render the arena and its animations. Pagelove's
 3. Gameplay, collisions, music and score calculation happen in the browser.
 4. When a player chooses **Save score**, the client commits the run to its IndexedDB queue, then attempts to post one HTML record to the score selector. Pagelove applies the authorization, shape, schema and trigger rules.
 5. A successful submission leaves a local receipt. Interrupted requests retry with the same unique run key; an already accepted run is recognized through a fresh leaderboard read.
-6. The client reads the shared records, filters by mode and UTC challenge day, and ranks the top 25. It saves a snapshot for offline display.
+6. The client reads the shared records, filters out expired entries and other modes/challenge days, and ranks the top 25. Native cleanup removes expired stored rows; the client provides a guarded fallback. It saves a snapshot for offline display.
 
 Leaderboards refresh at run start, after submission, on focus/visibility changes, through the Refresh button, and periodically during visible play. Updates use HTTP requests; the game does not use a WebSocket or server-event subscription.
 
@@ -90,19 +114,28 @@ Leaderboards refresh at run start, after submission, on focus/visibility changes
 
 - A daily seed comes from the UTC date at run start. All players for that challenge get the same world and the same fresh-launch sequence. Power-up randomness uses a separate seeded generator.
 - The client schedules a midnight rollover and checks the date when returning to the game. The host's HTTP `Date` header helps align its clock.
-- **Rollover filters the active board to the new date.** Earlier daily entries remain in the score resource; no background cleanup job deletes them.
+- **Rollover filters the active board to the new date.** Both Adventure and Daily entries have a maximum five-day ranking lifetime and are automatically removed from storage on online access after expiry.
 - A run crossing midnight keeps its original challenge day. It can be saved under that day, but does not appear on the new day's active board.
-- Offline submissions also retain that original day. `submittedAt` records the send attempt, so board age starts when the score is submitted, rather than when the offline run finished.
+- Offline submissions also retain that original day. The server-generated expiry deadline starts the five-day window on submission, so an offline run receives its full window when it first reaches the server.
 - Daily share links open the current daily leaderboard. Invitation text and PNG cards capture the record/date shown when the share preview opens.
-- Scores, elapsed play time and `submittedAt` are supplied by the client. Nicknames are public, accountless labels. Older rows without submission time show an em dash for age.
-- Rules accept scores from **0 to 500,000**, worlds **1–8**, durations **1–99,999 seconds**, and nicknames of **2–16 ASCII letters, numbers, spaces, dashes or underscores**. Practice submissions are excluded.
+- Scores and elapsed play time are supplied by the client. Nicknames are public, accountless labels. Current board age is derived from the server expiry deadline; client timestamps cannot extend retention.
+- Rules accept scores from **0 to 1,000,000**, worlds **1–16**, durations **1–99,999 seconds**, and nicknames of **2–16 ASCII letters, numbers, spaces, dashes or underscores**. Practice submissions are excluded.
 - Ranking orders by score descending, world reached descending, then elapsed active time ascending. A tied top score can qualify for a record celebration.
 
-These rules validate record structure and ranges. Scores are self-reported; there is no authoritative replay verification or account identity. The client currently reads the full score container and applies the top-25 limit locally. Pagination, retention and additional anti-abuse measures would require further work as the board grows.
+These rules validate record structure and ranges. Scores are self-reported; there is no authoritative replay verification or account identity. The client currently reads the full score container and applies the top-25 limit locally. Pagination and additional anti-abuse measures would require further work as the board grows.
+
+### Five-day retention
+
+- The schema assigns expiresAt = server time + 432,000,000 ms once. The exact POST grammar excludes that field, so players cannot choose a later deadline. Later submissions do not refresh existing rows.
+- Rankings, high-score qualification, HUD leaders and share previews exclude expired records. Cached offline standings use the same rule and the last learned server clock offset.
+- A native GET processor sees expired rows in its response and queues an anonymous, same-host DELETE. The server permits only the exact expiry selector and rejects a cutoff later than server time. A client fallback requests the same guarded cleanup.
+- There is no idle timer: expired rows become ineligible immediately, but physical deletion happens on the next online read/open, or periodic refresh while a client remains open. A completely unvisited host can retain expired storage until that access.
+- Migration preserves dated runs' original deadlines. Twelve legacy rows had no timestamp; those receive a five-day window from this migration instead of being discarded without evidence of their age. Future records always have a server deadline.
+- Existing Daily Challenge selection is preserved through October 14, 2026 UTC; the sixteen-world daily pool begins October 15 at 00:00 UTC so a challenge does not change during its day.
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all eight worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **54 cached files, approximately 1.95 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **62 cached files, approximately 2.24 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -132,7 +165,7 @@ See [PWA-UPGRADE.md](PWA-UPGRADE.md) for release integrity, queue behavior, opti
 | Destroyed brick | `100 × min(5, 1 + floor(combo / 6))`; combo increments before the award |
 | Collected falling power-up | 150 points, independent of the combo |
 | Normal board clear | `750 + 150 × lives remaining` |
-| First two Citadel formations | 500 clear points each |
+| First two Citadel / Nexus formations | 500 clear points each |
 | Speed bonus per cleared board / formation | `max(0, 2,000 − 10 × floor(active board seconds))` |
 | Milestone extra life | Every 12,000 points, up to nine lives; no pickup points |
 
@@ -171,7 +204,7 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | --- | --- |
 | `public/app.js` | UI, game loop, checkpoints, score reads/submission, UTC rollover and share message models |
 | `public/display.js`, `public/display.css` | Gesture-triggered fullscreen, phone viewport layout, safe-area spacing and accessible exit controls |
-| `public/engine.js`, `public/levels.js` | Physics, points, powers, seeded randomness and eight world definitions |
+| `public/engine.js`, `public/levels.js` | Physics, points, powers, seeded randomness and sixteen world definitions |
 | `public/brick-labels.js` | Remaining-hit labels and shared symbol artwork for the arena and How to play |
 | `public/crystal-bricks.js`, `public/assets/prism-wordmark.svg` | Faceted translucent bricks, cached fracture artwork, local reflections and OG-inspired vector lettering |
 | `public/paddle-art.js` | Beveled OG-style paddle, fixed-size end caps, shared reflections and power-up indicators; artwork is created before play |
@@ -186,6 +219,7 @@ Audio starts after a player interaction. Cinematic keyboard skipping ignores rep
 | `public/worlds.html`, `public/scores.html` | Hosted world catalog and score store template with Pagelove rules |
 | `public/vendor/`, `public/assets/` | Bundled libraries, licenses, font, icons and artwork |
 | `artwork/` | Original generated poster images, prompts and export notes |
+| `tools/retention-rules.mjs` | Server expiry defaults, exact DELETE guard and native cleanup processor |
 | `tools/` | Publisher, local server, asset builders and manual preview generators |
 | `tools/build-pwa.mjs`, `tools/service-worker.template.js` | Deterministic release generation, stale-build checks and editable worker source |
 | `tests/` | Engine, checkpoint, audio, cinematic, offline-queue and service-worker checks |
@@ -215,7 +249,7 @@ Running that tool without `--worlds-only` also regenerates an **empty score temp
 
 For local manual previews, generate `node tools/make-qa.mjs`, start the local server, and open `/__qa/index.html`. Other tools extend that fixture with music, cinematic, record, paddle or typography preview controls. Read the relevant upgrade notes below for their required order. Generated files stay under ignored `test-results/` and are outside the deployed `public/` tree.
 
-For world thumbnails, copy `tools/world-preview.html` into `test-results/fixture/`, open `/__qa/world-preview.html`, select a world and capture its 800×420 canvas into `public/assets/world-preview-01.png` through `world-preview-08.png`. The preview uses a fixed seed and reduced motion for consistent scenery.
+For world thumbnails, copy `tools/world-preview.html` into `test-results/fixture/`, open `/__qa/world-preview.html`, select a world and capture its 800×420 canvas into `public/assets/world-preview-01.png` through `world-preview-16.png`. The preview uses a fixed seed and reduced motion for consistent scenery.
 
 ### Existing checks
 

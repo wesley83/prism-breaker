@@ -10,7 +10,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
   install.hidden=standalone();
   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
-  detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All eight worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
+  detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All sixteen worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
   update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
   retry.hidden=!failed;retry.disabled=applying;
  }

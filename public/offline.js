@@ -1,3 +1,4 @@
+import {WORLD_COUNT} from './levels.js';
 // IndexedDB keeps score submissions intact across reloads, updates and tabs.
 const DATABASE='prism-offline',VERSION=1,LEASE_MS=60000,RECEIPT_DAYS=30;
 
@@ -8,7 +9,7 @@ export class OfflineStorageError extends Error{
 function scoreRecord(run,player){
  const name=String(player??'').trim(),id=String(run?.id??'');
  const validDay=run?.mode==='campaign'?run.day==='all':/^\d{4}-\d{2}-\d{2}$/.test(run?.day??'')&&Number.isFinite(Date.parse(run.day+'T00:00:00Z'))&&new Date(run.day+'T00:00:00Z').toISOString().slice(0,10)===run.day;
- if(!/^[a-f0-9-]{36}$/.test(id)||!/^[A-Za-z0-9 _-]{2,16}$/.test(name)||!['campaign','daily'].includes(run?.mode)||!validDay||!Number.isInteger(run?.score)||run.score<0||run.score>500000||!Number.isInteger(run?.level)||run.level<1||run.level>8||!Number.isInteger(run?.seconds)||run.seconds<1||run.seconds>99999){
+ if(!/^[a-f0-9-]{36}$/.test(id)||!/^[A-Za-z0-9 _-]{2,16}$/.test(name)||!['campaign','daily'].includes(run?.mode)||!validDay||!Number.isInteger(run?.score)||run.score<0||run.score>1000000||!Number.isInteger(run?.level)||run.level<1||run.level>WORLD_COUNT||!Number.isInteger(run?.seconds)||run.seconds<1||run.seconds>99999){
   const error=new Error('This score cannot be submitted. Check the player name and run details.');error.code='invalid-score';throw error;
  }
  return {id,player:name,run:{id,score:run.score,level:run.level,mode:run.mode,day:run.day,seconds:run.seconds}};

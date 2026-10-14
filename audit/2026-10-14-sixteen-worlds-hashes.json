@@ -1,0 +1,244 @@
+{
+  "id": "PB-16-05",
+  "at": "2026-10-14T02:49:37.887Z",
+  "actor": "Codex",
+  "request": "Add eight Adventure levels, upgrade all cinematics and limit shared scores to five days",
+  "release": "27244bdbe305705f99d6",
+  "verification": {
+    "broadAutomatedSuite": "not run",
+    "syntax": "passed",
+    "pwaBuild": "passed",
+    "liveUpdate": "applied and ready offline",
+    "existingScoresPreserved": 63,
+    "expiryFields": 63,
+    "nativeExpiryCleanup": "verified on isolated resource",
+    "freshScoreDelete": "403",
+    "forgedExpiry": "422"
+  },
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 30643,
+      "sha256": "594344f7b872c598501a1edbe4acb6c093018239bbfdd262bf129aa3180dc3d4"
+    },
+    {
+      "file": "SCORING.md",
+      "bytes": 6564,
+      "sha256": "bc7dfd7d9eb478c094baf99574d6ceb4606b0069826254a8ec0467e824e35964"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 48870,
+      "sha256": "a06f6fcd40fa782df82d5be99de67f72753741be37251a8194edfa5509bc0604"
+    },
+    {
+      "file": "public/assets/world-preview-01.png",
+      "bytes": 27953,
+      "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e"
+    },
+    {
+      "file": "public/assets/world-preview-02.png",
+      "bytes": 29205,
+      "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c"
+    },
+    {
+      "file": "public/assets/world-preview-03.png",
+      "bytes": 31118,
+      "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40"
+    },
+    {
+      "file": "public/assets/world-preview-04.png",
+      "bytes": 29656,
+      "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5"
+    },
+    {
+      "file": "public/assets/world-preview-05.png",
+      "bytes": 29165,
+      "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f"
+    },
+    {
+      "file": "public/assets/world-preview-06.png",
+      "bytes": 25415,
+      "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf"
+    },
+    {
+      "file": "public/assets/world-preview-07.png",
+      "bytes": 27961,
+      "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f"
+    },
+    {
+      "file": "public/assets/world-preview-08.png",
+      "bytes": 27056,
+      "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631"
+    },
+    {
+      "file": "public/assets/world-preview-09.png",
+      "bytes": 27537,
+      "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376"
+    },
+    {
+      "file": "public/assets/world-preview-10.png",
+      "bytes": 27226,
+      "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185"
+    },
+    {
+      "file": "public/assets/world-preview-11.png",
+      "bytes": 30170,
+      "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b"
+    },
+    {
+      "file": "public/assets/world-preview-12.png",
+      "bytes": 29931,
+      "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7"
+    },
+    {
+      "file": "public/assets/world-preview-13.png",
+      "bytes": 27592,
+      "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289"
+    },
+    {
+      "file": "public/assets/world-preview-14.png",
+      "bytes": 22221,
+      "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d"
+    },
+    {
+      "file": "public/assets/world-preview-15.png",
+      "bytes": 26493,
+      "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb"
+    },
+    {
+      "file": "public/assets/world-preview-16.png",
+      "bytes": 32667,
+      "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539"
+    },
+    {
+      "file": "public/champion.js",
+      "bytes": 5803,
+      "sha256": "aead9574141a4ccb7d56d73755336a1ad7492f6b319482f6129c2164685eb675"
+    },
+    {
+      "file": "public/cinematic-score.js",
+      "bytes": 1984,
+      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b"
+    },
+    {
+      "file": "public/cinematics.js",
+      "bytes": 15321,
+      "sha256": "b1d4149a136c477fd0b430214ebf570bf52ef7134a8605527b954e93aed85150"
+    },
+    {
+      "file": "public/daily-ending.js",
+      "bytes": 6513,
+      "sha256": "e0834285478e75555c7ae56e66a1b312d175e629600a756acc51d3829d7dd2c4"
+    },
+    {
+      "file": "public/daily-score.js",
+      "bytes": 489,
+      "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 15021,
+      "sha256": "efee226f192c062e94ea01521e6c81db3f812858dbb77f20951eb64e36586f47"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 22838,
+      "sha256": "76511a89c4ce1c66f328c44d190175f9e02620000829faf595af1e236f34fe7a"
+    },
+    {
+      "file": "public/leaderboard.js",
+      "bytes": 1151,
+      "sha256": "f20fe170ce078db4fcc8f2b141558ef14c2ff52ee92ed9236ec3ed1642cb2f6a"
+    },
+    {
+      "file": "public/levels.js",
+      "bytes": 9426,
+      "sha256": "eb3f228d864d04534fe541394204b8547a6d16636f710bea87db3b1b3c3e0cfa"
+    },
+    {
+      "file": "public/music.js",
+      "bytes": 6483,
+      "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e"
+    },
+    {
+      "file": "public/offline.js",
+      "bytes": 9933,
+      "sha256": "fcffd79bb575fbe728c4e8bcfe70a5304700f8386595736d5cc87238d84ee2d2"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "934cf8dfbb9e69624d9bcec73dbe8ac6a982a6b959f2d29b8bd10f7749b88e48"
+    },
+    {
+      "file": "public/pwa.js",
+      "bytes": 6238,
+      "sha256": "68e1eed6a64c980b4a57b2c9d2a76d0fd976f5a4803cb83a1ef516d2d6333575"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 26053,
+      "sha256": "108768d0f8ad9b444fcd8792572894cdec83e8d04bc737f2d5981ce7541e169b"
+    },
+    {
+      "file": "public/scores.html",
+      "bytes": 6596,
+      "sha256": "a53d0384e3dc3635f10b6534b51883f79727643835b49c46b81d9507eb5061ec"
+    },
+    {
+      "file": "public/sharing.js",
+      "bytes": 11690,
+      "sha256": "dad46ee06044aeb4eb3bc96e75bd5d3ea4c1cf26288f0cf7a04c64d9a6c15413"
+    },
+    {
+      "file": "public/style.css",
+      "bytes": 35294,
+      "sha256": "6c09f1c141423f0c200e0669f7d5feebd7bb4934097c9a4279f1ddcb12152eae"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 18109,
+      "sha256": "19c178798720e0c805cefd6ae5c2323cbb2c986f662ed596ea74fe03a7969249"
+    },
+    {
+      "file": "public/worlds.html",
+      "bytes": 139187,
+      "sha256": "c1852401e860546d493bc10a1762831f41110c305e95ceeac0ff99ed86e01f91"
+    },
+    {
+      "file": "tests/brick-labels.test.mjs",
+      "bytes": 3243,
+      "sha256": "b1f715d893526c174f4b229e449d429fb457e02a6f029b4acb4ace6352588fa8"
+    },
+    {
+      "file": "tests/engine.test.mjs",
+      "bytes": 5984,
+      "sha256": "03c8cfbd24210cffed1cf6eebcd617f94c13e2e1f1b00db1214ae9f5905700e3"
+    },
+    {
+      "file": "tests/media.test.mjs",
+      "bytes": 2391,
+      "sha256": "a5bad5abd7b40eb95b13f2892e5a50e7464c7fd297aca68e0c96dc813a0487a0"
+    },
+    {
+      "file": "tools/build-data.mjs",
+      "bytes": 3888,
+      "sha256": "bb0e360a7c015ccfef81e48d01aa974929869de776fe620cb3f6f8a12b8c5269"
+    },
+    {
+      "file": "tools/remote.mjs",
+      "bytes": 8663,
+      "sha256": "aca6990b7c4cd954eca7fffe4f66eccfd30ed10d67cebe3c449be481610db9fc"
+    },
+    {
+      "file": "tools/retention-rules.mjs",
+      "bytes": 2799,
+      "sha256": "deabe11aa2bb3d2de1ec94291a3bcd0240314cad96b4cb931060693a322a6cd9"
+    }
+  ],
+  "patch": {
+    "file": "audit/2026-10-14-sixteen-worlds.patch",
+    "sha256": "58bd69fbb5d547f01e31fa26931cb66762625fec2bca89d2bed4931b37597497"
+  }
+}
