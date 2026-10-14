@@ -1,0 +1,15 @@
+{
+  "utc": "2026-10-14T21:07:06.380Z",
+  "browserRun": {
+    "mode": "daily",
+    "day": "2026-10-14",
+    "score": 300,
+    "level": 8,
+    "submittedAt": "2026-10-14T21:05:57.648Z",
+    "expiresAt": 1792443957973,
+    "serverLifetimeMs": 432000325
+  },
+  "removed": true,
+  "otherRunsPreserved": true,
+  "otherRunCount": 68
+}

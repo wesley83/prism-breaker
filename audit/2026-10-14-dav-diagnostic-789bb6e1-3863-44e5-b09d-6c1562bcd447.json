@@ -1,0 +1,73 @@
+{
+  "utc": "2026-10-14T20:17:01.707Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "dav": "https://dav-sane-guild-8399.onpagelove.com",
+  "isolatedPerCase": true,
+  "checks": [
+    {
+      "name": "schema-definition-readback",
+      "status": 200,
+      "validatorPreserved": true
+    },
+    {
+      "name": "schema-js-construction",
+      "status": 418,
+      "body": "schema-import-and-construction-succeeded"
+    },
+    {
+      "name": "schema-sessel-construction",
+      "status": 500,
+      "body": "<div itemscope itemtype=\"https://pagelove.org/Error\">\n    <meta itemprop=\"type\" content=\"TriggerError\">\n    <meta itemprop=\"source\" content=\"/_prism-dav-policy-6b93d754-9d92-4f12-85bf-9e0e7b152bdf.html\">\n    <meta itemprop=\"line\" content=\"1\">\n    <meta itemprop=\"column\" content=\"177\">\n    <meta itemprop=\"phase\" content=\"action\">\n    <p itemprop=\"message\">schema error: validation failed: binding failure: javascript/module binding threw: disposable-schema-denied</p>\n</div>"
+    },
+    {
+      "name": "schema-dav-always-rejected",
+      "status": 200,
+      "message": "accepted",
+      "persisted": true
+    },
+    {
+      "name": "schema-dav-missing-required",
+      "status": 200,
+      "message": "accepted",
+      "persisted": true
+    },
+    {
+      "name": "schema-dav-invalid-integer",
+      "status": 200,
+      "message": "accepted",
+      "persisted": true
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-dav-policy-0d7b1dba-e812-49a2-93a7-8eb3edc4ca2a.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-0d7b1dba-e812-49a2-93a7-8eb3edc4ca2a.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-84abf6df-4de7-4fbb-8b47-57e9ed615258.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-84abf6df-4de7-4fbb-8b47-57e9ed615258.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-6b93d754-9d92-4f12-85bf-9e0e7b152bdf.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-6b93d754-9d92-4f12-85bf-9e0e7b152bdf.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    }
+  ]
+}

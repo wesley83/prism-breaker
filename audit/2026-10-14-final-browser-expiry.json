@@ -1,0 +1,13 @@
+[
+  {
+    "beforeExpiry": "01Expires soon · Over 96 hours old0150002Keep active · 0–48 hours old01100"
+  },
+  {
+    "afterExpiry": "01Keep active · 0–48 hours old01100",
+    "remaining": [
+      "Keep active"
+    ],
+    "deletes": 1,
+    "errors": []
+  }
+]

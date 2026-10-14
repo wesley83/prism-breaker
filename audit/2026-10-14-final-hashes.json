@@ -1,0 +1,130 @@
+[
+  {
+    "path": "DAV-INVESTIGATION-FINDINGS.md",
+    "sha256": "097279788b2fc46c12f38d84ac7d4e26b07d93b31a3aa9ac0ad525a844ab325a"
+  },
+  {
+    "path": "DAV-TRIGGER-BUG-REPORT.md",
+    "sha256": "f7a8aaf2d614ba46d393b2bf2327f849675ecb7d612ca6180d873a4a59f462b9"
+  },
+  {
+    "path": "FINAL-ACCEPTANCE-REPORT.md",
+    "sha256": "558c0cfcc60fca7ae6709c16d350d7fe51f3cfe4396c244c05a02c595444a4fc"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-03e16ee9-dca6-46e2-bc22-36ae49ce7ba2.json",
+    "sha256": "8b4d360c38d3b50e509fa76c79ef7a37b655d4574731ba5f53d150d88d63ec77"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-2df11f10-81fd-4c20-84aa-d75285735918.json",
+    "sha256": "43ea33a2e918086b9b5693ead439bf8ff47cf8c2442e89aed94e99c7ff32460d"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-459b2714-f961-478a-b1b6-de79f00e9e5a.json",
+    "sha256": "8cd1fe9a4a76954aa4e9849e3f83f0be397bfff8b5f9775945974772b5692c96"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-7321285f-76c2-478f-8928-875ce95715e9.json",
+    "sha256": "5ffab8b2a5e53bffda207d92a90a06285db670b7b3140b50695e97bab4de9433"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-789bb6e1-3863-44e5-b09d-6c1562bcd447.json",
+    "sha256": "9ef4b92a5998ad6e88bfb4180ec457d3e4d8f6ebe3244ef9d931a1cdb72f2a05"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-97edb0b3-ee85-4863-9d6d-b35ab6396cca.json",
+    "sha256": "a3fbc0351a78b119b1919e3443887652c0835d25ed79d9a6dec0ef742eccf1e5"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-c491ff70-bdc2-463a-ab74-d0675095704b.json",
+    "sha256": "13e83a585fb4f03513d7e45710d39a2c9c34cb88ed16d737169c78b57bd7d1b9"
+  },
+  {
+    "path": "audit/2026-10-14-dav-diagnostic-d26f2ed2-436a-49bb-bd53-9c0a190b1951.json",
+    "sha256": "e7aed4031785c4325289f2da3b75695797149dacf9f974c06e18938d397b3dbb"
+  },
+  {
+    "path": "audit/2026-10-14-dav-investigation.md",
+    "sha256": "27c93c0dd6a98068330400a726270e66039456f60ccc9f27efb7ac28a2089416"
+  },
+  {
+    "path": "audit/2026-10-14-final-acceptance.md",
+    "sha256": "3c4a494924845a9adc4bfb277f9687b33d393d34b1f00dac2b68c3a5657881ad"
+  },
+  {
+    "path": "audit/2026-10-14-final-browser-expiry.json",
+    "sha256": "51921bd24c38e766f9402095fd7207e17a1b3dcb2709b78a5a00ff64faa50728"
+  },
+  {
+    "path": "audit/2026-10-14-final-browser-live-score.json",
+    "sha256": "f47ba6161bf435cad2f014991d409eecab9e853336681678d99b086ba9c77408"
+  },
+  {
+    "path": "audit/2026-10-14-final-browser-rollover.json",
+    "sha256": "e3df5d1d05b99ff04db14b83306d12957e3ea51c8ce6e3a76d5a24d0988a554f"
+  },
+  {
+    "path": "audit/2026-10-14-final-browser-worlds.json",
+    "sha256": "21dfec27006808e7c52a3c0fc8a88fcc7f9a25f540c695efe4d9e72706324a45"
+  },
+  {
+    "path": "audit/2026-10-14-final-campaign.png",
+    "sha256": "77c23fd6dc0c7e05cf3ab21274ec0288c1cc91e9f284734214d32b6b9ea90c72"
+  },
+  {
+    "path": "audit/2026-10-14-final-expiry-check.json",
+    "sha256": "86e696dd1a2232872d6372021c428c575cabf8f5cfa82518fa2f0ba1ce2276e9"
+  },
+  {
+    "path": "audit/2026-10-14-final-expiry-empty-readiness.json",
+    "sha256": "3e047c6fdada6f4bb599482a8e3b950e716e9d51634333412beda678e20e3a36"
+  },
+  {
+    "path": "audit/2026-10-14-final-expiry-initial.json",
+    "sha256": "e5d94d91e91499aff98bda8186294f00d1273afdf01b12140204a191a2b6a115"
+  },
+  {
+    "path": "audit/2026-10-14-final-live-check.json",
+    "sha256": "095bc506a4a84553e793d15c9bdcb039a3b0104b32fbeb3c4b7d48c7b4a630cd"
+  },
+  {
+    "path": "audit/2026-10-14-final-live-saved.png",
+    "sha256": "bcf72a37aab7a46dc7af0538023358cd4ad48e8962044ade10c4fb2eaf7f4c3c"
+  },
+  {
+    "path": "audit/2026-10-14-final-rollover.png",
+    "sha256": "40dba0549bb80350c7651a28f083a321543ec6804ea93b58bbec191fa0ad3c55"
+  },
+  {
+    "path": "audit/2026-10-14-final-test-output.txt",
+    "sha256": "ec6e3994eaef7ce1e04d00a8d858de8b987d8f8e686521733adc30bf1f18a8a3"
+  },
+  {
+    "path": "tests/acceptance-lifecycle.test.mjs",
+    "sha256": "2d45dcddcd03ba1797191f58963797066532b3fe6023ea9d95568a05bfba3f2b"
+  },
+  {
+    "path": "tools/cleanup-browser-acceptance.mjs",
+    "sha256": "1b96cbdeda7fb89d6e44cfc5804fd7f6e8a33f6e79d871f1e6a3afa28c6688d5"
+  },
+  {
+    "path": "tools/diagnose-dav-triggers.mjs",
+    "sha256": "6f76b81daedce767ad4ee9f45e78150351b20ae5cd32df090e3ea25d89fe86ce"
+  },
+  {
+    "path": "tools/final-browser-fixture.mjs",
+    "sha256": "ba69970c99396425200e30dda5591da8239bcd5871af94042a9e3f33c897283c"
+  },
+  {
+    "path": "tools/final-expiry-check.mjs",
+    "sha256": "6d52ba3d1b25acb3ba5dc4c2c412ec8cc73263ccde1d8af862333f797aa18f89"
+  },
+  {
+    "path": "tools/final-live-check.mjs",
+    "sha256": "5862ce99472701334ebf8d7fe16f5f79eb66d141e3cc6902d1a857fd1fe2029a"
+  },
+  {
+    "path": "audit/2026-10-14-final-changes.patch",
+    "sha256": "5f9085cdf0f97185e7ec969a35ac234b8fc5ccc6b13fbc2a6ef107e49ef9d3f5"
+  }
+]

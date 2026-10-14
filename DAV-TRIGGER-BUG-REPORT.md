@@ -1,5 +1,7 @@
 # Suspected DAV PUT trigger enforcement issue: invalid world writes accepted despite an installed validation trigger
 
+**Follow-up:** [Additional investigation findings](DAV-INVESTIGATION-FINDINGS.md) confirm server validator compatibility, reproduce the owner DAV behavior with minimal rejection policies and native schema controls, and document policy freshness failures. This initial report is preserved as the earlier evidence record.
+
 ## Summary
 
 On a Pagelove-hosted application, owner-authenticated DAV `PUT` requests returned success for payloads that an installed JavaScript trigger was intended to reject.

@@ -1,0 +1,58 @@
+{
+  "utc": "2026-10-14T21:05:26.496Z",
+  "checks": [
+    {
+      "name": "clock",
+      "serverTime": 1792011941000,
+      "localTime": 1792011943839,
+      "offsetMs": -2839
+    },
+    {
+      "name": "policy-readiness",
+      "statuses": [
+        403,
+        403,
+        403
+      ]
+    },
+    {
+      "name": "unrestricted",
+      "status": 403,
+      "retained": [
+        "Boundary",
+        "Keep active"
+      ]
+    },
+    {
+      "name": "future-cutoff",
+      "status": 403,
+      "retained": [
+        "Boundary",
+        "Keep active"
+      ]
+    },
+    {
+      "name": "explicit-expiry-delete",
+      "status": 204,
+      "retained": [
+        "Keep active"
+      ]
+    },
+    {
+      "name": "get-driven-expiry",
+      "firstStatus": 206,
+      "firstRows": [
+        "Boundary",
+        "Keep active"
+      ],
+      "secondStatus": 206,
+      "secondRows": [
+        "Keep active"
+      ]
+    }
+  ],
+  "cleanup": {
+    "status": 204,
+    "readStatus": 404
+  }
+}

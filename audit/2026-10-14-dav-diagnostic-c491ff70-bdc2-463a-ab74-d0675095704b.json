@@ -1,0 +1,145 @@
+{
+  "utc": "2026-10-14T19:58:00.522Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "dav": "https://dav-sane-guild-8399.onpagelove.com",
+  "isolatedPerCase": true,
+  "checks": [
+    {
+      "name": "js-external-get-put",
+      "publicGet": 422,
+      "publicMessage": "disposable-put-denied",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "js-external-put-only",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">original</p>\n                <div style=\"\n                            position: fixed;\n                      ",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "js-external-any-method",
+      "publicGet": 422,
+      "publicMessage": "disposable-put-denied",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "sessel-external-get-put",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">original</p>\n                <div style=\"\n                            position: fixed;\n                      ",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "js-embedded-get-put",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">embedded baseline</p><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "server-runtime-capabilities",
+      "status": 200,
+      "body": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">original</p>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+    },
+    {
+      "name": "full-validator-on-server",
+      "status": 200,
+      "body": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">original</p>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+    },
+    {
+      "name": "public-put-owner-key",
+      "status": 401,
+      "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access "
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-dav-policy-832fa374-d85f-4f8f-978d-9c25d5966d92.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-832fa374-d85f-4f8f-978d-9c25d5966d92.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-6ce8b28b-1f62-427b-b892-8fd0725145ad.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-6ce8b28b-1f62-427b-b892-8fd0725145ad.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-d0d87571-9606-4ba2-b8b0-392082c9e597.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-d0d87571-9606-4ba2-b8b0-392082c9e597.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-4588ae78-a3f0-446c-8445-a586702cb2df.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-4588ae78-a3f0-446c-8445-a586702cb2df.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-00626588-5f98-4c92-9515-b2339f003209.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-00626588-5f98-4c92-9515-b2339f003209.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-d85305ea-34b7-43cb-a047-7b2eaee069ed.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-d85305ea-34b7-43cb-a047-7b2eaee069ed.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-38ef69dd-3da0-439f-a4ba-a003a829e754.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-38ef69dd-3da0-439f-a4ba-a003a829e754.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    }
+  ]
+}

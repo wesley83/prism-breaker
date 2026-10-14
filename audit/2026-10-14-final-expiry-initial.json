@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-14T21:01:49.307Z",
+  "checks": [
+    {
+      "name": "unrestricted",
+      "status": 204,
+      "retained": [
+        "Keep active"
+      ]
+    },
+    {
+      "name": "future-cutoff",
+      "status": 403,
+      "retained": [
+        "Keep active"
+      ]
+    },
+    {
+      "name": "explicit-expiry-delete",
+      "status": 403,
+      "retained": [
+        "Boundary",
+        "Keep active"
+      ]
+    }
+  ],
+  "cleanup": {
+    "status": 204,
+    "readStatus": 404
+  },
+  "failure": "Seed 412"
+}

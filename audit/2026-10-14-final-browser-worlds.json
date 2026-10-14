@@ -1,0 +1,205 @@
+[
+  {
+    "world": 1,
+    "name": "Prism Garden",
+    "phases": [
+      0
+    ],
+    "title": "Prism Garden restored.",
+    "story": "A sleeping prism wakes. Follow its light above the clouds.",
+    "next": "Next: Cloud Carnival",
+    "score": 20250,
+    "errors": []
+  },
+  {
+    "world": 2,
+    "name": "Cloud Carnival",
+    "phases": [
+      0
+    ],
+    "title": "Cloud Carnival restored.",
+    "story": "The carnival lights flicker. A city below needs your spark.",
+    "next": "Next: Electric City",
+    "score": 39800,
+    "errors": []
+  },
+  {
+    "world": 3,
+    "name": "Electric City",
+    "phases": [
+      0
+    ],
+    "title": "Electric City restored.",
+    "story": "Power returns to the skyline. A hidden passage opens beneath it.",
+    "next": "Next: Crystal Caverns",
+    "score": 59000,
+    "errors": []
+  },
+  {
+    "world": 4,
+    "name": "Crystal Caverns",
+    "phases": [
+      0
+    ],
+    "title": "Crystal Caverns restored.",
+    "story": "The cavern opens in a shower of crystals. Warmth waits beyond.",
+    "next": "Next: Ember Foundry",
+    "score": 82500,
+    "errors": []
+  },
+  {
+    "world": 5,
+    "name": "Ember Foundry",
+    "phases": [
+      0
+    ],
+    "title": "Ember Foundry restored.",
+    "story": "The forge releases its last ember. The world turns to ice.",
+    "next": "Next: Frost Observatory",
+    "score": 103500,
+    "errors": []
+  },
+  {
+    "world": 6,
+    "name": "Frost Observatory",
+    "phases": [
+      0
+    ],
+    "title": "Frost Observatory restored.",
+    "story": "The telescope finds a signal. An ocean of stars answers.",
+    "next": "Next: Cosmic Reef",
+    "score": 127000,
+    "errors": []
+  },
+  {
+    "world": 7,
+    "name": "Cosmic Reef",
+    "phases": [
+      0
+    ],
+    "title": "Cosmic Reef restored.",
+    "story": "A river of stars carries the fragments to the citadel.",
+    "next": "Next: Prism Citadel",
+    "score": 145500,
+    "errors": []
+  },
+  {
+    "world": 8,
+    "name": "Prism Citadel",
+    "phases": [
+      0,
+      1,
+      2
+    ],
+    "title": "Prism Citadel restored.",
+    "story": "The prism opens. Eight forgotten worlds answer its call.",
+    "next": "Next: Sunken Archive",
+    "score": 193800,
+    "errors": []
+  },
+  {
+    "world": 9,
+    "name": "Sunken Archive",
+    "phases": [
+      0
+    ],
+    "title": "Sunken Archive restored.",
+    "story": "Lost constellations rise from the deep. Their light points north.",
+    "next": "Next: Aurora Passage",
+    "score": 216300,
+    "errors": []
+  },
+  {
+    "world": 10,
+    "name": "Aurora Passage",
+    "phases": [
+      0
+    ],
+    "title": "Aurora Passage restored.",
+    "story": "The aurora folds into a bridge. A forest of turning gears awaits.",
+    "next": "Next: Clockwork Canopy",
+    "score": 237800,
+    "errors": []
+  },
+  {
+    "world": 11,
+    "name": "Clockwork Canopy",
+    "phases": [
+      0
+    ],
+    "title": "Clockwork Canopy restored.",
+    "story": "A thousand mechanisms turn as one. Sand begins to shine.",
+    "next": "Next: Mirage Dunes",
+    "score": 261800,
+    "errors": []
+  },
+  {
+    "world": 12,
+    "name": "Mirage Dunes",
+    "phases": [
+      0
+    ],
+    "title": "Mirage Dunes restored.",
+    "story": "The mirage becomes a doorway. Thunder gathers on the other side.",
+    "next": "Next: Thunder Spire",
+    "score": 281300,
+    "errors": []
+  },
+  {
+    "world": 13,
+    "name": "Thunder Spire",
+    "phases": [
+      0
+    ],
+    "title": "Thunder Spire restored.",
+    "story": "The storm splits. A quiet moon rises above the harbor.",
+    "next": "Next: Lunar Harbor",
+    "score": 295300,
+    "errors": []
+  },
+  {
+    "world": 14,
+    "name": "Lunar Harbor",
+    "phases": [
+      0
+    ],
+    "title": "Lunar Harbor restored.",
+    "story": "The last ship leaves its mooring. Beyond it, a star falls inward.",
+    "next": "Next: Event Horizon",
+    "score": 317300,
+    "errors": []
+  },
+  {
+    "world": 15,
+    "name": "Event Horizon",
+    "phases": [
+      0
+    ],
+    "title": "Event Horizon restored.",
+    "story": "You cross the darkness. On the far side, every color is waiting.",
+    "next": "Next: Dawn Nexus",
+    "score": 340300,
+    "errors": []
+  },
+  {
+    "world": 16,
+    "name": "Dawn Nexus",
+    "phases": [
+      0,
+      1,
+      2
+    ],
+    "title": "You brought the dawn.",
+    "story": "Sixteen worlds. One unbroken light. You brought the dawn.",
+    "next": "",
+    "score": 402100,
+    "errors": []
+  },
+  {
+    "campaignComplete": true,
+    "resultTitle": "You took the crown.",
+    "level": 16,
+    "score": 402100,
+    "errors": []
+  }
+]

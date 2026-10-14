@@ -1,0 +1,29 @@
+{
+  "utc": "2026-10-14T21:04:14.464Z",
+  "checks": [
+    {
+      "name": "clock",
+      "serverTime": 1792011868000,
+      "localTime": 1792011871592,
+      "offsetMs": -3592
+    },
+    {
+      "name": "policy-readiness",
+      "statuses": [
+        416,
+        416,
+        416,
+        416,
+        416,
+        416,
+        416,
+        416
+      ]
+    }
+  ],
+  "cleanup": {
+    "status": 204,
+    "readStatus": 404
+  },
+  "failure": "Fresh policy did not stabilize"
+}

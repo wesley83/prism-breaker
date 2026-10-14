@@ -1,0 +1,18 @@
+[
+  {
+    "beforeMidnight": "01Before midnight0100",
+    "runDay": "2026-10-14"
+  },
+  {
+    "afterMidnight": "01New day0100",
+    "day": "2026-10-15",
+    "runDay": "2026-10-14",
+    "challenge": "Thunder Spire · 2026-10-15 UTC",
+    "status": "Challenge date: 2026-10-15 UTC · Resets at 00:00 UTC. Age is minutes since submission."
+  },
+  {
+    "previousDayResult": "This run belongs to 2026-10-14 UTC. You can save it, but the current Daily Challenge board has reset for 2026-10-15.",
+    "record": false,
+    "errors": []
+  }
+]

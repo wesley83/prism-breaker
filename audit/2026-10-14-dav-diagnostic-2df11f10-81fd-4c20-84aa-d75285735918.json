@@ -1,0 +1,134 @@
+{
+  "utc": "2026-10-14T20:13:38.269Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "dav": "https://dav-sane-guild-8399.onpagelove.com",
+  "isolatedPerCase": true,
+  "checks": [
+    {
+      "name": "cache-baseline",
+      "result": {
+        "status": 418,
+        "body": "policy-A"
+      }
+    },
+    {
+      "name": "cache-policy-update",
+      "status": 200,
+      "storedB": true
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 0,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 200,
+        "body": "normal-document"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 1,
+      "updated": {
+        "status": 418,
+        "body": "policy-B"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 5,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 15,
+      "updated": {
+        "status": 418,
+        "body": "policy-B"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 31,
+      "updated": {
+        "status": 418,
+        "body": "policy-B"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 61,
+      "updated": {
+        "status": 418,
+        "body": "policy-B"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 91,
+      "updated": {
+        "status": 418,
+        "body": "policy-B"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-policy-deleted",
+      "ownerRead": 404,
+      "publicResult": {
+        "status": 418,
+        "body": "policy-B"
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-dav-policy-cdfd355e-02c0-4365-affb-b5eadead6769.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-cdfd355e-02c0-4365-affb-b5eadead6769.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-d6c7e313-3c6b-4eb7-aeb5-40e98a853127.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-d6c7e313-3c6b-4eb7-aeb5-40e98a853127.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    }
+  ]
+}

@@ -1,0 +1,258 @@
+{
+  "utc": "2026-10-14T20:18:49.594Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "dav": "https://dav-sane-guild-8399.onpagelove.com",
+  "isolatedPerCase": true,
+  "checks": [
+    {
+      "name": "json-action",
+      "target": "/_prism-dav-diagnostic-2ec1583d-1292-4738-8b2d-d7f500928894.html",
+      "sourcePreserved": true,
+      "sourceHash": "2c996405fbf55abe1848baa027579ac2ad259611bec13b1e9bc13c6809ab3d42",
+      "storedHash": "2c996405fbf55abe1848baa027579ac2ad259611bec13b1e9bc13c6809ab3d42",
+      "attempts": [
+        {
+          "status": 418,
+          "body": "{\"probe\":\"json\"}",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 418,
+          "body": "{\"probe\":\"json\"}",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "literal-action",
+      "target": "/_prism-dav-diagnostic-f8cfe400-6e30-4fb1-8734-a50df88ab502.html",
+      "sourcePreserved": true,
+      "sourceHash": "7fccdd971bc88f4c399e383755530d022a7d8867547088b177ea065ead2f9387",
+      "storedHash": "7fccdd971bc88f4c399e383755530d022a7d8867547088b177ea065ead2f9387",
+      "attempts": [
+        {
+          "status": 418,
+          "body": "runtime-literal",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 418,
+          "body": "runtime-literal",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "domparser-type",
+      "target": "/_prism-dav-diagnostic-4c0bde6b-b901-4690-9105-2d3fd8ebdf5d.html",
+      "sourcePreserved": true,
+      "sourceHash": "800d3a5592864f04bd1b7f95a8c3e8db3c991584d5fd385ad7db367038b73f5a",
+      "storedHash": "800d3a5592864f04bd1b7f95a8c3e8db3c991584d5fd385ad7db367038b73f5a",
+      "attempts": [
+        {
+          "status": 418,
+          "body": "function",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 418,
+          "body": "function",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "domparser-parse",
+      "target": "/_prism-dav-diagnostic-db7e0b28-260d-4c82-b853-228a15b133e4.html",
+      "sourcePreserved": true,
+      "sourceHash": "027b95dad546c2aafa398edaf1e93bbd6d48e70aaf026cb6f591f34b578bfc3d",
+      "storedHash": "027b95dad546c2aafa398edaf1e93bbd6d48e70aaf026cb6f591f34b578bfc3d",
+      "attempts": [
+        {
+          "status": 418,
+          "body": "parsed",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 418,
+          "body": "parsed",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "runtime-error",
+      "target": "/_prism-dav-diagnostic-8723e7c4-5a46-4f03-ae88-58f19adb4057.html",
+      "sourcePreserved": true,
+      "sourceHash": "bcf66cd8eb194bf8899f34ef7d533574e3bef333c69a0a28fbe0852a361a26f3",
+      "storedHash": "bcf66cd8eb194bf8899f34ef7d533574e3bef333c69a0a28fbe0852a361a26f3",
+      "attempts": [
+        {
+          "status": 500,
+          "body": "<div itemscope itemtype=\"https://pagelove.org/Error\">\n    <meta itemprop=\"type\" content=\"TriggerError\">\n    <meta itemprop=\"source\" content=\"/_prism-dav-policy-8723e7c4-5a46-4f03-ae88-58f19adb4057.html\">\n    <meta itemprop=\"phase\" content=\"action\">\n    <p itemprop=\"message\">Trigger action failed: javascript/module binding threw: intentional-disposable-runtime-error</p>\n</div>",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 500,
+          "body": "<div itemscope itemtype=\"https://pagelove.org/Error\">\n    <meta itemprop=\"type\" content=\"TriggerError\">\n    <meta itemprop=\"source\" content=\"/_prism-dav-policy-8723e7c4-5a46-4f03-ae88-58f19adb4057.html\">\n    <meta itemprop=\"phase\" content=\"action\">\n    <p itemprop=\"message\">Trigger action failed: javascript/module binding threw: intentional-disposable-runtime-error</p>\n</div>",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "syntax-error",
+      "target": "/_prism-dav-diagnostic-ea361de5-065a-4dbd-9f4b-93e11b29ecb5.html",
+      "sourcePreserved": true,
+      "sourceHash": "a816cb90068bdf63ca1cfbddf7ca9dd0d98007717e9026c3ad1021785a1d0617",
+      "storedHash": "a816cb90068bdf63ca1cfbddf7ca9dd0d98007717e9026c3ad1021785a1d0617",
+      "attempts": [
+        {
+          "status": 500,
+          "body": "<div itemscope itemtype=\"https://pagelove.org/Error\">\n    <meta itemprop=\"type\" content=\"TriggerError\">\n    <meta itemprop=\"source\" content=\"/_prism-dav-policy-ea361de5-065a-4dbd-9f4b-93e11b29ecb5.html\">\n    <meta itemprop=\"phase\" content=\"action\">\n    <p itemprop=\"message\">Trigger action failed: parse error in javascript/module binding: Unexpected identifier 'invalid'</p>\n</div>",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 500,
+          "body": "<div itemscope itemtype=\"https://pagelove.org/Error\">\n    <meta itemprop=\"type\" content=\"TriggerError\">\n    <meta itemprop=\"source\" content=\"/_prism-dav-policy-ea361de5-065a-4dbd-9f4b-93e11b29ecb5.html\">\n    <meta itemprop=\"phase\" content=\"action\">\n    <p itemprop=\"message\">Trigger action failed: parse error in javascript/module binding: Unexpected identifier 'invalid'</p>\n</div>",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "full-validator-get",
+      "target": "/_prism-dav-diagnostic-d8b785d8-7abd-4875-b32a-c22f7fc5f8b0.html",
+      "sourcePreserved": true,
+      "sourceHash": "873f65f432cb48057d231e1cfdc7a8cfd34c2de58cae8089230b55e230d42ed8",
+      "storedHash": "873f65f432cb48057d231e1cfdc7a8cfd34c2de58cae8089230b55e230d42ed8",
+      "attempts": [
+        {
+          "status": 418,
+          "body": "{\"valid\":true}",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 418,
+          "body": "{\"valid\":true}",
+          "cache": null,
+          "server": null
+        }
+      ]
+    },
+    {
+      "name": "full-validator-contract",
+      "target": "/_prism-dav-diagnostic-548dbaaf-f38d-4a8a-a77f-c02638413d0d.html",
+      "sourcePreserved": true,
+      "sourceHash": "9de834365d4846ccd612c4a27e40cdc25bca2119f859f3c69dd1755f8ae992ad",
+      "storedHash": "9de834365d4846ccd612c4a27e40cdc25bca2119f859f3c69dd1755f8ae992ad",
+      "attempts": [
+        {
+          "status": 418,
+          "body": "[{\"name\":\"valid\",\"accepted\":true},{\"name\":\"invalid-hp\",\"accepted\":false,\"status\":422,\"message\":\"Invalid world definition: Invalid hit points\"},{\"name\":\"script\",\"accepted\":false,\"status\":422,\"message\":\"Publish canonical validated world HTML.\"},{\"name\":\"unconditional\",\"accepted\":false,\"status\":428,\"message\":\"A world revision condition is required.\"},{\"name\":\"wrong-identity\",\"accepted\":false,\"status\":422,\"message\":\"World identity does not match its path.\"},{\"name\":\"delete\",\"accepted\":false,\"status\":405,\"message\":\"Worlds require a complete conditional PUT.\"}]",
+          "cache": null,
+          "server": null
+        },
+        {
+          "status": 418,
+          "body": "[{\"name\":\"valid\",\"accepted\":true},{\"name\":\"invalid-hp\",\"accepted\":false,\"status\":422,\"message\":\"Invalid world definition: Invalid hit points\"},{\"name\":\"script\",\"accepted\":false,\"status\":422,\"message\":\"Publish canonical validated world HTML.\"},{\"name\":\"unconditional\",\"accepted\":false,\"status\":428,\"message\":\"A world revision condition is required.\"},{\"name\":\"wrong-identity\",\"accepted\":false,\"status\":422,\"message\":\"World identity does not match its path.\"},{\"name\":\"delete\",\"accepted\":false,\"status\":405,\"message\":\"Worlds require a complete conditional PUT.\"}]",
+          "cache": null,
+          "server": null
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-dav-policy-2ec1583d-1292-4738-8b2d-d7f500928894.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-2ec1583d-1292-4738-8b2d-d7f500928894.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-f8cfe400-6e30-4fb1-8734-a50df88ab502.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-f8cfe400-6e30-4fb1-8734-a50df88ab502.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-4c0bde6b-b901-4690-9105-2d3fd8ebdf5d.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-4c0bde6b-b901-4690-9105-2d3fd8ebdf5d.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-db7e0b28-260d-4c82-b853-228a15b133e4.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-db7e0b28-260d-4c82-b853-228a15b133e4.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-8723e7c4-5a46-4f03-ae88-58f19adb4057.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-8723e7c4-5a46-4f03-ae88-58f19adb4057.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-ea361de5-065a-4dbd-9f4b-93e11b29ecb5.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-ea361de5-065a-4dbd-9f4b-93e11b29ecb5.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-d8b785d8-7abd-4875-b32a-c22f7fc5f8b0.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-d8b785d8-7abd-4875-b32a-c22f7fc5f8b0.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-548dbaaf-f38d-4a8a-a77f-c02638413d0d.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-548dbaaf-f38d-4a8a-a77f-c02638413d0d.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    }
+  ]
+}

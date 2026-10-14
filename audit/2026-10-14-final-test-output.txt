@@ -1,0 +1,130 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests\acceptance-lifecycle.test.mjs:
+(pass) UTC midnight swaps daily boards without affecting Adventure or an ongoing run identity [9.91ms]
+(pass) five-day expiry removes records exactly at the boundary and server expiry takes precedence [0.48ms]
+(pass) Adventure age outlines follow the exact 48-hour and 96-hour boundaries [0.27ms]
+
+tests\brick-events.test.mjs:
+(pass) every surviving hit and destruction emits strike and damage with the correct remaining HP [1.41ms]
+(pass) trusted custom strike handlers can cancel damage and are detachable [0.41ms]
+(pass) bounded custom break recipes run in Practice and cannot replace Adventure layouts [2.85ms]
+(pass) DOM specializations receive strike and damage events and cleanup detaches the bridge [15.63ms]
+
+tests\brick-labels.test.mjs:
+(pass) every generated world and Citadel formation labels its actual brick kind and hit count [1.89ms]
+(pass) three-hit armor counts down after actual damage, then its rendered marker is removed [2.22ms]
+(pass) damaging one armored brick does not change another brick sharing its original texture [0.30ms]
+(pass) How to play uses the renderer’s star and outlined diamond artwork [0.13ms]
+
+tests\display.test.mjs:
+(pass) phone start requests fullscreen synchronously on the document root, including dialogs [0.64ms]
+(pass) denied phone fullscreen retains the viewport layout and allows an explicit exit [0.17ms]
+(pass) ordinary desktop starts never request fullscreen automatically [0.05ms]
+(pass) an installed fullscreen app uses the screen layout without an unnecessary API request [0.03ms]
+(pass) system exit pauses active play and does not automatically request fullscreen again [0.03ms]
+(pass) returning home exits owned browser fullscreen without a pause callback [0.08ms]
+
+tests\document-first.test.mjs:
+(pass) display names do not change stable identity or world addresses [13.00ms]
+(pass) multiple custom recipes are rejected instead of silently discarded [2.70ms]
+(pass) ambiguous document properties and row identities are rejected [8.22ms]
+(pass) legacy HTML gets explicit compatible metadata without changing geometry [4.92ms]
+(pass) unknown or malformed editor paths never default to a real world [0.33ms]
+(pass) Practice consumes the same document metadata and complete formation model [1.15ms]
+(pass) checkpoint v2 pins complete world definition and restores saved portals [1.39ms]
+(pass) legacy checkpoints migrate, unknown versions and rulesets fail without mutation [1.42ms]
+(pass) trusted handlers dispatch base, specialization, movement and custom in order [0.33ms]
+(pass) trusted request cancellation and unsubscribe do not remove other handlers [0.35ms]
+(pass) handler errors cancel a strike and report a structured failure [0.22ms]
+(pass) rankings isolate incompatible rulesets and retain compatible legacy scores [0.15ms]
+(pass) persisted brick identity counter survives deletion of the highest numbered brick [3.91ms]
+(pass) offline precache excludes reserialized authoring documents and candidate policy [26.08ms]
+(pass) generated server guard accepts canonical worlds and rejects invalid or unconditional writes [25.34ms]
+(pass) official bundle rebuilds from documents with no previous generated bundle [271.12ms]
+
+tests\engine.test.mjs:
+(pass) all worlds have reachable brick positions and unique identifiers [2.09ms]
+(pass) daily seed and drop generator are repeatable [0.23ms]
+(pass) wall, ceiling and paddle contacts return the ball to play [1.01ms]
+(pass) multiball consumes one life only after every ball is lost [0.39ms]
+(pass) power-ups apply, expire, save a ball and keep width independent of paddle mode [0.36ms]
+(pass) switches open gates and explosions damage neighboring bricks [0.83ms]
+(pass) paused game remains unchanged and a saved campaign restores [1.50ms]
+(pass) checkpoints continue the current formation’s random drop sequence [2.01ms]
+(pass) checkpoint validation rejects malformed data before mutating a running game [3.26ms]
+(pass) older optional checkpoint fields default safely and restored formations use their own brick count [1.17ms]
+(pass) all sixteen campaign levels advance, including every final-boss stage [1.83ms]
+(pass) bot can clear each world through actual ball collisions [260.21ms]
+
+tests\media.test.mjs:
+(pass) muting or setting music volume to zero stops synthesis until audible again [0.43ms]
+(pass) sixteen musical arrangements differ in melody, rhythm and instrumentation [4.09ms]
+(pass) cinematic cameras remain finite at every sampled moment and reset safely [12.22ms]
+(pass) reduced motion uses a fixed cinematic composition and visible story [0.27ms]
+
+tests\offline.test.mjs:
+(pass) offline saves survive a new queue instance and retain the original challenge day [1.85ms]
+(pass) two tabs and repeated saves send a run once and preserve the first saved payload [0.86ms]
+(pass) retry timing backs off after network failure and uses a fresh submission timestamp [0.71ms]
+(pass) confirmed validation rejection remains visible until retry or removal [0.89ms]
+(pass) removal cannot interrupt an active send lease [0.44ms]
+(pass) an expired tab lease cannot overwrite a newer successful receipt [0.40ms]
+(pass) unavailable storage never reports a score as queued [0.41ms]
+(pass) invalid names, impossible challenge dates and practice runs are rejected before storage [0.30ms]
+(pass) failed durable receipt write keeps a recoverable lease instead of reporting sent [0.45ms]
+(pass) a falsy send rejection is still a failed attempt [0.39ms]
+(pass) a successful IDB request is not acknowledged until its transaction commits [0.28ms]
+(pass) an IDB transaction abort rejects even after a request produced a result [0.18ms]
+
+tests\paddle-collision.test.mjs:
+(pass) a paddle moving away still catches a ball that crossed its top earlier in the tick [0.47ms]
+(pass) moving the paddle into a descending ball beside its upper edge catches it [0.26ms]
+(pass) descending balls already touching the upper paddle are recovered [0.19ms]
+(pass) a late paddle cannot rescue a ball below its center or one moving upward [0.32ms]
+(pass) clear misses stay misses, including a paddle arriving after the ball has passed [0.18ms]
+(pass) Sticky stores the moving catch point and follows the paddle without snapping to center [0.29ms]
+(pass) Wide catches at its outer edge and releases a Sticky ball if its support expires [0.32ms]
+(pass) stationary paddle catches high-speed balls across different frame intervals and both edges [1.39ms]
+(pass) moving edge catches are symmetric and independent for every ball in multiball [0.94ms]
+(pass) Wide expiry preserves an inner held ball and releases only unsupported balls [0.20ms]
+
+tests\pwa-client.test.mjs:
+(pass) a waiting complete release is offered; one click activates then reloads once [2.47ms]
+(pass) active runs block both the button and direct invocation [0.54ms]
+(pass) another tab activating the update never reloads this tab without a click [0.58ms]
+(pass) a downloaded update activates while offline [0.57ms]
+(pass) failed worker activation shows an actionable retry instead of a stuck Applying label [0.51ms]
+(pass) activation timeout preserves readiness and permits another Update game click [0.50ms]
+(pass) starting a run during activation defers the requested reload until returning home [0.42ms]
+(pass) no update or unsupported browser cannot trigger an accidental reload [0.61ms]
+(pass) foreground and reconnect checks are throttled; offline and hidden tabs do not check [0.50ms]
+(pass) a failed install is retryable while the current release stays ready [0.52ms]
+(pass) registration failure offers Retry download [0.38ms]
+(pass) a failing preparation callback is caught and remains retryable [0.41ms]
+(pass) a run starting during asynchronous preparation cancels activation [0.41ms]
+(pass) late activation after timeout needs a new click and does not interrupt a run [0.41ms]
+(pass) repeated controller and refresh events cannot issue duplicate reloads [0.39ms]
+
+tests\pwa-worker.test.mjs:
+(pass) an incomplete or mismatched download never becomes offline-ready and leaves the previous release intact [5.67ms]
+(pass) offline deep-link navigation and versioned/unversioned lazy imports come from the complete release [2.06ms]
+(pass) selector requests, score reads, writes and cross-origin requests never enter the static cache handler [0.96ms]
+(pass) a live workshop can opt its own client into network assets without unpinning an active game [1.42ms]
+(pass) updates wait for explicit consent, then retain old client assets across worker restarts [4.45ms]
+(pass) missing cached modules fail without mixing a newer network module into a running game [0.92ms]
+(pass) storage eviction permits a fresh online navigation and repairs the unchanged worker release [4.24ms]
+(pass) concurrent repair requests share one complete download [1.13ms]
+(pass) builds are deterministic and deployment validation catches edits made after the build [14.77ms]
+
+tests\world-format.test.mjs:
+(pass) all twenty formations survive a microdata HTML round trip [68.78ms]
+(pass) checked-in HTML geometry agrees with the generated official offline snapshot [79.04ms]
+(pass) custom types compose with armored moving bricks and retain their bounded recipe [3.61ms]
+(pass) basic Brick items inherit row coordinates and infer armor from hitpoints [2.83ms]
+(pass) malformed identities, brick references, geometry and recipes are rejected [4.56ms]
+(pass) imported markup is rebuilt from records and cannot carry script or composition directives [2.54ms]
+
+ 101 pass
+ 0 fail
+Ran 101 tests across 12 files. [1148.00ms]

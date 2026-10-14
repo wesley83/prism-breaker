@@ -1,0 +1,272 @@
+{
+  "utc": "2026-10-14T20:58:24.041Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "checks": [
+    {
+      "name": "live-home",
+      "status": 200,
+      "release": "ee6a8edb8f4578dd9b0b"
+    },
+    {
+      "name": "live-source/app.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "a4f415bc1a40a40a3f647d4771b606743b6ff3d92665246bd29252ec8d29538c"
+    },
+    {
+      "name": "live-source/engine.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "5f35b7b3ab55a83a44f85e5a02e190e554c76000ca72c5678d5c005cfabd34be"
+    },
+    {
+      "name": "live-source/levels.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6"
+    },
+    {
+      "name": "live-source/leaderboard.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "e147243419aa5413a4159c14e9be3cbd6d708aa21f453c086d416c0d38c37521"
+    },
+    {
+      "name": "live-source/offline.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "34b4858a74f33453bc530dc78d1d5c0668566d47bbcca49e057459f4a844d665"
+    },
+    {
+      "name": "live-source/cinematic-score.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b"
+    },
+    {
+      "name": "live-source/daily-score.js",
+      "status": 200,
+      "matchesSource": true,
+      "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912"
+    },
+    {
+      "name": "live-source/scores.html",
+      "status": 200,
+      "records": 68,
+      "expiryRulesPresent": true
+    },
+    {
+      "name": "world-prism-garden",
+      "status": 200,
+      "identity": "prism-garden",
+      "formations": 1,
+      "bricks": [
+        45
+      ]
+    },
+    {
+      "name": "world-cloud-carnival",
+      "status": 200,
+      "identity": "cloud-carnival",
+      "formations": 1,
+      "bricks": [
+        43
+      ]
+    },
+    {
+      "name": "world-electric-city",
+      "status": 200,
+      "identity": "electric-city",
+      "formations": 1,
+      "bricks": [
+        42
+      ]
+    },
+    {
+      "name": "world-crystal-caverns",
+      "status": 200,
+      "identity": "crystal-caverns",
+      "formations": 1,
+      "bricks": [
+        50
+      ]
+    },
+    {
+      "name": "world-ember-foundry",
+      "status": 200,
+      "identity": "ember-foundry",
+      "formations": 1,
+      "bricks": [
+        45
+      ]
+    },
+    {
+      "name": "world-frost-observatory",
+      "status": 200,
+      "identity": "frost-observatory",
+      "formations": 1,
+      "bricks": [
+        50
+      ]
+    },
+    {
+      "name": "world-cosmic-reef",
+      "status": 200,
+      "identity": "cosmic-reef",
+      "formations": 1,
+      "bricks": [
+        40
+      ]
+    },
+    {
+      "name": "world-prism-citadel",
+      "status": 200,
+      "identity": "prism-citadel",
+      "formations": 3,
+      "bricks": [
+        34,
+        36,
+        42
+      ]
+    },
+    {
+      "name": "world-sunken-archive",
+      "status": 200,
+      "identity": "sunken-archive",
+      "formations": 1,
+      "bricks": [
+        48
+      ]
+    },
+    {
+      "name": "world-aurora-passage",
+      "status": 200,
+      "identity": "aurora-passage",
+      "formations": 1,
+      "bricks": [
+        46
+      ]
+    },
+    {
+      "name": "world-clockwork-canopy",
+      "status": 200,
+      "identity": "clockwork-canopy",
+      "formations": 1,
+      "bricks": [
+        51
+      ]
+    },
+    {
+      "name": "world-mirage-dunes",
+      "status": 200,
+      "identity": "mirage-dunes",
+      "formations": 1,
+      "bricks": [
+        42
+      ]
+    },
+    {
+      "name": "world-thunder-spire",
+      "status": 200,
+      "identity": "thunder-spire",
+      "formations": 1,
+      "bricks": [
+        31
+      ]
+    },
+    {
+      "name": "world-lunar-harbor",
+      "status": 200,
+      "identity": "lunar-harbor",
+      "formations": 1,
+      "bricks": [
+        47
+      ]
+    },
+    {
+      "name": "world-event-horizon",
+      "status": 200,
+      "identity": "event-horizon",
+      "formations": 1,
+      "bricks": [
+        49
+      ]
+    },
+    {
+      "name": "world-dawn-nexus",
+      "status": 200,
+      "identity": "dawn-nexus",
+      "formations": 3,
+      "bricks": [
+        49,
+        51,
+        39
+      ]
+    },
+    {
+      "name": "disposable-production-rules-copy",
+      "status": 201,
+      "sha256": "d4203768334cb877ad541d281e571c11074c45510429ecd0338ef18b2280f6c6"
+    },
+    {
+      "name": "production-score-submit",
+      "status": 206,
+      "persistedCount": 1,
+      "serverExpiryMs": 431996963
+    },
+    {
+      "name": "production-duplicate",
+      "status": 422,
+      "persistedCount": 1
+    },
+    {
+      "name": "isolated-valid-submit",
+      "status": 206,
+      "detail": "accepted"
+    },
+    {
+      "name": "invalid-score",
+      "status": 422,
+      "detail": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>422 Unprocessable Entity - Error</title>\n  </head>\n  <body itemscope itemtype=\"http://pagelove.org/Error\">\n    <h1 itemprop=\"name\">Unprocessable Entity</h1>\n"
+    },
+    {
+      "name": "client-expiry",
+      "status": 422,
+      "detail": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>422 Unprocessable Entity - Error</title>\n  </head>\n  <body itemscope itemtype=\"http://pagelove.org/Error\">\n    <h1 itemprop=\"name\">Unprocessable Entity</h1>\n"
+    },
+    {
+      "name": "unrestricted-delete",
+      "status": 403,
+      "retained": 1
+    },
+    {
+      "name": "future-cutoff-delete",
+      "status": 403,
+      "retained": 1
+    },
+    {
+      "name": "server-get-cleanup",
+      "status": 206,
+      "expiredPresent": false,
+      "activePresent": true
+    },
+    {
+      "name": "public-expired-only-cleanup",
+      "status": 416,
+      "expiredPresent": false,
+      "activePresent": true
+    }
+  ],
+  "cleanup": [
+    {
+      "resource": "/scores.html",
+      "qaRunRemoved": true,
+      "otherRunsPreserved": 68
+    },
+    {
+      "resource": "/_prism-final-scores-4b52b91d-9cda-4baf-a382-2e50723b780c.html",
+      "status": 204,
+      "readStatus": 404
+    }
+  ]
+}

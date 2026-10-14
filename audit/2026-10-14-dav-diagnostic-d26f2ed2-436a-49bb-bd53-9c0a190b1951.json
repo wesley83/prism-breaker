@@ -1,0 +1,86 @@
+{
+  "utc": "2026-10-14T19:56:31.340Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "dav": "https://dav-sane-guild-8399.onpagelove.com",
+  "target": "/_prism-dav-diagnostic-d26f2ed2-436a-49bb-bd53-9c0a190b1951.html",
+  "policy": "/_prism-dav-policy-d26f2ed2-436a-49bb-bd53-9c0a190b1951.html",
+  "checks": [
+    {
+      "name": "js-external-get-put",
+      "publicGet": 422,
+      "publicMessage": "disposable-put-denied",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "js-external-put-only",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">js-external-get-put-ae4fe549-77da-49f0-8732-43f868ef693e</p>\n                <div style=\"\n                   ",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "js-external-any-method",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">js-external-put-only-6849a274-8b8b-4173-8847-fde6c13b770b</p>\n                <div style=\"\n                  ",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "sessel-external-get-put",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">js-external-any-method-19f3d5ac-e68b-404c-b47b-6d8e1c2d0f25</p>\n                <div style=\"\n                ",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "js-embedded-get-put",
+      "publicGet": 200,
+      "publicMessage": "<!DOCTYPE html><html><head><title>Disposable diagnostic</title></head><body><p id=\"marker\">embedded baseline</p><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content",
+      "davPut": 200,
+      "davMessage": "accepted",
+      "readback": 200,
+      "markerPersisted": true,
+      "changed": true
+    },
+    {
+      "name": "server-runtime-capabilities",
+      "status": 422,
+      "body": "disposable-put-denied"
+    },
+    {
+      "name": "full-validator-on-server",
+      "status": 422,
+      "body": "disposable-put-denied"
+    },
+    {
+      "name": "public-put-owner-key",
+      "status": 401,
+      "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access "
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-dav-policy-d26f2ed2-436a-49bb-bd53-9c0a190b1951.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-d26f2ed2-436a-49bb-bd53-9c0a190b1951.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    }
+  ]
+}
