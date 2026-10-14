@@ -21,7 +21,7 @@ The leaderboard provides Share leaderboard and Copy link actions. It uses the br
 | Ember Foundry | Moving barriers widen from 4/3 to 4.3/3.3 units and move 10% faster. |
 | Frost Observatory | Two additional armored bricks. |
 
-All four worlds use 5% faster ball movement before the existing 21-unit speed cap. Other worlds keep their prior settings. Structured Pagelove level data is regenerated with `node tools/build-data.mjs --worlds-only`, which leaves the score template untouched. Normal deployment excludes the live score resource.
+All four worlds use 5% faster ball movement before the existing 21-unit speed cap. Other worlds keep their prior settings. Structured Pagelove level data is regenerated with `bun tools/build-data.mjs --worlds-only`, which leaves the score template untouched. Normal deployment excludes the live score resource.
 
 ## Interface copy
 

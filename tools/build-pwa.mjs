@@ -53,7 +53,7 @@ export async function buildPwa({check = false, root = project} = {}) {
   if (check) {
     for (const [name, expected] of outputs) {
       const actual = await fs.readFile(path.join(publicRoot, name), 'utf8').catch(() => '');
-      if (actual !== expected) throw new Error('Stale PWA build (' + name + '). Run node tools/build-pwa.mjs after all runtime edits before deploying.');
+      if (actual !== expected) throw new Error('Stale PWA build (' + name + '). Run bun tools/build-pwa.mjs after all runtime edits before deploying.');
     }
   } else {
     for (const [name, output] of outputs) await fs.writeFile(path.join(publicRoot, name), output);

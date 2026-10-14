@@ -38,4 +38,4 @@ Calculated contrast at full caption opacity, even over a pure white rendered pix
 
 ## Reproduce the visual review
 
-Run `node tools/make-qa.mjs`, then `node tools/scene-type-preview.mjs`, then `node tools/serve.mjs`. Open `http://127.0.0.1:4173/__qa/scene-type.html` or `/__qa/scene-type-mobile.html`. The visible selectors freeze the production scenes for review, including tie and victory outcomes. Generated pages and screenshots stay under ignored `test-results/`; synthetic scores are not posted to the live leaderboard.
+Run `bun tools/make-qa.mjs`, then `bun tools/scene-type-preview.mjs`, then `bun tools/serve.mjs`. Open `http://127.0.0.1:4173/__qa/scene-type.html` or `/__qa/scene-type-mobile.html`. The visible selectors freeze the production scenes for review, including tie and victory outcomes. Generated pages and screenshots stay under ignored `test-results/`; synthetic scores are not posted to the live leaderboard.

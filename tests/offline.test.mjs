@@ -15,7 +15,7 @@ function queue(t,options={}){const outbox=new ScoreOutbox({store:new MemoryStore
 const deferred=()=>{let resolve;const promise=new Promise(r=>resolve=r);return {promise,resolve};};
 
 test('offline saves survive a new queue instance and retain the original challenge day',async t=>{
- const store=new MemoryStore(),first=queue(t,{store,isOnline:()=>false});
+ const store=new MemoryStore(),first=queue(t,{store,isOnline:()=>false,now:()=>Date.parse('2026-10-13T23:00:00Z')});
  const saved=await first.enqueue(originalRun,'Wes');
  assert.equal(saved.status,'queued');assert.equal(saved.run.submittedAt,undefined);
  await first.sync();assert.equal((await first.get(originalRun.id)).attempts,0);

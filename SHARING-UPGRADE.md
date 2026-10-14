@@ -33,7 +33,7 @@ Canvas creates 1200×630 landscape and 1080×1350 portrait PNGs using bundled ga
 
 Daily invitations and cards include their UTC date. Daily links open the current day's board, preserving existing rollover behavior. Preview content is a snapshot of the displayed record/result when opened.
 
-The QR encoder is qrcode-generator 2.0.4, bundled at `public/vendor/qr.js` with its MIT notice at `public/assets/QR-LICENSE.txt`. Run `node tools/build-qr.mjs` after installing dependencies to rebuild it. No external QR, image-rendering or sharing backend is used. Blob previews/downloads are generated locally, and preview blob URLs are released on close.
+The QR encoder is qrcode-generator 2.0.4, bundled at `public/vendor/qr.js` with its MIT notice at `public/assets/QR-LICENSE.txt`. Run `bun tools/build-qr.mjs` after installing dependencies to rebuild it. No external QR, image-rendering or sharing backend is used. Blob previews/downloads are generated locally, and preview blob URLs are released on close.
 
 The CSP allows locally generated blob images. Deployment sends assets/modules before the app and entry page. Older cached entry markup can still copy leaderboard links while the new entry page is released.
 

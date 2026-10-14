@@ -71,11 +71,12 @@ Versions below come from the repository's dependency manifest and Bun lockfile.
 | Browser platform APIs | Pointer input, fullscreen, resize observation, preferences and local storage |
 | Web app manifest, service worker and Cache Storage | Installation, complete offline releases, asset integrity checks and updates between runs |
 | IndexedDB | Durable pending scores, recent submission receipts and the last downloaded leaderboard with its refresh time |
-| Node.js | Local preview, publishing, asset utilities and existing `node:test` checks |
-| Bun | Dependency installation and rebuilding the postprocessing bundle |
+| Bun **1.4.3** | Development runtime for dependency installation, local preview, publishing, asset utilities, postprocessing builds and the test suite |
 | Sharp **0.35.5** | Development-time poster conversion and favicon exports |
 | Linkedom **0.18.12** | Development-time HTML parsing to validate world documents and generate the official offline formations |
 | Pagelove HTML resources and Sessel | Shared score persistence, schemas, shape rules, authorization and request validation |
+
+Bun runs the development tools and tests; a separate Node.js installation is not required. Existing `node:*` imports, including `node:test`, use [Bun’s Node.js compatibility layer](https://bun.sh/docs/runtime/nodejs-compat). The deployed game runs in the browser and Pagelove.
 
 All browser runtime code, fonts, icons, images, QR encoding and postprocessing files are included in `public/`. Installing development dependencies is optional when playing or serving the committed site.
 
@@ -168,7 +169,7 @@ Open the game while connected and wait for **Ready to play offline**. The servic
 
 An update downloads into a separate release cache and becomes available only after the full asset set passes its checks. **Update game** becomes usable on the start screen. It reloads into the new release while retaining progress, preferences and pending scores. Open tabs keep their release's assets, including modules loaded later. Pagelove selector responses and score writes bypass the static asset cache.
 
-An activation failure offers another **Update game** attempt. If play starts while activation is finishing, the requested reload waits until the start screen. The reproducible browser lab (`node tools/update-lab.mjs`, loopback port 4174) can switch between two local releases and simulate failed asset downloads or unavailable game network routes without writing production scores. It creates disposable files under `.private/update-lab` and uses that local origin's browser storage. The [October 14 review](audit/2026-10-14-paddle-update.md) records the collision fix and update verification.
+An activation failure offers another **Update game** attempt. If play starts while activation is finishing, the requested reload waits until the start screen. The reproducible browser lab (`bun tools/update-lab.mjs`, loopback port 4174) can switch between two local releases and simulate failed asset downloads or unavailable game network routes without writing production scores. It creates disposable files under `.private/update-lab` and uses that local origin's browser storage. The [October 14 review](audit/2026-10-14-paddle-update.md) records the collision fix and update verification.
 
 Browser storage can be cleared or evicted under storage pressure. The install action requests persistent storage where supported, but the browser decides whether to grant it. A new browser or cleared installation must download the game again; unsent scores and local progress are lost if their storage is removed. Sync runs while the game is open; it does not depend on, or promise, background submission after the app closes.
 
@@ -191,15 +192,15 @@ See [SCORING.md](SCORING.md) for streak examples, power-up durations, timing rul
 
 ## Run locally
 
-Use Node.js 20.9 or newer:
+Use Bun 1.4.3 or newer (1.4.3 was verified for this tooling):
 
 ```sh
 git clone https://github.com/wesley83/prism-breaker.git
 cd prism-breaker
-node tools/serve.mjs
+bun tools/serve.mjs
 ```
 
-Open **http://127.0.0.1:4173**. No dependency install or build is required to serve the committed release. After changing runtime files, rebuild the offline release with `node tools/build-pwa.mjs` before reviewing it in a controlled browser tab.
+Open **http://127.0.0.1:4173**. No dependency install or build is required to serve the committed release. After changing runtime files, rebuild the offline release with `bun tools/build-pwa.mjs` before reviewing it in a controlled browser tab.
 
 The preview supports `GET`/`HEAD` and serves the committed site and local preview fixtures. Loopback permits service-worker development. It does not emulate Pagelove's score writes or rule enforcement. `public/scores.html` is an empty template, so local play has no live community scores. Fixtures under `/__qa/` do not register the game service worker.
 
@@ -250,10 +251,10 @@ Optional rebuilds in the public repository use Bun and the committed lockfile:
 
 ```sh
 bun install --frozen-lockfile
-node tools/build-icons.mjs
-node tools/build-fx.mjs
-node tools/build-qr.mjs
-node tools/build-share-assets.mjs
+bun tools/build-icons.mjs
+bun tools/build-fx.mjs
+bun tools/build-qr.mjs
+bun tools/build-share-assets.mjs
 ```
 
 `BUN_BIN` can select a Bun executable outside PATH. `PRISM_IMAGE_MODULES` can select a directory containing a `package.json` and Sharp installation for image exports. Asset builds use local dependencies; they do not add a runtime CDN dependency.
@@ -261,23 +262,23 @@ node tools/build-share-assets.mjs
 Regenerate just the world catalog with:
 
 ```sh
-node tools/build-data.mjs --worlds-only
+bun tools/build-data.mjs --worlds-only
 ```
 
 Running that tool without `--worlds-only` also regenerates an **empty score template**. Never replace an existing live leaderboard with it.
 
 The world workshop is available locally at `/editor/prism-garden`; local preview reads seed HTML and does not emulate native template composition or owner writes. [WORLD-EDITOR.md](WORLD-EDITOR.md) describes publishing and the event API.
 
-For local manual previews, generate `node tools/make-qa.mjs`, start the local server, and open `/__qa/index.html`. Other tools extend that fixture with music, cinematic, record, paddle or typography preview controls. Read the relevant upgrade notes below for their required order. Generated files stay under ignored `test-results/` and are outside the deployed `public/` tree.
+For local manual previews, generate `bun tools/make-qa.mjs`, start the local server, and open `/__qa/index.html`. Other tools extend that fixture with music, cinematic, record, paddle or typography preview controls. Read the relevant upgrade notes below for their required order. Generated files stay under ignored `test-results/` and are outside the deployed `public/` tree.
 
 For world thumbnails, copy `tools/world-preview.html` into `test-results/fixture/`, open `/__qa/world-preview.html`, select a world and capture its 800×420 canvas into `public/assets/world-preview-01.png` through `world-preview-16.png`. The preview uses a fixed seed and reduced motion for consistent scenery.
 
 ### Existing checks
 
-When validating changes, the existing suites can be run with:
+After `bun install --frozen-lockfile`, run the existing suites with:
 
 ```sh
-node --test tests/*.test.mjs
+bun test ./tests
 ```
 
 They cover seeded randomness, core collisions, powers, progression, checkpoint validation, synthesized arrangements, camera frames, offline queue recovery and service-worker release behavior. Queue and worker tests use controlled storage/network adapters; browser checks complement them. The collision bot replenishes lives while checking world completion, so it does not establish human difficulty balance. Release-time results and remaining device checks are recorded in [PWA-UPGRADE.md](PWA-UPGRADE.md).
@@ -289,16 +290,16 @@ The publisher in `tools/remote.mjs` pins:
 - Public game: `https://sane-guild-8399.onpagelove.com/`
 - Owner authoring endpoint: `https://dav-sane-guild-8399.onpagelove.com/`
 
-Publishing requires the host owner's credential. Start `node tools/remote.mjs` in an interactive terminal and wait for **Ready for hidden JSON input**. Authenticate through the publisher's hidden stdin `auth` operation. Keep the key out of command arguments, environment variables, files, source control and browser code. The publisher keeps it in process memory and checks that the authorized console identifies the expected DAV host.
+Publishing requires the host owner's credential. Start `bun tools/remote.mjs` in an interactive terminal and wait for **Ready for hidden JSON input**. Authenticate through the publisher's hidden stdin `auth` operation. Keep the key out of command arguments, environment variables, files, source control and browser code. The publisher keeps it in process memory and checks that the authorized console identifies the expected DAV host.
 
 After all runtime and asset edits, generate and check the offline release:
 
 ```sh
-node tools/build-worlds.mjs
-node tools/build-bundled-worlds.mjs
-node tools/build-editor.mjs
-node tools/build-pwa.mjs
-node tools/build-pwa.mjs --check
+bun tools/build-worlds.mjs
+bun tools/build-bundled-worlds.mjs
+bun tools/build-editor.mjs
+bun tools/build-pwa.mjs
+bun tools/build-pwa.mjs --check
 ```
 
 The builder derives a release identity from the assets and worker template, updates the entry-page marker, and generates `public/pwa-release.js` and `public/sw.js`. Edit worker behavior in `tools/service-worker.template.js`; regenerate after any runtime change. The publisher refuses a stale build and checks it again before uploading the worker.

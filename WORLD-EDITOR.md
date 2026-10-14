@@ -84,7 +84,7 @@ Publishing requires the existing host owner's key. The editor sends it only to t
 
 The publisher reads the current owner-side document and ETag, compares it with the canonical version loaded by the editor, then writes with If-Match. A concurrent change returns a conflict; download your draft and reload the shared version to review it. Successful writes are read back and compared. No wildcard overwrite or forced retry is offered.
 
-`node tools/build-worlds.mjs` initializes missing local seed files but preserves existing definitions. The publisher's `seedWorlds` operation creates missing live resources with If-None-Match and preserves existing ones. Normal deployment excludes every `/worlds/*/definition.html` file, so future releases cannot reset community edits. Score data remains excluded as well.
+`bun tools/build-worlds.mjs` initializes missing local seed files but preserves existing definitions. The publisher's `seedWorlds` operation creates missing live resources with If-None-Match and preserves existing ones. Normal deployment excludes every `/worlds/*/definition.html` file, so future releases cannot reset community edits. Score data remains excluded as well.
 
 ## Offline and verification
 
@@ -95,11 +95,11 @@ Focused checks cover all twenty world round trips, malformed definitions, stripp
 Build order after editor/data changes:
 
 ```sh
-node tools/build-worlds.mjs
-node tools/build-bundled-worlds.mjs
-node tools/build-editor.mjs
-node tools/build-pwa.mjs
-node tools/build-pwa.mjs --check
+bun tools/build-worlds.mjs
+bun tools/build-bundled-worlds.mjs
+bun tools/build-editor.mjs
+bun tools/build-pwa.mjs
+bun tools/build-pwa.mjs --check
 ```
 
 The local preview server serves `/editor/<slug>` from the editor shell and reads local world files. It does not emulate server composition or permit owner publishing. The deployed native route must also be reviewed.

@@ -4,8 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test tests/*.test.mjs",
-    "serve": "node tools/serve.mjs"
+    "test": "bun test ./tests",
+    "serve": "bun tools/serve.mjs",
+    "check": "bun tools/build-pwa.mjs --check"
   },
   "dependencies": {
     "qrcode-generator": "2.0.4",
@@ -15,5 +16,9 @@
     "@tabler/icons": "^3.49.0",
     "linkedom": "0.18.12",
     "sharp": "0.35.5"
+  },
+  "packageManager": "bun@1.4.3",
+  "engines": {
+    "bun": ">=1.4.3"
   }
 }

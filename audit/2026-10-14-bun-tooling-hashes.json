@@ -1,0 +1,174 @@
+{
+  "id": "PB-BUN-03",
+  "at": "2026-10-14T14:29:25.142Z",
+  "actor": "Codex",
+  "request": "Replace Node.js development tooling with Bun",
+  "baseCommit": "e1c6d589a843602ef2927f83213ce760ce931104",
+  "runtime": "1.4.3",
+  "files": [
+    {
+      "file": "FULLSCREEN-UPGRADE.md",
+      "bytes": 2489,
+      "sha256": "f0b4e0530de7ae3676b97137f4c8563ac7676ba29f9eda9fc5cf8d6448805b4f"
+    },
+    {
+      "file": "PWA-UPGRADE.md",
+      "bytes": 9850,
+      "sha256": "3a915870c80a95d8f87add5560cc36e9ef7373636ccc994c102bf78bd29b75a9"
+    },
+    {
+      "file": "README.md",
+      "bytes": 39592,
+      "sha256": "fee1a719b5c51106d735854a21205b19b31fa2fcdde28e67c18765a351333ebd"
+    },
+    {
+      "file": "SCENE-TYPOGRAPHY-REVIEW.md",
+      "bytes": 3003,
+      "sha256": "c8d718e4248ae51363adcbd803e9c9d6a18fc01e6e37e1bc1898ccf4b9016f91"
+    },
+    {
+      "file": "SCORING-UPGRADE.md",
+      "bytes": 2077,
+      "sha256": "0d575a8859308ddd55a5bbe9f56841642d837e2943d33de315d7d648568b3f1e"
+    },
+    {
+      "file": "SHARING-UPGRADE.md",
+      "bytes": 4542,
+      "sha256": "02889e299605c60919a19abda46bbe28e9337ab40aa6dff64491cb82e1006a03"
+    },
+    {
+      "file": "WORLD-EDITOR.md",
+      "bytes": 8743,
+      "sha256": "855ce2d83bf6b8293df5f9a5d745b4376daadcad7f2954e090473dce70808ec9"
+    },
+    {
+      "file": "artwork/README.md",
+      "bytes": 4312,
+      "sha256": "b51fb4e69e852e4744986efade8d127cfcaca84d1f2eb1ec6b85f41d867966f1",
+      "publicationVariant": "Preserves publication-local Sharp instructions and original release-history scope."
+    },
+    {
+      "file": "package.json",
+      "bytes": 490,
+      "sha256": "761cf2b588f2a95d2b8afc17bbd008c8b9efc15491fbd6e498015072f8c5ad25",
+      "publicationVariant": "Preserves pre-existing publication Sharp dependency."
+    },
+    {
+      "file": "tests/offline.test.mjs",
+      "bytes": 8092,
+      "sha256": "2bd90790cf0e4a91308a679b537e20bdcd0796783ed6b93e8c2db5b3526ac716"
+    },
+    {
+      "file": "tools/build-fx.mjs",
+      "bytes": 693,
+      "sha256": "5730ba92a147a8ef529a7b1787e67ea58e758d8ede469cbdf14e9edeb09b7395"
+    },
+    {
+      "file": "tools/build-pwa.mjs",
+      "bytes": 4121,
+      "sha256": "e9d0b9ae94ae847b8751178f5c8f3b0cd1a8f767dd4de54de80299ff6e053db6"
+    }
+  ],
+  "verification": {
+    "tests": {
+      "passed": 82,
+      "failed": 0
+    },
+    "disposableChecks": [
+      {
+        "file": "tools/build-icons.mjs",
+        "status": "passed",
+        "output": "Bundled 27 Tabler icons."
+      },
+      {
+        "file": "tools/build-fx.mjs",
+        "status": "passed",
+        "output": "Bundled 11 modules in 34ms\n\n  postprocessing.js  19.17 KB  (entry point)\n\nLocal Three.js postprocessing bundle ready."
+      },
+      {
+        "file": "tools/build-qr.mjs",
+        "status": "passed",
+        "output": "Bundled local QR encoder and license."
+      },
+      {
+        "file": "tools/build-share-assets.mjs",
+        "status": "passed",
+        "output": "og-prism-breaker.jpg · 1200 × 630 · 222971 bytes\nog-prism-breaker-square.jpg · 1200 × 1200 · 420420 bytes\nfavicon-32.png · 32 × 32 · 791 bytes\napple-touch-icon.png · 180 × 180 · 3811 bytes"
+      },
+      {
+        "file": "tools/build-worlds.mjs",
+        "status": "passed",
+        "output": "Prepared 16 structured world resources; existing definitions preserved."
+      },
+      {
+        "file": "tools/build-bundled-worlds.mjs",
+        "status": "passed",
+        "output": "Built the official offline formations from HTML world documents."
+      },
+      {
+        "file": "tools/build-editor.mjs",
+        "status": "passed",
+        "output": "Built reusable editor shell and native parameterized route."
+      },
+      {
+        "file": "tools/build-pwa.mjs",
+        "status": "passed",
+        "output": "{\"version\":\"28088acf54c782449c8b\",\"assets\":68,\"bytes\":2394237,\"checked\":false}"
+      },
+      {
+        "file": "tools/build-pwa.mjs",
+        "status": "passed",
+        "output": "{\"version\":\"28088acf54c782449c8b\",\"assets\":68,\"bytes\":2394237,\"checked\":true}"
+      },
+      {
+        "file": "tools/make-qa.mjs",
+        "status": "passed",
+        "output": "Local-only browser fixture generated."
+      },
+      {
+        "file": "tools/serve.mjs",
+        "request": "GET /",
+        "status": 200
+      },
+      {
+        "file": "tools/serve.mjs",
+        "request": "GET /editor/prism-garden",
+        "status": 200
+      },
+      {
+        "file": "tools/serve.mjs",
+        "request": "GET /worlds/prism-garden/definition.html",
+        "status": 200
+      },
+      {
+        "file": "tools/serve.mjs",
+        "request": "HEAD /app.js",
+        "status": 200
+      },
+      {
+        "file": "tools/serve.mjs",
+        "request": "POST /scores.html",
+        "status": 405
+      },
+      {
+        "file": "tools/serve.mjs",
+        "request": "GET /missing",
+        "status": 404
+      },
+      {
+        "file": "tools/update-lab.mjs",
+        "request": "GET /",
+        "status": 200
+      }
+    ],
+    "readmeLinks": 56,
+    "publisher": "Hidden input startup, public HTTPS read 200 and clean quit; no production writes",
+    "dependencyInstall": "frozen lockfile, offline, no changes",
+    "pwaRelease": "28088acf54c782449c8b",
+    "whitespace": "passed"
+  },
+  "patch": {
+    "file": "audit/2026-10-14-bun-tooling.patch",
+    "sha256": "92e32d0cd6eb89a3a119e77fab6143aa1624cd92e645be52da086b0fd533eb21"
+  }
+}

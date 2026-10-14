@@ -64,9 +64,9 @@ These changes reduce avoidable allocation and background work. They do not estab
 After completing runtime or asset edits:
 
 ```sh
-node tools/build-pwa.mjs
-node tools/build-pwa.mjs --check
-node --test tests/*.test.mjs
+bun tools/build-pwa.mjs
+bun tools/build-pwa.mjs --check
+bun test ./tests
 ```
 
 The check rejects generated files that no longer match the source. Edit the worker template rather than generated `public/sw.js`. Run the builder again after any later runtime change.
