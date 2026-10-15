@@ -359,6 +359,8 @@ Three.js, Web Audio and Pagelove are the game's technologies. The project record
 
 ## Further documentation
 
+- [RETROSPECTIVE.md](RETROSPECTIVE.md) — missed issues, root causes, verification limits and prevention controls.
+- [FOLLOW-UP-REVIEW-PLAN.md](FOLLOW-UP-REVIEW-PLAN.md) — prioritized reviews, ownership proposals, acceptance criteria and explicit pending status.
 - [WORLD-EDITOR.md](WORLD-EDITOR.md) — native Pagelove routing/templates, HTML world definitions, brick events, custom types and owner publishing.
 - [SCORING.md](SCORING.md) — current point formulas, timing, combos, powers and ranking.
 - [PWA-UPGRADE.md](PWA-UPGRADE.md) — installation, offline releases, queued scores, updates and performance changes.

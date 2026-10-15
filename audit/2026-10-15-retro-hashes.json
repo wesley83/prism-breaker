@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-15T03:51:43.476Z",
+  "actor": "Codex",
+  "basis": "Final retrospective documentation batch; working bytes, before Git text normalization; receipt excluded from its own hash set",
+  "files": [
+    {
+      "file": "README.md",
+      "bytes": 43659,
+      "sha256": "a1730805203513464d3e889777b9218d4e32da5a8b8526502206b8520b1343c0"
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "bytes": 30834,
+      "sha256": "8753aa0d93dd388c3fcef012ab41735aaaea87d58e0bae7458f768117a494134"
+    },
+    {
+      "file": "FOLLOW-UP-REVIEW-PLAN.md",
+      "bytes": 21332,
+      "sha256": "2874d796d3857c3c146ed748fd9354963a59fa2aa15dd465207ab9ddb7071f53"
+    },
+    {
+      "file": "audit/2026-10-15-retrospective.md",
+      "bytes": 4901,
+      "sha256": "1de307ab692c538041b309f43c0f90719e1c0b8a107fd2aadf93fd520c590432"
+    },
+    {
+      "file": "audit/2026-10-15-retro-document-links.json",
+      "bytes": 4091,
+      "sha256": "d4d44bcd97866f1e59313d3f2a1010d68d7e15a2c4f58b731f8a4f10c34314b0"
+    },
+    {
+      "file": "audit/2026-10-15-retro-evidence.json",
+      "bytes": 10698,
+      "sha256": "ecbebaed00ec7580dfbbbe878d97017ed01916b6b5bc81e98d996651847bb2d6"
+    },
+    {
+      "file": "audit/2026-10-15-retro-changes.patch",
+      "bytes": 53305,
+      "sha256": "2ba1cbf3284c8ee9e481be676198cafbfe26c6e11dce64962054e7d3afa5c68c"
+    }
+  ]
+}

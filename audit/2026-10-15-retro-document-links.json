@@ -1,0 +1,188 @@
+{
+  "at": "2026-10-15T03:40:26.714Z",
+  "scope": "README local Markdown links only",
+  "links": [
+    {
+      "target": "WORLD-EDITOR.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "PADDLE-COLLISION-FOLLOWUP.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "DOCUMENT-FIRST-DEVELOPMENT.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "audit/2026-10-14-document-first-implementation.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "WORLD-EDITOR.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "audit/2026-10-14-paddle-update.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "UPDATE-VISIBILITY-INVESTIGATION.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "PWA-UPGRADE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "PWA-ROBUSTNESS-REVIEW.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "SCORING.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "WORLD-EDITOR.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "PWA-UPGRADE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "DESIGN-REVIEW.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "audit/2026-10-14-sixteen-worlds.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "artwork/README.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "WORLD-EDITOR.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "SCORING.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "PWA-UPGRADE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "FULLSCREEN-UPGRADE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "BRICK-LABELS.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "SHARING-UPGRADE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "LAUNCH-VARIATION.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "UI-PERFORMANCE-UPGRADE.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "CINEMATIC-UPGRADE.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "RECORD-UPGRADE.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "PADDLE-DAILY-UPGRADE.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "DESIGN-REVIEW.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "SCENE-TYPOGRAPHY-REVIEW.md",
+      "repository": true,
+      "authoringMirror": true
+    },
+    {
+      "target": "artwork/README.md",
+      "repository": true,
+      "authoringMirror": true
+    }
+  ],
+  "missing": [
+    {
+      "target": "DESIGN-REVIEW.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "CINEMATIC-UPGRADE.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "RECORD-UPGRADE.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "PADDLE-DAILY-UPGRADE.md",
+      "repository": false,
+      "authoringMirror": true
+    },
+    {
+      "target": "DESIGN-REVIEW.md",
+      "repository": false,
+      "authoringMirror": true
+    }
+  ]
+}

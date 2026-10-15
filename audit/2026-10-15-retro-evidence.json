@@ -1,0 +1,363 @@
+{
+  "recordedAt": "2026-10-15T03:50:04.015Z",
+  "actor": "Codex",
+  "scope": "Retrospective source inspection and documentation verification; no runtime tests or deployment",
+  "sourceBaseline": "c77f34164ac6c0d1171c36c96eca5e3d23dcfd8a",
+  "lastRecordedRuntime": "a998edcd3009a53d6733",
+  "workflow": {
+    "provider": "GitHub REST API",
+    "endpoint": "repos/wesley83/prism-breaker/actions/workflows",
+    "observedDateUtc": "2026-10-15",
+    "result": {
+      "total_count": 0,
+      "workflows": []
+    },
+    "basis": "live gh api response during retrospective; branch protection not inspected"
+  },
+  "publisher": {
+    "buildChecks": true,
+    "uploadReadback": true,
+    "behavioralSuiteInvokedByDeploy": false,
+    "basis": "tools/remote.mjs deploy branch source inspection"
+  },
+  "rulesetQuestion": {
+    "declared": "prism-physics-1",
+    "fingerprint": "declared ruleset and ordered world gameplay definitions; engine source not automatically fingerprinted",
+    "status": "review question, not a confirmed ranking defect"
+  },
+  "sourceEvidence": [
+    {
+      "file": "PADDLE-COLLISION-FOLLOWUP.md",
+      "bytes": 5102,
+      "sha256": "ad13b3ea76899f18f37f54656afcdf723e7324b1b4f41e13dcc34dc37f511d15",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "PWA-ROBUSTNESS-REVIEW.md",
+      "bytes": 15012,
+      "sha256": "88ec84b1b8793eb29ef90ed557743afb3d2672851b3be4a1e599b0dead17a599",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "UPDATE-VISIBILITY-INVESTIGATION.md",
+      "bytes": 4508,
+      "sha256": "0e7bb96f4b1ba2784439163d28b43968aba11e2738886ff68847345783a00b08",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "FINAL-ACCEPTANCE-REPORT.md",
+      "bytes": 9017,
+      "sha256": "558c0cfcc60fca7ae6709c16d350d7fe51f3cfe4396c244c05a02c595444a4fc",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "bytes": 14070,
+      "sha256": "b4ad99e00d53c949bc785c2e8e63778adebf98cf0a1a745a32702a2fc8f0b497",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "DAV-TRIGGER-BUG-REPORT.md",
+      "bytes": 6407,
+      "sha256": "f7a8aaf2d614ba46d393b2bf2327f849675ecb7d612ca6180d873a4a59f462b9",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "DAV-INVESTIGATION-FINDINGS.md",
+      "bytes": 8517,
+      "sha256": "097279788b2fc46c12f38d84ac7d4e26b07d93b31a3aa9ac0ad525a844ab325a",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "UI-PERFORMANCE-UPGRADE.md",
+      "bytes": 1385,
+      "sha256": "374e2692c9f85587f825d8133afc25eca48d4f06b2e4bc56e9f2a8260b19da08",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "BRICK-LABELS.md",
+      "bytes": 3668,
+      "sha256": "c9030bbda00754610373d35c39da7585bab41be58c13b725240629a15152a858",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "SCENE-TYPOGRAPHY-REVIEW.md",
+      "bytes": 3003,
+      "sha256": "c8d718e4248ae51363adcbd803e9c9d6a18fc01e6e37e1bc1898ccf4b9016f91",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "SHARING-UPGRADE.md",
+      "bytes": 4542,
+      "sha256": "02889e299605c60919a19abda46bbe28e9337ab40aa6dff64491cb82e1006a03",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "FULLSCREEN-UPGRADE.md",
+      "bytes": 2489,
+      "sha256": "f0b4e0530de7ae3676b97137f4c8563ac7676ba29f9eda9fc5cf8d6448805b4f",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "package.json",
+      "bytes": 717,
+      "sha256": "0feaa325e7dbdd8a4494d74fcf9d840387f0ff66f5b7323f57de98a3ca43fa35",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "tools/remote.mjs",
+      "bytes": 16058,
+      "sha256": "1f526589da6f784689eb8659e37fae9a591368003a49c4deceae55deb4cca7aa",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "tools/build-bundled-worlds.mjs",
+      "bytes": 1502,
+      "sha256": "c738067337327fa80ff67df25f2c1729f7c547257977fe045438791ca84461d9",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "public/world-catalog.html",
+      "bytes": 4928,
+      "sha256": "b8523df347366596add13b1c870568d37c643b21365043a22733d125478e78d4",
+      "provenance": "repository baseline c77f341"
+    },
+    {
+      "file": "tests/paddle-collision.test.mjs",
+      "bytes": 7895,
+      "sha256": "e106e82f10a9ca723e073e97718d811db2fab7684efe17ed444e788415bdf2b3",
+      "provenance": "repository baseline c77f341"
+    }
+  ],
+  "historicalAuthoringNotes": [
+    {
+      "file": "DESIGN-REVIEW.md",
+      "bytes": 6438,
+      "sha256": "2e790c7f8473f0b08f95573d2861e96b09597f21675bfb864a1ef39314ea2a06",
+      "provenance": "authoring tree only; absent from Git at baseline; retrospectively consulted; raw document not copied by this change"
+    },
+    {
+      "file": "CINEMATIC-UPGRADE.md",
+      "bytes": 3665,
+      "sha256": "af135103f67328540f1967058656b240fcee702e257f4e3545f4a5502012afa4",
+      "provenance": "authoring tree only; absent from Git at baseline; retrospectively consulted; raw document not copied by this change"
+    },
+    {
+      "file": "RECORD-UPGRADE.md",
+      "bytes": 3075,
+      "sha256": "a861f4bc90d1c7337ebe4f91a704b49fcee8a05469e06b80cdcfd9d81a2dae7f",
+      "provenance": "authoring tree only; absent from Git at baseline; retrospectively consulted; raw document not copied by this change"
+    },
+    {
+      "file": "PADDLE-DAILY-UPGRADE.md",
+      "bytes": 3633,
+      "sha256": "38924d4db23a24303215855ad02418e7c925e86a35eab8ed5f15849597009f4d",
+      "provenance": "authoring tree only; absent from Git at baseline; retrospectively consulted; raw document not copied by this change"
+    }
+  ],
+  "newDocumentLocalLinks": [
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "FINAL-ACCEPTANCE-REPORT.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "FOLLOW-UP-REVIEW-PLAN.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "PADDLE-COLLISION-FOLLOWUP.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-14-paddle-update.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "UI-PERFORMANCE-UPGRADE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "BRICK-LABELS.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "SCENE-TYPOGRAPHY-REVIEW.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "PWA-ROBUSTNESS-REVIEW.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "UPDATE-VISIBILITY-INVESTIGATION.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-14-document-first-implementation.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-14-document-first-implementation.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "DAV-TRIGGER-BUG-REPORT.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "DAV-INVESTIGATION-FINDINGS.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "FINAL-ACCEPTANCE-REPORT.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "SHARING-UPGRADE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "tools/remote.mjs",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "package.json",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-15-retro-document-links.json",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-15-retro-evidence.json",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "FOLLOW-UP-REVIEW-PLAN.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "PADDLE-COLLISION-FOLLOWUP.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-14-paddle-update.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "PWA-ROBUSTNESS-REVIEW.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "UPDATE-VISIBILITY-INVESTIGATION.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "FINAL-ACCEPTANCE-REPORT.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "WORLD-EDITOR.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "DAV-TRIGGER-BUG-REPORT.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "DAV-INVESTIGATION-FINDINGS.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "UI-PERFORMANCE-UPGRADE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "SHARING-UPGRADE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "FULLSCREEN-UPGRADE.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "BRICK-LABELS.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "SCENE-TYPOGRAPHY-REVIEW.md",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-15-retro-evidence.json",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-15-retro-document-links.json",
+      "exists": true
+    },
+    {
+      "file": "RETROSPECTIVE.md",
+      "target": "audit/2026-10-15-retrospective.md",
+      "exists": true
+    },
+    {
+      "file": "FOLLOW-UP-REVIEW-PLAN.md",
+      "target": "RETROSPECTIVE.md",
+      "exists": true
+    }
+  ],
+  "verificationLimits": [
+    "No new runtime suite execution",
+    "No physical device testing",
+    "No new live runtime read or deployment",
+    "README link receipt covers README local Markdown links only",
+    "No branch-protection read",
+    "No complete early-session transcript available"
+  ]
+}

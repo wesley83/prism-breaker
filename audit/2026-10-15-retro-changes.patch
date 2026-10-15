@@ -1,0 +1,372 @@
+diff --git a/FOLLOW-UP-REVIEW-PLAN.md b/FOLLOW-UP-REVIEW-PLAN.md
+new file mode 100644
+index 0000000..6881423
+--- /dev/null
++++ b/FOLLOW-UP-REVIEW-PLAN.md
+@@ -0,0 +1,152 @@
++# Prism Breaker follow-up review and prevention plan
++
++Prepared October 15, 2026 UTC. Companion to the [retrospective](RETROSPECTIVE.md). Baseline: `c77f341`; last recorded runtime `a998edcd3009a53d6733`.
++
++## Status and ordering
++
++This is a proposed execution backlog and acceptance contract. It is **not a record that the reviews below have been completed**. Existing evidence is a starting point, with its original limits. No runtime tests, device sweep, deployment or new workflow installation were performed while writing this plan.
++
++- **P0:** Resolve before closing the affected requirement or making a broad production-readiness claim. This priority does not imply every item is a currently exploitable outage.
++- **P1:** Complete before the next release that materially changes that area; schedule the existing gaps into the next hardening milestone.
++- Owners below are proposed responsibilities, not assignments accepted by another person. “Maintainer” means the person implementing the next change; “independent reviewer” means someone challenging its assumptions using separate evidence.
++- Use isolated origins/documents and synthetic scores. Preserve real records. Actual external messages, production mutations and new services require the applicable authorization; this plan does not authorize them.
++
++## R01 — Enforced release evidence and independent review
++
++**Priority:** P0. **Owner:** Maintainer + independent reviewer. **Status:** Gap confirmed; implementation not started.
++
++GitHub reported zero Actions workflows. Inspect branch protection/rules before describing it; that state was not checked in the retrospective. Add CI using pinned/frozen Bun dependencies, the existing suite, deterministic generation, stale-output checks, import/local-link integrity and a suitably configured secret scan. Fail when generated files differ unexpectedly. Keep credentials and private score exports out of artifacts.
++
++Tie a release evidence record to the exact source SHA, runtime release ID, affected requirement IDs, tests, browser/device matrix and explicit exceptions. Have the publisher require successful applicable evidence, rather than assuming an operator ran tests. Separate documentation-only changes from runtime releases. Document an emergency exception with an owner, reason, bounded verification and follow-up; never silently bypass.
++
++**Pass condition:** A deliberately failing behavioral test and deliberately stale generated output independently block a disposable release; corrected exact-source checks allow it. Required repository checks/rules are inspected and configured with evidence. A second review challenges a critical assumption rather than merely rereading the same test. Record source/release identity and successful/failed gate demonstrations. No claim that CI alone verifies phones.
++
++## R02 — Independent physics and rendered-contact review
++
++**Priority:** P0. **Owner:** Gameplay maintainer + independent reviewer. **Status:** Lower-body/endcap fix verified in recorded tests; broader review pending.
++
++Start from the real Three.js solid bounds and independent geometry, not the engine helper. Review continuous relative motion and event ordering for: maximum/clamped frame intervals, frame stalls, paddle direction reversals, near-wall/corner and multiple contacts within a step, high-speed/Slow balls, Sticky catches at both ends, Wide expiry with held balls, multiball, Shield, pause/resume and restored checkpoints. Cover both visual styles and realistic mouse/touch input timing. Preserve genuinely missed and upward-moving balls.
++
++Validate the fixture itself: keep original ball references, check coordinate transforms, and show each new regression failing on the relevant old implementation. Extend the independent oracle beyond the current straight-line cases that exclude wall bounces. Seed and retain generated failures so they are reproducible.
++
++**Pass condition:** No sampled solid contact passes through; no already-clear miss is rescued; no duplicate bounce, life loss or Sticky attachment occurs. Engine traces and rendered replays agree, with an explicit tolerance/forgiving-corner contract. Record seed, initial state, inputs, timestep, old/new result and relevant mesh bounds. A normal physical-phone session supplements rather than replaces deterministic cases. Exact original player trajectory remains unknown unless supplied.
++
++## R03 — Installed PWA lifecycle across releases and engines
++
++**Priority:** P0 for mobile/offline readiness claims. **Owner:** PWA maintainer + device reviewer. **Status:** Chromium lab evidence exists; installed Android/iOS sweep pending.
++
++Use distinct releases A and B with a saved run, settings and queued synthetic score. Test actual Android Chrome installation and iOS Safari/Home Screen installation, recording OS/browser versions. Also exercise Firefox and WebKit engine behavior where supported; a phone-sized Chromium viewport does not substitute for either.
++
++Cover fresh install, normal launch, all windows closed, process termination, OS relaunch, airplane-mode relaunch, partial asset loss, denied storage, damaged metadata, quota pressure, old tab under new worker, multiple windows, failed/interrupted B download, delayed messages, lost waiting cache and foreground/reconnect recovery. Leave the app visible to test natural periodic detection without forcing it through DevTools. Test manual check success/failure, available notice placement, active-run refusal, pause guidance and a single approved reload. Distinguish an already-current relaunch from a missing prompt.
++
++**Pass condition:** A never loads B modules; incomplete B never replaces working A; no active game is interrupted; readiness/update copy reflects actual state; a ready update is discoverable on supported layouts. Saved state and durable queued scores survive supported updates/termination. Irrecoverable cleared data is reported truthfully. Capture release markers, worker/controller state, cache contents, visible UI and device steps. Do not promise data survival after destructive OS storage clearing.
++
++## R04 — Actual Pagelove enforcement and policy freshness
++
++**Priority:** P0 for enabling world guard or asserting protected mutation behavior. **Owner:** Platform maintainer + application maintainer. **Status:** Observed failures documented; platform cause/contract unresolved.
++
++Use disposable resources under the approved host and minimal policies. For the actual owner-DAV path, verify valid conditional writes succeed and invalid geometry/HP, executable markup, missing conditions, stale ETags and forbidden operations are rejected **without changing stored bytes**. Keep public/owner authorization identities separate. Include positive controls: rejecting everything is not valid enforcement.
++
++Reproduce policy A→B changes and deletion/recreation, reading the actual stored policy and recording which behavior executes over time. Include unsafe deletion of unexpired synthetic controls because one early isolated attempt succeeded. Test actual POST/PUT/PATCH/DELETE paths as applicable, not only a GET executing a validator. Ask the platform maintainer to state whether owner writes intentionally bypass validation and what freshness/activation guarantee exists. Keep exact backend cause labeled unknown until established.
++
++**Pass condition:** Supported write-path enforcement and policy activation semantics are documented and meet the required contract; isolated valid/invalid tests demonstrate persistence outcomes. Mere consecutive rejection responses are not a propagation guarantee. Keep the candidate inactive until its exact hash passes the real path. If the platform cannot support it, explicitly redesign the authenticated mutation flow or mark the requirement blocked; do not broaden anonymous access or add an external service silently. Prepare an updated bug report; submitting it is a separate action.
++
++## R05 — Strict five-day score retention
++
++**Priority:** P0 for the auto-delete requirement. **Owner:** Platform/application maintainers. **Status:** Display filtering and access-driven cleanup checked; strict background deletion absent. **Dependency:** R04 for policy assurance.
++
++Decide whether Pagelove provides a native expiry/TTL or scheduled execution guarantee compatible with the no-external-services requirement. Specify the server clock, age origin, deletion guarantee and operational tolerance. Daily rollover is a different rule from five-day retention; verify both independently.
++
++Create synthetic short-lived records on isolated resources. Prove physical deletion after the deadline **without any GET, open leaderboard or client cleanup request during the wait**. Ensure the first verification read does not itself create the apparent pass; use a supported non-triggering inspection or provider execution evidence. Then check exact-boundary rank removal, first-response behavior, active-record preservation, clock skew, browser sleep and resumed UI.
++
++**Pass condition:** Evidence establishes unattended deletion within the declared contract and correct rankings. If the platform cannot provide this natively, report that limitation and obtain a requirement decision instead of claiming on-access deletion is equivalent. Do not promise millisecond-exact browser timers.
++
++## R06 — Durable scores, saves, concurrency and migration
++
++**Priority:** P1. **Owner:** Storage/application maintainer. **Status:** Extensive controlled-adapter coverage exists; combined lifecycle review pending.
++
++Review database upgrade/close races, commit-before-acknowledgement, transaction abort/quota failures, two tabs leasing the same queue, stale leases after suspension, clock changes, permanent rejection, explicit retry with a false online hint, and network timeout after a server commit. Keep original run identity, ruleset and Daily date through updates and retries. Test data migrations against actual historical fixtures, including recovery/export when a checkpoint is incompatible. Check that assertions retain the original objects rather than replacements.
++
++**Pass condition:** Acknowledged durable work really commits; retry cannot create a duplicate; a lost response can be reconciled; old tabs cannot corrupt new storage; incompatible saves are not silently overwritten. Accepted scores get a durable receipt or an actionable unresolved state. Record authoritative readback and transaction evidence. Test storage-clearing losses as a truthful limit, not an impossible recovery promise.
++
++## R07 — Ranking, score calculation, identity and fairness
++
++**Priority:** P1. **Owner:** Gameplay/data maintainer + independent reviewer. **Status:** Local ruleset/rollover checks exist; policy review pending.
++
++Reconcile displayed scoring explanations with brick HP/combo/break effects, collected powers, clear/speed bonuses, remaining lives, pause/suspension and board transitions. Verify UTC day boundaries, runs spanning midnight, ties, simultaneous record submissions, expired leaders and separate Adventure/Daily record scenes/music. Check saved/queued scores across physics/scoring changes.
++
++Decide which bug fixes remain in `prism-physics-1` and which changes require a new declared ruleset. The generated identity does not fingerprint engine code automatically. Document migration and coexistence; do not invalidate historical scores by guesswork. Review the public submission trust model: shape bounds, unique run IDs and revision labels do not prove a genuine human playthrough. There is no requirement to restore the UI disclaimer Wesley asked to remove.
++
++**Pass condition:** Independently calculated scenarios match totals and score explanations; mode/date/ruleset eligibility is consistent in saving, display, sharing and celebration. A top-score celebration uses the defined freshness/tie contract, with uncertainty handled explicitly. Compatibility policy and security limits are documented; any unimplemented anti-cheat feature is not claimed.
++
++## R08 — Document-first editor, extensions and content security
++
++**Priority:** P1; server-enforcement claims depend on R04. **Owner:** Editor maintainer + security/document-model reviewer. **Status:** Shared-schema/identity fixes implemented; adversarial integration review pending.
++
++Exercise canonical parse→edit→serialize→publish→reload with supported metadata, rows, moving/armored/custom bricks, custom properties, undo and stable IDs. Reject ambiguous/unknown unsafe content explicitly; avoid silent data loss. Review unknown routes, failed reads, missing baseline, conflicts, lost write responses and edits made during a save. Verify official ranked definitions remain separate from shared Practice edits.
++
++Test imported HTML for script/URL injection and unsafe selectors; confirm credentials stay on the pinned owner endpoint and out of drafts, exports and logs. Review trusted behavior registration, event ordering, cancellation, exceptions, duplicate hits and asynchronous handler violations. Test editor navigation under an old worker and cold generation without an existing bundle. Separate safe client feedback from actual server enforcement.
++
++**Pass condition:** Supported documents round-trip without unintended loss; rejected mutations leave published data unchanged; drafts remain recoverable; stable IDs are not reused; no imported executable content runs. Extension event traces match the documented contract. Capture canonical diffs, actual readback and credential-handling inspection without secrets.
++
++## R09 — Cold performance and resource lifecycle
++
++**Priority:** P1. **Owner:** Rendering/audio maintainer + physical-device reviewer. **Status:** Prewarming implemented; representative hardware profiling pending.
++
++Profile the first launch/brick/power for every power and graphics mode, every world's first cinematic/music entry, repeated restarts, long sessions, graphics switching and transitions. Use a representative midrange phone and at least one weaker supported device; state the hardware. Inspect frame-time distributions, shader/texture work, memory growth, geometry/material disposal, context loss/restore, page suspension, audio unlock/resume and Web Audio scheduling after long sleep.
++
++**Pass condition:** Define a device-specific frame-time budget before measuring; retain cold/warm traces and worst-frame causes. No unbounded resource growth or broken rendering/audio after supported recovery. A local Lighthouse score and a warm desktop run are not substitutes, and “smooth all the time” is not an evidence-based universal guarantee.
++
++## R10 — Usability, accessibility and screen-state review
++
++**Priority:** P1. **Owner:** Interface/accessibility reviewer. **Status:** Several desktop/phone-size reviews exist; complete state matrix pending.
++
++Inspect start, playing, launch, pause, Settings, offline/update notices, leaderboard, name entry, Worlds and endings on short/tall portrait, landscape, fullscreen and with the keyboard open. Include safe areas, zoom/large text, keyboard navigation, focus return, screen-reader status/labels, color contrast, non-color identification, reduced motion and sufficient reading time. Review all sixteen scene palettes and score variants. Fix the known “1 lives” copy. Preserve standing interface preferences, including no northeast arrows or decorative colored card rails; the explicitly requested leaderboard age outlines have a meaningful status role.
++
++**Pass condition:** Essential controls are visible/reachable; launch prompts never cover the paddle; update controls remain discoverable; dialogs and focus work; animated captions remain readable; symbols convey meaning without color alone. Keep screenshots/state descriptions and accessibility observations, not only source string assertions.
++
++## R11 — Native sharing received-message verification
++
++**Priority:** P1 before calling Android-to-Slack fixed on hardware. **Owner:** Mobile reviewer. **Status:** Payload revised; receiving-app proof pending.
++
++Check Android→Slack and iOS/native destinations available to the reviewer, plus desktop fallbacks. Verify the actual received full message, human-readable Daily date, mode, score/name and working link. Cover text-only and supported scorecard files, unsupported `canShare`, cancellation, denied clipboard and maintained user activation. Use a private self/test destination chosen by the user; sending externally requires explicit authorization. Do not auto-message another person for QA.
++
++**Pass condition:** Each claimed platform/destination has a redacted received-message receipt. If a receiver discards fields, the UI provides a reliable copy/download alternative. Browser payload inspection alone is not a pass for delivery.
++
++## R12 — Ordinary campaign and Daily playthroughs
++
++**Priority:** P1. **Owner:** Human gameplay reviewer. **Status:** Bot/accelerated coverage exists; complete ordinary human run pending.
++
++Play all sixteen worlds with normal controls and ordinary lives, without damage shortcuts, invulnerability or life replenishment. Review all twenty formations, difficulty ramp, powers, intentional misses, pause/resume and checkpoints. Watch every completion scene at normal timing, including held/repeated launch input, World 7→8, World 8→9, final Adventure, Daily completion and each record variant. Exercise reduced motion separately. Use isolated scoring for injected record conditions; retain the distinction between injected and naturally earned records.
++
++**Pass condition:** No progression lock, missing/repeated scene, unreadable result or incorrect mode ending. Record difficulty/balance observations separately from functional correctness. If no reviewer completes an ordinary run, report that limit rather than relabeling bot completion as human evidence. Capture build/device, world-by-world results and reproducible failures.
++
++## R13 — Publication window, old clients and rollback
++
++**Priority:** P1 before changing deployment architecture or release assets. **Owner:** Release/PWA maintainer. **Status:** Upload readback and preserved old caches exist; atomicity/rollback review pending.
++
++On a disposable host/fixture, interrupt publication at each meaningful upload stage and introduce a fresh uncontrolled visitor, an A-controlled visitor and an updating visitor. Include provider-normalized HTML, stale HTTP-cached entry modules, missing new modules and worker install failure. Review immutable release URLs or native atomic publication if available. Establish how to roll back a bad-but-integrity-valid B without overwriting player data or trapping installed clients.
++
++**Pass condition:** An incomplete release cannot become offline-ready; old clients retain a coherent supported version; new visitors receive either a coherent release or actionable recovery. Demonstrate rollback and forward recovery with checkpoints/queue intact. Document residual non-atomic upload risk if unchanged. Hash equality proves byte identity, not correct behavior.
++
++## R14 — Repository, documentation and traceability reconciliation
++
++**Priority:** P1. **Owner:** Repository maintainer. **Status:** Four missing README-linked files confirmed; reconciliation pending.
++
++Review the authoring-only `DESIGN-REVIEW.md`, `CINEMATIC-UPGRADE.md`, `RECORD-UPGRADE.md` and `PADDLE-DAILY-UPGRADE.md` for public suitability and historical accuracy, then deliberately restore them or replace their links with a maintained account. Preserve historical limitations rather than rewriting old results as current. Reconcile the authoring tree, Git and runtime release inventory; consider one authoritative checkout to eliminate manual mirroring.
++
++Add local-link/import checks to R01. Verify README tech/features/world count, architecture, ruleset instructions, installation/update guidance, known gaps and release receipts agree. Keep private exports/credentials outside Git and separate public source changes from mutable live scores/world edits. Run a clean-checkout generation to find hidden local-file dependencies.
++
++**Pass condition:** All maintained local links resolve from a clean clone; generated output is reproducible there; missing documents have explicit provenance; all changed files are intentionally committed; deployment claims name the verified runtime, not the entire authoring folder. Record hashes and the final diff. Do not silently publish unrelated local files.
++
++## Completion record for each review
++
++Use an entry containing: review/requirement IDs; actor and UTC time; source SHA/release; device/browser/provider identity; exact method and fixtures; independent expected behavior; result; preserved failure reproduction; links to evidence; cleanup/readback; and remaining limits. Label each case **pass**, **fail**, **blocked**, or **not run**. A reviewed plan or a newly added test is not a successful execution result.
++
++Suggested milestones:
++
++1. Establish R01 and scope the next release against R02–R05. Keep unresolved platform/retention requirements visibly open.
++2. Complete physical installed-device and native integration checks before making corresponding mobile/offline/share claims.
++3. Complete the remaining interaction reviews and reconcile findings into regression coverage and the requirement ledger.
++
++No dates, external assignments, scheduled automations or completed outcomes are implied by this ordering.
+diff --git a/README.md b/README.md
+index 178b9fc..691b8c0 100644
+--- a/README.md
++++ b/README.md
+@@ -361,0 +362,2 @@ Three.js, Web Audio and Pagelove are the game's technologies. The project record
++- [RETROSPECTIVE.md](RETROSPECTIVE.md) — missed issues, root causes, verification limits and prevention controls.
++- [FOLLOW-UP-REVIEW-PLAN.md](FOLLOW-UP-REVIEW-PLAN.md) — prioritized reviews, ownership proposals, acceptance criteria and explicit pending status.
+diff --git a/RETROSPECTIVE.md b/RETROSPECTIVE.md
+new file mode 100644
+index 0000000..85b59f5
+--- /dev/null
++++ b/RETROSPECTIVE.md
+@@ -0,0 +1,201 @@
++# Prism Breaker retrospective: missed issues and verification failures
++
++Prepared October 15, 2026 UTC for Wesley, by Codex. Evidence baseline: source commit `c77f34164ac6c0d1171c36c96eca5e3d23dcfd8a`. The most recent recorded deployed runtime is `a998edcd3009a53d6733`.
++
++## What happened
++
++The game received substantial implementation and testing, but the verification repeatedly covered less than the confidence expressed about it. Tests established that particular paths worked. They did not establish that the surrounding states, physical devices, visible controls, server enforcement and release transitions worked together. Some earlier checks also encoded incorrect assumptions.
++
++I should have challenged those assumptions, made the missing evidence more prominent, and avoided broad assurances that could reasonably be understood as covering the complete product. The detailed later reports often state their limits correctly. That qualification must also govern the short answer and the release decision; it cannot be buried beneath a reassuring test count.
++
++The clearest example is the paddle: the first fix added a motion sweep, but retained a rule that rejected a ball below the paddle's center even when it still touched the solid paddle. An existing regression test explicitly required that contact to miss. Passing the test reinforced the defect. A separately changed visual endcap was also taller than the collision envelope. These were real application bugs, subsequently reproduced and corrected.
++
++The overall causes were:
++
++1. **Acceptance criteria were not independent enough of the implementation.** Internal state, helper results and test fixtures sometimes stood in for what a player could see or do.
++2. **Verification was divided by component rather than player journey.** A worker could update, yet its button was hidden. A validator could reject a document, yet the real write path could persist it. A campaign harness could finish, yet ordinary human play was not established.
++3. **Lifecycle and failure combinations received coverage late.** Cache eviction, worker restarts, multiple releases, delayed responses, storage errors and long-lived sessions exposed weaknesses that a clean startup did not.
++4. **Desktop evidence was insufficient for mobile integration claims.** Responsive previews did not establish native sharing, installed app relaunch, OS termination, mobile GPU performance or iOS behavior.
++5. **Release checks were manual and incomplete.** There is no GitHub Actions workflow. The publisher checks generated assets and upload readback, but does not require the behavioral suite or a signed-off acceptance matrix.
++6. **Requirements and unresolved exceptions were not consistently treated as completion gates.** Five-day physical deletion and world-write enforcement remain incomplete even though related client behavior works.
++
++Rapid growth from an eight-world game into sixteen worlds, an editor, ranked modes, offline storage and a PWA enlarged the interaction space. That explains the need for stronger controls; it does not excuse missing them or place responsibility on the feature requests.
++
++## Scope and confidence
++
++This retrospective reconciles Git history, source, tests, release tooling, audit records, bug reports and available authoring notes. It includes a new read-only check of GitHub's workflow inventory and README document links. It does **not** rerun the game, constitute a new security audit, test physical phones, or prove the absence of further bugs.
++
++The most recent recorded suite result is **136 passing tests across 13 files**, from the paddle follow-up. Earlier counts of 71, 101, 125 and 130 describe particular milestones. They are not percentages of product coverage or measures of certainty.
++
++Early authoring notes are less complete than later version-controlled audits. The four historical notes discussed below exist in the local authoring tree but were absent from this Git checkout. Their observations are retrospective source material, not a complete historical execution log. Where the evidence does not identify the original cause or a user's exact device/build, this report says so. There is no basis for inventing the reasoning behind every earlier decision.
++
++## Timeline of the important escapes
++
++| Milestone | What the evidence established | What it did not establish |
++| --- | --- | --- |
++| Early design, sharing and cinematic upgrades | Layout previews, selected browser flows, artwork and scene changes; some releases explicitly recorded that no suite was run | Physical Android share delivery, cold mobile rendering, all scene/input combinations |
++| First paddle and update correction, `df4e395` | Relative paddle motion and selected upper/side contacts; an actual browser update; 71 tests at that stage | Full solid paddle contact, renderer/physics agreement, automatic update discovery |
++| Sixteen worlds and document-first work | More worlds; semantic HTML, generated official content, editor and migration contracts | Ordinary three-life human completion; server enforcement on the actual owner write path |
++| Final acceptance, `ba313b4` | 101 tests; hosted score persistence; controlled rollover/expiry; accelerated sixteen-world traversal | Exact-time background deletion; physical phones; a normal complete human campaign |
++| PWA robustness, `dbb5c63` | Cache/lifecycle fault corrections; 125 tests; real Chromium update/offline lab | Natural discovery of the update control in all layouts; Android/iOS installed lifecycle |
++| Update visibility, `8de366c` | Hidden/clipped controls and missing periodic/manual checks corrected; 130 tests | The state of Wesley's separate Android installation or every OS lifecycle |
++| Second paddle correction, `cdd2286` | Lower-body and endcap misses reproduced; independent geometry checks; 136 tests | Exact reconstruction of the reporting player's session or every possible collision |
++
++The [final acceptance report](FINAL-ACCEPTANCE-REPORT.md) already calls itself a scoped result. That was appropriate. The corrective lesson is to apply its boundaries consistently to every readiness statement, rather than treating the word “final” or the passing suite as broader certification.
++
++## Issue register
++
++“Corrected” below means the cited implementation and its stated checks are recorded as completed. It does not mean every device has been verified. Review IDs point to the [follow-up plan](FOLLOW-UP-REVIEW-PLAN.md).
++
++### Gameplay, presentation and input
++
++| ID | What happened | Why the earlier approach missed it | Recorded outcome / further review |
++| --- | --- | --- | --- |
++| G01 | A moving paddle could miss a descending ball because checking its destination alone missed contact during motion | Discrete position checks did not describe relative motion through the step | First swept-contact fix implemented. Its scope was still incomplete. R02 |
++| G02 | A descending ball overlapping the lower half of the paddle was rejected | The “below paddle center means missed” assumption was encoded in both code and a regression assertion | Full-body sweep now distinguishes overlap from a ball entirely clear below. Independent distance oracle and sampled cases added. R02 |
++| G03 | Raised crystal paddle endcaps extended beyond the physics surface | Art changes were reviewed visually without an executable agreement check against the solid collider | Physics half-height changed from 0.17 to 0.21 to cover measured solid bounds of about 0.208. Glow remains decorative. R02 |
++| G04 | Sticky originally centralized the held ball; Wide expiry could remove its support | A power was considered alone instead of together with landing position, multiple held balls and width changes | Offset retention and unsupported-ball release were implemented. The early authoring note records browser checks but no suite run for that patch. Later tests cover Sticky/Wide. R02/R06 |
++| G05 | A first power-up brick could cause a rendering stutter | Warm desktop play did not expose first-use texture, material and graphics pipeline costs | Pools and prewarming added, including preparation after graphics changes. Physical cold-start frame pacing remains unverified. R09 |
++| G06 | World 7 could appear to have no completion scene | Scene existence was checked without sustained/repeated launch input and interrupted transition recovery | The dedicated Cosmic Reef scene already existed. Repeat-key suppression, an initial skip grace period and transition resume handling were added. This was not proof that the scene asset was absent. R12 |
++| G07 | Launch instructions covered the paddle; result bonuses were visually off-center; Daily start was understated | A control's presence or correct text was accepted without reviewing hierarchy and actual placement in context | Layout changes recorded. Short screens, landscape, fullscreen and virtual keyboard remain part of R10 |
++| G08 | Cinematic text was small or difficult to read against bright scenes; brick symbols and HP were unclear | Static appearance and one background were insufficient checks for animated contrast, reading time, state changes and phone sizes | Dark caption backing, larger text, score emphasis, HP colors, dynamic counts and a legend implemented. Review all sixteen worlds and motion settings under R10/R12 |
++| G09 | Resume/replacement messaging, progress labels and some mode descriptions could mislead | Happy-path previews did not systematically compare copy with saved state and actual capabilities | Recorded design corrections include clearer save/replacement behavior. One known cosmetic defect, “1 lives,” remained in final acceptance. R10 |
++
++Sources: [paddle follow-up](PADDLE-COLLISION-FOLLOWUP.md), [first collision audit](audit/2026-10-14-paddle-update.md), [UI/performance upgrade](UI-PERFORMANCE-UPGRADE.md), [brick labels](BRICK-LABELS.md), [scene typography](SCENE-TYPOGRAPHY-REVIEW.md), and Git history. Sticky's initial implementation details also appear in the authoring-only `PADDLE-DAILY-UPGRADE.md`.
++
++### PWA, offline behavior and update delivery
++
++| ID | What happened | Why it escaped | Recorded outcome / further review |
++| --- | --- | --- | --- |
++| P01 | A cache completion marker could survive loss of a required asset; cached HTML could start with missing modules | Install success was treated as persistent readiness | Complete inventory checks and safer navigation/recovery implemented. Download hashes and readiness checks have different purposes. R03 |
++| P02 | An old tab could silently receive a newer release after cache loss/worker restart; unknown clients could be guessed current | Tests emphasized a fresh page with intact pins/caches | Independent persisted release pins, client identification and explicit failure replace silent mixing. R03/R13 |
++| P03 | Broken metadata, unavailable storage, quota failure or unbounded fetch/body reads could stall recovery | Storage and networking were effectively assumed available or promptly failing | Defensive metadata handling, error recovery and request/download deadlines implemented. Browser storage operations themselves are not Fetch-abortable. R03/R06 |
++| P04 | A waiting update's cache could disappear; late repair/controller responses could overwrite newer state | “Installed,” “ready,” and “still valid when activated” were treated too similarly; response ordering was underspecified | Activation inventory recheck/repair and generation/controller guards implemented. R03 |
++| P05 | Missing releases could stay “Preparing”; install controls could reappear; false online hints could block explicit retry; stale database close events could clear a new connection | Event sequences and failure recovery were less tested than normal transitions | Specific regressions and client/database fixes implemented. R03/R06 |
++| P06 | Fresh HTML and a cached release module could disagree; an authoring catalog in the precache failed its hash after host HTML normalization | Local build integrity did not model provider serialization or ordinary HTTP caching | HTML marker precedence, entry version updates and catalog exclusion from offline assets implemented. Generated official definitions remain bundled. R13 |
++| P07 | Update game worked but was clipped below the arena or hidden during phone/fullscreen play | Browser tests deliberately activated update detection and found the control, bypassing normal discovery; CSS state was outside the worker tests | Sticky start-screen notice, Settings check/status and pause hint added. R03/R10 |
++| P08 | A visible app left open had no periodic check and no manual check | Startup/reconnect/visibility paths were mistaken for complete update detection coverage | Periodic visible-page checks and manual checks added. A failed download also received a regression against false “up to date” feedback. R03 |
++| P09 | An older controlled client initially blocked new workshop modules | Editor navigation and release isolation were individually plausible but not tested together | Workshop bootstrap explicitly selects network assets; game release pins remain protected. R08/R13 |
++
++Sources: [PWA robustness review](PWA-ROBUSTNESS-REVIEW.md), [update visibility investigation](UPDATE-VISIBILITY-INVESTIGATION.md), [document-first implementation audit](audit/2026-10-14-document-first-implementation.md), and their linked evidence.
++
++A missing update button is **not always a bug**. A waiting worker can activate after all windows close, so the next launch is already current. Likewise, fullscreen is a platform preference with fallbacks, not a guarantee that ordinary phone browser navigation can force an OS display mode. The bugs were hidden controls, insufficient checking and incorrect recovery states—not those browser lifecycle rules. Physical installed-device verification is still outstanding.
++
++### Data, platform contracts and document-first architecture
++
++| ID | What happened | Why it escaped | Recorded outcome / further review |
++| --- | --- | --- | --- |
++| D01 | World/editor metadata had parallel authorities, lossy type/property handling, identity and route fallback risks | Structured HTML was treated as sufficient evidence of document-first behavior without testing round-trip, authority and failure contracts | Shared schema/catalog, stable IDs, lossless supported model, cold builds and fail-closed editor implemented. R08 |
++| D02 | Draft baseline, revision-aware checkpoint content and ambiguous write outcomes needed stronger handling | Typical saves succeeded; conflict, migration, edits during save and lost responses received less attention | Baseline comparisons, conditional writes, readback/reconciliation and full-definition checkpoint recovery implemented. R06/R08 |
++| D03 | Extension ordering, cancellation and failure behavior were not fully defined | Extensibility was demonstrated by examples rather than a complete behavior contract | Synchronous trusted registry, ordering, cancellation/error contracts and tests added. Documents select bounded recipes, not arbitrary executable code. R08 |
++| D04 | Owner-DAV writes could persist documents that a proposed server validator rejected | Executing a validator through a readable trigger was not proof that the actual mutation path enforced it | Minimal owner-write reproduction recorded; candidate guard remains inactive. Stale ETags still rejected; no anonymous world-write grant was added. Requires platform resolution. R04 |
++| D05 | Newly changed policies could execute stale behavior; an early isolated unrestricted DELETE removed an unexpired control | Successful later checks were insufficient evidence of immediate policy propagation or safe activation | Failed observation preserved; later settled checks passed. Exact backend cause is unconfirmed. Do not turn repeated successful responses into a propagation guarantee. R04 |
++| D06 | Scores stop ranking at five days, but may remain stored beyond five days without access | Display expiry and on-access cleanup were allowed to stand in for the explicit auto-deletion requirement | Ranking boundary works in recorded tests; strict background physical deletion remains **unimplemented**. R05 |
++| D07 | Manifest text still described eight worlds; other evolving release metadata risked becoming stale | Feature expansion was not paired with a complete metadata/compatibility checklist | Manifest description corrected. Ruleset identity, checkpoints, queues, docs and rollout need joint review. R07/R13/R14 |
++
++Sources: [document-first architecture](DOCUMENT-FIRST-ARCHITECTURE.md), [implementation audit](audit/2026-10-14-document-first-implementation.md), [DAV bug report](DAV-TRIGGER-BUG-REPORT.md), [additional investigation](DAV-INVESTIGATION-FINDINGS.md), and [final acceptance](FINAL-ACCEPTANCE-REPORT.md).
++
++D04/D05 are observed platform-path failures or unresolved platform contracts. Their exact internal cause is not established. Neither the initial DOM parser hypothesis nor a presumed administrative bypass should be reported as a proven explanation. Follow-up probes established that server parsing/validation itself could run; the missing guarantee concerned real persistence and policy freshness. Owner authorization still exists. This is not evidence of an anonymous write exploit.
++
++### Native sharing and review infrastructure
++
++| ID | What happened | Why it escaped | Recorded outcome / further review |
++| --- | --- | --- | --- |
++| S01 | Android sharing to Slack delivered a link without the expected message | Creating an apparently valid Web Share payload was treated as enough; actual receiver behavior was not verified | A complete message including the link is now supplied in the text field rather than split between text and URL. Human-readable Daily dates also added. Actual Android-to-Slack delivery after correction remains unverified. R11 |
++| Q01 | Broad confidence could exceed narrow checks | A passing suite, browser preview, hash receipt or accelerated campaign was allowed to imply product-wide coverage | This report defines scoped claims and a proposed release evidence gate. It is not yet enforced by CI. R01 |
++| Q02 | No automatic behavioral CI gate exists | Tooling validates output consistency and publication, while test execution/signoff is separate and manual | GitHub reported zero Actions workflows during this retrospective. Publisher does not run the suite. R01 |
++| Q03 | Four README-linked historical documents were missing from the Git repo while existing in the authoring tree | Two trees and selective publication lacked an automated documentation reconciliation check | Newly recorded link audit; restoration/reconciliation remains queued. R14 |
++
++Sources: [sharing upgrade](SHARING-UPGRADE.md), [publisher](tools/remote.mjs), [package scripts](package.json), [README link audit](audit/2026-10-15-retro-document-links.json), and the [retrospective evidence receipt](audit/2026-10-15-retro-evidence.json).
++
++## Why repeated reviews still missed important defects
++
++### The test oracle sometimes agreed with the wrong assumption
++
++An oracle is how a test decides what should happen. If it repeats the implementation's center-line rule, it cannot expose that rule as wrong. More examples using the same assumption add confidence without adding independence.
++
++The latest paddle review improved this by comparing actual solid Three.js bounds and an independent circle-to-rectangle distance calculation with the engine's result. It added a 192-configuration matrix and 4,000 seeded diagonal trajectories. The straight-line oracle deliberately excludes steps containing a wall bounce. That boundary must remain explicit; it still calls for a separate multi-contact review.
++
++A newly written mesh regression briefly produced a false pass because a render group retained its world offset and the assertion inspected a replacement ball after the original was lost. Those fixture errors were caught and corrected before release. They are evidence that even a new test needs validation: retain the original object, align coordinates, make the old build fail, and show the revised build pass for the intended reason.
++
++### End-to-end labels hid important test seams
++
++The sixteen-world bot uses real collisions but replenishes lives. The browser campaign uses the production application but accelerates damage. The local acceptance fixture intercepts scores and disables worker registration. A separate live browser run did persist a score, and separate hosted probes checked deletion rules. These are useful complementary checks; they are not one ordinary, unmodified, sixteen-world, three-life, installed-phone playthrough.
++
++Likewise, a Chromium lab that calls Check for updates proves a different path from leaving an app open and expecting an obvious prompt. A phone-sized viewport proves a different path from an installed Android process being terminated and relaunched in airplane mode. The review process needs names and claims that preserve those distinctions.
++
++### Verification stopped too early at system boundaries
++
++For native sharing, the meaningful endpoint is the received message. For persistence, it is the stored record under the real write authorization. For expiry, it is whether the record still exists after the promised period with no visitors. For update delivery, it is an older player's visible, safe path to the new game. Checking an upstream API call or internal flag is necessary but insufficient.
++
++The same principle applies to document-first development. Semantic HTML, shared parsers and generated runtime data are architectural strengths. They do not by themselves establish server-side write enforcement, safe migrations, publication consistency or extensibility without data loss. Those are separate contracts requiring separate proof.
++
++### Release evidence was available but not an enforced gate
++
++The publisher's deterministic build check, upload ordering and byte readback are valuable. They establish which bytes were published and protect live score/world data from routine replacement. They do not decide whether those bytes implement the right behavior.
++
++GitHub's workflow API returned `total_count: 0`. Branch protection was **not inspected**, so this report does not claim that it is absent. The current fact is that there is no Actions workflow supplying the proposed behavioral/build checks. A manual command and a markdown report can be skipped, become stale or apply to a different source revision unless the release process checks their identity.
++
++The same agent often implemented the change, wrote tests and summarized readiness. That makes a separate challenge to assumptions especially valuable for physics, persistence, updates and compatibility. Another automated pass is useful only if its method or oracle is genuinely independent.
++
++## New findings from this retrospective
++
++1. **Missing CI/release gate:** source inspection and a live GitHub read confirm Q02. Existing build/readback checks should remain, with behavioral evidence added rather than confused with them.
++2. **Broken documentation provenance:** README links reference `DESIGN-REVIEW.md`, `CINEMATIC-UPGRADE.md`, `RECORD-UPGRADE.md` and `PADDLE-DAILY-UPGRADE.md`, absent from Git but present in the authoring copy. These are four unique missing documents, not five; the design note is linked twice. This is a documentation defect, not proof that game assets failed to deploy. The new link receipt covers README local Markdown links only.
++3. **Ruleset policy needs clarification:** the catalog still declares `prism-physics-1`. The generated ruleset identity fingerprints that declaration and gameplay definitions, not engine source automatically. Recent collision fixes retained the declaration. This is a compatibility/fairness review question, not a finding that all historical scores are invalid. Define which bug fixes preserve compatibility and which physics/scoring changes must split rulesets. Do not indiscriminately delete scores or invalidate saves.
++
++## What should not be counted as an escaped bug
++
++Several requests established new preferences or expanded the product: removing northeast arrows and accent rails, changing logo/crystal art/paddle style, moving the player's score to the center, adding Classic mode, more worlds, launch variation, bonus scoring, richer scenes and Bun tooling. Those requests are not by themselves evidence that an earlier implementation violated a known requirement.
++
++Once a preference or contract is adopted, later violations become review failures. The interface conventions now record the standing preferences. The review should distinguish discoverability/accessibility defects from a legitimate change in visual direction.
++
++Expected browser behavior also needs accurate wording: an already-current installed app needs no update button; a browser can deny fullscreen or native sharing; storage can be evicted. The app remains responsible for safe recovery and truthful feedback around those limits. No app can restore an unsent score after the browser has irreversibly deleted its only copy.
++
++## Prevention: present controls and missing controls
++
++| Control | Actual status at this report | Needed change |
++| --- | --- | --- |
++| Independent paddle contact/solid geometry checks | Added in latest correction; local regression suite | Expand to multi-contact/time/input interactions and validate rendered behavior under real input. R02 |
++| Worker/queue failure-injection tests | Present, including recent lifecycle regressions | Extend across real engines and installed devices; preserve source-specific receipts. R03/R06 |
++| Release inventories, hashes and old-release isolation | Present | Review partial deployment and rollback; do not label sequential upload atomic. R13 |
++| Active-run update protection and visible/manual update controls | Implemented and Chromium-checked | Installed-device upgrade/kill/relaunch evidence still needed. R03 |
++| Shared document schema, stable identities, conditional writes/readback | Implemented in application/editor | Real owner-write enforcement remains blocked. R04/R08 |
++| Version-controlled plans, change evidence and known limits | Present in later audits; early record incomplete | Require an unresolved-requirement ledger and documentation reconciliation. R01/R14 |
++| Automated CI and publisher linkage to passing behavioral evidence | **Absent** | Implement required checks tied to exact source and generated release. R01 |
++| Physical-device release matrix | **Not completed** | Android and iOS owners/receipts; desktop simulation must stay labeled. R03/R09/R11 |
++| Independent critical-change review | Not an enforced release control | Require a second reviewer or a demonstrably independent oracle for high-risk changes. R01 |
++| Strict unattended five-day deletion | **Not implemented** | Establish a supported native platform mechanism and verify it without reads. R05 |
++
++This documentation update does not implement CI, repair platform behavior, add a deletion scheduler or complete those reviews. It makes the gaps reviewable and defines acceptance criteria in the companion plan.
++
++### Proposed release discipline
++
++For each change, identify its observable contract, affected states and risk class before implementation. Record a regression that fails for the intended reason where a bug is reproducible. Require an independent oracle for critical geometry, persistence, identity and time behavior. Verify actual boundaries as well as helpers.
++
++For physics changes, require relative motion, visual/collider agreement, genuine misses, powers and checkpoint interactions. For PWA changes, require two distinct releases and lifecycle/fault transitions, with installed-device coverage when making platform claims. For shared data changes, require actual provider writes/readback, valid positive controls, rejected mutations with unchanged-data checks, and concurrency/time behavior on isolated resources.
++
++Before release, link evidence to the exact source commit and generated release; list passed, failed, blocked and not-run cases separately. A passing count cannot override an open required contract. Upload readback verifies publication after these checks; it does not replace them. Preserve old data, a known recoverable release and explicit rollback instructions.
++
++After release, compare the live release and critical assets, exercise a safe old-client upgrade, and record results. Keep physical-device checks explicit. Do not silently make production score writes or destructive probes to satisfy a checklist; use isolated resources and the existing authorization boundary.
++
++Readiness language should follow this form: **“Checked [behavior] on [release/environment] using [method]; [result]. [Specific limits] remain unverified or blocked.”** Avoid “exhaustive,” “all fixed,” or an unconditional “production ready” unless a declared acceptance scope and its required gates are actually complete. No finite test matrix proves the absence of every defect.
++
++## Current unresolved position
++
++The evidence supports a working game with numerous verified corrections. It does not support closing all requirements or claiming every mobile/offline path is production-verified. The important unresolved items are strict background score deletion, actual owner-write policy enforcement/freshness, physical installed-device behavior, the missing automated release gate and the documented integration reviews.
++
++The [follow-up review plan](FOLLOW-UP-REVIEW-PLAN.md) orders that work and states what would count as completion. These risks do not independently establish that the live game must be taken offline. They do require scoped claims and honest treatment of unfinished contracts before another broad readiness assurance.
++
++## Evidence index
++
++- [Latest collision reproduction, correction and publication](PADDLE-COLLISION-FOLLOWUP.md)
++- [Earlier paddle/update plan and results](audit/2026-10-14-paddle-update.md)
++- [PWA robustness findings and verification limits](PWA-ROBUSTNESS-REVIEW.md)
++- [Update discovery and visibility investigation](UPDATE-VISIBILITY-INVESTIGATION.md)
++- [Hosted submission, rollover, expiry and campaign acceptance](FINAL-ACCEPTANCE-REPORT.md)
++- [Document-first contracts and blocked enforcement](DOCUMENT-FIRST-ARCHITECTURE.md)
++- [World editor implementation](WORLD-EDITOR.md)
++- [DAV minimal reproduction](DAV-TRIGGER-BUG-REPORT.md) and [additional findings](DAV-INVESTIGATION-FINDINGS.md)
++- [UI/performance](UI-PERFORMANCE-UPGRADE.md), [sharing](SHARING-UPGRADE.md), [fullscreen](FULLSCREEN-UPGRADE.md), [labels](BRICK-LABELS.md), [typography](SCENE-TYPOGRAPHY-REVIEW.md)
++- [New retrospective observations and source provenance](audit/2026-10-15-retro-evidence.json), [README link receipt](audit/2026-10-15-retro-document-links.json), [audit](audit/2026-10-15-retrospective.md)
