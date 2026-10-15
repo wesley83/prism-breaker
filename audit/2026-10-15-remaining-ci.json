@@ -1,0 +1,104 @@
+{
+  "at": "2026-10-15T16:18:10.891Z",
+  "actor": "Codex",
+  "conclusion": "success",
+  "createdAt": "2026-10-15T16:16:59Z",
+  "databaseId": 38767672162,
+  "headSha": "95a49cec3d7d44195fc0df8366e52a2e21c32838",
+  "jobs": [
+    {
+      "completedAt": "2026-10-15T16:17:11Z",
+      "conclusion": "success",
+      "databaseId": 116535011049,
+      "name": "Bun tests and release integrity",
+      "startedAt": "2026-10-15T16:17:01Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-15T16:17:03Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-15T16:17:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:04Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "startedAt": "2026-10-15T16:17:03Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:05Z",
+          "conclusion": "success",
+          "name": "Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
+          "number": 3,
+          "startedAt": "2026-10-15T16:17:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:05Z",
+          "conclusion": "success",
+          "name": "Run bun install --frozen-lockfile",
+          "number": 4,
+          "startedAt": "2026-10-15T16:17:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:05Z",
+          "conclusion": "success",
+          "name": "Dependency advisories",
+          "number": 5,
+          "startedAt": "2026-10-15T16:17:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:06Z",
+          "conclusion": "success",
+          "name": "Regenerate and reject stale checked-in artifacts",
+          "number": 6,
+          "startedAt": "2026-10-15T16:17:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:09Z",
+          "conclusion": "success",
+          "name": "Run bun run release:check",
+          "number": 7,
+          "startedAt": "2026-10-15T16:17:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:09Z",
+          "conclusion": "success",
+          "name": "Post Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
+          "number": 13,
+          "startedAt": "2026-10-15T16:17:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:09Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 14,
+          "startedAt": "2026-10-15T16:17:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-15T16:17:09Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 15,
+          "startedAt": "2026-10-15T16:17:09Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/wesley83/prism-breaker/actions/runs/38767672162/job/116535011049"
+    }
+  ],
+  "status": "completed",
+  "updatedAt": "2026-10-15T16:17:11Z",
+  "url": "https://github.com/wesley83/prism-breaker/actions/runs/38767672162"
+}

@@ -51,6 +51,7 @@ test('immutable collisions and concurrent root publication refuse overwrite',asy
 test('HTML readback tolerates harmless serialization but rejects changed executable sources',()=>{
  assert.equal(sameFile('/index.html',Buffer.from('<html><head></head><body><p id="a" class="b">Hello</p></body></html>'),Buffer.from('<html><head></head><body>\n<p class="b" id="a">Hello</p>\n</body></html>')),true);
  assert.equal(sameFile('/index.html',Buffer.from('<script src="/releases/a/app.js"></script>'),Buffer.from('<script src="/releases/b/app.js"></script>')),false);
+ assert.equal(sameFile('/editor-template.html',Buffer.from('<html><body><button>Select & move</button></body></html>'),Buffer.from('<html><body><button>Select &amp; move</button></body></html>')),true);
 });
 test('live verification fails mixed entries and stale root manifest even when immutable assets are valid',async()=>{
  const f=await fixture(),html=await fs.readFile(path.join(f.package,'index.html'),'utf8'),manifestBytes=await fs.readFile(path.join(f.package,'manifest.webmanifest'));

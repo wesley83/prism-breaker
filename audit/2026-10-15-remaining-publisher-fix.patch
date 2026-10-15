@@ -1,0 +1,17 @@
+diff --git a/tests/immutable-release.test.mjs b/tests/immutable-release.test.mjs
+index d7ac4d4..ee491e8 100644
+--- a/tests/immutable-release.test.mjs
++++ b/tests/immutable-release.test.mjs
+@@ -53,0 +54 @@ test('HTML readback tolerates harmless serialization but rejects changed executa
++ assert.equal(sameFile('/editor-template.html',Buffer.from('<html><body><button>Select & move</button></body></html>'),Buffer.from('<html><body><button>Select &amp; move</button></body></html>')),true);
+diff --git a/tools/publish-release.mjs b/tools/publish-release.mjs
+index c095fd5..1105001 100644
+--- a/tools/publish-release.mjs
++++ b/tools/publish-release.mjs
+@@ -9,0 +10,3 @@ export function htmlIdentity(bytes) {
++  // Entity serialization may split one text node into adjacent nodes. Merge them
++  // before whitespace normalization so text and script references still compare.
++  doc.documentElement.normalize();
+@@ -72 +75 @@ export async function publishRelease({root, packageDirectory, version, dav, head
+-    const check=await read(record.url);
++    const check=existing.status===200?existing:await read(record.url);

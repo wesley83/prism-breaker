@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-15T16:22:49.719Z",
+  "actor": "Codex",
+  "basis": "Publisher correction including RW-12, actual provider and CI evidence; excludes self",
+  "files": [
+    {
+      "file": "audit/2026-10-15-remaining-ci.json",
+      "bytes": 3436,
+      "sha256": "d86e0ea8808872716a0336aed273ecbb3b0a2a0502fb676fda513c6afebc1332"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-html-normalization.json",
+      "bytes": 664,
+      "sha256": "0b1615fb401ab4e0ce788d0c6876b8f91aed4897b14090550b5cdb1dddea5ed1"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-publisher-fix.patch",
+      "bytes": 1116,
+      "sha256": "3735458e28d6a722e9fd60d3e4cd7a2e90e7fa5498e9fb86a68f59c81a152ecb"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-work.md",
+      "bytes": 17215,
+      "sha256": "a22c3c76dc628e69fbbec576d705e419ad031a07714f7d88e616f5876f635b55"
+    },
+    {
+      "file": "tests/immutable-release.test.mjs",
+      "bytes": 8922,
+      "sha256": "b29b5bd5784b75bcc8ebc4905a0932fb01350d33fcf15fed44d5e456c73ae395"
+    },
+    {
+      "file": "tools/publish-release.mjs",
+      "bytes": 8260,
+      "sha256": "76d19a08f349c87d8cae39d278804279f21bc11dd1bde64ee269932bca37824b"
+    }
+  ]
+}

@@ -7,6 +7,9 @@ const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charse
 export function htmlIdentity(bytes) {
   const doc = new DOMParser().parseFromString(bytes.toString('utf8'), 'text/html');
   if (!doc.documentElement) return sha256('unparsed:' + bytes.toString('utf8'));
+  // Entity serialization may split one text node into adjacent nodes. Merge them
+  // before whitespace normalization so text and script references still compare.
+  doc.documentElement.normalize();
   function node(n) {
     if (n.nodeType === 3) {
       const text = n.textContent.replace(/\r\n/g, '\n');
@@ -69,7 +72,7 @@ export async function publishRelease({root, packageDirectory, version, dav, head
       if (!r.ok && r.status!==412) throw Error('Immutable upload '+record.path+' '+r.status);
       status=r.status;
     }
-    const check=await read(record.url);
+    const check=existing.status===200?existing:await read(record.url);
     if(check.status!==200||!sameFile(record.path,bytes,check.bytes))throw Error('Immutable readback mismatch: '+record.path);
     files.push({path:record.url,status,sha256:sha256(check.bytes),bytes:check.bytes.length});progress({staged:record.url,status});
   }

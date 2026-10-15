@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-15T16:21:05.659Z",
+  "actor": "Codex",
+  "release": "d77abd4a8738088292f7",
+  "resource": "/releases/d77abd4a8738088292f7/editor-template.html",
+  "expectedSha256": "688c84cbe96ff6517bd8457d201a34a1991567a46d4f6306da5e5ffcc75eadf2",
+  "storedSha256": "60ea723e17b32598366a3de3596e1a92c1981f282bd808b2035e9a3efa688676",
+  "finding": "Stored entity encoding split Select & move into adjacent text nodes; joining them with DOM normalize preserves the same text and makes structures match.",
+  "fix": "Normalize adjacent DOM text nodes before canonical comparison; executable source references and attributes remain compared.",
+  "verified": true
+}

@@ -67,3 +67,39 @@
 - Actor: Codex; reference RW-06.
 - Failed attempt: Staged diff check rejected the Windows CRLF test-output copy as trailing whitespace. Branch/staging and mirror copy completed, but the dependent commit did not execute. No push or deployment occurred. Tests themselves passed.
 - Correction: Normalize only the new audit text copy to LF; preserve the raw ignored capture (SHA-256 160adafcb79335c515bac3021fd8b3495392b997e12a2d20b5136d1b9487fcf1). Regenerate the uncommitted hash receipt and recheck mirror/staging. All existing historical audit files remain untouched.
+
+## RW-08 — Exact-source CI passes and live release begins
+
+- UTC: 2026-10-15T16:18:42.289Z
+- Actor: Codex; references RW-05/06/07.
+- Verification: Commit 95a49cec3d7d44195fc0df8366e52a2e21c32838 passed exact-source local gate at 16:16:49.733Z, source digest 27f4c73933646562ed5d01bec28c364c46ddcc923b536fdf1bd3950754fa735a, runtime d77abd4a8738088292f7. Hosted Linux Quality run 38767672162 passed frozen dependencies, advisory audit, build/no drift and release checks. Protected main accepted that checked commit.
+- Live baseline: Independent public inventory still d2fa444df7cfd477dcf9 / 72 assets, all valid, with fullscreen manifest and matching home. Publisher auth confirmed expected console host (200) and authoring DAV (207); credential retained only in process memory.
+- Authorized next mutation: Stage immutable d77 dependencies with create-only conditions and readback; revalidate source gate; conditionally promote same-release root entries and worker. Save private entry backups and sanitized checkpoint/receipt. Preserve scores, score policies, world definitions, root legacy modules and old releases. No candidate policy activation or public permission change. Results pending actual operation.
+
+## RW-09 — Immutable HTML staging refusal; entries preserved
+
+- UTC: 2026-10-15T16:20:12.008Z
+- Actor: Codex; reference RW-08.
+- Failed attempt: Live dependency staging created/read back the early immutable assets, then refused editor-template.html on structural comparison. No root entry promotion was reached; index/worker/score policies/world definitions remain untouched by this attempt. Credential session remains in memory for scoped investigation.
+- Plan: Save only the public template readback privately, compare normalized DOM structures against the exact staged source and identify the difference. If harmless storage normalization is confirmed, narrowly correct the canonical comparison with regression coverage; otherwise repair the source. Do not skip HTML verification or overwrite immutable files. Commit/rerun source gate and hosted CI before retry. Existing staged assets may be reused only after content validation.
+
+## RW-10 — Entity serialization isolated and comparison corrected
+
+- UTC: 2026-10-15T16:21:05.660Z
+- Actor: Codex; reference RW-09.
+- Evidence: The staged template text Select & move was serialized with an escaped ampersand, which the local parser exposed as three adjacent text nodes instead of one. Attributes and remaining structure matched. The comparison trimmed each node separately, causing a false mismatch.
+- Correction: DOM normalize merges adjacent text nodes before canonical whitespace processing. Verified equality on the actual saved provider readback; added a regression for raw/encoded ampersands while retaining rejection of changed executable references. No template bytes, runtime version or asset inventory changed; existing immutable files can be revalidated without overwrite.
+- Pending: Fresh full suite/gate and hosted exact-source CI for this publisher-only correction, then retry staged release. No root entries promoted by the failed attempt.
+
+## RW-11 — Publisher correction reconciliation
+
+- UTC: 2026-10-15T16:21:53.486Z
+- Actor: Codex; references RW-09/10.
+- Verification: Actual readback matches after adjacent-node normalization; targeted immutable/publication suite passes 8 tests. The old authenticated process was closed so its cached publisher module cannot be reused after source correction. Complete affected mirror preflight passes against 95a49ce/current bytes. Patch/hash evidence for the correction is separate from the original implementation receipt.
+- Next: Commit correction, rerun exact-source full gate and required hosted CI, restart publisher and revalidate/reuse staged immutable files. Root entries remain on the previously verified live release until successful promotion.
+
+## RW-12 — Retry read optimization
+
+- UTC: 2026-10-15T16:22:49.411Z
+- Actor: Codex; reference RW-11.
+- Changed: Existing immutable files reuse the validated GET response for comparison; newly written or concurrently created files still receive post-write readback. This avoids duplicate GETs during staged retries while retaining collision refusal. No runtime/package version changes. Regenerate correction patch/hashes and mirror before commit; exact-source full gate/CI remain required.
