@@ -37,3 +37,9 @@ bun tools/paddle-replay.mjs
 ```
 
 See [the lower-side comparison](audit/2026-10-15-paddle-lower-replay.png), [endcap comparison](audit/2026-10-15-paddle-endcap-replay.png), [browser observations](audit/2026-10-15-paddle-browser.json), [test output](audit/2026-10-15-paddle-tests.txt) and [audit/release record](audit/2026-10-15-paddle-followup.md). Physical phone testing and the reporting player's exact case remain unverified. This review does not claim every possible collision defect has been eliminated.
+
+## Publication
+
+Source commit `cdd2286` was pushed to main and release **`a998edcd3009a53d6733`** deployed. Public verification at `2026-10-15T02:39:30.968Z` passed for all 70 cached assets, with exact local/deployed engine and service-worker byte equality. The publisher excluded shared scores and individual world documents. See [the live verification receipt](audit/2026-10-15-paddle-live-receipt.json) and [deployment readback](audit/2026-10-15-paddle-deployment.json).
+
+Existing installed copies should use **Settings → Check for updates**, return to the start screen and select **Update game** when the download is ready. A copy that already applied the release while closed may be current on its next launch.

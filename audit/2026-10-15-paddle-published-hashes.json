@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-15T02:40:08.672Z",
+  "sourceCommit": "cdd2286",
+  "release": "a998edcd3009a53d6733",
+  "liveAssetsVerified": 70,
+  "engineAndWorkerByteMatch": true,
+  "note": "Publication evidence hashes; excludes this receipt itself.",
+  "files": [
+    {
+      "file": "PADDLE-COLLISION-FOLLOWUP.md",
+      "sha256": "ad13b3ea76899f18f37f54656afcdf723e7324b1b4f41e13dcc34dc37f511d15",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-deployment.json",
+      "sha256": "27541e3ac5e53e95d33e20da455dd399611fb64027169a848e3bef21020535c3",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-followup.md",
+      "sha256": "8fe727de3310e60fc540315a52586f8072447dbbafe37acb9a365dfd00c19f94",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-live-receipt.json",
+      "sha256": "a57693486043192a85ea031a51c3f3699a2ae97ca0c2f9835a0ff0eba1bd218e",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "deployment.json",
+      "sha256": "27541e3ac5e53e95d33e20da455dd399611fb64027169a848e3bef21020535c3",
+      "mirrorEqual": true,
+      "versionControlled": false
+    }
+  ]
+}

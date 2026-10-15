@@ -29,3 +29,12 @@
 - Browser: Actual old and revised engines compared in isolated loopback-4176 fixture. Lower-side case: old vy=-13.50 and MISSED, revised vy=6.72 and CAUGHT. Raised endcap: old vy=-13.50 and MISSED, revised vy=7.09 and CAUGHT. Screenshots and JSON saved. Fixture is a flat drawing of actual engine results, not a recording of full Three.js gameplay. No production score operation. Temporary tab closed and server stopped.
 - Evidence: Added tools/paddle-replay.mjs and PADDLE-COLLISION-FOLLOWUP.md; dated browser JSON, screenshots and test output. Core engine diff remains small; rendered artwork itself unchanged. Full change hashes/patch and authoring mirror reconciliation follow before commit.
 - Publication plan: Push reviewed source, deploy with the existing publisher preserving scores/world documents and service worker last, verify public inventory and exact engine/worker bytes, then archive dated release receipts and push the final audit. Explain the need to update older installed copies and retain the uncertainty about the reporting user's session.
+
+## PF-04 — Released and verified
+
+- UTC: 2026-10-15T02:39:30Z
+- Actor: Codex; reference PF-03.
+- Source: Pushed cdd2286 to main in wesley83/prism-breaker. Correct host authenticated with console 200 / matched DAV identity / PROPFIND 207; hidden-stdin authentication session closed after publishing. No credentials saved in evidence.
+- Deployment: Uploaded and read back 76 public files, with app.js then index.html then sw.js last. Release a998edcd3009a53d6733 / 70 assets / 2,416,776 bytes. Shared scores and individual world definitions excluded; no policy migration or activation. Archived the ignored operational receipt in dated paddle-deployment.json.
+- Public verification: Receipt at 2026-10-15T02:39:30.968Z verifies all 70 inventory assets, matching home release marker and fullscreen manifest. Explicit SHA-256 comparison confirms deployed engine.js and sw.js equal the tested local files. No new full-game playthrough or physical-phone verification claimed.
+- Finalization: Update publication status in the follow-up report, preserve dated release receipts and hashes, mirror the scoped report/audit/receipt files plus operational deployment receipt, commit/push evidence and verify final main equality/clean tree. Runtime content unchanged after the 136-test run.
