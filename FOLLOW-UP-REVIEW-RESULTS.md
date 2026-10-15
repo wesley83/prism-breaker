@@ -6,7 +6,7 @@ Reviewed October 15, 2026 UTC by Codex, following the [retrospective](RETROSPECT
 
 All fourteen areas received review work. **Their full acceptance conditions are not all satisfied.** Further application defects were reproduced, corrected and given regression coverage. Physical devices, native share receivers, human balance/accessibility judgments and unresolved platform guarantees remain explicit gaps.
 
-The latest full local suite passes **159 tests across 19 files**, with zero failures, compared with the fresh 136-test baseline. Candidate **`d2fa444df7cfd477dcf9`** contains 72 cached assets / 2,422,345 bytes. A generated candidate is not deployment evidence. Final hosted CI/publication results are recorded below and in the execution audit.
+The latest full local suite passes **159 tests across 19 files**, with zero failures, compared with the fresh 136-test baseline. Deployed runtime **`d2fa444df7cfd477dcf9`** contains 72 cached assets / 2,422,345 bytes. Independent public readback verified all 72 assets after publication. Exact-source Linux CI also passes; details and boundaries are recorded below.
 
 ## Newly found defects and corrections
 
@@ -29,7 +29,7 @@ Passes below apply to the stated method. Partial means useful checks passed whil
 
 | Review | Executed work / result | Remaining boundary |
 | --- | --- | --- |
-| R01: Release gates | Local gate/negative demonstrations pass; live branch/workflow configuration inspected; CI prepared | Hosted execution/configuration recorded during publication below; no independent human signoff implied |
+| R01: Release gates | Local gate/negative demonstrations and clean Linux CI pass; publisher accepted exact committed source | Required main-branch check activation awaits explicit approval following automatic review rejection; no independent human signoff implied |
 | R02: Physics | Independent wall/solid geometry cases, exact 120 Hz reproduction and power regressions pass after correction | Physical input timing and original user session unknown |
 | R03: PWA lifecycle | Chromium old release→A→B, failed B asset, activation with network 503, retained saves/settings/queue pass; worker/client fault suites pass | Partial: installed Android/iOS, OS termination/airplane mode/storage pressure and Firefox/WebKit remain unverified |
 | R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | Blocked: public reject controls execute while owner DAV persists writes; exact generic Trigger contract needs platform clarification |
@@ -42,7 +42,7 @@ Passes below apply to the stated method. Partial means useful checks passed whil
 | R11: Sharing | Complete Android text+link, native file payload, other platforms, touch iPad and readable-date regressions pass; fallback source reviewed | Partial: actual received Android→Slack/iOS messages remain unverified; no message sent |
 | R12: Campaign | Fresh accelerated 16-world/20-formation browser traversal; complete ordinary-lives collision bot passes without replenishment/damage shortcuts | Partial: not a human playthrough or full real-time watch of every cinematic |
 | R13: Rollout/rollback | Broken B preserves A; B applies offline; rollback retains another B tab's B modules; missing-module recovery added | Partial: sequential uploading still permits an uncontrolled mixed network graph; immutable/atomic publication remains open |
-| R14: Traceability | Four historical documents restored; link/import checks, encoding and source/evidence reconciliation performed | Clean Linux build and final hashes/mirror/publication results follow below |
+| R14: Traceability | Four historical documents restored; link/import checks, encoding and source/evidence reconciliation performed | Clean Linux build/no generated drift passes; source and final documentation hashes/mirror reconciled; context-specific authoring .gitignore exception preserved |
 
 ## Browser evidence
 
@@ -83,14 +83,20 @@ Scores remain client-reported. Bounds, unique IDs, schemas and revision labels p
 3. **Complete physical-device and receiver checks.** Actual Android/iOS installation, two-release updates, process termination, airplane mode, storage pressure, keyboards and received share messages remain necessary. Available surfaces provided Chromium desktop; no connected phone or Firefox/WebKit session was available.
 4. **Obtain independent human play/accessibility review.** Ordinary-lives bot completion strengthens progression evidence; human difficulty, cinematic reading time, screen-reader speech and listening quality still require observers. This agent's additional checks are not another person's signoff.
 5. **Reduce sequential-publication exposure.** Startup failures now have recovery, and controlled clients retain coherent releases. Immutable assets or native atomic publication would further protect uncontrolled visitors from successfully loaded mixed files. Retain the limitation and verified rollback procedure until then.
-6. **Keep release checks enforced and evidence scoped.** Require the named CI check after its first hosted run is confirmed; run the publisher gate against committed exact source. Maintain explicit device/platform exceptions. Passing automation cannot close those exceptions.
+6. **Enforce the passing CI check and keep evidence scoped.** Pinned CI and the exact-source publisher gate are implemented and pass. Main currently remains unprotected: automatic approval review rejected the proposed required-check/admin-enforcement mutation; the specific user approval request remains pending. Maintain explicit device/platform exceptions. Passing automation cannot close those exceptions.
 7. **Decide the ranking trust level.** Casual client-reported standings are supported. Tamper-resistant competition is additional architecture with separate acceptance criteria.
 
 The game can receive a scoped corrective release while those limits remain open. Such a release must not be described as universally production-verified or used to close unfinished requirements.
 
 ## Publication and final checks
 
-At this report revision, corrections/CI are local. Hosted CI, branch-check configuration, exact-source gate, clean-checkout verification, mirror/hash reconciliation and publication remain pending finalization. No new game deployment is claimed here. This section will be updated from actual results; the dated audit retains the sequence and failures.
+- Source `80a5ffc7d8a10afd444f4b3fe804e7337be49769` was pushed to GitHub main and deployed at **2026-10-15T14:31:57.287Z**. The publisher accepted its clean exact-source approval, including 159 passing local tests. Subsequent report/evidence commits do not change deployed runtime bytes.
+- [Clean Linux CI run](https://github.com/wesley83/prism-breaker/actions/runs/38751151464) passes for that exact source: frozen Bun install, dependency audit, regeneration with no drift and release integrity. [CI receipt](audit/2026-10-15-review-ci-proof.json).
+- Independent public verification at **2026-10-15T14:35:46.309Z** passes **72/72 assets**, release `d2fa444df7cfd477dcf9`, matching entry marker and linked fullscreen manifest. [Live inventory](audit/2026-10-15-review-live-final.json), [deployment receipt](audit/2026-10-15-review-deployment.json).
+- The actual live browser offered **Update game**; applying it loaded the new marker, enabled Adventure/Daily controls and reached **Ready to play offline**, retaining visible checkpoint/personal best. This was a Chromium in-app session, not an installed phone or a new OS-airplane-mode test. The only error returned by its retained log was the earlier pre-fix localhost shader failure, not a new live error.
+- Source/mirror reconciliation and affected hashes are archived; the outer authoring .gitignore remains intentionally distinct. Final documentation/evidence changes receive their own hashes and commit. The audit preserves the earlier premature-local-commit exception and its correction.
+- Required main-branch CI enforcement and the proposed sixteen-world repository description remain **awaiting user approval** after automatic review rejected those specific configuration mutations. Neither is claimed changed. [Concrete proposal](audit/2026-10-15-review-protection-proposal.json).
+- Shared scores and individual world definitions were preserved. The candidate world-write guard remains inactive. No independent human signoff, physical-device certification, atomic publication or unattended score-deletion guarantee is implied.
 
 ## Evidence
 

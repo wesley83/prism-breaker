@@ -106,3 +106,47 @@
 - Actor: Codex; reference FR-09/10 corrections.
 - Verification: 196 source/build/doc/affected-evidence files copied with exact byte equality after baseline/current preflight. Four restored notes retain original content plus provenance; known lock/portable-helper drift resolved separately. Outer authoring .gitignore intentionally preserved; no claim of equality for that context-specific metadata. Private runtime untouched.
 - Evidence: Zero-context full source diff against original 8686005 excludes audit duplication. Affected working-byte hashes exclude the hash receipt itself. Final audit, patch and hashes copied and checked separately. Nothing pushed or deployed yet. Next commit and exact-source gate must succeed before publication.
+
+## FR-12 — Hosted CI passes; configuration approval pending
+
+- UTC: 2026-10-15T14:29:35.363Z
+- Actor: Codex; reference FR-07/08/11.
+- Hosted verification: Exact source 80a5ffc7d8a10afd444f4b3fe804e7337be49769 completed Quality run 38751151464 successfully (started 14:24:46Z, updated 14:25:01Z), GitHub Actions check Bun tests and release integrity from app 15368. This includes frozen Bun 1.4.3 installation, advisory audit, clean Linux generation/no drift and the release gate. Official Bun release availability was verified. Authoring frozen install also succeeded and installed declared sharp with no lock edit.
+- Automatic approval rejection: Attempt to enable main required checks/admin enforcement and change public repository description was rejected before process execution because those specific external mutations were not authorized. No settings/metadata changed. Saved concrete proposal and asked the user for separate specific approvals; do not retry dependent mutations without an answer. Continue unaffected source publication.
+- Tool correction: First gh run list used Git discovery and failed on ownership; explicit --repo avoids any global safe.directory change. An initial list was empty while a direct exact-commit check-run read subsequently proved successful execution. A first attempt to request approval through nested tools used an unavailable method; corrected to the native asynchronous question tool.
+- Current facts: Repository remains public; fresh pre-mutation read showed main unprotected at 8686005 and stale eight-world description. Branch controls/description remain pending user response, not falsely marked enforced. Local exact-source gate passed at 14:23:20Z, digest f0025a045d7e44be7c650ca180e0f2498238c5347576e8c2cb739c52f3b3b4ad.
+
+## FR-13 — Corrective release and final evidence plan
+
+- UTC: 2026-10-15T14:36:30Z
+- Actor: Codex; references FR-08/11/12 and user request for the updated assessment.
+- Completed mutation: Source 80a5ffc was pushed to main and the publisher completed at 2026-10-15T14:31:57.287Z, using the fresh exact-source approval for runtime d2fa444df7cfd477dcf9. Authenticated publisher session closed. No branch protection or description mutation attempted after rejection; approval remains pending.
+- Finalization plan: Independently read every public precache asset, archive sanitized deployment/CI receipts, revise the report from actual results, reconcile final mirror/diff/hashes, commit and run the exact-source gate, publish documentation and verify remote main. Close owned browser fixtures and preview servers. Preserve the distinction between runtime deployment source and subsequent documentation commits.
+- Verification: Publisher receipt exists with source digest f0025a045d7e44be7c650ca180e0f2498238c5347576e8c2cb739c52f3b3b4ad; independent live readback and final documentation checks pending. Shared score/world definitions and inactive world guard are preserved by the selected release operation.
+
+
+## FR-14 — Independent live verification and assessment finalized
+
+- UTC: 2026-10-15T14:37:08.918Z
+- Actor: Codex; reference FR-13.
+- Timestamp correction: FR-13 was written during the 14:35 UTC minute; its manually entered 14:36:30Z timestamp was inaccurate. Deployment time and independent live receipt times are machine-generated and unaffected. This entry preserves and corrects that clerical error.
+- Changed: Updated FOLLOW-UP-REVIEW-RESULTS.md with actual Linux CI/public inventory/live-browser update results and explicit remaining requirements; archived sanitized deployment, CI and proposed configuration evidence. No runtime change after 80a5ffc.
+- Verification: Public 72/72 cached assets pass, matching runtime d2fa444df7cfd477dcf9, homepage marker and fullscreen manifest. Actual live Update game completed, controls enabled, checkpoint/best retained, Ready to play offline. Retained browser error log contains only earlier pre-fix localhost failure. Existing 159-test and clean Linux results remain scoped to their exact source.
+- Pending: Final documentation link/diff/hash/mirror check and commit/gate; owned fixture cleanup. GitHub configuration/description approval unanswered; do not mutate. Device, human, platform enforcement/retention and atomic publication limits remain open.
+
+
+## FR-15 — Final evidence and cleanup reconciliation
+
+- UTC: 2026-10-15T14:37:56.346Z
+- Actor: Codex; references FR-13/14.
+- Changed: Final report, exact-source Linux CI proof, 78-file publisher receipt, 72-asset independent live verification and non-executed GitHub configuration proposal. Final SHA-256 receipt covers these working bytes; a separate final patch preserves the documentation diff. Runtime remains the deployed d2fa444df7cfd477dcf9.
+- Verification: Repository checks pass (27 root documents, 194 local links, 290 scanned files before final artifacts); source has no further runtime edit. Mirror preflight passes against 80a5ffc/current contents. Auth publisher exited, owned successful fixture tabs closed and temporary viewport reset; user tabs retained. Three owned preview sessions interrupted and exited. Earlier failed error-page tab cannot be rebound under browser policy and is left for normal temporary-tab cleanup.
+- Publication status: Final report/evidence commit, exact-source rerun and final remote SHA readback follow this entry; outcomes are not preclaimed. Required GitHub branch check and metadata changes still await explicit approval. Remaining device/platform/human checks stay open.
+
+
+## FR-16 — Final diff check correction
+
+- UTC: 2026-10-15T14:38:23.465Z
+- Actor: Codex; reference FR-15.
+- Failed attempt: git diff --check rejected a CRLF line introduced by PowerShell Add-Content in FR-13. Dependent staging/commit correctly did not execute.
+- Correction: Normalize this active audit file to its existing LF policy, preserve all entry text, regenerate the final documentation patch/hashes and mirror. Re-run checks before staging. Historical audit files remain untouched.

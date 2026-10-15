@@ -1,0 +1,27 @@
+{
+  "status": "Proposed only; automatic approval review rejected execution; no configuration or description mutation performed",
+  "actor": "Codex",
+  "repository": "wesley83/prism-breaker",
+  "verifiedSource": "80a5ffc7d8a10afd444f4b3fe804e7337be49769",
+  "successfulCI": "https://github.com/wesley83/prism-breaker/actions/runs/38751151464",
+  "branchProtectionProposal": {
+    "branch": "main",
+    "required_status_checks": {
+      "strict": true,
+      "contexts": [],
+      "checks": [
+        {
+          "context": "Bun tests and release integrity",
+          "app_id": 15368
+        }
+      ]
+    },
+    "enforce_admins": true,
+    "required_pull_request_reviews": null,
+    "restrictions": null
+  },
+  "descriptionProposal": "A sixteen-world Three.js brick-breaker with cinematic endings, offline PWA play, a world editor and native Pagelove leaderboards.",
+  "effect": "Unchecked commits, including administrator pushes, must pass the named GitHub Actions check. No human approval, user access grant or new service is introduced. The description change is a separate public metadata edit.",
+  "approvalReviewReason": "Review/publishing authorization did not specifically authorize main-branch access-control changes or the exact external metadata mutation. Do not bypass the rejection.",
+  "at": "2026-10-15T14:29:35.362Z"
+}

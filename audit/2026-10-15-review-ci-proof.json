@@ -1,0 +1,68 @@
+{
+  "at": "2026-10-15T14:31:26.628Z",
+  "actor": "Codex",
+  "sha": "80a5ffc7d8a10afd444f4b3fe804e7337be49769",
+  "status": "completed",
+  "conclusion": "success",
+  "url": "https://github.com/wesley83/prism-breaker/actions/runs/38751151464",
+  "jobs": [
+    {
+      "name": "Bun tests and release integrity",
+      "conclusion": "success",
+      "runnerOs": "Linux GitHub-hosted ubuntu-latest from verified workflow",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run bun install --frozen-lockfile",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Dependency advisories",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Regenerate and reject stale checked-in artifacts",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run bun run release:check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "settings": "Required-check and description mutation blocked by automatic approval review; pending explicit user approval, no configuration change"
+}

@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-15T14:38:23.535Z",
+  "actor": "Codex",
+  "basis": "Final report/evidence working bytes after FR-16 correction; excludes self",
+  "files": [
+    {
+      "file": "FOLLOW-UP-REVIEW-RESULTS.md",
+      "bytes": 19206,
+      "sha256": "4dabf38e22e771f1a0a9cea7d205ddb733b9ef9993e0088a635953cecc9c5075"
+    },
+    {
+      "file": "audit/2026-10-15-follow-up-reviews.md",
+      "bytes": 28238,
+      "sha256": "ad22d3ab46d10326a9af85e84486a5ac99d9f573b122ff31f75ff4c357413335"
+    },
+    {
+      "file": "audit/2026-10-15-review-ci-proof.json",
+      "bytes": 2110,
+      "sha256": "0a90ba94273ce5dc12f2aa081d473596f9a4d0925cf074be04940b4b1a687390"
+    },
+    {
+      "file": "audit/2026-10-15-review-deployment.json",
+      "bytes": 14242,
+      "sha256": "51af6b5900656a7217006bc35268b4eedba13bd1c996d70fc53d02a1ef3b5de7"
+    },
+    {
+      "file": "audit/2026-10-15-review-live-final.json",
+      "bytes": 41916,
+      "sha256": "095a4d6b0f6b8d17e6746037431b39f0a7bfb68c80776c7fcc203e9950a4b373"
+    },
+    {
+      "file": "audit/2026-10-15-review-protection-proposal.json",
+      "bytes": 1335,
+      "sha256": "6c879e5cfc956bf48ecc34aa6bab968c718eb75a08255a30cca3554469a76054"
+    },
+    {
+      "file": "audit/2026-10-15-review-final-docs.patch",
+      "bytes": 11777,
+      "sha256": "8f31ce05da697a78fcc97d72a11e85a464e8a32badeb851511e06c07ae2a848d"
+    }
+  ]
+}
