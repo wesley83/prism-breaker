@@ -23,6 +23,7 @@ for(let offset=0;offset<assets.length;offset+=6){
 }
 const manifest=await read('/manifest.webmanifest'),home=await read('/');
 const receipt={at:new Date().toISOString(),origin,version,worker:{status:worker.status,sha256:hash(worker.body),headers:worker.headers},manifest:JSON.parse(manifest.body),home:{status:home.status,headers:home.headers,manifestLinked:/rel="manifest"[^>]*href="\/manifest.webmanifest"/.test(home.body.toString()),releaseMarker:home.body.toString().includes('content="'+version+'"')},assets:records,passed:records.every(record=>record.valid)};
-await fs.writeFile('audit/2026-10-15-pwa-live-receipt.json',JSON.stringify(receipt,null,2)+'\n');
+// An explicit output path preserves earlier review receipts during later releases.
+await fs.writeFile(process.argv[2]||'audit/2026-10-15-pwa-live-receipt.json',JSON.stringify(receipt,null,2)+'\n');
 console.log(JSON.stringify({at:receipt.at,version,assets:records.length,passed:receipt.passed,workerHeaders:receipt.worker.headers,display:receipt.manifest.display,home:receipt.home}));
 if(!receipt.passed)process.exitCode=1;
