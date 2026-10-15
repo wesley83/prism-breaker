@@ -317,6 +317,10 @@ bun run build
 bun tools/build-pwa.mjs --check
 ```
 
+Commit the exact source, then run `bun run release:check` before publishing. This runs the behavioral suite, PWA consistency, maintained document links, local module imports and a limited credential-pattern check. Its ignored evidence names the source commit, content digest and runtime release and lasts 24 hours. The publisher rejects missing/stale evidence and dirty release inputs; it checks again before uploading the worker. Recheck after source/documentation edits or a new commit. This gate does not certify physical devices or unresolved platform contracts.
+
+The pinned [Quality workflow](.github/workflows/quality.yml) installs frozen Bun dependencies, regenerates artifacts, rejects generated drift and runs the gate on pushes and pull requests. See [review results](FOLLOW-UP-REVIEW-RESULTS.md) for actual hosted-check/branch-protection status. Run repository checks separately with `bun run check:repository`.
+
 The builder derives a release identity from the assets and worker template, updates the entry-page marker, and generates `public/pwa-release.js` and `public/sw.js`. Edit worker behavior in `tools/service-worker.template.js`; regenerate after any runtime change. The publisher refuses a stale build and checks it again before uploading the worker.
 
 After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op":"quit"}`. Normal deployment:
@@ -359,6 +363,7 @@ Three.js, Web Audio and Pagelove are the game's technologies. The project record
 
 ## Further documentation
 
+- [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) — executed reviews, corrected defects, remaining acceptance gaps and the updated “What needs to change” assessment.
 - [RETROSPECTIVE.md](RETROSPECTIVE.md) — missed issues, root causes, verification limits and prevention controls.
 - [FOLLOW-UP-REVIEW-PLAN.md](FOLLOW-UP-REVIEW-PLAN.md) — prioritized reviews, ownership proposals, acceptance criteria and explicit pending status.
 - [WORLD-EDITOR.md](WORLD-EDITOR.md) — native Pagelove routing/templates, HTML world definitions, brick events, custom types and owner publishing.

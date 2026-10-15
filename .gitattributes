@@ -1,5 +1,8 @@
 * text=auto eol=lf
 *.png binary
 *.jpg binary
+*.jpeg binary
 *.ico binary
 *.woff2 binary
+# Historical evidence retains its original bytes, including dated patch files.
+audit/** -text

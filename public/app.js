@@ -2,7 +2,7 @@ import {checkpointLevel,compatibleRuleset,LEGACY_RULESET_REVISION} from './world
 import {THEMES} from './world-schema.js';
 import {WORLDS,RULESET_REVISION,POWERS,daySeed,dailyWorld,WORLD_COUNT,LAST_WORLD,formationCount} from './levels.js?v=3';
 import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=9';
+import {Game,speedBonus,isValidSnapshot} from './engine.js?v=10';
 import {worldSlug,parseWorld,worldHTML,formationCatalog,normalizeWorld,originalWorld} from './world-format.js';
 import {attachBrickDOM} from './brick-events.js';
 import {SharePreview,formatShareDate} from './sharing.js?v=2';
@@ -13,6 +13,7 @@ import {utcDay,rankedScores as rankScores,scoreAge,scoreAgeBand,topFinish,active
 import {offlineStore,ScoreOutbox} from './offline.js?v=2';
 import {setupOfflinePlay} from './pwa.js?v=4';
 import {setupGameDisplay} from './display.js';
+import {setupGraphicsRecovery} from './graphics-recovery.js';
 import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=3';
 import {CHAMPION_DURATION} from './cinematic-score.js?v=3';
 import {VICTORY_TRACKS} from './victory-music.js';
@@ -37,7 +38,7 @@ const gameDisplay=setupGameDisplay({isPlaying:()=>view!=='home',onExit:()=>{if(v
 const offlinePlay=setupOfflinePlay({isSafeToUpdate:()=>view==='home',openHelp:()=>openDialog('#install-dialog')});
 const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
 $('#install-instructions').textContent=ios?'Open the browser’s Share menu, choose Add to Home Screen, then Add. Launch Prism Breaker from its new icon.':/Android/i.test(navigator.userAgent)?'Open your browser’s menu and choose Install app or Add to Home screen. Launch Prism Breaker from its new icon.':'Use the install icon in your browser’s address bar or the Install app command in its menu. If installation is unavailable, you can still play offline in this browser after the download completes.';
-async function initializeStage(){try{const {Stage}=await import('./scene.js?v=14');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
+async function initializeStage(){try{const {Stage}=await import('./scene.js?v=15');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
 game.emit=handleEvent;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');toastUntil=performance.now()+2600;}
 function updateWorldCards(){
@@ -55,7 +56,7 @@ function hud(){
  const remaining=game.bricks.filter(b=>b.hp>0).length,held=game.balls.filter(b=>b.held).length;
  const signature=[game.score,game.lives,game.combo,remaining,Math.floor(game.boardElapsed),game.state,held,game.balls.length,Object.entries(game.effects).map(([k,v])=>k+Math.ceil(v)).join(),game.shield].join('|');
  if(signature===lastHud)return;lastHud=signature;
- $('#score').textContent=game.score.toLocaleString();$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' lives');updateChase();
+ $('#score').textContent=game.score.toLocaleString();$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' '+(game.lives===1?'life':'lives'));updateChase();
  $('#arena-bricks').textContent=remaining+' bricks left';
  $('#arena-speed').textContent='Speed +'+speedBonus(game.boardElapsed).toLocaleString();
  $('#launch').hidden=!(view==='game'&&['ready','playing'].includes(game.state)&&game.balls.some(b=>b.held));
@@ -88,7 +89,7 @@ function handleEvent(e){
  if(e.type==='power')toast(POWERS[e.kind].name+(e.points?' · +'+e.points+' points':''));
  if(e.type==='gate')toast('Gate open. Find your angle.');
  if(e.type==='save')toast('Saved by the shield!');
- if(e.type==='life'){toast(game.lives+' lives left. You’ve got this.');persist();}
+ if(e.type==='life'){toast(game.lives+' '+(game.lives===1?'life':'lives')+' left. You’ve got this.');persist();}
  if(e.type==='phase'){bindWorldDOM();toast('Formation cleared · +'+e.clearPoints+' clear · +'+e.speedPoints+' speed');persist();}
  if(e.type==='clear'){
    updateBest();if(game.mode==='campaign'){highest=Math.max(highest,game.level+1);storage.set('highest',highest);if(game.level<LAST_WORLD)persist(true);else storage.remove('save');}
@@ -107,7 +108,7 @@ function bindWorldDOM(){
  detachWorldDOM=attachBrickDOM(game,root);
 }
 async function begin(mode='campaign',level=0){
- if(!stage)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
+ if(!stage||graphicsRecovery.blocked)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
  const generation=++beginGeneration;detachWorldDOM?.();
  let practiceData;
  if(mode==='practice'){all('#play,#resume,#daily,.world-card').forEach(b=>b.disabled=true);toast('Loading the shared Practice world…');practiceData=await loadPracticeWorld(level);all('#play,#resume,#daily,.world-card').forEach(b=>b.disabled=false);if(generation!==beginGeneration)return;activePracticeWorld=practiceData?.world;game.catalog=practiceData?formationCatalog(practiceData.world):new Map();view='game';}
@@ -162,7 +163,7 @@ function openDialog(id){
  sound.update(false,THEMES.indexOf(game.world.music));
  $(id).showModal();
 }
-all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length){game.state=modalResume;modalResume=null;lastHud='';hud();}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
+all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked){game.state=modalResume;modalResume=null;lastHud='';hud();}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
 $('#result-dialog').addEventListener('cancel',e=>{e.preventDefault();home();});all('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 $('#play').onclick=()=>{const saved=storage.get('save');if(saved){$('#new-run-detail').textContent='Your checkpoint in '+(WORLDS[saved.game.level]?.name||'Adventure')+' will be replaced when the new run starts.';openDialog('#new-run-dialog');}else begin();};$('#confirm-new-run').onclick=()=>begin();$('#daily').onclick=()=>begin('daily');$('#resume').onclick=()=>{const saved=storage.get('save');if(!saved||!game.restore(saved.game)){toast('This checkpoint needs its original game version. It has been kept; you can start a new adventure.');home();return;}view='game';gameDisplay.enterForPlay();sound.unlock();showGame();stage?.reset();if(saved.pendingNext){game.state='cleared';beginCut();}};
 $('#launch').onclick=()=>{sound.unlock();game.launch();lastHud='';hud();};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=()=>{persist();home();};$('#skip-cut').onclick=finishCut;
@@ -178,6 +179,14 @@ $('#sound-toggle').onclick=()=>{settings.muted=!settings.muted;sound.unlock();sa
 for(const [id,key]of [['reduced-motion','reducedMotion'],['low-effects','lowEffects'],['classic-mode','classicMode']]){$('#'+id).checked=settings[key];$('#'+id).onchange=async e=>{settings[key]=e.target.checked;saveSettings();if(stage&&key==='lowEffects'){const input=e.target;input.disabled=true;stage.renderer.setPixelRatio(Math.min(devicePixelRatio,settings.lowEffects?1:1.8));stage.resize();try{await stage.prepare(game);}finally{input.disabled=false;}}};}
 $('#reload').onclick=()=>location.reload();
 const canvas=$('#game-canvas');let dragging=false;
+const graphicsRecovery=setupGraphicsRecovery(canvas,{
+ pause(){keys.clear();dragging=false;accumulator=0;if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');sound.update(false,THEMES.indexOf(game.world.music));},
+ async restore(){if(!stage)throw Error('Arena not initialized');stage.preparedModes?.clear();await stage.prepare(game);stage.resize();},
+ onStatus(status){const ready=status==='ready';$('#error').hidden=ready;$('#unpause').disabled=!ready;
+  if(ready){if(view==='game'&&game.state==='paused'&&!$('dialog[open]'))openDialog('#pause-dialog');if($('#pause-dialog').open)$('#pause-description').textContent='Arena restored. Resume when ready.';toast('Arena restored. Resume when ready.');}
+  else {$('#error-text').textContent=status==='recovering'?'Restoring the 3D arena. Your game is paused.':status==='failed'?'The 3D arena could not recover. Reload the game to try again. An unfinished Daily Challenge or Practice run will end.':'Graphics were interrupted. Your game is paused while the arena recovers. Reload if it does not return; an unfinished Daily Challenge or Practice run will end.';if($('#pause-dialog').open)$('#pause-description').textContent=$('#error-text').textContent;}
+ }
+});
 canvas.addEventListener('pointerdown',e=>{if(view!=='game'||all('dialog[open]').length)return;dragging=true;canvas.setPointerCapture(e.pointerId);game.move(stage.screenX(e.clientX,e.clientY));sound.unlock();game.launch();});
 canvas.addEventListener('pointermove',e=>{if(view==='game'&&(e.pointerType==='mouse'||dragging))game.move(stage.screenX(e.clientX,e.clientY));});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
 document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select,button,a')||all('dialog[open]').length)return;if((view==='cut'||view==='champion')&&(e.code==='Space'||e.code==='Enter')){e.preventDefault();if(!e.repeat&&cutTime>=.75){if(view==='champion')finishCelebration();else finishCut();}return;}if(view!=='game')return;if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
@@ -357,7 +366,7 @@ const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['c
 setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='campaign'&&$('#scores-dialog').open)updateScoreOutlines();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
 armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);
 let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;
-function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing){
+function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing&&!graphicsRecovery.blocked){
  if(view==='game'&&!document.hidden){if(keys.has('ArrowLeft')||keys.has('KeyA'))game.move(game.target-dt*22);if(keys.has('ArrowRight')||keys.has('KeyD'))game.move(game.target+dt*22);accumulator+=dt;while(accumulator>=1/120){game.tick(1/120);accumulator-=1/120;}saveTimer+=dt;if(saveTimer>10&&view==='game'){saveTimer=0;persist();}hud();}
  if(view==='home'&&!document.hidden){game.time+=dt;game.paddle.x=settings.reducedMotion?0:Math.sin(now*.0006)*3.3;game.balls[0].x=game.paddle.x;game.balls[0].y=-9.5+(settings.reducedMotion?0:Math.sin(now*.0007)*.2);}
  if(view==='cut'&&cutReady&&!document.hidden&&!$('dialog[open]')){cutTime+=dt;const daily=game.mode==='daily',duration=settings.reducedMotion?9:daily?DAILY_DURATION:CINEMATICS[THEMES.indexOf(game.world.shape)].duration;$('#cut-progress-bar').style.transform='scaleX('+Math.min(1,cutTime/duration)+')';const frame=daily?dailyFrame(cutTime,stage.camera.aspect,settings.reducedMotion):cameraFrame(THEMES.indexOf(game.world.shape),cutTime,stage.camera.aspect,settings.reducedMotion);$('#cutscene').style.setProperty('--story-opacity',String(frame.titleAlpha));$('#cutscene').style.setProperty('--story-shift',(1-frame.titleAlpha)*12+'px');if(cutTime>=duration)finishCut();}

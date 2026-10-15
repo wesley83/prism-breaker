@@ -1,0 +1,151 @@
+{
+  "at": "2026-10-15T13:41:25.051Z",
+  "method": "Deterministic pointer-following collision bot; normal starting lives and legitimately earned extra lives; no life replenishment, brick damage shortcut or invulnerability; engine progression, not human/UI playthrough",
+  "worlds": [
+    {
+      "world": 1,
+      "name": "Prism Garden",
+      "state": "cleared",
+      "lives": 3,
+      "score": 8420,
+      "seconds": 33,
+      "ticks": 3989
+    },
+    {
+      "world": 2,
+      "name": "Cloud Carnival",
+      "state": "cleared",
+      "lives": 5,
+      "score": 16140,
+      "seconds": 132,
+      "ticks": 11822
+    },
+    {
+      "world": 3,
+      "name": "Electric City",
+      "state": "cleared",
+      "lives": 5,
+      "score": 23620,
+      "seconds": 249,
+      "ticks": 14045
+    },
+    {
+      "world": 4,
+      "name": "Crystal Caverns",
+      "state": "cleared",
+      "lives": 6,
+      "score": 33840,
+      "seconds": 322,
+      "ticks": 8826
+    },
+    {
+      "world": 5,
+      "name": "Ember Foundry",
+      "state": "cleared",
+      "lives": 7,
+      "score": 43350,
+      "seconds": 357,
+      "ticks": 4151
+    },
+    {
+      "world": 6,
+      "name": "Frost Observatory",
+      "state": "cleared",
+      "lives": 8,
+      "score": 55100,
+      "seconds": 378,
+      "ticks": 2508
+    },
+    {
+      "world": 7,
+      "name": "Cosmic Reef",
+      "state": "cleared",
+      "lives": 9,
+      "score": 62710,
+      "seconds": 432,
+      "ticks": 6494
+    },
+    {
+      "world": 8,
+      "name": "Prism Citadel",
+      "state": "cleared",
+      "lives": 9,
+      "score": 81300,
+      "seconds": 720,
+      "ticks": 34543
+    },
+    {
+      "world": 9,
+      "name": "Sunken Archive",
+      "state": "cleared",
+      "lives": 9,
+      "score": 93000,
+      "seconds": 775,
+      "ticks": 6607
+    },
+    {
+      "world": 10,
+      "name": "Aurora Passage",
+      "state": "cleared",
+      "lives": 9,
+      "score": 103520,
+      "seconds": 843,
+      "ticks": 8218
+    },
+    {
+      "world": 11,
+      "name": "Clockwork Canopy",
+      "state": "cleared",
+      "lives": 9,
+      "score": 112690,
+      "seconds": 927,
+      "ticks": 10053
+    },
+    {
+      "world": 12,
+      "name": "Mirage Dunes",
+      "state": "cleared",
+      "lives": 9,
+      "score": 122160,
+      "seconds": 971,
+      "ticks": 5246
+    },
+    {
+      "world": 13,
+      "name": "Thunder Spire",
+      "state": "cleared",
+      "lives": 9,
+      "score": 128430,
+      "seconds": 1064,
+      "ticks": 11214
+    },
+    {
+      "world": 14,
+      "name": "Lunar Harbor",
+      "state": "cleared",
+      "lives": 9,
+      "score": 139010,
+      "seconds": 1102,
+      "ticks": 4472
+    },
+    {
+      "world": 15,
+      "name": "Event Horizon",
+      "state": "cleared",
+      "lives": 9,
+      "score": 149270,
+      "seconds": 1166,
+      "ticks": 7703
+    },
+    {
+      "world": 16,
+      "name": "Dawn Nexus",
+      "state": "cleared",
+      "lives": 9,
+      "score": 174440,
+      "seconds": 1370,
+      "ticks": 24485
+    }
+  ],
+  "won": true
+}

@@ -2,12 +2,21 @@ import {editorSlug} from './world-identity.js';
 import {THEMES} from './world-schema.js';
 import {WORLDS} from './levels.js';
 import {WORLD_SLUGS,originalWorld,normalizeWorld,parseWorld,worldHTML,worldDocument,formationCatalog} from './world-format.js';
-import {Game} from './engine.js?v=9';
+import {Game} from './engine.js?v=10';
 import {attachBrickDOM} from './brick-events.js';
+import {setupGraphicsRecovery} from './graphics-recovery.js';
 
 const $=s=>document.querySelector(s),clone=v=>structuredClone(v);
 let world,phase=0,selected=null,tool='select',baseHTML='',history=[],future=[],drag=null,stage,previewGame,detachDOM,previewReady=false,previewClock=0;
 const keys=new Set();const draftKey=slug=>'prism.world-draft.'+slug;
+const previewGraphics=setupGraphicsRecovery(document.querySelector('#preview-canvas'),{
+ pause(){keys.clear();previewReady=false;if(previewGame)previewGame.state='paused';},
+ async restore(){if(!stage||!previewGame)throw Error('Preview unavailable');stage.preparedModes?.clear();await stage.prepare(previewGame);stage.resize();},
+ onStatus(status){const ready=status==='ready';previewReady=ready;$('#restart-preview').disabled=!ready;$('#preview-launch').disabled=!ready;
+  if(ready&&previewGame){previewGame.state='ready';$('#preview-launch').textContent='Resume preview';}
+  $('#preview-status').textContent=ready?'Arena restored. Resume the preview when ready.':status==='failed'?'The arena could not recover. Close the preview and reload the workshop. Your saved draft is retained.':'Graphics interrupted. Preview paused while the arena recovers.';
+ }
+});
 const message=text=>$('#editor-status').textContent=text;
 const safeStorage={get(key){try{return JSON.parse(localStorage.getItem(key));}catch{return null;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}};
 const current=()=>world.formations[phase];
@@ -124,10 +133,10 @@ function startPreview(){
  previewGame.catalog=formationCatalog(world);previewGame.start('practice',world.index,8399);previewGame.phase=phase;previewGame.loadLevel();stage?.reset();
  detachDOM=attachBrickDOM(previewGame,$('#edit-board #world'));$('#strike-events').replaceChildren();
  previewGame.events.addEventListener('strike',event=>{const b=event.detail.brick,li=document.createElement('li');li.textContent='strike · brick '+b.id+' · '+(b.customType||b.kind)+' · '+b.hp+' hit'+(b.hp===1?'':'s')+' before impact';$('#strike-events').prepend(li);while($('#strike-events').children.length>6)$('#strike-events').lastElementChild.remove();});
- $('#preview-title').textContent=world.name+' · Formation '+(phase+1);$('#preview-status').textContent='Practice preview. Move with the pointer or arrows; Space launches.';$('#preview-launch').hidden=false;
+ $('#preview-title').textContent=world.name+' · Formation '+(phase+1);$('#preview-status').textContent='Practice preview. Move with the pointer or arrows; Space launches.';$('#preview-launch').hidden=false;$('#preview-launch').textContent='Launch ball';
 }
 $('#preview').onclick=async()=>{
- try{normalizeWorld(world);$('#preview-dialog').showModal();previewReady=false;startPreview();if(!stage){const {Stage}=await import('./scene.js?v=14');stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}stage.resize();await stage.prepare(previewGame);previewReady=true;$('#preview-canvas').focus();}catch(e){$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
+ try{normalizeWorld(world);$('#preview-dialog').showModal();previewReady=false;startPreview();if(!stage){const {Stage}=await import('./scene.js?v=15');stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}stage.resize();await stage.prepare(previewGame);previewReady=true;$('#preview-canvas').focus();}catch(e){$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
 };
 $('#restart-preview').onclick=()=>{startPreview();previewReady=true;$('#preview-canvas').focus();};
 $('#preview-launch').onclick=()=>previewGame?.launch();
@@ -139,7 +148,7 @@ $('#preview-dialog').addEventListener('close',()=>{keys.clear();previewReady=fal
 for(const button of document.querySelectorAll('[data-close]'))button.onclick=()=>$('#'+button.dataset.close).close();
 window.addEventListener('resize',()=>{if($('#preview-dialog').open)stage?.resize();});
 let last=performance.now(),accumulator=0;
-function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if($('#preview-dialog').open&&previewReady&&!document.hidden){previewClock+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}stage.render(previewGame,dt,previewClock,'game');$('#preview-score').textContent='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;$('#preview-launch').hidden=!previewGame.balls.some(b=>b.held)||previewGame.state==='over'||previewGame.state==='cleared';}requestAnimationFrame(frame);}requestAnimationFrame(frame);
+function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if($('#preview-dialog').open&&previewReady&&!document.hidden&&!previewGraphics.blocked){previewClock+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}stage.render(previewGame,dt,previewClock,'game');$('#preview-score').textContent='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;$('#preview-launch').hidden=(previewGame.state!=='ready'&&!previewGame.balls.some(b=>b.held))||previewGame.state==='over'||previewGame.state==='cleared';}requestAnimationFrame(frame);}requestAnimationFrame(frame);
 
 function setEditing(enabled){
  for(const selector of ['.editor-layout','.workshop-actions'])$(selector).inert=!enabled;

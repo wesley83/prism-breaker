@@ -1,9 +1,11 @@
 // Local-only UI acceptance harness. Never deploy this fixture.
 import fs from 'node:fs/promises';
+import {writeQaBootstrap} from './qa-bootstrap.mjs';
 await fs.mkdir('test-results/fixture',{recursive:true});
+await writeQaBootstrap('test-results/fixture');
 const html=await fs.readFile('public/index.html','utf8');
 const controls='<aside id="qa-panel" style="position:fixed;z-index:9999;bottom:0;left:0;background:#16242b;color:white;padding:8px;max-width:100%;font:12px monospace"><button id="qa-worlds">Run 16-world acceptance</button> <button id="qa-rollover">Check daily midnight</button> <button id="qa-expiry">Check visible expiry</button><pre id="qa-result" style="max-height:160px;overflow:auto;white-space:pre-wrap"></pre></aside>';
-await fs.writeFile('test-results/fixture/acceptance.html',html.replace(/src="\/app.js[^\"]*"/,'src="/__qa/acceptance-app.js"').replace('</body>',controls+'</body>'));
+await fs.writeFile('test-results/fixture/acceptance.html',html.replace(/src="\/(?:app|bootstrap).js[^\"]*"/,'src="/__qa/network-bootstrap.js" data-qa-entry="/__qa/acceptance-app.js"').replace('</body>',controls+'</body>'));
 const prefix=`
 const qaRealFetch=globalThis.fetch.bind(globalThis);let qaServerOffset=0,qaRows=[],qaRequests=[],qaErrors=[];
 addEventListener('error',e=>qaErrors.push(e.message));addEventListener('unhandledrejection',e=>qaErrors.push(String(e.reason)));

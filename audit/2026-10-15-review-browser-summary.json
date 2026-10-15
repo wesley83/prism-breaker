@@ -1,0 +1,99 @@
+{
+  "at": "2026-10-15T14:09:17.812Z",
+  "actor": "Codex",
+  "provenance": "Transcribed from actual visible browser diagnostic receipts in this review; not raw telemetry",
+  "graphics": {
+    "before": {
+      "state": "playing",
+      "elapsedDelta": 0.716666666666666,
+      "errorVisible": false
+    },
+    "intermediateFailure": "Three.js async compile polling threw isReady after context restoration",
+    "after": {
+      "lost": {
+        "state": "paused",
+        "elapsedDelta": 0,
+        "errorVisible": true,
+        "blocked": true
+      },
+      "restored": {
+        "state": "paused",
+        "errorVisible": false,
+        "blocked": false
+      },
+      "errors": []
+    }
+  },
+  "resourcePasses": [
+    {
+      "geometries": 34,
+      "textures": 30
+    },
+    {
+      "geometries": 34,
+      "textures": 30
+    },
+    {
+      "geometries": 34,
+      "textures": 30
+    }
+  ],
+  "indexedDB": {
+    "connections": 2,
+    "queuedAfterOutage": "queued",
+    "sendCount": 1,
+    "receipt": "sent",
+    "originalDay": "2026-10-14",
+    "abortedTransactionAbsent": true,
+    "cleaned": true
+  },
+  "campaign": {
+    "acceleratedBrowser": {
+      "worlds": 16,
+      "formations": 20,
+      "score": 402100,
+      "errors": [],
+      "method": "damage shortcuts; not human play"
+    },
+    "ordinaryLivesObserved": "2026-10-15-review-observed-campaign.json"
+  },
+  "pwa": {
+    "old": "ebb648f339435f994a1c",
+    "a": "1b5bccba9d380881f02e",
+    "b": "269befd6252bcf6a2007",
+    "oldToAOfferedAutomatically": true,
+    "incompleteBPreservedA": true,
+    "BActivatedWith503Network": true,
+    "retainedCheckpoint": true,
+    "retainedClassic": true,
+    "retainedQueuedScore": 1,
+    "rollbackATabKeptBOtherTabModule": true
+  },
+  "layout": [
+    {
+      "width": 390,
+      "height": 844,
+      "canvasBottom": 748,
+      "launchTop": 748.375
+    },
+    {
+      "width": 844,
+      "height": 390,
+      "canvasBottom": 326,
+      "launchTop": 336
+    }
+  ],
+  "startup": {
+    "engine503Explained": true,
+    "controlsDisabled": true,
+    "reloadRecoveredAfterRestoringAsset": true,
+    "workerRegistrationDisabledInLab": true
+  },
+  "limits": [
+    "Chromium desktop only",
+    "Emulated viewport is not physical device",
+    "No native share receiver message",
+    "Not a human campaign/readability review",
+    "Lab snapshots differ from final candidate by subsequent bootstrap/schema fixes"
+  ]
+}

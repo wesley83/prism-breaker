@@ -22,6 +22,15 @@ function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
  else{const a=(-half-start)/delta,c=(half-start)/delta;enter=Math.max(enter,Math.min(a,c));leave=Math.min(leave,Math.max(a,c));}
  return enter<=leave?enter:null;
 }
+function paddleTrajectory(b,oldX,oldY,paddle,oldPaddleX,wall){
+ if(!wall){const time=paddleImpact(b,oldX,oldY,paddle,oldPaddleX);return time===null?null:{time,x:oldX+(b.x-oldX)*time};}
+ // A wall bounce is two segments. The chord from start to clamped wall loses
+ // inward travel and can miss a paddle moving away beside the wall.
+ const t=wall.time,y=oldY+(b.y-oldY)*t,px=oldPaddleX+(paddle.x-oldPaddleX)*t;
+ if(t>0){const hit=paddleImpact({...b,x:wall.x,y},oldX,oldY,{...paddle,x:px},oldPaddleX);if(hit!==null)return {time:hit*t,x:oldX+(wall.x-oldX)*hit};}
+ if(t<1){const hit=paddleImpact(b,wall.x,y,paddle,px);if(hit!==null)return {time:t+hit*(1-t),x:wall.x+(b.x-wall.x)*hit};}
+ return null;
+}
 // Compact the small, frequently updated lists without allocating new arrays every tick.
 function retainBetween(items,minY,maxY){let kept=0;for(let i=0;i<items.length;i++){const item=items[i];if(item.y>minY&&item.y<maxY)items[kept++]=item;}items.length=kept;}
 const finiteBetween=(value,min,max)=>Number.isFinite(value)&&value>=min&&value<=max;
@@ -147,14 +156,14 @@ export class Game {
      const magnitude=Math.hypot(b.vx,b.vy)||1;b.vx=b.vx/magnitude*speed;b.vy=b.vy/magnitude*speed;
      if(Math.abs(b.vy)<speed*.22)b.vy=Math.sign(b.vy||1)*speed*.28;
      b.x+=b.vx*dt*scale;b.y+=b.vy*dt*scale;b.portal=Math.max(0,b.portal-dt);
-     if(b.x<-10+b.r){b.x=-10+b.r;b.vx=Math.abs(b.vx);this.emit({type:'wall'});}
-     if(b.x>10-b.r){b.x=10-b.r;b.vx=-Math.abs(b.vx);this.emit({type:'wall'});}
+     let wall=null;
+     if(b.x<-10+b.r||b.x>10-b.r){const x=b.x<0?-10+b.r:10-b.r;wall={x,time:Math.max(0,Math.min(1,(x-oldX)/(b.x-oldX)))};b.x=2*x-b.x;b.vx=x<0?Math.abs(b.vx):-Math.abs(b.vx);this.emit({type:'wall'});}
      if(b.y>12-b.r){b.y=12-b.r;b.vy=-Math.abs(b.vy);this.emit({type:'wall'});}
      const surface=LIMIT.paddleY+PADDLE_HALF_HEIGHT+b.r;
-     const contact=paddleImpact(b,oldX,oldY,this.paddle,oldPaddleX);
+     const impact=paddleTrajectory(b,oldX,oldY,this.paddle,oldPaddleX,wall),contact=impact?.time??null;
      if(contact!==null){
         const impactPaddleX=oldPaddleX+(this.paddle.x-oldPaddleX)*contact;
-        b.x=oldX+(b.x-oldX)*contact;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
+        b.x=impact.x;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
         const angle=offset*1.05;b.vx=Math.sin(angle)*speed;b.vy=Math.cos(angle)*speed;b.y=surface+.005;
         this.combo=0;if(this.effects.sticky>0){b.held=true;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
      }

@@ -24,7 +24,8 @@ export class Stage {
   if(game.mode==='daily'){this.dailyEnding??=new DailyEnding(this.scene,this.haloTexture,this.crystals.environment);this.dailyEnding.render(0,this.camera.aspect,this.settings,mode==='champion',game.seed);}
   else if(mode==='champion'){this.champion??=new Champion(this.scene,this.haloTexture,this.crystals.environment);this.champion.render(0,this.camera.aspect,this.settings);}
   else{this.cinematic??=new Cinematic(this.scene,this.haloTexture,this.crystals.environment);this.cinematic.render(THEMES.indexOf(game.world.shape),0,this.camera.aspect,this.settings,game.world);}
-  await this.renderer.compileAsync(this.scene,this.camera);
+  // Compile while controls are paused; Three.js async polling can outlive a lost context.
+   this.renderer.compile(this.scene,this.camera);
  }
  async prepare(game){
   // Keep compilation, texture uploads and bloom allocation out of the first brick hit.
@@ -35,8 +36,9 @@ export class Stage {
   try{
    let i=0;
    for(const kind of Object.keys(POWERS)){
-    const pool=[];this.powerPools.set(mode+':'+kind,pool);
-    for(let n=0;n<2;n++){const power=this.makePower(kind);power.userData.poolKey=mode+':'+kind;power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);pool.push(power);i++;}
+    const key=mode+':'+kind,pool=this.powerPools.get(key)||[];this.powerPools.set(key,pool);
+    while(pool.length<2){const power=this.makePower(kind);power.userData.poolKey=key;pool.push(power);}
+    for(const power of pool){power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);i++;}
    }
    const markerWarmup=new T.Sprite(this.brickMarkerBase());markerWarmup.position.set(0,-8,2);markerWarmup.scale.set(.82,.82,1);warm.add(markerWarmup);
    // Retain and warm the crystal/crack shader variants even when world one has no armor.
@@ -48,7 +50,8 @@ export class Stage {
    // Upload reusable fragments before play, including their transparent material variant.
    const fragments=this.settings.lowEffects?32:96;
    while(this.particlePool.length<fragments){const particle=this.makeParticle();particle.mesh.position.set(0,0,.4);warm.add(particle.mesh);this.particlePool.push(particle);}
-   await this.renderer.compileAsync(this.scene,this.camera);
+   // Compile while controls are paused; Three.js async polling can outlive a lost context.
+   this.renderer.compile(this.scene,this.camera);
    this.renderer.initTexture(this.haloTexture);
    for(const mark of ['1','2','3','★','◇'])this.renderer.initTexture(this.brickMarkerTexture(mark));
    for(const texture of crystal.textures.values())this.renderer.initTexture(texture);

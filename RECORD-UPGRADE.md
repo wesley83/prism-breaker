@@ -1,0 +1,17 @@
+> Historical record: Restored from the authoring copy on October 15, 2026 UTC. Statements below describe that earlier release and its original verification limits; later changes supersede behavior, world counts and retention. See [RETROSPECTIVE.md](RETROSPECTIVE.md) and [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for subsequent findings. Original evidence is retained as recorded.
+
+# Top-score finish and daily leaderboard
+
+Completed runs at or above the current leading score receive a dedicated nine-second Three.js coronation: golden trophy, floating iridescent prism, eight colored orbit rings and gems, rainbow particle fireworks, camera movement and a synthesized fanfare. Campaign and Daily Challenge are compared separately; practice and unfinished runs do not qualify. Ties receive their own copy. The shared board is fetched before the celebration; unavailable ranking leaves the regular result accessible. The claim button returns to the score form. The saved result names the player as #1 only when the refreshed ranking confirms that run leads.
+
+Reduced motion renders a static trophy scene for four seconds without fireworks. Fewer effects reduces particle counts and bypasses bloom. Settings and other dialogs pause the celebration, and it remains skippable.
+
+Daily rankings always use the current UTC date. A midnight timer, a one-second date check, and visibility/focus recovery refresh the date in open pages. Old daily records remain stored as history and disappear from the active board. Runs started before midnight keep their original challenge date and cannot claim the new day's record. The home challenge button and in-game leader change to the current date. The game uses the host's HTTP Date to adjust its clock when available.
+
+Daily tables replace World with AGE (MIN), using whole elapsed minutes from a stored submittedAt value. Cells update every second while visible; shared rankings refresh each minute. Adventure retains World. Submission timestamps are generated at submission using the adjusted browser clock, and stored with the immutable score row. Scores remain self-reported. Original rows did not have timestamps; their age shows an em dash with an explanation, with no fabricated backfill.
+
+The score schema adds optional DateTime submittedAt. The trigger accepts both legacy clients' payloads and the new timestamped form. The authenticated publisher merges the current live score container into the new rules and uses If-Match to avoid overwriting concurrent submissions. Migration preserved 11 existing run IDs and has a backup under ignored .private/. The deployment continues excluding scores.html from its normal file upload.
+
+Local browser preview confirmed the trophy/claim/result flow, age values and unknown legacy age, and switching an open daily table to the next date. A 390-pixel iframe showed the trophy and caption with no horizontal overflow. Preview controls and sample scores stay outside public/. No automated tests were added or run for this change.
+
+Published October 13, 2026 at 12:28:20 UTC. Authenticated read-back matched all 22 deployed files (HTML normalization allowed). Live browser review showed AGE (MIN), the 00:00 UTC reset notice, preserved daily scores and no warnings/errors. Deployment hashes are in deployment.json; schema migration evidence is in score-rules-release.json. Production score submission and subjective fanfare listening were not exercised during this release.

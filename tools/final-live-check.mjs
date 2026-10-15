@@ -6,6 +6,8 @@ import {createHash,randomUUID} from 'node:crypto';
 import {DOMParser} from 'linkedom';
 import {WORLDS,RULESET_REVISION} from '../public/levels.js';
 import {parseWorld} from '../public/world-format.js';
+const isolatedOnly=process.argv.includes('--isolated-only');
+const receiptFile=process.argv.find(v=>v.startsWith('--receipt='))?.slice(10)||'audit/2026-10-14-final-live-check.json';
 const origin='https://sane-guild-8399.onpagelove.com',dav='https://dav-sane-guild-8399.onpagelove.com';
 const hash=s=>createHash('sha256').update(s).digest('hex');
 const receipt={utc:new Date().toISOString(),origin,checks:[],cleanup:[]};
@@ -13,7 +15,7 @@ const record=(name,result)=>{receipt.checks.push({name,...result});console.log(J
 const request=async(base,path,options={})=>{const r=await fetch(base+path,{...options,signal:AbortSignal.timeout(20000)});return {status:r.status,ok:r.ok,etag:r.headers.get('etag'),date:r.headers.get('date'),body:await r.text()};};
 const rows=html=>[...new DOMParser().parseFromString(html,'text/html').querySelectorAll('#scores > li')].map(li=>Object.fromEntries([...li.querySelectorAll('meta[itemprop]')].map(m=>[m.getAttribute('itemprop'),m.getAttribute('content')])));
 let input='';if(process.stdin.isTTY)process.stdin.setRawMode(true);process.stdin.setEncoding('utf8');console.log('Ready for hidden JSON input.');
-process.stdin.on('data',async chunk=>{input+=chunk;if(!/[\r\n]/.test(input))return;process.stdin.removeAllListeners('data');try{const {key}=JSON.parse(input.trim());input='';await run(key);process.exitCode=0;}catch(e){receipt.failure=e.message;console.log(JSON.stringify({failure:e.message}));process.exitCode=1;}finally{await fs.writeFile('audit/2026-10-14-final-live-check.json',JSON.stringify(receipt,null,2));process.exit(process.exitCode);}});
+process.stdin.on('data',async chunk=>{input+=chunk;if(!/[\r\n]/.test(input))return;process.stdin.removeAllListeners('data');try{const {key}=JSON.parse(input.trim());input='';await run(key);process.exitCode=0;}catch(e){receipt.failure=e.message;console.log(JSON.stringify({failure:e.message}));process.exitCode=1;}finally{await fs.writeFile(receiptFile,JSON.stringify(receipt,null,2));process.exit(process.exitCode);}});
 async function run(key){
  const auth={Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8'};
  const identity=await request('https://config.onpagelove.com','/console/index.html',{headers:auth});if(!identity.ok||!identity.body.includes('dav-sane-guild-8399.onpagelove.com'))throw Error('Host identity verification failed');
@@ -31,19 +33,24 @@ async function run(key){
   const isolated=template.replaceAll('/scores.html',resource).replaceAll(origin+'/Run',type).replaceAll('onpagelove[.]com/Run','onpagelove[.]com/AcceptanceRun-'+id);
   const createdResponse=await request(dav,resource,{method:'PUT',headers:{...auth,'If-None-Match':'*'},body:isolated});created=createdResponse.ok;if(!created)throw Error('Disposable board creation '+createdResponse.status);
   record('disposable-production-rules-copy',{status:createdResponse.status,sha256:hash(isolated)});
+  if(!isolatedOnly){
   productionAttempted=true;
   const posted=await request(origin,'/scores.html',{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:html(runId)});
   const readback=await request(dav,'/scores.html',{headers:auth}),saved=rows(readback.body).filter(r=>r.runKey===runId);
   record('production-score-submit',{status:posted.status,persistedCount:saved.length,serverExpiryMs:saved[0]?Number(saved[0].expiresAt)-Date.now():null});
   if(posted.ok){const duplicate=await request(origin,'/scores.html',{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:html(runId)});const after=await request(dav,'/scores.html',{headers:auth});record('production-duplicate',{status:duplicate.status,persistedCount:rows(after.body).filter(r=>r.runKey===runId).length});}
+  }else await new Promise(resolve=>setTimeout(resolve,65000));
   const sampleId=randomUUID(),sample=html(sampleId).replace(origin+'/Run',type);
   // New policies can have delayed discovery; retry a harmless empty read, then submission.
   await request(origin,resource);
   const submitted=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:sample});
   record('isolated-valid-submit',{status:submitted.status,detail:submitted.ok?'accepted':submitted.body.slice(0,350)});
+  if(!submitted.ok)throw Error('Valid isolated submission failed');
+  const duplicate=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:sample}),persisted=rows((await request(dav,resource,{headers:auth})).body).filter(r=>r.runKey===sampleId);record('isolated-duplicate',{status:duplicate.status,persistedCount:persisted.length});if(duplicate.status!==422||persisted.length!==1)throw Error('Duplicate contract failed');
   for(const [name,body]of [['invalid-score',sample.replace('content="0"','content="-1"')],['client-expiry',sample.replace('</li>','<meta itemprop="expiresAt" content="1"></li>')]]){
-   const r=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body});record(name,{status:r.status,detail:r.ok?'unexpected acceptance':r.body.slice(0,200)});
+   const r=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:body.replace(sampleId,randomUUID())});record(name,{status:r.status,detail:r.ok?'unexpected acceptance':r.body.slice(0,200)});if(r.status!==422)throw Error('Invalid isolated score accepted: '+name);
   }
+  if(isolatedOnly)return;
   // Seed explicit expiry timestamps using owner authoring, only on this disposable board.
   const now=Date.now(),ids={expired:randomUUID(),active:randomUUID()},fixtureRows=[['expired',now-10000],['active',now+432000000]].map(([kind,expires])=>html(ids[kind]).replace(origin+'/Run',type).replace('</li>','<meta itemprop="expiresAt" content="'+expires+'"></li>')).join('');
   const state=await request(dav,resource,{headers:auth});const seeded=await request(dav,resource,{method:'PUT',headers:{...auth,'If-Match':state.etag},body:isolated.replace('<ul id="scores"></ul>','<ul id="scores">'+fixtureRows+'</ul>')});if(!seeded.ok)throw Error('Expiry fixture seed '+seeded.status);

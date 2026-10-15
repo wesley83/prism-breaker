@@ -1,0 +1,36 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests\follow-up-review.test.mjs:
+(pass) R08 unsupported structured properties fail explicitly instead of disappearing on export [29.67ms]
+(pass) R08 hostile markup stays inert and supported worlds retain complete canonical round trips [24.12ms]
+(pass) R14 generated document titles and validation messages retain correct UTF-8 [1.14ms]
+24 | test('R14 generated document titles and validation messages retain correct UTF-8',()=>{
+25 |  assert.ok(worldDocument(originalWorld(0)).includes('<title>Prism Garden · World definition</title>'));
+26 |  const empty=originalWorld(0);empty.formations[0].bricks=[];assert.throws(()=>worldHTML(empty),/1–80 bricks/);
+27 | });
+28 | test('R08 inherited object names and off-board obstacle/movement geometry are rejected',()=>{
+29 |  const inherited=originalWorld(0);inherited.types.push({type:'urn:Brick:Custom:review',name:'Review',base:'constructor',effect:'none'});assert.throws(()=>worldHTML(inherited),/Invalid brick behavior/);
+                                                                                                                                                    ^
+AssertionError: Missing expected exception.
+ generatedMessage: false,
+     actual: undefined,
+   expected: /Invalid brick behavior/,
+   operator: "throws",
+       diff: "simple",
+       code: "ERR_ASSERTION"
+
+      at C:\Users\Wesley\Documents\Codex\Pagelove\games\prism-breaker\.private\github-publish\prism-breaker\tests\follow-up-review.test.mjs:29:144
+      at run (node:async_hooks:144:29)
+      at node:test:1445:26
+      at executeTestNode (node:test:1448:45)
+      at node:test:1591:20
+(fail) R08 inherited object names and off-board obstacle/movement geometry are rejected [5.65ms]
+(pass) R02 independent piecewise wall trajectories never miss sampled paddle-solid contacts [632.22ms]
+(pass) R07 independently calculated streak, pickup, clear and speed totals agree [2.10ms]
+(pass) R02 pause freezes powers and saved board time, including Sticky/Wide support [1.03ms]
+(pass) R02 a reflected wall contact catches the lower paddle during the actual 120 Hz game step [0.43ms]
+(pass) R12 all sixteen worlds complete through real collisions with ordinary lives and earned powers only [406.98ms]
+
+ 8 pass
+ 1 fail
+Ran 9 tests across 1 file. [1243.00ms]

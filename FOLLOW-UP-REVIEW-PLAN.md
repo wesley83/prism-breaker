@@ -2,6 +2,8 @@
 
 Prepared October 15, 2026 UTC. Companion to the [retrospective](RETROSPECTIVE.md). Baseline: `c77f341`; last recorded runtime `a998edcd3009a53d6733`.
 
+**Execution update:** Wesley subsequently requested these reviews. See [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for actual checks, fixes, remaining gaps and the updated assessment. Original planning statuses below are retained as historical scope; they are not the current execution ledger.
+
 ## Status and ordering
 
 This is a proposed execution backlog and acceptance contract. It is **not a record that the reviews below have been completed**. Existing evidence is a starting point, with its original limits. No runtime tests, device sweep, deployment or new workflow installation were performed while writing this plan.

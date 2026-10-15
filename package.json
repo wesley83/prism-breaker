@@ -7,6 +7,8 @@
     "test": "bun test ./tests",
     "serve": "bun tools/serve.mjs",
     "check": "bun tools/build-pwa.mjs --check",
+    "check:repository": "bun tools/repository-check.mjs",
+    "release:check": "bun tools/release-gate.mjs",
     "build": "bun tools/build-worlds.mjs && bun tools/build-bundled-worlds.mjs && bun tools/build-world-policy.mjs && bun tools/build-data.mjs && bun tools/build-editor.mjs && bun tools/build-pwa.mjs"
   },
   "dependencies": {

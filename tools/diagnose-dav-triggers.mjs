@@ -27,7 +27,7 @@ async function diagnose(key,mode){
  const consoleRead=await fetchSafe('https://config.onpagelove.com/console/index.html',{headers:{Authorization:'Bearer '+key}});
  if(!consoleRead.ok||!(await consoleRead.text()).includes('dav-sane-guild-8399.onpagelove.com'))throw Error('Pinned host identity/authentication failed');
  const id=randomUUID(),resources=[];let target,policy;
- const receipt={utc:new Date().toISOString(),origin,dav,isolatedPerCase:true,checks:[],cleanup:[]};
+ const receipt={utc:new Date().toISOString(),mode:mode||'immediate',origin,dav,isolatedPerCase:true,checks:[],cleanup:[]};
  const record=value=>{receipt.checks.push(value);console.log(JSON.stringify(value.attempts?{name:value.name,sourcePreserved:value.sourcePreserved,statuses:value.attempts.map(a=>a.status),messages:value.attempts.filter(a=>a.status!==200).map(a=>a.body.slice(0,350))}:value));};
  const remove=async p=>{const r=await fetchSafe(dav+p,{method:'DELETE',headers:auth});await r.text();if(!r.ok&&r.status!==404)throw Error('Diagnostic cleanup '+r.status);return r.status;};
  const allocate=async()=>{const suffix=randomUUID();target='/_prism-dav-diagnostic-'+suffix+'.html';policy='/_prism-dav-policy-'+suffix+'.html';resources.push(policy,target);const r=await put(target,wrap('<p id="marker">original</p>'),{'If-None-Match':'*'});if(r.status!==201)throw Error('Diagnostic target creation '+r.status);};
@@ -109,6 +109,7 @@ async function diagnose(key,mode){
   const schemaSource='export default function(){throw {schema_url:"https://pagelove.org/HTTPResponse",status:422,message:"disposable-schema-denied"};}';
   await put(policy,wrap('<div itemscope itemtype="https://pagelove.org/Schema"><meta itemprop="type" content="'+schemaType+'"><div itemprop="@validate" itemscope itemtype="https://pagelove.org/JavaScript/Module"><script itemprop="source" type="module">'+schemaSource+'</script></div></div>'));
   // A public read now loads the prepared host policy set.
+  if(mode==='settled')await new Promise(resolve=>setTimeout(resolve,65000));
   for(const config of matrix){target=config.target;policy=config.policy;
    const publicRead=await fetchSafe(origin+target+'?probe='+randomUUID(),{cache:'no-store'});const publicBody=await publicRead.text();
    const before=await ownerRead(target);if(before.status!==200||!before.etag)throw Error('Missing baseline/ETag');
@@ -124,7 +125,7 @@ async function diagnose(key,mode){
  }catch(error){failure=error;receipt.failure=error.message;}
  finally{
   for(const p of resources){try{const status=await remove(p);const read=await ownerRead(p);receipt.cleanup.push({path:p,deleteStatus:status,readStatus:read.status});}catch(error){receipt.cleanup.push({path:p,error:error.message});failure??=error;}}
-  await fs.mkdir('audit',{recursive:true});const output='audit/2026-10-14-dav-diagnostic-'+id+'.json';await fs.writeFile(output,JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({receipt:output,cleanup:receipt.cleanup}));
+  await fs.mkdir('audit',{recursive:true});const output='audit/'+new Date().toISOString().slice(0,10)+'-dav-diagnostic-'+id+'.json';await fs.writeFile(output,JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({receipt:output,cleanup:receipt.cleanup}));
  }
  if(failure)throw failure;
 }

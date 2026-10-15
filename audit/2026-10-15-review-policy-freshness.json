@@ -1,0 +1,134 @@
+{
+  "utc": "2026-10-15T13:31:39.310Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "dav": "https://dav-sane-guild-8399.onpagelove.com",
+  "isolatedPerCase": true,
+  "checks": [
+    {
+      "name": "cache-baseline",
+      "result": {
+        "status": 418,
+        "body": "policy-A"
+      }
+    },
+    {
+      "name": "cache-policy-update",
+      "status": 200,
+      "storedB": true
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 0,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 200,
+        "body": "normal-document"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 1,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 200,
+        "body": "normal-document"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 5,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 200,
+        "body": "normal-document"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 15,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 200,
+        "body": "normal-document"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 31,
+      "updated": {
+        "status": 418,
+        "body": "policy-A"
+      },
+      "added": {
+        "status": 200,
+        "body": "normal-document"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 61,
+      "updated": {
+        "status": 418,
+        "body": "policy-B"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-freshness",
+      "elapsedSeconds": 91,
+      "updated": {
+        "status": 502,
+        "body": "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml'>\n\n<head>\n    <meta content='text/html; charset=utf-8' http-equiv='content-type' />\n    <style type='text/css'>\n        body {\n            font-family: Arial;\n            margin-left: 40"
+      },
+      "added": {
+        "status": 418,
+        "body": "policy-C"
+      }
+    },
+    {
+      "name": "cache-policy-deleted",
+      "ownerRead": 404,
+      "publicResult": {
+        "status": 418,
+        "body": "policy-B"
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-dav-policy-031b3030-c247-4e94-984f-37ef8fcc75ad.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-031b3030-c247-4e94-984f-37ef8fcc75ad.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-policy-add9ea73-8392-4df2-888a-70a23b324810.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-dav-diagnostic-add9ea73-8392-4df2-888a-70a23b324810.html",
+      "deleteStatus": 204,
+      "readStatus": 404
+    }
+  ]
+}
