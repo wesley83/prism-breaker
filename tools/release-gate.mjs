@@ -12,9 +12,9 @@ export async function sourceIdentity(root=ROOT){
  const actualRoot=path.resolve(git(root,['rev-parse','--show-toplevel'])),expectedRoot=path.resolve(root),sameRoot=process.platform==='win32'?actualRoot.toLowerCase()===expectedRoot.toLowerCase():actualRoot===expectedRoot;
  if(!sameRoot)throw Error('Run release checks from the Prism Breaker Git checkout, not its outer authoring mirror or a parent repository.');
  const top=await fs.readdir(root),controls=top.filter(n=>n.endsWith('.md')||['.gitattributes','.gitignore','bunfig.toml'].includes(n));
- const files=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...controls,'package.json','bun.lock'].sort();
+ const files=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'review'),...await filesUnder(root,'.github'),...controls,'package.json','bun.lock'].sort();
  const hashes=[];for(const file of files)hashes.push([file,sha(await fs.readFile(path.join(root,file)))]);
- return {commit:git(root,['rev-parse','HEAD']),digest:sha(JSON.stringify(hashes)),files:hashes.length,dirty:!!git(root,['status','--porcelain','--untracked-files=all','--','public','tools','tests','.github',...controls,'package.json','bun.lock'])};
+ return {commit:git(root,['rev-parse','HEAD']),digest:sha(JSON.stringify(hashes)),files:hashes.length,dirty:!!git(root,['status','--porcelain','--untracked-files=all','--','public','tools','tests','review','.github',...controls,'package.json','bun.lock'])};
 }
 export function validateReceipt(receipt,{identity,release,now=Date.now()}){
  if(identity.dirty)throw Error('Commit release inputs before approval or deployment.');

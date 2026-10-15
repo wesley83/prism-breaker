@@ -1,0 +1,180 @@
+{
+  "at": "2026-10-15T16:16:12.578Z",
+  "actor": "Codex",
+  "baseline": "7384e313238d8489f208f6cc55b3be4049b326bf",
+  "release": "d77abd4a8738088292f7",
+  "basis": "Final affected working bytes after RW-07 LF correction; excludes self; private artifacts excluded",
+  "rawTestCaptureSha256": "160adafcb79335c515bac3021fd8b3495392b997e12a2d20b5136d1b9487fcf1",
+  "files": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 2549,
+      "sha256": "22256ebee3c72bb33e06f7b27b703fbb9f19dc16a840ab4da748187c0c0a194a"
+    },
+    {
+      "file": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "bytes": 15239,
+      "sha256": "8254ff8581292241357bd9d12efaf1218c3df56118f24b5d1a433d3c5cde21b5"
+    },
+    {
+      "file": "FOLLOW-UP-REVIEW-RESULTS.md",
+      "bytes": 19057,
+      "sha256": "a92fbe696020b15801c8eada89b6eb540dd5e5daa0b4ce33e4266961790f94aa"
+    },
+    {
+      "file": "PLATFORM-REQUIREMENTS.md",
+      "bytes": 4400,
+      "sha256": "91e2f837cafbe132b01fa0a82e4fd3b93a937cda040e37a013df6a9cb5aa357f"
+    },
+    {
+      "file": "README.md",
+      "bytes": 46218,
+      "sha256": "8a4b0b6075e0d19e75214b073626a4d64345072583ab66d641218d36d7b1aff2"
+    },
+    {
+      "file": "RELEASE-PUBLICATION.md",
+      "bytes": 5068,
+      "sha256": "50680b6a2a275694b21591ba01ee8cf15ba0604175ea6e1a6ab458a381ad5fd4"
+    },
+    {
+      "file": "REMAINING-WORK-IMPLEMENTATION.md",
+      "bytes": 4818,
+      "sha256": "75faf6f16798fd6dbce06bcfd6c8bb9d6379d994f1e16be3e3b054a10d7ef43f"
+    },
+    {
+      "file": "audit/2026-10-15-native-capability-research.json",
+      "bytes": 2528,
+      "sha256": "b73f3d44c59fbd86543cf2ab92658887406b2b7af31cf2b00e032bac6cfd5638"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-acceptance.json",
+      "bytes": 362,
+      "sha256": "0b56bff6ef95144b9a968d1916826f01e651da440465b8e6cbbce4f5a16a39ec"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-browser.json",
+      "bytes": 1567,
+      "sha256": "2b911594664bdec50b5c9516b62a77186766a84117d0fd155e2576472c343e4c"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-changes.patch",
+      "bytes": 108428,
+      "sha256": "6b5011e602b9c58c6c99548c32711457930613b6d564702b73a7595565e523a8"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-live-before.json",
+      "bytes": 44562,
+      "sha256": "44a50f6f4e7f4e47d69abb065b26889da1628a8631022d00d052ff5c8bc7cde0"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-tests.txt",
+      "bytes": 16829,
+      "sha256": "9e525cf43946eb23924f6136fab096007fa955034e7130de07d5a1cf363bfad8"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-work.md",
+      "bytes": 12840,
+      "sha256": "dc23d43b26121699df8878866690707b5dc215111f95d0881cfa012a16bfd2df"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 24196,
+      "sha256": "d499bcd9086f9578af910829b40c771c2cfd2a53fd8143b4236c649556a19d91"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "2486737a1a50bb702419ffaaf2843942bdcc6a4d5ed5a69e0c37356fae308a79"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 29009,
+      "sha256": "4f44b820dab497dbc71f591d842f6161136f0c11dc33a51fa86869b57b074507"
+    },
+    {
+      "file": "review/acceptance-plan.html",
+      "bytes": 11016,
+      "sha256": "017a61fff485f4f81edd0740d690cb0adfa446fc43ae732bce41be3bcb1460a7"
+    },
+    {
+      "file": "tests/immutable-release.test.mjs",
+      "bytes": 8719,
+      "sha256": "e6fa42b9de2c84aefcb036974da62fd08a998cebaa58d78f110fee145b6627e8"
+    },
+    {
+      "file": "tests/policy-acceptance.test.mjs",
+      "bytes": 1540,
+      "sha256": "a3e5426e3eb4e92675bb64dd5eb9cb066d490f4a33840c5b8d47ccfa770d58a3"
+    },
+    {
+      "file": "tests/pwa-worker.test.mjs",
+      "bytes": 20821,
+      "sha256": "3065140efeb7caa2e5bb4dda7096421c94fa6d73c265e0acfd15e17aada7a017"
+    },
+    {
+      "file": "tools/acceptance-status.mjs",
+      "bytes": 3460,
+      "sha256": "51187ff2a9bf8d61ab446881dbe65d2ad09d86c0666cd4b3fb7a376c5cff763d"
+    },
+    {
+      "file": "tools/build-pwa.mjs",
+      "bytes": 6686,
+      "sha256": "11b30867bc6c1c12139e670d53057c591647f72952c46e0d98252b147799da66"
+    },
+    {
+      "file": "tools/build-world-policy.mjs",
+      "bytes": 340,
+      "sha256": "58d18ed00afb744a152945b6923de4a876189a4445142014a40568a24bee86f1"
+    },
+    {
+      "file": "tools/check-live-pwa.mjs",
+      "bytes": 2977,
+      "sha256": "6a27c0819c66a03869f5dc26ffe72fc7e0e9a5c2177fd04d1c9a0f78251f0e54"
+    },
+    {
+      "file": "tools/immutable-release.mjs",
+      "bytes": 2627,
+      "sha256": "f2a7f34bb5ce5c38807cdfcf2da1cae835e8a015252f031d3e4d9f74d0b73540"
+    },
+    {
+      "file": "tools/live-release-contract.mjs",
+      "bytes": 1471,
+      "sha256": "fa00c1c507017303aff66d010f9d13d69968afeab82e901a90c7be13671f5067"
+    },
+    {
+      "file": "tools/policy-publication.mjs",
+      "bytes": 934,
+      "sha256": "37cac18daee766aa7a9de6ba96c52fe8e2269dcdc9c4a91c7b98a67f4ec281d4"
+    },
+    {
+      "file": "tools/publish-release.mjs",
+      "bytes": 8030,
+      "sha256": "9ad79c5eb10814501b09d9097cb5fb06ec444761b09eed9052ce9b1d666a3ee3"
+    },
+    {
+      "file": "tools/release-gate.mjs",
+      "bytes": 4627,
+      "sha256": "4df8ad49ee5224ec95011daf54e96557a358031263dab12aa771b866fe887636"
+    },
+    {
+      "file": "tools/remote.mjs",
+      "bytes": 14890,
+      "sha256": "e5a27664d75a54a4175e8746d1450642c3d6cabed56312d0e2674446192fe781"
+    },
+    {
+      "file": "tools/repository-check.mjs",
+      "bytes": 2990,
+      "sha256": "433c0c2a3e339d5700699004a806db766f9570b48b5a8e634e88575098a7ed04"
+    },
+    {
+      "file": "tools/serve.mjs",
+      "bytes": 1947,
+      "sha256": "d810335bc650f195f4c6b943705a611669744f489bb4dfbfb19e5248140945e0"
+    },
+    {
+      "file": "tools/service-worker.template.js",
+      "bytes": 13894,
+      "sha256": "2aeb34db7331eb19ef2185aeb461882166bb03a25442daa16abbabdad9a46f1c"
+    }
+  ]
+}

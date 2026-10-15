@@ -74,7 +74,7 @@ async function download(asset, cache, controller) {
   const timer = setTimeout(() => controller.abort(new Error('Offline asset download timed out: ' + asset.path)), 20000);
   try {
     controller.signal.throwIfAborted();
-    const url = new URL(asset.path, self.location.origin);
+    const url = new URL(asset.url || asset.path, self.location.origin);
     url.searchParams.set('__prism_release', VERSION);
     const response = await fetch(url.href, {cache: 'reload', credentials: 'same-origin', signal: controller.signal});
     if (response.status !== 200 || response.type === 'opaque' || response.redirected) {
@@ -207,21 +207,25 @@ self.addEventListener('fetch', event => {
   // Selector responses, score reads and writes remain exclusively owned by Pagelove.
   if (request.method !== 'GET' || url.origin !== self.location.origin || request.headers.has('range') || url.pathname.startsWith('/__qa/') || url.pathname.startsWith('/worlds/') || url.pathname.startsWith('/editor/') || url.pathname === '/scores.html' || url.pathname === '/worlds.html') return;
   const navigation = request.mode === 'navigate' && (url.pathname === '/' || url.pathname === '/index.html');
+  const immutable = url.pathname.match(/^\/releases\/([a-f0-9]{20})(\/.*)$/);
+  const logicalPath = immutable ? immutable[2] : url.pathname;
   // A still-open older tab may request a lazy module removed from the latest release.
   const staticPath = url.pathname !== '/sw.js' && (/^\/assets\//.test(url.pathname) || /^\/vendor\//.test(url.pathname) || /\.(?:js|css|webmanifest|ico|svg|png)$/.test(url.pathname));
-  if (!navigation && !paths.has(url.pathname) && !staticPath) return;
+  if (!navigation && !paths.has(logicalPath) && !staticPath) return;
   event.respondWith((async () => {
     const version = navigation ? VERSION : await clientVersion(event.clientId);
     if (navigation && event.resultingClientId) await rememberClient(event.resultingClientId, version);
     // Storage can be evicted independently of registration. Only a newly loaded document
     // may recover from the network; an already-running release must never mix its modules.
     if (version === 'network') return fetch(request, {cache:'no-store'});
+    // A release URL is an identity, not an alias for whichever worker is active.
+    if (immutable && immutable[1] !== version) return new Response('This file belongs to another game release. Reload Prism Breaker.', {status:503});
     let cached;
     try {
-      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
+      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : logicalPath), {cacheName: CACHE_PREFIX + version});
     } catch { /* An online navigation can recover even if CacheStorage is unavailable. */ }
     if (cached) return cached;
-    if (releaseVersion(version) && (navigation || paths.has(url.pathname))) {
+    if (releaseVersion(version) && (navigation || paths.has(logicalPath))) {
       try {
         const cache = await caches.open(CACHE_PREFIX + version);
         await cache.delete(absolute(COMPLETE_PATH));
@@ -233,6 +237,12 @@ self.addEventListener('fetch', event => {
         if (response.ok && event.resultingClientId) await rememberClient(event.resultingClientId, 'network');
         return response;
       } catch { /* A plain offline message below still permits a later online reload. */ }
+    }
+    // Immutable URLs remain coherent even after cache eviction or while a newer
+    // worker controls a page whose older complete cache never existed here.
+    // Fetch only the exact requested identity; never substitute a root alias.
+    if (immutable && immutable[1] === version) {
+      try { const response=await fetch(request,{cache:'no-store'});if(response.ok&&!response.redirected)return response; } catch {}
     }
     // Never splice a new network module into an older running game if storage was evicted.
     return new Response('The offline game download is incomplete. Reconnect and reload Prism Breaker.', {status: 503, headers: {'Content-Type': 'text/plain; charset=utf-8'}});

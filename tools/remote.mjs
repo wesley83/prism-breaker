@@ -3,6 +3,8 @@ import path from 'node:path';
 import {createHash} from 'node:crypto';
 import {buildPwa} from './build-pwa.mjs';
 import {assertReleaseGate} from './release-gate.mjs';
+import {publishRelease} from './publish-release.mjs';
+import {assertUnchangedScorePolicy} from './policy-publication.mjs';
 import {WORLD_SLUGS} from '../public/world-format.js';
 import {parseWorld,worldDocument} from '../public/world-format.js';
 import {DOMParser} from 'linkedom';
@@ -41,7 +43,7 @@ process.stdin.on('data', async chunk=>{
         for(let attempt=0;attempt<3&&!done;attempt++){
           const live=await fetch(dav+'/scores.html',{headers:{Authorization:'Bearer '+key}});if(!live.ok)throw Error('Score migration read '+live.status);
           const etag=live.headers.get('etag');if(!etag)throw Error('No ETag: refusing to replace live scores without a concurrency guard');
-          const html=await live.text(),rows=html.match(/<ul\b[^>]*\bid="scores"[^>]*>[\s\S]*?<\/ul>/i)?.[0];if(!rows)throw Error('Missing live score container');
+          const html=await live.text();assertUnchangedScorePolicy(html,template);const rows=html.match(/<ul\b[^>]*\bid="scores"[^>]*>[\s\S]*?<\/ul>/i)?.[0];if(!rows)throw Error('Missing live score container');
           const migrationTime=Date.now();let legacyWithoutTime=0;
           const retainedRows=rows.replace(/<li\b[^>]*>[\s\S]*?<\/li>/g,row=>{if(/itemprop="expiresAt"/.test(row))return row;const submitted=row.match(/itemprop="submittedAt" content="([^"]+)"/)?.[1],time=Date.parse(submitted);if(!Number.isFinite(time))legacyWithoutTime++;const expiresAt=(Number.isFinite(time)?Math.min(time,migrationTime):migrationTime)+432000000;return row.replace('</li>','<meta itemprop="expiresAt" content="'+expiresAt+'"></li>');});
           const merged=template.replace('<ul id="scores"></ul>',retainedRows);if(merged===template&&rows!=='<ul id="scores"></ul>')throw Error('Score merge failed');
@@ -107,24 +109,27 @@ process.stdin.on('data', async chunk=>{
         for(const slug of WORLD_SLUGS){const target='/worlds/'+slug+'/definition.html',existing=await fetch(dav+target,{headers});if(existing.ok){preserved++;continue;}if(existing.status!==404)throw Error('World read '+existing.status);const body=worldDocument(parseWorld(await fs.readFile('public'+target,'utf8'),{Parser:DOMParser,expectedSlug:slug}));const write=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8','If-None-Match':'*'},body});if(write.status===412){preserved++;continue;}if(!write.ok)throw Error('World initialization '+write.status);created++;}
         result={created,preserved};
       }else if(c.op==='activateWorldPolicy'){
-        const policyBytes=await fs.readFile('policy-candidates/world-policy.html');
-        const policyHash=createHash('sha256').update(policyBytes).digest('hex');
-        let proof;try{proof=JSON.parse(await fs.readFile('.private/world-policy-validation.json','utf8'));}catch{}
-        const age=Date.now()-Date.parse(proof?.utc);
-        if(proof?.origin!==origin||proof.writeOrigin!==dav||proof.sha256!==policyHash||!Number.isFinite(age)||age<0||age>86400000)throw Error('Run the authorized isolated DAV world-policy probe for this policy before activation.');
-        const r=await fetch(dav+'/world-policy.html',{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8'},body:policyBytes});
-        if(!r.ok)throw Error('World policy activation '+r.status);result={activated:true,status:r.status};
-      }else if(c.op==='deploy'){
-        // Refuse to publish stale hashes or a release marker from an earlier edit.
+        throw Error('DAV intentionally bypasses validation and triggers. World-policy activation is disabled; owner DAV publishing is the selected authoring contract.');
+      }else if(c.op==='deploy'||c.op==='rollbackRelease'){
+        if(c.initializeScores)throw Error('Game publication preserves score data and policies. Score-policy initialization requires a separate reviewed activation procedure.');
         const approval=await assertReleaseGate();
-        const pwa=await buildPwa({check:true});
-        const headers={Authorization:'Bearer '+key};const receipt=[];
-        for(const folder of ['/assets/','/vendor/','/editor/']){const r=await fetch(dav+folder,{method:'MKCOL',headers});if(![201,405].includes(r.status))throw Error('MKCOL '+folder+' '+r.status);}
-        const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.webmanifest':'application/manifest+json','.json':'application/json'};
-        async function list(dir){let result=[];for(const entry of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,entry.name);if(entry.isDirectory())result.push(...await list(f));else result.push(f);}return result;}
-        const files=(await list('public')).filter(f=>{const name=path.relative('public',f).split(path.sep).join('/');return !name.startsWith('worlds/')&&(c.initializeScores||name!=='scores.html');}).sort((a,b)=>{const priority=f=>path.basename(f)==='sw.js'?3:path.basename(f)==='index.html'?2:path.basename(f)==='app.js'?1:0;return priority(a)-priority(b)||a.localeCompare(b);});
-        for(const file of files){if(path.basename(file)==='sw.js'){await buildPwa({check:true});await assertReleaseGate();}let target='/'+path.relative('public',file).split(path.sep).join('/');if(target==='/editor-route.html')target='/editor/:worldname';const bytes=await fs.readFile(file);const r=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':types[path.extname(file)]||'application/octet-stream'},body:bytes});if(!r.ok)throw Error(target+' upload '+r.status);const check=await fetch(dav+target,{headers});const read=Buffer.from(await check.arrayBuffer());if(!check.ok)throw Error(target+' readback '+check.status);if(!target.endsWith('.html')&&target!=='/editor/:worldname'&&!bytes.equals(read))throw Error(target+' byte mismatch');const entry={path:target,status:r.status,bytes:read.length,sha256:createHash('sha256').update(read).digest('hex')};receipt.push(entry);console.log(JSON.stringify({uploaded:target,status:r.status}));if(target==='/editor.html'){const alias=await fetch(dav+'/editor/index.html',{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8'},body:bytes});if(!alias.ok)throw Error('Editor index '+alias.status);}}
-        await fs.writeFile('deployment.json',JSON.stringify({origin,authoringHost:dav,deployedAt:new Date().toISOString(),approval,pwa,files:receipt},null,2));result={deployed:true,files:receipt.length,pwa};
+        const {package:packageDirectory,...pwa}=await buildPwa({check:true});
+        const version=c.op==='rollbackRelease'?c.version:pwa.version;
+        if(!/^[a-f0-9]{20}$/.test(version||''))throw Error('Invalid rollback version');
+        const selected=c.op==='rollbackRelease'?path.resolve('test-results/release-package',version):packageDirectory;
+        const headers={Authorization:'Bearer '+key};
+        const backupDirectory=path.join('.private/backup','publication-'+Date.now()+'-'+crypto.randomUUID());await fs.mkdir(backupDirectory,{recursive:true});
+        for(const target of ['/index.html','/sw.js','/manifest.webmanifest','/editor.html','/editor/:worldname']){
+          const r=await fetch(dav+target,{headers,cache:'no-store',signal:AbortSignal.timeout(20000)});
+          if(r.ok)await fs.writeFile(path.join(backupDirectory,target.replace(/[^a-z0-9.-]/gi,'_')),Buffer.from(await r.arrayBuffer()));
+          else if(r.status!==404)throw Error('Pre-publication backup '+r.status);
+        }
+        const published=await publishRelease({root:process.cwd(),packageDirectory:selected,version,dav,headers,
+          beforePromote:async()=>{await buildPwa({check:true});await assertReleaseGate();},
+          progress:record=>console.log(JSON.stringify(record)),
+          onCheckpoint:checkpoint=>fs.writeFile('test-results/publication-checkpoint.json',JSON.stringify({...checkpoint,at:new Date().toISOString()},null,2))});
+        const receipt={origin,authoringHost:dav,deployedAt:new Date().toISOString(),approval,pwa:{...pwa,version,...published.cache},...published};
+        await fs.writeFile('deployment.json',JSON.stringify(receipt,null,2));result={deployed:true,version,files:published.files.length,publication:published.publication};
       }else if(c.op==='testScores'){
         const row=(key,score='100',player='QA Check')=>'<li itemscope itemtype="https://sane-guild-8399.onpagelove.com/ProbeRun"><meta itemprop="probeRunKey" content="'+key+'"><meta itemprop="player" content="'+player+'"><meta itemprop="score" content="'+score+'"><meta itemprop="level" content="1"><meta itemprop="mode" content="campaign"><meta itemprop="day" content="all"><meta itemprop="seconds" content="15"></li>';
         const runKey=crypto.randomUUID();const checks=[];

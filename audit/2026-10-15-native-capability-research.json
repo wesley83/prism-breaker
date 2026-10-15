@@ -1,0 +1,63 @@
+{
+  "at": "2026-10-15T16:04:55.819Z",
+  "actor": "Codex",
+  "method": "Direct live official HTTP reads; raw reference HTML retained privately, not instructions",
+  "sources": [
+    {
+      "url": "https://docs.pagelove.com/all/",
+      "status": 200,
+      "bytes": 1460,
+      "sha256": "588832c4425202326d757098e7ac9937e26a022a6c33d6dd4391fa8b6ebc0a30"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reacting-to-changes/",
+      "status": 200,
+      "bytes": 72112,
+      "sha256": "0763c337d87e7a474e9631a029e4e671c629dbea0f058ff242ba61cb6439d6c5"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/permissions/",
+      "status": 200,
+      "bytes": 38942,
+      "sha256": "2065685a2dff8f6efca29921f0010759f5a42cbddfe2e17601a90a1f532fec9e"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/modeling-data/",
+      "status": 200,
+      "bytes": 104284,
+      "sha256": "3e861904946d7938abd653abe81dd8671abf1fcca3db28a91f5389f042b477fc"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reading-and-writing/",
+      "status": 200,
+      "bytes": 73169,
+      "sha256": "6ca70fbf00856d1e78dac69c572295f837ccf37895ae2b237427fb17f8d82b50"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/languages/javascript/",
+      "status": 200,
+      "bytes": 327315,
+      "sha256": "69b384572e3b5b57e613ce6042ed904bdfaf82da45fc2f6f8da0032a48d69754"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/languages/sessel/",
+      "status": 200,
+      "bytes": 184685,
+      "sha256": "b8109798d6f662766ca4278061ca47361e07cb23f281ba9319be7c648d5f985d"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/composing-pages/",
+      "status": 200,
+      "bytes": 133440,
+      "sha256": "77e592651fd02fa358eda8dcaaae429b8563aad7a3edf0f08ca2bc2a814990cf"
+    }
+  ],
+  "findings": [
+    "No supported unattended persistent-record TTL or scheduler identified in inspected references; this is not proof of platform absence.",
+    "Native server JavaScript explicitly has no setTimeout/setInterval or fetch.",
+    "Transient elements are session-scoped, fixed 30-day lifetime; specified per-element TTL is currently ignored.",
+    "Request-driven triggers/processors are not unattended execution.",
+    "Native verified-email application authorization exists but user chose owner DAV only; no grant added.",
+    "General public-policy activation guarantee remains unestablished; game publishing now preserves policies and migration refuses changes."
+  ]
+}

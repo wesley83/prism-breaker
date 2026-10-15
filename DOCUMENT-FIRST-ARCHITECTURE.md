@@ -57,7 +57,7 @@ The generated policy candidate is a separate document with exact catalog paths. 
 
 Live probes on October 14, 2026 found that DAV accepted invalid HP and missing-condition writes despite the trigger; stale ETags were rejected. A separate public GET trigger executed correctly, but public PUT with the owner key returned 401. Support confirmed on October 15, in correspondence relayed by Wesley, that WebDAV intentionally bypasses all schema validation and triggers and is only an authoring mechanism. These observations are expected behavior, not an enforcement bug or a failure of trigger discovery. Probe resources were removed. Shared-schema validation in the editor is useful feedback, but is not server enforcement against an arbitrary owner-authenticated client. Anonymous callers have no world-write grant.
 
-The candidate uses [Pagelove triggers](https://docs.pagelove.com/reference/reacting-to-changes/Trigger/), but it cannot enforce owner DAV writes under the support-confirmed contract. Keep it inactive and excluded from normal deployment. The existing activation tool still demands a DAV probe; that is a historical safety block, not a viable release plan or a reason to keep reporting authoring bypass as a bug. Any future enforcement requires a separately designed supported authenticated application mutation flow, with valid/invalid persistence and permission checks. No such flow, expanded access or extra service is introduced here. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md).
+The candidate uses [Pagelove triggers](https://docs.pagelove.com/reference/reacting-to-changes/Trigger/), but it cannot enforce owner DAV writes under the support-confirmed contract. Keep it inactive and excluded from normal deployment. Wesley chose owner DAV publishing only, and the activation operation now refuses unconditionally. Server-authoritative application writes are outside the selected trust boundary. A future change to that choice would require a separately designed authenticated flow; no expanded access or extra service is introduced here. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md).
 
 Scores retain native authorization, shapes, typed properties, request grammar, unique run keys and server-assigned expiry. The new optional ruleset property accepts old clients alongside new provenance. Revision labels are not anti-cheat proof.
 
@@ -137,13 +137,17 @@ Procedural rendering, music synthesis, compact checkpoints, IndexedDB queues and
 | 22. Qualified benefits | Mechanisms explained without automatic security/accessibility/performance claims |
 | 23. Incremental adoption | Existing URLs, gameplay and compatible histories retained |
 
-This is a maintained engineering checklist, not a certification. The distinct trusted-authoring and application-mutation contracts must remain explicit. The original server-authoritative world-write requirement still needs a supported application path; intended DAV behavior is not a platform bug. Future changes need renewed evidence.
+This is a maintained engineering checklist, not a certification. The distinct trusted-authoring and application-mutation contracts must remain explicit. Owner-only trusted authoring is the selected project contract; the prior application-write redesign is not a remaining promise. Intended DAV behavior is not a platform bug. Future changes need renewed evidence.
 
 ## Release procedure
 
 1. Run bun run build, bun test ./tests and bun run check.
 2. Review the diff, generated policy, audit patch and hashes.
-3. Keep the candidate policy inactive and outside normal deployment. DAV intentionally bypasses it; do not plan activation by waiting for DAV enforcement. Design and verify a supported authenticated application-write path before claiming authoritative world validation.
+3. Keep the historical candidate inactive; activation is disabled for the selected owner-DAV contract. Preserve existing native score policies. Follow the [immutable publication procedure](RELEASE-PUBLICATION.md) for package staging, conditional entries and rollback.
 4. Migrate score rules conditionally while preserving every record.
 5. Publish code/templates/PWA assets, preserving hosted world definitions and scores. Do not publish the inactive candidate as an enforced feature.
 6. Read back the release and check native routes and Update game. Record the world-write enforcement gap explicitly. Local preview does not emulate Pagelove enforcement.
+
+## Immutable runtime representation
+
+The source documents remain authoritative. Immutable release directories are generated deployment representations, not new world-editing sources. Their package manifests, worker inventory and entry markers retain provenance. They include only cached assets and the schema-free editor template; root-only schema-bearing documents are not duplicated for native discovery. Separate conditional entries reference their own complete dependencies. See [publication](RELEASE-PUBLICATION.md), [remaining platform contracts](PLATFORM-REQUIREMENTS.md) and [implementation status](REMAINING-WORK-IMPLEMENTATION.md).

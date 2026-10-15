@@ -1,0 +1,40 @@
+{
+  "at": "2026-10-15T16:13:26.614Z",
+  "actor": "Codex",
+  "method": "Transcribed from actual browser DOM and captured errors; not hardware attestation",
+  "finalCandidate": "d77abd4a8738088292f7",
+  "observations": [
+    {
+      "origin": "http://127.0.0.1:4173",
+      "from": "d2fa444df7cfd477dcf9",
+      "to": "c27c6272afcf8cc2f916",
+      "result": "Update game applied, offline-ready, fixture best retained, immutable bootstrap loaded, Adventure enabled",
+      "errors": []
+    },
+    {
+      "origin": "http://127.0.0.1:4176",
+      "release": "31591d6326d6abfc91b3",
+      "result": "Fresh origin with no personal best; reached offline-ready. Stopped web server, reloaded cached page and started Adventure.",
+      "errors": []
+    },
+    {
+      "origin": "http://127.0.0.1:4176",
+      "from": "31591d6326d6abfc91b3",
+      "to": "d77abd4a8738088292f7",
+      "result": "Explicit update reached offline-ready, retained Continue adventure. Older game tab retained its 31591 release marker/bootstrap while final tab used candidate immutable bootstrap.",
+      "errors": []
+    },
+    {
+      "path": "/editor/prism-garden",
+      "release": "d77abd4a8738088292f7",
+      "result": "Compiled editor loaded all world options, 45-brick formation and launched 3D preview with no captured errors.",
+      "errors": []
+    }
+  ],
+  "limits": [
+    "Desktop Chromium only",
+    "Stopped-server reload is not an installed-app OS-airplane-mode test",
+    "No received native share message sent",
+    "No physical storage pressure or independent human review"
+  ]
+}

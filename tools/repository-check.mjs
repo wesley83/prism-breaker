@@ -19,7 +19,7 @@ export async function checkRepository({root=ROOT}={}){
    links.push({file,target,exists});if(!exists)issues.push(file+': missing '+target);
   }
  }
- const sources=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...(await filesUnder(root,'audit')).filter(n=>/\.(?:md|json|patch|txt)$/.test(n)),...docs,'package.json','bun.lock'];
+ const sources=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'review'),...await filesUnder(root,'.github'),...(await filesUnder(root,'audit')).filter(n=>/\.(?:md|json|patch|txt)$/.test(n)),...docs,'package.json','bun.lock'];
  for(const file of sources){const text=await fs.readFile(path.join(root,file),'utf8');if(credentials.some(pattern=>pattern.test(text)))issues.push(file+': credential pattern found (value suppressed)');}
  for(const file of sources.filter(n=>n.startsWith('public/')&&n.endsWith('.js')&&!n.startsWith('public/vendor/'))){
   const text=await fs.readFile(path.join(root,file),'utf8');

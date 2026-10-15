@@ -1,0 +1,1106 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 22ae831..533dc94 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -14,0 +15,4 @@ Wesley relayed Pagelove support confirmation: WebDAV is only an authoring mechan
++
++## Approved project trust boundaries — October 15, 2026
++
++Wesley explicitly chose to retain owner DAV publishing only and the current casual leaderboard. Do not add an authenticated application-write grant or a separate verified-run board without a new user decision. Keep historical world-policy activation disabled. Routine game publication preserves score rules and records; changed native policies need a supported safe activation procedure. Immutable runtime packages are derived deployment representations; world documents remain the editing sources.
+diff --git a/DOCUMENT-FIRST-ARCHITECTURE.md b/DOCUMENT-FIRST-ARCHITECTURE.md
+index 26d3a63..53133d5 100644
+--- a/DOCUMENT-FIRST-ARCHITECTURE.md
++++ b/DOCUMENT-FIRST-ARCHITECTURE.md
+@@ -60 +60 @@ Live probes on October 14, 2026 found that DAV accepted invalid HP and missing-c
+-The candidate uses [Pagelove triggers](https://docs.pagelove.com/reference/reacting-to-changes/Trigger/), but it cannot enforce owner DAV writes under the support-confirmed contract. Keep it inactive and excluded from normal deployment. The existing activation tool still demands a DAV probe; that is a historical safety block, not a viable release plan or a reason to keep reporting authoring bypass as a bug. Any future enforcement requires a separately designed supported authenticated application mutation flow, with valid/invalid persistence and permission checks. No such flow, expanded access or extra service is introduced here. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md).
++The candidate uses [Pagelove triggers](https://docs.pagelove.com/reference/reacting-to-changes/Trigger/), but it cannot enforce owner DAV writes under the support-confirmed contract. Keep it inactive and excluded from normal deployment. Wesley chose owner DAV publishing only, and the activation operation now refuses unconditionally. Server-authoritative application writes are outside the selected trust boundary. A future change to that choice would require a separately designed authenticated flow; no expanded access or extra service is introduced here. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md).
+@@ -140 +140 @@ Procedural rendering, music synthesis, compact checkpoints, IndexedDB queues and
+-This is a maintained engineering checklist, not a certification. The distinct trusted-authoring and application-mutation contracts must remain explicit. The original server-authoritative world-write requirement still needs a supported application path; intended DAV behavior is not a platform bug. Future changes need renewed evidence.
++This is a maintained engineering checklist, not a certification. The distinct trusted-authoring and application-mutation contracts must remain explicit. Owner-only trusted authoring is the selected project contract; the prior application-write redesign is not a remaining promise. Intended DAV behavior is not a platform bug. Future changes need renewed evidence.
+@@ -146 +146 @@ This is a maintained engineering checklist, not a certification. The distinct tr
+-3. Keep the candidate policy inactive and outside normal deployment. DAV intentionally bypasses it; do not plan activation by waiting for DAV enforcement. Design and verify a supported authenticated application-write path before claiming authoritative world validation.
++3. Keep the historical candidate inactive; activation is disabled for the selected owner-DAV contract. Preserve existing native score policies. Follow the [immutable publication procedure](RELEASE-PUBLICATION.md) for package staging, conditional entries and rollback.
+@@ -149,0 +150,4 @@ This is a maintained engineering checklist, not a certification. The distinct tr
++
++## Immutable runtime representation
++
++The source documents remain authoritative. Immutable release directories are generated deployment representations, not new world-editing sources. Their package manifests, worker inventory and entry markers retain provenance. They include only cached assets and the schema-free editor template; root-only schema-bearing documents are not duplicated for native discovery. Separate conditional entries reference their own complete dependencies. See [publication](RELEASE-PUBLICATION.md), [remaining platform contracts](PLATFORM-REQUIREMENTS.md) and [implementation status](REMAINING-WORK-IMPLEMENTATION.md).
+diff --git a/FOLLOW-UP-REVIEW-RESULTS.md b/FOLLOW-UP-REVIEW-RESULTS.md
+index 872b710..1348785 100644
+--- a/FOLLOW-UP-REVIEW-RESULTS.md
++++ b/FOLLOW-UP-REVIEW-RESULTS.md
+@@ -35 +35 @@ Passes below apply to the stated method. Partial means useful checks passed whil
+-| R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | DAV bypass resolved as intentional trusted authoring by support. Public-policy freshness remains unresolved; authoritative world mutations need a supported application path |
++| R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | DAV bypass resolved as intentional trusted authoring; Wesley chose owner DAV only. Public-policy freshness remains unresolved |
+@@ -81,7 +81 @@ Scores remain client-reported. Bounds, unique IDs, schemas and revision labels p
+-1. **Design authoritative writes on an application path if still required.** Support resolved DAV bypass as intentional trusted authoring, not a platform bug. Keep the candidate inactive; a supported authenticated application-write path would be needed for authoritative world validation. Separately establish public-policy activation/deletion guarantees; repeated successful probes do not settle the fresh unsafe-delete window.
+-2. **Implement native unattended retention or explicitly revise the requirement.** Five-day ranking filtering and on-access cleanup work in checked cases. Physical deletion without traffic still is not implemented. Do not silently add an external scheduler.
+-3. **Complete physical-device and receiver checks.** Actual Android/iOS installation, two-release updates, process termination, airplane mode, storage pressure, keyboards and received share messages remain necessary. Available surfaces provided Chromium desktop; no connected phone or Firefox/WebKit session was available.
+-4. **Obtain independent human play/accessibility review.** Ordinary-lives bot completion strengthens progression evidence; human difficulty, cinematic reading time, screen-reader speech and listening quality still require observers. This agent's additional checks are not another person's signoff.
+-5. **Reduce sequential-publication exposure.** Startup failures now have recovery, and controlled clients retain coherent releases. Immutable assets or native atomic publication would further protect uncontrolled visitors from successfully loaded mixed files. Retain the limitation and verified rollback procedure until then.
+-6. **Enforce the passing CI check and keep evidence scoped.** Pinned CI and the exact-source publisher gate are implemented and pass. Wesley explicitly approved the settings; main now requires the exact GitHub Actions check, with strict up-to-date checks and administrator enforcement, verified by live provider readback. No human approval is required. Maintain explicit device/platform exceptions. Passing automation cannot close those exceptions.
+-7. **Decide the ranking trust level.** Casual client-reported standings are supported. Tamper-resistant competition is additional architecture with separate acceptance criteria.
++The subsequent implementation and user decisions are recorded in [REMAINING-WORK-IMPLEMENTATION.md](REMAINING-WORK-IMPLEMENTATION.md). The publication section below preserves the earlier corrective release's evidence.
+@@ -89 +83,6 @@ Scores remain client-reported. Bounds, unique IDs, schemas and revision labels p
+-The game can receive a scoped corrective release while those limits remain open. Such a release must not be described as universally production-verified or used to close unfinished requirements.
++1. **Native unattended retention remains blocked.** Shared five-day physical deletion without traffic needs a supported native TTL/scheduler. Session transient TTL does not meet this requirement; no external service or silent requirement change is introduced.
++2. **Physical devices and independent people remain unavailable.** Fourteen concrete [acceptance checks](review/acceptance-plan.html) and release-specific private records are prepared; every hardware/human outcome remains not run.
++3. **Public-policy activation guarantees remain unresolved.** Routine game releases now preserve rules, and policy-changing migrations are refused. These controls avoid introducing a policy change during normal deployment; they do not prove a native activation barrier.
++4. **Mixed game-file exposure has an implementation.** Entries now reference immutable dependencies, staged and verified before conditional promotion, with retained versions and rollback. New package/worker failure tests pass; current browser/live evidence is in the implementation report.
++5. **World and ranking trust choices are settled.** Retain owner DAV publishing and the casual leaderboard. The historical world guard is disabled; no application-write grant or verified-run board is being added.
++6. **CI enforcement is complete.** Main requires the passing GitHub Actions check for administrators too, without a human-approval requirement. Evidence remains scoped; CI cannot certify missing hardware, people or platform guarantees.
+diff --git a/PLATFORM-REQUIREMENTS.md b/PLATFORM-REQUIREMENTS.md
+new file mode 100644
+index 0000000..7b4bec5
+--- /dev/null
++++ b/PLATFORM-REQUIREMENTS.md
+@@ -0,0 +1,38 @@
++# Native platform requirements still needing a supported mechanism
++
++October 15, 2026. This is an implementation dependency/request specification, not a claim that Pagelove is defective or that no undocumented capability exists. [Research receipt](audit/2026-10-15-native-capability-research.json).
++
++## Shared scores: physical deletion without traffic
++
++The requested behavior is a maximum five-day lifetime for persistent shared leaderboard records. A server-assigned `expiresAt`, ranking filters and access-driven cleanup exist. They do not execute a physical deletion when all clients are closed and no requests arrive.
++
++Fresh official reference reads established:
++
++- [Server JavaScript](https://docs.pagelove.com/all/languages/javascript/) has no `setTimeout`, `setInterval` or network `fetch`.
++- [Triggers/processors](https://docs.pagelove.com/all/reference/reacting-to-changes/) run in the request lifecycle; outbound HTTP work is dispatched from that lifecycle.
++- [Transient elements](https://docs.pagelove.com/all/reference/composing-pages/) are session-scoped, use a fixed 30-day lifetime, and currently ignore per-element TTL values. Moving public standings into session data would change their meaning and would not meet five-day retention.
++
++No supported native shared-record TTL or unattended scheduler was identified in the inspected reference. No external scheduler, background browser timer or self-request loop is introduced. Browser periodic sync is not an execution guarantee when the app/OS is closed.
++
++### Questions for platform support
++
++1. Is there a native persistent-record expiry or scheduled-task facility that executes without incoming HTTP traffic? What is its documented schema and supported deployment procedure?
++2. What maximum deletion delay, clock basis, restart/retry behavior and authorization identity does it guarantee? Can it preserve all records whose server expiry is still in the future?
++3. How can we observe stored records without a read-triggered cleanup producing an apparent pass? Is there native task execution evidence or a non-triggering inspection path?
++4. If no facility exists, is one planned? The application must then either retain this requirement as blocked or obtain an explicit requirement change. This implementation does not silently relax it.
++
++### Acceptance procedure once available
++
++Use disposable records with independently assigned short expiries and active controls. Observe the native job/TTL without any client request during the expiry interval. Verify physical removal via a non-triggering path and native execution evidence. Test exact cutoffs, skew, restart/retry, concurrency and duplicate execution; retain active records. Only then implement the five-day configuration on the real board while preserving existing records and provenance.
++
++## Safe public-policy activation
++
++Earlier isolated probes observed stale policies, post-deletion execution and a newly published DELETE rule allowing an unexpired control to be removed before its rejection behavior settled. The precise contract/root cause remains unestablished. The documented delay for transition rules is not proof of every general policy's activation semantics.
++
++Ask support for a supported atomic policy/authorization publication mechanism or revision/readiness barrier that covers every worker serving mutations. Determine behavior during updates, deletion, failure and rollback, including a fail-closed method. Consecutive successful warm-up requests are not a guarantee about all future requests.
++
++Until that exists, normal game releases preserve score rules and records. The migration command refuses a changed native policy. This prevents the normal release path from introducing a fresh-policy window; it does not retroactively prove a platform-wide activation barrier or prevent the owner from authoring directly.
++
++## World publishing and ranking trust: resolved product choices
++
++Wesley chose to retain **owner DAV publishing only** and the **casual leaderboard**. DAV intentionally bypasses all schema validation and triggers, as [support confirmed](DAV-TRIGGER-BUG-REPORT.md). The editor/build still validate content; authoring uses ETag conditions and readback. World-policy activation is disabled, and no authenticated application grant or verified-run board is introduced. These are explicit trust boundaries, not open promises to add another architecture.
+diff --git a/README.md b/README.md
+index 31f7475..83b4555 100644
+--- a/README.md
++++ b/README.md
+@@ -46 +46 @@ Checkpoint v2 stores stable world identity, definition and ruleset revisions, an
+-The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. **Support confirmed that WebDAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.** This is expected behavior, not a platform enforcement bug. The generated trigger candidate stays inactive outside deployed assets in policy-candidates/ and cannot enforce DAV authoring. Server-authoritative world mutation validation would require a separately designed supported authenticated application-write path. No anonymous world-write grant was added. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md) and [architecture boundary](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary).
++The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. **Support confirmed that WebDAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.** This is expected behavior, not a platform enforcement bug. The generated trigger candidate stays inactive outside deployed assets in policy-candidates/ and cannot enforce DAV authoring. Wesley chose to retain owner DAV publishing only; no application-write grant is added. No anonymous world-write grant was added. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md) and [architecture boundary](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary).
+@@ -169 +169 @@ These rules validate record structure and ranges. Scores are self-reported; ther
+-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **70 cached files, approximately 2.41 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
++Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **72 cached files, approximately 2.42 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
+@@ -326 +326 @@ The pinned [Quality workflow](.github/workflows/quality.yml) installs frozen Bun
+-The builder derives a release identity from the assets and worker template, updates the entry-page marker, and generates `public/pwa-release.js` and `public/sw.js`. Edit worker behavior in `tools/service-worker.template.js`; regenerate after any runtime change. The publisher refuses a stale build and checks it again before uploading the worker.
++The builder derives a release identity from runtime assets, composition inputs, the worker and packaging code. It generates the source marker/module/worker and an ignored immutable package under `test-results/release-package/<release-id>/`. Published HTML references that package, while native worlds and scores retain their original resources. See [immutable publication and rollback](RELEASE-PUBLICATION.md).
+@@ -330 +330 @@ After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op"
+-1. Uploads runtime modules/assets, then `app.js`, then `index.html`, and **`sw.js` last**.
++1. Stages and verifies create-only files under `/releases/<release-id>/`, then conditionally promotes self-contained entry documents, with root `sw.js` last. Legacy root scripts/styles remain unchanged for older visitors.
+@@ -332 +332 @@ After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op"
+-3. Reads uploaded files back and compares non-HTML bytes. Pagelove may normalize HTML.
++3. Verifies binary/text bytes and normalized HTML structure, refusing collisions or concurrent entry edits. The worker downloads immutable URLs into logical release caches.
+@@ -335 +335 @@ After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op"
+-A fresh host needs its score template installed once. Only use the publisher's `initializeScores` option for deliberate initial setup on an empty host. On an existing host, score-rule updates need a record-preserving migration; the included `migrateScoreRules` helper backs up the live resource and uses its ETag with `If-Match` before replacement.
++Game publication rejects `initializeScores` and never writes score policies or records. `migrateScoreRules` permits record-preserving maintenance only when native policy identity is unchanged; changed rules are refused until a supported safe activation procedure is established. Fresh-host policy setup requires a separate reviewed procedure. The known propagation issue is not declared solved by warming a few requests. See [native platform requirements](PLATFORM-REQUIREMENTS.md).
+@@ -337 +337 @@ A fresh host needs its score template installed once. Only use the publisher's `
+-When switching hosts, update the publisher, entry-page canonical/social URLs, score type/schema, score grammar and `tools/build-data.mjs` together. Vocabulary IRIs such as `https://pagelove.org/Schema` identify platform rule types; they are separate from the game host and Pagelove website link.
++When switching hosts, update the publisher, the pinned absolute-asset origin in `tools/immutable-release.mjs`, entry-page canonical/social URLs, score type/schema, score grammar and `tools/build-data.mjs` together. Vocabulary IRIs such as `https://pagelove.org/Schema` identify platform rule types; they are separate from the game host and Pagelove website link.
+@@ -393,0 +394,6 @@ The repository currently has no top-level license declaration for the game sourc
++
++## Current acceptance and remaining work
++
++See [remaining-work implementation](REMAINING-WORK-IMPLEMENTATION.md) for current outcomes. Owner DAV publishing and the casual leaderboard are explicit choices. Native unattended five-day physical deletion and a guaranteed public-policy activation barrier still need supported platform mechanisms. [Fourteen device and human checks](review/acceptance-plan.html) are prepared but not run because no devices or independent reviewer are available.
++
++Run `bun tools/acceptance-status.mjs init` to create a private release-specific record and `bun tools/acceptance-status.mjs report` to validate/report it. Existing records are never overwritten by initialization. A submitted human record is not a hardware attestation; synthetic results cannot be relabeled as observed phone tests. No private evidence is uploaded automatically.
+diff --git a/RELEASE-PUBLICATION.md b/RELEASE-PUBLICATION.md
+new file mode 100644
+index 0000000..ea0320c
+--- /dev/null
++++ b/RELEASE-PUBLICATION.md
+@@ -0,0 +1,38 @@
++# Immutable game releases and recovery
++
++## Publication contract
++
++The HTML world sources, catalog, shared Practice edits and leaderboard remain document resources. The renderer's scripts, styles, fonts and images are generated runtime representations. Each game entry now references a complete immutable representation under `/releases/<release-id>/`.
++
++`bun run build` writes a reproducible package to the ignored `test-results/release-package/<release-id>/` directory. The identity includes runtime inputs, worker and packaging code, and the editor's composition inputs. The worker inventory retains logical cache keys and adds each asset's immutable network URL. This preserves old client pins and existing saves while isolating network files by release.
++
++Only cache assets and the schema-free editor template are staged under immutable URLs. Root-only schema-bearing HTML is a promotion input, so a second copy cannot register duplicate native schema definitions. The editor route includes its own release's template. Mutable world definitions stay at their original paths.
++
++## Publish
++
++1. Build, review changes and evidence, then commit the exact inputs.
++2. Run `bun run release:check`. Push the source and wait for the required GitHub check before integration. Main enforces the named check for administrators as well.
++3. Start `bun tools/remote.mjs` and authenticate through hidden stdin on the pinned host. Do not save the credential in files, arguments or environment variables.
++4. Send `{"op":"deploy"}`. The publisher backs up current entry documents privately, stages immutable files with create-only conditions, and verifies readback. A collision refuses overwrite. Score data, score policies, individual world documents, old release directories and legacy root scripts/styles are preserved.
++5. After staging, the publisher checks the exact-source gate again. It replaces entry documents with ETag conditions; the game HTML switches before the root worker. Every game entry points to a coherent graph, so a failed later promotion need not mix modules. Concurrent root edits stop publication for reconciliation.
++6. Run `bun tools/check-live-pwa.mjs audit/<dated-receipt>.json`. It verifies immutable asset URLs, hashes, the root entry marker and fullscreen manifest. Check the actual start/update flow as well.
++7. Exit hidden stdin with `{"op":"quit"}`. Keep sanitized receipts in the audit and credentials outside Git.
++
++The source `public/index.html` retains root references for authoring. The published entry is the package's rewritten HTML. Root game modules are intentionally no longer overwritten. Old uncontrolled pages can finish loading those legacy modules; newly published pages use their own release paths.
++
++## Interrupted publication and rollback
++
++`test-results/publication-checkpoint.json` records staging/promotion progress without credentials. Private entry backups use a unique directory per attempt. Do not blindly restore an old document over concurrent changes.
++
++An existing local immutable package includes its own saved worker. With a passing current source gate, send `{"op":"rollbackRelease","version":"<20-character-release-id>"}`. The publisher verifies that package, stages/rechecks its immutable files and conditionally promotes its entries and saved worker. Source and deployed rollback version are recorded separately. The receipt reports the selected worker's actual cache inventory.
++
++Rollback requires the package to exist locally. Preserve needed package directories or rebuild from the corresponding reviewed commit with its own tooling. The first pre-immutable release has no immutable package: recovering it requires explicit review of the private entry backups. Do not claim the new rollback operation can recreate an arbitrary missing historical package.
++
++## Boundaries
++
++- Entries are separate conditional document writes, not a claimed native transaction across the entire site. Old or new self-contained game entries can coexist during publication.
++- Old immutable directories are retained on the host. Cache cleanup on a device is separate from host storage reclamation. Deleting releases requires its own retention policy and proof that active/rollback clients no longer need them.
++- Exact immutable URLs may recover online after cache loss. Missing unversioned modules still fail rather than pulling another release into an old game. Online fallback does not mark a partial cache offline-ready.
++- Owner DAV is trusted authoring. Create-only conditions prevent this publisher from overwriting a release; they do not revoke the owner's ability to modify files with another authoring tool.
++- Runtime publication does not publish new score authorization/trigger rules. Changed native score policies are rejected by `migrateScoreRules` until a supported safe activation procedure is established. Low-level owner authoring remains an owner capability.
++- Device and independent human acceptance remain separate from deterministic package and automation results. See the [acceptance procedure](review/acceptance-plan.html).
+diff --git a/REMAINING-WORK-IMPLEMENTATION.md b/REMAINING-WORK-IMPLEMENTATION.md
+new file mode 100644
+index 0000000..a63735a
+--- /dev/null
++++ b/REMAINING-WORK-IMPLEMENTATION.md
+@@ -0,0 +1,33 @@
++# Remaining-work implementation and acceptance
++
++Updated October 15, 2026 UTC, by Codex. Request: implement the updated assessment. Baseline source 7384e313238d8489f208f6cc55b3be4049b326bf. Candidate runtime d77abd4a8738088292f7. [Execution audit](audit/2026-10-15-remaining-work.md).
++
++## Implemented
++
++- Immutable game dependencies and an exact inventory. Stage/verify the complete dependency set before switching entry documents with ETags. Preserve root legacy modules, prior immutable releases, shared scores/policies and individual world definitions. Compare HTML structurally to tolerate harmless server serialization while rejecting changed executable references.
++- Same-release editor template composition without duplicating schema-bearing native documents. Packaging inputs affect release identity. Worker cache keys stay logical, while network URLs identify releases. Old and new tabs retain their own assets; exact immutable URLs can recover online after eviction without claiming offline readiness.
++- Saved-worker rollback from a retained local package, conditional entry writes, uniquely named private backups and interruption checkpoints. [Procedure and limits](RELEASE-PUBLICATION.md).
++- Normal game publication cannot initialize/replace scores. Native score migration rejects policy changes rather than assuming warm-up probes establish readiness. This contains the normal release path; a platform activation guarantee is still needed for future native rule changes.
++- Historical world-policy activation is disabled. Wesley selected owner DAV publishing only and the casual leaderboard. These choices close the proposed application-write/verified-board redesign scope; no new write grants or external services are added.
++- Fourteen semantic HTML device/human acceptance procedures and a release/plan-bound private record validator. Initialization never overwrites an existing record; observed outcomes require reviewer/environment/evidence metadata. The validator is a consistency check, not hardware or human attestation.
++
++## Available verification
++
++The final full local suite passes **170 tests across 21 files**, with zero failures. Required hosted CI results are recorded during publication below. Targeted staging/failure/collision/concurrent-publication/rollback and worker tests also passed. No scoring formula, formation or physics change is introduced, so the existing ruleset and compatible saves remain.
++
++Actual Chromium browser checks: old d2fa444df7cfd477dcf9 updated to interim c27c6272afcf8cc2f916 and reached offline-ready with fixture best retained. A fresh origin loaded 31591d6326d6abfc91b3 with immutable bootstrap, enabled controls and zero captured errors. With its web server stopped, it reloaded from cache and started Adventure. This is server-unavailable desktop evidence, not OS airplane mode or installed-phone evidence. The final candidate d77abd4a8738088292f7 also applied successfully while an older 31591 tab remained open on its own immutable bootstrap, retaining Continue adventure. The compiled editor loaded its 45-brick formation and launched the 3D preview with zero captured errors. [Browser receipt](audit/2026-10-15-remaining-browser.json), [full local suite](audit/2026-10-15-remaining-tests.txt). Live publication evidence follows below.
++
++## What is still blocked
++
++| Requirement | Status and next dependency |
++| --- | --- |
++| Physical shared-score deletion at five days without traffic | No supported native shared TTL/scheduler identified. JavaScript timers are unavailable; transient/session expiry is fixed at 30 days and ignores per-element TTL. Obtain the supported native facility or explicitly revise the requirement. [Support specification](PLATFORM-REQUIREMENTS.md) |
++| Guaranteed safe public-policy activation | No native revision/readiness barrier established. Normal release and policy-migration safeguards are implemented, but cannot establish a platform guarantee |
++| Android/iOS installation, OS termination/airplane mode/storage pressure and actual native share receivers | Not run: Wesley confirmed no devices are available |
++| Independent campaign, cinematic/audio, keyboard/large-text and screen-reader review | Not run: Wesley confirmed no independent reviewer is available |
++
++[Acceptance checklist](review/acceptance-plan.html). All fourteen human/device checks remain not run. Automation and prepared procedures do not close them. No external scheduler or messages to reviewers/support/share recipients were sent.
++
++## Publication and final checks
++
++At this revision, publication is pending final source/evidence reconciliation, commit, exact-source gate, required hosted CI and live readback. No new live deployment is claimed yet. The following dated receipts/audit entries will record actual outcomes; earlier failures remain preserved.
+diff --git a/public/index.html b/public/index.html
+index 6275c1f..c7ae12d 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -4 +4 @@
+- <meta name="prism-release" content="d2fa444df7cfd477dcf9">
++ <meta name="prism-release" content="d77abd4a8738088292f7">
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index 303faff..7b12f8c 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -2 +2 @@
+-export const PWA_RELEASE = "d2fa444df7cfd477dcf9";
++export const PWA_RELEASE = "d77abd4a8738088292f7";
+diff --git a/public/sw.js b/public/sw.js
+index 9b86ef3..8074d41 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -2 +2 @@
+-const VERSION = "d2fa444df7cfd477dcf9";
++const VERSION = "d77abd4a8738088292f7";
+@@ -6,2 +6,3 @@ const PRECACHE = [
+-    "sha256": "bc14fc3559912df7142c7fde06eb41d275d74907c7496b085de6558877f8d277",
+-    "bytes": 54623
++    "sha256": "6c99fcbb34bba7fc26c82e4f018aa5da70e112bf7769ed9979e349e09099e7ed",
++    "bytes": 54683,
++    "url": "/releases/d77abd4a8738088292f7/app.js"
+@@ -12 +13,2 @@ const PRECACHE = [
+-    "bytes": 3811
++    "bytes": 3811,
++    "url": "/releases/d77abd4a8738088292f7/apple-touch-icon.png"
+@@ -17 +19,2 @@ const PRECACHE = [
+-    "bytes": 22288
++    "bytes": 22288,
++    "url": "/releases/d77abd4a8738088292f7/assets/display.woff2"
+@@ -22 +25,2 @@ const PRECACHE = [
+-    "bytes": 791
++    "bytes": 791,
++    "url": "/releases/d77abd4a8738088292f7/assets/favicon-32.png"
+@@ -27 +31,2 @@ const PRECACHE = [
+-    "bytes": 4401
++    "bytes": 4401,
++    "url": "/releases/d77abd4a8738088292f7/assets/FONT-LICENSE.txt"
+@@ -32 +37,2 @@ const PRECACHE = [
+-    "bytes": 1073
++    "bytes": 1073,
++    "url": "/releases/d77abd4a8738088292f7/assets/ICON-LICENSE.txt"
+@@ -37 +43,2 @@ const PRECACHE = [
+-    "bytes": 10681
++    "bytes": 10681,
++    "url": "/releases/d77abd4a8738088292f7/assets/icons.svg"
+@@ -42 +49,2 @@ const PRECACHE = [
+-    "bytes": 420420
++    "bytes": 420420,
++    "url": "/releases/d77abd4a8738088292f7/assets/og-prism-breaker-square.jpg"
+@@ -47 +55,2 @@ const PRECACHE = [
+-    "bytes": 222971
++    "bytes": 222971,
++    "url": "/releases/d77abd4a8738088292f7/assets/og-prism-breaker.jpg"
+@@ -52 +61,2 @@ const PRECACHE = [
+-    "bytes": 4055
++    "bytes": 4055,
++    "url": "/releases/d77abd4a8738088292f7/assets/prism-icon-192.png"
+@@ -57 +67,2 @@ const PRECACHE = [
+-    "bytes": 27390
++    "bytes": 27390,
++    "url": "/releases/d77abd4a8738088292f7/assets/prism-icon-512.png"
+@@ -62 +73,2 @@ const PRECACHE = [
+-    "bytes": 13028
++    "bytes": 13028,
++    "url": "/releases/d77abd4a8738088292f7/assets/prism-maskable-512.png"
+@@ -67 +79,2 @@ const PRECACHE = [
+-    "bytes": 500
++    "bytes": 500,
++    "url": "/releases/d77abd4a8738088292f7/assets/prism-maskable.svg"
+@@ -72 +85,2 @@ const PRECACHE = [
+-    "bytes": 1375
++    "bytes": 1375,
++    "url": "/releases/d77abd4a8738088292f7/assets/prism-wordmark.svg"
+@@ -77 +91,2 @@ const PRECACHE = [
+-    "bytes": 1094
++    "bytes": 1094,
++    "url": "/releases/d77abd4a8738088292f7/assets/QR-LICENSE.txt"
+@@ -82 +97,2 @@ const PRECACHE = [
+-    "bytes": 27953
++    "bytes": 27953,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-01.png"
+@@ -87 +103,2 @@ const PRECACHE = [
+-    "bytes": 29205
++    "bytes": 29205,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-02.png"
+@@ -92 +109,2 @@ const PRECACHE = [
+-    "bytes": 31118
++    "bytes": 31118,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-03.png"
+@@ -97 +115,2 @@ const PRECACHE = [
+-    "bytes": 29656
++    "bytes": 29656,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-04.png"
+@@ -102 +121,2 @@ const PRECACHE = [
+-    "bytes": 29165
++    "bytes": 29165,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-05.png"
+@@ -107 +127,2 @@ const PRECACHE = [
+-    "bytes": 25415
++    "bytes": 25415,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-06.png"
+@@ -112 +133,2 @@ const PRECACHE = [
+-    "bytes": 27961
++    "bytes": 27961,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-07.png"
+@@ -117 +139,2 @@ const PRECACHE = [
+-    "bytes": 27056
++    "bytes": 27056,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-08.png"
+@@ -122 +145,2 @@ const PRECACHE = [
+-    "bytes": 27537
++    "bytes": 27537,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-09.png"
+@@ -127 +151,2 @@ const PRECACHE = [
+-    "bytes": 27226
++    "bytes": 27226,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-10.png"
+@@ -132 +157,2 @@ const PRECACHE = [
+-    "bytes": 30170
++    "bytes": 30170,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-11.png"
+@@ -137 +163,2 @@ const PRECACHE = [
+-    "bytes": 29931
++    "bytes": 29931,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-12.png"
+@@ -142 +169,2 @@ const PRECACHE = [
+-    "bytes": 27592
++    "bytes": 27592,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-13.png"
+@@ -147 +175,2 @@ const PRECACHE = [
+-    "bytes": 22221
++    "bytes": 22221,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-14.png"
+@@ -152 +181,2 @@ const PRECACHE = [
+-    "bytes": 26493
++    "bytes": 26493,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-15.png"
+@@ -157 +187,2 @@ const PRECACHE = [
+-    "bytes": 32667
++    "bytes": 32667,
++    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-16.png"
+@@ -162 +193,2 @@ const PRECACHE = [
+-    "bytes": 7105
++    "bytes": 7105,
++    "url": "/releases/d77abd4a8738088292f7/audio.js"
+@@ -167 +199,2 @@ const PRECACHE = [
+-    "bytes": 1363
++    "bytes": 1363,
++    "url": "/releases/d77abd4a8738088292f7/bootstrap.js"
+@@ -172 +205,2 @@ const PRECACHE = [
+-    "bytes": 3894
++    "bytes": 3894,
++    "url": "/releases/d77abd4a8738088292f7/brick-events.js"
+@@ -177 +211,2 @@ const PRECACHE = [
+-    "bytes": 2674
++    "bytes": 2674,
++    "url": "/releases/d77abd4a8738088292f7/brick-labels.js"
+@@ -182 +217,2 @@ const PRECACHE = [
+-    "bytes": 127892
++    "bytes": 127892,
++    "url": "/releases/d77abd4a8738088292f7/bundled-worlds.js"
+@@ -187 +223,2 @@ const PRECACHE = [
+-    "bytes": 5802
++    "bytes": 5802,
++    "url": "/releases/d77abd4a8738088292f7/champion.js"
+@@ -192 +229,2 @@ const PRECACHE = [
+-    "bytes": 1984
++    "bytes": 1984,
++    "url": "/releases/d77abd4a8738088292f7/cinematic-score.js"
+@@ -197 +235,2 @@ const PRECACHE = [
+-    "bytes": 15450
++    "bytes": 15450,
++    "url": "/releases/d77abd4a8738088292f7/cinematics.js"
+@@ -202 +241,2 @@ const PRECACHE = [
+-    "bytes": 6127
++    "bytes": 6127,
++    "url": "/releases/d77abd4a8738088292f7/crystal-bricks.js"
+@@ -207 +247,2 @@ const PRECACHE = [
+-    "bytes": 6513
++    "bytes": 6513,
++    "url": "/releases/d77abd4a8738088292f7/daily-ending.js"
+@@ -212 +253,2 @@ const PRECACHE = [
+-    "bytes": 489
++    "bytes": 489,
++    "url": "/releases/d77abd4a8738088292f7/daily-score.js"
+@@ -217 +259,2 @@ const PRECACHE = [
+-    "bytes": 4199
++    "bytes": 4199,
++    "url": "/releases/d77abd4a8738088292f7/display.css"
+@@ -222 +265,2 @@ const PRECACHE = [
+-    "bytes": 2573
++    "bytes": 2573,
++    "url": "/releases/d77abd4a8738088292f7/display.js"
+@@ -226,2 +270,3 @@ const PRECACHE = [
+-    "sha256": "9f7e670228b6524f8dae1878d634af576462ec6b5629cdcfa9ab8b40796f521d",
+-    "bytes": 7605
++    "sha256": "62a6d01ee45d00381c36037aed3a96329de6b5bed912e83fe2574a823e7c7654",
++    "bytes": 7635,
++    "url": "/releases/d77abd4a8738088292f7/editor.css"
+@@ -232 +277,2 @@ const PRECACHE = [
+-    "bytes": 22587
++    "bytes": 22587,
++    "url": "/releases/d77abd4a8738088292f7/editor.js"
+@@ -237 +283,2 @@ const PRECACHE = [
+-    "bytes": 17520
++    "bytes": 17520,
++    "url": "/releases/d77abd4a8738088292f7/engine.js"
+@@ -242 +289,2 @@ const PRECACHE = [
+-    "bytes": 2456
++    "bytes": 2456,
++    "url": "/releases/d77abd4a8738088292f7/favicon.ico"
+@@ -247 +295,2 @@ const PRECACHE = [
+-    "bytes": 442
++    "bytes": 442,
++    "url": "/releases/d77abd4a8738088292f7/favicon.svg"
+@@ -252 +301,2 @@ const PRECACHE = [
+-    "bytes": 910
++    "bytes": 910,
++    "url": "/releases/d77abd4a8738088292f7/graphics-recovery.js"
+@@ -256,2 +306,3 @@ const PRECACHE = [
+-    "sha256": "854f7cd24df277d1318fb383a237be73d1d325a1316758bc9782360e1943d638",
+-    "bytes": 24196
++    "sha256": "ccc646254c23eed0c1422068a3990009e8a0f7738d85c0c37325440537fb81d6",
++    "bytes": 25366,
++    "url": "/releases/d77abd4a8738088292f7/index.html"
+@@ -262 +313,2 @@ const PRECACHE = [
+-    "bytes": 1427
++    "bytes": 1427,
++    "url": "/releases/d77abd4a8738088292f7/leaderboard.js"
+@@ -267 +319,2 @@ const PRECACHE = [
+-    "bytes": 1660
++    "bytes": 1660,
++    "url": "/releases/d77abd4a8738088292f7/levels.js"
+@@ -271,2 +324,3 @@ const PRECACHE = [
+-    "sha256": "cd9bcd8219b7a1125e7b2f5ccedd40cc819aa9d911f3604d9096f33bc115b2fd",
+-    "bytes": 1151
++    "sha256": "8b84ab165a835b93b47a3cd3f461314c5e58e46b8a6cf64a39cc366d8ed7704f",
++    "bytes": 1301,
++    "url": "/releases/d77abd4a8738088292f7/manifest.webmanifest"
+@@ -277 +331,2 @@ const PRECACHE = [
+-    "bytes": 6483
++    "bytes": 6483,
++    "url": "/releases/d77abd4a8738088292f7/music.js"
+@@ -282 +337,2 @@ const PRECACHE = [
+-    "bytes": 10268
++    "bytes": 10268,
++    "url": "/releases/d77abd4a8738088292f7/offline.js"
+@@ -287 +343,2 @@ const PRECACHE = [
+-    "bytes": 4692
++    "bytes": 4692,
++    "url": "/releases/d77abd4a8738088292f7/paddle-art.js"
+@@ -292 +349,2 @@ const PRECACHE = [
+-    "bytes": 19341
++    "bytes": 19341,
++    "url": "/releases/d77abd4a8738088292f7/postprocessing.js"
+@@ -296,2 +354,3 @@ const PRECACHE = [
+-    "sha256": "ec4d7ff8c384d1475c588dcdfc2cf4468a5202fa2244a53c70aa96fafd37a4f4",
+-    "bytes": 88
++    "sha256": "2486737a1a50bb702419ffaaf2843942bdcc6a4d5ed5a69e0c37356fae308a79",
++    "bytes": 88,
++    "url": "/releases/d77abd4a8738088292f7/pwa-release.js"
+@@ -302 +361,2 @@ const PRECACHE = [
+-    "bytes": 8986
++    "bytes": 8986,
++    "url": "/releases/d77abd4a8738088292f7/pwa.js"
+@@ -307 +367,2 @@ const PRECACHE = [
+-    "bytes": 26484
++    "bytes": 26484,
++    "url": "/releases/d77abd4a8738088292f7/scene.js"
+@@ -311,2 +372,3 @@ const PRECACHE = [
+-    "sha256": "dad46ee06044aeb4eb3bc96e75bd5d3ea4c1cf26288f0cf7a04c64d9a6c15413",
+-    "bytes": 11690
++    "sha256": "20906f92e539d9daf312bde68c71726cff492b58d662266717176cf9d3442a89",
++    "bytes": 11750,
++    "url": "/releases/d77abd4a8738088292f7/sharing.js"
+@@ -316,2 +378,3 @@ const PRECACHE = [
+-    "sha256": "354566f0b801cc2be00a8eb4589414c600f21b4287b34c8f40e3c904317f557a",
+-    "bytes": 37648
++    "sha256": "9c676265594c32a22a4781ec831e95b3d5d44bf9292b11f9a5ca18118748bfae",
++    "bytes": 37678,
++    "url": "/releases/d77abd4a8738088292f7/style.css"
+@@ -322 +385,2 @@ const PRECACHE = [
+-    "bytes": 51907
++    "bytes": 51907,
++    "url": "/releases/d77abd4a8738088292f7/vendor/qr.js"
+@@ -327 +391,2 @@ const PRECACHE = [
+-    "bytes": 1081
++    "bytes": 1081,
++    "url": "/releases/d77abd4a8738088292f7/vendor/THREE-LICENSE.txt"
+@@ -332 +397,2 @@ const PRECACHE = [
+-    "bytes": 381124
++    "bytes": 381124,
++    "url": "/releases/d77abd4a8738088292f7/vendor/three.core.min.js"
+@@ -337 +403,2 @@ const PRECACHE = [
+-    "bytes": 338908
++    "bytes": 338908,
++    "url": "/releases/d77abd4a8738088292f7/vendor/three.module.min.js"
+@@ -342 +409,2 @@ const PRECACHE = [
+-    "bytes": 1331
++    "bytes": 1331,
++    "url": "/releases/d77abd4a8738088292f7/victory-music.js"
+@@ -346,2 +414,3 @@ const PRECACHE = [
+-    "sha256": "f84402f80042657f4624eee1245db099f4f1b42ca6e0206769ebe97bf36db1b2",
+-    "bytes": 859
++    "sha256": "7dcca355cbe481c9bd39168649304957797a3621132dfbf0dc28fc6d5c6c55aa",
++    "bytes": 889,
++    "url": "/releases/d77abd4a8738088292f7/world-data.css"
+@@ -352 +421,2 @@ const PRECACHE = [
+-    "bytes": 2792
++    "bytes": 2792,
++    "url": "/releases/d77abd4a8738088292f7/world-format.js"
+@@ -356,2 +426,3 @@ const PRECACHE = [
+-    "sha256": "6a8cf537960bcdb828f74acdd144c2b8adb7a1e733ca8dcc6eac2649c41e4011",
+-    "bytes": 780
++    "sha256": "63fbeb4039f546e6307cfc7b0583cc6559fd376991f5fd8b461c3d9e024ea5dd",
++    "bytes": 810,
++    "url": "/releases/d77abd4a8738088292f7/world-identity.js"
+@@ -361,2 +432,3 @@ const PRECACHE = [
+-    "sha256": "5ac75e0174487736b8dfc4b1a5afa407c0fa2d48871fef73fda06a55f064a432",
+-    "bytes": 11997
++    "sha256": "302814e31b662005ac70344309f0bdc37a0cdbf67f9a1847d0bab076164c7c77",
++    "bytes": 12027,
++    "url": "/releases/d77abd4a8738088292f7/world-schema.js"
+@@ -439 +511 @@ async function download(asset, cache, controller) {
+-    const url = new URL(asset.path, self.location.origin);
++    const url = new URL(asset.url || asset.path, self.location.origin);
+@@ -571,0 +644,2 @@ self.addEventListener('fetch', event => {
++  const immutable = url.pathname.match(/^\/releases\/([a-f0-9]{20})(\/.*)$/);
++  const logicalPath = immutable ? immutable[2] : url.pathname;
+@@ -574 +648 @@ self.addEventListener('fetch', event => {
+-  if (!navigation && !paths.has(url.pathname) && !staticPath) return;
++  if (!navigation && !paths.has(logicalPath) && !staticPath) return;
+@@ -580,0 +655,2 @@ self.addEventListener('fetch', event => {
++    // A release URL is an identity, not an alias for whichever worker is active.
++    if (immutable && immutable[1] !== version) return new Response('This file belongs to another game release. Reload Prism Breaker.', {status:503});
+@@ -583 +659 @@ self.addEventListener('fetch', event => {
+-      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
++      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : logicalPath), {cacheName: CACHE_PREFIX + version});
+@@ -586 +662 @@ self.addEventListener('fetch', event => {
+-    if (releaseVersion(version) && (navigation || paths.has(url.pathname))) {
++    if (releaseVersion(version) && (navigation || paths.has(logicalPath))) {
+@@ -598,0 +675,6 @@ self.addEventListener('fetch', event => {
++    // Immutable URLs remain coherent even after cache eviction or while a newer
++    // worker controls a page whose older complete cache never existed here.
++    // Fetch only the exact requested identity; never substitute a root alias.
++    if (immutable && immutable[1] === version) {
++      try { const response=await fetch(request,{cache:'no-store'});if(response.ok&&!response.redirected)return response; } catch {}
++    }
+diff --git a/review/acceptance-plan.html b/review/acceptance-plan.html
+new file mode 100644
+index 0000000..a0ca46c
+--- /dev/null
++++ b/review/acceptance-plan.html
+@@ -0,0 +1 @@
++<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Prism Breaker device and human acceptance</title><style>body{max-width:850px;margin:40px auto;padding:0 24px;font:18px/1.6 system-ui;color:#202c32;background:#fff}article{border:1px solid #b9c4cb;padding:20px;margin:24px 0}h2{font-size:23px}small{color:#475860}</style></head><body><h1>Device and independent human acceptance</h1><p>These checks are pending. Wesley confirmed on October 15, 2026 that no devices or independent reviewer are available. This document is a procedure, not evidence of execution.</p><p>Use disposable test installations for destructive storage tests. Sending a share requires the human tester to choose and authorize its destination. Never record credentials or private received-message content in Git.</p><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="android-install"><meta itemprop="environment" content="Android phone"><h2 itemprop="title">Android installation and fullscreen</h2><small>Android phone · Not run</small><p itemprop="procedure">Use a disposable test installation. Open the deployed game online; wait for Ready to play offline; install it. Close every game tab and launch from the installed icon. Rotate portrait/landscape and use the fullscreen controls.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Record the actual phone model, Android/browser versions, launch display mode, safe-area layout and release. Fullscreen may fall back where the OS/browser does not support it.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="android-offline"><meta itemprop="environment" content="Android phone"><h2 itemprop="title">Android offline and process termination</h2><small>Android phone · Not run</small><p itemprop="procedure">After a complete download, enable OS airplane mode. Force-stop the installed app and reopen from its icon. Start Adventure and Daily, move/launch/pause, watch a cutscene, resume a saved run, and reopen again. Restore networking.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Offline game/music/cutscenes load; progress survives ordinary termination; online status and score sync recover. Use a disposable board for synthetic submission/queue testing; do not insert QA scores into the shared board.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="android-update"><meta itemprop="environment" content="Android phone"><h2 itemprop="title">Android two-release update and interruption</h2><small>Android phone · Not run</small><p itemprop="procedure">Start from release A and a saved run. Keep a second A tab open. Publish B, check for updates and verify an active run is not interrupted. Apply from a safe screen. Repeat with a deliberately unavailable B asset on a local test host, then restore it and retry.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Failed B leaves A usable. Successful B retains settings/checkpoint/outbox; the older tab keeps its A modules. Capture both release identities and visible update states.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="android-storage"><meta itemprop="environment" content="Android phone"><h2 itemprop="title">Android storage pressure and recovery</h2><small>Android phone · Not run</small><p itemprop="procedure">On a disposable installation, test a full/denied storage condition and separately remove a cached game asset using supported developer controls. Retry download online. Never clear the player’s primary installation or its saves.</p><p><strong>Expected evidence: </strong><span itemprop="expected">No false offline-ready claim. Failures explain recovery; available saves/outbox are retained where storage permits. Record actual OS eviction separately from simulated cache removal.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="android-slack"><meta itemprop="environment" content="Android phone and Slack receiver"><h2 itemprop="title">Android received Slack share</h2><small>Android phone and Slack receiver · Not run</small><p itemprop="procedure">Share a Daily leaderboard entry through Android’s native sheet to a destination you explicitly choose. Inspect the received Slack message. Repeat with the scorecard option.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Received text includes score, readable challenge date and link; received file is readable when supported. Record sender/receiver app versions and a redacted received-message screenshot; payload inspection alone is insufficient.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="ios-install"><meta itemprop="environment" content="iPhone/iPad"><h2 itemprop="title">iOS installation and display</h2><small>iPhone/iPad · Not run</small><p itemprop="procedure">Use a disposable Safari installation. Wait for offline readiness, Add to Home Screen, close Safari and launch from the icon. Check portrait/landscape, safe areas, dialogs and controls.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Actual installed display mode and layout recorded. Do not claim Android-style fullscreen where iOS supplies standalone mode.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="ios-offline"><meta itemprop="environment" content="iPhone/iPad"><h2 itemprop="title">iOS offline and termination</h2><small>iPhone/iPad · Not run</small><p itemprop="procedure">After complete download, enable OS airplane mode, terminate the app and reopen. Play, save/resume, hear music and finish a world. Restore connectivity.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Complete offline game works and reconnects without losing available progress. Record actual device behavior, not desktop emulation.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="ios-update"><meta itemprop="environment" content="iPhone/iPad"><h2 itemprop="title">iOS two-release updates</h2><small>iPhone/iPad · Not run</small><p itemprop="procedure">Repeat the A-to-B safe-screen update, interrupted download, two-client and retry cases using Safari and the installed app.</p><p><strong>Expected evidence: </strong><span itemprop="expected">No forced update during play, coherent assets, retained state and actionable failure recovery.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="ios-storage"><meta itemprop="environment" content="iPhone/iPad"><h2 itemprop="title">iOS storage pressure</h2><small>iPhone/iPad · Not run</small><p itemprop="procedure">Use a disposable installation to observe storage denial/eviction and recovery. Separate OS-initiated eviction from deliberate developer-tool removal.</p><p><strong>Expected evidence: </strong><span itemprop="expected">The app does not claim complete offline readiness when assets are missing; online recovery remains usable. Do not promise persistence against destructive OS eviction.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="ios-share"><meta itemprop="environment" content="iPhone/iPad and chosen receiver"><h2 itemprop="title">iOS received share</h2><small>iPhone/iPad and chosen receiver · Not run</small><p itemprop="procedure">Share text/link and a scorecard through the native sheet to a destination you explicitly select. Inspect the received items.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Readable score/date/link and supported file delivery; record actual receiver/version and redacted evidence.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="human-campaign"><meta itemprop="environment" content="Independent human"><h2 itemprop="title">Independent campaign balance</h2><small>Independent human · Not run</small><p itemprop="procedure">Play all sixteen worlds with ordinary lives and no diagnostic completion shortcuts. Record lives, failure points and power-up usefulness.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Reviewer reports completion/difficulty and actionable balance findings. A bot run is separate supporting evidence.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="human-cinematics"><meta itemprop="environment" content="Independent human"><h2 itemprop="title">Independent cinematic and audio review</h2><small>Independent human · Not run</small><p itemprop="procedure">Watch every world transition and Adventure/Daily/top-score ending, with normal and reduced motion. Listen on phone speaker/headphones at comfortable levels.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Headings/bonuses remain readable for the available time; motion is tolerable; tracks, victory cues and effects are distinguishable without objectionable peaks.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="human-keyboard"><meta itemprop="environment" content="Independent human"><h2 itemprop="title">Keyboard and large text</h2><small>Independent human · Not run</small><p itemprop="procedure">Navigate start/settings/worlds/help/leaderboards/sharing with keyboard only; play/pause/resume; test 200% zoom and enlarged system text on a suitable device.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Visible focus, sensible tab order, no trapped dialogs, reachable actions, no clipped essential copy. Record browser/device and issues.</span></p></article><article itemscope itemtype="urn:PrismBreaker:AcceptanceCheck"><meta itemprop="id" content="human-screenreader"><meta itemprop="environment" content="Independent human using a screen reader"><h2 itemprop="title">Screen-reader speech</h2><small>Independent human using a screen reader · Not run</small><p itemprop="procedure">Use a named screen reader/browser pair to navigate menus, dialogs, leaderboard and game status. Play where feasible and review pause/result recovery.</p><p><strong>Expected evidence: </strong><span itemprop="expected">Names and status changes make sense when spoken, updates do not overwhelm speech, modal focus returns correctly. This is a scoped review, not blanket accessibility certification.</span></p></article><p>Record exact release and source, reviewer, observed UTC time, environment, result and evidence using tools/acceptance-status.mjs. A submitted record is a human assertion, not an independent hardware attestation.</p></body></html>
+diff --git a/tests/immutable-release.test.mjs b/tests/immutable-release.test.mjs
+new file mode 100644
+index 0000000..d7ac4d4
+--- /dev/null
++++ b/tests/immutable-release.test.mjs
+@@ -0,0 +1,67 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++import {buildPwa} from '../tools/build-pwa.mjs';
++import {releaseBytes,sha256} from '../tools/immutable-release.mjs';
++import {publishRelease,sameFile} from '../tools/publish-release.mjs';
++import {liveEntryIssues} from '../tools/live-release-contract.mjs';
++
++async function fixture(){
++ const base=fileURLToPath(new URL('../test-results/',import.meta.url));await fs.mkdir(base,{recursive:true});const root=await fs.mkdtemp(path.join(base,'immutable-review-'));
++ await fs.mkdir(path.join(root,'tools'));await fs.mkdir(path.join(root,'public/assets'),{recursive:true});
++ await fs.copyFile(new URL('../tools/service-worker.template.js',import.meta.url),path.join(root,'tools/service-worker.template.js'));
++ for(const [name,body]of [['index.html','<!doctype html><html><head><link rel="stylesheet" href="/style.css"><link rel="manifest" href="/manifest.webmanifest"><script type="module" src="/app.js"></script></head><body>Fixture</body></html>'],['app.js',"import './lazy.js'; export const image='/assets/preview.png'; export const scores='/scores.html';"],['lazy.js','export const value=1;'],['style.css',"@font-face{src:url('/assets/font.woff2')}"],['assets/preview.png','pixels'],['assets/font.woff2','font'],['manifest.webmanifest','{"id":"/","scope":"/","start_url":"/","icons":[{"src":"/assets/preview.png"}]}']])await fs.writeFile(path.join(root,'public',name),body);
++ return {root,...await buildPwa({root})};
++}
++function dav(){
++ const files=new Map(),events=[];let revision=0,fail='',concurrent=null;
++ const put=(name,bytes)=>files.set(name,{bytes:Buffer.from(bytes),etag:'"'+(++revision)+'"'});
++ const fetch=async(url,options={})=>{const name=new URL(url).pathname,method=options.method||'GET',headers=new Headers(options.headers);events.push({name,method});if(name===fail&&method==='PUT')return new Response('deliberate failure',{status:503});if(method==='MKCOL')return new Response(null,{status:201});if(method==='GET'){const old=files.get(name);return old?new Response(old.bytes,{headers:{etag:old.etag}}):new Response(null,{status:404});}if(method==='PUT'){const old=files.get(name);if(headers.get('If-None-Match')==='*'&&old||headers.has('If-Match')&&headers.get('If-Match')!==old?.etag)return new Response(null,{status:412});put(name,options.body);return new Response(null,{status:old?200:201});}throw Error('Unexpected '+method);};
++ return {files,events,fetch,put,set fail(v){fail=v;}};
++}
++const publish=(f,server,extra={})=>publishRelease({root:f.root,packageDirectory:f.package,version:f.version,dav:'https://dav.example',headers:{},fetch:server.fetch,...extra});
++
++test('immutable package isolates every runtime reference while preserving live routes and installed identity',async()=>{
++ const f=await fixture(),html=await fs.readFile(path.join(f.package,'index.html'),'utf8'),app=await fs.readFile(path.join(f.package,'app.js'),'utf8');
++ assert.match(html,new RegExp('/releases/'+f.version+'/app.js'));assert.match(html,/href="\/manifest.webmanifest"/);
++ assert.match(app,/import '.\/lazy.js'/);assert.match(app,new RegExp('/releases/'+f.version+'/assets/preview.png'));assert.match(app,/'\/scores.html'/);
++ const manifest=JSON.parse(await fs.readFile(path.join(f.package,'manifest.webmanifest'),'utf8'));assert.equal(manifest.start_url,'/');assert.equal(manifest.scope,'/');assert.equal(manifest.icons[0].src,'/releases/'+f.version+'/assets/preview.png');
++ const inventory=JSON.parse((await fs.readFile(path.join(f.root,'public/sw.js'),'utf8')).match(/const PRECACHE = (\[[\s\S]*?\]);/)[1]);
++ for(const a of inventory){assert.equal(a.url,'/releases/'+f.version+a.path);assert.equal(sha256(await fs.readFile(path.join(f.package,a.path.slice(1)))),a.sha256);}
++});
++test('editor immutable composition updates its CSP hash and preserves mutable world includes',()=>{
++ const version='a'.repeat(20),source=Buffer.from(`<html><head><meta content="script-src 'self' 'sha256-old';"><script id="editor-bootstrap">import('/editor.js');</script></head><body><p:include resource="/editor-template.html"></p:include><p:include resource="/worlds/prism-garden/definition.html"></p:include></body></html>`);
++ const output=releaseBytes(source,'editor-route.html',version,['editor.js','editor-template.html']).toString();assert.match(output,/releases\/a{20}\/editor-template.html/);assert.match(output,/resource="\/worlds\/prism-garden\/definition.html"/);assert.doesNotMatch(output,/sha256-old/);
++});
++test('failed immutable staging never promotes entries and never writes live scores/worlds/legacy scripts',async()=>{
++ const f=await fixture(),s=dav();s.put('/index.html','old index');s.put('/app.js','old module');s.put('/scores.html','real records');s.fail='/releases/'+f.version+'/lazy.js';
++ await assert.rejects(publish(f,s),/Immutable upload/);assert.equal(s.files.get('/index.html').bytes.toString(),'old index');assert.equal(s.files.get('/app.js').bytes.toString(),'old module');assert.equal(s.files.get('/scores.html').bytes.toString(),'real records');assert.ok(!s.events.some(e=>e.method==='PUT'&&!e.name.startsWith('/releases/')));
++});
++test('successful promotion retains prior immutable graph and can roll back using its own saved worker',async()=>{
++ const a=await fixture(),s=dav();s.put('/app.js','legacy');await publish(a,s);const old=await fs.readFile(path.join(a.package,'app.js'),'utf8');await fs.appendFile(path.join(a.root,'public/lazy.js'),'\n// release B');const b={root:a.root,...await buildPwa({root:a.root})};assert.notEqual(a.version,b.version);
++ await publish(b,s,{beforePromote:async()=>{assert.match(s.files.get('/index.html').bytes.toString(),new RegExp(a.version));assert.equal(s.files.get('/releases/'+a.version+'/app.js').bytes.toString(),old);}});
++ assert.match(s.files.get('/index.html').bytes.toString(),new RegExp(b.version));assert.equal(s.files.get('/app.js').bytes.toString(),'legacy');await publish(a,s);assert.match(s.files.get('/sw.js').bytes.toString(),new RegExp('const VERSION = "'+a.version+'"'));assert.match(s.files.get('/index.html').bytes.toString(),new RegExp(a.version));
++});
++test('immutable collisions and concurrent root publication refuse overwrite',async()=>{
++ const f=await fixture(),s=dav();s.put('/releases/'+f.version+'/app.js','foreign bytes');await assert.rejects(publish(f,s),/readback mismatch/);assert.equal(s.files.get('/releases/'+f.version+'/app.js').bytes.toString(),'foreign bytes');
++ const clean=dav();clean.put('/index.html','baseline');await assert.rejects(publish(f,clean,{beforePromote:async()=>clean.put('/index.html','another release')}),/Concurrent publication/);assert.equal(clean.files.get('/index.html').bytes.toString(),'another release');
++});
++test('HTML readback tolerates harmless serialization but rejects changed executable sources',()=>{
++ assert.equal(sameFile('/index.html',Buffer.from('<html><head></head><body><p id="a" class="b">Hello</p></body></html>'),Buffer.from('<html><head></head><body>\n<p class="b" id="a">Hello</p>\n</body></html>')),true);
++ assert.equal(sameFile('/index.html',Buffer.from('<script src="/releases/a/app.js"></script>'),Buffer.from('<script src="/releases/b/app.js"></script>')),false);
++});
++test('live verification fails mixed entries and stale root manifest even when immutable assets are valid',async()=>{
++ const f=await fixture(),html=await fs.readFile(path.join(f.package,'index.html'),'utf8'),manifestBytes=await fs.readFile(path.join(f.package,'manifest.webmanifest'));
++ const assets=JSON.parse((await fs.readFile(path.join(f.root,'public/sw.js'),'utf8')).match(/const PRECACHE = (\[[\s\S]*?\]);/)[1]);
++ const manifest=JSON.parse(manifestBytes);manifest.display='fullscreen';const bytes=Buffer.from(JSON.stringify(manifest));assets.find(a=>a.path==='/manifest.webmanifest').sha256=sha256(bytes);
++ const valid={html,manifestBytes:bytes,version:f.version,assets,homeStatus:200,manifestStatus:200};assert.deepEqual(liveEntryIssues(valid),[]);
++ assert.ok(liveEntryIssues({...valid,html:html.replace('/releases/'+f.version+'/app.js','/app.js')}).includes('Mixed entry dependencies'));
++ assert.ok(liveEntryIssues({...valid,manifestBytes:Buffer.from(JSON.stringify({...manifest,name:'stale'}))}).includes('Root manifest differs from release'));
++ assert.ok(liveEntryIssues({...valid,homeStatus:503}).includes('Home unavailable'));
++});
++test('a damaged local package is refused before any provider requests',async()=>{
++ const f=await fixture(),s=dav();await fs.appendFile(path.join(f.package,'index.html'),'<!-- unreviewed change -->');
++ await assert.rejects(publish(f,s),/Package changed after build/);assert.equal(s.events.length,0);
++});
+diff --git a/tests/policy-acceptance.test.mjs b/tests/policy-acceptance.test.mjs
+new file mode 100644
+index 0000000..3a46ec6
+--- /dev/null
++++ b/tests/policy-acceptance.test.mjs
+@@ -0,0 +1,15 @@
++import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';
++import {assertUnchangedScorePolicy} from '../tools/policy-publication.mjs';
++import {acceptancePlan,reviewStatus} from '../tools/acceptance-status.mjs';
++test('native policy edits are blocked independently of preserved score records',async()=>{
++ const original=await fs.readFile('public/scores.html','utf8');assert.equal(assertUnchangedScorePolicy(original,original).unchanged,true);
++ assert.equal(assertUnchangedScorePolicy(original.replace('<ul id="scores"></ul>','<ul id="scores"><li>Record</li></ul>'),original).unchanged,true);
++ assert.throws(()=>assertUnchangedScorePolicy(original,original.replace('content="Allow"','content="Deny"')),/Publication is blocked/);
++ assert.throws(()=>assertUnchangedScorePolicy('<html><body>No policy</body></html>',original),/Missing native score policy/);
++});
++test('pending acceptance remains incomplete and fabricated automatic device passes are rejected',async()=>{
++ const plan=await acceptancePlan(),release='a'.repeat(20),record={schema:1,planSha256:plan.sha256,release,checks:plan.checks.map(c=>({id:c.id,status:'not-run'}))};
++ assert.equal(reviewStatus(plan,record,release).complete,false);assert.equal(reviewStatus(plan,record,release).counts['not-run'],14);
++ record.checks[0]={...record.checks[0],status:'pass',actor:'Codex automation'};assert.throws(()=>reviewStatus(plan,record,release),/Observed human/);
++ assert.throws(()=>reviewStatus(plan,record,'b'.repeat(20)),/different plan/);
++});
+diff --git a/tests/pwa-worker.test.mjs b/tests/pwa-worker.test.mjs
+index c1bebc4..38d354d 100644
+--- a/tests/pwa-worker.test.mjs
++++ b/tests/pwa-worker.test.mjs
+@@ -32 +32 @@ class MemoryCacheStorage {
+-function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = ''} = {}) {
++function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = '', immutable = false} = {}) {
+@@ -35 +35,2 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
+-  const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body)}));
++  if (immutable) resources.set('/assets/font.woff2','fixture font');
++  const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body),...(immutable?{url:'/releases/'+version+path}:{})}));
+@@ -43 +44 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
+-    const resource = pathname === '/' ? '/index.html' : pathname;
++    const resource = pathname === '/' ? '/index.html' : immutable ? pathname.replace('/releases/'+version,'') : pathname;
+@@ -260,0 +262,15 @@ test('legacy count-only completion markers still detect lost assets',async()=>{
++test('immutable downloads and font requests use logical caches without aliasing a different release',async()=>{
++ const first=worker({immutable:true});await first.dispatch('install');await first.message('CLIENT_VERSION');
++ assert.ok(first.fetched.every(p=>p.startsWith('/releases/'+versionA+'/')));
++ const count=first.fetched.length;
++ assert.equal(await(await first.request('/releases/'+versionA+'/assets/font.woff2')).text(),'fixture font');
++ assert.equal(await(await first.request('/releases/'+versionA+'/lazy.js')).text(),first.resources.get('/lazy.js'));
++ assert.equal((await first.request('/releases/'+versionB+'/lazy.js')).status,503);assert.equal(first.fetched.length,count);
++ const next=worker({version:versionB,immutable:true,caches:first.caches});await next.dispatch('install');
++ assert.equal(await(await next.request('/releases/'+versionA+'/lazy.js')).text(),first.resources.get('/lazy.js'));
++ assert.equal((await next.request('/releases/'+versionB+'/lazy.js')).status,503);
++ await(await first.caches.open(cachePrefix+versionA)).delete(origin+'/assets/font.woff2');
++ assert.equal(await(await first.request('/releases/'+versionA+'/assets/font.woff2')).text(),'fixture font');
++ assert.equal((await first.message('GET_STATUS')).ready,false);
++});
++
+diff --git a/tools/acceptance-status.mjs b/tools/acceptance-status.mjs
+new file mode 100644
+index 0000000..8fa11ff
+--- /dev/null
++++ b/tools/acceptance-status.mjs
+@@ -0,0 +1,39 @@
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {fileURLToPath,pathToFileURL} from 'node:url';
++import {DOMParser} from 'linkedom';
++import {sha256} from './immutable-release.mjs';
++const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
++export async function acceptancePlan(){
++ const bytes=await fs.readFile(path.join(root,'review/acceptance-plan.html'));
++ const doc=new DOMParser().parseFromString(bytes.toString(),'text/html');
++ return {sha256:sha256(bytes),checks:[...doc.querySelectorAll('[itemtype="urn:PrismBreaker:AcceptanceCheck"]')].map(n=>({id:n.querySelector('[itemprop="id"]').content,title:n.querySelector('[itemprop="title"]').textContent,environment:n.querySelector('[itemprop="environment"]').content}))};
++}
++export function reviewStatus(plan,record,release){
++ if(record.schema!==1||record.planSha256!==plan.sha256||record.release!==release)throw Error('Acceptance record belongs to a different plan/release');
++ const ids=new Set(plan.checks.map(c=>c.id)),seen=new Set(),counts={pass:0,fail:0,'not-run':0,blocked:0};
++ for(const c of record.checks){
++  if(!ids.has(c.id)||seen.has(c.id)||!Object.hasOwn(counts,c.status))throw Error('Unknown, duplicate or invalid acceptance check');seen.add(c.id);
++  if(c.status==='pass'||c.status==='fail'){
++   if(c.observed!==true||!c.actor||/codex|agent|automation|bot/i.test(c.actor)||!c.environment||!Number.isFinite(Date.parse(c.observedAt))||!Array.isArray(c.evidence)||!c.evidence.length||!c.notes?.trim())throw Error('Observed human/device result requires named reviewer, actual environment, UTC date, notes and evidence');
++   if(c.id.startsWith('android-')||c.id.startsWith('ios-'))if(c.physicalDevice!==true||!c.osVersion||!c.browserVersion)throw Error('Physical-device result requires actual hardware and OS/browser versions');
++  }
++  counts[c.status]++;
++ }
++ if(seen.size!==ids.size)throw Error('Missing acceptance checks');
++ return {release,counts,complete:counts.pass===ids.size,limits:'Records assert observed outcomes; this validator does not attest hardware or independently verify a reviewer.'};
++}
++export async function pendingRecord(){
++ const plan=await acceptancePlan(),worker=await fs.readFile(path.join(root,'public/sw.js'),'utf8'),release=worker.match(/const VERSION = "([a-f0-9]{20})"/)?.[1];
++ if(!release)throw Error('Build the game first');
++ return {schema:1,planSha256:plan.sha256,release,createdAt:new Date().toISOString(),checks:plan.checks.map(c=>({...c,status:'not-run',reason:'No physical devices or independent reviewer available, confirmed by Wesley October 15, 2026.'}))};
++}
++if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){
++ try{
++  const record=await pendingRecord(),file=path.resolve(process.argv[3]||path.join(root,'.private/acceptance/'+record.release+'.json'));
++  if(process.argv[2]==='init'){
++   await fs.mkdir(path.dirname(file),{recursive:true});await fs.writeFile(file,JSON.stringify(record,null,2)+'\n',{flag:'wx'});console.log(JSON.stringify({created:file,release:record.release,checks:record.checks.length,status:'not-run'}));
++  }else if(process.argv[2]==='report')console.log(JSON.stringify(reviewStatus(await acceptancePlan(),JSON.parse(await fs.readFile(file,'utf8')),record.release)));
++  else throw Error('Use init [private-record.json] or report [private-record.json]. Records are never uploaded automatically.');
++ }catch(error){console.error(error.message);process.exitCode=1;}
++}
+diff --git a/tools/build-pwa.mjs b/tools/build-pwa.mjs
+index 2e9972f..6212fc9 100644
+--- a/tools/build-pwa.mjs
++++ b/tools/build-pwa.mjs
+@@ -4,0 +5 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
++import {releaseBytes, writeReleasePackage} from './immutable-release.mjs';
+@@ -42,0 +44,3 @@ export async function buildPwa({check = false, root = project} = {}) {
++  const names = (await filesIn(publicRoot)).map(file => path.relative(publicRoot, file).split(path.sep).join('/')).filter(name => !name.startsWith('worlds/') && !['sw.js', 'scores.html','pwa-release.js'].includes(name));
++  const extras=[];
++  for(const name of names.filter(name=>!assets.some(a=>a.path==='/'+name)))extras.push([name,hash(await fs.readFile(path.join(publicRoot,name)))]);
+@@ -44 +48,3 @@ export async function buildPwa({check = false, root = project} = {}) {
+-  const version = hash(JSON.stringify(assets) + '\n' + template).slice(0, 20);
++  const packager = await fs.readFile(new URL('./immutable-release.mjs', import.meta.url), 'utf8');
++  const builder = await fs.readFile(new URL('./build-pwa.mjs', import.meta.url), 'utf8');
++  const version = hash(JSON.stringify(assets) + JSON.stringify(extras) + '\n' + template + '\n' + packager + '\n' + builder).slice(0, 20);
+@@ -50,0 +57,16 @@ export async function buildPwa({check = false, root = project} = {}) {
++  names.push('pwa-release.js');
++  const entries = [];
++  for (const name of names) {
++    const bytes = name === 'index.html' ? Buffer.from(index) : name === 'pwa-release.js' ? Buffer.from(releaseModule) : await fs.readFile(path.join(publicRoot, name));
++    entries.push([name, releaseBytes(bytes, name, version, names)]);
++  }
++  // A cold build may not have generated pwa-release.js on disk yet.
++  if (!names.includes('pwa-release.js')) entries.push(['pwa-release.js', Buffer.from(releaseModule)]);
++  // Only cache assets and the schema-free template live under immutable URLs.
++  // Root-only schema documents must not be discovered twice by Pagelove.
++  const packaged = await writeReleasePackage({root, version, entries,stagedNames:new Set([...assets.map(a=>a.path.slice(1)),'editor-template.html'])});
++  for (const asset of assets) {
++    const record = packaged.manifest.files.find(file => file.path === asset.path);
++    if (!record) throw Error('Missing immutable asset: ' + asset.path);
++    Object.assign(asset, {url: record.url, sha256: record.sha256, bytes: record.bytes});
++  }
+@@ -52,0 +75,6 @@ export async function buildPwa({check = false, root = project} = {}) {
++  const workerFile = path.join(packaged.directory, 'service-worker.js');
++  const oldWorker = await fs.readFile(workerFile, 'utf8').catch(e=>{if(e.code!=='ENOENT')throw e;return null;});
++  if(oldWorker!==null&&oldWorker!==worker)throw Error('Immutable package worker collision');
++  await fs.writeFile(workerFile, worker);
++  packaged.manifest.worker = {path:'/service-worker.js',url:'/releases/'+version+'/service-worker.js',sha256:hash(worker),bytes:Buffer.byteLength(worker)};
++  await fs.writeFile(path.join(packaged.directory,'release.json'),JSON.stringify(packaged.manifest,null,2)+'\n');
+@@ -62 +90 @@ export async function buildPwa({check = false, root = project} = {}) {
+-  return {version, assets: assets.length, bytes: assets.reduce((sum, asset) => sum + asset.bytes, 0), checked: check};
++  return {version, assets: assets.length, bytes: assets.reduce((sum, asset) => sum + asset.bytes, 0), checked: check, package: packaged.directory};
+diff --git a/tools/build-world-policy.mjs b/tools/build-world-policy.mjs
+index bbc8a46..c4d42a5 100644
+--- a/tools/build-world-policy.mjs
++++ b/tools/build-world-policy.mjs
+@@ -5 +5 @@ await fs.writeFile('policy-candidates/world-policy.html',(await worldPolicy()).h
+-console.log('Generated candidate world policy; activation requires verified host enforcement.');
++console.log('Generated historical validation candidate; DAV intentionally bypasses it and activation is disabled.');
+diff --git a/tools/check-live-pwa.mjs b/tools/check-live-pwa.mjs
+index 157806c..132cbca 100644
+--- a/tools/check-live-pwa.mjs
++++ b/tools/check-live-pwa.mjs
+@@ -3,0 +4 @@ import {createHash} from 'node:crypto';
++import {liveEntryIssues} from './live-release-contract.mjs';
+@@ -19,2 +20,2 @@ for(let offset=0;offset<assets.length;offset+=6){
+-  try{const result=await read(asset.path),sha256=hash(result.body);const match=asset.path==='/index.html'?result.body.toString().includes('content="'+version+'"'):sha256===asset.sha256;
+-   return {path:asset.path,status:result.status,redirected:result.redirected,headers:result.headers,bytes:result.body.length,sha256,valid:result.status===200&&!result.redirected&&match};
++  try{const result=await read(asset.url||asset.path),sha256=hash(result.body);const match=asset.path==='/index.html'?result.body.toString().includes('content="'+version+'"'):sha256===asset.sha256;
++   return {path:asset.path,url:asset.url||asset.path,status:result.status,redirected:result.redirected,headers:result.headers,bytes:result.body.length,sha256,valid:result.status===200&&!result.redirected&&match};
+@@ -25 +26,2 @@ const manifest=await read('/manifest.webmanifest'),home=await read('/');
+-const receipt={at:new Date().toISOString(),origin,version,worker:{status:worker.status,sha256:hash(worker.body),headers:worker.headers},manifest:JSON.parse(manifest.body),home:{status:home.status,headers:home.headers,manifestLinked:/rel="manifest"[^>]*href="\/manifest.webmanifest"/.test(home.body.toString()),releaseMarker:home.body.toString().includes('content="'+version+'"')},assets:records,passed:records.every(record=>record.valid)};
++const entryIssues=liveEntryIssues({html:home.body.toString(),manifestBytes:manifest.body,version,assets,homeStatus:home.status,manifestStatus:manifest.status});
++const receipt={at:new Date().toISOString(),origin,version,worker:{status:worker.status,sha256:hash(worker.body),headers:worker.headers},manifest:JSON.parse(manifest.body),home:{status:home.status,headers:home.headers,manifestLinked:/rel="manifest"[^>]*href="\/manifest.webmanifest"/.test(home.body.toString()),releaseMarker:home.body.toString().includes('content="'+version+'"')},entryIssues,assets:records,passed:records.every(record=>record.valid)&&entryIssues.length===0};
+diff --git a/tools/immutable-release.mjs b/tools/immutable-release.mjs
+new file mode 100644
+index 0000000..74c9d0d
+--- /dev/null
++++ b/tools/immutable-release.mjs
+@@ -0,0 +1,44 @@
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {createHash} from 'node:crypto';
++
++export const sha256 = bytes => createHash('sha256').update(bytes).digest('hex');
++export const releasePrefix = version => {
++  if (!/^[a-f0-9]{20}$/.test(version)) throw Error('Invalid immutable release identity');
++  return '/releases/' + version;
++};
++const escape = value => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
++
++// Rewrite asset references, never application routes, leaderboard URLs or world sources.
++export function releaseBytes(bytes, name, version, names) {
++  if (!/\.(?:html|js|css|webmanifest)$/.test(name)) return bytes;
++  const prefix = releasePrefix(version);
++  let text = bytes.toString('utf8').replace(/(["'(])\/(assets|vendor)\//g, '$1' + prefix + '/$2/');
++  text = text.replace(/https:\/\/sane-guild-8399\.onpagelove\.com\/(assets|vendor)\//g, 'https://sane-guild-8399.onpagelove.com' + prefix + '/$1/');
++  const files = names.filter(n => !n.includes('/') && n !== 'manifest.webmanifest');
++  if (files.length) text = text.replace(new RegExp('(["\'(])\\/(' + files.map(escape).join('|') + ')(?=[?#["\')]|$)', 'g'), '$1' + prefix + '/$2');
++  if (name.endsWith('.html')) {
++    // Editor startup is inline and protected by an exact CSP hash.
++    const inline = text.match(/<script id="editor-bootstrap">([\s\S]*?)<\/script>/)?.[1];
++    if (inline) text = text.replace(/script-src 'self' 'sha256-[^']+';/, "script-src 'self' 'sha256-" + createHash('sha256').update(inline).digest('base64') + "';");
++  }
++  return Buffer.from(text);
++}
++
++export async function writeReleasePackage({root, version, entries, stagedNames}) {
++  const prefix = releasePrefix(version), directory = path.join(root, 'test-results/release-package', version);
++  const records = [];
++  for (const [name, bytes] of entries) {
++    if (!name || name.includes('..') || name.startsWith('/') || name.includes('\\')) throw Error('Unsafe release path');
++    const file = path.join(directory, name);
++    await fs.mkdir(path.dirname(file), {recursive: true});
++    let old;
++    try { old = await fs.readFile(file); } catch (e) { if (e.code !== 'ENOENT') throw e; }
++    if (old && !old.equals(bytes)) throw Error('Immutable package collision: ' + name);
++    if (!old) await fs.writeFile(file, bytes);
++    records.push({path: '/' + name, url: prefix + '/' + name, sha256: sha256(bytes), bytes: bytes.length,stage:stagedNames?stagedNames.has(name):true});
++  }
++  const manifest = {schema: 1, version, files: records};
++  await fs.writeFile(path.join(directory, 'release.json'), JSON.stringify(manifest, null, 2) + '\n');
++  return {directory, manifest};
++}
+diff --git a/tools/live-release-contract.mjs b/tools/live-release-contract.mjs
+new file mode 100644
+index 0000000..c29fb7e
+--- /dev/null
++++ b/tools/live-release-contract.mjs
+@@ -0,0 +1,20 @@
++import {DOMParser} from 'linkedom';
++import {sha256} from './immutable-release.mjs';
++export function liveEntryIssues({html,manifestBytes,version,assets,homeStatus,manifestStatus}){
++ const issues=[],doc=new DOMParser().parseFromString(html,'text/html'),immutable=assets.some(a=>a.url);
++ if(homeStatus!==200)issues.push('Home unavailable');
++ if(doc.querySelector('meta[name="prism-release"]')?.content!==version)issues.push('Home release mismatch');
++ if(doc.querySelector('link[rel="manifest"]')?.getAttribute('href')!=='/manifest.webmanifest')issues.push('Manifest link missing');
++ if(manifestStatus!==200)issues.push('Manifest unavailable');
++ let manifest;try{manifest=JSON.parse(manifestBytes.toString());}catch{issues.push('Invalid manifest');}
++ if(manifest&&(manifest.id!=='/'||manifest.scope!=='/'||manifest.display!=='fullscreen'))issues.push('Installed identity/fullscreen mismatch');
++ if(immutable){
++  const prefix='/releases/'+version+'/';
++  if(!assets.every(a=>a.url===prefix+a.path.slice(1)))issues.push('Mixed inventory URLs');
++  const references=[...doc.querySelectorAll('script[src],link[rel="stylesheet"]')];
++  if(!references.length||references.some(n=>!(n.getAttribute('src')||n.getAttribute('href')).startsWith(prefix)))issues.push('Mixed entry dependencies');
++  const expected=assets.find(a=>a.path==='/manifest.webmanifest');
++  if(!expected||sha256(manifestBytes)!==expected.sha256)issues.push('Root manifest differs from release');
++ }
++ return issues;
++}
+diff --git a/tools/policy-publication.mjs b/tools/policy-publication.mjs
+new file mode 100644
+index 0000000..a1ee72e
+--- /dev/null
++++ b/tools/policy-publication.mjs
+@@ -0,0 +1,14 @@
++import {DOMParser} from 'linkedom';
++import {htmlIdentity} from './publish-release.mjs';
++
++export function scorePolicyIdentity(html) {
++  const doc = new DOMParser().parseFromString(html, 'text/html');
++  const policies = [...doc.querySelectorAll('body > [itemscope]')].filter(n=>n.getAttribute('itemtype')?.startsWith('https://pagelove.org/'));
++  if (!policies.length) throw Error('Missing native score policy');
++  return htmlIdentity(Buffer.from('<html><head></head><body>'+policies.map(n=>n.outerHTML).join('')+'</body></html>'));
++}
++export function assertUnchangedScorePolicy(live, candidate) {
++  const before=scorePolicyIdentity(live),after=scorePolicyIdentity(candidate);
++  if(before!==after)throw Error('Native score rules changed. Publication is blocked until a supported safe activation/readiness procedure is established; successful warm-up requests are not an activation guarantee.');
++  return {unchanged:true,sha256:before};
++}
+diff --git a/tools/publish-release.mjs b/tools/publish-release.mjs
+new file mode 100644
+index 0000000..c095fd5
+--- /dev/null
++++ b/tools/publish-release.mjs
+@@ -0,0 +1,94 @@
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {DOMParser} from 'linkedom';
++import {sha256, releasePrefix} from './immutable-release.mjs';
++
++const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.webmanifest':'application/manifest+json','.json':'application/json'};
++export function htmlIdentity(bytes) {
++  const doc = new DOMParser().parseFromString(bytes.toString('utf8'), 'text/html');
++  if (!doc.documentElement) return sha256('unparsed:' + bytes.toString('utf8'));
++  function node(n) {
++    if (n.nodeType === 3) {
++      const text = n.textContent.replace(/\r\n/g, '\n');
++      return /^(SCRIPT|STYLE|PRE)$/.test(n.parentNode?.nodeName) ? text.trim() : text.replace(/\s+/g, ' ').trim();
++    }
++    if (n.nodeType !== 1) return null;
++    return [n.localName, [...n.attributes].filter(a => !/^xmlns(?::|$)/.test(a.name)).map(a => [a.name,a.value]).sort((a,b)=>a[0].localeCompare(b[0])), [...n.childNodes].map(node).filter(v => v !== null && v !== '')];
++  }
++  return sha256(JSON.stringify(node(doc.documentElement)));
++}
++export const sameFile = (name, expected, actual) => name.endsWith('.html') || name === '/editor/:worldname' ? htmlIdentity(expected) === htmlIdentity(actual) : expected.equals(actual);
++
++// The caller supplies a pinned authoring endpoint and an in-memory owner header.
++// No persistent score, policy, world source or legacy root script is written here.
++export async function publishRelease({root, packageDirectory, version, dav, headers, fetch:request=globalThis.fetch, beforePromote=async()=>{}, progress=()=>{}, onCheckpoint=async()=>{}}) {
++  const prefix = releasePrefix(version), manifest = JSON.parse(await fs.readFile(path.join(packageDirectory,'release.json'),'utf8'));
++  if (manifest.version !== version || manifest.schema !== 1 || !Array.isArray(manifest.files) || !manifest.files.length) throw Error('Release package identity mismatch');
++  for(const record of manifest.files){
++    if(!/^\/[A-Za-z0-9_./-]+$/.test(record.path)||record.path.includes('..')||record.url!==prefix+record.path)throw Error('Unsafe package inventory');
++    if(sha256(await fs.readFile(path.join(packageDirectory,record.path.slice(1))))!==record.sha256)throw Error('Package changed after build: '+record.path);
++  }
++  const entries = [
++    ['manifest.webmanifest','/manifest.webmanifest'], ['worlds.html','/worlds.html'], ['world-catalog.html','/world-catalog.html'],
++    ['editor.html','/editor.html'], ['editor.html','/editor/index.html'], ['editor-route.html','/editor/:worldname'],
++    ['index.html','/index.html'], ['@worker','/sw.js']
++  ].filter(([name])=>name==='@worker'||manifest.files.some(f=>f.path==='/'+name));
++  const read = async (target, requireEtag=false) => {
++    const response = await request(dav+target,{headers,cache:'no-store',signal:AbortSignal.timeout(20000)});
++    const bytes = Buffer.from(await response.arrayBuffer());
++    if (!response.ok && response.status !== 404) throw Error('Publication read '+target+' '+response.status);
++    if (requireEtag && response.ok && !response.headers.get('etag')) throw Error('Missing ETag for '+target);
++    return {status:response.status,etag:response.headers.get('etag'),bytes};
++  };
++  // Save the exact pre-promotion state, allowing conditional retry/rollback decisions.
++  const baselines = new Map();
++  for (const [,target] of entries) baselines.set(target,await read(target,true));
++  const folders = new Set(['/releases/',prefix+'/', '/editor/']);
++  for (const record of manifest.files.filter(f=>f.stage!==false)) {
++    if (!record.url.startsWith(prefix+'/') || record.path.includes('..') || record.url !== prefix+record.path) throw Error('Unsafe package inventory');
++    let folder = path.posix.dirname(record.url);
++    while (folder.startsWith(prefix+'/')) { folders.add(folder+'/');folder=path.posix.dirname(folder); }
++  }
++  for (const folder of [...folders].sort((a,b)=>a.length-b.length)) {
++    const r = await request(dav+folder,{method:'MKCOL',headers,signal:AbortSignal.timeout(20000)});
++    if (![201,405].includes(r.status)) throw Error('Release directory '+folder+' '+r.status);
++  }
++  const files=[];
++  if(!manifest.worker||manifest.worker.url!==prefix+'/service-worker.js'||manifest.worker.path!=='/service-worker.js')throw Error('Missing rollback worker');
++  const savedWorker=await fs.readFile(path.join(packageDirectory,'service-worker.js'),'utf8');
++  if(!savedWorker.includes('const VERSION = '+JSON.stringify(version)+';')||sha256(savedWorker)!==manifest.worker.sha256)throw Error('Rollback worker identity mismatch');
++  const inventory=JSON.parse(savedWorker.match(/const PRECACHE = (\[[\s\S]*?\]);/)?.[1]||'null');
++  if(!Array.isArray(inventory)||!inventory.length||inventory.some(a=>!manifest.files.some(f=>f.stage!==false&&f.path===a.path&&f.url===a.url&&f.sha256===a.sha256)))throw Error('Invalid worker inventory');
++  for (const record of [...manifest.files.filter(f=>f.stage!==false),manifest.worker,{path:'/release.json',url:prefix+'/release.json',sha256:sha256(await fs.readFile(path.join(packageDirectory,'release.json')))}]) {
++    const bytes=await fs.readFile(path.join(packageDirectory,record.path.slice(1)));
++    if (sha256(bytes)!==record.sha256) throw Error('Package changed after build: '+record.path);
++    const existing=await read(record.url);
++    let status=existing.status;
++    if (existing.status===404) {
++      const r=await request(dav+record.url,{method:'PUT',headers:{...headers,'If-None-Match':'*','Content-Type':types[path.extname(record.path)]||'application/octet-stream'},body:bytes,signal:AbortSignal.timeout(20000)});
++      if (!r.ok && r.status!==412) throw Error('Immutable upload '+record.path+' '+r.status);
++      status=r.status;
++    }
++    const check=await read(record.url);
++    if(check.status!==200||!sameFile(record.path,bytes,check.bytes))throw Error('Immutable readback mismatch: '+record.path);
++    files.push({path:record.url,status,sha256:sha256(check.bytes),bytes:check.bytes.length});progress({staged:record.url,status});
++  }
++  await beforePromote();
++  await onCheckpoint({phase:'staged',version,files:files.length});
++  // Every entry is self-contained. A failed later promotion leaves an old or new
++  // coherent graph; shared root legacy modules remain untouched for old visitors.
++  for(const [name,target]of entries){
++    const bytes=await fs.readFile(path.join(packageDirectory,name==='@worker'?'service-worker.js':name)),baseline=baselines.get(target);
++    const current=await read(target,true);
++    if(current.status===200&&sameFile(target,bytes,current.bytes)){progress({preserved:target});continue;}
++    if(current.status!==baseline.status||current.etag!==baseline.etag)throw Error('Concurrent publication changed '+target+'; reconcile before retrying');
++    const conditional=baseline.status===404?{'If-None-Match':'*'}:{'If-Match':baseline.etag};
++    const write=await request(dav+target,{method:'PUT',headers:{...headers,...conditional,'Content-Type':name==='@worker'?'text/javascript; charset=utf-8':types[path.extname(name)]||'text/html; charset=utf-8'},body:bytes,signal:AbortSignal.timeout(20000)});
++    if(!write.ok)throw Error('Entry promotion '+target+' '+write.status);
++    const check=await read(target,true);
++    if(check.status!==200||!sameFile(target,bytes,check.bytes))throw Error('Entry readback mismatch: '+target);
++    files.push({path:target,status:write.status,sha256:sha256(check.bytes),bytes:check.bytes.length});progress({promoted:target,status:write.status});
++    await onCheckpoint({phase:'promoting',version,last:target,files:files.length});
++  }
++  return {version,files,cache:{assets:inventory.length,bytes:inventory.reduce((sum,a)=>sum+(a.bytes||0),0)},publication:'immutable dependencies before conditional entry promotion',preserved:['scores','world definitions','legacy root scripts/styles','older release directories']};
++}
+diff --git a/tools/release-gate.mjs b/tools/release-gate.mjs
+index 2d21143..0b51b10 100644
+--- a/tools/release-gate.mjs
++++ b/tools/release-gate.mjs
+@@ -15 +15 @@ export async function sourceIdentity(root=ROOT){
+- const files=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...controls,'package.json','bun.lock'].sort();
++ const files=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'review'),...await filesUnder(root,'.github'),...controls,'package.json','bun.lock'].sort();
+@@ -17 +17 @@ export async function sourceIdentity(root=ROOT){
+- return {commit:git(root,['rev-parse','HEAD']),digest:sha(JSON.stringify(hashes)),files:hashes.length,dirty:!!git(root,['status','--porcelain','--untracked-files=all','--','public','tools','tests','.github',...controls,'package.json','bun.lock'])};
++ return {commit:git(root,['rev-parse','HEAD']),digest:sha(JSON.stringify(hashes)),files:hashes.length,dirty:!!git(root,['status','--porcelain','--untracked-files=all','--','public','tools','tests','review','.github',...controls,'package.json','bun.lock'])};
+diff --git a/tools/remote.mjs b/tools/remote.mjs
+index 4caaa59..45e1ce6 100644
+--- a/tools/remote.mjs
++++ b/tools/remote.mjs
+@@ -5,0 +6,2 @@ import {assertReleaseGate} from './release-gate.mjs';
++import {publishRelease} from './publish-release.mjs';
++import {assertUnchangedScorePolicy} from './policy-publication.mjs';
+@@ -44 +46 @@ process.stdin.on('data', async chunk=>{
+-          const html=await live.text(),rows=html.match(/<ul\b[^>]*\bid="scores"[^>]*>[\s\S]*?<\/ul>/i)?.[0];if(!rows)throw Error('Missing live score container');
++          const html=await live.text();assertUnchangedScorePolicy(html,template);const rows=html.match(/<ul\b[^>]*\bid="scores"[^>]*>[\s\S]*?<\/ul>/i)?.[0];if(!rows)throw Error('Missing live score container');
+@@ -110,9 +112,3 @@ process.stdin.on('data', async chunk=>{
+-        const policyBytes=await fs.readFile('policy-candidates/world-policy.html');
+-        const policyHash=createHash('sha256').update(policyBytes).digest('hex');
+-        let proof;try{proof=JSON.parse(await fs.readFile('.private/world-policy-validation.json','utf8'));}catch{}
+-        const age=Date.now()-Date.parse(proof?.utc);
+-        if(proof?.origin!==origin||proof.writeOrigin!==dav||proof.sha256!==policyHash||!Number.isFinite(age)||age<0||age>86400000)throw Error('Run the authorized isolated DAV world-policy probe for this policy before activation.');
+-        const r=await fetch(dav+'/world-policy.html',{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8'},body:policyBytes});
+-        if(!r.ok)throw Error('World policy activation '+r.status);result={activated:true,status:r.status};
+-      }else if(c.op==='deploy'){
+-        // Refuse to publish stale hashes or a release marker from an earlier edit.
++        throw Error('DAV intentionally bypasses validation and triggers. World-policy activation is disabled; owner DAV publishing is the selected authoring contract.');
++      }else if(c.op==='deploy'||c.op==='rollbackRelease'){
++        if(c.initializeScores)throw Error('Game publication preserves score data and policies. Score-policy initialization requires a separate reviewed activation procedure.');
+@@ -120,8 +116,17 @@ process.stdin.on('data', async chunk=>{
+-        const pwa=await buildPwa({check:true});
+-        const headers={Authorization:'Bearer '+key};const receipt=[];
+-        for(const folder of ['/assets/','/vendor/','/editor/']){const r=await fetch(dav+folder,{method:'MKCOL',headers});if(![201,405].includes(r.status))throw Error('MKCOL '+folder+' '+r.status);}
+-        const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.txt':'text/plain; charset=utf-8','.webmanifest':'application/manifest+json','.json':'application/json'};
+-        async function list(dir){let result=[];for(const entry of await fs.readdir(dir,{withFileTypes:true})){const f=path.join(dir,entry.name);if(entry.isDirectory())result.push(...await list(f));else result.push(f);}return result;}
+-        const files=(await list('public')).filter(f=>{const name=path.relative('public',f).split(path.sep).join('/');return !name.startsWith('worlds/')&&(c.initializeScores||name!=='scores.html');}).sort((a,b)=>{const priority=f=>path.basename(f)==='sw.js'?3:path.basename(f)==='index.html'?2:path.basename(f)==='app.js'?1:0;return priority(a)-priority(b)||a.localeCompare(b);});
+-        for(const file of files){if(path.basename(file)==='sw.js'){await buildPwa({check:true});await assertReleaseGate();}let target='/'+path.relative('public',file).split(path.sep).join('/');if(target==='/editor-route.html')target='/editor/:worldname';const bytes=await fs.readFile(file);const r=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':types[path.extname(file)]||'application/octet-stream'},body:bytes});if(!r.ok)throw Error(target+' upload '+r.status);const check=await fetch(dav+target,{headers});const read=Buffer.from(await check.arrayBuffer());if(!check.ok)throw Error(target+' readback '+check.status);if(!target.endsWith('.html')&&target!=='/editor/:worldname'&&!bytes.equals(read))throw Error(target+' byte mismatch');const entry={path:target,status:r.status,bytes:read.length,sha256:createHash('sha256').update(read).digest('hex')};receipt.push(entry);console.log(JSON.stringify({uploaded:target,status:r.status}));if(target==='/editor.html'){const alias=await fetch(dav+'/editor/index.html',{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8'},body:bytes});if(!alias.ok)throw Error('Editor index '+alias.status);}}
+-        await fs.writeFile('deployment.json',JSON.stringify({origin,authoringHost:dav,deployedAt:new Date().toISOString(),approval,pwa,files:receipt},null,2));result={deployed:true,files:receipt.length,pwa};
++        const {package:packageDirectory,...pwa}=await buildPwa({check:true});
++        const version=c.op==='rollbackRelease'?c.version:pwa.version;
++        if(!/^[a-f0-9]{20}$/.test(version||''))throw Error('Invalid rollback version');
++        const selected=c.op==='rollbackRelease'?path.resolve('test-results/release-package',version):packageDirectory;
++        const headers={Authorization:'Bearer '+key};
++        const backupDirectory=path.join('.private/backup','publication-'+Date.now()+'-'+crypto.randomUUID());await fs.mkdir(backupDirectory,{recursive:true});
++        for(const target of ['/index.html','/sw.js','/manifest.webmanifest','/editor.html','/editor/:worldname']){
++          const r=await fetch(dav+target,{headers,cache:'no-store',signal:AbortSignal.timeout(20000)});
++          if(r.ok)await fs.writeFile(path.join(backupDirectory,target.replace(/[^a-z0-9.-]/gi,'_')),Buffer.from(await r.arrayBuffer()));
++          else if(r.status!==404)throw Error('Pre-publication backup '+r.status);
++        }
++        const published=await publishRelease({root:process.cwd(),packageDirectory:selected,version,dav,headers,
++          beforePromote:async()=>{await buildPwa({check:true});await assertReleaseGate();},
++          progress:record=>console.log(JSON.stringify(record)),
++          onCheckpoint:checkpoint=>fs.writeFile('test-results/publication-checkpoint.json',JSON.stringify({...checkpoint,at:new Date().toISOString()},null,2))});
++        const receipt={origin,authoringHost:dav,deployedAt:new Date().toISOString(),approval,pwa:{...pwa,version,...published.cache},...published};
++        await fs.writeFile('deployment.json',JSON.stringify(receipt,null,2));result={deployed:true,version,files:published.files.length,publication:published.publication};
+diff --git a/tools/repository-check.mjs b/tools/repository-check.mjs
+index 187cf1c..fba2f21 100644
+--- a/tools/repository-check.mjs
++++ b/tools/repository-check.mjs
+@@ -22 +22 @@ export async function checkRepository({root=ROOT}={}){
+- const sources=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...(await filesUnder(root,'audit')).filter(n=>/\.(?:md|json|patch|txt)$/.test(n)),...docs,'package.json','bun.lock'];
++ const sources=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'review'),...await filesUnder(root,'.github'),...(await filesUnder(root,'audit')).filter(n=>/\.(?:md|json|patch|txt)$/.test(n)),...docs,'package.json','bun.lock'];
+diff --git a/tools/serve.mjs b/tools/serve.mjs
+index 95b9864..5e359d0 100644
+--- a/tools/serve.mjs
++++ b/tools/serve.mjs
+@@ -1,0 +2,3 @@ import http from 'node:http';import fs from 'node:fs/promises';import path from
++import {buildPwa} from './build-pwa.mjs';
++const release=await buildPwa({check:true});
++const port=Number(process.env.PRISM_PREVIEW_PORT||4173);if(!Number.isInteger(port)||port<1||port>65535)throw Error('Invalid preview port');
+@@ -3 +6 @@ const root=path.resolve('public');const types={'.html':'text/html; charset=utf-8
+-http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');let pathname=decodeURIComponent(url.pathname);if(pathname==='/')pathname='/index.html';if(/^\/editor(?:\/[a-z0-9-]+)?\/?$/.test(pathname))pathname='/editor.html';const base=pathname.startsWith('/__qa/')?path.resolve('test-results/fixture'):root;if(base!==root)pathname=pathname.slice(5);const file=path.resolve(base,'.'+pathname);if(!file.startsWith(base+path.sep)){res.writeHead(403);res.end();return;}if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405);res.end('Use the deployed Pagelove host for data writes.');return;}const body=await fs.readFile(file);res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(req.method==='HEAD'?undefined:body);}catch{res.writeHead(404);res.end('Not found');}}).listen(4173,'127.0.0.1',()=>console.log('Prism Breaker preview: http://127.0.0.1:4173'));
++http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://localhost');let pathname=decodeURIComponent(url.pathname);if(pathname==='/')pathname='/index.html';if(/^\/editor(?:\/[a-z0-9-]+)?\/?$/.test(pathname))pathname='/editor.html';let base=root;const immutable=pathname.match(/^\/releases\/([a-f0-9]{20})(\/.*)$/);if(immutable){base=path.resolve('test-results/release-package',immutable[1]);pathname=immutable[2];}else if(pathname.startsWith('/__qa/')){base=path.resolve('test-results/fixture');pathname=pathname.slice(5);}else if(['/index.html','/editor.html','/manifest.webmanifest'].includes(pathname)){base=release.package;}const file=path.resolve(base,'.'+pathname);if(!file.startsWith(base+path.sep)){res.writeHead(403);res.end();return;}if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405);res.end('Use the deployed Pagelove host for data writes.');return;}const body=await fs.readFile(file);res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(req.method==='HEAD'?undefined:body);}catch{res.writeHead(404);res.end('Not found');}}).listen(port,'127.0.0.1',()=>console.log('Prism Breaker preview: http://127.0.0.1:'+port));
+diff --git a/tools/service-worker.template.js b/tools/service-worker.template.js
+index 0276259..718cc0e 100644
+--- a/tools/service-worker.template.js
++++ b/tools/service-worker.template.js
+@@ -77 +77 @@ async function download(asset, cache, controller) {
+-    const url = new URL(asset.path, self.location.origin);
++    const url = new URL(asset.url || asset.path, self.location.origin);
+@@ -209,0 +210,2 @@ self.addEventListener('fetch', event => {
++  const immutable = url.pathname.match(/^\/releases\/([a-f0-9]{20})(\/.*)$/);
++  const logicalPath = immutable ? immutable[2] : url.pathname;
+@@ -212 +214 @@ self.addEventListener('fetch', event => {
+-  if (!navigation && !paths.has(url.pathname) && !staticPath) return;
++  if (!navigation && !paths.has(logicalPath) && !staticPath) return;
+@@ -218,0 +221,2 @@ self.addEventListener('fetch', event => {
++    // A release URL is an identity, not an alias for whichever worker is active.
++    if (immutable && immutable[1] !== version) return new Response('This file belongs to another game release. Reload Prism Breaker.', {status:503});
+@@ -221 +225 @@ self.addEventListener('fetch', event => {
+-      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
++      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : logicalPath), {cacheName: CACHE_PREFIX + version});
+@@ -224 +228 @@ self.addEventListener('fetch', event => {
+-    if (releaseVersion(version) && (navigation || paths.has(url.pathname))) {
++    if (releaseVersion(version) && (navigation || paths.has(logicalPath))) {
+@@ -236,0 +241,6 @@ self.addEventListener('fetch', event => {
++    // Immutable URLs remain coherent even after cache eviction or while a newer
++    // worker controls a page whose older complete cache never existed here.
++    // Fetch only the exact requested identity; never substitute a root alias.
++    if (immutable && immutable[1] === version) {
++      try { const response=await fetch(request,{cache:'no-store'});if(response.ok&&!response.redirected)return response; } catch {}
++    }

@@ -29,10 +29,11 @@ class MemoryCacheStorage {
   async delete(name) { return this.entries.delete(name); }
 }
 
-function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = ''} = {}) {
+function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = '', immutable = false} = {}) {
   const index = '<!doctype html><html><head><meta name="prism-release" content="' + version + '"></head></html>';
   const resources = new Map([['/index.html', index], ['/app.js', 'export const release = "' + version + '";'], ...(removedLazy ? [] : [['/lazy.js', 'export const lazy = "' + version + '";']])]);
-  const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body)}));
+  if (immutable) resources.set('/assets/font.woff2','fixture font');
+  const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body),...(immutable?{url:'/releases/'+version+path}:{})}));
   const listeners = new Map(), fetched = [], timers = new Map(); let timerId = 0;
   let skipped = 0, claimed = 0;
   const self = {location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {get: async id => windows.find(client => client.id === id), matchAll: async () => windows, claim: async () => { claimed++; }}};
@@ -40,7 +41,7 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing 
     const pathname = new URL(typeof request === 'string' ? request : request.url).pathname; fetched.push(pathname);
     if (pathname === missing) throw new TypeError('Offline');
     if (pathname === hanging) return new Promise((resolve, reject) => { if (options.signal?.aborted) reject(options.signal.reason); else options.signal?.addEventListener('abort', () => reject(options.signal.reason), {once:true}); });
-    const resource = pathname === '/' ? '/index.html' : pathname;
+    const resource = pathname === '/' ? '/index.html' : immutable ? pathname.replace('/releases/'+version,'') : pathname;
     const body = pathname === broken ? 'wrong deployment bytes' : resources.get(resource);
     return new Response(body ?? 'Missing', {status: resources.has(resource) ? 200 : 404, headers: {'Content-Type': resource.endsWith('.html') ? 'text/html; charset=utf-8' : 'text/javascript'}});
   };
@@ -256,6 +257,21 @@ test('legacy count-only completion markers still detect lost assets',async()=>{
   await cache.put(origin+'/__prism_pwa_complete__',new Response(JSON.stringify(marker)));
   const next=worker({version:versionB,caches:old.caches});assert.equal((await next.message('GET_STATUS')).ready,true);
   await cache.delete(origin+'/lazy.js');assert.equal((await next.message('GET_STATUS')).ready,false);
+});
+
+test('immutable downloads and font requests use logical caches without aliasing a different release',async()=>{
+ const first=worker({immutable:true});await first.dispatch('install');await first.message('CLIENT_VERSION');
+ assert.ok(first.fetched.every(p=>p.startsWith('/releases/'+versionA+'/')));
+ const count=first.fetched.length;
+ assert.equal(await(await first.request('/releases/'+versionA+'/assets/font.woff2')).text(),'fixture font');
+ assert.equal(await(await first.request('/releases/'+versionA+'/lazy.js')).text(),first.resources.get('/lazy.js'));
+ assert.equal((await first.request('/releases/'+versionB+'/lazy.js')).status,503);assert.equal(first.fetched.length,count);
+ const next=worker({version:versionB,immutable:true,caches:first.caches});await next.dispatch('install');
+ assert.equal(await(await next.request('/releases/'+versionA+'/lazy.js')).text(),first.resources.get('/lazy.js'));
+ assert.equal((await next.request('/releases/'+versionB+'/lazy.js')).status,503);
+ await(await first.caches.open(cachePrefix+versionA)).delete(origin+'/assets/font.woff2');
+ assert.equal(await(await first.request('/releases/'+versionA+'/assets/font.woff2')).text(),'fixture font');
+ assert.equal((await first.message('GET_STATUS')).ready,false);
 });
 
 test('builds are deterministic and deployment validation catches edits made after the build', async () => {

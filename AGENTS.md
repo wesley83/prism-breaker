@@ -12,3 +12,7 @@
 ## Pagelove authoring contract — support clarification, October 15, 2026
 
 Wesley relayed Pagelove support confirmation: WebDAV is only an authoring mechanism and intentionally bypasses all schema validation and triggers. Treat owner DAV as trusted authoring, not an application validation boundary; bypass is expected behavior, not a platform bug. ETag conditions/readback and client/build validation remain separate controls. Any server-authoritative application mutation requirement needs its own supported authenticated path. This clarification does not resolve public-policy propagation timing or unattended expiry. Provenance: support response supplied by Wesley; see the resolved DAV report in the Prism Breaker repository.
+
+## Approved project trust boundaries — October 15, 2026
+
+Wesley explicitly chose to retain owner DAV publishing only and the current casual leaderboard. Do not add an authenticated application-write grant or a separate verified-run board without a new user decision. Keep historical world-policy activation disabled. Routine game publication preserves score rules and records; changed native policies need a supported safe activation procedure. Immutable runtime packages are derived deployment representations; world documents remain the editing sources.

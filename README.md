@@ -43,7 +43,7 @@ World metadata and formations are authoritative HTML documents. The catalog prov
 
 Checkpoint v2 stores stable world identity, definition and ruleset revisions, and a complete definition including portals. Compatible legacy saves migrate; incompatible saves remain recoverable. Scores carry an optional ruleset fingerprint, and rankings compare compatible rulesets. Existing unversioned scores use a frozen legacy mapping.
 
-The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. **Support confirmed that WebDAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.** This is expected behavior, not a platform enforcement bug. The generated trigger candidate stays inactive outside deployed assets in policy-candidates/ and cannot enforce DAV authoring. Server-authoritative world mutation validation would require a separately designed supported authenticated application-write path. No anonymous world-write grant was added. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md) and [architecture boundary](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary).
+The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. **Support confirmed that WebDAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.** This is expected behavior, not a platform enforcement bug. The generated trigger candidate stays inactive outside deployed assets in policy-candidates/ and cannot enforce DAV authoring. Wesley chose to retain owner DAV publishing only; no application-write grant is added. No anonymous world-write grant was added. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md) and [architecture boundary](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary).
 
 ## The sixteen worlds
 
@@ -166,7 +166,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **70 cached files, approximately 2.41 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **72 cached files, approximately 2.42 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -323,18 +323,18 @@ Run publishing checks from the actual Git checkout of `wesley83/prism-breaker`. 
 
 The pinned [Quality workflow](.github/workflows/quality.yml) installs frozen Bun dependencies, regenerates artifacts, rejects generated drift and runs the gate on pushes and pull requests. See [review results](FOLLOW-UP-REVIEW-RESULTS.md) for actual hosted-check/branch-protection status. Run repository checks separately with `bun run check:repository`.
 
-The builder derives a release identity from the assets and worker template, updates the entry-page marker, and generates `public/pwa-release.js` and `public/sw.js`. Edit worker behavior in `tools/service-worker.template.js`; regenerate after any runtime change. The publisher refuses a stale build and checks it again before uploading the worker.
+The builder derives a release identity from runtime assets, composition inputs, the worker and packaging code. It generates the source marker/module/worker and an ignored immutable package under `test-results/release-package/<release-id>/`. Published HTML references that package, while native worlds and scores retain their original resources. See [immutable publication and rollback](RELEASE-PUBLICATION.md).
 
 After authentication, normal publishing uses `{"op":"deploy"}`; exit with `{"op":"quit"}`. Normal deployment:
 
-1. Uploads runtime modules/assets, then `app.js`, then `index.html`, and **`sw.js` last**.
+1. Stages and verifies create-only files under `/releases/<release-id>/`, then conditionally promotes self-contained entry documents, with root `sw.js` last. Legacy root scripts/styles remain unchanged for older visitors.
 2. **Excludes `scores.html` and all `worlds/*/definition.html` data**, preserving community scores, rules and edited worlds. Native editor routes are stored at `/editor/:worldname`; `seedWorlds` creates only missing world resources.
-3. Reads uploaded files back and compares non-HTML bytes. Pagelove may normalize HTML.
+3. Verifies binary/text bytes and normalized HTML structure, refusing collisions or concurrent entry edits. The worker downloads immutable URLs into logical release caches.
 4. Writes a non-secret release receipt to ignored `deployment.json`.
 
-A fresh host needs its score template installed once. Only use the publisher's `initializeScores` option for deliberate initial setup on an empty host. On an existing host, score-rule updates need a record-preserving migration; the included `migrateScoreRules` helper backs up the live resource and uses its ETag with `If-Match` before replacement.
+Game publication rejects `initializeScores` and never writes score policies or records. `migrateScoreRules` permits record-preserving maintenance only when native policy identity is unchanged; changed rules are refused until a supported safe activation procedure is established. Fresh-host policy setup requires a separate reviewed procedure. The known propagation issue is not declared solved by warming a few requests. See [native platform requirements](PLATFORM-REQUIREMENTS.md).
 
-When switching hosts, update the publisher, entry-page canonical/social URLs, score type/schema, score grammar and `tools/build-data.mjs` together. Vocabulary IRIs such as `https://pagelove.org/Schema` identify platform rule types; they are separate from the game host and Pagelove website link.
+When switching hosts, update the publisher, the pinned absolute-asset origin in `tools/immutable-release.mjs`, entry-page canonical/social URLs, score type/schema, score grammar and `tools/build-data.mjs` together. Vocabulary IRIs such as `https://pagelove.org/Schema` identify platform rule types; they are separate from the game host and Pagelove website link.
 
 Private backups, credentials, live score exports, generated preview files and deployment receipts are excluded from Git. The public score template stays empty. Keep import/entry-page version parameters current for browsers without an active worker, then regenerate the offline release. A complete release cache resolves runtime URLs by path so query variants use the same release's asset.
 
@@ -391,3 +391,9 @@ Upgrade notes describe their release-time observations; they are not a current c
 - Poster artwork was created with built-in image generation; original images and prompts are in `artwork/`. The favicon is editable native SVG. Music and effects are synthesized by the game.
 
 The repository currently has no top-level license declaration for the game source. Bundled third-party components retain the license notices linked above.
+
+## Current acceptance and remaining work
+
+See [remaining-work implementation](REMAINING-WORK-IMPLEMENTATION.md) for current outcomes. Owner DAV publishing and the casual leaderboard are explicit choices. Native unattended five-day physical deletion and a guaranteed public-policy activation barrier still need supported platform mechanisms. [Fourteen device and human checks](review/acceptance-plan.html) are prepared but not run because no devices or independent reviewer are available.
+
+Run `bun tools/acceptance-status.mjs init` to create a private release-specific record and `bun tools/acceptance-status.mjs report` to validate/report it. Existing records are never overwritten by initialization. A submitted human record is not a hardware attestation; synthetic results cannot be relabeled as observed phone tests. No private evidence is uploaded automatically.

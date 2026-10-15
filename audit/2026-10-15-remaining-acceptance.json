@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T16:13:26.614Z",
+  "actor": "Codex",
+  "release": "d77abd4a8738088292f7",
+  "plan": "review/acceptance-plan.html",
+  "checks": 14,
+  "counts": {
+    "pass": 0,
+    "fail": 0,
+    "not-run": 14,
+    "blocked": 0
+  },
+  "complete": false,
+  "basis": "User confirmed no physical devices or independent reviewer; no synthetic passes claimed."
+}
