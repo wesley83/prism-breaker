@@ -8,7 +8,9 @@ The PWA already had a sound foundation: separate release caches, verified downlo
 
 **125 automated tests pass across 13 files, including 24 added tests.** The generated production package is **`5408c3b2c91090457ef8`**, with 70 assets and 2,412,780 bytes before storage overhead. The builder's consistency check passes.
 
-**These corrections are local, not deployed or pushed by this review.** A live read at `2026-10-15T00:33:28.140Z` verified all 70 assets of the currently deployed release, `ee6a8edb8f4578dd9b0b`. No production scores, world documents, policies or registrations were changed. Local browser fixtures have different release IDs because they include a diagnostic panel.
+**Publication update — October 15, 2026:** Wesley subsequently requested "push and deploy". The reviewed source was pushed to `wesley83/prism-breaker`, and release **`5408c3b2c91090457ef8`** was deployed. The public verification at `2026-10-15T01:10:23.918Z` passed for all 70 inventory assets, the entry document and fullscreen manifest. See the [publication audit](audit/2026-10-15-pwa-publication.md) and [published-release receipt](audit/2026-10-15-pwa-published-receipt.json).
+
+At completion of the earlier review, the corrections were local only and a live read at `2026-10-15T00:33:28.140Z` verified the previous release, `ee6a8edb8f4578dd9b0b`. That historical receipt is preserved. Publication excluded shared score records, individual world documents and world-policy activation. Local browser fixtures have different release IDs because they include a diagnostic panel.
 
 ## Confirmed findings and corrections
 

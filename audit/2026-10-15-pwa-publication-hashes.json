@@ -1,0 +1,50 @@
+{
+  "at": "2026-10-15T01:11:35.648Z",
+  "baseCommit": "dbb5c63",
+  "publishedSourceCommit": "49fb2164699bbeb034c365aa81ba38356a0ef2f6",
+  "release": "5408c3b2c91090457ef8",
+  "liveWorkerByteEquality": true,
+  "liveAssetsVerified": 70,
+  "workerUploadedLast": true,
+  "mutableRecordsExcluded": true,
+  "mirrorVerified": true,
+  "note": "Working-file hashes before Git line-ending normalization; excludes this receipt itself. Git commit supplies final reviewable history.",
+  "files": [
+    {
+      "file": "PWA-ROBUSTNESS-REVIEW.md",
+      "sha256": "88ec84b1b8793eb29ef90ed557743afb3d2672851b3be4a1e599b0dead17a599",
+      "bytes": 15012,
+      "mirrorEqual": true
+    },
+    {
+      "file": "README.md",
+      "sha256": "d48a0aca0c18d545a146d58dca8677dd79ca055f143b026e285ac57848c5f872",
+      "bytes": 42652,
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-publication.md",
+      "sha256": "635cc3a9339e107cbd80afe524f73f148df9d5d15b7bc3def36d28eaa4f58b77",
+      "bytes": 3318,
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-published-receipt.json",
+      "sha256": "cb133809cf32a2c238e9fafe61c518ac1ac47d29de00af826d6ad8dc758c5408",
+      "bytes": 40821,
+      "mirrorEqual": true
+    },
+    {
+      "file": "tools/check-live-pwa.mjs",
+      "sha256": "70d07abf8336a50fbbd31899d2ea66e330beb5706e0d6160f66ff72720f3015e",
+      "bytes": 2682,
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-publication.patch",
+      "sha256": "ddf202f7e30f7b9ea395ed3a84738bc8b4837810ef2043ef4188e24380bf673e",
+      "bytes": 3325,
+      "mirrorEqual": true
+    }
+  ]
+}
