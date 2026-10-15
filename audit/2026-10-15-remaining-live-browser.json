@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-15T16:33:55.083Z",
+  "actor": "Codex",
+  "method": "Actual public browser DOM/status/console observations, transcribed; not a physical-device or human attestation",
+  "release": "d77abd4a8738088292f7",
+  "previousRelease": "d2fa444df7cfd477dcf9",
+  "update": "Explicit Update game on an existing controlled client",
+  "observed": {
+    "immutableBootstrap": true,
+    "offlineReady": true,
+    "playEnabled": true,
+    "continueAdventureRetained": true,
+    "capturedErrors": [],
+    "editorDraftRestored": true,
+    "editor3DPreviewLaunched": true,
+    "editorCapturedErrors": []
+  },
+  "separateProviderObservation": "One direct native editor GET returned 500, followed by successful 200 composition reads. Cause unknown; see native-editor receipt.",
+  "limits": [
+    "No native share message sent",
+    "No physical device or independent human reviewer available"
+  ]
+}

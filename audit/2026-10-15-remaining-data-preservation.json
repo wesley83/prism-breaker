@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-15T16:27:27.502Z",
+  "actor": "Codex",
+  "policy": {
+    "unchanged": true,
+    "sha256": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "fullScoreResourceUnchanged": true,
+  "beforeRows": 81,
+  "afterRows": 81,
+  "publisherDataWrites": [],
+  "basis": "Owner authoring readbacks before/after; no private record payload or credential included"
+}

@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-15T16:36:47.302Z",
+  "actor": "Codex",
+  "basis": "Final documentation and actual release evidence working bytes; excludes self; runtime unchanged",
+  "files": [
+    {
+      "file": "PLATFORM-REQUIREMENTS.md",
+      "bytes": 5033,
+      "sha256": "daee0bfe36d08dfc338b7f27f0885b20670f9ce82b996fad82a21f5da66ca78d"
+    },
+    {
+      "file": "REMAINING-WORK-IMPLEMENTATION.md",
+      "bytes": 6941,
+      "sha256": "3a79e8e603c62d40cafa0a3aa45f62d7754f0cd799973b757a66c964f5ea2083"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-correction-ci.json",
+      "bytes": 354,
+      "sha256": "8324c68d781a5a51a8afb6d4c20170ca2c32c3e9cb4a7e6ddda22364edb69345"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-data-preservation.json",
+      "bytes": 391,
+      "sha256": "feff6b7306b428f8b69376cbc6319059f75cfbd65802dee6ec1efd4727117d25"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-deployment.json",
+      "bytes": 17313,
+      "sha256": "d403673c91a0525a877c21409cb778a09cfda46f6ce8b0222123b2d5c7561f47"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-legacy-assets.json",
+      "bytes": 6908,
+      "sha256": "d764d6446d31109db799cb4ccd0ae16ce7daf17eaa58a2a15a37bb1dd36876b2"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-live-browser.json",
+      "bytes": 893,
+      "sha256": "ac28a338820b17608530692d11143d8e8887aa3d47761ea325406c07f4f3bfcf"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-live-final.json",
+      "bytes": 46872,
+      "sha256": "4e4de72843bd3a457aff4ba784eaf6c29f4e64255e0645ef512a638a9b92c02e"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-native-editor.json",
+      "bytes": 822,
+      "sha256": "082d74a7802e9d9cbc09104bc663b69dd8217942606ec417af5cba3712ddbd8c"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-work.md",
+      "bytes": 22081,
+      "sha256": "d1e703061385874e7dd3574cba5b7d61bdd742b1d777121fbe4b067c18ab3b71"
+    },
+    {
+      "file": "audit/2026-10-15-remaining-final-records.patch",
+      "bytes": 3891,
+      "sha256": "e97b2462bb1b17c0a30357d12621c9fdce217cf7ff95aa35192a3173c760addf"
+    }
+  ]
+}

@@ -103,3 +103,36 @@
 - UTC: 2026-10-15T16:22:49.411Z
 - Actor: Codex; reference RW-11.
 - Changed: Existing immutable files reuse the validated GET response for comparison; newly written or concurrently created files still receive post-write readback. This avoids duplicate GETs during staged retries while retaining collision refusal. No runtime/package version changes. Regenerate correction patch/hashes and mirror before commit; exact-source full gate/CI remain required.
+
+## RW-13 — Corrected publisher cleared for retry
+
+- UTC: 2026-10-15T16:25:01.826Z
+- Actor: Codex; references RW-10/11/12.
+- Verification: Source 7489058a2743229466e1227f315892ffcf6d704a passed the full exact-source gate (170 tests, source digest 44ad38baf4ad524530f21a2581de5704108c63a70d933450de9f21fc5ab0e9b3), hosted Linux run 38768593148 succeeded, protected main accepted the checked source. Runtime stays d77abd4a8738088292f7.
+- Retry: New authenticated process uses the corrected module. Revalidate existing immutable content and continue staging; retain create-only conditions and root ETags. No policy/world/score data migration. Outcome pending actual retry.
+
+## RW-14 — Game release verified; native editor route failure found
+
+- UTC: 2026-10-15T16:30:23.385Z
+- Actor: Codex; reference RW-13.
+- Completed: Immutable release d77abd4a8738088292f7 staged and promoted with source 7489058, 81 file records. Independent live check passes 72/72 assets and entry/fullscreen manifest. All 70 legacy root cache assets match pre-release hashes. Owner readbacks confirm full score resource and policy identity unchanged. Auth publisher closed.
+- Browser: Actual public d2fa client offered Update game; applying it reached d77 immutable bootstrap, enabled controls, retained Continue adventure and offline-ready status, with zero captured errors.
+- New failure: A separate direct public read of native /editor/prism-garden returned 500 after the game release. Local compiled editor passed, so local static success did not cover native include semantics. Do not close editor acceptance. Preserve provider error privately, isolate direct shell/template versus parameterized composition, correct the cause or safely restore a coherent route, and rerun source/CI gates before any fix publication. Core game remains verified; world data/policies must be preserved.
+
+## RW-15 — Live verification and remaining limits finalized
+
+- UTC: 2026-10-15T16:33:55.083Z
+- Actor: Codex; reference RW-14.
+- Actual publication: 2026-10-15T16:25:27.417Z, runtime d77abd4a8738088292f7, 81 staged/promoted file records, source 7489058a2743229466e1227f315892ffcf6d704a. Independent 72-asset inventory plus root entry/manifest checks pass. Entire score source/policy unchanged; all 70 legacy root cache assets unchanged. Publisher credential process exited.
+- Editor investigation: The first direct request's status 500 is preserved with missing-body limitation. Later direct shell/template/route reads and three cache-busted native composition reads returned 200 with embedded world/shell/immutable bootstrap. Actual browser restored draft and launched preview without captured errors. No code edit was necessary for recovery; cause remains unknown, not claimed fixed. Added scoped provider observation to platform requirements.
+- Game browser: Actual public d2fa update reached d77 immutable bootstrap, ready-to-play-offline and enabled play, retaining Continue adventure with zero captured errors. Separate prior desktop server-stopped reload and two-tab version checks remain scoped to their recorded interim/final releases.
+- Changed records: Final implementation report, sanitized live browser/deployment/native-route/preservation/CI receipts. No private scores, native message bodies or credentials published. Full unattended retention, public activation guarantee, physical phone and independent human criteria remain open; owner DAV/casual board choices remain selected.
+- Finalization plan: Baseline-safe mirror/hash/diff reconciliation of report/evidence, commit, exact-source gate and required CI, then main integration and remote SHA/clean-tree verification. Stop owned fixture servers/tabs. No further runtime release is necessary for these documentation-only edits.
+
+## RW-16 — Final evidence reconciliation and cleanup
+
+- UTC: 2026-10-15T16:36:47.078Z
+- Actor: Codex; reference RW-15.
+- Verification: Final report/native dependency clarification and sanitized provider/browser/CI/preservation receipts reconciled against 7489058/current authoring bytes. Repository checks pass (30 documents, 232 local links, 327 scanned files before final artifacts). Final patch/hashes cover these documentation/evidence edits; deployed runtime stays d77abd4a8738088292f7.
+- Cleanup: Auth publisher exited, all six owned implementation/review tabs closed, user tabs retained. Both remaining owned preview servers interrupted and exited; the earlier offline-test server had already been stopped. No external messages, extra services, score-policy migrations or world-data mutations.
+- Final source status: Documentation/evidence commit, exact-source gate, required CI and main/remote SHA verification follow this entry. Runtime publication/readback already verified separately; no further asset upload needed for these records. Hardware/human and platform dependencies remain open.

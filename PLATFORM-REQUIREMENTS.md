@@ -36,3 +36,7 @@ Until that exists, normal game releases preserve score rules and records. The mi
 ## World publishing and ranking trust: resolved product choices
 
 Wesley chose to retain **owner DAV publishing only** and the **casual leaderboard**. DAV intentionally bypasses all schema validation and triggers, as [support confirmed](DAV-TRIGGER-BUG-REPORT.md). The editor/build still validate content; authoring uses ETag conditions and readback. World-policy activation is disabled, and no authenticated application grant or verified-run board is introduced. These are explicit trust boundaries, not open promises to add another architecture.
+
+## Additional native-editor availability observation
+
+A direct public GET of `/editor/prism-garden` returned 500 at 2026-10-15T16:29:23.962Z after the immutable release. The first failed verification retained status metadata but not its body. Subsequent shell/template/route reads and three additional cache-busted composition reads returned 200, and the actual browser editor/3D preview worked. No source change occurred between failure and recovery. Preserve this observation for provider tracing; do not label its cause as confirmed or describe it as an application fix. [Receipt](audit/2026-10-15-remaining-native-editor.json).

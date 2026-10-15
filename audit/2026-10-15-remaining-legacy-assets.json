@@ -1,0 +1,358 @@
+{
+  "at": "2026-10-15T16:27:56.645Z",
+  "actor": "Codex",
+  "basis": "Fresh root asset reads compared with pre-release public hashes; root index and manifest intentionally promoted",
+  "files": [
+    {
+      "path": "/app.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/apple-touch-icon.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/display.woff2",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/favicon-32.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/FONT-LICENSE.txt",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/ICON-LICENSE.txt",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/icons.svg",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/og-prism-breaker-square.jpg",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/og-prism-breaker.jpg",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/prism-icon-192.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/prism-icon-512.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/prism-maskable-512.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/prism-maskable.svg",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/prism-wordmark.svg",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/QR-LICENSE.txt",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-01.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-02.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-03.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-04.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-05.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-06.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-07.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-08.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-09.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-10.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-11.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-12.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-13.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-14.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-15.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/assets/world-preview-16.png",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/audio.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/bootstrap.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/brick-events.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/brick-labels.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/bundled-worlds.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/champion.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/cinematic-score.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/cinematics.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/crystal-bricks.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/daily-ending.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/daily-score.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/display.css",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/display.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/editor.css",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/editor.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/engine.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/favicon.ico",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/favicon.svg",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/graphics-recovery.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/leaderboard.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/levels.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/music.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/offline.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/paddle-art.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/postprocessing.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/pwa-release.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/pwa.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/scene.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/sharing.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/style.css",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/vendor/qr.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/vendor/THREE-LICENSE.txt",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/vendor/three.core.min.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/vendor/three.module.min.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/victory-music.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/world-data.css",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/world-format.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/world-identity.js",
+      "status": 200,
+      "unchanged": true
+    },
+    {
+      "path": "/world-schema.js",
+      "status": 200,
+      "unchanged": true
+    }
+  ],
+  "passed": true
+}
