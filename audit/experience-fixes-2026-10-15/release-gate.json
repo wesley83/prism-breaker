@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "passed": true,
+  "completedAt": "2026-10-15T21:22:40.630Z",
+  "identity": {
+    "commit": "241c185a346132286032f837822e1557fafa975a",
+    "digest": "fbf7435e16ab69ed27957196228cda44fbbb975186919d1417723a84c2785418",
+    "files": 206,
+    "dirty": false
+  },
+  "release": "e5d8bccada0716d7b933",
+  "checks": {
+    "suite": true,
+    "pwa": true,
+    "repository": true
+  },
+  "repository": {
+    "documents": 35,
+    "localLinks": 294,
+    "scannedFiles": 408,
+    "secretScan": "limited high-confidence credential patterns"
+  },
+  "limits": [
+    "Automated local evidence only; physical devices, independent review and platform contracts require separate acceptance records."
+  ]
+}

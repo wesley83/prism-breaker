@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-15T21:26:08.9318351Z",
+  "phase": "Verified publication",
+  "source": "241c185a346132286032f837822e1557fafa975a",
+  "release": "e5d8bccada0716d7b933",
+  "files": [
+    {
+      "path": "audit/2026-10-15-experience-fixes.md",
+      "sha256": "880448f2b9fb3e856f3133e0bcae03b38fbd47b437db0a99c4c353ac63a3bb2d"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/adventure-victory.png",
+      "sha256": "8495711c5c69d0465412db852c53bd402046c23e5f3a1a8d5763cc756c29f505"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/browser.json",
+      "sha256": "377efd6e71b70101fb44908343be92d8e1039eeb1e756a548c3c6e0bb9529ee2"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/daily-record-320.png",
+      "sha256": "ae696f3cef5f2fb4958a1c03e0de2a24ff5b0d034607f90d20b1ab1f5ed4efd1"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/deployment.json",
+      "sha256": "1a06742cd87db4904a04cf86e8944c21b79b131c29188e57dedcbdf6e3c134f2"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/live-assets.json",
+      "sha256": "08a72115cdfa33b3ca11f5de3d74882bdddb2d0d0b5b96fa1367d3be6203bfde"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/live-browser.json",
+      "sha256": "cc55742d91f474d698319adb2f54fe8ac0082abf286605f59c92c0f12d1fd59a"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/live-help.png",
+      "sha256": "2fa50708ef970737711887915be137805470c44f939272a7748bfd41bb1940a4"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/live-update-ready.png",
+      "sha256": "d9c451630cd059bfbf1b81b6b6c7203a861cbc735925bb513575d61e00116103"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/release-gate.json",
+      "sha256": "2107784df1fdd1cef635e0756b8a3968da3d7526df5e995d894d6d046b88b915"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/tests.txt",
+      "sha256": "4dd2428dbca21e0eb13735789b45a98a990969ebfaf6e60eb66e2eaba8d70ec0"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/transition-320.png",
+      "sha256": "45c1fd23e939781199e692b221d06d317c636b921629f0969057af8f2aa393c5"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/transition-desktop.png",
+      "sha256": "df9b27ef03a91a6d43d5874f325c7c55081962869def34b3636b9d32697071e8"
+    }
+  ]
+}
