@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-15T01:26:24.262Z",
+  "release": "db427e1e556915bdbc21",
+  "sourceCommit": "8de366c",
+  "liveAssetsVerified": 70,
+  "workerMatches": true,
+  "note": "Final publication evidence hashes; implementation hashes preserved separately. Excludes this receipt itself.",
+  "files": [
+    {
+      "file": "UPDATE-VISIBILITY-INVESTIGATION.md",
+      "sha256": "0e7bb96f4b1ba2784439163d28b43968aba11e2738886ff68847345783a00b08",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-update-deployment.json",
+      "sha256": "84947294250c34f1f9d1d9f3a31426e06400fead3154425dcc7ddf7a5b8e7e88",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-update-live-browser.json",
+      "sha256": "6b85a0b74028f6c9a8feda14edeaedd84ef8ebb5c5ea1c1eca0ad148f720acba",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-update-live-receipt.json",
+      "sha256": "8a434335cba3069b49af1c851a796243f7129864e701b02d2cafb585d91e3fe2",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-update-live-settings.png",
+      "sha256": "dff3061e22774e3d8bceb01e46c95c16977a2abb2d0d853624d35c1d36b96fdb",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-update-visibility.md",
+      "sha256": "2a9b1ed1506078e3c7bc2b093250b08914ce75a448a46b373a39549ca40db794",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "deployment.json",
+      "sha256": "84947294250c34f1f9d1d9f3a31426e06400fead3154425dcc7ddf7a5b8e7e88",
+      "mirrorEqual": true,
+      "versionControlled": false
+    }
+  ]
+}

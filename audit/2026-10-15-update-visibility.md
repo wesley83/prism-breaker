@@ -29,3 +29,13 @@
 - Tool/reproduction exceptions: An initial wait for automatic detection expired before a qualifying periodic cycle; the next observation showed the notice without manual intervention. A missing browser variable was corrected by acquiring the existing browser-2 handle. A Settings locator matched both header and pause controls; used the observed pause-settings ID. These were harness timing/selection issues, not hidden production fixes.
 - Evidence: update-before.png, update-phone.png, update-browser.json and update-tests.txt under this dated audit prefix. Temporary viewport reset, local server stopped; browser tabs will be closed after live verification. No score/world-policy mutation.
 - Release plan: Commit and push reviewed source plus this evidence, publish using the existing score/world-preserving publisher with sw.js last, verify all public inventory files and the new live Settings controls, then archive deployment/verification receipts and mirror scoped files.
+
+## UV-04 — Published and verified live
+
+- UTC: 2026-10-15T01:25:49Z
+- Actor: Codex; reference UV-03.
+- Source: Pushed implementation/evidence commit 8de366c to main. Correct host authenticated with console 200 / matched DAV identity / PROPFIND 207. Secret supplied through hidden stdin; session closed after deployment.
+- Deployment: Published 76 public files using the existing publisher; app.js, index.html, then sw.js last. Shared scores and individual world documents excluded. No policy activation or score submission occurred. Archived the ignored operational deployment receipt as audit/2026-10-15-update-deployment.json.
+- Verification: At 2026-10-15T01:25:08.174Z, all 70 public inventory assets passed for db427e1e556915bdbc21, worker byte hash equals local sw.js, home release marker/manifest match, fullscreen retained. Real older cached page ee6a8edb8f4578dd9b0b upgraded directly to db427e1e556915bdbc21 through its original footer button. Opened live Settings and used Check for updates: “You’re up to date.” Captured screenshot and DOM evidence. This closes final-source browser integration verification from UV-03.
+- Cleanup: Local server stopped, temporary phone viewport reset and both investigation tabs closed. User-owned tabs retained.
+- Reconciliation: Runtime changes match the reviewed diff and deterministic build. Release-status documentation and dated live receipts are the only post-deployment changes. Generate final evidence hashes, mirror these scoped files plus the operational receipt, commit and push the result; compare final remote/local SHA and clean working tree. Prior hash receipt continues to describe the original implementation commit.
