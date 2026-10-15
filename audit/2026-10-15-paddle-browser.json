@@ -1,0 +1,16 @@
+{
+  "at": "2026-10-15T02:35:45.007Z",
+  "release": "a998edcd3009a53d6733",
+  "environment": "Chromium local before/after engine fixture; flat visualization, not physical phone gameplay",
+  "baselineCommit": "43d543f",
+  "cases": [
+    {
+      "case": "Lower-side contact",
+      "state": "- main:\n  - heading \"Paddle collision reproduction\" [level=1]\n  - paragraph: \"One physics step, identical input. Outline: starting positions. Filled shapes: positions after the step.\"\n  - button \"Replay lower-side contact\"\n  - button \"Replay raised-endcap contact\"\n  - paragraph: Descending ball beside the lower half; paddle moves right.\n  - heading \"Before\" [level=2]\n  - status: MISSED · vertical speed -13.50 · ball center -0.232 from paddle center\n  - heading \"After\" [level=2]\n  - status: CAUGHT · vertical speed 6.72 · ball center 0.445 from paddle center\n  - generic: Local diagnostic only. Uses the actual old and revised game engines with a flat drawing of their solid paddle geometry; not a full Three.js gameplay recording. No scores are submitted."
+    },
+    {
+      "case": "Raised-endcap contact",
+      "state": "- main:\n  - heading \"Paddle collision reproduction\" [level=1]\n  - paragraph: \"One physics step, identical input. Outline: starting positions. Filled shapes: positions after the step.\"\n  - button \"Replay lower-side contact\"\n  - button \"Replay raised-endcap contact\" [active]\n  - paragraph: Ball touching a raised endcap; paddle moves left.\n  - heading \"Before\" [level=2]\n  - status: MISSED · vertical speed -13.50 · ball center 0.317 from paddle center\n  - heading \"After\" [level=2]\n  - status: CAUGHT · vertical speed 7.09 · ball center 0.445 from paddle center\n  - generic: Local diagnostic only. Uses the actual old and revised game engines with a flat drawing of their solid paddle geometry; not a full Three.js gameplay recording. No scores are submitted."
+    }
+  ]
+}

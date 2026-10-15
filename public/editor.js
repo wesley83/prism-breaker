@@ -2,7 +2,7 @@ import {editorSlug} from './world-identity.js';
 import {THEMES} from './world-schema.js';
 import {WORLDS} from './levels.js';
 import {WORLD_SLUGS,originalWorld,normalizeWorld,parseWorld,worldHTML,worldDocument,formationCatalog} from './world-format.js';
-import {Game} from './engine.js?v=8';
+import {Game} from './engine.js?v=9';
 import {attachBrickDOM} from './brick-events.js';
 
 const $=s=>document.querySelector(s),clone=v=>structuredClone(v);

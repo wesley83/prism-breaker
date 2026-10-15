@@ -1,0 +1,98 @@
+{
+  "at": "2026-10-15T02:37:34.576Z",
+  "baseCommit": "43d543f638ccbfe13c3a32b2825ef353e2e61b68",
+  "release": "a998edcd3009a53d6733",
+  "note": "Working-file hashes before Git line-ending normalization; excludes this receipt itself.",
+  "files": [
+    {
+      "file": "PADDLE-COLLISION-FOLLOWUP.md",
+      "sha256": "045eb5e33dba28d5d9afe8bf75462f985333949cda712c73b3c539b7f711db08",
+      "mirrorEqual": true
+    },
+    {
+      "file": "README.md",
+      "sha256": "d5d7728ef5ef610f18c689b2baed49a75d44d449cf8c7ac19c5590c10daf14a1",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-browser.json",
+      "sha256": "5416531524679fa9aafd0a87ce33aedb60ea438694e7fee57080d41123034881",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-endcap-replay.png",
+      "sha256": "22f32738aa70f535a02b2102a1a03646ed993e6f405eb4af3a5347b7a8e039d3",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-followup.md",
+      "sha256": "cf9f36b8ca010a04bf758464df01015926c92e8e84a2c43f80f5d3b0cebd0562",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-lower-replay.png",
+      "sha256": "f132439af3ea77daba1d6dae30161f8926ad7cce216f503ab4f869353b133501",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-tests.txt",
+      "sha256": "a0a7bb77ebabf72b000acaa9455c09c574fedbe8842bcbafe3d113bf85073d9d",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/app.js",
+      "sha256": "8937682d5930165f6eefa33d4d0e3f6dd6fb357767c71a270d95e85ab9f52792",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/editor-route.html",
+      "sha256": "980c14829375dc5ed9817905061b3d2e2a6fce9a41da77f67383f2989ddeb403",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/editor.html",
+      "sha256": "63c63139901c90652dcc36cbe5d0ae4f3c922e2e7c9111ae4722ed8d936d2983",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/editor.js",
+      "sha256": "d392fd136bce9e9d8de6c9293904f05f05c2bf829415338a49fb1912e9faaff9",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/engine.js",
+      "sha256": "d6feeb5bee43f9d20f7191ace7506776f1c987f8157a86357b0f769d29eae11c",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/index.html",
+      "sha256": "89d7a6d3f46c943986c33c300311e79a74a71de9f073b69b89527f007053b236",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/pwa-release.js",
+      "sha256": "8b5d949a82d82d7c55f0490f3741687efc4ea9449950559f7f2a4566c8960934",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/sw.js",
+      "sha256": "0d6b8d3074bfbca8887854824509a01efd3e924e9772ac60e064f4f2cf46bd81",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tests/paddle-collision.test.mjs",
+      "sha256": "e106e82f10a9ca723e073e97718d811db2fab7684efe17ed444e788415bdf2b3",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tools/paddle-replay.mjs",
+      "sha256": "e3e4139145a483236ef43052d1701d2e36bf49dbcbbe452907dd273fb4ed796d",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-paddle-followup.patch",
+      "sha256": "90a6365b6024b73bae4e391ae423b9f49450ae5cb33d0e369e477bba8591eae6",
+      "mirrorEqual": true
+    }
+  ]
+}

@@ -1,0 +1,270 @@
+diff --git a/PADDLE-COLLISION-FOLLOWUP.md b/PADDLE-COLLISION-FOLLOWUP.md
+new file mode 100644
+index 0000000..e5d75ae
+--- /dev/null
++++ b/PADDLE-COLLISION-FOLLOWUP.md
+@@ -0,0 +1,39 @@
++# Paddle collision follow-up
++
++Reviewed October 15, 2026 UTC after another player reported a ball passing through the paddle.
++
++## What the earlier fix missed
++
++Two real failures were reproduced in the existing engine:
++
++1. **The lower half was excluded.** The previous sweep immediately rejected a descending ball whose center was below the paddle's center. A ball has a radius, and the paddle has thickness: they can still visibly overlap in that position. Moving the paddle into the ball's lower-side path could therefore pass through it without a bounce. An earlier regression test explicitly expected this contact to miss, preserving the faulty assumption.
++2. **The endcaps were taller than the collision surface.** Physics used a half-height of 0.17. The solid Three.js endcap geometry reaches approximately 0.208. A ball touching a raised endcap could be missed when the paddle moved away before the ball reached the lower physics plane.
++
++The reporting player's exact device, game release and trajectory were not available, so these reproductions establish matching defects rather than the precise history of that session. An installed copy retaining the older engine can continue to show the old behavior until updated.
++
++## Correction
++
++The relative-motion sweep now covers the paddle's full solid height, expanded by the ball radius. A shared physics half-height of 0.21 conservatively covers the existing solid endcaps; both classic and crystal appearances use the same gameplay envelope. Decorative glow is not treated as physical paddle area.
++
++Descending side contacts are returned above the paddle, consistent with the existing arcade bounce. Upward-moving balls remain unaffected. A ball already entirely below the paddle and its radius is still a miss. The conservative rectangular collision envelope is intentionally forgiving near corners; this is not an exact curved-surface simulation.
++
++Sticky keeps the impact offset, including a lower-side catch. Wide expiry still launches a held ball whose support disappears. Input smoothing, rendering, the fixed 120 Hz simulation, saved-score rules and world definitions were not redesigned for this fix.
++
++The engine import version was bumped in both the game and workshop; the workshop bootstrap and PWA assets were regenerated so prepared clients can receive the correction through Update game.
++
++## Evidence
++
++- Four new regression groups failed against the old implementation, including measured Three.js mesh bounds and an independent circle-to-rectangle distance calculation. All pass after correction.
++- The existing below-center test was corrected to require a miss only after the ball is clear of the entire paddle. Genuine misses, upward balls, both movement directions, high speeds, Slow, multiball and prior Sticky/Wide behavior remain covered.
++- Additional coverage samples **4,000 seeded diagonal trajectories**, plus a 192-configuration matrix across paddle widths, Slow, movement directions, vertical positions and time steps. These independently verify sampled solid contacts and preserve fully departed misses. The straight-line oracle deliberately excludes trajectories that hit a side wall during that step; existing wall/corner tests remain applicable.
++- A browser fixture loads the actual pre-fix engine from commit `43d543f` and the revised engine with identical inputs. Both lower-side and endcap cases show **MISSED before / CAUGHT after**. The drawing is a flat diagnostic view; solid Three.js bounds are checked separately by the automated suite.
++- The complete suite passes **136 tests across 13 files**, including all sixteen worlds and the collision bot. PWA build and diff checks pass. Production-source release: `a998edcd3009a53d6733`, 70 cached assets / 2,416,776 bytes.
++
++Run the local reproduction with:
++
++```sh
++bun tools/paddle-replay.mjs
++# Open http://127.0.0.1:4176/; no scores or production resources are written.
++```
++
++See [the lower-side comparison](audit/2026-10-15-paddle-lower-replay.png), [endcap comparison](audit/2026-10-15-paddle-endcap-replay.png), [browser observations](audit/2026-10-15-paddle-browser.json), [test output](audit/2026-10-15-paddle-tests.txt) and [audit/release record](audit/2026-10-15-paddle-followup.md). Physical phone testing and the reporting player's exact case remain unverified. This review does not claim every possible collision defect has been eliminated.
+diff --git a/README.md b/README.md
+index 51b08b9..178b9fc 100644
+--- a/README.md
++++ b/README.md
+@@ -22,0 +23 @@ The browser runs the gameplay and creates the music and scorecards. Native Pagel
++- **Full paddle contacts:** swept collisions include the lower solid body and raised endcaps. The [paddle follow-up](PADDLE-COLLISION-FOLLOWUP.md) documents two reproduced misses, independent geometry checks and the local before/after replay.
+diff --git a/public/app.js b/public/app.js
+index df92a59..243fa73 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -5 +5 @@ import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
+-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=8';
++import {Game,speedBonus,isValidSnapshot} from './engine.js?v=9';
+diff --git a/public/editor-route.html b/public/editor-route.html
+index dcf08fc..aa48551 100644
+--- a/public/editor-route.html
++++ b/public/editor-route.html
+@@ -3 +3 @@
+-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nJgzCuBRy9aXafYbBK5SRDQ+872DHoNT3yD9AGGXhiE='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
++<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2YHmr/sBWgBjyxPTJ410ePAn3wvQw+OPFL9uPARCmcw='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
+@@ -12 +12 @@
+- await import('/editor.js?v=5f42dc72cfbe');
++ await import('/editor.js?v=d392fd136bce');
+diff --git a/public/editor.html b/public/editor.html
+index 8e4c432..8c19e49 100644
+--- a/public/editor.html
++++ b/public/editor.html
+@@ -3 +3 @@
+-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-nJgzCuBRy9aXafYbBK5SRDQ+872DHoNT3yD9AGGXhiE='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
++<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2YHmr/sBWgBjyxPTJ410ePAn3wvQw+OPFL9uPARCmcw='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
+@@ -12 +12 @@
+- await import('/editor.js?v=5f42dc72cfbe');
++ await import('/editor.js?v=d392fd136bce');
+diff --git a/public/editor.js b/public/editor.js
+index 693af13..5597e08 100644
+--- a/public/editor.js
++++ b/public/editor.js
+@@ -5 +5 @@ import {WORLD_SLUGS,originalWorld,normalizeWorld,parseWorld,worldHTML,worldDocum
+-import {Game} from './engine.js?v=8';
++import {Game} from './engine.js?v=9';
+diff --git a/public/engine.js b/public/engine.js
+index ca50257..475b06c 100644
+--- a/public/engine.js
++++ b/public/engine.js
+@@ -6,0 +7,2 @@ export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
++// Solid endcaps reach 0.208 from center; include them in both paddle skins.
++export const PADDLE_HALF_HEIGHT=.21;
+@@ -10,2 +12,2 @@ const DROP_KINDS=['wide','multi','sticky','laser','pierce','slow','shield'];
+-// Sweep relative motion through the paddle's upper catching area. Testing only
+-// the top-plane crossing misses side catches and uses the wrong paddle position.
++// Sweep relative motion through the full solid paddle, expanded by ball radius.
++// A ball center below the paddle center can still overlap its lower side.
+@@ -13,2 +15,3 @@ function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
+- if(b.vy>=0||oldY<LIMIT.paddleY)return null;
+- const half=paddle.w/2+b.r,surface=LIMIT.paddleY+.17+b.r;
++ const bottom=LIMIT.paddleY-PADDLE_HALF_HEIGHT-b.r;
++ if(b.vy>=0||oldY<bottom)return null;
++ const half=paddle.w/2+b.r,surface=LIMIT.paddleY+PADDLE_HALF_HEIGHT+b.r;
+@@ -16 +19 @@ function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
+- let enter=Math.max(0,(oldY-surface)/fall),leave=Math.min(1,(oldY-LIMIT.paddleY)/fall);
++ let enter=Math.max(0,(oldY-surface)/fall),leave=Math.min(1,(oldY-bottom)/fall);
+@@ -150 +153 @@ export class Game {
+-     const surface=LIMIT.paddleY+.17+b.r;
++     const surface=LIMIT.paddleY+PADDLE_HALF_HEIGHT+b.r;
+diff --git a/public/index.html b/public/index.html
+index 60dcab9..141aadf 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -4 +4 @@
+- <meta name="prism-release" content="db427e1e556915bdbc21">
++ <meta name="prism-release" content="a998edcd3009a53d6733">
+@@ -18 +18 @@
+- <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=30"></script>
++ <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=31"></script>
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index 30f0b72..9bc17fa 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -2 +2 @@
+-export const PWA_RELEASE = "db427e1e556915bdbc21";
++export const PWA_RELEASE = "a998edcd3009a53d6733";
+diff --git a/public/sw.js b/public/sw.js
+index 8019e48..3c083e8 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -2 +2 @@
+-const VERSION = "db427e1e556915bdbc21";
++const VERSION = "a998edcd3009a53d6733";
+@@ -6 +6 @@ const PRECACHE = [
+-    "sha256": "d710f4442716390781e5ad8222af95b5ede22f2babcab42a18a2341277bf38b2",
++    "sha256": "8937682d5930165f6eefa33d4d0e3f6dd6fb357767c71a270d95e85ab9f52792",
+@@ -226 +226 @@ const PRECACHE = [
+-    "sha256": "5f42dc72cfbe593bc3440565f82b9967096806e93436791b73650e003c3cb1a9",
++    "sha256": "d392fd136bce9e9d8de6c9293904f05f05c2bf829415338a49fb1912e9faaff9",
+@@ -231,2 +231,2 @@ const PRECACHE = [
+-    "sha256": "5f35b7b3ab55a83a44f85e5a02e190e554c76000ca72c5678d5c005cfabd34be",
+-    "bytes": 16755
++    "sha256": "d6feeb5bee43f9d20f7191ace7506776f1c987f8157a86357b0f769d29eae11c",
++    "bytes": 16934
+@@ -246 +246 @@ const PRECACHE = [
+-    "sha256": "6f5663b47050fc32fb29c74b70e47309a0e874e51c03dc167a3f6db7d797f58c",
++    "sha256": "89d7a6d3f46c943986c33c300311e79a74a71de9f073b69b89527f007053b236",
+@@ -286 +286 @@ const PRECACHE = [
+-    "sha256": "f885417837bf9c52fb3e45815101ece86139d7fca22b1d8fd872b9c842219552",
++    "sha256": "8b5d949a82d82d7c55f0490f3741687efc4ea9449950559f7f2a4566c8960934",
+diff --git a/tests/paddle-collision.test.mjs b/tests/paddle-collision.test.mjs
+index 78621ed..4d5a170 100644
+--- a/tests/paddle-collision.test.mjs
++++ b/tests/paddle-collision.test.mjs
+@@ -3 +3,3 @@ import assert from 'node:assert/strict';
+-import {Game,LIMIT} from '../public/engine.js';
++import {Game,LIMIT,PADDLE_HALF_HEIGHT} from '../public/engine.js';
++import * as T from '../public/vendor/three.module.min.js';
++import {makePaddle} from '../public/paddle-art.js';
+@@ -21,2 +23,2 @@ test('descending balls already touching the upper paddle are recovered',()=>{
+-test('a late paddle cannot rescue a ball below its center or one moving upward',()=>{
+- for(const y of [LIMIT.paddleY-.01,LIMIT.paddleY-1]){const g=game({x:2,y,target:8});g.tick(1/120);assert.ok(g.balls[0].vy<0);}
++test('a late paddle cannot rescue a ball below its full body or one moving upward',()=>{
++ for(const y of [LIMIT.paddleY-.46,LIMIT.paddleY-1]){const g=game({x:2,y,target:8}),ball=g.balls[0];g.tick(1/120);assert.ok(ball.vy<0);}
+@@ -56,0 +59,64 @@ test('Wide expiry preserves an inner held ball and releases only unsupported bal
++
++test('a descending ball beside the visible lower half is caught when the paddle reaches it',()=>{
++ for(const direction of [-1,1])for(const offset of [-.01,-.12,-.25]){
++  const g=game({x:direction*2,y:LIMIT.paddleY+offset,target:direction*8});g.tick(1/120);
++  assert.ok(g.balls[0].vy>0,`visible lower-side contact missed: ${direction}, ${offset}`);
++ }
++});
++
++test('a visible raised endcap catches a ball even while the paddle moves away',()=>{
++ for(const direction of [-1,1]){
++  const g=game({x:direction*1.6,y:LIMIT.paddleY+.43,target:-direction*8});g.tick(1/120);
++  assert.ok(g.balls[0].vy>0,'the endcap is taller than the former 0.17 collision half-height');
++ }
++});
++
++test('independent circle/rectangle motion sampling finds no missed contacts across the full paddle body',()=>{
++ let contacts=0;
++ for(const wide of [false,true])for(const slow of [false,true])for(const direction of [-1,1])for(const dt of [1/240,1/120,1/60,.05])for(const y of [-.3,-.15,-.01,.1,.3,.6]){
++  const g=game({x:direction*((wide?4.9:3.3)/2+.3),y:LIMIT.paddleY+y,target:direction*8,wide});
++  if(slow)g.effects.slow=10;
++  const ball=g.balls[0],startY=ball.y,startX=ball.x,speed=g.speed()*(slow?.67:1);g.tick(dt);
++  let touching=false;
++  // Independent distance-to-solid-body oracle; no call to the swept collision helper.
++  for(let i=0;i<=500;i++){const t=i/500,dx=Math.max(0,Math.abs(startX-g.paddle.x*t)-g.paddle.w/2),dy=Math.max(0,Math.abs(startY-speed*dt*t-LIMIT.paddleY)-.17);if(Math.hypot(dx,dy)<=ball.r){touching=true;break;}}
++  if(touching){contacts++;assert.ok(ball.vy>0,`missed solid body: ${JSON.stringify({wide,slow,direction,dt,y})}`);}
++ }
++ assert.ok(contacts>100,'matrix must include substantial actual geometric contact coverage');
++});
++
++test('solid paddle artwork fits the collision height instead of relying on a body-only assumption',()=>{
++ const paddle=makePaddle(null,null);paddle.position.set(0,0,0);paddle.updateMatrixWorld(true);
++ const boxes=[paddle.userData.art.body,...paddle.userData.art.ends.map(end=>end.end)];
++ const top=Math.max(...boxes.map(mesh=>new T.Box3().setFromObject(mesh).max.y));
++ assert.ok(top<=PADDLE_HALF_HEIGHT,'future solid artwork changes must fit the collision envelope');
++ const g=game({x:1.6,y:LIMIT.paddleY+top+.22,target:-8}),ball=g.balls[0];g.tick(1/120);
++ assert.ok(ball.vy>0,`rendered solid top ${top} exceeds collision surface`);
++});
++
++test('seeded diagonal trajectories cannot tunnel through independently sampled solid contacts',()=>{
++ let seed=90713,contacts=0,clearBelow=0;
++ const random=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
++ for(let run=0;run<4000;run++){
++  const wide=random()<.5,slow=random()<.5,dt=[1/240,1/120,1/60,.05][Math.floor(random()*4)],paddleX=random()*12-6;
++  const g=game({wide}),b=g.balls[0];g.paddle.x=paddleX;g.move(random()*16-8);if(slow)g.effects.slow=10;
++  g.hits=random()<.5?0:200;const speed=g.speed(),angle=(random()*2-1)*1.1;
++  Object.assign(b,{x:paddleX+(random()*2-1)*(g.paddle.w/2+.8),y:LIMIT.paddleY+random()*1.9-.6,vx:Math.sin(angle)*speed,vy:-Math.cos(angle)*speed});
++  const x=b.x,y=b.y,dx=b.vx*dt*(slow?.67:1),dy=b.vy*dt*(slow?.67:1);
++  if(Math.abs(x+dx)>9.7)continue; // This independent straight-line oracle excludes wall bounces.
++  g.tick(dt);let touching=false;
++  for(let sample=0;sample<=200;sample++){const t=sample/200,px=paddleX+(g.paddle.x-paddleX)*t;
++   const gapX=Math.max(0,Math.abs(x+dx*t-px)-g.paddle.w/2),gapY=Math.max(0,Math.abs(y+dy*t-LIMIT.paddleY)-.17);
++   if(Math.hypot(gapX,gapY)<=b.r){touching=true;break;}
++  }
++  if(touching){contacts++;assert.ok(b.vy>0,`sampled contact missed in seeded run ${run}`);}
++  if(y<LIMIT.paddleY-PADDLE_HALF_HEIGHT-b.r){clearBelow++;assert.ok(b.vy<0,'a fully departed ball must remain a miss');}
++ }
++ assert.ok(contacts>500);assert.ok(clearBelow>100);
++});
++
++test('a lower-side Sticky catch keeps its offset and releases after Wide support expires',()=>{
++ const g=game({x:2.7,y:LIMIT.paddleY-.12,target:8,wide:true,sticky:true}),b=g.balls[0];g.tick(1/120);
++ assert.equal(b.held,true);assert.ok(b.holdOffset>1.65);assert.ok(Math.abs(b.x-g.paddle.x-b.holdOffset)<1e-9);
++ g.effects.wide=.001;g.tick(1/120);assert.equal(b.held,false);assert.ok(b.vy>0);
++});
+diff --git a/tools/paddle-replay.mjs b/tools/paddle-replay.mjs
+new file mode 100644
+index 0000000..1731d40
+--- /dev/null
++++ b/tools/paddle-replay.mjs
+@@ -0,0 +1,35 @@
++// Isolated, read-only before/after physics reproduction. Not published with the game.
++import http from 'node:http';
++import fs from 'node:fs/promises';
++import path from 'node:path';
++const baseline=Bun.spawnSync(['git','show','43d543f:public/engine.js'],{stdout:'pipe',stderr:'pipe'});
++if(baseline.exitCode)throw Error('Cannot read recorded pre-fix engine');
++const before=baseline.stdout.toString().replaceAll("from './","from '/");
++const script=`import {Game as Before,LIMIT} from '/before-engine.js';import {Game as After} from '/engine.js';
++const engines={before:Before,after:After};
++function replay(kind){for(const [id,Engine]of Object.entries(engines)){
++ const game=new Engine();game.launch();let hits=0;game.emit=e=>{if(e.type==='paddle')hits++;};
++ const ball=game.balls[0];Object.assign(ball,{x:kind==='lower'?2:1.6,y:LIMIT.paddleY+(kind==='lower'?-.12:.43),vx:0,vy:-18});game.move(kind==='lower'?8:-8);
++ const start={x:ball.x,y:ball.y};game.tick(1/120);
++ const canvas=document.querySelector('#'+id),ctx=canvas.getContext('2d'),px=x=>canvas.width/2+x*65,py=y=>canvas.height/2-(y-LIMIT.paddleY)*65;
++ ctx.fillStyle='#0c2025';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.strokeStyle='#677d83';ctx.lineWidth=1;ctx.strokeRect(px(-1.65),py(LIMIT.paddleY+.17),3.3*65,.34*65);
++ ctx.fillStyle='#c8ece2';ctx.fillRect(px(game.paddle.x-game.paddle.w/2),py(LIMIT.paddleY+.17),game.paddle.w*65,.34*65);
++ // Solid raised endcaps are 0.416 tall; decorative glow is not collision geometry.
++ for(const side of [-1,1]){ctx.fillStyle=side<0?'#55d6ef':'#ec8ac7';ctx.fillRect(px(game.paddle.x+side*(game.paddle.w/2-.15)-.15),py(LIMIT.paddleY+.208),.3*65,.416*65);}
++ ctx.strokeStyle='#6f8389';ctx.beginPath();ctx.arc(px(start.x),py(start.y),ball.r*65,0,Math.PI*2);ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(px(ball.x),py(ball.y),ball.r*65,0,Math.PI*2);ctx.fill();
++ document.querySelector('#'+id+'-result').textContent=(hits?'CAUGHT':'MISSED')+' · vertical speed '+ball.vy.toFixed(2)+' · ball center '+(ball.y-LIMIT.paddleY).toFixed(3)+' from paddle center';
++ document.querySelector('#'+id+'-result').dataset.caught=String(hits>0);
++ }document.querySelector('#case').textContent=kind==='lower'?'Descending ball beside the lower half; paddle moves right.':'Ball touching a raised endcap; paddle moves left.';
++}
++for(const button of document.querySelectorAll('[data-case]'))button.onclick=()=>replay(button.dataset.case);replay('lower');`;
++const html=`<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Paddle collision reproduction</title><style>body{margin:0;padding:28px;background:#0a171b;color:#e9f4f2;font:16px/1.5 system-ui,sans-serif}main{max-width:1100px;margin:auto}h1{font-size:30px;margin:0 0 8px}p{color:#bdcccf}button{padding:12px 16px;margin:8px 8px 12px 0;background:#d4e9e6;color:#12282c;border:0;border-radius:6px;font:inherit;cursor:pointer}.comparison{display:grid;grid-template-columns:1fr 1fr;gap:24px}canvas{width:100%;border:1px solid #42565c;border-radius:8px}output{display:block;font-size:14px}small{display:block;color:#b8cacc;margin-top:16px}@media(max-width:650px){.comparison{grid-template-columns:1fr}}</style><main><h1>Paddle collision reproduction</h1><p>One physics step, identical input. Outline: starting positions. Filled shapes: positions after the step.</p><button data-case="lower">Replay lower-side contact</button><button data-case="cap">Replay raised-endcap contact</button><p id="case"></p><div class="comparison"><section><h2>Before</h2><canvas id="before" width="520" height="220"></canvas><output id="before-result"></output></section><section><h2>After</h2><canvas id="after" width="520" height="220"></canvas><output id="after-result"></output></section></div><small>Local diagnostic only. Uses the actual old and revised game engines with a flat drawing of their solid paddle geometry; not a full Three.js gameplay recording. No scores are submitted.</small></main><script type="module" src="/replay.js"></script></html>`;
++const root=path.resolve('public'),types={'.js':'text/javascript','.html':'text/html'};
++http.createServer(async(req,res)=>{try{
++ if(req.method!=='GET'){res.writeHead(405).end();return;}
++ const url=new URL(req.url,'http://127.0.0.1:4176');
++ if(url.pathname==='/'){res.writeHead(200,{'Content-Type':'text/html','Cache-Control':'no-store'}).end(html);return;}
++ if(url.pathname==='/replay.js'||url.pathname==='/before-engine.js'){res.writeHead(200,{'Content-Type':'text/javascript','Cache-Control':'no-store'}).end(url.pathname==='/replay.js'?script:before);return;}
++ const file=path.resolve(root,'.'+decodeURIComponent(url.pathname));if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}
++ res.writeHead(200,{'Content-Type':types[path.extname(file)]||'application/octet-stream','Cache-Control':'no-store'}).end(await fs.readFile(file));
++ }catch{res.writeHead(404).end();}
++}).listen(4176,'127.0.0.1',()=>console.log('Paddle reproduction: http://127.0.0.1:4176/'));

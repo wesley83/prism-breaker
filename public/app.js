@@ -2,7 +2,7 @@ import {checkpointLevel,compatibleRuleset,LEGACY_RULESET_REVISION} from './world
 import {THEMES} from './world-schema.js';
 import {WORLDS,RULESET_REVISION,POWERS,daySeed,dailyWorld,WORLD_COUNT,LAST_WORLD,formationCount} from './levels.js?v=3';
 import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=8';
+import {Game,speedBonus,isValidSnapshot} from './engine.js?v=9';
 import {worldSlug,parseWorld,worldHTML,formationCatalog,normalizeWorld,originalWorld} from './world-format.js';
 import {attachBrickDOM} from './brick-events.js';
 import {SharePreview,formatShareDate} from './sharing.js?v=2';

@@ -4,16 +4,19 @@ import {checkpointLevel,compatibleRuleset} from './world-identity.js';
 import {validateWorld} from './world-schema.js';
 import {BrickBehaviors} from './brick-events.js';
 export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
+// Solid endcaps reach 0.208 from center; include them in both paddle skins.
+export const PADDLE_HALF_HEIGHT=.21;
 export const PICKUP_POINTS=150;
 export const speedBonus=seconds=>Math.max(0,2000-10*Math.floor(Math.max(0,seconds)));
 const DROP_KINDS=['wide','multi','sticky','laser','pierce','slow','shield'];
-// Sweep relative motion through the paddle's upper catching area. Testing only
-// the top-plane crossing misses side catches and uses the wrong paddle position.
+// Sweep relative motion through the full solid paddle, expanded by ball radius.
+// A ball center below the paddle center can still overlap its lower side.
 function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
- if(b.vy>=0||oldY<LIMIT.paddleY)return null;
- const half=paddle.w/2+b.r,surface=LIMIT.paddleY+.17+b.r;
+ const bottom=LIMIT.paddleY-PADDLE_HALF_HEIGHT-b.r;
+ if(b.vy>=0||oldY<bottom)return null;
+ const half=paddle.w/2+b.r,surface=LIMIT.paddleY+PADDLE_HALF_HEIGHT+b.r;
  const fall=oldY-b.y;if(fall<=0)return null;
- let enter=Math.max(0,(oldY-surface)/fall),leave=Math.min(1,(oldY-LIMIT.paddleY)/fall);
+ let enter=Math.max(0,(oldY-surface)/fall),leave=Math.min(1,(oldY-bottom)/fall);
  const start=oldX-oldPaddleX,delta=(b.x-oldX)-(paddle.x-oldPaddleX);
  if(Math.abs(delta)<1e-12){if(start < -half||start>half)return null;}
  else{const a=(-half-start)/delta,c=(half-start)/delta;enter=Math.max(enter,Math.min(a,c));leave=Math.min(leave,Math.max(a,c));}
@@ -147,7 +150,7 @@ export class Game {
      if(b.x<-10+b.r){b.x=-10+b.r;b.vx=Math.abs(b.vx);this.emit({type:'wall'});}
      if(b.x>10-b.r){b.x=10-b.r;b.vx=-Math.abs(b.vx);this.emit({type:'wall'});}
      if(b.y>12-b.r){b.y=12-b.r;b.vy=-Math.abs(b.vy);this.emit({type:'wall'});}
-     const surface=LIMIT.paddleY+.17+b.r;
+     const surface=LIMIT.paddleY+PADDLE_HALF_HEIGHT+b.r;
      const contact=paddleImpact(b,oldX,oldY,this.paddle,oldPaddleX);
      if(contact!==null){
         const impactPaddleX=oldPaddleX+(this.paddle.x-oldPaddleX)*contact;
