@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-15T20:16:22.784Z",
+  "actor": "Codex",
+  "plan": "FR-01 / FR-03",
+  "files": [
+    {
+      "path": "audit/2026-10-15-fullscreen-data-preservation.json",
+      "sha256": "81afbbb4e967212cef9e0e9af3f842dc73007779e7df36b7c8e431912fe00f6e"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-deployment.json",
+      "sha256": "0060762907338f0f0caef8d3fafd630137108b654c61f1268471b8ea968ad4cf"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-release-gate.json",
+      "sha256": "7418a540bd2eaa91d2821cc7f859c32ee6aac3f94d60e819a89ff4c185793cef"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-live.json",
+      "sha256": "76cc7718bdf42dfd5aae40560261f3de8a4dcbdf684518d794d0e203f6d7069b"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-live.png",
+      "sha256": "7a8b33531b75dde57be2b7088f099fdec3806080f5595959dca17b1cd9b1f34f"
+    }
+  ]
+}

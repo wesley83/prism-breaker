@@ -1,0 +1,1320 @@
+{
+  "at": "2026-10-15T20:14:55.564Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "version": "fae02ab6c0bf2e26a92a",
+  "worker": {
+    "status": 200,
+    "sha256": "3c6ae3d169442a2ad60d2978108ddba72c9bdf4920b5564fe208f6a81d677c5a",
+    "headers": {
+      "content-type": "text/javascript",
+      "cache-control": "public, max-age=300",
+      "etag": "\"3c6ae3d169442a2ad60d2978108ddba72c9bdf4920b5564fe208f6a81d677c5a\"",
+      "service-worker-allowed": null,
+      "content-security-policy": null,
+      "x-content-type-options": null
+    }
+  },
+  "manifest": {
+    "id": "/",
+    "name": "Prism Breaker",
+    "short_name": "Prism Breaker",
+    "description": "Break through sixteen colorful 3D worlds. Play Adventure, Practice and the Daily Challenge online or offline.",
+    "lang": "en",
+    "start_url": "/?source=installed",
+    "scope": "/",
+    "display": "fullscreen",
+    "background_color": "#111d20",
+    "theme_color": "#111d20",
+    "categories": [
+      "games",
+      "entertainment"
+    ],
+    "icons": [
+      {
+        "src": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+      },
+      {
+        "src": "/releases/fae02ab6c0bf2e26a92a/assets/prism-maskable-512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ],
+    "shortcuts": [
+      {
+        "name": "Daily Challenge leaderboard",
+        "short_name": "Daily Challenge",
+        "url": "/?leaderboard=daily",
+        "icons": [
+          {
+            "src": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+          }
+        ]
+      },
+      {
+        "name": "Adventure leaderboard",
+        "short_name": "Leaderboard",
+        "url": "/?leaderboard=campaign",
+        "icons": [
+          {
+            "src": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+          }
+        ]
+      }
+    ]
+  },
+  "home": {
+    "status": 200,
+    "headers": {
+      "content-type": "text/html",
+      "cache-control": null,
+      "etag": "\"d186404e5f5e273577b224430684b425d29e66da2799827c7efaae2beabf651d\"",
+      "service-worker-allowed": null,
+      "content-security-policy": null,
+      "x-content-type-options": null
+    },
+    "manifestLinked": true,
+    "releaseMarker": true
+  },
+  "entryIssues": [],
+  "assets": [
+    {
+      "path": "/app.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/app.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"68c18c598d15250f6ef11748f8f422be5b48cb92e0aa6a4cec766751b0a3cbc1\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 54948,
+      "sha256": "68c18c598d15250f6ef11748f8f422be5b48cb92e0aa6a4cec766751b0a3cbc1",
+      "valid": true
+    },
+    {
+      "path": "/apple-touch-icon.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/apple-touch-icon.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 3811,
+      "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+      "valid": true
+    },
+    {
+      "path": "/assets/display.woff2",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/display.woff2",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "font/woff2",
+        "cache-control": "public, max-age=300",
+        "etag": "\"0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 22288,
+      "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+      "valid": true
+    },
+    {
+      "path": "/assets/favicon-32.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/favicon-32.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 791,
+      "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+      "valid": true
+    },
+    {
+      "path": "/assets/FONT-LICENSE.txt",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/FONT-LICENSE.txt",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/plain",
+        "cache-control": null,
+        "etag": "\"18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 4401,
+      "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+      "valid": true
+    },
+    {
+      "path": "/assets/ICON-LICENSE.txt",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/ICON-LICENSE.txt",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/plain",
+        "cache-control": null,
+        "etag": "\"b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1073,
+      "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+      "valid": true
+    },
+    {
+      "path": "/assets/icons.svg",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/icons.svg",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/svg+xml",
+        "cache-control": "public, max-age=300",
+        "etag": "\"51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 10681,
+      "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+      "valid": true
+    },
+    {
+      "path": "/assets/og-prism-breaker-square.jpg",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/og-prism-breaker-square.jpg",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "public, max-age=300",
+        "etag": "\"bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 420420,
+      "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+      "valid": true
+    },
+    {
+      "path": "/assets/og-prism-breaker.jpg",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/og-prism-breaker.jpg",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "public, max-age=300",
+        "etag": "\"5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 222971,
+      "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+      "valid": true
+    },
+    {
+      "path": "/assets/prism-icon-192.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-192.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 4055,
+      "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+      "valid": true
+    },
+    {
+      "path": "/assets/prism-icon-512.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-512.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27390,
+      "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+      "valid": true
+    },
+    {
+      "path": "/assets/prism-maskable-512.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-maskable-512.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 13028,
+      "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+      "valid": true
+    },
+    {
+      "path": "/assets/prism-maskable.svg",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-maskable.svg",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/svg+xml",
+        "cache-control": "public, max-age=300",
+        "etag": "\"d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 500,
+      "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+      "valid": true
+    },
+    {
+      "path": "/assets/prism-wordmark.svg",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-wordmark.svg",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/svg+xml",
+        "cache-control": "public, max-age=300",
+        "etag": "\"974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1375,
+      "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+      "valid": true
+    },
+    {
+      "path": "/assets/QR-LICENSE.txt",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/QR-LICENSE.txt",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/plain",
+        "cache-control": null,
+        "etag": "\"51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1094,
+      "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-01.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-01.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27953,
+      "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-02.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-02.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 29205,
+      "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-03.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-03.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 31118,
+      "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-04.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-04.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 29656,
+      "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-05.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-05.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 29165,
+      "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-06.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-06.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 25415,
+      "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-07.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-07.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27961,
+      "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-08.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-08.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27056,
+      "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-09.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-09.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27537,
+      "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-10.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-10.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27226,
+      "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-11.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-11.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 30170,
+      "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-12.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-12.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 29931,
+      "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-13.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-13.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 27592,
+      "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-14.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-14.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 22221,
+      "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-15.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-15.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 26493,
+      "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+      "valid": true
+    },
+    {
+      "path": "/assets/world-preview-16.png",
+      "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-16.png",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "public, max-age=300",
+        "etag": "\"a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 32667,
+      "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+      "valid": true
+    },
+    {
+      "path": "/audio.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/audio.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"b544d6bdb35002caf77641bc6728e4069aa7ff6fc06af262b6b67193403b96f0\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 7105,
+      "sha256": "b544d6bdb35002caf77641bc6728e4069aa7ff6fc06af262b6b67193403b96f0",
+      "valid": true
+    },
+    {
+      "path": "/bootstrap.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/bootstrap.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1363,
+      "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+      "valid": true
+    },
+    {
+      "path": "/brick-events.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/brick-events.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"3ed016a3adf5fb6c91d3e088c981b28c04caa3e57866486b5c349f132f564cfe\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 3894,
+      "sha256": "3ed016a3adf5fb6c91d3e088c981b28c04caa3e57866486b5c349f132f564cfe",
+      "valid": true
+    },
+    {
+      "path": "/brick-labels.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/brick-labels.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"f662152af6fd60ce439bc2733a2ec1c03601c219d70a35178541f66c12bfba6d\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 2674,
+      "sha256": "f662152af6fd60ce439bc2733a2ec1c03601c219d70a35178541f66c12bfba6d",
+      "valid": true
+    },
+    {
+      "path": "/bundled-worlds.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/bundled-worlds.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"46ded10b86f0a915465149cdbb14dc7e3e8e0cd7582787f8a4619b4644073990\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 127892,
+      "sha256": "46ded10b86f0a915465149cdbb14dc7e3e8e0cd7582787f8a4619b4644073990",
+      "valid": true
+    },
+    {
+      "path": "/champion.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/champion.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"a33604726497adc9efc6b9002f067b640234942d88e0ebe39d2de8155c7b3ef8\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 5802,
+      "sha256": "a33604726497adc9efc6b9002f067b640234942d88e0ebe39d2de8155c7b3ef8",
+      "valid": true
+    },
+    {
+      "path": "/cinematic-score.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/cinematic-score.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1984,
+      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+      "valid": true
+    },
+    {
+      "path": "/cinematics.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/cinematics.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"e39eead18646a2ef8c4f2e7276db395a85bf1d870dccaca1ebf4bd39c9d74ed2\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 15450,
+      "sha256": "e39eead18646a2ef8c4f2e7276db395a85bf1d870dccaca1ebf4bd39c9d74ed2",
+      "valid": true
+    },
+    {
+      "path": "/crystal-bricks.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/crystal-bricks.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"ea0b69e565240df3e96d6f12f417fb5e4968d0833e90db2bd19e7550c12fb3cf\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 6127,
+      "sha256": "ea0b69e565240df3e96d6f12f417fb5e4968d0833e90db2bd19e7550c12fb3cf",
+      "valid": true
+    },
+    {
+      "path": "/daily-ending.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/daily-ending.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"e0834285478e75555c7ae56e66a1b312d175e629600a756acc51d3829d7dd2c4\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 6513,
+      "sha256": "e0834285478e75555c7ae56e66a1b312d175e629600a756acc51d3829d7dd2c4",
+      "valid": true
+    },
+    {
+      "path": "/daily-score.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/daily-score.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 489,
+      "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+      "valid": true
+    },
+    {
+      "path": "/display.css",
+      "url": "/releases/fae02ab6c0bf2e26a92a/display.css",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/css",
+        "cache-control": "public, max-age=300",
+        "etag": "\"3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 4199,
+      "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
+      "valid": true
+    },
+    {
+      "path": "/display.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/display.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 3729,
+      "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45",
+      "valid": true
+    },
+    {
+      "path": "/editor.css",
+      "url": "/releases/fae02ab6c0bf2e26a92a/editor.css",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/css",
+        "cache-control": "public, max-age=300",
+        "etag": "\"e1a3873536bdd3f95024d55c9cc5281bdc2f15b0a260aa19404d3779c5775c11\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 7635,
+      "sha256": "e1a3873536bdd3f95024d55c9cc5281bdc2f15b0a260aa19404d3779c5775c11",
+      "valid": true
+    },
+    {
+      "path": "/editor.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/editor.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"ee87e857e0b1d1d7bb7206bae1eb7a412177f60f51c685a0b4819270b3dbd5a2\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 22587,
+      "sha256": "ee87e857e0b1d1d7bb7206bae1eb7a412177f60f51c685a0b4819270b3dbd5a2",
+      "valid": true
+    },
+    {
+      "path": "/engine.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/engine.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 17520,
+      "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511",
+      "valid": true
+    },
+    {
+      "path": "/favicon.ico",
+      "url": "/releases/fae02ab6c0bf2e26a92a/favicon.ico",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/vnd.microsoft.icon",
+        "cache-control": "public, max-age=300",
+        "etag": "\"d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 2456,
+      "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+      "valid": true
+    },
+    {
+      "path": "/favicon.svg",
+      "url": "/releases/fae02ab6c0bf2e26a92a/favicon.svg",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "image/svg+xml",
+        "cache-control": "public, max-age=300",
+        "etag": "\"9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 442,
+      "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+      "valid": true
+    },
+    {
+      "path": "/graphics-recovery.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/graphics-recovery.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 910,
+      "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+      "valid": true
+    },
+    {
+      "path": "/index.html",
+      "url": "/releases/fae02ab6c0bf2e26a92a/index.html",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/html",
+        "cache-control": null,
+        "etag": "\"d186404e5f5e273577b224430684b425d29e66da2799827c7efaae2beabf651d\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 26349,
+      "sha256": "f45e2d31b09ace98fd6aadfeda7c2a35eb43e6b609990799e1c1fa5edafb0ada",
+      "valid": true
+    },
+    {
+      "path": "/leaderboard.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/leaderboard.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"77e7ca7317fafa78843d559a33a49c5572ae304762ddc103bc9c0de952ca03fe\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1427,
+      "sha256": "77e7ca7317fafa78843d559a33a49c5572ae304762ddc103bc9c0de952ca03fe",
+      "valid": true
+    },
+    {
+      "path": "/levels.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/levels.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1660,
+      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+      "valid": true
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "url": "/releases/fae02ab6c0bf2e26a92a/manifest.webmanifest",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "application/manifest+json",
+        "cache-control": null,
+        "etag": "\"837bb570832779d5b54f2387510e75eb7b37b4fbcd7de516da700aebeb62a0a4\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1301,
+      "sha256": "837bb570832779d5b54f2387510e75eb7b37b4fbcd7de516da700aebeb62a0a4",
+      "valid": true
+    },
+    {
+      "path": "/music.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/music.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 6483,
+      "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+      "valid": true
+    },
+    {
+      "path": "/offline.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/offline.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"2cce4c462b8ad2f51c1b79c9aaafbfc844379190e6cffcda3b296f245cafc49f\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 10268,
+      "sha256": "2cce4c462b8ad2f51c1b79c9aaafbfc844379190e6cffcda3b296f245cafc49f",
+      "valid": true
+    },
+    {
+      "path": "/paddle-art.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/paddle-art.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"0d3d5ccc3527546a2044e0d014586bf4eb41b7e2bbb5e014de4d0a69771d5ce1\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 4692,
+      "sha256": "0d3d5ccc3527546a2044e0d014586bf4eb41b7e2bbb5e014de4d0a69771d5ce1",
+      "valid": true
+    },
+    {
+      "path": "/postprocessing.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/postprocessing.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 19341,
+      "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+      "valid": true
+    },
+    {
+      "path": "/pwa-release.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/pwa-release.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"2729af219d0e428e8a27a6bcd923fede129a3a0c16bf97c617acfef6dc18982e\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 88,
+      "sha256": "2729af219d0e428e8a27a6bcd923fede129a3a0c16bf97c617acfef6dc18982e",
+      "valid": true
+    },
+    {
+      "path": "/pwa.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/pwa.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 9057,
+      "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
+      "valid": true
+    },
+    {
+      "path": "/scene.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/scene.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"83f53c389135e7055ddabcc3b5943732efde7a5d901aa303a3a8003abfea94ef\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 26484,
+      "sha256": "83f53c389135e7055ddabcc3b5943732efde7a5d901aa303a3a8003abfea94ef",
+      "valid": true
+    },
+    {
+      "path": "/sharing.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/sharing.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"248175ca1a5a2921357f11f8ac098e2f03b06dd072c2f7f5ddf28c8ac9c5f00f\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 11750,
+      "sha256": "248175ca1a5a2921357f11f8ac098e2f03b06dd072c2f7f5ddf28c8ac9c5f00f",
+      "valid": true
+    },
+    {
+      "path": "/style.css",
+      "url": "/releases/fae02ab6c0bf2e26a92a/style.css",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/css",
+        "cache-control": "public, max-age=300",
+        "etag": "\"5dd3f62601de347b9c30013f7ec36099a013bbcdf76b1e597cde2d2a8303bcdd\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 37678,
+      "sha256": "5dd3f62601de347b9c30013f7ec36099a013bbcdf76b1e597cde2d2a8303bcdd",
+      "valid": true
+    },
+    {
+      "path": "/vendor/qr.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/vendor/qr.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 51907,
+      "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+      "valid": true
+    },
+    {
+      "path": "/vendor/THREE-LICENSE.txt",
+      "url": "/releases/fae02ab6c0bf2e26a92a/vendor/THREE-LICENSE.txt",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/plain",
+        "cache-control": null,
+        "etag": "\"bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1081,
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+      "valid": true
+    },
+    {
+      "path": "/vendor/three.core.min.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/vendor/three.core.min.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 381124,
+      "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+      "valid": true
+    },
+    {
+      "path": "/vendor/three.module.min.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/vendor/three.module.min.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 338908,
+      "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+      "valid": true
+    },
+    {
+      "path": "/victory-music.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/victory-music.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 1331,
+      "sha256": "ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa",
+      "valid": true
+    },
+    {
+      "path": "/world-data.css",
+      "url": "/releases/fae02ab6c0bf2e26a92a/world-data.css",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/css",
+        "cache-control": "public, max-age=300",
+        "etag": "\"596bc6ff6ec6c60508088967c8e44d2b19989783c41988f71b823acab8b09e5b\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 889,
+      "sha256": "596bc6ff6ec6c60508088967c8e44d2b19989783c41988f71b823acab8b09e5b",
+      "valid": true
+    },
+    {
+      "path": "/world-format.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/world-format.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"d983e2a502991c0a67e320d742601a348bee674b01d275ca41e1f890d5f72b57\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 2792,
+      "sha256": "d983e2a502991c0a67e320d742601a348bee674b01d275ca41e1f890d5f72b57",
+      "valid": true
+    },
+    {
+      "path": "/world-identity.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/world-identity.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"3e2a5f2dc3640c5a8dc8af86ceb0870ae852dc652153129ac532b016d825188e\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 810,
+      "sha256": "3e2a5f2dc3640c5a8dc8af86ceb0870ae852dc652153129ac532b016d825188e",
+      "valid": true
+    },
+    {
+      "path": "/world-schema.js",
+      "url": "/releases/fae02ab6c0bf2e26a92a/world-schema.js",
+      "status": 200,
+      "redirected": false,
+      "headers": {
+        "content-type": "text/javascript",
+        "cache-control": "public, max-age=300",
+        "etag": "\"4c820f37f4e70dc3836981c446b0177f8ef6c496abb3e94ec27c04217b16351f\"",
+        "service-worker-allowed": null,
+        "content-security-policy": null,
+        "x-content-type-options": null
+      },
+      "bytes": 12027,
+      "sha256": "4c820f37f4e70dc3836981c446b0177f8ef6c496abb3e94ec27c04217b16351f",
+      "valid": true
+    }
+  ],
+  "passed": true
+}
