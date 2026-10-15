@@ -1,0 +1,225 @@
+{
+  "at": "2026-10-15T21:00:40.294Z",
+  "scope": "CPU Three.js object/camera state; no GPU render or human motion assessment",
+  "reducedMotion": [
+    {
+      "scene": "world-1",
+      "static": true
+    },
+    {
+      "scene": "world-2",
+      "static": true
+    },
+    {
+      "scene": "world-3",
+      "static": true
+    },
+    {
+      "scene": "world-4",
+      "static": true
+    },
+    {
+      "scene": "world-5",
+      "static": true
+    },
+    {
+      "scene": "world-6",
+      "static": true
+    },
+    {
+      "scene": "world-7",
+      "static": true
+    },
+    {
+      "scene": "world-8",
+      "static": true
+    },
+    {
+      "scene": "world-9",
+      "static": true
+    },
+    {
+      "scene": "world-10",
+      "static": true
+    },
+    {
+      "scene": "world-11",
+      "static": true
+    },
+    {
+      "scene": "world-12",
+      "static": true
+    },
+    {
+      "scene": "world-13",
+      "static": true
+    },
+    {
+      "scene": "world-14",
+      "static": true
+    },
+    {
+      "scene": "world-15",
+      "static": true
+    },
+    {
+      "scene": "world-16",
+      "static": true
+    },
+    {
+      "scene": "campaign-record",
+      "static": true
+    },
+    {
+      "scene": "daily-complete",
+      "static": true
+    },
+    {
+      "scene": "daily-record",
+      "static": true
+    }
+  ],
+  "champion": {
+    "createdGems": 16,
+    "atOrigin": [
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "gemPositions": [
+      {
+        "world": 1,
+        "position": [
+          5.615380942067609,
+          5.323138540760063,
+          1.7613711663754497
+        ]
+      },
+      {
+        "world": 2,
+        "position": [
+          4.379078443289261,
+          5.797007223040687,
+          3.418055813893097
+        ]
+      },
+      {
+        "world": 3,
+        "position": [
+          2.476100947965064,
+          5.452528020797254,
+          4.554372448498631
+        ]
+      },
+      {
+        "world": 4,
+        "position": [
+          0.19615952922417237,
+          4.4914921787485,
+          4.997327163309302
+        ]
+      },
+      {
+        "world": 5,
+        "position": [
+          -2.1136453996505384,
+          3.4768614592399385,
+          4.6794841183896745
+        ]
+      },
+      {
+        "world": 6,
+        "position": [
+          -4.101666976671716,
+          3.002992776959313,
+          3.6492320360743853
+        ]
+      },
+      {
+        "world": 7,
+        "position": [
+          -5.465246938198357,
+          3.347471979202747,
+          2.0634174566375534
+        ]
+      },
+      {
+        "world": 8,
+        "position": [
+          -5.996792595971162,
+          4.308507821251501,
+          0.1634662743534773
+        ]
+      },
+      {
+        "world": 9,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 10,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 11,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 12,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 13,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 14,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 15,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "world": 16,
+        "position": [
+          0,
+          0,
+          0
+        ]
+      }
+    ]
+  }
+}

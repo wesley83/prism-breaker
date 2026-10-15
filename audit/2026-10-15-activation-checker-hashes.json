@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-15T20:45:39.580Z",
+  "actor": "Codex",
+  "plan": "AC-01",
+  "verification": "13 synthetic assessment assertions passed; live run pending",
+  "files": [
+    {
+      "path": "tools/policy-activation-check.mjs",
+      "sha256": "0bf9ab84d31c187fcf7b19818f8ac648d501157730fe4e9c543e6daadc6e77cc"
+    },
+    {
+      "path": "tools/policy-activation-assessment.mjs",
+      "sha256": "6fce0e8d82bafae5c129ae399bb4aa41106c15368aa33d36b4978951756f49e6"
+    },
+    {
+      "path": "POLICY-ACTIVATION-VERIFICATION.md",
+      "sha256": "c59eff00f7fde299d12113aaf2b4e451b90674339bc9e2a161a9a0828d1c33b4"
+    },
+    {
+      "path": "audit/2026-10-15-activation-checker.md",
+      "sha256": "21f52f08d944186678676c6dfb4736c4ef00c15ca3ae9bc6cd8910995f786192"
+    },
+    {
+      "path": "audit/2026-10-15-activation-checker.patch",
+      "sha256": "40f11b0d650581c1d72ea962b5b90155c94a33f1b1d2c02b5c340d470ab75fee"
+    }
+  ]
+}

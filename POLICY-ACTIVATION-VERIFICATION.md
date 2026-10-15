@@ -76,4 +76,18 @@ Until the supported readiness contract is established, keep the existing normal-
 
 No support message has been sent. A provider answer plus targeted reproduction can establish the contract; client probes alone cannot prove a global guarantee.
 
+## Additional sustained diagnostic checker
+
+The separate [activation checker](tools/policy-activation-check.mjs) strengthens the observational checks without changing the historical reproduction or the production publisher guard. Run `bun tools/policy-activation-check.mjs --help` for usage, or run without arguments in an interactive terminal and supply the owner key through hidden JSON input. Never put the key in command arguments, environment variables or saved files.
+
+The checker is pinned to this game's approved host. It creates uniquely named disposable data, marker and policy documents, verifies the stored source structurally, and exercises initial A, updated B, revoked C and deleted-policy phases. Each round overlaps three marker reads and then four synthetic writes (two A/B pairs). Unique IDs allow reconciliation of every acknowledged write with stored rows regardless of completion order. Rejected writes must add nothing, prior rows must remain, and unknown/lost/duplicate additions are failures. OPTIONS is supplementary evidence only. Cache-control headers and unique read query strings do not claim to bypass internal policy caches.
+
+Each phase seeks at least 120 seconds of matching observations and seven matching rounds, with no inter-round gap above 30 seconds. Rounds are spaced by ten seconds; requests time out after fifteen seconds. A phase stops after five minutes plus at most its in-flight round. These are bounded diagnostic settings, not a claimed platform propagation limit. Four successful phases require at least eight minutes, usually longer. The checker preserves earlier mismatches: even if a later matching window is observed, any inconsistent round or regression keeps the overall result **not confirmed** and exit status 1. An all-clean result is labeled **new policy consistently observed**, with counts and duration, never globally ready.
+
+JSON checkpoints retain synthetic request outcomes, phase timing, source identities, cleanup results and production hashes; a Markdown summary is written on normal completion or handled failure. Actual response bodies, owner credentials and real player records are not retained. Public request counts exclude owner reads, writes and baseline denial checks. Ctrl+C requests orderly cleanup; force termination or a machine crash may leave the exact fixture paths from the latest receipt for manual reconciliation. Cleanup requires the run's ownership marker and a matching ETag; a mismatch is reported instead of deleting an unknown resource. A cleanup failure, production readback failure or changed production hash prevents an overall pass. A changed leaderboard hash can reflect real player activity and is not evidence that this tool changed it.
+
+**Implementation status:** The checker has not yet been executed against the live host. Local synthetic assessment checks are recorded in the implementation audit. Its generated Sessel fixture and concurrent server-write behavior remain unverified until that isolated run. A disposable pass would still not establish production-policy activation, reach every worker, or remove the need for Pagelove's supported activation contract. No production policy migration is enabled by this tool.
+
+Implementation audit: [sustained checker](audit/2026-10-15-activation-checker.md).
+
 Audit: [policy activation investigation](audit/2026-10-15-policy-activation.md).

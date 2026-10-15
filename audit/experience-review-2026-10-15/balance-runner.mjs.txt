@@ -1,0 +1,19 @@
+import fs from 'node:fs/promises';
+import {Game} from '../public/engine.js';
+import {WORLDS,makeLevel,rng} from '../public/levels.js';
+import {CINEMATICS} from '../public/cinematic-score.js';
+import {TRACKS} from '../public/music.js';
+const worlds=WORLDS.map((w,index)=>({world:index+1,name:w.name,formations:w.formations.map((_,p)=>{const f=makeLevel(index,p);return {bricks:f.bricks.length,hits:f.bricks.reduce((a,b)=>a+b.hp,0),armor:f.bricks.filter(b=>b.hp>1).length,moving:f.bricks.filter(b=>b.moving).length,barriers:f.barriers.length,portals:f.portals.length};}),startSpeed:Math.min(21,(13.5+index*.6)*(index>=2&&index<=5?1.05:1)),scene:CINEMATICS[index].name,duration:CINEMATICS[index].duration,fullyVisibleSeconds:CINEMATICS[index].duration*(1-.68),track:TRACKS[index].title,bpm:TRACKS[index].bpm}));
+const runs=[];
+for(const seed of [8399,114,205])for(let level=0;level<16;level++){
+ let lost=0,earned=0,pickups=0,contacts=0,offset=.2;const random=rng(seed+level*73),g=new Game();
+ g.start('practice',level,seed);g.runId='experience-review-'+seed+'-'+level;
+ g.emit=e=>{if(e.type==='paddle'){offset=(random()-.5)*1.8;contacts++;}if(e.type==='life'||e.type==='over')lost++;if(e.type==='power'){if(e.kind==='life')earned++;if(e.points)pickups++;}};
+ let frame=0;for(;frame<120*900&&!['cleared','over'].includes(g.state);frame++){
+  if(g.state==='ready'||g.balls.some(b=>b.held))g.launch();
+  const ball=[...g.balls].sort((a,b)=>a.y-b.y)[0];if(ball)g.move(ball.x+offset);g.tick(1/120);
+ }
+ runs.push({seed,world:level+1,state:g.state,seconds:Math.round(g.elapsed),phase:g.phase+1,remaining:g.bricks.filter(b=>b.hp>0).length,lives:g.lives,lost,earned,pickups,contacts,score:g.score,bonuses:g.bonusTotals});
+}
+await fs.writeFile('audit/2026-10-15-experience-balance.json',JSON.stringify({at:new Date().toISOString(),method:'Fixed 120 Hz deterministic follower bot; 3 natural lives, no refill; unique fixed run IDs; maximum 900 simulated seconds per world; every world starts independently. Not a human balance playtest.',worlds,runs},null,2)+'\n');
+console.log(JSON.stringify({runs:runs.length,cleared:runs.filter(r=>r.state==='cleared').length,over:runs.filter(r=>r.state==='over').length,timeouts:runs.filter(r=>!['cleared','over'].includes(r.state)).length,worlds:worlds.map(w=>({world:w.world,hits:w.formations.reduce((a,b)=>a+b.hits,0),seconds:runs.filter(r=>r.world===w.world).map(r=>r.seconds),states:runs.filter(r=>r.world===w.world).map(r=>r.state)}))}));

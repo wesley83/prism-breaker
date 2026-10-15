@@ -1,0 +1,11 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests\media.test.mjs:
+(pass) muting or setting music volume to zero stops synthesis until audible again [5.12ms]
+(pass) sixteen musical arrangements differ in melody, rhythm and instrumentation [7.62ms]
+(pass) cinematic cameras remain finite at every sampled moment and reset safely [23.45ms]
+(pass) reduced motion uses a fixed cinematic composition and visible story [1.58ms]
+
+ 4 pass
+ 0 fail
+Ran 4 tests across 1 file. [106.00ms]
