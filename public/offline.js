@@ -29,7 +29,7 @@ export class OfflineStore{
    try{request=this.indexedDB.open(this.name,VERSION);}catch(error){finish(error);return;}
    request.onupgradeneeded=()=>{const db=request.result;if(!db.objectStoreNames.contains('metadata'))db.createObjectStore('metadata');if(!db.objectStoreNames.contains('outbox'))db.createObjectStore('outbox',{keyPath:'id'});};
    request.onerror=()=>finish(request.error);
-   request.onsuccess=()=>{const db=request.result;db.onversionchange=()=>{db.close();this.opening=null;};db.onclose=()=>{this.opening=null;};finish(null,db);};
+   request.onsuccess=()=>{const db=request.result,forget=()=>{if(this.opening===opening)this.opening=null;};db.onversionchange=()=>{db.close();forget();};db.onclose=forget;finish(null,db);};
   });
   this.opening=opening;
   try{return await opening;}catch(error){if(this.opening===opening)this.opening=null;throw error;}
@@ -105,7 +105,7 @@ export class ScoreOutbox{
    return {...previous,status:'queued',nextAttemptAt:this.now(),lastError:'',leaseId:null,leaseUntil:0};
   });
   if(entry)this.notify('queued',entry);
-  await this.sync();return this.get(id);
+  await this.sync({force:true});return this.get(id);
  }
  sync({force=false}={}){
   if(this.disposed)return Promise.resolve();
@@ -120,10 +120,11 @@ export class ScoreOutbox{
   return this.active;
  }
  async flush(force){
-  if(!this.isOnline())return;
+  // onLine is a scheduling hint, not proof that the server is unreachable.
+  if(!force&&!this.isOnline())return;
   const entries=await this.list();
   for(const candidate of entries){
-   if(this.disposed||!this.isOnline())break;
+   if(this.disposed||(!force&&!this.isOnline()))break;
    const time=this.now(),leaseId=globalThis.crypto?.randomUUID?.()??time+'-'+Math.random();
    const claimed=await this.store.mutate(candidate.id,entry=>{
     if(!entry||entry.status==='sent'||entry.status==='failed'||(entry.status==='sending'&&entry.leaseUntil>time)||(!force&&entry.status==='queued'&&entry.nextAttemptAt>time))return undefined;

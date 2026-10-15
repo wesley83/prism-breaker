@@ -188,6 +188,8 @@ Browser storage can be cleared or evicted under storage pressure. The install ac
 
 See [PWA-UPGRADE.md](PWA-UPGRADE.md) for release integrity, queue behavior, optimization details and validation limits.
 
+The [PWA robustness review](PWA-ROBUSTNESS-REVIEW.md) records the October 15 cache-loss, update, installation and queue audit, primary browser guidance, 125 passing automated tests and isolated browser evidence. Readiness now checks the asset inventory; release pins survive asset eviction; network downloads have deadlines; stale repair replies cannot replace newer state; and explicit retries use actual network results. The review distinguishes its local corrections from the deployed release and lists physical-device checks still needed.
+
 ## Scoring
 
 | Award | Calculation |

@@ -4,8 +4,8 @@ import fs from 'node:fs/promises';
 import vm from 'node:vm';
 const source=(await fs.readFile(new URL('../public/pwa.js',import.meta.url),'utf8')).replace(/import .*?;\s*/,"const PWA_RELEASE='aaaaaaaaaaaaaaaaaaaa';\n").replace('export function','function');
 const flush=async()=>{for(let i=0;i<20;i++)await Promise.resolve();};
-function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type){for(const fn of handlers.get(type)||[])fn();}});}
-function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){
+function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type,event){for(const fn of handlers.get(type)||[])fn(event);}});}
+function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',pageVersion,ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){
  const elements=new Map(['offline-status','offline-detail','install-game','update-game','retry-download'].map(id=>['#'+id,{hidden:false,disabled:false,textContent:''}]));
  const timers=new Map();let tid=0,now=100000,reloads=0,skips=0,checks=0;
  const active=emitter({state:'activated',postMessage(message,ports){ports?.[0].postMessage({version,ready});}});
@@ -13,7 +13,7 @@ function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaa
  const registration=emitter({active,waiting:waiting?next:null,installing:null,update:async()=>{checks++;}});
  const sw=emitter({controller:active,register:async()=>{if(failRegister)throw Error('offline');return registration;}});
  const navigator={onLine:online,...(unsupported?{}:{serviceWorker:sw})};
- const document=emitter({hidden:false,querySelector:s=>elements.get(s)}),window=emitter();
+ const document=emitter({hidden:false,querySelector:s=>s==='meta[name="prism-release"]'?{content:pageVersion}:elements.get(s)}),window=emitter();
  const location={pathname:'/',reload(){reloads++;}};
  class Channel{constructor(){this.port1={close(){},onmessage:null};this.port2={postMessage:data=>this.port1.onmessage?.({data})};}}
  const context=vm.createContext({navigator,document,window,location,isSecureContext:true,matchMedia:()=>({matches:false}),MessageChannel:Channel,Date:{now:()=>now},setTimeout:(fn,ms)=>{const id=++tid;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)});
@@ -71,4 +71,45 @@ test('late activation after timeout needs a new click and does not interrupt a r
 });
 test('repeated controller and refresh events cannot issue duplicate reloads',async()=>{
  const f=fixture();await flush();await f.button.onclick();f.activate();f.activate();f.api.refresh();f.timeout(12000);assert.equal(f.reloads,1);
+});
+
+test('a missing old release shows recovery instead of preparing forever',async()=>{
+ const f=fixture({ready:false,version:'bbbbbbbbbbbbbbbbbbbb',waiting:false});await flush();
+ assert.match(f.status.textContent,/unavailable/i);assert.equal(f.button.hidden,false);
+});
+
+test('foreground and reconnect inspect missing assets and repair without waiting for a new version',async()=>{
+ const f=fixture({waiting:false});await flush();let repairs=0;
+ f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')repairs++;ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:message.type==='REPAIR_CACHE'});};
+ f.window.emit('online');await flush();assert.equal(repairs,1);assert.match(f.status.textContent,/Ready/);
+ f.document.hidden=true;f.advance(60001);f.window.emit('online');await flush();assert.equal(f.checks,0);assert.equal(repairs,1);
+});
+
+test('late repair replies cannot overwrite the state of a new controller',async()=>{
+ const f=fixture({waiting:false});await flush();let reply;
+ f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')reply=ports[0];else ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:false});};
+ f.sw.emit('controllerchange');await flush();assert.ok(reply);
+ f.sw.controller={postMessage(message,ports){ports[0].postMessage({version:'bbbbbbbbbbbbbbbbbbbb',ready:false});}};
+ f.sw.emit('controllerchange');await flush();reply.postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:true});await flush();
+ assert.match(f.status.textContent,/unavailable/i);assert.equal(f.button.hidden,false);
+});
+
+test('installed confirmation survives later renders and page identity handshake is explicit',async()=>{
+ const f=fixture();await flush();f.window.emit('appinstalled');f.api.refresh();
+ assert.equal(f.elements.get('#install-game').hidden,true);
+ let reply;f.sw.emit('message',{data:{type:'PWA_VERSION_REQUEST'},ports:[{postMessage:value=>reply=value}]});
+ assert.equal(reply?.version,'aaaaaaaaaaaaaaaaaaaa');
+});
+
+test('the document release marker wins over a stale HTTP-cached version module',async()=>{
+ const f=fixture({waiting:false,pageVersion:'bbbbbbbbbbbbbbbbbbbb',version:'bbbbbbbbbbbbbbbbbbbb'});await flush();
+ assert.equal(f.button.hidden,true);let reply;
+ f.sw.emit('message',{data:{type:'PWA_VERSION_REQUEST'},ports:[{postMessage:value=>reply=value}]});
+ assert.equal(reply?.version,'bbbbbbbbbbbbbbbbbbbb');
+});
+
+test('Retry download explicitly attempts cache repair despite a false connectivity hint',async()=>{
+ const f=fixture({waiting:false,online:false,ready:false});await flush();let repairs=0;
+ f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')repairs++;ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:message.type==='REPAIR_CACHE'});};
+ await f.retry.onclick();assert.equal(repairs,1);assert.match(f.status.textContent,/ready to play/);
 });

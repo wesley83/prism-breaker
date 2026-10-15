@@ -10,8 +10,8 @@ import {Sound} from './audio.js?v=5';
 import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=3';
 import {utcDay,rankedScores as rankScores,scoreAge,scoreAgeBand,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=4';
-import {offlineStore,ScoreOutbox} from './offline.js';
-import {setupOfflinePlay} from './pwa.js?v=2';
+import {offlineStore,ScoreOutbox} from './offline.js?v=2';
+import {setupOfflinePlay} from './pwa.js?v=3';
 import {setupGameDisplay} from './display.js';
 import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=3';
 import {CHAMPION_DURATION} from './cinematic-score.js?v=3';
@@ -250,7 +250,8 @@ function cleanExpiredScores(rows){
 }
 async function fetchScores(){
  if(scoresRequest)return scoresRequest;
- if(!navigator.onLine){scoresUnavailable=true;updateTopScore();throw Error('Offline');}
+ // A browser connectivity hint can be false while Pagelove is reachable. The
+ // bounded request is authoritative, including duplicate-score confirmation.
  scoresRequest=(async()=>{const r=await fetch('/scores.html?cb='+Date.now(),{headers:{Range:'selector=#scores'},cache:'no-store',signal:AbortSignal.timeout(10000)});if(!r.ok)throw Error('Score board unavailable');
  const serverDate=Date.parse(r.headers.get('Date'));if(Number.isFinite(serverDate)){clockOffset=serverDate-Date.now();armDayRollover();}
  const doc=new DOMParser().parseFromString(await r.text(),'text/html');if(!doc.querySelector('#scores'))throw Error('Invalid leaderboard response');sharedScores=[...doc.querySelectorAll('li[itemtype$="/Run"]')].map(li=>{const v={};li.querySelectorAll('meta[itemprop]').forEach(m=>v[m.getAttribute('itemprop')]=m.getAttribute('content'));return v;}).filter(r=>r.player&&Number.isFinite(Number(r.score)));cleanExpiredScores(sharedScores);sharedScores=activeScores(sharedScores,boardNow());scoresUnavailable=false;scoresFetchedAt=Date.now();offlineStore.writeBoard({scores:sharedScores,fetchedAt:scoresFetchedAt,clockOffset}).catch(()=>{});rolloverDay();updateTopScore();return sharedScores;

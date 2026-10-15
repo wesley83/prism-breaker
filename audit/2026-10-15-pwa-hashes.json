@@ -1,0 +1,147 @@
+{
+  "at": "2026-10-15T00:41:34.748Z",
+  "baseCommit": "28bcc6585ed6f4f830f404b387a41a0674afc4d3",
+  "sourceRelease": "5408c3b2c91090457ef8",
+  "note": "Working-file byte hashes, before Git line-ending normalization; excludes this receipt itself.",
+  "mirrorVerified": true,
+  "files": [
+    {
+      "file": "PWA-ROBUSTNESS-REVIEW.md",
+      "bytes": 14495,
+      "sha256": "8f5ede4136efe3725e02e8aefde25168d4ad013d42a4efa15872689e881a08f6",
+      "mirrorEqual": true
+    },
+    {
+      "file": "PWA-UPGRADE.md",
+      "bytes": 11017,
+      "sha256": "4893f05380a91449e5fc8297b98b7d6773d488673865c4d111f6f416e2f81dc5",
+      "mirrorEqual": true
+    },
+    {
+      "file": "README.md",
+      "bytes": 42670,
+      "sha256": "25bee9401073ced026a59f1f1753960d4ed1233df12816f5c7b4b8135edd6192",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-browser-evidence.json",
+      "bytes": 18948,
+      "sha256": "dfbf2a38434aa0cf0a1edf15d24bb3c8efedd5cee889f491a82ec40bfa4a4e37",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-live-receipt.json",
+      "bytes": 40819,
+      "sha256": "74fa04ae14d62dc597d1634c3881d9ad837394633b9e550247f692b5fa77a9c0",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-offline-proof.png",
+      "bytes": 62266,
+      "sha256": "0b92cb542c87a5e1f5018bdc9800dda13776e429c7679d98e34048ae2f7b3c95",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-robustness.md",
+      "bytes": 8465,
+      "sha256": "a7bb910e20b4b58bffda801290ea5b48dad9df0b89d8ac16ff3b5aa62c9ab2f3",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-tests.txt",
+      "bytes": 12115,
+      "sha256": "2375aa03bbbc8758cb776fb41f38aadba1c0f7a1bcd07504906ca396a76ed97b",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 53551,
+      "sha256": "b014af7a9ba4463cf3d1c0431b0f43f3411c42c7d49621d30984c2824ba45389",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 23279,
+      "sha256": "dae70a2ff43a65852b1c026b1b73434762c72e4f5952b38eafcf22c7d84dd436",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/manifest.webmanifest",
+      "bytes": 1151,
+      "sha256": "cd9bcd8219b7a1125e7b2f5ccedd40cc819aa9d911f3604d9096f33bc115b2fd",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/offline.js",
+      "bytes": 10428,
+      "sha256": "6a69b6d269ea965cde8964faea89df1d0458d1254d080dcf1273758e1944cb9b",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "0a5a3e23cb254d8bc2a2dce378fd7e21c6c1a6d82ecf31dfa5b6c0611732b000",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/pwa.js",
+      "bytes": 6953,
+      "sha256": "4679e6a716a2618f0f71cd7060d5d8160d55183787ae7e7d3f030119e0a48c8a",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 23278,
+      "sha256": "76f9c1f4b9faa868ecb0f3a279e93bc0ea2c2706ce2d114c4a10614b73e041fd",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tests/offline.test.mjs",
+      "bytes": 9035,
+      "sha256": "e96fef81d85eab64b87dc539b8ecbf8f6f6a84bd4ac5362b6d39bf4397010bc9",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tests/pwa-client.test.mjs",
+      "bytes": 10971,
+      "sha256": "0444742b3cec844c9eb1841db15d2e687a7f8f8e32a89ad74b9f9f6f6528be52",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tests/pwa-contract.test.mjs",
+      "bytes": 2350,
+      "sha256": "2be4051baaddefe6a0d3d842b1cc91c2c9865a19e57cadf9839b2c744227b4b5",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tests/pwa-worker.test.mjs",
+      "bytes": 19373,
+      "sha256": "ace71894aaff209f401cd69757c010a4ae022fb6797267057522aba0ebf43b01",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tools/check-live-pwa.mjs",
+      "bytes": 2581,
+      "sha256": "ef4d3c46a15f125b7a4c8d23b798b59aa3222165f4e53f20143d3d9e442765f9",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tools/service-worker.template.js",
+      "bytes": 13087,
+      "sha256": "945bbf37930f7f8c747a0265c742bd3b1f5ff7a29d2187eb20d321f791a14037",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tools/update-lab.mjs",
+      "bytes": 5676,
+      "sha256": "a401bae05ced085e37b8d908c5cfed16a957fdad76f929a20903df4947c7ff93",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-changes.patch",
+      "bytes": 78111,
+      "sha256": "e99a2121ee213f125d1cd8a90ed9348e4dacac3acff148bd34d8d756227837e6",
+      "mirrorEqual": true
+    }
+  ]
+}

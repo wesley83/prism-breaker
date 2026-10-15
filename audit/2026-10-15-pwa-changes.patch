@@ -1,0 +1,909 @@
+diff --git a/PWA-ROBUSTNESS-REVIEW.md b/PWA-ROBUSTNESS-REVIEW.md
+new file mode 100644
+index 0000000..db1725f
+--- /dev/null
++++ b/PWA-ROBUSTNESS-REVIEW.md
+@@ -0,0 +1,101 @@
++# PWA robustness review
++
++Reviewed October 15, 2026 UTC by Codex, at Wesley's request. This review combines source inspection, primary browser documentation, failure-injection tests, a real Chromium browser lab, and read-only checks of the deployed Pagelove release.
++
++## Result and release boundary
++
++The PWA already had a sound foundation: separate release caches, verified downloads, explicit update activation, durable score submissions, and protection for active games. This review found and corrected failure paths involving lost caches, release identity, recovery messages, installation state and connectivity hints.
++
++**125 automated tests pass across 13 files, including 24 added tests.** The generated production package is **`5408c3b2c91090457ef8`**, with 70 assets and 2,412,780 bytes before storage overhead. The builder's consistency check passes.
++
++**These corrections are local, not deployed or pushed by this review.** A live read at `2026-10-15T00:33:28.140Z` verified all 70 assets of the currently deployed release, `ee6a8edb8f4578dd9b0b`. No production scores, world documents, policies or registrations were changed. Local browser fixtures have different release IDs because they include a diagnostic panel.
++
++## Confirmed findings and corrections
++
++| Area | Failure or gap | Correction |
++| --- | --- | --- |
++| Offline readiness | A completion marker could survive a missing asset and incorrectly report readiness. | Readiness checks the complete path inventory. Older count-only markers remain compatible, with count and entry-page checks. |
++| Startup after partial eviction | A cached entry document could start even though required modules were missing. | Navigation uses the cached entry only when its release inventory is complete; a fresh online navigation can recover through the network. |
++| Release isolation | After a worker restart, an old tab with an evicted cache could silently switch to the newest release. | A client's release pin survives independently of asset availability. Missing modules fail explicitly instead of being replaced by another release. |
++| Lost client pins | Unknown clients defaulted to the latest release. | The worker asks the existing page to identify its release, with a 1.5-second deadline. An unidentified tab fails safely; it is never guessed to be current. |
++| Cache repair transition | Fresh network pages must keep loading network modules while their complete cache is being repaired. | Network identity is retained until the verified release is available. |
++| Storage and metadata failures | Broken JSON or unavailable CacheStorage could abort activation or online recovery. | Metadata parsing is defensive; optional pruning cannot block activation; fresh online navigation works even when persistent cache access fails. |
++| Download hangs | Fetches and response-body reads had no application deadline. | Asset downloads abort after 20 seconds; the release download has a 75-second overall deadline. Failed downloads cannot publish a completion marker. Browser storage operations themselves are not abortable by Fetch. |
++| Waiting-release loss | Cached assets can disappear after an update reaches the waiting state. | Explicit activation rechecks the inventory and attempts repair first. Failed repair leaves the previous worker active. |
++| Repair races | A late repair response could overwrite the readiness state of a newer controller. | Inspection generations and worker-specific repair promises prevent stale results from updating the interface. |
++| Recovery feedback | A missing older release could stay on “Preparing offline play”; reconnect checks did not recheck cache completeness. | Missing releases show an actionable unavailable/update state. Foreground and reconnect events inspect readiness and repair the current release when possible. Hidden tabs do not initiate those checks. |
++| Install controls | The install button could reappear after `appinstalled` and a later render. | Installation confirmation is retained for that page session, alongside installed-display detection. |
++| Connectivity hints | Explicit score retry and offline-download retry could be blocked by a false `navigator.onLine` value. | Explicit retries attempt the bounded request. Automatic queue retries still use the hint and backoff. Leaderboard reads use actual request results, including duplicate-submission confirmation. |
++| IndexedDB connection lifecycle | A delayed close event from an old connection could discard a newer connection promise. | Close/version-change handlers clear only their own connection identity. |
++| HTML/module identity | A separately HTTP-cached release module could identify a new HTML page as an old release. | The validated HTML release marker takes precedence. Updated entry-module query versions also avoid reusing changed bootstrap code from HTTP cache. |
++| Manifest metadata | The description still advertised eight worlds. | It now says sixteen. Fullscreen, stable app identity, scope and installed start URL are retained. |
++
++Additional regression coverage protects against quota failures, damaged entry-page downloads, optional unknown asset requests invalidating an otherwise complete cache, and cache cleanup touching another application's caches.
++
++## What was inspected and verified
++
++| Area | Evidence |
++| --- | --- |
++| Install integrity | Failed fetch, mismatched asset hash, wrong HTML release, quota failure and stalled download tests; new release remains unusable while previous release survives. |
++| Update lifecycle | Explicit activation, active-run guards, repeated clicks, failure/timeout recovery, late activation, preparation races, and one reload per user-approved update. |
++| Multi-tab behavior | Atomic queue leases and stale-lease protection; old static assets retained under a new controller; persisted pins and missing-pin recovery. |
++| Cache ownership | Cleanup retains open clients' releases and recent releases, preserves unknown clients conservatively, and only deletes this app's cache namespace. |
++| Network boundaries | Score reads/writes, non-GET requests, selector Range requests, world documents, editor routes, QA routes and cross-origin requests bypass static caching. The workshop's inline bootstrap explicitly requests network assets. |
++| Offline content | Generated inventory covers literal local module imports, world bundle, textures, previews, font, scorecard assets and procedural audio code. Authoring documents remain online resources. |
++| Queue durability | Commit-before-acknowledgement, transaction abort, unavailable storage, receipt-write failure, duplicate run identity, original Daily Challenge date, backoff, manual retry, permanent rejection and safe removal. |
++| Manifest/install | Stable `/` app ID and scope, fullscreen display preference, `/?source=installed`, in-scope shortcuts, valid declared PNG dimensions, separate maskable icon and Apple web-app metadata. |
++| Phone display | Existing six tests verify synchronous start-gesture fullscreen requests, denied-request fallback, installed-fullscreen handling, system exit and home navigation. |
++| Build/deployment | Deterministic inventory and release ID; stale-output check; publisher checks before upload and again before `sw.js`, which is uploaded last. Ordinary publication excludes shared score records and separately handles world documents. |
++| Wider regression | All sixteen worlds, physics, checkpoints, document parsing, ruleset isolation, daily rollover and score expiry tests still pass. This is automated coverage, not another manual playthrough of every world. |
++
++### Real-browser scenarios
++
++The isolated lab used `http://127.0.0.1:4174/`; it rejects production-style score writes and stores its data on that separate origin.
++
++1. A previously cached eight-world lab release updated to the revised sixteen-world release. A checkpoint, Classic Mode and one existing disposable queued score survived.
++2. With a required asset returning 503, installing release B failed. Release A remained ready and the interface offered **Retry download**.
++3. Restoring the route and retrying produced a waiting update. Applying the already downloaded update with network routes returning 503 succeeded.
++4. A second tab stayed on release A under B's active worker. Its module probe returned A's version; that tab did not reload unexpectedly.
++5. Removing a scene asset changed worker readiness to false. The reconnect handler repaired the download and restored readiness.
++6. After the local server process was stopped entirely, reloading the game still worked and the cached Daily Challenge opened world 13, Thunder Spire. Shared standings correctly became unavailable.
++7. Final-source update and offline smoke checks are recorded in the appended browser evidence.
++
++The server-503 scenario leaves `navigator.onLine` true; it tests actual request failure rather than OS airplane mode. The separate stopped-server scenario verifies connection refusal and cached page reload. Automated tests exercise both values of the connectivity hint.
++
++Evidence: [browser observations](audit/2026-10-15-pwa-browser-evidence.json), [offline screenshot](audit/2026-10-15-pwa-offline-proof.png), [test output](audit/2026-10-15-pwa-tests.txt), [live release receipt](audit/2026-10-15-pwa-live-receipt.json), and [audit trail](audit/2026-10-15-pwa-robustness.md).
++
++## Current web guidance applied
++
++- **Protect pages across worker updates.** A new worker can control an old page, so release compatibility must be deliberate. Prism Breaker keeps explicit user activation and pins each page's assets instead of replacing files underneath active play. [web.dev: Service worker lifecycle](https://web.dev/articles/service-worker-lifecycle), [web.dev: Updating a PWA](https://web.dev/learn/pwa/update).
++- **Treat storage as fallible.** Cache and IndexedDB writes can fail, and browser-managed storage can be evicted. The game now checks inventory presence, handles cache failures and requests persistence where available; it cannot guarantee that unsent data survives a user clearing storage. [MDN: Storage quotas and eviction](https://developer.mozilla.org/en-US/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria), [web.dev: Persistent storage](https://web.dev/articles/persistent-storage).
++- **Use connectivity information as a hint.** A browser's online flag is not an authoritative reachability test. Explicit retry now attempts the request and uses its result. [MDN: Navigator.onLine](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine).
++- **Bound downloads and handle database lifecycle events.** Fetch abortion covers requests and response bodies; IndexedDB connections need orderly version-change handling and transaction completion acknowledgements. [MDN: AbortController](https://developer.mozilla.org/en-US/docs/Web/API/AbortController), [MDN: Using IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API/Using_IndexedDB).
++- **Keep installation and background behavior platform-aware.** Display modes can fall back, and background capabilities vary across browsers. The implementation retains fullscreen as a preference and makes no closed-app score-sync promise. [MDN: Manifest display](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest/Reference/display), [MDN: Offline and background operation](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Offline_and_background_operation).
++
++## Remaining limits and follow-up verification
++
++**Physical-device checks remain necessary.** This review did not install and launch the app on an Android phone or iPhone, kill/restart an installed process, simulate OS storage pressure, or validate native share-sheet receivers. Before calling those paths verified, check Android Chrome and iOS Home Screen launch, airplane-mode relaunch, update from the previous production version, OS background termination, and restoration of a queued score after reconnecting. Safari and Firefox runtime behavior were not exercised by the Chromium lab.
++
++Storage eviction can still remove assets, checkpoints and unsent scores. Persistence is a browser decision. The app detects recoverable cache loss, but cannot reconstruct deleted personal data. Readiness validates presence, not a fresh cryptographic scan on every fetch; download hashes protect installation integrity without adding repeated hashing to play.
++
++Scores synchronize while the app is open. No external sync service or mandatory browser-specific background API was added. The review did not repeat live score insertion/deletion; earlier final acceptance covers the real provider write path, while this review checks queue behavior locally.
++
++The live worker is served with `Cache-Control: public, max-age=300`; registration already uses `updateViaCache: 'none'`. Root placement needs no broader `Service-Worker-Allowed` header. The live response lacked `X-Content-Type-Options`; serving `nosniff` would be useful host-level hardening, but correct JavaScript/manifest MIME types were verified. CSP is supplied by the game document's meta policy; this review did not modify Pagelove header policy.
++
++Public assets are uploaded sequentially, not as an atomic server-side release. Hash/HTML checks prevent a mixed download from becoming offline-ready, and entry-module version bumps reduce ordinary HTTP-cache mismatch. A first uncontrolled visitor can still arrive during the publication window. Fully eliminating that window would require immutable release URLs or an atomic platform publish mechanism. No claim of atomic deployment is made.
++
++The previously documented DAV trigger/policy propagation limitation is a separate Pagelove server issue. These client PWA corrections do not fix or conceal it. Five-day score expiry remains the established model: expired rows are hidden at the boundary and physical cleanup occurs on access; this review adds no scheduler.
++
++## Reproduce the checks
++
++```sh
++bun tools/build-pwa.mjs --check
++bun test ./tests
++bun tools/update-lab.mjs
++# Open http://127.0.0.1:4174/ and use the visible diagnostic controls.
++
++# Optional read-only public-host check; writes a local audit receipt only:
++bun tools/check-live-pwa.mjs
++```
++
++The lab is intentionally excluded from the published game. Its added cache-loss controls operate only on its loopback origin. Browser caches from prior lab runs are retained, allowing realistic migration tests. Stop the server to reproduce cached navigation without any network response.
+diff --git a/PWA-UPGRADE.md b/PWA-UPGRADE.md
+index 8de4000..18c5ac3 100644
+--- a/PWA-UPGRADE.md
++++ b/PWA-UPGRADE.md
+@@ -3 +3 @@
+-Release work reviewed on October 13, 2026. Prism Breaker now downloads a complete playable release, offers installation, and retains score submissions until they can reach Pagelove. All runtime assets stay on the game host; the upgrade adds no external service.
++Original release work reviewed on October 13, 2026; robustness review updated October 15. Prism Breaker downloads a complete playable release, offers installation, and retains score submissions until they can reach Pagelove. All runtime assets stay on the game host; the upgrade adds no external service. See [PWA-ROBUSTNESS-REVIEW.md](PWA-ROBUSTNESS-REVIEW.md) for current corrections, verification and deployment status; the historical validation section below remains a record of the original implementation.
+@@ -7 +7 @@ Release work reviewed on October 13, 2026. Prism Breaker now downloads a complet
+-1. Open the game while connected and wait for **Ready to play offline**. The current package contains 54 cached files, approximately 1.95 MB before browser storage overhead.
++1. Open the game while connected and wait for **Ready to play offline**. The current package contains 70 cached files, approximately 2.41 MB before browser storage overhead.
+@@ -22,0 +23,2 @@ The service worker downloads assets in bounded batches into a separate cache for
++Readiness also checks every expected cached path, so a leftover marker cannot hide partial eviction. Individual network downloads abort at 20 seconds, with a 75-second overall release deadline. Explicit update activation rechecks completeness and attempts repair before replacing the active worker. A fresh online navigation can recover from unavailable cache storage; an already-running page never substitutes another release's modules. The HTML release marker takes precedence over a separately HTTP-cached identity module.
++
+@@ -41,0 +44,2 @@ Temporary failures retry with exponential backoff, starting at five seconds and
++Explicit Retry and Save actions attempt the network request even if the browser's connectivity hint says offline. Automatic scheduling still respects that hint and the backoff. A failed attempt leaves the durable queue intact. Database close/version-change handlers only invalidate their own connection, and stale cache-repair responses cannot overwrite the current controller's UI state.
++
+diff --git a/README.md b/README.md
+index d34ba2e..94e5a25 100644
+--- a/README.md
++++ b/README.md
+@@ -190,0 +191,2 @@ See [PWA-UPGRADE.md](PWA-UPGRADE.md) for release integrity, queue behavior, opti
++The [PWA robustness review](PWA-ROBUSTNESS-REVIEW.md) records the October 15 cache-loss, update, installation and queue audit, primary browser guidance, 125 passing automated tests and isolated browser evidence. Readiness now checks the asset inventory; release pins survive asset eviction; network downloads have deadlines; stale repair replies cannot replace newer state; and explicit retries use actual network results. The review distinguishes its local corrections from the deployed release and lists physical-device checks still needed.
++
+diff --git a/public/app.js b/public/app.js
+index d0c16d3..bb4a8fe 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -13,2 +13,2 @@ import {utcDay,rankedScores as rankScores,scoreAge,scoreAgeBand,topFinish,active
+-import {offlineStore,ScoreOutbox} from './offline.js';
+-import {setupOfflinePlay} from './pwa.js?v=2';
++import {offlineStore,ScoreOutbox} from './offline.js?v=2';
++import {setupOfflinePlay} from './pwa.js?v=3';
+@@ -253 +253,2 @@ async function fetchScores(){
+- if(!navigator.onLine){scoresUnavailable=true;updateTopScore();throw Error('Offline');}
++ // A browser connectivity hint can be false while Pagelove is reachable. The
++ // bounded request is authoritative, including duplicate-score confirmation.
+diff --git a/public/index.html b/public/index.html
+index d5b578c..7164cef 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -4 +4 @@
+- <meta name="prism-release" content="ee6a8edb8f4578dd9b0b">
++ <meta name="prism-release" content="5408c3b2c91090457ef8">
+@@ -18 +18 @@
+- <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=28"></script>
++ <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=29"></script>
+diff --git a/public/manifest.webmanifest b/public/manifest.webmanifest
+index 10521df..2dccd37 100644
+--- a/public/manifest.webmanifest
++++ b/public/manifest.webmanifest
+@@ -5 +5 @@
+-  "description": "Break through eight colorful 3D worlds. Play Adventure, Practice and the Daily Challenge online or offline.",
++  "description": "Break through sixteen colorful 3D worlds. Play Adventure, Practice and the Daily Challenge online or offline.",
+diff --git a/public/offline.js b/public/offline.js
+index 5954c22..e0fe3b0 100644
+--- a/public/offline.js
++++ b/public/offline.js
+@@ -32 +32 @@ export class OfflineStore{
+-   request.onsuccess=()=>{const db=request.result;db.onversionchange=()=>{db.close();this.opening=null;};db.onclose=()=>{this.opening=null;};finish(null,db);};
++   request.onsuccess=()=>{const db=request.result,forget=()=>{if(this.opening===opening)this.opening=null;};db.onversionchange=()=>{db.close();forget();};db.onclose=forget;finish(null,db);};
+@@ -108 +108 @@ export class ScoreOutbox{
+-  await this.sync();return this.get(id);
++  await this.sync({force:true});return this.get(id);
+@@ -123 +123,2 @@ export class ScoreOutbox{
+-  if(!this.isOnline())return;
++  // onLine is a scheduling hint, not proof that the server is unreachable.
++  if(!force&&!this.isOnline())return;
+@@ -126 +127 @@ export class ScoreOutbox{
+-   if(this.disposed||!this.isOnline())break;
++   if(this.disposed||(!force&&!this.isOnline()))break;
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index bed665e..47a6f24 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -2 +2 @@
+-export const PWA_RELEASE = "ee6a8edb8f4578dd9b0b";
++export const PWA_RELEASE = "5408c3b2c91090457ef8";
+diff --git a/public/pwa.js b/public/pwa.js
+index 1b9ae76..30d0e50 100644
+--- a/public/pwa.js
++++ b/public/pwa.js
+@@ -4,0 +5,3 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
++ // The document identity must win over a separately HTTP-cached module.
++ const marker=document.querySelector('meta[name="prism-release"]')?.content;
++ const pageRelease=/^[a-f0-9]{20}$/.test(marker||'')?marker:PWA_RELEASE;
+@@ -6 +9 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0;
++ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0,installed=false;
+@@ -11 +14 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+-  install.hidden=standalone();
++  install.hidden=installed||standalone();
+@@ -23,3 +26,5 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- async function repair(worker){
+-  if(repairing)return repairing;
+-  repairing=requestStatus(worker,{type:'REPAIR_CACHE',version:PWA_RELEASE}).then(info=>{ready=info.ready===true;failed=!ready;render();}).catch(()=>{failed=true;render();}).finally(()=>{repairing=null;});return repairing;
++ function repair(worker){
++  if(repairing?.worker===worker)return repairing.promise;
++  const attempt={worker};
++  attempt.promise=requestStatus(worker,{type:'REPAIR_CACHE',version:pageRelease}).finally(()=>{if(repairing===attempt)repairing=null;});
++  repairing=attempt;return attempt.promise;
+@@ -27 +32 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- async function inspect(){
++ async function inspect({forceRepair=false}={}){
+@@ -29 +34,10 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+-  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});if(revision!==inspection)return;ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(revision!==inspection)return;if(registration?.active&&!ready)failed=true;}
++  try{
++   const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:pageRelease});
++   if(revision!==inspection)return;
++   ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==pageRelease);failed=!ready;
++   if(!ready&&info.version===pageRelease&&(navigator.onLine||forceRepair)){
++    failed=false;render();const repaired=await repair(worker);if(revision!==inspection)return;
++    ready=repaired.ready===true;failed=!ready;
++   }
++  }catch{if(revision!==inspection)return;if(registration?.active&&!ready)failed=true;}
++  if(revision!==inspection)return;
+@@ -33 +47 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- async function start(){
++ async function start(forceRepair=false){
+@@ -37 +51 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+-  try{registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect();}
++  try{registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect({forceRepair});}
+@@ -41 +55 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- window.addEventListener('appinstalled',()=>{prompt=null;install.hidden=true;});
++ window.addEventListener('appinstalled',()=>{prompt=null;installed=true;render();});
+@@ -60,3 +74,4 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- retry.onclick=async()=>{failed=false;render();if(!registration)return start();try{await registration.update();await inspect();}catch{failed=true;render();}};
+- navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
+- const check=()=>{render();if(registration&&navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}};
++ retry.onclick=async()=>{failed=false;render();if(!registration)return start(true);try{await registration.update();await inspect({forceRepair:true});}catch{failed=true;render();}};
++ navigator.serviceWorker?.addEventListener('message',event=>{if(event.data?.type==='PWA_VERSION_REQUEST')event.ports[0]?.postMessage({version:pageRelease});});
++ navigator.serviceWorker?.addEventListener('controllerchange',()=>{++inspection;if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
++ const check=()=>{if(document.hidden)return;render();if(registration){inspect();if(navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}}};
+diff --git a/public/sw.js b/public/sw.js
+index 1cda152..4630a0c 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -2 +2 @@
+-const VERSION = "ee6a8edb8f4578dd9b0b";
++const VERSION = "5408c3b2c91090457ef8";
+@@ -6,2 +6,2 @@ const PRECACHE = [
+-    "sha256": "a4f415bc1a40a40a3f647d4771b606743b6ff3d92665246bd29252ec8d29538c",
+-    "bytes": 53478
++    "sha256": "b014af7a9ba4463cf3d1c0431b0f43f3411c42c7d49621d30984c2824ba45389",
++    "bytes": 53551
+@@ -246 +246 @@ const PRECACHE = [
+-    "sha256": "366cf6a9a1ec5025579ca2a678721d49646277a6e610e9b3ad1be9494eedbfd0",
++    "sha256": "dae70a2ff43a65852b1c026b1b73434762c72e4f5952b38eafcf22c7d84dd436",
+@@ -261,2 +261,2 @@ const PRECACHE = [
+-    "sha256": "92caa9e4535e7e42d29100f544c745d99c8c20040e9daf76802104ca432b2c31",
+-    "bytes": 1149
++    "sha256": "cd9bcd8219b7a1125e7b2f5ccedd40cc819aa9d911f3604d9096f33bc115b2fd",
++    "bytes": 1151
+@@ -271,2 +271,2 @@ const PRECACHE = [
+-    "sha256": "34b4858a74f33453bc530dc78d1d5c0668566d47bbcca49e057459f4a844d665",
+-    "bytes": 10290
++    "sha256": "6a69b6d269ea965cde8964faea89df1d0458d1254d080dcf1273758e1944cb9b",
++    "bytes": 10428
+@@ -286 +286 @@ const PRECACHE = [
+-    "sha256": "743693f31998fad1d42c320af56170209018319748f36cd59cc72400ddb80878",
++    "sha256": "0a5a3e23cb254d8bc2a2dce378fd7e21c6c1a6d82ecf31dfa5b6c0611732b000",
+@@ -291,2 +291,2 @@ const PRECACHE = [
+-    "sha256": "68e1eed6a64c980b4a57b2c9d2a76d0fd976f5a4803cb83a1ef516d2d6333575",
+-    "bytes": 6238
++    "sha256": "4679e6a716a2618f0f71cd7060d5d8160d55183787ae7e7d3f030119e0a48c8a",
++    "bytes": 6953
+@@ -360,0 +361 @@ const pins = new Map();
++const identifying = new Map();
+@@ -364,0 +366,4 @@ const pinPath = id => absolute('/__prism_pwa_client__/' + encodeURIComponent(id)
++const releaseVersion = version => typeof version === 'string' && /^[a-f0-9]{20}$/.test(version);
++const validPin = version => version === 'network' || releaseVersion(version);
++async function readJSON(response) { try { return response ? await response.json() : null; } catch { return null; } }
++
+@@ -366 +371,13 @@ async function complete(version) {
+-  return !!(await caches.match(absolute(COMPLETE_PATH), {cacheName: CACHE_PREFIX + version}));
++  if (!releaseVersion(version)) return false;
++  try {
++    const name = CACHE_PREFIX + version;
++    const marker = await readJSON(await caches.match(absolute(COMPLETE_PATH), {cacheName: name}));
++    if (marker?.version !== version || !Number.isSafeInteger(marker.files) || marker.files < 1) return false;
++    const cache = await caches.open(name);
++    const keys = new Set((await cache.keys()).map(request => request.url));
++    const inventory = version === VERSION ? [...paths] : marker.paths;
++    if (inventory) return Array.isArray(inventory) && inventory.length === marker.files && inventory.every(path => typeof path === 'string' && path.startsWith('/') && keys.has(absolute(path)));
++    // Older releases stored a count rather than paths. Their caches contain only
++    // verified assets and this marker; retain compatibility without trusting a marker alone.
++    return keys.has(absolute('/index.html')) && keys.size === marker.files + 1;
++  } catch { return false; }
+@@ -370 +387 @@ async function rememberClient(id, version) {
+-  if (!id || (version !== 'network' && (!/^[a-f0-9]{20}$/.test(version) || !await complete(version)))) return false;
++  if (!id || !validPin(version)) return false;
+@@ -372,2 +389,4 @@ async function rememberClient(id, version) {
+-  const store = await caches.open(PIN_CACHE);
+-  await store.put(pinPath(id), new Response(JSON.stringify({version}), {headers: {'Content-Type': 'application/json'}}));
++  try {
++    const store = await caches.open(PIN_CACHE);
++    await store.put(pinPath(id), new Response(JSON.stringify({version}), {headers: {'Content-Type': 'application/json'}}));
++  } catch { /* Keep the in-memory identity; readiness is checked separately. */ }
+@@ -380,4 +399,4 @@ async function clientVersion(id) {
+-  const record = await caches.match(pinPath(id), {cacheName: PIN_CACHE});
+-  if (record) {
+-    const {version} = await record.json();
+-    if (version === 'network' || (/^[a-f0-9]{20}$/.test(version) && await complete(version))) {
++  try {
++    const record = await readJSON(await caches.match(pinPath(id), {cacheName: PIN_CACHE}));
++    const version = record?.version;
++    if (validPin(version)) {
+@@ -387,3 +406,17 @@ async function clientVersion(id) {
+-  }
+-  await rememberClient(id, VERSION);
+-  return VERSION;
++  } catch { /* Ask the page if its persisted pin was lost. Never guess the latest release. */ }
++  if (identifying.has(id)) return identifying.get(id);
++  const identification = (async () => {
++    const client = await self.clients.get(id);
++    if (!client) return null;
++    const version = await new Promise(resolve => {
++      const channel = new MessageChannel();
++      const finish = value => { clearTimeout(timer); channel.port1.close(); resolve(validPin(value) ? value : null); };
++      const timer = setTimeout(() => finish(null), 1500);
++      channel.port1.onmessage = event => finish(event.data?.version);
++      try { client.postMessage({type:'PWA_VERSION_REQUEST'}, [channel.port2]); } catch { finish(null); }
++    });
++    if (version) await rememberClient(id, version);
++    return version;
++  })().catch(() => null);
++  identifying.set(id, identification);
++  try { return await identification; } finally { identifying.delete(id); }
+@@ -392,13 +425,9 @@ async function clientVersion(id) {
+-async function download(asset, cache) {
+-  const url = new URL(asset.path, self.location.origin);
+-  url.searchParams.set('__prism_release', VERSION);
+-  const response = await fetch(url.href, {cache: 'reload', credentials: 'same-origin'});
+-  if (response.status !== 200 || response.type === 'opaque' || response.redirected) {
+-    throw new Error('Offline download failed: ' + asset.path);
+-  }
+-  if (asset.path === '/index.html') {
+-    // Pagelove serializes HTML on write; verify its release identity instead of raw bytes.
+-    const html = await response.clone().text();
+-    const marker = new RegExp('<meta\\b(?=[^>]*\\bname=["\']prism-release["\'])(?=[^>]*\\bcontent=["\']' + VERSION + '["\'])[^>]*>', 'i');
+-    if (!response.headers.get('content-type')?.includes('text/html') || !marker.test(html)) {
+-      throw new Error('Offline document belongs to a different release');
++async function download(asset, cache, controller) {
++  const timer = setTimeout(() => controller.abort(new Error('Offline asset download timed out: ' + asset.path)), 20000);
++  try {
++    controller.signal.throwIfAborted();
++    const url = new URL(asset.path, self.location.origin);
++    url.searchParams.set('__prism_release', VERSION);
++    const response = await fetch(url.href, {cache: 'reload', credentials: 'same-origin', signal: controller.signal});
++    if (response.status !== 200 || response.type === 'opaque' || response.redirected) {
++      throw new Error('Offline download failed: ' + asset.path);
+@@ -406,6 +435,15 @@ async function download(asset, cache) {
+-  } else {
+-    const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
+-    const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+-    if (hash !== asset.sha256) throw new Error('Offline asset changed during download: ' + asset.path);
+-  }
+-  await cache.put(absolute(asset.path), response);
++    if (asset.path === '/index.html') {
++      // Pagelove serializes HTML on write; verify its release identity instead of raw bytes.
++      const html = await response.clone().text();
++      const marker = new RegExp('<meta\\b(?=[^>]*\\bname=["\']prism-release["\'])(?=[^>]*\\bcontent=["\']' + VERSION + '["\'])[^>]*>', 'i');
++      if (!response.headers.get('content-type')?.includes('text/html') || !marker.test(html)) {
++        throw new Error('Offline document belongs to a different release');
++      }
++    } else {
++      const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
++      const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
++      if (hash !== asset.sha256) throw new Error('Offline asset changed during download: ' + asset.path);
++    }
++    controller.signal.throwIfAborted();
++    await cache.put(absolute(asset.path), response);
++  } finally { clearTimeout(timer); }
+@@ -418,0 +457,2 @@ async function prepareOfflineCache() {
++    const controller = new AbortController();
++    const deadline = setTimeout(() => controller.abort(new Error('Offline release download timed out.')), 75000);
+@@ -419,0 +460 @@ async function prepareOfflineCache() {
++      await cache.delete(absolute(COMPLETE_PATH));
+@@ -422 +463 @@ async function prepareOfflineCache() {
+-        const batch = await Promise.allSettled(PRECACHE.slice(offset, offset + 6).map(asset => download(asset, cache)));
++        const batch = await Promise.allSettled(PRECACHE.slice(offset, offset + 6).map(asset => download(asset, cache, controller)));
+@@ -426 +467,2 @@ async function prepareOfflineCache() {
+-      await cache.put(absolute(COMPLETE_PATH), new Response(JSON.stringify({version: VERSION, savedAt: Date.now(), files: PRECACHE.length}), {headers: {'Content-Type': 'application/json'}}));
++      controller.signal.throwIfAborted();
++      await cache.put(absolute(COMPLETE_PATH), new Response(JSON.stringify({version: VERSION, savedAt: Date.now(), files: PRECACHE.length, paths: [...paths]}), {headers: {'Content-Type': 'application/json'}}));
+@@ -428 +470 @@ async function prepareOfflineCache() {
+-      await caches.delete(CACHE_NAME);
++      try { await caches.delete(CACHE_NAME); } catch { /* Preserve the original failure. */ }
+@@ -430 +472 @@ async function prepareOfflineCache() {
+-    }
++    } finally { clearTimeout(deadline); }
+@@ -447,3 +489,3 @@ async function pruneUnusedReleases() {
+-    const record = await store.match(pinPath(client.id));
+-    if (!record) { unknownClient = true; continue; }
+-    inUse.add((await record.json()).version);
++    const record = await readJSON(await store.match(pinPath(client.id)));
++    if (!validPin(record?.version)) { unknownClient = true; continue; }
++    inUse.add(record.version);
+@@ -455,3 +497,4 @@ async function pruneUnusedReleases() {
+-    if (!name.startsWith(CACHE_PREFIX)) continue;
+-    const marker = await caches.match(absolute(COMPLETE_PATH), {cacheName: name});
+-    if (marker) releases.push({name, ...await marker.json()});
++    const version = name.slice(CACHE_PREFIX.length);
++    if (!name.startsWith(CACHE_PREFIX) || !releaseVersion(version)) continue;
++    const marker = await readJSON(await caches.match(absolute(COMPLETE_PATH), {cacheName: name}));
++    releases.push({name, version, savedAt: marker?.version === version && Number.isFinite(marker.savedAt) ? marker.savedAt : 0});
+@@ -471 +514 @@ self.addEventListener('activate', event => {
+-    await pruneUnusedReleases();
++    try { await pruneUnusedReleases(); } catch { /* Optional cleanup must not prevent activation. */ }
+@@ -480 +523,4 @@ self.addEventListener('message', event => {
+-    event.waitUntil(self.skipWaiting());
++    event.waitUntil((async () => {
++      try { await prepareOfflineCache(); await self.skipWaiting(); }
++      catch { /* The requesting page times out with a retry action; keep the old worker. */ }
++    })());
+@@ -483 +529,6 @@ self.addEventListener('message', event => {
+-      const ready = await rememberClient(event.source?.id, data.version);
++      const ready = validPin(data.version) && (data.version === 'network' || await complete(data.version));
++      // A fresh network document must keep using network modules until its complete
++      // release exists. Older pinned tabs keep their identity even after cache eviction.
++      let existing = pins.get(event.source?.id);
++      if (!existing) try { existing = (await readJSON(await caches.match(pinPath(event.source?.id), {cacheName: PIN_CACHE})))?.version; } catch {}
++      if (ready || existing !== 'network') await rememberClient(event.source?.id, data.version);
+@@ -520 +571,4 @@ self.addEventListener('fetch', event => {
+-    const cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
++    let cached;
++    try {
++      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
++    } catch { /* An online navigation can recover even if CacheStorage is unavailable. */ }
+@@ -522,3 +576,5 @@ self.addEventListener('fetch', event => {
+-    if (navigation || paths.has(url.pathname)) {
+-      const cache = await caches.open(CACHE_PREFIX + version);
+-      await cache.delete(absolute(COMPLETE_PATH));
++    if (releaseVersion(version) && (navigation || paths.has(url.pathname))) {
++      try {
++        const cache = await caches.open(CACHE_PREFIX + version);
++        await cache.delete(absolute(COMPLETE_PATH));
++      } catch { /* The missing-cache response remains actionable. */ }
+diff --git a/tests/offline.test.mjs b/tests/offline.test.mjs
+index 32c8791..9192a9d 100644
+--- a/tests/offline.test.mjs
++++ b/tests/offline.test.mjs
+@@ -128,0 +129,13 @@ test('an IDB transaction abort rejects even after a request produced a result',a
++
++test('an explicit retry attempts the request even when the browser connectivity hint is false',async t=>{
++ let sends=0;const outbox=queue(t,{isOnline:()=>false,send:async()=>{sends++;}});
++ await outbox.enqueue(originalRun,'Wes');await outbox.sync();assert.equal(sends,0);
++ await outbox.retry(originalRun.id);assert.equal(sends,1);assert.equal((await outbox.get(originalRun.id)).status,'sent');
++});
++
++test('a stale database close event cannot discard a newer open connection',async()=>{
++ const requests=[],store=new OfflineStore({indexedDB:{open(){const request={};requests.push(request);return request;}}});
++ const first=store.open(),db1={close(){}};requests[0].result=db1;requests[0].onsuccess();await first;
++ db1.onversionchange();const second=store.open(),db2={close(){}};requests[1].result=db2;requests[1].onsuccess();await second;
++ db1.onclose();const third=store.open();assert.equal(requests.length,2);assert.equal(await third,db2);
++});
+diff --git a/tests/pwa-client.test.mjs b/tests/pwa-client.test.mjs
+index 63f045a..6cd6765 100644
+--- a/tests/pwa-client.test.mjs
++++ b/tests/pwa-client.test.mjs
+@@ -7,2 +7,2 @@ const flush=async()=>{for(let i=0;i<20;i++)await Promise.resolve();};
+-function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type){for(const fn of handlers.get(type)||[])fn();}});}
+-function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){
++function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type,event){for(const fn of handlers.get(type)||[])fn(event);}});}
++function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',pageVersion,ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){
+@@ -16 +16 @@ function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaa
+- const document=emitter({hidden:false,querySelector:s=>elements.get(s)}),window=emitter();
++ const document=emitter({hidden:false,querySelector:s=>s==='meta[name="prism-release"]'?{content:pageVersion}:elements.get(s)}),window=emitter();
+@@ -74,0 +75,41 @@ test('repeated controller and refresh events cannot issue duplicate reloads',asy
++
++test('a missing old release shows recovery instead of preparing forever',async()=>{
++ const f=fixture({ready:false,version:'bbbbbbbbbbbbbbbbbbbb',waiting:false});await flush();
++ assert.match(f.status.textContent,/unavailable/i);assert.equal(f.button.hidden,false);
++});
++
++test('foreground and reconnect inspect missing assets and repair without waiting for a new version',async()=>{
++ const f=fixture({waiting:false});await flush();let repairs=0;
++ f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')repairs++;ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:message.type==='REPAIR_CACHE'});};
++ f.window.emit('online');await flush();assert.equal(repairs,1);assert.match(f.status.textContent,/Ready/);
++ f.document.hidden=true;f.advance(60001);f.window.emit('online');await flush();assert.equal(f.checks,0);assert.equal(repairs,1);
++});
++
++test('late repair replies cannot overwrite the state of a new controller',async()=>{
++ const f=fixture({waiting:false});await flush();let reply;
++ f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')reply=ports[0];else ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:false});};
++ f.sw.emit('controllerchange');await flush();assert.ok(reply);
++ f.sw.controller={postMessage(message,ports){ports[0].postMessage({version:'bbbbbbbbbbbbbbbbbbbb',ready:false});}};
++ f.sw.emit('controllerchange');await flush();reply.postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:true});await flush();
++ assert.match(f.status.textContent,/unavailable/i);assert.equal(f.button.hidden,false);
++});
++
++test('installed confirmation survives later renders and page identity handshake is explicit',async()=>{
++ const f=fixture();await flush();f.window.emit('appinstalled');f.api.refresh();
++ assert.equal(f.elements.get('#install-game').hidden,true);
++ let reply;f.sw.emit('message',{data:{type:'PWA_VERSION_REQUEST'},ports:[{postMessage:value=>reply=value}]});
++ assert.equal(reply?.version,'aaaaaaaaaaaaaaaaaaaa');
++});
++
++test('the document release marker wins over a stale HTTP-cached version module',async()=>{
++ const f=fixture({waiting:false,pageVersion:'bbbbbbbbbbbbbbbbbbbb',version:'bbbbbbbbbbbbbbbbbbbb'});await flush();
++ assert.equal(f.button.hidden,true);let reply;
++ f.sw.emit('message',{data:{type:'PWA_VERSION_REQUEST'},ports:[{postMessage:value=>reply=value}]});
++ assert.equal(reply?.version,'bbbbbbbbbbbbbbbbbbbb');
++});
++
++test('Retry download explicitly attempts cache repair despite a false connectivity hint',async()=>{
++ const f=fixture({waiting:false,online:false,ready:false});await flush();let repairs=0;
++ f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')repairs++;ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:message.type==='REPAIR_CACHE'});};
++ await f.retry.onclick();assert.equal(repairs,1);assert.match(f.status.textContent,/ready to play/);
++});
+diff --git a/tests/pwa-contract.test.mjs b/tests/pwa-contract.test.mjs
+new file mode 100644
+index 0000000..87b1418
+--- /dev/null
++++ b/tests/pwa-contract.test.mjs
+@@ -0,0 +1,27 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs/promises';
++import {buildPwa} from '../tools/build-pwa.mjs';
++const root=new URL('../public/',import.meta.url);
++const manifest=JSON.parse(await fs.readFile(new URL('manifest.webmanifest',root),'utf8'));
++test('installed identity, fullscreen launch and shortcuts remain in the root game scope',async()=>{
++ assert.equal(manifest.id,'/');assert.equal(manifest.scope,'/');assert.equal(manifest.display,'fullscreen');
++ assert.equal(manifest.start_url,'/?source=installed');assert.match(manifest.description,/sixteen/i);
++ for(const shortcut of manifest.shortcuts){const url=new URL(shortcut.url,'https://prism.example');assert.equal(url.origin,'https://prism.example');assert.equal(url.pathname,'/');assert.ok(['daily','campaign'].includes(url.searchParams.get('leaderboard')));}
++ const html=await fs.readFile(new URL('index.html',root),'utf8');assert.match(html,/rel="manifest" href="\/manifest.webmanifest"/);assert.match(html,/name="apple-mobile-web-app-capable" content="yes"/);
++});
++test('manifest icons exist as PNGs with their declared dimensions, including a separate maskable icon',async()=>{
++ assert.ok(manifest.icons.some(icon=>icon.purpose==='maskable'));
++ for(const icon of manifest.icons){const data=await fs.readFile(new URL(icon.src.slice(1),root));assert.equal(data.subarray(1,4).toString(),'PNG');assert.equal(data.readUInt32BE(16)+'x'+data.readUInt32BE(20),icon.sizes);assert.equal(icon.type,'image/png');}
++});
++test('generated inventory covers every literal local JS module import in cached modules',async()=>{
++ await buildPwa({check:true});
++ const worker=await fs.readFile(new URL('sw.js',root),'utf8'),assets=JSON.parse(worker.match(/const PRECACHE = (\[[\s\S]*?\]);/)[1]),paths=new Set(assets.map(asset=>asset.path));
++ for(const asset of assets.filter(asset=>asset.path.endsWith('.js'))){
++  const source=await fs.readFile(new URL(asset.path.slice(1),root),'utf8');
++  for(const match of source.matchAll(/(?:\bfrom\s*|\bimport\s*\(\s*|\bimport\s*)['"]([^'"]+)['"]/g)){
++   const specifier=match[1];if(!specifier.startsWith('.')&&!specifier.startsWith('/'))continue;
++   const dependency=new URL(specifier,'https://prism.example'+asset.path);assert.ok(paths.has(dependency.pathname),asset.path+' imports uncached '+dependency.pathname);
++  }
++ }
++});
+diff --git a/tests/pwa-worker.test.mjs b/tests/pwa-worker.test.mjs
+index 2a9892a..c1bebc4 100644
+--- a/tests/pwa-worker.test.mjs
++++ b/tests/pwa-worker.test.mjs
+@@ -32 +32 @@ class MemoryCacheStorage {
+-function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false} = {}) {
++function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = ''} = {}) {
+@@ -36 +36 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
+-  const listeners = new Map(), fetched = [];
++  const listeners = new Map(), fetched = [], timers = new Map(); let timerId = 0;
+@@ -38,2 +38,2 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
+-  const self = {location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {matchAll: async () => windows, claim: async () => { claimed++; }}};
+-  const fetch = async request => {
++  const self = {location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {get: async id => windows.find(client => client.id === id), matchAll: async () => windows, claim: async () => { claimed++; }}};
++  const fetch = async (request, options = {}) => {
+@@ -41,0 +42 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
++    if (pathname === hanging) return new Promise((resolve, reject) => { if (options.signal?.aborted) reject(options.signal.reason); else options.signal?.addEventListener('abort', () => reject(options.signal.reason), {once:true}); });
+@@ -46 +47,2 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
+-  vm.runInNewContext(template.replace('// __PWA_CONSTANTS__', 'const VERSION = ' + JSON.stringify(version) + '; const PRECACHE = ' + JSON.stringify(assets) + ';'), {self, caches, fetch, crypto: webcrypto, URL, Response, Uint8Array, console});
++  class Channel { constructor() { this.port1 = {close(){}, onmessage:null}; this.port2 = {postMessage:data => this.port1.onmessage?.({data})}; } }
++  vm.runInNewContext(template.replace('// __PWA_CONSTANTS__', 'const VERSION = ' + JSON.stringify(version) + '; const PRECACHE = ' + JSON.stringify(assets) + ';'), {self, caches, fetch, crypto: webcrypto, URL, Response, Uint8Array, console, AbortController, MessageChannel:Channel, setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,ms});return id;}, clearTimeout:id=>timers.delete(id)});
+@@ -48,0 +51 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing
++    timeout(ms) { for(const [id,timer] of [...timers]) if(timer.ms===ms){timers.delete(id);timer.fn();} },
+@@ -68 +71 @@ test('an incomplete or mismatched download never becomes offline-ready and leave
+-  for (const failure of [{missing: '/lazy.js'}, {broken: '/app.js'}]) {
++  for (const failure of [{missing: '/lazy.js'}, {broken: '/app.js'}, {broken: '/index.html'}]) {
+@@ -148,0 +152,109 @@ test('concurrent repair requests share one complete download', async () => {
++test('readiness checks the asset inventory even if the completion marker survived eviction', async () => {
++  const instance=worker();await instance.dispatch('install');
++  await (await instance.caches.open(cachePrefix+versionA)).delete(origin+'/lazy.js');
++  assert.equal((await instance.message('CLIENT_VERSION')).ready,false);
++  assert.equal((await instance.message('REPAIR_CACHE')).ready,true);
++  assert.ok(await instance.caches.match(origin+'/lazy.js',{cacheName:cachePrefix+versionA}));
++});
++
++test('a restarted newer worker never repins an old tab whose entire release was evicted', async () => {
++  const old=worker();await old.dispatch('install');await old.message('CLIENT_VERSION');
++  const next=worker({version:versionB,caches:old.caches});await next.dispatch('install');
++  await old.caches.delete(cachePrefix+versionA);
++  const restarted=worker({version:versionB,caches:old.caches});
++  assert.equal((await restarted.request('/app.js')).status,503);
++  assert.equal((await restarted.message('GET_STATUS')).clientVersion,versionA);
++});
++
++test('unknown client identity fails closed; a responsive page can restore its exact release pin',async()=>{
++  const old=worker();await old.dispatch('install');
++  const next=worker({version:versionB,caches:old.caches,windows:[{id:'old-tab',postMessage(message,ports){ports[0].postMessage({version:versionA});}}]});
++  await next.dispatch('install');
++  assert.equal((await next.request('/app.js',{id:'unknown'})).status,503);
++  assert.match(await(await next.request('/app.js',{id:'old-tab'})).text(),new RegExp(versionA));
++});
++
++test('a partial entry cache uses fresh network navigation rather than booting a broken release',async()=>{
++  const instance=worker();await instance.dispatch('install');
++  await(await instance.caches.open(cachePrefix+versionA)).delete(origin+'/app.js');
++  const count=instance.fetched.length;
++  assert.equal((await instance.request('/',{navigation:true,resultingClientId:'fresh'})).status,200);
++  assert.equal(instance.fetched.length,count+1);
++  assert.equal((await instance.message('GET_STATUS',{id:'fresh'})).clientVersion,'network');
++});
++
++test('malformed pin and completion metadata cannot prevent worker activation or report readiness',async()=>{
++  const instance=worker({windows:[{id:'tab-a'}]});await instance.dispatch('install');
++  await(await instance.caches.open('prism-breaker-client-pins-v1')).put(origin+'/__prism_pwa_client__/tab-a',new Response('{broken'));
++  await(await instance.caches.open(cachePrefix+versionA)).put(origin+'/__prism_pwa_complete__',new Response('{broken'));
++  await instance.dispatch('activate');assert.equal(instance.claimed,1);
++  assert.equal((await instance.message('CLIENT_VERSION')).ready,false);
++});
++
++test('cache storage failure still permits online navigation without claiming offline readiness',async()=>{
++  const caches={async match(){throw Error('Storage unavailable');},async open(){throw Error('Storage unavailable');},async keys(){throw Error('Storage unavailable');}};
++  const instance=worker({caches});await instance.dispatch('activate');assert.equal(instance.claimed,1);
++  assert.equal((await instance.request('/',{navigation:true,resultingClientId:'online'})).status,200);
++  assert.equal((await instance.message('GET_STATUS',{id:'online'})).ready,false);
++  assert.equal((await instance.request('/app.js',{id:'online'})).status,200);
++});
++
++test('a stalled asset aborts the download and removes the incomplete cache',async()=>{
++  const instance=worker({hanging:'/lazy.js'});
++  const install=instance.dispatch('install');const rejection=assert.rejects(install,/timed out/i);
++  for(let i=0;i<100&&!instance.fetched.includes('/lazy.js');i++)await new Promise(resolve=>setTimeout(resolve,1));
++  instance.timeout(20000);await rejection;
++  assert.ok(!(await instance.caches.keys()).includes(cachePrefix+versionA));
++});
++
++test('fresh network pages keep loading network modules until repair is complete',async()=>{
++  const instance=worker();await instance.dispatch('install');await instance.caches.delete(cachePrefix+versionA);
++  await instance.request('/',{navigation:true,resultingClientId:'fresh'});
++  assert.equal((await instance.message('CLIENT_VERSION',{id:'fresh'})).ready,false);
++  assert.equal((await instance.request('/app.js',{id:'fresh'})).status,200);
++  await instance.message('REPAIR_CACHE',{id:'fresh'});
++  assert.equal((await instance.message('GET_STATUS',{id:'fresh'})).clientVersion,versionA);
++});
++
++test('activation repairs a waiting release that lost an asset, but refuses it if repair fails',async()=>{
++  const instance=worker();await instance.dispatch('install');
++  await(await instance.caches.open(cachePrefix+versionA)).delete(origin+'/lazy.js');
++  await instance.message('SKIP_WAITING');assert.equal(instance.skipped,1);
++  await(await instance.caches.open(cachePrefix+versionA)).delete(origin+'/lazy.js');instance.resources.delete('/lazy.js');
++  await instance.message('SKIP_WAITING');assert.equal(instance.skipped,1);
++});
++
++test('cleanup retains live and previous releases and never touches unrelated caches',async()=>{
++  const first=worker();await first.dispatch('install');await first.message('CLIENT_VERSION',{id:'playing'});
++  const second=worker({version:versionB,caches:first.caches});await second.dispatch('install');
++  const third=worker({version:'c'.repeat(20),caches:first.caches,windows:[{id:'playing'}]});await third.dispatch('install');
++  await first.caches.open('unrelated-app');await third.dispatch('activate');
++  assert.ok((await first.caches.keys()).includes(cachePrefix+versionA));
++  assert.ok((await first.caches.keys()).includes('unrelated-app'));
++  const fourth=worker({version:'d'.repeat(20),caches:first.caches});await fourth.dispatch('install');await fourth.dispatch('activate');
++  assert.equal((await first.caches.keys()).filter(name=>name.startsWith(cachePrefix)).length,2);
++  assert.ok((await first.caches.keys()).includes('unrelated-app'));
++});
++
++test('an unknown optional static request cannot invalidate a complete game cache',async()=>{
++  const instance=worker();await instance.dispatch('install');await instance.message('CLIENT_VERSION');
++  assert.equal((await instance.request('/optional-icon.png')).status,503);
++  assert.equal((await instance.message('GET_STATUS')).ready,true);
++});
++
++test('quota failure cannot leave a new ready marker or delete a previous release',async()=>{
++  const old=worker();await old.dispatch('install');const cache=await old.caches.open(cachePrefix+versionB);
++  cache.put=async()=>{throw Error('QuotaExceededError');};
++  const next=worker({version:versionB,caches:old.caches});await assert.rejects(next.dispatch('install'),/Quota/);
++  assert.equal((await old.message('GET_STATUS',{id:''})).ready,true);
++  assert.ok(!(await old.caches.keys()).includes(cachePrefix+versionB));
++});
++
++test('legacy count-only completion markers still detect lost assets',async()=>{
++  const old=worker();await old.dispatch('install');await old.message('CLIENT_VERSION');
++  const cache=await old.caches.open(cachePrefix+versionA),marker=await(await cache.match(origin+'/__prism_pwa_complete__')).json();delete marker.paths;
++  await cache.put(origin+'/__prism_pwa_complete__',new Response(JSON.stringify(marker)));
++  const next=worker({version:versionB,caches:old.caches});assert.equal((await next.message('GET_STATUS')).ready,true);
++  await cache.delete(origin+'/lazy.js');assert.equal((await next.message('GET_STATUS')).ready,false);
++});
++
+diff --git a/tools/check-live-pwa.mjs b/tools/check-live-pwa.mjs
+new file mode 100644
+index 0000000..01c9b5e
+--- /dev/null
++++ b/tools/check-live-pwa.mjs
+@@ -0,0 +1,28 @@
++// Read-only verification of the public release. Never reads credentials or writes to the host.
++import fs from 'node:fs/promises';
++import {createHash} from 'node:crypto';
++const origin='https://sane-guild-8399.onpagelove.com';
++const hash=body=>createHash('sha256').update(body).digest('hex');
++async function read(path){
++ const response=await fetch(origin+path,{cache:'no-store',signal:AbortSignal.timeout(20000)});
++ const body=Buffer.from(await response.arrayBuffer());
++ return {path,status:response.status,redirected:response.redirected,body,headers:Object.fromEntries(['content-type','cache-control','etag','service-worker-allowed','content-security-policy','x-content-type-options'].map(name=>[name,response.headers.get(name)]))};
++}
++const worker=await read('/sw.js'),source=worker.body.toString();
++if(worker.status!==200)throw Error('Worker unavailable: '+worker.status);
++const version=JSON.parse(source.match(/const VERSION = ("[a-f0-9]{20}");/)?.[1]??'null');
++const assets=JSON.parse(source.match(/const PRECACHE = (\[[\s\S]*?\]);/)?.[1]??'null');
++if(!version||!Array.isArray(assets))throw Error('Worker inventory not recognized');
++const records=[];
++for(let offset=0;offset<assets.length;offset+=6){
++ records.push(...await Promise.all(assets.slice(offset,offset+6).map(async asset=>{
++  try{const result=await read(asset.path),sha256=hash(result.body);const match=asset.path==='/index.html'?result.body.toString().includes('content="'+version+'"'):sha256===asset.sha256;
++   return {path:asset.path,status:result.status,redirected:result.redirected,headers:result.headers,bytes:result.body.length,sha256,valid:result.status===200&&!result.redirected&&match};
++  }catch(error){return {path:asset.path,valid:false,error:error.message};}
++ })));
++}
++const manifest=await read('/manifest.webmanifest'),home=await read('/');
++const receipt={at:new Date().toISOString(),origin,version,worker:{status:worker.status,sha256:hash(worker.body),headers:worker.headers},manifest:JSON.parse(manifest.body),home:{status:home.status,headers:home.headers,manifestLinked:/rel="manifest"[^>]*href="\/manifest.webmanifest"/.test(home.body.toString()),releaseMarker:home.body.toString().includes('content="'+version+'"')},assets:records,passed:records.every(record=>record.valid)};
++await fs.writeFile('audit/2026-10-15-pwa-live-receipt.json',JSON.stringify(receipt,null,2)+'\n');
++console.log(JSON.stringify({at:receipt.at,version,assets:records.length,passed:receipt.passed,workerHeaders:receipt.worker.headers,display:receipt.manifest.display,home:receipt.home}));
++if(!receipt.passed)process.exitCode=1;
+diff --git a/tools/service-worker.template.js b/tools/service-worker.template.js
+index 4ee143d..0276259 100644
+--- a/tools/service-worker.template.js
++++ b/tools/service-worker.template.js
+@@ -8,0 +9 @@ const pins = new Map();
++const identifying = new Map();
+@@ -12,0 +14,4 @@ const pinPath = id => absolute('/__prism_pwa_client__/' + encodeURIComponent(id)
++const releaseVersion = version => typeof version === 'string' && /^[a-f0-9]{20}$/.test(version);
++const validPin = version => version === 'network' || releaseVersion(version);
++async function readJSON(response) { try { return response ? await response.json() : null; } catch { return null; } }
++
+@@ -14 +19,13 @@ async function complete(version) {
+-  return !!(await caches.match(absolute(COMPLETE_PATH), {cacheName: CACHE_PREFIX + version}));
++  if (!releaseVersion(version)) return false;
++  try {
++    const name = CACHE_PREFIX + version;
++    const marker = await readJSON(await caches.match(absolute(COMPLETE_PATH), {cacheName: name}));
++    if (marker?.version !== version || !Number.isSafeInteger(marker.files) || marker.files < 1) return false;
++    const cache = await caches.open(name);
++    const keys = new Set((await cache.keys()).map(request => request.url));
++    const inventory = version === VERSION ? [...paths] : marker.paths;
++    if (inventory) return Array.isArray(inventory) && inventory.length === marker.files && inventory.every(path => typeof path === 'string' && path.startsWith('/') && keys.has(absolute(path)));
++    // Older releases stored a count rather than paths. Their caches contain only
++    // verified assets and this marker; retain compatibility without trusting a marker alone.
++    return keys.has(absolute('/index.html')) && keys.size === marker.files + 1;
++  } catch { return false; }
+@@ -18 +35 @@ async function rememberClient(id, version) {
+-  if (!id || (version !== 'network' && (!/^[a-f0-9]{20}$/.test(version) || !await complete(version)))) return false;
++  if (!id || !validPin(version)) return false;
+@@ -20,2 +37,4 @@ async function rememberClient(id, version) {
+-  const store = await caches.open(PIN_CACHE);
+-  await store.put(pinPath(id), new Response(JSON.stringify({version}), {headers: {'Content-Type': 'application/json'}}));
++  try {
++    const store = await caches.open(PIN_CACHE);
++    await store.put(pinPath(id), new Response(JSON.stringify({version}), {headers: {'Content-Type': 'application/json'}}));
++  } catch { /* Keep the in-memory identity; readiness is checked separately. */ }
+@@ -28,4 +47,4 @@ async function clientVersion(id) {
+-  const record = await caches.match(pinPath(id), {cacheName: PIN_CACHE});
+-  if (record) {
+-    const {version} = await record.json();
+-    if (version === 'network' || (/^[a-f0-9]{20}$/.test(version) && await complete(version))) {
++  try {
++    const record = await readJSON(await caches.match(pinPath(id), {cacheName: PIN_CACHE}));
++    const version = record?.version;
++    if (validPin(version)) {
+@@ -35,3 +54,17 @@ async function clientVersion(id) {
+-  }
+-  await rememberClient(id, VERSION);
+-  return VERSION;
++  } catch { /* Ask the page if its persisted pin was lost. Never guess the latest release. */ }
++  if (identifying.has(id)) return identifying.get(id);
++  const identification = (async () => {
++    const client = await self.clients.get(id);
++    if (!client) return null;
++    const version = await new Promise(resolve => {
++      const channel = new MessageChannel();
++      const finish = value => { clearTimeout(timer); channel.port1.close(); resolve(validPin(value) ? value : null); };
++      const timer = setTimeout(() => finish(null), 1500);
++      channel.port1.onmessage = event => finish(event.data?.version);
++      try { client.postMessage({type:'PWA_VERSION_REQUEST'}, [channel.port2]); } catch { finish(null); }
++    });
++    if (version) await rememberClient(id, version);
++    return version;
++  })().catch(() => null);
++  identifying.set(id, identification);
++  try { return await identification; } finally { identifying.delete(id); }
+@@ -40,13 +73,9 @@ async function clientVersion(id) {
+-async function download(asset, cache) {
+-  const url = new URL(asset.path, self.location.origin);
+-  url.searchParams.set('__prism_release', VERSION);
+-  const response = await fetch(url.href, {cache: 'reload', credentials: 'same-origin'});
+-  if (response.status !== 200 || response.type === 'opaque' || response.redirected) {
+-    throw new Error('Offline download failed: ' + asset.path);
+-  }
+-  if (asset.path === '/index.html') {
+-    // Pagelove serializes HTML on write; verify its release identity instead of raw bytes.
+-    const html = await response.clone().text();
+-    const marker = new RegExp('<meta\\b(?=[^>]*\\bname=["\']prism-release["\'])(?=[^>]*\\bcontent=["\']' + VERSION + '["\'])[^>]*>', 'i');
+-    if (!response.headers.get('content-type')?.includes('text/html') || !marker.test(html)) {
+-      throw new Error('Offline document belongs to a different release');
++async function download(asset, cache, controller) {
++  const timer = setTimeout(() => controller.abort(new Error('Offline asset download timed out: ' + asset.path)), 20000);
++  try {
++    controller.signal.throwIfAborted();
++    const url = new URL(asset.path, self.location.origin);
++    url.searchParams.set('__prism_release', VERSION);
++    const response = await fetch(url.href, {cache: 'reload', credentials: 'same-origin', signal: controller.signal});
++    if (response.status !== 200 || response.type === 'opaque' || response.redirected) {
++      throw new Error('Offline download failed: ' + asset.path);
+@@ -54,6 +83,15 @@ async function download(asset, cache) {
+-  } else {
+-    const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
+-    const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+-    if (hash !== asset.sha256) throw new Error('Offline asset changed during download: ' + asset.path);
+-  }
+-  await cache.put(absolute(asset.path), response);
++    if (asset.path === '/index.html') {
++      // Pagelove serializes HTML on write; verify its release identity instead of raw bytes.
++      const html = await response.clone().text();
++      const marker = new RegExp('<meta\\b(?=[^>]*\\bname=["\']prism-release["\'])(?=[^>]*\\bcontent=["\']' + VERSION + '["\'])[^>]*>', 'i');
++      if (!response.headers.get('content-type')?.includes('text/html') || !marker.test(html)) {
++        throw new Error('Offline document belongs to a different release');
++      }
++    } else {
++      const digest = await crypto.subtle.digest('SHA-256', await response.clone().arrayBuffer());
++      const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
++      if (hash !== asset.sha256) throw new Error('Offline asset changed during download: ' + asset.path);
++    }
++    controller.signal.throwIfAborted();
++    await cache.put(absolute(asset.path), response);
++  } finally { clearTimeout(timer); }
+@@ -66,0 +105,2 @@ async function prepareOfflineCache() {
++    const controller = new AbortController();
++    const deadline = setTimeout(() => controller.abort(new Error('Offline release download timed out.')), 75000);
+@@ -67,0 +108 @@ async function prepareOfflineCache() {
++      await cache.delete(absolute(COMPLETE_PATH));
+@@ -70 +111 @@ async function prepareOfflineCache() {
+-        const batch = await Promise.allSettled(PRECACHE.slice(offset, offset + 6).map(asset => download(asset, cache)));
++        const batch = await Promise.allSettled(PRECACHE.slice(offset, offset + 6).map(asset => download(asset, cache, controller)));
+@@ -74 +115,2 @@ async function prepareOfflineCache() {
+-      await cache.put(absolute(COMPLETE_PATH), new Response(JSON.stringify({version: VERSION, savedAt: Date.now(), files: PRECACHE.length}), {headers: {'Content-Type': 'application/json'}}));
++      controller.signal.throwIfAborted();
++      await cache.put(absolute(COMPLETE_PATH), new Response(JSON.stringify({version: VERSION, savedAt: Date.now(), files: PRECACHE.length, paths: [...paths]}), {headers: {'Content-Type': 'application/json'}}));
+@@ -76 +118 @@ async function prepareOfflineCache() {
+-      await caches.delete(CACHE_NAME);
++      try { await caches.delete(CACHE_NAME); } catch { /* Preserve the original failure. */ }
+@@ -78 +120 @@ async function prepareOfflineCache() {
+-    }
++    } finally { clearTimeout(deadline); }
+@@ -95,3 +137,3 @@ async function pruneUnusedReleases() {
+-    const record = await store.match(pinPath(client.id));
+-    if (!record) { unknownClient = true; continue; }
+-    inUse.add((await record.json()).version);
++    const record = await readJSON(await store.match(pinPath(client.id)));
++    if (!validPin(record?.version)) { unknownClient = true; continue; }
++    inUse.add(record.version);
+@@ -103,3 +145,4 @@ async function pruneUnusedReleases() {
+-    if (!name.startsWith(CACHE_PREFIX)) continue;
+-    const marker = await caches.match(absolute(COMPLETE_PATH), {cacheName: name});
+-    if (marker) releases.push({name, ...await marker.json()});
++    const version = name.slice(CACHE_PREFIX.length);
++    if (!name.startsWith(CACHE_PREFIX) || !releaseVersion(version)) continue;
++    const marker = await readJSON(await caches.match(absolute(COMPLETE_PATH), {cacheName: name}));
++    releases.push({name, version, savedAt: marker?.version === version && Number.isFinite(marker.savedAt) ? marker.savedAt : 0});
+@@ -119 +162 @@ self.addEventListener('activate', event => {
+-    await pruneUnusedReleases();
++    try { await pruneUnusedReleases(); } catch { /* Optional cleanup must not prevent activation. */ }
+@@ -128 +171,4 @@ self.addEventListener('message', event => {
+-    event.waitUntil(self.skipWaiting());
++    event.waitUntil((async () => {
++      try { await prepareOfflineCache(); await self.skipWaiting(); }
++      catch { /* The requesting page times out with a retry action; keep the old worker. */ }
++    })());
+@@ -131 +177,6 @@ self.addEventListener('message', event => {
+-      const ready = await rememberClient(event.source?.id, data.version);
++      const ready = validPin(data.version) && (data.version === 'network' || await complete(data.version));
++      // A fresh network document must keep using network modules until its complete
++      // release exists. Older pinned tabs keep their identity even after cache eviction.
++      let existing = pins.get(event.source?.id);
++      if (!existing) try { existing = (await readJSON(await caches.match(pinPath(event.source?.id), {cacheName: PIN_CACHE})))?.version; } catch {}
++      if (ready || existing !== 'network') await rememberClient(event.source?.id, data.version);
+@@ -168 +219,4 @@ self.addEventListener('fetch', event => {
+-    const cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
++    let cached;
++    try {
++      if (version && (!navigation || await complete(version))) cached = await caches.match(absolute(navigation ? '/index.html' : url.pathname), {cacheName: CACHE_PREFIX + version});
++    } catch { /* An online navigation can recover even if CacheStorage is unavailable. */ }
+@@ -170,3 +224,5 @@ self.addEventListener('fetch', event => {
+-    if (navigation || paths.has(url.pathname)) {
+-      const cache = await caches.open(CACHE_PREFIX + version);
+-      await cache.delete(absolute(COMPLETE_PATH));
++    if (releaseVersion(version) && (navigation || paths.has(url.pathname))) {
++      try {
++        const cache = await caches.open(CACHE_PREFIX + version);
++        await cache.delete(absolute(COMPLETE_PATH));
++      } catch { /* The missing-cache response remains actionable. */ }
+diff --git a/tools/update-lab.mjs b/tools/update-lab.mjs
+index 19ca267..ad4432c 100644
+--- a/tools/update-lab.mjs
++++ b/tools/update-lab.mjs
+@@ -10,3 +10,3 @@ import {offlineStore,ScoreOutbox} from '/offline.js';
+-const out=document.querySelector('#lab-state');
+-async function inspect(){const r=await navigator.serviceWorker.getRegistration();let info={};if(navigator.serviceWorker.controller){const channel=new MessageChannel();info=await new Promise(resolve=>{const timer=setTimeout(()=>resolve({timeout:true}),2000);channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};navigator.serviceWorker.controller.postMessage({type:'GET_STATUS'},[channel.port2]);});}out.textContent=JSON.stringify({page:PWA_RELEASE,worker:info.version,pinned:info.clientVersion,ready:info.ready,waiting:r?.waiting?.state||null,checkpoint:!!localStorage.getItem('prism.save'),classic:JSON.parse(localStorage.getItem('prism.settings')||'{}').classicMode,queued:(await offlineStore.all()).length},null,2);}
+-for(const button of document.querySelectorAll('[data-lab]'))button.onclick=async()=>{try{const action=button.dataset.lab;if(action==='inspect')return inspect();if(action==='check'){const r=await navigator.serviceWorker.getRegistration();await r.update();}else if(action==='seed'){const q=new ScoreOutbox({store:offlineStore,isOnline:()=>false,send:async()=>{throw Error('Local test only');}});await q.enqueue({id:'11111111-1111-4111-8111-111111111111',mode:'campaign',day:'all',score:100,level:1,seconds:20},'Update QA');q.dispose();}else await fetch('/__qa/control',{method:'POST',body:action});await inspect();}catch(error){out.textContent=String(error);}};
++const out=document.querySelector('#lab-state');let assetProbe='';
++async function inspect(){const r=await navigator.serviceWorker.getRegistration();let info={};if(navigator.serviceWorker.controller){const channel=new MessageChannel();info=await new Promise(resolve=>{const timer=setTimeout(()=>resolve({timeout:true}),2000);channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};navigator.serviceWorker.controller.postMessage({type:'GET_STATUS'},[channel.port2]);});}out.textContent=JSON.stringify({page:PWA_RELEASE,worker:info.version,pinned:info.clientVersion,ready:info.ready,assetProbe,waiting:r?.waiting?.state||null,checkpoint:!!localStorage.getItem('prism.save'),classic:JSON.parse(localStorage.getItem('prism.settings')||'{}').classicMode,queued:(await offlineStore.all()).length},null,2);}
++for(const button of document.querySelectorAll('[data-lab]'))button.onclick=async()=>{try{const action=button.dataset.lab;if(action==='inspect')return inspect();if(action==='check'){const r=await navigator.serviceWorker.getRegistration();await r.update();}else if(action==='evict'){const cache=await caches.open('prism-breaker-release-'+PWA_RELEASE);await cache.delete('/scene.js');}else if(action==='recover'){window.dispatchEvent(new Event('online'));}else if(action==='probe'){const response=await fetch('/pwa-release.js?lab-probe=1');assetProbe=response.status+' '+await response.text();}else if(action==='seed'){const q=new ScoreOutbox({store:offlineStore,isOnline:()=>false,send:async()=>{throw Error('Local test only');}});await q.enqueue({id:'11111111-1111-4111-8111-111111111111',mode:'campaign',day:'all',score:100,level:1,seconds:20},'Update QA');q.dispose();}else await fetch('/__qa/control',{method:'POST',body:action});await inspect();}catch(error){out.textContent=String(error);}};
+@@ -14 +14 @@ navigator.serviceWorker.addEventListener('controllerchange',inspect);setInterval
+-const panel=`<aside id="update-lab" style="position:relative;z-index:20;padding:16px;background:#182b32;color:white;font:14px sans-serif"><strong>Local update verification only</strong><div>${[['b','Serve release B'],['a','Serve release A'],['broken','Break asset download'],['offline','Network unavailable'],['online','Restore network'],['check','Check for update'],['seed','Seed queued score'],['inspect','Inspect release and storage']].map(([id,label])=>'<button type="button" data-lab="'+id+'" style="margin:6px;padding:8px">'+label+'</button>').join('')}</div><pre id="lab-state" style="white-space:pre-wrap"></pre></aside><script type="module" src="/lab-diagnostics.js"></script>`;
++const panel=`<aside id="update-lab" style="position:relative;z-index:20;padding:16px;background:#182b32;color:white;font:14px sans-serif"><strong>Local update verification only</strong><div>${[['b','Serve release B'],['a','Serve release A'],['broken','Break asset download'],['offline','Network unavailable'],['online','Restore network'],['check','Check for update'],['seed','Seed queued score'],['inspect','Inspect release and storage'],['evict','Evict one local asset'],['recover','Recover offline cache'],['probe','Probe pinned module']].map(([id,label])=>'<button type="button" data-lab="'+id+'" style="margin:6px;padding:8px">'+label+'</button>').join('')}</div><pre id="lab-state" style="white-space:pre-wrap"></pre></aside><script type="module" src="/lab-diagnostics.js"></script>`;

@@ -126,3 +126,16 @@ test('an IDB transaction abort rejects even after a request produced a result',a
  await Promise.resolve();transaction.onabort();
  await assert.rejects(saving,error=>error.code==='storage-unavailable');
 });
+
+test('an explicit retry attempts the request even when the browser connectivity hint is false',async t=>{
+ let sends=0;const outbox=queue(t,{isOnline:()=>false,send:async()=>{sends++;}});
+ await outbox.enqueue(originalRun,'Wes');await outbox.sync();assert.equal(sends,0);
+ await outbox.retry(originalRun.id);assert.equal(sends,1);assert.equal((await outbox.get(originalRun.id)).status,'sent');
+});
+
+test('a stale database close event cannot discard a newer open connection',async()=>{
+ const requests=[],store=new OfflineStore({indexedDB:{open(){const request={};requests.push(request);return request;}}});
+ const first=store.open(),db1={close(){}};requests[0].result=db1;requests[0].onsuccess();await first;
+ db1.onversionchange();const second=store.open(),db2={close(){}};requests[1].result=db2;requests[1].onsuccess();await second;
+ db1.onclose();const third=store.open();assert.equal(requests.length,2);assert.equal(await third,db2);
+});

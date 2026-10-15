@@ -2,13 +2,16 @@ import {PWA_RELEASE} from './pwa-release.js';
 
 // Installation is optional: a completely downloaded game also works offline in a tab.
 export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+ // The document identity must win over a separately HTTP-cached module.
+ const marker=document.querySelector('meta[name="prism-release"]')?.content;
+ const pageRelease=/^[a-f0-9]{20}$/.test(marker||'')?marker:PWA_RELEASE;
  const status=document.querySelector('#offline-status'),detail=document.querySelector('#offline-detail'),install=document.querySelector('#install-game'),update=document.querySelector('#update-game'),retry=document.querySelector('#retry-download');
- let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0;
+ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0,installed=false;
  const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true;
  function render(){
   if(applying&&reloadReady&&isSafeToUpdate()&&!reloading){reloading=true;location.reload();}
   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
-  install.hidden=standalone();
+  install.hidden=installed||standalone();
   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
   detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All sixteen worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
   update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
@@ -20,25 +23,36 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   channel.port1.onmessage=e=>{clearTimeout(timer);channel.port1.close();resolve(e.data);};
   try{worker.postMessage(message,[channel.port2]);}catch(error){clearTimeout(timer);channel.port1.close();reject(error);}
  });}
- async function repair(worker){
-  if(repairing)return repairing;
-  repairing=requestStatus(worker,{type:'REPAIR_CACHE',version:PWA_RELEASE}).then(info=>{ready=info.ready===true;failed=!ready;render();}).catch(()=>{failed=true;render();}).finally(()=>{repairing=null;});return repairing;
+ function repair(worker){
+  if(repairing?.worker===worker)return repairing.promise;
+  const attempt={worker};
+  attempt.promise=requestStatus(worker,{type:'REPAIR_CACHE',version:pageRelease}).finally(()=>{if(repairing===attempt)repairing=null;});
+  repairing=attempt;return attempt.promise;
  }
- async function inspect(){
+ async function inspect({forceRepair=false}={}){
   const controller=navigator.serviceWorker.controller,revision=++inspection;
-  try{const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:PWA_RELEASE});if(revision!==inspection)return;ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==PWA_RELEASE);if(ready)failed=false;else if(info.version===PWA_RELEASE){if(navigator.onLine)await repair(worker);else failed=true;}}catch{if(revision!==inspection)return;if(registration?.active&&!ready)failed=true;}
+  try{
+   const worker=controller||registration?.active,info=await requestStatus(worker,{type:'CLIENT_VERSION',version:pageRelease});
+   if(revision!==inspection)return;
+   ready=info.ready===true;newVersion=!!registration?.waiting||!!(info.version&&info.version!==pageRelease);failed=!ready;
+   if(!ready&&info.version===pageRelease&&(navigator.onLine||forceRepair)){
+    failed=false;render();const repaired=await repair(worker);if(revision!==inspection)return;
+    ready=repaired.ready===true;failed=!ready;
+   }
+  }catch{if(revision!==inspection)return;if(registration?.active&&!ready)failed=true;}
+  if(revision!==inspection)return;
   if(registration?.waiting)newVersion=true;render();
  }
  function watch(worker){if(!worker)return;worker.addEventListener('statechange',()=>{if(worker.state==='installed'||worker.state==='activated')inspect();else if(worker.state==='redundant'){failed=true;render();}});}
- async function start(){
+ async function start(forceRepair=false){
   if(!('serviceWorker' in navigator)||!isSecureContext){unavailable='unsupported';render();return;}
   // Local cinematic fixtures must never register or alter the production-scope worker.
   if(location.pathname.startsWith('/__qa/')){unavailable='preview';render();return;}
-  try{registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect();}
+  try{registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect({forceRepair});}
   catch{failed=true;render();}
  }
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;render();});
- window.addEventListener('appinstalled',()=>{prompt=null;install.hidden=true;});
+ window.addEventListener('appinstalled',()=>{prompt=null;installed=true;render();});
  install.onclick=async()=>{
   if(prompt){const invitation=prompt;prompt=null;try{await invitation.prompt();await invitation.userChoice;}catch{openHelp();}}
   else openHelp();
@@ -57,9 +71,10 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
    else{reloadReady=true;render();}
   }catch{failedActivation();}
  };
- retry.onclick=async()=>{failed=false;render();if(!registration)return start();try{await registration.update();await inspect();}catch{failed=true;render();}};
- navigator.serviceWorker?.addEventListener('controllerchange',()=>{if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
- const check=()=>{render();if(registration&&navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}};
+ retry.onclick=async()=>{failed=false;render();if(!registration)return start(true);try{await registration.update();await inspect({forceRepair:true});}catch{failed=true;render();}};
+ navigator.serviceWorker?.addEventListener('message',event=>{if(event.data?.type==='PWA_VERSION_REQUEST')event.ports[0]?.postMessage({version:pageRelease});});
+ navigator.serviceWorker?.addEventListener('controllerchange',()=>{++inspection;if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
+ const check=()=>{if(document.hidden)return;render();if(registration){inspect();if(navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}}};
  window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
  document.addEventListener('fullscreenchange',render);
  render();start();return {refresh:render};

@@ -29,23 +29,26 @@ class MemoryCacheStorage {
   async delete(name) { return this.entries.delete(name); }
 }
 
-function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false} = {}) {
+function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = ''} = {}) {
   const index = '<!doctype html><html><head><meta name="prism-release" content="' + version + '"></head></html>';
   const resources = new Map([['/index.html', index], ['/app.js', 'export const release = "' + version + '";'], ...(removedLazy ? [] : [['/lazy.js', 'export const lazy = "' + version + '";']])]);
   const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body)}));
-  const listeners = new Map(), fetched = [];
+  const listeners = new Map(), fetched = [], timers = new Map(); let timerId = 0;
   let skipped = 0, claimed = 0;
-  const self = {location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {matchAll: async () => windows, claim: async () => { claimed++; }}};
-  const fetch = async request => {
+  const self = {location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {get: async id => windows.find(client => client.id === id), matchAll: async () => windows, claim: async () => { claimed++; }}};
+  const fetch = async (request, options = {}) => {
     const pathname = new URL(typeof request === 'string' ? request : request.url).pathname; fetched.push(pathname);
     if (pathname === missing) throw new TypeError('Offline');
+    if (pathname === hanging) return new Promise((resolve, reject) => { if (options.signal?.aborted) reject(options.signal.reason); else options.signal?.addEventListener('abort', () => reject(options.signal.reason), {once:true}); });
     const resource = pathname === '/' ? '/index.html' : pathname;
     const body = pathname === broken ? 'wrong deployment bytes' : resources.get(resource);
     return new Response(body ?? 'Missing', {status: resources.has(resource) ? 200 : 404, headers: {'Content-Type': resource.endsWith('.html') ? 'text/html; charset=utf-8' : 'text/javascript'}});
   };
-  vm.runInNewContext(template.replace('// __PWA_CONSTANTS__', 'const VERSION = ' + JSON.stringify(version) + '; const PRECACHE = ' + JSON.stringify(assets) + ';'), {self, caches, fetch, crypto: webcrypto, URL, Response, Uint8Array, console});
+  class Channel { constructor() { this.port1 = {close(){}, onmessage:null}; this.port2 = {postMessage:data => this.port1.onmessage?.({data})}; } }
+  vm.runInNewContext(template.replace('// __PWA_CONSTANTS__', 'const VERSION = ' + JSON.stringify(version) + '; const PRECACHE = ' + JSON.stringify(assets) + ';'), {self, caches, fetch, crypto: webcrypto, URL, Response, Uint8Array, console, AbortController, MessageChannel:Channel, setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,ms});return id;}, clearTimeout:id=>timers.delete(id)});
   return {
     caches, fetched, resources, get skipped() { return skipped; }, get claimed() { return claimed; },
+    timeout(ms) { for(const [id,timer] of [...timers]) if(timer.ms===ms){timers.delete(id);timer.fn();} },
     async dispatch(type, props = {}) {
       const waits = []; let response;
       listeners.get(type)({...props, waitUntil: promise => waits.push(promise), respondWith: promise => { response = promise; }});
@@ -65,7 +68,7 @@ function worker({version = versionA, caches = new MemoryCacheStorage(), missing 
 
 test('an incomplete or mismatched download never becomes offline-ready and leaves the previous release intact', async () => {
   const old = worker(); await old.dispatch('install');
-  for (const failure of [{missing: '/lazy.js'}, {broken: '/app.js'}]) {
+  for (const failure of [{missing: '/lazy.js'}, {broken: '/app.js'}, {broken: '/index.html'}]) {
     const next = worker({version: versionB, caches: old.caches, ...failure});
     await assert.rejects(next.dispatch('install'));
     assert.ok((await old.caches.keys()).includes(cachePrefix + versionA));
@@ -144,6 +147,115 @@ test('concurrent repair requests share one complete download', async () => {
   const results = await Promise.all([instance.message('REPAIR_CACHE', {id: 'a'}), instance.message('REPAIR_CACHE', {id: 'b'})]);
   assert.ok(results.every(result => result.ready));
   assert.equal(instance.fetched.length - downloads, instance.resources.size);
+});
+
+test('readiness checks the asset inventory even if the completion marker survived eviction', async () => {
+  const instance=worker();await instance.dispatch('install');
+  await (await instance.caches.open(cachePrefix+versionA)).delete(origin+'/lazy.js');
+  assert.equal((await instance.message('CLIENT_VERSION')).ready,false);
+  assert.equal((await instance.message('REPAIR_CACHE')).ready,true);
+  assert.ok(await instance.caches.match(origin+'/lazy.js',{cacheName:cachePrefix+versionA}));
+});
+
+test('a restarted newer worker never repins an old tab whose entire release was evicted', async () => {
+  const old=worker();await old.dispatch('install');await old.message('CLIENT_VERSION');
+  const next=worker({version:versionB,caches:old.caches});await next.dispatch('install');
+  await old.caches.delete(cachePrefix+versionA);
+  const restarted=worker({version:versionB,caches:old.caches});
+  assert.equal((await restarted.request('/app.js')).status,503);
+  assert.equal((await restarted.message('GET_STATUS')).clientVersion,versionA);
+});
+
+test('unknown client identity fails closed; a responsive page can restore its exact release pin',async()=>{
+  const old=worker();await old.dispatch('install');
+  const next=worker({version:versionB,caches:old.caches,windows:[{id:'old-tab',postMessage(message,ports){ports[0].postMessage({version:versionA});}}]});
+  await next.dispatch('install');
+  assert.equal((await next.request('/app.js',{id:'unknown'})).status,503);
+  assert.match(await(await next.request('/app.js',{id:'old-tab'})).text(),new RegExp(versionA));
+});
+
+test('a partial entry cache uses fresh network navigation rather than booting a broken release',async()=>{
+  const instance=worker();await instance.dispatch('install');
+  await(await instance.caches.open(cachePrefix+versionA)).delete(origin+'/app.js');
+  const count=instance.fetched.length;
+  assert.equal((await instance.request('/',{navigation:true,resultingClientId:'fresh'})).status,200);
+  assert.equal(instance.fetched.length,count+1);
+  assert.equal((await instance.message('GET_STATUS',{id:'fresh'})).clientVersion,'network');
+});
+
+test('malformed pin and completion metadata cannot prevent worker activation or report readiness',async()=>{
+  const instance=worker({windows:[{id:'tab-a'}]});await instance.dispatch('install');
+  await(await instance.caches.open('prism-breaker-client-pins-v1')).put(origin+'/__prism_pwa_client__/tab-a',new Response('{broken'));
+  await(await instance.caches.open(cachePrefix+versionA)).put(origin+'/__prism_pwa_complete__',new Response('{broken'));
+  await instance.dispatch('activate');assert.equal(instance.claimed,1);
+  assert.equal((await instance.message('CLIENT_VERSION')).ready,false);
+});
+
+test('cache storage failure still permits online navigation without claiming offline readiness',async()=>{
+  const caches={async match(){throw Error('Storage unavailable');},async open(){throw Error('Storage unavailable');},async keys(){throw Error('Storage unavailable');}};
+  const instance=worker({caches});await instance.dispatch('activate');assert.equal(instance.claimed,1);
+  assert.equal((await instance.request('/',{navigation:true,resultingClientId:'online'})).status,200);
+  assert.equal((await instance.message('GET_STATUS',{id:'online'})).ready,false);
+  assert.equal((await instance.request('/app.js',{id:'online'})).status,200);
+});
+
+test('a stalled asset aborts the download and removes the incomplete cache',async()=>{
+  const instance=worker({hanging:'/lazy.js'});
+  const install=instance.dispatch('install');const rejection=assert.rejects(install,/timed out/i);
+  for(let i=0;i<100&&!instance.fetched.includes('/lazy.js');i++)await new Promise(resolve=>setTimeout(resolve,1));
+  instance.timeout(20000);await rejection;
+  assert.ok(!(await instance.caches.keys()).includes(cachePrefix+versionA));
+});
+
+test('fresh network pages keep loading network modules until repair is complete',async()=>{
+  const instance=worker();await instance.dispatch('install');await instance.caches.delete(cachePrefix+versionA);
+  await instance.request('/',{navigation:true,resultingClientId:'fresh'});
+  assert.equal((await instance.message('CLIENT_VERSION',{id:'fresh'})).ready,false);
+  assert.equal((await instance.request('/app.js',{id:'fresh'})).status,200);
+  await instance.message('REPAIR_CACHE',{id:'fresh'});
+  assert.equal((await instance.message('GET_STATUS',{id:'fresh'})).clientVersion,versionA);
+});
+
+test('activation repairs a waiting release that lost an asset, but refuses it if repair fails',async()=>{
+  const instance=worker();await instance.dispatch('install');
+  await(await instance.caches.open(cachePrefix+versionA)).delete(origin+'/lazy.js');
+  await instance.message('SKIP_WAITING');assert.equal(instance.skipped,1);
+  await(await instance.caches.open(cachePrefix+versionA)).delete(origin+'/lazy.js');instance.resources.delete('/lazy.js');
+  await instance.message('SKIP_WAITING');assert.equal(instance.skipped,1);
+});
+
+test('cleanup retains live and previous releases and never touches unrelated caches',async()=>{
+  const first=worker();await first.dispatch('install');await first.message('CLIENT_VERSION',{id:'playing'});
+  const second=worker({version:versionB,caches:first.caches});await second.dispatch('install');
+  const third=worker({version:'c'.repeat(20),caches:first.caches,windows:[{id:'playing'}]});await third.dispatch('install');
+  await first.caches.open('unrelated-app');await third.dispatch('activate');
+  assert.ok((await first.caches.keys()).includes(cachePrefix+versionA));
+  assert.ok((await first.caches.keys()).includes('unrelated-app'));
+  const fourth=worker({version:'d'.repeat(20),caches:first.caches});await fourth.dispatch('install');await fourth.dispatch('activate');
+  assert.equal((await first.caches.keys()).filter(name=>name.startsWith(cachePrefix)).length,2);
+  assert.ok((await first.caches.keys()).includes('unrelated-app'));
+});
+
+test('an unknown optional static request cannot invalidate a complete game cache',async()=>{
+  const instance=worker();await instance.dispatch('install');await instance.message('CLIENT_VERSION');
+  assert.equal((await instance.request('/optional-icon.png')).status,503);
+  assert.equal((await instance.message('GET_STATUS')).ready,true);
+});
+
+test('quota failure cannot leave a new ready marker or delete a previous release',async()=>{
+  const old=worker();await old.dispatch('install');const cache=await old.caches.open(cachePrefix+versionB);
+  cache.put=async()=>{throw Error('QuotaExceededError');};
+  const next=worker({version:versionB,caches:old.caches});await assert.rejects(next.dispatch('install'),/Quota/);
+  assert.equal((await old.message('GET_STATUS',{id:''})).ready,true);
+  assert.ok(!(await old.caches.keys()).includes(cachePrefix+versionB));
+});
+
+test('legacy count-only completion markers still detect lost assets',async()=>{
+  const old=worker();await old.dispatch('install');await old.message('CLIENT_VERSION');
+  const cache=await old.caches.open(cachePrefix+versionA),marker=await(await cache.match(origin+'/__prism_pwa_complete__')).json();delete marker.paths;
+  await cache.put(origin+'/__prism_pwa_complete__',new Response(JSON.stringify(marker)));
+  const next=worker({version:versionB,caches:old.caches});assert.equal((await next.message('GET_STATUS')).ready,true);
+  await cache.delete(origin+'/lazy.js');assert.equal((await next.message('GET_STATUS')).ready,false);
 });
 
 test('builds are deterministic and deployment validation catches edits made after the build', async () => {

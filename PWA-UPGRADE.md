@@ -1,10 +1,10 @@
 # Offline play, installation and performance
 
-Release work reviewed on October 13, 2026. Prism Breaker now downloads a complete playable release, offers installation, and retains score submissions until they can reach Pagelove. All runtime assets stay on the game host; the upgrade adds no external service.
+Original release work reviewed on October 13, 2026; robustness review updated October 15. Prism Breaker downloads a complete playable release, offers installation, and retains score submissions until they can reach Pagelove. All runtime assets stay on the game host; the upgrade adds no external service. See [PWA-ROBUSTNESS-REVIEW.md](PWA-ROBUSTNESS-REVIEW.md) for current corrections, verification and deployment status; the historical validation section below remains a record of the original implementation.
 
 ## Player experience
 
-1. Open the game while connected and wait for **Ready to play offline**. The current package contains 54 cached files, approximately 1.95 MB before browser storage overhead.
+1. Open the game while connected and wait for **Ready to play offline**. The current package contains 70 cached files, approximately 2.41 MB before browser storage overhead.
 2. Use **Install game**, the browser's install command, or **Share → Add to Home Screen** on iPhone/iPad. Playing offline in a prepared browser tab also works.
 3. Adventure, Practice, Daily Challenge, power-ups, music, cinematics and generated scorecards remain available without a connection.
 4. Save a score normally. The game confirms it is queued only after its storage transaction commits. It submits when the game is open and connectivity returns.
@@ -19,6 +19,8 @@ The October 14 update review adds explicit recovery from activation errors and t
 `tools/build-pwa.mjs` inventories the runtime files and derives a release ID from their contents and `tools/service-worker.template.js`. It writes the HTML release marker, `public/pwa-release.js`, and `public/sw.js`.
 
 The service worker downloads assets in bounded batches into a separate cache for that release. It checks successful, non-redirected responses and SHA-256 asset hashes. Pagelove normalizes HTML, so the entry page is checked using its content type and release marker. A completion marker is written only after the entire download succeeds; a failed installation removes its incomplete cache.
+
+Readiness also checks every expected cached path, so a leftover marker cannot hide partial eviction. Individual network downloads abort at 20 seconds, with a 75-second overall release deadline. Explicit update activation rechecks completeness and attempts repair before replacing the active worker. A fresh online navigation can recover from unavailable cache storage; an already-running page never substitutes another release's modules. The HTML release marker takes precedence over a separately HTTP-cached identity module.
 
 The manifest supplies the app name, fullscreen launch preference, colors and regular/maskable icons. Browsers that cannot provide fullscreen fall back to standalone or another supported display mode. The full download includes modules that load later, world previews, the font and scorecard artwork. Procedural music and sound effects need no audio downloads. The world catalog has bundled level definitions as its offline fallback.
 
@@ -38,6 +40,8 @@ The worker serves the game's entry routes and static runtime assets. It leaves `
 Queued records use the same unique `runKey` on every attempt. Transactional send leases coordinate tabs; a tab whose lease expired cannot overwrite a later tab's result. Active submissions cannot be removed until their lease ends. A duplicate response is accepted only after a fresh leaderboard read finds the existing run.
 
 Temporary failures retry with exponential backoff, starting at five seconds and capped at five minutes. Reopening or returning to the game and regaining connectivity also trigger syncing. Confirmed validation rejections remain visible with their error, Retry and Remove controls. Storage failures are reported without claiming that an unsaved result is queued. Recent successful receipts prevent accidental repeat sends; receipt cleanup retains at most 100 entries for up to 30 days. Pending or rejected scores are not removed by that cleanup.
+
+Explicit Retry and Save actions attempt the network request even if the browser's connectivity hint says offline. Automatic scheduling still respects that hint and the backoff. A failed attempt leaves the durable queue intact. Database close/version-change handlers only invalidate their own connection, and stale cache-repair responses cannot overwrite the current controller's UI state.
 
 An offline Daily Challenge run always keeps its original UTC challenge date, even if submitted on a later day. `submittedAt` is assigned when sending. If an earlier attempt already reached Pagelove, the game uses that existing record's timestamp. Daily board age therefore reflects submission time, while the run stays on its original day's board.
 
