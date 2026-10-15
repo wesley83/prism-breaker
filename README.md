@@ -184,6 +184,8 @@ An update downloads into a separate release cache and becomes available only aft
 
 An activation failure offers another **Update game** attempt. If play starts while activation is finishing, the requested reload waits until the start screen. The reproducible browser lab (`bun tools/update-lab.mjs`, loopback port 4174) can switch between two local releases and simulate failed asset downloads or unavailable game network routes without writing production scores. It creates disposable files under `.private/update-lab` and uses that local origin's browser storage. The [October 14 review](audit/2026-10-14-paddle-update.md) records the collision fix and update verification.
 
+Updates also appear in a sticky notice above the start-screen arena and in **Settings → Game updates**, which offers **Check for updates**. Visible connected pages check every minute; the pause menu announces a downloaded update. A closed app may activate an update before its next launch, so an already-current launch has no update button. See [the update visibility investigation](UPDATE-VISIBILITY-INVESTIGATION.md) for the discovered placement and detection gaps and their corrections.
+
 Browser storage can be cleared or evicted under storage pressure. The install action requests persistent storage where supported, but the browser decides whether to grant it. A new browser or cleared installation must download the game again; unsent scores and local progress are lost if their storage is removed. Sync runs while the game is open; it does not depend on, or promise, background submission after the app closes.
 
 See [PWA-UPGRADE.md](PWA-UPGRADE.md) for release integrity, queue behavior, optimization details and validation limits.

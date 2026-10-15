@@ -1,0 +1,212 @@
+diff --git a/README.md b/README.md
+index 8ea435a..51b08b9 100644
+--- a/README.md
++++ b/README.md
+@@ -186,0 +187,2 @@ An activation failure offers another **Update game** attempt. If play starts whi
++Updates also appear in a sticky notice above the start-screen arena and in **Settings → Game updates**, which offers **Check for updates**. Visible connected pages check every minute; the pause menu announces a downloaded update. A closed app may activate an update before its next launch, so an already-current launch has no update button. See [the update visibility investigation](UPDATE-VISIBILITY-INVESTIGATION.md) for the discovered placement and detection gaps and their corrections.
++
+diff --git a/UPDATE-VISIBILITY-INVESTIGATION.md b/UPDATE-VISIBILITY-INVESTIGATION.md
+new file mode 100644
+index 0000000..804b91f
+--- /dev/null
++++ b/UPDATE-VISIBILITY-INVESTIGATION.md
+@@ -0,0 +1,33 @@
++# Why the update button was easy to miss
++
++Investigation started October 15, 2026 UTC following Wesley's report that the client had never shown an update button.
++
++## Confirmed findings
++
++The existing button worked when a newer release was downloaded, but its placement and automatic checking were incomplete.
++
++On the actual live site, a newly opened tab loaded older cached release `ee6a8edb8f4578dd9b0b`, detected the newer published worker and displayed **Update game**. At a 1280×720 viewport, the button extended from y=699.67 to y=741.67, leaving its bottom outside the screen. It appeared only in the offline status section below the arena. Phone/fullscreen gameplay explicitly hides that entire section through `.game-focus .offline-bar { display:none }`. Settings and the pause menu had no update information.
++
++Automatic checks also depended on startup, reconnect or a visibility change. An app left open and visible had no periodic check; there was no manual **Check for updates** control. A recent foreground check could be skipped by the one-minute throttle.
++
++This reproduces two genuine gaps: discoverability and checks during a long-lived session. It does not establish the service-worker state of Wesley's separate Android installation.
++
++## Corrections
++
++- An available update produces a sticky notice **above the arena on the start screen**, with an immediately usable Update game button. It stays visible while scrolling.
++- **Settings → Game updates** always offers Check for updates, with checking, current, downloading, available and failed-check feedback. Its update control shares the same activation safeguards as the original button.
++- The pause menu announces a downloaded update and directs the player to the start screen.
++- Visible, connected pages check every minute, and focus/reconnect/foreground events check as appropriate. Automatic network checks remain throttled; explicit manual checks bypass the throttle. Hidden pages skip automatic checks.
++- Returning to the start screen rechecks pending state and performs an update check when due. Updates still require the player's action and cannot interrupt an active run.
++
++## When no update button is expected
++
++The button appears when an older open page has a newer downloaded release available. If every game window is closed, the browser may activate a downloaded worker before the next page starts. That next launch is already current and needs no update action. This is normal service-worker lifecycle behavior; installation does not guarantee that a button will appear for every release. See [the service-worker lifecycle](https://web.dev/articles/service-worker-lifecycle).
++
++The new placement becomes available after the older client loads this correction. A client still showing the old interface can use the original button by returning to the start screen and scrolling below the arena. After that update, future notices appear above the game and controls are also available in Settings.
++
++## Verification and release status
++
++Four new regression tests initially failed for missing periodic checks, missing synchronized notices, and missing manual-check controls. They pass after correction. An existing timing test was adjusted to let a simulated in-flight check finish before advancing its clock by another minute; concurrent checks are intentionally deduplicated.
++
++The complete suite passes **130 tests across 13 files**. A fifth new regression ensures a failed update download cannot be reported as “up to date.” Browser automatic detection, phone/desktop placement, update application and publication results are recorded in [the dated audit](audit/2026-10-15-update-visibility.md). Before-state screenshot: [clipped live control](audit/2026-10-15-update-before.png). This investigation does not claim physical Android installation testing.
+diff --git a/public/app.js b/public/app.js
+index bb4a8fe..df92a59 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -14 +14 @@ import {offlineStore,ScoreOutbox} from './offline.js?v=2';
+-import {setupOfflinePlay} from './pwa.js?v=3';
++import {setupOfflinePlay} from './pwa.js?v=4';
+diff --git a/public/index.html b/public/index.html
+index 7164cef..60dcab9 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -4 +4 @@
+- <meta name="prism-release" content="5408c3b2c91090457ef8">
++ <meta name="prism-release" content="db427e1e556915bdbc21">
+@@ -16 +16 @@
+- <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=24">
++ <link rel="preload" href="/assets/display.woff2" as="font" type="font/woff2" crossorigin><link rel="icon" href="/favicon.ico?v=2" sizes="16x16 32x32 48x48"><link rel="icon" href="/assets/favicon-32.png?v=2" type="image/png" sizes="32x32"><link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180"><link rel="stylesheet" href="/style.css?v=25">
+@@ -18 +18 @@
+- <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=29"></script>
++ <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=30"></script>
+@@ -25,0 +26 @@
++  <section id="update-notice" class="update-notice" hidden aria-labelledby="update-notice-title"><div><strong id="update-notice-title">A game update is ready</strong><p>Get the latest improvements before your next run.</p></div><button id="notice-update" data-pwa-update class="button primary">Update game</button></section>
+@@ -60,2 +61,2 @@
+- <dialog id="pause-dialog"><button class="close icon-button" data-close aria-label="Close pause menu"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Take a breather.</h2><p id="pause-description">Your adventure is saved.</p><button id="unpause" class="button primary">Back to the game →</button><button id="pause-settings" class="button secondary">Settings</button><button id="pause-fullscreen" class="button secondary">Enter fullscreen</button><button id="quit" class="button secondary">Back to start screen</button></dialog>
+- <dialog id="settings-dialog"><button class="close icon-button" data-close aria-label="Close settings"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Your kind of arcade.</h2><label class="setting">Interface theme<select id="interface-theme" aria-label="Interface theme"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label><label class="setting"><span>Classic mode<small id="classic-mode-description">Original bricks and paddle</small></span><input id="classic-mode" type="checkbox" aria-label="Classic mode" aria-describedby="classic-mode-description"></label><label class="setting">Music <input id="music-volume" type="range" min="0" max="100" value="35"></label><label class="setting">Sound effects <input id="effects-volume" type="range" min="0" max="100" value="70"></label><label class="setting">Reduced motion <input id="reduced-motion" type="checkbox"></label><label class="setting">Fewer visual effects <input id="low-effects" type="checkbox"></label><p id="music-credit" class="music-credit"></p><p class="small">The arena keeps each world’s colors. Your preferences are saved.</p><button class="button primary" data-close>All set →</button></dialog>
++ <dialog id="pause-dialog"><button class="close icon-button" data-close aria-label="Close pause menu"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Take a breather.</h2><p id="pause-description">Your adventure is saved.</p><p id="pause-update-notice" class="small" hidden>An update is ready. Return to the start screen to apply it.</p><button id="unpause" class="button primary">Back to the game →</button><button id="pause-settings" class="button secondary">Settings</button><button id="pause-fullscreen" class="button secondary">Enter fullscreen</button><button id="quit" class="button secondary">Back to start screen</button></dialog>
++ <dialog id="settings-dialog"><button class="close icon-button" data-close aria-label="Close settings"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Your kind of arcade.</h2><label class="setting">Interface theme<select id="interface-theme" aria-label="Interface theme"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label><label class="setting"><span>Classic mode<small id="classic-mode-description">Original bricks and paddle</small></span><input id="classic-mode" type="checkbox" aria-label="Classic mode" aria-describedby="classic-mode-description"></label><label class="setting">Music <input id="music-volume" type="range" min="0" max="100" value="35"></label><label class="setting">Sound effects <input id="effects-volume" type="range" min="0" max="100" value="70"></label><label class="setting">Reduced motion <input id="reduced-motion" type="checkbox"></label><label class="setting">Fewer visual effects <input id="low-effects" type="checkbox"></label><p id="music-credit" class="music-credit"></p><p class="small">The arena keeps each world’s colors. Your preferences are saved.</p><section class="settings-updates" aria-labelledby="settings-updates-title"><h3 id="settings-updates-title">Game updates</h3><p id="settings-update-status" class="small" role="status">Updates are checked automatically while the game is open.</p><div class="offline-actions"><button id="check-updates" class="button secondary">Check for updates</button><button id="settings-update" data-pwa-update class="button primary" hidden>Update game</button></div></section><button class="button primary" data-close>All set →</button></dialog>
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index 47a6f24..30f0b72 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -2 +2 @@
+-export const PWA_RELEASE = "5408c3b2c91090457ef8";
++export const PWA_RELEASE = "db427e1e556915bdbc21";
+diff --git a/public/pwa.js b/public/pwa.js
+index 30d0e50..f982a07 100644
+--- a/public/pwa.js
++++ b/public/pwa.js
+@@ -9 +9,2 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0,installed=false;
++ const updateButtons=[update,...document.querySelectorAll('[data-pwa-update]')],notice=document.querySelector('#update-notice'),pauseNotice=document.querySelector('#pause-update-notice'),checkButton=document.querySelector('#check-updates'),checkStatus=document.querySelector('#settings-update-status');
++ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0,installed=false,checking=false,checked=false,checkError='',checkRequest=null;
+@@ -13 +14,6 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+-  if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
++  for(const button of updateButtons){button.hidden=!newVersion||!!unavailable;button.disabled=applying||!isSafeToUpdate();button.textContent=isSafeToUpdate()?'Update game':'Update after this run';}
++  if(notice)notice.hidden=!newVersion||!isSafeToUpdate()||!!unavailable;
++  if(pauseNotice)pauseNotice.hidden=!newVersion||!!unavailable;
++  if(checkButton){checkButton.disabled=checking||applying||!!unavailable;checkButton.textContent=checking?'Checking…':'Check for updates';}
++  if(checkStatus)checkStatus.textContent=unavailable?'Update checks are unavailable in this preview or browser.':applying?'Applying the update…':checking?'Checking for updates…':newVersion?(isSafeToUpdate()?'An update is ready to install.':'An update is ready. Return to the start screen to apply it.'):checkError||(failed?'The game download could not finish. Reconnect and check again.':['installing','installed'].includes(registration?.installing?.state)?'Downloading the update…':checked?'You’re up to date.':'Updates are checked automatically while the game is open.');
++  if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;retry.hidden=true;return;}
+@@ -17 +22,0 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+-  update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
+@@ -62 +67 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- update.onclick=async()=>{
++ const applyUpdate=async()=>{
+@@ -73,0 +79 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
++ for(const button of updateButtons)button.onclick=applyUpdate;
+@@ -77,2 +83,15 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- const check=()=>{if(document.hidden)return;render();if(registration){inspect();if(navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}}};
+- window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
++ async function checkForUpdates(){
++  if(checkRequest)return checkRequest;
++  if(unavailable)return;
++  checking=true;checkError='';render();
++  const request=(async()=>{
++   try{if(!registration)await startup;if(!registration)throw Error('Registration unavailable');lastCheck=Date.now();await registration.update();checked=true;await inspect();}
++   catch{checkError='Could not check for updates. Reconnect and try again.';}
++   finally{checking=false;render();}
++  })();
++  checkRequest=request;try{await request;}finally{if(checkRequest===request)checkRequest=null;}
++ }
++ if(checkButton)checkButton.onclick=checkForUpdates;
++ const check=()=>{if(document.hidden)return;render();if(registration){inspect();if(navigator.onLine&&Date.now()-lastCheck>=60000)checkForUpdates();}};
++ window.addEventListener('online',check);window.addEventListener('focus',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
++ setInterval(check,60000);
+@@ -80 +99 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+- render();start();return {refresh:render};
++ render();const startup=start();return {refresh:()=>{render();if(isSafeToUpdate())check();},checkForUpdates};
+diff --git a/public/style.css b/public/style.css
+index b95d81f..8de8c49 100644
+--- a/public/style.css
++++ b/public/style.css
+@@ -128,0 +129,2 @@ body>div[style*="position: fixed"]:has(a[href^="https://pagelove.com"]){position
++.update-notice{position:sticky;top:8px;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:16px;padding:12px 16px;border:1px solid var(--line);border-radius:10px;background:var(--panel);box-shadow:0 6px 20px #0002}.update-notice strong{font-size:15px}.update-notice p{margin:4px 0 0;font-size:12px;line-height:1.5;color:var(--muted)}.update-notice .button{flex-shrink:0;justify-content:center}.settings-updates{padding:16px 0;margin-top:12px;border-top:1px solid var(--line)}.settings-updates h3{margin:0;font-size:16px}.settings-updates .offline-actions{flex-wrap:wrap}.settings-updates .offline-actions .button{width:auto}.settings-updates p{line-height:1.5}
++@media(max-width:450px){.update-notice{gap:10px;padding:12px}.update-notice strong{font-size:14px}.update-notice p{font-size:11px}.update-notice .button{padding:12px;font-size:12px}}
+diff --git a/public/sw.js b/public/sw.js
+index 4630a0c..8019e48 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -2 +2 @@
+-const VERSION = "5408c3b2c91090457ef8";
++const VERSION = "db427e1e556915bdbc21";
+@@ -6 +6 @@ const PRECACHE = [
+-    "sha256": "b014af7a9ba4463cf3d1c0431b0f43f3411c42c7d49621d30984c2824ba45389",
++    "sha256": "d710f4442716390781e5ad8222af95b5ede22f2babcab42a18a2341277bf38b2",
+@@ -246,2 +246,2 @@ const PRECACHE = [
+-    "sha256": "dae70a2ff43a65852b1c026b1b73434762c72e4f5952b38eafcf22c7d84dd436",
+-    "bytes": 23279
++    "sha256": "6f5663b47050fc32fb29c74b70e47309a0e874e51c03dc167a3f6db7d797f58c",
++    "bytes": 24178
+@@ -286 +286 @@ const PRECACHE = [
+-    "sha256": "0a5a3e23cb254d8bc2a2dce378fd7e21c6c1a6d82ecf31dfa5b6c0611732b000",
++    "sha256": "f885417837bf9c52fb3e45815101ece86139d7fca22b1d8fd872b9c842219552",
+@@ -291,2 +291,2 @@ const PRECACHE = [
+-    "sha256": "4679e6a716a2618f0f71cd7060d5d8160d55183787ae7e7d3f030119e0a48c8a",
+-    "bytes": 6953
++    "sha256": "cfab105c2c783420e38c376caad3a0ea5c78392eda73c85fd201aca0cc0af386",
++    "bytes": 8986
+@@ -306,2 +306,2 @@ const PRECACHE = [
+-    "sha256": "6f1ebabf79ef00abfe5956a5fa0556afb06c32885c8b0175f41150ea0ed4cfda",
+-    "bytes": 36763
++    "sha256": "354566f0b801cc2be00a8eb4589414c600f21b4287b34c8f40e3c904317f557a",
++    "bytes": 37648
+diff --git a/tests/pwa-client.test.mjs b/tests/pwa-client.test.mjs
+index 6cd6765..ee934b8 100644
+--- a/tests/pwa-client.test.mjs
++++ b/tests/pwa-client.test.mjs
+@@ -9,2 +9,2 @@ function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaa
+- const elements=new Map(['offline-status','offline-detail','install-game','update-game','retry-download'].map(id=>['#'+id,{hidden:false,disabled:false,textContent:''}]));
+- const timers=new Map();let tid=0,now=100000,reloads=0,skips=0,checks=0;
++ const elements=new Map(['offline-status','offline-detail','install-game','update-game','retry-download','update-notice','pause-update-notice','settings-update-status','check-updates','notice-update','settings-update'].map(id=>['#'+id,{hidden:false,disabled:false,textContent:''}]));
++ const timers=new Map(),intervals=new Map();let tid=0,now=100000,reloads=0,skips=0,checks=0;
+@@ -16 +16 @@ function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaa
+- const document=emitter({hidden:false,querySelector:s=>s==='meta[name="prism-release"]'?{content:pageVersion}:elements.get(s)}),window=emitter();
++ const document=emitter({hidden:false,querySelectorAll:s=>s==='[data-pwa-update]'?[elements.get('#notice-update'),elements.get('#settings-update')]:[],querySelector:s=>s==='meta[name="prism-release"]'?{content:pageVersion}:elements.get(s)}),window=emitter();
+@@ -19 +19 @@ function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaa
+- const context=vm.createContext({navigator,document,window,location,isSecureContext:true,matchMedia:()=>({matches:false}),MessageChannel:Channel,Date:{now:()=>now},setTimeout:(fn,ms)=>{const id=++tid;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)});
++ const context=vm.createContext({navigator,document,window,location,isSecureContext:true,matchMedia:()=>({matches:false}),MessageChannel:Channel,Date:{now:()=>now},setInterval:(fn,ms)=>{const id=++tid;intervals.set(id,{fn,ms});return id;},setTimeout:(fn,ms)=>{const id=++tid;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)});
+@@ -23 +23 @@ function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaa
+-  get reloads(){return reloads;},get skips(){return skips;},get checks(){return checks;},safe(value){safe=value;api.refresh();},advance(ms){now+=ms;},timeout(ms){for(const [id,timer]of [...timers])if(timer.ms===ms){timers.delete(id);timer.fn();}},activate(){version='bbbbbbbbbbbbbbbbbbbb';registration.waiting=null;sw.controller=next;next.postMessage=(message,ports)=>ports?.[0].postMessage({version,ready});sw.emit('controllerchange');}};
++  get reloads(){return reloads;},get skips(){return skips;},get checks(){return checks;},safe(value){safe=value;api.refresh();},advance(ms){now+=ms;},interval(ms){for(const timer of intervals.values())if(timer.ms===ms)timer.fn();},timeout(ms){for(const [id,timer]of [...timers])if(timer.ms===ms){timers.delete(id);timer.fn();}},activate(){version='bbbbbbbbbbbbbbbbbbbb';registration.waiting=null;sw.controller=next;next.postMessage=(message,ports)=>ports?.[0].postMessage({version,ready});sw.emit('controllerchange');}};
+@@ -55 +55 @@ test('foreground and reconnect checks are throttled; offline and hidden tabs do
+- f.document.hidden=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.window.emit('online');assert.equal(f.checks,1);f.advance(60001);f.navigator.onLine=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.navigator.onLine=true;f.window.emit('online');assert.equal(f.checks,2);
++ f.document.hidden=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.window.emit('online');assert.equal(f.checks,1);await flush();f.advance(60001);f.navigator.onLine=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.navigator.onLine=true;f.window.emit('online');assert.equal(f.checks,2);
+@@ -115,0 +116,31 @@ test('Retry download explicitly attempts cache repair despite a false connectivi
++
++test('visible long-running pages check periodically; hidden and offline tabs skip automatic checks',async()=>{
++ const f=fixture({waiting:false});await flush();f.advance(60000);f.interval(60000);await flush();assert.equal(f.checks,1);
++ f.document.hidden=true;f.advance(60000);f.interval(60000);await flush();assert.equal(f.checks,1);
++ f.document.hidden=false;f.navigator.onLine=false;f.interval(60000);await flush();assert.equal(f.checks,1);
++ f.navigator.onLine=true;f.window.emit('focus');await flush();assert.equal(f.checks,2);
++});
++
++test('start notice and Settings expose a waiting update while active play stays protected',async()=>{
++ const f=fixture();await flush();const notice=f.elements.get('#update-notice'),button=f.elements.get('#notice-update'),settings=f.elements.get('#settings-update');
++ assert.equal(notice.hidden,false);assert.equal(button.hidden,false);assert.equal(settings.hidden,false);
++ f.safe(false);assert.equal(notice.hidden,true);assert.equal(settings.disabled,true);assert.equal(f.elements.get('#pause-update-notice').hidden,false);
++ await settings.onclick();assert.equal(f.skips,0);f.safe(true);await button.onclick();assert.equal(f.skips,1);assert.equal(settings.disabled,true);
++});
++
++test('manual check bypasses throttle, reports current version and exposes a newly waiting release',async()=>{
++ const f=fixture({waiting:false});await flush();const button=f.elements.get('#check-updates'),status=f.elements.get('#settings-update-status');
++ await button.onclick();assert.equal(f.checks,1);assert.match(status.textContent,/up to date/i);
++ f.registration.update=async()=>{f.registration.waiting=f.next;};await button.onclick();assert.equal(f.elements.get('#update-notice').hidden,false);assert.match(status.textContent,/update.*ready/i);
++});
++
++test('failed manual checks give an actionable result while an existing update remains usable',async()=>{
++ const f=fixture({waiting:false});await flush();f.registration.update=async()=>{throw Error('Network blocked');};
++ await f.elements.get('#check-updates').onclick();assert.match(f.elements.get('#settings-update-status').textContent,/could not check/i);assert.equal(f.elements.get('#check-updates').disabled,false);
++});
++
++test('a failed update download never reports the game as up to date',async()=>{
++ const f=fixture({waiting:false});await flush();await f.elements.get('#check-updates').onclick();
++ f.registration.installing=f.next;f.registration.emit('updatefound');f.next.state='redundant';f.next.emit('statechange');
++ assert.match(f.elements.get('#settings-update-status').textContent,/could not finish/i);
++});

@@ -6,15 +6,20 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
  const marker=document.querySelector('meta[name="prism-release"]')?.content;
  const pageRelease=/^[a-f0-9]{20}$/.test(marker||'')?marker:PWA_RELEASE;
  const status=document.querySelector('#offline-status'),detail=document.querySelector('#offline-detail'),install=document.querySelector('#install-game'),update=document.querySelector('#update-game'),retry=document.querySelector('#retry-download');
- let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0,installed=false;
+ const updateButtons=[update,...document.querySelectorAll('[data-pwa-update]')],notice=document.querySelector('#update-notice'),pauseNotice=document.querySelector('#pause-update-notice'),checkButton=document.querySelector('#check-updates'),checkStatus=document.querySelector('#settings-update-status');
+ let registration,prompt,ready=false,failed=false,applying=false,newVersion=false,lastCheck=0,unavailable='',repairing=null,updateError='',activationTimer=null,reloadReady=false,reloading=false,inspection=0,installed=false,checking=false,checked=false,checkError='',checkRequest=null;
  const standalone=()=>matchMedia('(display-mode: standalone)').matches||matchMedia('(display-mode: fullscreen)').matches||navigator.standalone===true;
  function render(){
   if(applying&&reloadReady&&isSafeToUpdate()&&!reloading){reloading=true;location.reload();}
-  if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;update.hidden=true;retry.hidden=true;return;}
+  for(const button of updateButtons){button.hidden=!newVersion||!!unavailable;button.disabled=applying||!isSafeToUpdate();button.textContent=isSafeToUpdate()?'Update game':'Update after this run';}
+  if(notice)notice.hidden=!newVersion||!isSafeToUpdate()||!!unavailable;
+  if(pauseNotice)pauseNotice.hidden=!newVersion||!!unavailable;
+  if(checkButton){checkButton.disabled=checking||applying||!!unavailable;checkButton.textContent=checking?'Checking…':'Check for updates';}
+  if(checkStatus)checkStatus.textContent=unavailable?'Update checks are unavailable in this preview or browser.':applying?'Applying the update…':checking?'Checking for updates…':newVersion?(isSafeToUpdate()?'An update is ready to install.':'An update is ready. Return to the start screen to apply it.'):checkError||(failed?'The game download could not finish. Reconnect and check again.':['installing','installed'].includes(registration?.installing?.state)?'Downloading the update…':checked?'You’re up to date.':'Updates are checked automatically while the game is open.');
+  if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;retry.hidden=true;return;}
   install.hidden=installed||standalone();
   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
   detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All sixteen worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
-  update.hidden=!newVersion;update.disabled=applying||!isSafeToUpdate();update.textContent=isSafeToUpdate()?'Update game':'Update after this run';
   retry.hidden=!failed;retry.disabled=applying;
  }
  function requestStatus(worker,message={type:'GET_STATUS'}){return new Promise((resolve,reject)=>{
@@ -59,7 +64,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   // A denied persistence request is harmless; normal browser storage still works.
   navigator.storage?.persist?.().catch(()=>{});
  };
- update.onclick=async()=>{
+ const applyUpdate=async()=>{
   if(!newVersion||unavailable||!isSafeToUpdate()||applying)return;
   applying=true;updateError='';reloadReady=false;render();
   const failedActivation=()=>{clearTimeout(activationTimer);activationTimer=null;applying=false;reloadReady=false;updateError='The update could not finish. Try Update game again.';render();};
@@ -71,11 +76,25 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
    else{reloadReady=true;render();}
   }catch{failedActivation();}
  };
+ for(const button of updateButtons)button.onclick=applyUpdate;
  retry.onclick=async()=>{failed=false;render();if(!registration)return start(true);try{await registration.update();await inspect({forceRepair:true});}catch{failed=true;render();}};
  navigator.serviceWorker?.addEventListener('message',event=>{if(event.data?.type==='PWA_VERSION_REQUEST')event.ports[0]?.postMessage({version:pageRelease});});
  navigator.serviceWorker?.addEventListener('controllerchange',()=>{++inspection;if(applying){clearTimeout(activationTimer);activationTimer=null;reloadReady=true;render();}else inspect();});
- const check=()=>{if(document.hidden)return;render();if(registration){inspect();if(navigator.onLine&&Date.now()-lastCheck>60000){lastCheck=Date.now();registration.update().catch(()=>{});}}};
- window.addEventListener('online',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+ async function checkForUpdates(){
+  if(checkRequest)return checkRequest;
+  if(unavailable)return;
+  checking=true;checkError='';render();
+  const request=(async()=>{
+   try{if(!registration)await startup;if(!registration)throw Error('Registration unavailable');lastCheck=Date.now();await registration.update();checked=true;await inspect();}
+   catch{checkError='Could not check for updates. Reconnect and try again.';}
+   finally{checking=false;render();}
+  })();
+  checkRequest=request;try{await request;}finally{if(checkRequest===request)checkRequest=null;}
+ }
+ if(checkButton)checkButton.onclick=checkForUpdates;
+ const check=()=>{if(document.hidden)return;render();if(registration){inspect();if(navigator.onLine&&Date.now()-lastCheck>=60000)checkForUpdates();}};
+ window.addEventListener('online',check);window.addEventListener('focus',check);window.addEventListener('offline',render);document.addEventListener('visibilitychange',()=>{if(!document.hidden)check();});
+ setInterval(check,60000);
  document.addEventListener('fullscreenchange',render);
- render();start();return {refresh:render};
+ render();const startup=start();return {refresh:()=>{render();if(isSafeToUpdate())check();},checkForUpdates};
 }

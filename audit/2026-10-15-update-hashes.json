@@ -1,0 +1,83 @@
+{
+  "at": "2026-10-15T01:23:19.305Z",
+  "baseCommit": "aea82e2a7ea82ffc75a35bcbaf34d8376c683f3e",
+  "release": "db427e1e556915bdbc21",
+  "files": [
+    {
+      "file": "README.md",
+      "sha256": "f52463b48eed167b5a6c94c25e0a48f61789192ad13ece4920bd3a0ec4c07420",
+      "mirrorEqual": true
+    },
+    {
+      "file": "UPDATE-VISIBILITY-INVESTIGATION.md",
+      "sha256": "01ac15e2dbab28b2af9900e5ef54f6401d838ae2e79ecfc8bb0d92aede775e59",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-update-before.png",
+      "sha256": "cc06f498ec587e58e38e2f688df8fbd7e28a9a4035e73e3548030b910a3735f5",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-update-browser.json",
+      "sha256": "6de9d43c5ed1182fdd27b6b0d72161dd6179548e7908bb75e56feca7cd2d3709",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-update-phone.png",
+      "sha256": "8046d9c080e7fac4b2d4a2c22b864c2bbccd9be4da8b2fed5c84e4ca4e660c7a",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-update-tests.txt",
+      "sha256": "6a45a1b25111f21d8f7fc000d464dcc4ac7d85602e6eda753bd07a7775ca829a",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-update-visibility.md",
+      "sha256": "36a5db2b611f05148ea896d8620fb82764f2488a4b82fcfea37159663fbbe2c8",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/app.js",
+      "sha256": "d710f4442716390781e5ad8222af95b5ede22f2babcab42a18a2341277bf38b2",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/index.html",
+      "sha256": "6f5663b47050fc32fb29c74b70e47309a0e874e51c03dc167a3f6db7d797f58c",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/pwa-release.js",
+      "sha256": "f885417837bf9c52fb3e45815101ece86139d7fca22b1d8fd872b9c842219552",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/pwa.js",
+      "sha256": "cfab105c2c783420e38c376caad3a0ea5c78392eda73c85fd201aca0cc0af386",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/style.css",
+      "sha256": "354566f0b801cc2be00a8eb4589414c600f21b4287b34c8f40e3c904317f557a",
+      "mirrorEqual": true
+    },
+    {
+      "file": "public/sw.js",
+      "sha256": "05bd672a7866d114bfeb8554791ce5d03318a4b75d860fc0942c223913b47a8a",
+      "mirrorEqual": true
+    },
+    {
+      "file": "tests/pwa-client.test.mjs",
+      "sha256": "b8e05bcb2ef7743b3e41cc224bf849bdb158483cf41afddfe180124f592f29e7",
+      "mirrorEqual": true
+    },
+    {
+      "file": "audit/2026-10-15-update-changes.patch",
+      "sha256": "62171c2838104437441d573d2a84dac62b0305538312722d356b0e3bb84dbe66",
+      "mirrorEqual": true
+    }
+  ],
+  "note": "Working bytes before Git normalization; excludes this receipt itself."
+}

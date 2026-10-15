@@ -6,21 +6,21 @@ const source=(await fs.readFile(new URL('../public/pwa.js',import.meta.url),'utf
 const flush=async()=>{for(let i=0;i<20;i++)await Promise.resolve();};
 function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type,event){for(const fn of handlers.get(type)||[])fn(event);}});}
 function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',pageVersion,ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){
- const elements=new Map(['offline-status','offline-detail','install-game','update-game','retry-download'].map(id=>['#'+id,{hidden:false,disabled:false,textContent:''}]));
- const timers=new Map();let tid=0,now=100000,reloads=0,skips=0,checks=0;
+ const elements=new Map(['offline-status','offline-detail','install-game','update-game','retry-download','update-notice','pause-update-notice','settings-update-status','check-updates','notice-update','settings-update'].map(id=>['#'+id,{hidden:false,disabled:false,textContent:''}]));
+ const timers=new Map(),intervals=new Map();let tid=0,now=100000,reloads=0,skips=0,checks=0;
  const active=emitter({state:'activated',postMessage(message,ports){ports?.[0].postMessage({version,ready});}});
  const next=emitter({state:'installed',postMessage(message){if(throwSkip)throw Error('worker disappeared');if(message.type==='SKIP_WAITING')skips++;}});
  const registration=emitter({active,waiting:waiting?next:null,installing:null,update:async()=>{checks++;}});
  const sw=emitter({controller:active,register:async()=>{if(failRegister)throw Error('offline');return registration;}});
  const navigator={onLine:online,...(unsupported?{}:{serviceWorker:sw})};
- const document=emitter({hidden:false,querySelector:s=>s==='meta[name="prism-release"]'?{content:pageVersion}:elements.get(s)}),window=emitter();
+ const document=emitter({hidden:false,querySelectorAll:s=>s==='[data-pwa-update]'?[elements.get('#notice-update'),elements.get('#settings-update')]:[],querySelector:s=>s==='meta[name="prism-release"]'?{content:pageVersion}:elements.get(s)}),window=emitter();
  const location={pathname:'/',reload(){reloads++;}};
  class Channel{constructor(){this.port1={close(){},onmessage:null};this.port2={postMessage:data=>this.port1.onmessage?.({data})};}}
- const context=vm.createContext({navigator,document,window,location,isSecureContext:true,matchMedia:()=>({matches:false}),MessageChannel:Channel,Date:{now:()=>now},setTimeout:(fn,ms)=>{const id=++tid;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)});
+ const context=vm.createContext({navigator,document,window,location,isSecureContext:true,matchMedia:()=>({matches:false}),MessageChannel:Channel,Date:{now:()=>now},setInterval:(fn,ms)=>{const id=++tid;intervals.set(id,{fn,ms});return id;},setTimeout:(fn,ms)=>{const id=++tid;timers.set(id,{fn,ms});return id;},clearTimeout:id=>timers.delete(id)});
  vm.runInContext(source+'\nglobalThis.setup=setupOfflinePlay;',context);
  const api=context.setup({isSafeToUpdate:()=>safe,openHelp(){},beforeUpdate});
  return {api,sw,registration,next,navigator,document,window,elements,button:elements.get('#update-game'),detail:elements.get('#offline-detail'),retry:elements.get('#retry-download'),status:elements.get('#offline-status'),
-  get reloads(){return reloads;},get skips(){return skips;},get checks(){return checks;},safe(value){safe=value;api.refresh();},advance(ms){now+=ms;},timeout(ms){for(const [id,timer]of [...timers])if(timer.ms===ms){timers.delete(id);timer.fn();}},activate(){version='bbbbbbbbbbbbbbbbbbbb';registration.waiting=null;sw.controller=next;next.postMessage=(message,ports)=>ports?.[0].postMessage({version,ready});sw.emit('controllerchange');}};
+  get reloads(){return reloads;},get skips(){return skips;},get checks(){return checks;},safe(value){safe=value;api.refresh();},advance(ms){now+=ms;},interval(ms){for(const timer of intervals.values())if(timer.ms===ms)timer.fn();},timeout(ms){for(const [id,timer]of [...timers])if(timer.ms===ms){timers.delete(id);timer.fn();}},activate(){version='bbbbbbbbbbbbbbbbbbbb';registration.waiting=null;sw.controller=next;next.postMessage=(message,ports)=>ports?.[0].postMessage({version,ready});sw.emit('controllerchange');}};
 }
 test('a waiting complete release is offered; one click activates then reloads once',async()=>{
  const f=fixture();await flush();assert.equal(f.button.hidden,false);assert.equal(f.button.disabled,false);
@@ -52,7 +52,7 @@ test('no update or unsupported browser cannot trigger an accidental reload',asyn
 });
 test('foreground and reconnect checks are throttled; offline and hidden tabs do not check',async()=>{
  const f=fixture({waiting:false});await flush();f.window.emit('online');assert.equal(f.checks,0);f.advance(60001);f.document.hidden=true;f.document.emit('visibilitychange');assert.equal(f.checks,0);
- f.document.hidden=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.window.emit('online');assert.equal(f.checks,1);f.advance(60001);f.navigator.onLine=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.navigator.onLine=true;f.window.emit('online');assert.equal(f.checks,2);
+ f.document.hidden=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.window.emit('online');assert.equal(f.checks,1);await flush();f.advance(60001);f.navigator.onLine=false;f.document.emit('visibilitychange');assert.equal(f.checks,1);f.navigator.onLine=true;f.window.emit('online');assert.equal(f.checks,2);
 });
 test('a failed install is retryable while the current release stays ready',async()=>{
  const f=fixture({waiting:false});await flush();f.registration.installing=f.next;f.registration.emit('updatefound');f.next.state='redundant';f.next.emit('statechange');assert.equal(f.retry.hidden,false);assert.match(f.status.textContent,/Ready to play offline/);await f.retry.onclick();assert.equal(f.checks,1);
@@ -112,4 +112,35 @@ test('Retry download explicitly attempts cache repair despite a false connectivi
  const f=fixture({waiting:false,online:false,ready:false});await flush();let repairs=0;
  f.sw.controller.postMessage=(message,ports)=>{if(message.type==='REPAIR_CACHE')repairs++;ports[0].postMessage({version:'aaaaaaaaaaaaaaaaaaaa',ready:message.type==='REPAIR_CACHE'});};
  await f.retry.onclick();assert.equal(repairs,1);assert.match(f.status.textContent,/ready to play/);
+});
+
+test('visible long-running pages check periodically; hidden and offline tabs skip automatic checks',async()=>{
+ const f=fixture({waiting:false});await flush();f.advance(60000);f.interval(60000);await flush();assert.equal(f.checks,1);
+ f.document.hidden=true;f.advance(60000);f.interval(60000);await flush();assert.equal(f.checks,1);
+ f.document.hidden=false;f.navigator.onLine=false;f.interval(60000);await flush();assert.equal(f.checks,1);
+ f.navigator.onLine=true;f.window.emit('focus');await flush();assert.equal(f.checks,2);
+});
+
+test('start notice and Settings expose a waiting update while active play stays protected',async()=>{
+ const f=fixture();await flush();const notice=f.elements.get('#update-notice'),button=f.elements.get('#notice-update'),settings=f.elements.get('#settings-update');
+ assert.equal(notice.hidden,false);assert.equal(button.hidden,false);assert.equal(settings.hidden,false);
+ f.safe(false);assert.equal(notice.hidden,true);assert.equal(settings.disabled,true);assert.equal(f.elements.get('#pause-update-notice').hidden,false);
+ await settings.onclick();assert.equal(f.skips,0);f.safe(true);await button.onclick();assert.equal(f.skips,1);assert.equal(settings.disabled,true);
+});
+
+test('manual check bypasses throttle, reports current version and exposes a newly waiting release',async()=>{
+ const f=fixture({waiting:false});await flush();const button=f.elements.get('#check-updates'),status=f.elements.get('#settings-update-status');
+ await button.onclick();assert.equal(f.checks,1);assert.match(status.textContent,/up to date/i);
+ f.registration.update=async()=>{f.registration.waiting=f.next;};await button.onclick();assert.equal(f.elements.get('#update-notice').hidden,false);assert.match(status.textContent,/update.*ready/i);
+});
+
+test('failed manual checks give an actionable result while an existing update remains usable',async()=>{
+ const f=fixture({waiting:false});await flush();f.registration.update=async()=>{throw Error('Network blocked');};
+ await f.elements.get('#check-updates').onclick();assert.match(f.elements.get('#settings-update-status').textContent,/could not check/i);assert.equal(f.elements.get('#check-updates').disabled,false);
+});
+
+test('a failed update download never reports the game as up to date',async()=>{
+ const f=fixture({waiting:false});await flush();await f.elements.get('#check-updates').onclick();
+ f.registration.installing=f.next;f.registration.emit('updatefound');f.next.state='redundant';f.next.emit('statechange');
+ assert.match(f.elements.get('#settings-update-status').textContent,/could not finish/i);
 });

@@ -11,7 +11,7 @@ import {TRACKS} from './music.js';
 import {CINEMATICS,cameraFrame} from './cinematic-score.js?v=3';
 import {utcDay,rankedScores as rankScores,scoreAge,scoreAgeBand,topFinish,activeScores,scoreExpiry,SCORE_LIFETIME} from './leaderboard.js?v=4';
 import {offlineStore,ScoreOutbox} from './offline.js?v=2';
-import {setupOfflinePlay} from './pwa.js?v=3';
+import {setupOfflinePlay} from './pwa.js?v=4';
 import {setupGameDisplay} from './display.js';
 import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js?v=3';
 import {CHAMPION_DURATION} from './cinematic-score.js?v=3';
