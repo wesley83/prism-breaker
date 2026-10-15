@@ -1,0 +1,31 @@
+{
+  "utc": "2026-10-15T00:18:31.418Z",
+  "checks": [
+    {
+      "path": "/manifest.webmanifest",
+      "status": 200,
+      "sha256": "92caa9e4535e7e42d29100f544c745d99c8c20040e9daf76802104ca432b2c31",
+      "matchesLocal": true,
+      "display": "fullscreen",
+      "start_url": "/?source=installed",
+      "scope": "/"
+    },
+    {
+      "path": "/display.js",
+      "status": 200,
+      "sha256": "5c5bf0ef94d9bd73530e3d0793659446c713973e2bbf121f39bf1da449528571",
+      "matchesLocal": true
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "sha256": "fa52fa1eccf8d98a4d072d3e86f24c5ddb8bf9d7cee27eaa3bc5ba8c73722f28",
+      "linksManifest": true
+    }
+  ],
+  "focusedTests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "physicalInstalledDeviceTested": false
+}
