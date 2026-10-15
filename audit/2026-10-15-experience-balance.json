@@ -1,0 +1,1272 @@
+{
+  "at": "2026-10-15T20:53:49.172Z",
+  "method": "Fixed 120 Hz deterministic follower bot; 3 natural lives, no refill; unique fixed run IDs; maximum 900 simulated seconds per world; every world starts independently. Not a human balance playtest.",
+  "worlds": [
+    {
+      "world": 1,
+      "name": "Prism Garden",
+      "formations": [
+        {
+          "bricks": 45,
+          "hits": 45,
+          "armor": 0,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 13.5,
+      "scene": "The garden awakens",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Glasswing",
+      "bpm": 106
+    },
+    {
+      "world": 2,
+      "name": "Cloud Carnival",
+      "formations": [
+        {
+          "bricks": 43,
+          "hits": 49,
+          "armor": 6,
+          "moving": 21,
+          "barriers": 0,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 14.1,
+      "scene": "A city above the clouds",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Cloud Waltz",
+      "bpm": 126
+    },
+    {
+      "world": 3,
+      "name": "Electric City",
+      "formations": [
+        {
+          "bricks": 42,
+          "hits": 49,
+          "armor": 7,
+          "moving": 0,
+          "barriers": 2,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 15.435,
+      "scene": "Power to the skyline",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Afterimage Avenue",
+      "bpm": 128
+    },
+    {
+      "world": 4,
+      "name": "Crystal Caverns",
+      "formations": [
+        {
+          "bricks": 50,
+          "hits": 57,
+          "armor": 7,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 16.065,
+      "scene": "The crystal cathedral",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Beneath the Glass",
+      "bpm": 84
+    },
+    {
+      "world": 5,
+      "name": "Ember Foundry",
+      "formations": [
+        {
+          "bricks": 45,
+          "hits": 50,
+          "armor": 5,
+          "moving": 0,
+          "barriers": 2,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 16.695,
+      "scene": "Fire becomes a star",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Molten Engine",
+      "bpm": 112
+    },
+    {
+      "world": 6,
+      "name": "Frost Observatory",
+      "formations": [
+        {
+          "bricks": 50,
+          "hits": 57,
+          "armor": 7,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 17.325,
+      "scene": "Beyond the lens",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Northern Lens",
+      "bpm": 72
+    },
+    {
+      "world": 7,
+      "name": "Cosmic Reef",
+      "formations": [
+        {
+          "bricks": 40,
+          "hits": 45,
+          "armor": 5,
+          "moving": 19,
+          "barriers": 0,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 17.1,
+      "scene": "The celestial migration",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Tidal Orbit",
+      "bpm": 96
+    },
+    {
+      "world": 8,
+      "name": "Prism Citadel",
+      "formations": [
+        {
+          "bricks": 34,
+          "hits": 37,
+          "armor": 3,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 0
+        },
+        {
+          "bricks": 36,
+          "hits": 41,
+          "armor": 5,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 0
+        },
+        {
+          "bricks": 42,
+          "hits": 88,
+          "armor": 23,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 17.7,
+      "scene": "A door beyond the prism",
+      "duration": 18,
+      "fullyVisibleSeconds": 5.759999999999999,
+      "track": "Heart of the Prism",
+      "bpm": 118
+    },
+    {
+      "world": 9,
+      "name": "Sunken Archive",
+      "formations": [
+        {
+          "bricks": 48,
+          "hits": 65,
+          "armor": 17,
+          "moving": 0,
+          "barriers": 2,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 18.3,
+      "scene": "The lost constellations",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Letters from the Deep",
+      "bpm": 86
+    },
+    {
+      "world": 10,
+      "name": "Aurora Passage",
+      "formations": [
+        {
+          "bricks": 46,
+          "hits": 61,
+          "armor": 15,
+          "moving": 24,
+          "barriers": 0,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 18.9,
+      "scene": "A bridge of living light",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Ribbon of the North",
+      "bpm": 102
+    },
+    {
+      "world": 11,
+      "name": "Clockwork Canopy",
+      "formations": [
+        {
+          "bricks": 51,
+          "hits": 68,
+          "armor": 17,
+          "moving": 0,
+          "barriers": 2,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 19.5,
+      "scene": "The forest keeps time",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Branches of Time",
+      "bpm": 116
+    },
+    {
+      "world": 12,
+      "name": "Mirage Dunes",
+      "formations": [
+        {
+          "bricks": 42,
+          "hits": 58,
+          "armor": 16,
+          "moving": 0,
+          "barriers": 0,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 20.1,
+      "scene": "A doorway in the desert",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Glass over Sand",
+      "bpm": 100
+    },
+    {
+      "world": 13,
+      "name": "Thunder Spire",
+      "formations": [
+        {
+          "bricks": 31,
+          "hits": 42,
+          "armor": 11,
+          "moving": 0,
+          "barriers": 2,
+          "portals": 0
+        }
+      ],
+      "startSpeed": 20.7,
+      "scene": "Stillness inside the storm",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Eye of the Storm",
+      "bpm": 134
+    },
+    {
+      "world": 14,
+      "name": "Lunar Harbor",
+      "formations": [
+        {
+          "bricks": 47,
+          "hits": 66,
+          "armor": 16,
+          "moving": 28,
+          "barriers": 0,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 21,
+      "scene": "The last departure",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "Departure from Selene",
+      "bpm": 78
+    },
+    {
+      "world": 15,
+      "name": "Event Horizon",
+      "formations": [
+        {
+          "bricks": 49,
+          "hits": 64,
+          "armor": 15,
+          "moving": 28,
+          "barriers": 1,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 21,
+      "scene": "Through the impossible",
+      "duration": 16.5,
+      "fullyVisibleSeconds": 5.279999999999999,
+      "track": "The Last Orbit",
+      "bpm": 124
+    },
+    {
+      "world": 16,
+      "name": "Dawn Nexus",
+      "formations": [
+        {
+          "bricks": 49,
+          "hits": 75,
+          "armor": 22,
+          "moving": 0,
+          "barriers": 2,
+          "portals": 0
+        },
+        {
+          "bricks": 51,
+          "hits": 71,
+          "armor": 17,
+          "moving": 28,
+          "barriers": 2,
+          "portals": 2
+        },
+        {
+          "bricks": 39,
+          "hits": 107,
+          "armor": 34,
+          "moving": 0,
+          "barriers": 3,
+          "portals": 2
+        }
+      ],
+      "startSpeed": 21,
+      "scene": "All the light returns",
+      "duration": 21,
+      "fullyVisibleSeconds": 6.719999999999999,
+      "track": "All the Light Returns",
+      "bpm": 122
+    }
+  ],
+  "runs": [
+    {
+      "seed": 8399,
+      "world": 1,
+      "state": "cleared",
+      "seconds": 120,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 44,
+      "score": 6500,
+      "bonuses": {
+        "speed": 800,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 2,
+      "state": "cleared",
+      "seconds": 97,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 32,
+      "score": 7880,
+      "bonuses": {
+        "speed": 1030,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 3,
+      "state": "cleared",
+      "seconds": 46,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 45,
+      "score": 7490,
+      "bonuses": {
+        "speed": 1540,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 4,
+      "state": "cleared",
+      "seconds": 88,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 36,
+      "score": 8020,
+      "bonuses": {
+        "speed": 1120,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 5,
+      "state": "cleared",
+      "seconds": 38,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 29,
+      "score": 8720,
+      "bonuses": {
+        "speed": 1620,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 6,
+      "state": "cleared",
+      "seconds": 95,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 43,
+      "score": 11100,
+      "bonuses": {
+        "speed": 1050,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 7,
+      "state": "cleared",
+      "seconds": 44,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 13,
+      "score": 7910,
+      "bonuses": {
+        "speed": 1560,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 8,
+      "state": "cleared",
+      "seconds": 263,
+      "phase": 3,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 8,
+      "contacts": 117,
+      "score": 18840,
+      "bonuses": {
+        "speed": 3390,
+        "pickups": 1200,
+        "clear": 2350
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 9,
+      "state": "cleared",
+      "seconds": 74,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 3,
+      "contacts": 31,
+      "score": 9770,
+      "bonuses": {
+        "speed": 1270,
+        "pickups": 450,
+        "clear": 1350
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 10,
+      "state": "cleared",
+      "seconds": 55,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 23,
+      "score": 10950,
+      "bonuses": {
+        "speed": 1450,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 11,
+      "state": "cleared",
+      "seconds": 34,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 2,
+      "contacts": 6,
+      "score": 14370,
+      "bonuses": {
+        "speed": 1670,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 12,
+      "state": "cleared",
+      "seconds": 65,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 48,
+      "score": 6900,
+      "bonuses": {
+        "speed": 1350,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 13,
+      "state": "cleared",
+      "seconds": 47,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 25,
+      "score": 6430,
+      "bonuses": {
+        "speed": 1530,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 14,
+      "state": "cleared",
+      "seconds": 90,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 48,
+      "score": 7450,
+      "bonuses": {
+        "speed": 1100,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 15,
+      "state": "cleared",
+      "seconds": 66,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 30,
+      "score": 9440,
+      "bonuses": {
+        "speed": 1340,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 8399,
+      "world": 16,
+      "state": "cleared",
+      "seconds": 268,
+      "phase": 3,
+      "remaining": 0,
+      "lives": 5,
+      "lost": 0,
+      "earned": 2,
+      "pickups": 7,
+      "contacts": 128,
+      "score": 22790,
+      "bonuses": {
+        "speed": 3340,
+        "pickups": 1050,
+        "clear": 2500
+      }
+    },
+    {
+      "seed": 114,
+      "world": 1,
+      "state": "cleared",
+      "seconds": 63,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 36,
+      "score": 8780,
+      "bonuses": {
+        "speed": 1380,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 2,
+      "state": "cleared",
+      "seconds": 87,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 30,
+      "score": 7830,
+      "bonuses": {
+        "speed": 1130,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 3,
+      "state": "cleared",
+      "seconds": 50,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 3,
+      "contacts": 41,
+      "score": 7650,
+      "bonuses": {
+        "speed": 1500,
+        "pickups": 450,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 4,
+      "state": "cleared",
+      "seconds": 57,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 3,
+      "contacts": 26,
+      "score": 8390,
+      "bonuses": {
+        "speed": 1440,
+        "pickups": 450,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 5,
+      "state": "cleared",
+      "seconds": 34,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 3,
+      "contacts": 13,
+      "score": 10610,
+      "bonuses": {
+        "speed": 1660,
+        "pickups": 450,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 6,
+      "state": "cleared",
+      "seconds": 82,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 30,
+      "score": 11790,
+      "bonuses": {
+        "speed": 1190,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 7,
+      "state": "cleared",
+      "seconds": 57,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 23,
+      "score": 10240,
+      "bonuses": {
+        "speed": 1440,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 8,
+      "state": "cleared",
+      "seconds": 264,
+      "phase": 3,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 7,
+      "contacts": 121,
+      "score": 18580,
+      "bonuses": {
+        "speed": 3380,
+        "pickups": 1050,
+        "clear": 2350
+      }
+    },
+    {
+      "seed": 114,
+      "world": 9,
+      "state": "cleared",
+      "seconds": 39,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 3,
+      "contacts": 27,
+      "score": 8870,
+      "bonuses": {
+        "speed": 1620,
+        "pickups": 450,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 10,
+      "state": "cleared",
+      "seconds": 41,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 27,
+      "score": 10400,
+      "bonuses": {
+        "speed": 1600,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 11,
+      "state": "cleared",
+      "seconds": 60,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 4,
+      "contacts": 41,
+      "score": 8500,
+      "bonuses": {
+        "speed": 1400,
+        "pickups": 600,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 12,
+      "state": "cleared",
+      "seconds": 76,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 44,
+      "score": 6850,
+      "bonuses": {
+        "speed": 1250,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 13,
+      "state": "cleared",
+      "seconds": 76,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 39,
+      "score": 5640,
+      "bonuses": {
+        "speed": 1240,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 14,
+      "state": "cleared",
+      "seconds": 43,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 5,
+      "contacts": 20,
+      "score": 9530,
+      "bonuses": {
+        "speed": 1580,
+        "pickups": 750,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 15,
+      "state": "cleared",
+      "seconds": 36,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 2,
+      "contacts": 15,
+      "score": 13250,
+      "bonuses": {
+        "speed": 1650,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 114,
+      "world": 16,
+      "state": "cleared",
+      "seconds": 196,
+      "phase": 3,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 3,
+      "contacts": 109,
+      "score": 23660,
+      "bonuses": {
+        "speed": 4060,
+        "pickups": 450,
+        "clear": 2350
+      }
+    },
+    {
+      "seed": 205,
+      "world": 1,
+      "state": "cleared",
+      "seconds": 136,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 49,
+      "score": 6340,
+      "bonuses": {
+        "speed": 640,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 2,
+      "state": "cleared",
+      "seconds": 79,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 29,
+      "score": 7510,
+      "bonuses": {
+        "speed": 1210,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 3,
+      "state": "cleared",
+      "seconds": 88,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 38,
+      "score": 6970,
+      "bonuses": {
+        "speed": 1120,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 4,
+      "state": "cleared",
+      "seconds": 54,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 22,
+      "score": 9760,
+      "bonuses": {
+        "speed": 1460,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 5,
+      "state": "cleared",
+      "seconds": 80,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 1,
+      "contacts": 33,
+      "score": 10510,
+      "bonuses": {
+        "speed": 1210,
+        "pickups": 150,
+        "clear": 1350
+      }
+    },
+    {
+      "seed": 205,
+      "world": 6,
+      "state": "cleared",
+      "seconds": 59,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 27,
+      "score": 9110,
+      "bonuses": {
+        "speed": 1410,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 7,
+      "state": "cleared",
+      "seconds": 62,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 3,
+      "contacts": 32,
+      "score": 7040,
+      "bonuses": {
+        "speed": 1390,
+        "pickups": 450,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 8,
+      "state": "cleared",
+      "seconds": 180,
+      "phase": 3,
+      "remaining": 0,
+      "lives": 5,
+      "lost": 0,
+      "earned": 2,
+      "pickups": 10,
+      "contacts": 86,
+      "score": 22510,
+      "bonuses": {
+        "speed": 4210,
+        "pickups": 1500,
+        "clear": 2500
+      }
+    },
+    {
+      "seed": 205,
+      "world": 9,
+      "state": "cleared",
+      "seconds": 59,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 1,
+      "contacts": 28,
+      "score": 8870,
+      "bonuses": {
+        "speed": 1420,
+        "pickups": 150,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 10,
+      "state": "cleared",
+      "seconds": 96,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 4,
+      "contacts": 43,
+      "score": 7940,
+      "bonuses": {
+        "speed": 1040,
+        "pickups": 600,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 11,
+      "state": "cleared",
+      "seconds": 52,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 4,
+      "lost": 0,
+      "earned": 1,
+      "pickups": 3,
+      "contacts": 28,
+      "score": 12240,
+      "bonuses": {
+        "speed": 1490,
+        "pickups": 450,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 12,
+      "state": "cleared",
+      "seconds": 66,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 2,
+      "contacts": 34,
+      "score": 7540,
+      "bonuses": {
+        "speed": 1340,
+        "pickups": 300,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 13,
+      "state": "cleared",
+      "seconds": 66,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 0,
+      "contacts": 30,
+      "score": 5640,
+      "bonuses": {
+        "speed": 1340,
+        "pickups": 0,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 14,
+      "state": "cleared",
+      "seconds": 31,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 4,
+      "contacts": 23,
+      "score": 8790,
+      "bonuses": {
+        "speed": 1690,
+        "pickups": 600,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 15,
+      "state": "cleared",
+      "seconds": 19,
+      "phase": 1,
+      "remaining": 0,
+      "lives": 3,
+      "lost": 0,
+      "earned": 0,
+      "pickups": 6,
+      "contacts": 21,
+      "score": 9410,
+      "bonuses": {
+        "speed": 1810,
+        "pickups": 900,
+        "clear": 1200
+      }
+    },
+    {
+      "seed": 205,
+      "world": 16,
+      "state": "cleared",
+      "seconds": 322,
+      "phase": 3,
+      "remaining": 0,
+      "lives": 6,
+      "lost": 0,
+      "earned": 3,
+      "pickups": 7,
+      "contacts": 148,
+      "score": 24950,
+      "bonuses": {
+        "speed": 2800,
+        "pickups": 1050,
+        "clear": 2500
+      }
+    }
+  ]
+}

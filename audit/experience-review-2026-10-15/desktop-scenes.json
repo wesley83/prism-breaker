@@ -1,0 +1,466 @@
+[
+  {
+    "world": 1,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Cloud Carnival",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "A sleeping prism wakes. Follow its light above the clouds.",
+    "storyFont": "16px",
+    "title": "Prism Garden restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 2,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Electric City",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The carnival lights flicker. A city below needs your spark.",
+    "storyFont": "16px",
+    "title": "Cloud Carnival restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 3,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Crystal Caverns",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "Power returns to the skyline. A hidden passage opens beneath it.",
+    "storyFont": "16px",
+    "title": "Electric City restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 4,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Ember Foundry",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The cavern opens in a shower of crystals. Warmth waits beyond.",
+    "storyFont": "16px",
+    "title": "Crystal Caverns restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 5,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Frost Observatory",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The forge releases its last ember. The world turns to ice.",
+    "storyFont": "16px",
+    "title": "Ember Foundry restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 6,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Cosmic Reef",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The telescope finds a signal. An ocean of stars answers.",
+    "storyFont": "16px",
+    "title": "Frost Observatory restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 7,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Prism Citadel",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "A river of stars carries the fragments to the citadel.",
+    "storyFont": "16px",
+    "title": "Cosmic Reef restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 8,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Sunken Archive",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The prism opens. Eight forgotten worlds answer its call.",
+    "storyFont": "16px",
+    "title": "Prism Citadel restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 9,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Aurora Passage",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "Lost constellations rise from the deep. Their light points north.",
+    "storyFont": "16px",
+    "title": "Sunken Archive restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 10,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Clockwork Canopy",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The aurora folds into a bridge. A forest of turning gears awaits.",
+    "storyFont": "16px",
+    "title": "Aurora Passage restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 11,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Mirage Dunes",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "A thousand mechanisms turn as one. Sand begins to shine.",
+    "storyFont": "16px",
+    "title": "Clockwork Canopy restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 12,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Thunder Spire",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The mirage becomes a doorway. Thunder gathers on the other side.",
+    "storyFont": "16px",
+    "title": "Mirage Dunes restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 13,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Lunar Harbor",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The storm splits. A quiet moon rises above the harbor.",
+    "storyFont": "16px",
+    "title": "Thunder Spire restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 14,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Event Horizon",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "The last ship leaves its mooring. Beyond it, a star falls inward.",
+    "storyFont": "16px",
+    "title": "Lunar Harbor restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 15,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 242.4791717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 154.1354217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 154.1354217529297
+    },
+    "next": "Next: Dawn Nexus",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "You cross the darkness. On the far side, every color is waiting.",
+    "storyFont": "16px",
+    "title": "Event Horizon restored.",
+    "titleFont": "52px"
+  },
+  {
+    "world": 16,
+    "bonus": "Speed bonus +1,100 · Clear bonus +1,200",
+    "copyRect": {
+      "bottom": 396.6145935058594,
+      "height": 209.2291717529297,
+      "left": 242.33334350585935,
+      "right": 1022.3333435058594,
+      "top": 187.3854217529297,
+      "width": 780,
+      "x": 242.33334350585935,
+      "y": 187.3854217529297
+    },
+    "next": "",
+    "stageRect": {
+      "bottom": 448.6666641235352,
+      "height": 564,
+      "left": 32,
+      "right": 1232.666748046875,
+      "top": -115.33333587646484,
+      "width": 1200.666748046875,
+      "x": 32,
+      "y": -115.33333587646484
+    },
+    "story": "Sixteen worlds. One unbroken light. You brought the dawn.",
+    "storyFont": "16px",
+    "title": "You brought the dawn.",
+    "titleFont": "52px"
+  }
+]

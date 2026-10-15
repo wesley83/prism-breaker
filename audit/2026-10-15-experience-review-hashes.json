@@ -1,0 +1,199 @@
+{
+  "at": "2026-10-15T21:08:25.5727346Z",
+  "baseline": "75b5af4ad24b4f0a00341a698eb085b7034d4cfc",
+  "scope": "Review artifacts and relevant source inputs; manifest excludes itself",
+  "files": [
+    {
+      "path": "EXPERIENCE-REVIEW.md",
+      "sha256": "dd7345d67e7ca11588be6f5dbd645de7b59ef0e86f6e007ce2842369ad96e0b1"
+    },
+    {
+      "path": "REMAINING-WORK-IMPLEMENTATION.md",
+      "sha256": "9e69d828b33e771914d6dce9ad400d7baf4badb4b5fe540197fe740124986e39"
+    },
+    {
+      "path": "audit/2026-10-15-experience-review.md",
+      "sha256": "82d24fb0e3a0f1bbc1b4f5dd51791eef4150208e3f24d8ca31d730c965472cf2"
+    },
+    {
+      "path": "audit/2026-10-15-experience-balance.json",
+      "sha256": "9fdec57789f9b5298fd40fdad71a97ffcb581f0799b084b152534c68ada102a7"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/audio-waveforms.json",
+      "sha256": "a408b0486c5fdd4a73c82486a3f5c4fdd6c3879132d9bad6dbae664bd5c63250"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/balance-runner.mjs.txt",
+      "sha256": "25b56a4e9db21f6c9162b6d22fc71b0556802b9b5654455413384beec9bb419f"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/browser-logs.json",
+      "sha256": "334cd40f7c89bc75fd461de1f46044a7c232fd116d7bb50848b246347297815b"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/campaign-bot.json",
+      "sha256": "b56125997c230265dab3c6706cbaaeeb13c6564913f3d86ea8643febb6f806d7"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/daily-record-320.png",
+      "sha256": "e4892a7fb6fc76ae2bec49d84690b7e8d5a1704d535f5a60ef352b392db43bda"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/desktop-scenes.json",
+      "sha256": "3915b2edb04b0bd29a32c8ad9d78b174716186d75204145d67fe4456ee489c21"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/ending-daily-record.png",
+      "sha256": "684b45d8a70356c807113ea9989ed9c0d1f383d4faa1b04f105acd48eadaae2e"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/ending-daily.png",
+      "sha256": "b7ab170444861d0a3cafdcf3f60fab9b47c96f7ad9ea30df625f772627e8bd73"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/ending-record.png",
+      "sha256": "c829c6c6c2111ca9894e8dfcee9842f3c62843c3444ef25ba4ef909cf221bf98"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/experience-app.js.txt",
+      "sha256": "c6a69d71f32994522aecbd196e67c2ccb74199dda6af98a27b13abbf1774865e"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/experience-audio.html.txt",
+      "sha256": "fcb1dd403c4aad58d04b1834f27eec774d95d360642137ab4e8144deed9d8d02"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/experience-narrow.html.txt",
+      "sha256": "c7ec31c73323f9eca5d7cbddd4e705b392a8b77dbbcd809b993afd1f3ca10b1e"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/experience.html.txt",
+      "sha256": "68400c6278a72721be0dad4016b7a6fe733075c3cd8c8ea49545742909ded418"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/help-320.png",
+      "sha256": "14710a0975f47dd170b92b0523666fd2864693415d6310522bfc461a5636608c"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/keyboard-focus.json",
+      "sha256": "730d233aea71837fe95390d6b205c1d33ad8dbcfdac4207799aa53af68d83a2f"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/keyboard-pause-reopened.png",
+      "sha256": "032de8dbc471157b74487d990e491e73a7bc4bd81fc320d5917b1dc7e9cb14ed"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/media-tests.txt",
+      "sha256": "3db5471365e8ef63d1d739fa88a731446371fcf2e8284e245c4cddec36405c4b"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/narrow-scenes.json",
+      "sha256": "5df0796fb4838393560fe038a096282ea845e01e9a3f8542f5b97fc6ccee7282"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/reduced-toggle-result.png",
+      "sha256": "e606adc90c1a5cf73eb0f7c899aa7e168a2d97fe28812c116d24d55c84589149"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/scene-state.json",
+      "sha256": "f20058e9c002b40f7d327966dbf60becb9a7da9cd7c8032f0b75db48677397f2"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-01.png",
+      "sha256": "da9db67afc19e089bb8de7ddbc8508f5fdd063b58f600dce305e8eee2688552d"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-02.png",
+      "sha256": "9fad49c1ae04edfae3afe3db68a2363053e69c278c2c4921b192d5fb239fe76f"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-03.png",
+      "sha256": "57f65517fae5e430ecad345b243f5f43cd5977c7510199fec377218d9bed7d55"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-04.png",
+      "sha256": "1c6c47dd162526b8aefc69c992120777a175c36fe0131f452dc087cfdc1e2291"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-05.png",
+      "sha256": "9e26602ca3a226998e40545f55d3319f4790f2432edb4de7800ea0e632181afd"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-06.png",
+      "sha256": "cac6a7dad8cd834dc4ff9f810cfd612b5c96629dbf301669ea37c291bdb7cb6b"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-07.png",
+      "sha256": "fa1a202e12c4e3cb90c0494810c86d5c7feea27e4143a111e2d13398c0b65b46"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-08.png",
+      "sha256": "4164b9134c62dea11103785c6a3726ab46d30f3c57f10f0bef213ce379ca8fc7"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-09.png",
+      "sha256": "401e136dca8332ba62003871ad5d636e2d02d2463bc91bafb548caecc901eed7"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-10.png",
+      "sha256": "57a03130c45006268040a9b2e51af45bc04d0e512b28a3fa43ae574642a7bdf6"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-11.png",
+      "sha256": "57972eae3a1620fa6d628d4688ab514154b0dea31bb065f30a6bf8b361b91a5b"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-12.png",
+      "sha256": "5be832d5ff187332c43522a844f053e2b2ade0d51c07337282c0405dd4dadf65"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-13.png",
+      "sha256": "4523b53acc22ed7c9e702131de5a42132b7a0e8876723d7c5c40419942682109"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-14.png",
+      "sha256": "50523e1ea753390bb7efdb65c7927fa76dd1ddb971d0b0475043b404215af259"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-15.png",
+      "sha256": "7549a29f30f99766cbf9d5cdee279653082b93823b295db1fd5abdf6a7b0e349"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-16.png",
+      "sha256": "7060ee000e1e217c8e16f1129acda1655de202d29887096c51cf39294744c76a"
+    },
+    {
+      "path": "audit/experience-review-2026-10-15/world-contact-sheet.png",
+      "sha256": "ef8bac3db44b34bd3a8c8b8fa6b7e49444899de0b47b13cdd852c4b3003ec55a"
+    },
+    {
+      "path": "public/app.js",
+      "sha256": "4bb2cc33a50ca7b005038b6fdae81d49b879591e9057304501f0b545e8454d41"
+    },
+    {
+      "path": "public/champion.js",
+      "sha256": "a33604726497adc9efc6b9002f067b640234942d88e0ebe39d2de8155c7b3ef8"
+    },
+    {
+      "path": "public/engine.js",
+      "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511"
+    },
+    {
+      "path": "public/levels.js",
+      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6"
+    },
+    {
+      "path": "public/cinematic-score.js",
+      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b"
+    },
+    {
+      "path": "public/brick-labels.js",
+      "sha256": "f662152af6fd60ce439bc2733a2ec1c03601c219d70a35178541f66c12bfba6d"
+    },
+    {
+      "path": "public/music.js",
+      "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e"
+    }
+  ]
+}

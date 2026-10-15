@@ -1,0 +1,11 @@
+{
+  "at": "2026-10-15T20:59:20.351Z",
+  "steps": [
+    "Continue adventure: focus game-canvas",
+    "Activate Pause game button",
+    "Activate Back to the game: focus pause, Launch ball remains visible",
+    "Press Space: pause dialog opens again instead of launching"
+  ],
+  "observed": true,
+  "scope": "Local production app through isolated mock-score harness"
+}

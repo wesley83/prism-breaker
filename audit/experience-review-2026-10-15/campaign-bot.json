@@ -1,0 +1,375 @@
+{
+  "at": "2026-10-15T21:01:12.707Z",
+  "method": "Normal three-life campaign, fixed follower bot, no extra lives injected, real award thresholds, automatic transition advance, 900-second limit per world. Not human difficulty evidence.",
+  "campaigns": [
+    {
+      "seed": 8399,
+      "state": "won",
+      "seconds": 1328,
+      "lost": 0,
+      "earned": 16,
+      "lives": 9,
+      "score": 177580,
+      "worlds": [
+        {
+          "world": 1,
+          "state": "cleared",
+          "seconds": 40,
+          "lives": 3,
+          "score": 7750
+        },
+        {
+          "world": 2,
+          "state": "cleared",
+          "seconds": 125,
+          "lives": 4,
+          "score": 15450
+        },
+        {
+          "world": 3,
+          "state": "cleared",
+          "seconds": 31,
+          "lives": 4,
+          "score": 23250
+        },
+        {
+          "world": 4,
+          "state": "cleared",
+          "seconds": 65,
+          "lives": 5,
+          "score": 32010
+        },
+        {
+          "world": 5,
+          "state": "cleared",
+          "seconds": 55,
+          "lives": 6,
+          "score": 40820
+        },
+        {
+          "world": 6,
+          "state": "cleared",
+          "seconds": 41,
+          "lives": 7,
+          "score": 51170
+        },
+        {
+          "world": 7,
+          "state": "cleared",
+          "seconds": 54,
+          "lives": 8,
+          "score": 60840
+        },
+        {
+          "world": 8,
+          "state": "cleared",
+          "seconds": 253,
+          "lives": 9,
+          "score": 80420
+        },
+        {
+          "world": 9,
+          "state": "cleared",
+          "seconds": 66,
+          "lives": 9,
+          "score": 90760
+        },
+        {
+          "world": 10,
+          "state": "cleared",
+          "seconds": 63,
+          "lives": 9,
+          "score": 99790
+        },
+        {
+          "world": 11,
+          "state": "cleared",
+          "seconds": 58,
+          "lives": 9,
+          "score": 110210
+        },
+        {
+          "world": 12,
+          "state": "cleared",
+          "seconds": 66,
+          "lives": 9,
+          "score": 118150
+        },
+        {
+          "world": 13,
+          "state": "cleared",
+          "seconds": 62,
+          "lives": 9,
+          "score": 125940
+        },
+        {
+          "world": 14,
+          "state": "cleared",
+          "seconds": 83,
+          "lives": 9,
+          "score": 137470
+        },
+        {
+          "world": 15,
+          "state": "cleared",
+          "seconds": 40,
+          "lives": 9,
+          "score": 149570
+        },
+        {
+          "world": 16,
+          "state": "cleared",
+          "seconds": 226,
+          "lives": 9,
+          "score": 177580
+        }
+      ]
+    },
+    {
+      "seed": 114,
+      "state": "won",
+      "seconds": 1260,
+      "lost": 0,
+      "earned": 16,
+      "lives": 9,
+      "score": 174920,
+      "worlds": [
+        {
+          "world": 1,
+          "state": "cleared",
+          "seconds": 82,
+          "lives": 3,
+          "score": 8230
+        },
+        {
+          "world": 2,
+          "state": "cleared",
+          "seconds": 63,
+          "lives": 4,
+          "score": 15950
+        },
+        {
+          "world": 3,
+          "state": "cleared",
+          "seconds": 28,
+          "lives": 5,
+          "score": 25930
+        },
+        {
+          "world": 4,
+          "state": "cleared",
+          "seconds": 31,
+          "lives": 6,
+          "score": 36770
+        },
+        {
+          "world": 5,
+          "state": "cleared",
+          "seconds": 66,
+          "lives": 6,
+          "score": 45560
+        },
+        {
+          "world": 6,
+          "state": "cleared",
+          "seconds": 76,
+          "lives": 7,
+          "score": 54160
+        },
+        {
+          "world": 7,
+          "state": "cleared",
+          "seconds": 35,
+          "lives": 8,
+          "score": 63960
+        },
+        {
+          "world": 8,
+          "state": "cleared",
+          "seconds": 203,
+          "lives": 9,
+          "score": 84890
+        },
+        {
+          "world": 9,
+          "state": "cleared",
+          "seconds": 21,
+          "lives": 9,
+          "score": 95480
+        },
+        {
+          "world": 10,
+          "state": "cleared",
+          "seconds": 41,
+          "lives": 9,
+          "score": 104230
+        },
+        {
+          "world": 11,
+          "state": "cleared",
+          "seconds": 144,
+          "lives": 9,
+          "score": 112790
+        },
+        {
+          "world": 12,
+          "state": "cleared",
+          "seconds": 53,
+          "lives": 9,
+          "score": 124710
+        },
+        {
+          "world": 13,
+          "state": "cleared",
+          "seconds": 56,
+          "lives": 9,
+          "score": 131750
+        },
+        {
+          "world": 14,
+          "state": "cleared",
+          "seconds": 47,
+          "lives": 9,
+          "score": 140940
+        },
+        {
+          "world": 15,
+          "state": "cleared",
+          "seconds": 47,
+          "lives": 9,
+          "score": 151970
+        },
+        {
+          "world": 16,
+          "state": "cleared",
+          "seconds": 266,
+          "lives": 9,
+          "score": 174920
+        }
+      ]
+    },
+    {
+      "seed": 205,
+      "state": "won",
+      "seconds": 1256,
+      "lost": 0,
+      "earned": 14,
+      "lives": 9,
+      "score": 176100,
+      "worlds": [
+        {
+          "world": 1,
+          "state": "cleared",
+          "seconds": 76,
+          "lives": 3,
+          "score": 7950
+        },
+        {
+          "world": 2,
+          "state": "cleared",
+          "seconds": 63,
+          "lives": 4,
+          "score": 18530
+        },
+        {
+          "world": 3,
+          "state": "cleared",
+          "seconds": 88,
+          "lives": 5,
+          "score": 27410
+        },
+        {
+          "world": 4,
+          "state": "cleared",
+          "seconds": 32,
+          "lives": 6,
+          "score": 38150
+        },
+        {
+          "world": 5,
+          "state": "cleared",
+          "seconds": 36,
+          "lives": 7,
+          "score": 48250
+        },
+        {
+          "world": 6,
+          "state": "cleared",
+          "seconds": 85,
+          "lives": 7,
+          "score": 56200
+        },
+        {
+          "world": 7,
+          "state": "cleared",
+          "seconds": 58,
+          "lives": 8,
+          "score": 64420
+        },
+        {
+          "world": 8,
+          "state": "cleared",
+          "seconds": 217,
+          "lives": 9,
+          "score": 84060
+        },
+        {
+          "world": 9,
+          "state": "cleared",
+          "seconds": 27,
+          "lives": 9,
+          "score": 94840
+        },
+        {
+          "world": 10,
+          "state": "cleared",
+          "seconds": 50,
+          "lives": 9,
+          "score": 104450
+        },
+        {
+          "world": 11,
+          "state": "cleared",
+          "seconds": 61,
+          "lives": 9,
+          "score": 113540
+        },
+        {
+          "world": 12,
+          "state": "cleared",
+          "seconds": 57,
+          "lives": 9,
+          "score": 126630
+        },
+        {
+          "world": 13,
+          "state": "cleared",
+          "seconds": 51,
+          "lives": 9,
+          "score": 134130
+        },
+        {
+          "world": 14,
+          "state": "cleared",
+          "seconds": 66,
+          "lives": 9,
+          "score": 143670
+        },
+        {
+          "world": 15,
+          "state": "cleared",
+          "seconds": 26,
+          "lives": 9,
+          "score": 153170
+        },
+        {
+          "world": 16,
+          "state": "cleared",
+          "seconds": 263,
+          "lives": 9,
+          "score": 176100
+        }
+      ]
+    }
+  ]
+}
