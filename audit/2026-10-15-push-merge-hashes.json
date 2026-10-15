@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-15T02:24:34.298Z",
+  "verifiedMainBeforeAudit": "e7f9b74ebf1b75c857eedfd4c06d73e7ef0c8ac9",
+  "openPullRequests": 0,
+  "files": [
+    {
+      "file": "audit/2026-10-15-push-merge-check.md",
+      "sha256": "ec1ee83a79b0737948961694011744a2dac6a2b9b19e90dccd9c5e093ce1d6e8",
+      "mirrorEqual": true
+    }
+  ],
+  "note": "Excludes this receipt itself; final Git history records publication."
+}
