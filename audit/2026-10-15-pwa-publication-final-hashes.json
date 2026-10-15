@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-15T01:12:15.445Z",
+  "reason": "Archive ignored operational deployment receipt; append packaging correction.",
+  "release": "5408c3b2c91090457ef8",
+  "files": [
+    {
+      "file": "deployment.json",
+      "sha256": "16d315a1c3c1abfc18b8016f70fb232af2ef7b4d37773888f1f9f006f905cdf5",
+      "mirrorEqual": true,
+      "versionControlled": false
+    },
+    {
+      "file": "audit/2026-10-15-pwa-deployment-receipt.json",
+      "sha256": "16d315a1c3c1abfc18b8016f70fb232af2ef7b4d37773888f1f9f006f905cdf5",
+      "mirrorEqual": true,
+      "versionControlled": true
+    },
+    {
+      "file": "audit/2026-10-15-pwa-publication.md",
+      "sha256": "c77be80d909834fa8b6915a5f9b960c14582396b03de8f3d03f9a71aa15d5e3b",
+      "mirrorEqual": true,
+      "versionControlled": true
+    }
+  ]
+}

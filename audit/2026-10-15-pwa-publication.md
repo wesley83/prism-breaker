@@ -21,3 +21,11 @@
 - Public verification: At 2026-10-15T01:10:23.918Z, all 70 release assets passed, home returned 200 with the matching release marker and manifest link, manifest retained fullscreen, worker MIME was text/javascript. See deployment.json and the new published-receipt.json. Local worker-byte equality, evidence hashes, mirror reconciliation and final audit push follow below/in the publication hash receipt.
 - User follow-up: Asked why earlier issues were missed. Explained that previous coverage omitted failure combinations and included the completion-marker assumption, and that earlier readiness claims should have been more qualified. Current regression coverage addresses reproduced failures; physical Android/iOS lifecycle validation remains pending.
 - Documentation: Added current publication status while preserving historical review results. No new gameplay changes or production score tests were needed for this release.
+
+## PWA-P03 — Receipt packaging and final source publication
+
+- UTC: 2026-10-15T01:13:00Z (approximate minute, recorded during finalization)
+- Actor: Codex; reference PWA-P02.
+- Result: Verified publication documentation and public asset receipt pushed as 1c4add9 after the implementation/plan push. No deployment errors occurred.
+- Packaging exception: deployment.json is intentionally ignored by the repository, so ordinary git add excluded that operational receipt. Preserved the ignore rule, copied its non-secret contents to audit/2026-10-15-pwa-deployment-receipt.json for versioned evidence, and synchronized the operational receipt into the authoring mirror. This corrects the receipt packaging omission without repeating deployment.
+- Evidence: The first publication hash manifest describes the files at commit 1c4add9; a separate finalization hash receipt records this appended audit and the newly versioned deployment receipt. Both preserve historical records. Final remote/local SHA equality and clean-tree checks are performed after the evidence push.
