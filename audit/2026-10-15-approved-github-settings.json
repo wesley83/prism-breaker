@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-15T15:17:56.761Z",
+  "actor": "Codex",
+  "repository": "wesley83/prism-breaker",
+  "authorization": "Explicit user approval in chat, October 15, 2026",
+  "required_status_checks": {
+    "url": "https://api.github.com/repos/wesley83/prism-breaker/branches/main/protection/required_status_checks",
+    "strict": true,
+    "contexts": [
+      "Bun tests and release integrity"
+    ],
+    "contexts_url": "https://api.github.com/repos/wesley83/prism-breaker/branches/main/protection/required_status_checks/contexts",
+    "checks": [
+      {
+        "context": "Bun tests and release integrity",
+        "app_id": 15368
+      }
+    ]
+  },
+  "enforce_admins": {
+    "url": "https://api.github.com/repos/wesley83/prism-breaker/branches/main/protection/enforce_admins",
+    "enabled": true
+  },
+  "required_pull_request_reviews": null,
+  "restrictions": null,
+  "description": "A sixteen-world Three.js brick-breaker with cinematic endings, offline PWA play, a world editor and native Pagelove leaderboards.",
+  "visibility": "public",
+  "verified": true
+}

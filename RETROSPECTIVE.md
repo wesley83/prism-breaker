@@ -1,5 +1,8 @@
 # Prism Breaker retrospective: missed issues and verification failures
 
+**October 15 support correction:** Wesley relayed that WebDAV intentionally bypasses all schema validation and triggers and is only an authoring mechanism. Earlier DAV “enforcement bug” uncertainty or plans to wait for DAV validation are superseded by the [resolved report](DAV-TRIGGER-BUG-REPORT.md). Authoritative application writes, public-policy timing and unattended expiry remain separate requirements. The original analysis/planning below is retained as historical evidence. Current execution and CI enforcement are in [the updated results](FOLLOW-UP-REVIEW-RESULTS.md).
+
+
 Prepared October 15, 2026 UTC for Wesley, by Codex. Evidence baseline: source commit `c77f34164ac6c0d1171c36c96eca5e3d23dcfd8a`. The most recent recorded deployed runtime is `a998edcd3009a53d6733`.
 
 ## What happened

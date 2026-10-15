@@ -1,5 +1,7 @@
 # Additional Pagelove DAV and policy findings
 
+**Support resolution — October 15, 2026:** Wesley relayed confirmation that WebDAV intentionally bypasses **all schema validation and triggers** and is only an authoring mechanism. The DAV bypass documented below is expected behavior, not an open backend enforcement bug. Earlier phrases such as “owner-write gap” and requests to clarify whether bypass is intentional are historical and superseded. See [the resolved report](DAV-TRIGGER-BUG-REPORT.md). Public-policy propagation and unattended expiry questions remain separate.
+
 Observed October 14, 2026 on `sane-guild-8399.onpagelove.com` and its paired DAV host. This supplements [the initial report](DAV-TRIGGER-BUG-REPORT.md). These findings were collected after that report was written; the record is retrospective. Server version and backend source implementation remain unknown.
 
 ## 1. The candidate validator runs correctly on the server
@@ -94,7 +96,7 @@ All diagnostic resources were uniquely named and removed, with 404 owner readbac
 
 Platform maintainers should confirm:
 
-1. Whether owner DAV complete-document PUT intentionally bypasses Trigger, native property, and schema validator enforcement.
+1. **Answered by support October 15:** Owner DAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.
 2. Which supported write route can guarantee canonical world validation and conditional writes together.
 3. Whether policy publication has a documented propagation delay and a reliable readiness signal.
 4. Why an older policy can reappear after the new version has executed, and why a deleted policy can still execute.
@@ -111,3 +113,7 @@ The [freshness run](audit/2026-10-15-review-policy-freshness.json) observed old 
 Current official documentation explicitly describes WebDAV as a raw authoring/repair path and documents bypass of transition constraints/handlers, with DAV-edited transition rules taking effect within 60 seconds. See [Protocol/WebDAV](https://docs.pagelove.com/all/reference/protocol/) and [Transitions](https://docs.pagelove.com/all/reference/reacting-to-changes/). Those statements concern transitions; they do not alone settle the intended contract for every general Trigger or schema guard. The correct platform question is which enforcement/freshness guarantees apply to the actual mutation path. Do not describe an intentional authoring bypass as a confirmed backend implementation bug.
 
 The [new expiry probe](audit/2026-10-15-review-expiry.json) again saw an unexpired synthetic record removed during fresh policy propagation, followed by settled rejection of unsafe deletion and successful expired-only cleanup. Client filtering and access-driven deletion still do not establish unattended TTL. No production rules, world documents or score records were changed in these probes. The world guard remains inactive. No external issue or message was submitted.
+
+## Support-confirmed contract and next steps
+
+Support’s response, supplied by Wesley on October 15, settles the broader schema/Trigger question that the earlier transition documentation alone did not settle. Do not reopen the authoring bypass as a defect or wait for DAV to enforce the candidate policy. Preserve the observed responses as evidence of the contract. If authoritative world-write validation remains a requirement, design and verify an authenticated application mutation path separately; do not expand anonymous access. No application route, validator activation or runtime behavior was changed by this record correction. Questions 2–5 above concern application-path design or public-policy timing and are not automatically answered by the DAV clarification.

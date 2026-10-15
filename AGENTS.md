@@ -8,3 +8,7 @@
 - Keep the external Pagelove attribution text-only and announce that it opens in a new tab through its accessible label.
 - Keep the arena full width. Show personal bests beside start controls and on results, journey progress in the Worlds chooser, and contextual advice beside Launch ball.
 - Keep cinematic text on a consistent dark backing, with bold white headings, story text of at least 15px on phones, and large gold score figures. Keep caption readability independent of the world's colors and the interface theme.
+
+## Pagelove authoring contract — support clarification, October 15, 2026
+
+Wesley relayed Pagelove support confirmation: WebDAV is only an authoring mechanism and intentionally bypasses all schema validation and triggers. Treat owner DAV as trusted authoring, not an application validation boundary; bypass is expected behavior, not a platform bug. ETag conditions/readback and client/build validation remain separate controls. Any server-authoritative application mutation requirement needs its own supported authenticated path. This clarification does not resolve public-policy propagation timing or unattended expiry. Provenance: support response supplied by Wesley; see the resolved DAV report in the Prism Breaker repository.

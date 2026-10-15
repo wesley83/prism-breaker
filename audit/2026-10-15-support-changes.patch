@@ -1,0 +1,121 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index cc3b64d..22ae831 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -10,0 +11,4 @@
++
++## Pagelove authoring contract — support clarification, October 15, 2026
++
++Wesley relayed Pagelove support confirmation: WebDAV is only an authoring mechanism and intentionally bypasses all schema validation and triggers. Treat owner DAV as trusted authoring, not an application validation boundary; bypass is expected behavior, not a platform bug. ETag conditions/readback and client/build validation remain separate controls. Any server-authoritative application mutation requirement needs its own supported authenticated path. This clarification does not resolve public-policy propagation timing or unattended expiry. Provenance: support response supplied by Wesley; see the resolved DAV report in the Prism Breaker repository.
+diff --git a/DAV-INVESTIGATION-FINDINGS.md b/DAV-INVESTIGATION-FINDINGS.md
+index 8ca59b3..e059653 100644
+--- a/DAV-INVESTIGATION-FINDINGS.md
++++ b/DAV-INVESTIGATION-FINDINGS.md
+@@ -2,0 +3,2 @@
++**Support resolution — October 15, 2026:** Wesley relayed confirmation that WebDAV intentionally bypasses **all schema validation and triggers** and is only an authoring mechanism. The DAV bypass documented below is expected behavior, not an open backend enforcement bug. Earlier phrases such as “owner-write gap” and requests to clarify whether bypass is intentional are historical and superseded. See [the resolved report](DAV-TRIGGER-BUG-REPORT.md). Public-policy propagation and unattended expiry questions remain separate.
++
+@@ -97 +99 @@ Platform maintainers should confirm:
+-1. Whether owner DAV complete-document PUT intentionally bypasses Trigger, native property, and schema validator enforcement.
++1. **Answered by support October 15:** Owner DAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.
+@@ -113,0 +116,4 @@ The [new expiry probe](audit/2026-10-15-review-expiry.json) again saw an unexpir
++
++## Support-confirmed contract and next steps
++
++Support’s response, supplied by Wesley on October 15, settles the broader schema/Trigger question that the earlier transition documentation alone did not settle. Do not reopen the authoring bypass as a defect or wait for DAV to enforce the candidate policy. Preserve the observed responses as evidence of the contract. If authoritative world-write validation remains a requirement, design and verify an authenticated application mutation path separately; do not expand anonymous access. No application route, validator activation or runtime behavior was changed by this record correction. Questions 2–5 above concern application-path design or public-policy timing and are not automatically answered by the DAV clarification.
+diff --git a/DAV-TRIGGER-BUG-REPORT.md b/DAV-TRIGGER-BUG-REPORT.md
+index b526222..833f47c 100644
+--- a/DAV-TRIGGER-BUG-REPORT.md
++++ b/DAV-TRIGGER-BUG-REPORT.md
+@@ -1 +1,21 @@
+-# Suspected DAV PUT trigger enforcement issue: invalid world writes accepted despite an installed validation trigger
++# DAV validation report — resolved as intended authoring behavior
++
++**Status updated October 15, 2026:** The reported owner-WebDAV schema/trigger bypass is **intentional platform behavior**, not a Pagelove enforcement bug. Wesley supplied this response from support:
++
++> Writing to WebDAV intentionally bypasses all schema validation, triggers, etc. WebDAV is only intended as an authoring mechanism.
++
++**Provenance:** Support correspondence relayed by Wesley in this chat; no support ticket ID or independently retrieved ticket status was provided. This updates our classification, not the external ticket's state.
++
++## Correct interpretation and application impact
++
++- Treat owner WebDAV as trusted authoring. Do not expect schemas, triggers or application validation to reject its writes, and do not use a DAV bypass probe as evidence of a platform defect.
++- Editor/build/import validation, owner authorization, ETag conditions and readback remain useful. They do not make arbitrary authoring writes server-validated. The observed stale-ETag rejection is a separate HTTP conditional-write behavior.
++- The game is not broken by this contract. The proposed world trigger cannot provide the assumed enforcement on DAV. Keep it inactive; any requirement for server-authoritative world mutations needs a separately designed, supported authenticated application-write path. No such route or permission change is implemented by this documentation correction.
++- Stop treating a future DAV validation-probe pass as the path to enabling this guard. Reuse the historical probes only to document the authoring boundary or investigate a separately established regression.
++- Public policy activation/freshness, deleted-policy visibility and unattended five-day deletion are separate questions. This support response neither resolves them nor proves they are bugs.
++
++The initial investigation below is preserved verbatim apart from its heading level. Its expected outcomes and unresolved explanations reflect our earlier assumptions and are superseded by this resolution. Additional evidence is in [the investigation findings](DAV-INVESTIGATION-FINDINGS.md).
++
++## Original report (historical)
++
++### Suspected DAV PUT trigger enforcement issue: invalid world writes accepted despite an installed validation trigger
+diff --git a/DOCUMENT-FIRST-ARCHITECTURE.md b/DOCUMENT-FIRST-ARCHITECTURE.md
+index 2d24b00..26d3a63 100644
+--- a/DOCUMENT-FIRST-ARCHITECTURE.md
++++ b/DOCUMENT-FIRST-ARCHITECTURE.md
+@@ -14 +14 @@ This implementation guide applies the [document-first rule](DOCUMENT-FIRST-DEVEL
+-| policy-candidates/world-policy.html | Generated candidate, not deployed | Local guard checks; blocked pending enforcement on the owner write path |
++| policy-candidates/world-policy.html | Generated candidate, not deployed | Local guard checks only; cannot enforce DAV authoring by platform design |
+@@ -58 +58 @@ The generated policy candidate is a separate document with exact catalog paths.
+-Live probes on October 14, 2026 found that DAV accepted invalid HP and missing-condition writes despite the trigger; stale ETags were rejected. A separate public GET trigger executed correctly, but public PUT with the owner key returned 401. This establishes a limitation on the current mutation path, not a failure of trigger discovery. Probe resources were removed. Shared-schema validation in the editor is useful feedback, but is not server enforcement against an arbitrary owner-authenticated client. Anonymous callers have no world-write grant.
++Live probes on October 14, 2026 found that DAV accepted invalid HP and missing-condition writes despite the trigger; stale ETags were rejected. A separate public GET trigger executed correctly, but public PUT with the owner key returned 401. Support confirmed on October 15, in correspondence relayed by Wesley, that WebDAV intentionally bypasses all schema validation and triggers and is only an authoring mechanism. These observations are expected behavior, not an enforcement bug or a failure of trigger discovery. Probe resources were removed. Shared-schema validation in the editor is useful feedback, but is not server enforcement against an arbitrary owner-authenticated client. Anonymous callers have no world-write grant.
+@@ -60 +60 @@ Live probes on October 14, 2026 found that DAV accepted invalid HP and missing-c
+-The candidate uses documented [Pagelove triggers](https://docs.pagelove.com/reference/reacting-to-changes/Trigger/). Activation remains blocked until the actual owner write path passes isolated valid/invalid, missing-condition, stale-ETag and unchanged-data checks. The activation command requires fresh proof for DAV and the candidate's exact hash. Normal deployment excludes the candidate. Resolving this requires platform support for enforcement on that path, or a separately designed authenticated public mutation flow; this release does not expand access or introduce another service.
++The candidate uses [Pagelove triggers](https://docs.pagelove.com/reference/reacting-to-changes/Trigger/), but it cannot enforce owner DAV writes under the support-confirmed contract. Keep it inactive and excluded from normal deployment. The existing activation tool still demands a DAV probe; that is a historical safety block, not a viable release plan or a reason to keep reporting authoring bypass as a bug. Any future enforcement requires a separately designed supported authenticated application mutation flow, with valid/invalid persistence and permission checks. No such flow, expanded access or extra service is introduced here. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md).
+@@ -127 +127 @@ Procedural rendering, music synthesis, compact checkpoints, IndexedDB queues and
+-| 12. Persistence | Score enforcement retained; server-authoritative world validation is blocked by the observed DAV pipeline limitation |
++| 12. Persistence | Score enforcement retained on its application path; trusted DAV authoring intentionally bypasses validation. Authoritative world mutation validation needs a separate supported application path |
+@@ -140 +140 @@ Procedural rendering, music synthesis, compact checkpoints, IndexedDB queues and
+-This is a maintained engineering checklist, not a certification. The world-write enforcement gap means the implementation does not yet satisfy every standard. Future changes need renewed evidence.
++This is a maintained engineering checklist, not a certification. The distinct trusted-authoring and application-mutation contracts must remain explicit. The original server-authoritative world-write requirement still needs a supported application path; intended DAV behavior is not a platform bug. Future changes need renewed evidence.
+@@ -146 +146 @@ This is a maintained engineering checklist, not a certification. The world-write
+-3. Keep the candidate policy outside normal deployment. After authorization, a passing DAV policy probe is mandatory before separately activating it; current live evidence fails this gate.
++3. Keep the candidate policy inactive and outside normal deployment. DAV intentionally bypasses it; do not plan activation by waiting for DAV enforcement. Design and verify a supported authenticated application-write path before claiming authoritative world validation.
+diff --git a/FOLLOW-UP-REVIEW-PLAN.md b/FOLLOW-UP-REVIEW-PLAN.md
+index a6bd1da..a4d8547 100644
+--- a/FOLLOW-UP-REVIEW-PLAN.md
++++ b/FOLLOW-UP-REVIEW-PLAN.md
+@@ -2,0 +3,3 @@
++**October 15 support correction:** Wesley relayed that WebDAV intentionally bypasses all schema validation and triggers and is only an authoring mechanism. Earlier DAV “enforcement bug” uncertainty or plans to wait for DAV validation are superseded by the [resolved report](DAV-TRIGGER-BUG-REPORT.md). Authoritative application writes, public-policy timing and unattended expiry remain separate requirements. The original analysis/planning below is retained as historical evidence. Current execution and CI enforcement are in [the updated results](FOLLOW-UP-REVIEW-RESULTS.md).
++
++
+diff --git a/FOLLOW-UP-REVIEW-RESULTS.md b/FOLLOW-UP-REVIEW-RESULTS.md
+index f5553cf..40ee77f 100644
+--- a/FOLLOW-UP-REVIEW-RESULTS.md
++++ b/FOLLOW-UP-REVIEW-RESULTS.md
+@@ -35 +35 @@ Passes below apply to the stated method. Partial means useful checks passed whil
+-| R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | Blocked: public reject controls execute while owner DAV persists writes; exact generic Trigger contract needs platform clarification |
++| R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | DAV bypass resolved as intentional trusted authoring by support. Public-policy freshness remains unresolved; authoritative world mutations need a supported application path |
+@@ -39 +39 @@ Passes below apply to the stated method. Partial means useful checks passed whil
+-| R08: Editor/security | Adversarial parser/schema cases, canonical/identity/event suites and actual local editor/3D preview pass | Partial: server guard remains blocked; every real owner-publish/conflict/readback UI sequence was not repeated |
++| R08: Editor/security | Adversarial parser/schema cases, canonical/identity/event suites and actual local editor/3D preview pass | Partial: candidate cannot enforce trusted DAV authoring by design; every real owner-publish/conflict/readback UI sequence was not repeated |
+@@ -67 +67 @@ Expiry: readiness statuses were `403,204,403,500,403,403,403`, including removal
+-Current official [reacting-to-changes reference](https://docs.pagelove.com/all/reference/reacting-to-changes/) explicitly documents WebDAV bypass for **transition constraints/handlers** and delayed discovery for DAV-edited transition rules. The [protocol reference](https://docs.pagelove.com/all/reference/protocol/) describes the authoring path. Some bypass behavior is therefore intentional. Those transition statements do not settle every general Trigger/schema guarantee; obtain the exact platform contract before labeling all observations backend bugs or enabling the world guard.
++Current official [reacting-to-changes reference](https://docs.pagelove.com/all/reference/reacting-to-changes/) explicitly documents WebDAV bypass for **transition constraints/handlers** and delayed discovery for DAV-edited transition rules. The [protocol reference](https://docs.pagelove.com/all/reference/protocol/) describes the authoring path. Some bypass behavior is therefore intentional. Support subsequently confirmed, in correspondence relayed by Wesley on October 15, that **all schema validation and triggers are intentionally bypassed by WebDAV**, which is only an authoring mechanism. This settles the DAV contract: bypass is expected behavior, not a platform bug. It does not resolve the separate public-policy timing or expiry observations. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md).
+@@ -81 +81 @@ Scores remain client-reported. Bounds, unique IDs, schemas and revision labels p
+-1. **Resolve the persistence contract.** Identify a supported authenticated mutation path that actually enforces world validation, and a reliable policy activation/deletion guarantee. Keep the candidate guard inactive. The fresh unsafe-delete window needs platform support, not repeated successful probes treated as certainty.
++1. **Design authoritative writes on an application path if still required.** Support resolved DAV bypass as intentional trusted authoring, not a platform bug. Keep the candidate inactive; a supported authenticated application-write path would be needed for authoritative world validation. Separately establish public-policy activation/deletion guarantees; repeated successful probes do not settle the fresh unsafe-delete window.
+@@ -86 +86 @@ Scores remain client-reported. Bounds, unique IDs, schemas and revision labels p
+-6. **Enforce the passing CI check and keep evidence scoped.** Pinned CI and the exact-source publisher gate are implemented and pass. Main currently remains unprotected: automatic approval review rejected the proposed required-check/admin-enforcement mutation; the specific user approval request remains pending. Maintain explicit device/platform exceptions. Passing automation cannot close those exceptions.
++6. **Enforce the passing CI check and keep evidence scoped.** Pinned CI and the exact-source publisher gate are implemented and pass. Wesley explicitly approved the settings; main now requires the exact GitHub Actions check, with strict up-to-date checks and administrator enforcement, verified by live provider readback. No human approval is required. Maintain explicit device/platform exceptions. Passing automation cannot close those exceptions.
+@@ -98 +98 @@ The game can receive a scoped corrective release while those limits remain open.
+-- Required main-branch CI enforcement and the proposed sixteen-world repository description remain **awaiting user approval** after automatic review rejected those specific configuration mutations. Neither is claimed changed. [Concrete proposal](audit/2026-10-15-review-protection-proposal.json).
++- Wesley subsequently **approved** main-branch CI enforcement and the exact sixteen-world description. Both settings are applied and independently read back: required GitHub Actions check, strict up-to-date checks, administrators included, no human approval requirement. The rejected [original proposal](audit/2026-10-15-review-protection-proposal.json) remains historical; the [support/configuration audit](audit/2026-10-15-support-clarification.md) records the correction and live receipt.
+diff --git a/README.md b/README.md
+index 4b6b680..31f7475 100644
+--- a/README.md
++++ b/README.md
+@@ -46 +46 @@ Checkpoint v2 stores stable world identity, definition and ruleset revisions, an
+-The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. Server-authoritative world validation remains a known gap: the live DAV probe accepted invalid data despite a separate trigger. The generated trigger candidate is kept outside deployed assets in policy-candidates/; it cannot be activated by the publisher without a passing DAV probe. No anonymous world-write grant was added. See the audit for the evidence and remaining platform dependency.
++The editor validates world writes with the shared schema, uses owner-only DAV access, sends an ETag condition and confirms the saved document by reading it back. **Support confirmed that WebDAV intentionally bypasses all schema validation and triggers; it is only an authoring mechanism.** This is expected behavior, not a platform enforcement bug. The generated trigger candidate stays inactive outside deployed assets in policy-candidates/ and cannot enforce DAV authoring. Server-authoritative world mutation validation would require a separately designed supported authenticated application-write path. No anonymous world-write grant was added. See the [resolved report](DAV-TRIGGER-BUG-REPORT.md) and [architecture boundary](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary).
+@@ -117 +117 @@ Pagelove supplies the shared data store, request rules, server composition and o
+-| World validation boundary | The shared schema validates editor/build/import data; owner DAV publishing uses ETags and readback. The server trigger candidate is **not deployed**: live DAV writes bypassed it. | [Policy candidate and limitation](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary), [schema](public/world-schema.js) |
++| World validation boundary | The shared schema validates editor/build/import data; owner DAV publishing uses ETags and readback. The server trigger candidate is **not deployed**: DAV intentionally bypasses schemas/triggers as trusted authoring, confirmed by support. | [Policy candidate and limitation](DOCUMENT-FIRST-ARCHITECTURE.md#persistence-boundary), [schema](public/world-schema.js) |
+diff --git a/RETROSPECTIVE.md b/RETROSPECTIVE.md
+index 85b59f5..6ef6ac8 100644
+--- a/RETROSPECTIVE.md
++++ b/RETROSPECTIVE.md
+@@ -2,0 +3,3 @@
++**October 15 support correction:** Wesley relayed that WebDAV intentionally bypasses all schema validation and triggers and is only an authoring mechanism. Earlier DAV “enforcement bug” uncertainty or plans to wait for DAV validation are superseded by the [resolved report](DAV-TRIGGER-BUG-REPORT.md). Authoritative application writes, public-policy timing and unattended expiry remain separate requirements. The original analysis/planning below is retained as historical evidence. Current execution and CI enforcement are in [the updated results](FOLLOW-UP-REVIEW-RESULTS.md).
++
++

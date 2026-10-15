@@ -1,4 +1,24 @@
-# Suspected DAV PUT trigger enforcement issue: invalid world writes accepted despite an installed validation trigger
+# DAV validation report — resolved as intended authoring behavior
+
+**Status updated October 15, 2026:** The reported owner-WebDAV schema/trigger bypass is **intentional platform behavior**, not a Pagelove enforcement bug. Wesley supplied this response from support:
+
+> Writing to WebDAV intentionally bypasses all schema validation, triggers, etc. WebDAV is only intended as an authoring mechanism.
+
+**Provenance:** Support correspondence relayed by Wesley in this chat; no support ticket ID or independently retrieved ticket status was provided. This updates our classification, not the external ticket's state.
+
+## Correct interpretation and application impact
+
+- Treat owner WebDAV as trusted authoring. Do not expect schemas, triggers or application validation to reject its writes, and do not use a DAV bypass probe as evidence of a platform defect.
+- Editor/build/import validation, owner authorization, ETag conditions and readback remain useful. They do not make arbitrary authoring writes server-validated. The observed stale-ETag rejection is a separate HTTP conditional-write behavior.
+- The game is not broken by this contract. The proposed world trigger cannot provide the assumed enforcement on DAV. Keep it inactive; any requirement for server-authoritative world mutations needs a separately designed, supported authenticated application-write path. No such route or permission change is implemented by this documentation correction.
+- Stop treating a future DAV validation-probe pass as the path to enabling this guard. Reuse the historical probes only to document the authoring boundary or investigate a separately established regression.
+- Public policy activation/freshness, deleted-policy visibility and unattended five-day deletion are separate questions. This support response neither resolves them nor proves they are bugs.
+
+The initial investigation below is preserved verbatim apart from its heading level. Its expected outcomes and unresolved explanations reflect our earlier assumptions and are superseded by this resolution. Additional evidence is in [the investigation findings](DAV-INVESTIGATION-FINDINGS.md).
+
+## Original report (historical)
+
+### Suspected DAV PUT trigger enforcement issue: invalid world writes accepted despite an installed validation trigger
 
 **Follow-up:** [Additional investigation findings](DAV-INVESTIGATION-FINDINGS.md) confirm server validator compatibility, reproduce the owner DAV behavior with minimal rejection policies and native schema controls, and document policy freshness failures. This initial report is preserved as the earlier evidence record.
 
