@@ -1,0 +1,362 @@
+{
+  "at": "2026-10-15T14:22:30.976Z",
+  "actor": "Codex",
+  "basis": "Affected working bytes; excludes self; intentional outer authoring .gitignore exception",
+  "files": [
+    {
+      "file": ".gitattributes",
+      "bytes": 181,
+      "sha256": "e8a55048f8b3429e241109d09c4953a0a98e926cc8ed952047b2efddff660955"
+    },
+    {
+      "file": ".github/workflows/quality.yml",
+      "bytes": 741,
+      "sha256": "360bfa55f470891eaac2a0c4bbd7fe3979667fe71f3e17ab780384910e8023a2"
+    },
+    {
+      "file": "CINEMATIC-UPGRADE.md",
+      "bytes": 4064,
+      "sha256": "38ac57798163544b2de54cad58e8e1ff7df3c2b125e8ef26fa5f5455dfff3e3c"
+    },
+    {
+      "file": "DAV-INVESTIGATION-FINDINGS.md",
+      "bytes": 10896,
+      "sha256": "c043efb6cf626725c947b35f28f510b76df6ac70cd7efd0f23fa13c3200a6033"
+    },
+    {
+      "file": "DESIGN-REVIEW.md",
+      "bytes": 6837,
+      "sha256": "a3815d26cefaabe3cd282cdac5aed2db674e2fb61c8505117cd9ea86c3426ab0"
+    },
+    {
+      "file": "FOLLOW-UP-REVIEW-PLAN.md",
+      "bytes": 21642,
+      "sha256": "180526c35d6156c8ccdf87e72c72adabab78791eed4c91c3abd4ab7cf80a8f9b"
+    },
+    {
+      "file": "FOLLOW-UP-REVIEW-RESULTS.md",
+      "bytes": 17191,
+      "sha256": "6587b2cea2d389cb968893108f7494b7159e3a8f4835fcc2f41241990b1667c9"
+    },
+    {
+      "file": "PADDLE-DAILY-UPGRADE.md",
+      "bytes": 4032,
+      "sha256": "4dfa0016357769a55bd86db0898c5799c8dfb57cd0a62c709942fc92575d63ee"
+    },
+    {
+      "file": "README.md",
+      "bytes": 44622,
+      "sha256": "7e38807f38d219cb12534dafcb86cc603d33c77f4f05528df9a20d14ff5bbe9d"
+    },
+    {
+      "file": "RECORD-UPGRADE.md",
+      "bytes": 3474,
+      "sha256": "6e55531390e1f27b5a06cebe61011a122e2d6722dee22950c870b7c77f5fdd13"
+    },
+    {
+      "file": "audit/2026-10-15-dav-diagnostic-b9c0da97-3fa5-4a46-87f1-9ff8e2085982.json",
+      "bytes": 4129,
+      "sha256": "454795067379687f962f5372c684b4a1be200dce99c8f90d25ba83380b9d3493"
+    },
+    {
+      "file": "audit/2026-10-15-follow-up-reviews.md",
+      "bytes": 22231,
+      "sha256": "3396af83bd8703b43f095dea74b12204f752b5e43070d5e46b3cb8ed6bf61401"
+    },
+    {
+      "file": "audit/2026-10-15-review-browser-summary.json",
+      "bytes": 2413,
+      "sha256": "eb227a5f47dbca48a9c7969d9718147b07ec3c21a208e30e458aeb6b7c4d943a"
+    },
+    {
+      "file": "audit/2026-10-15-review-dav-immediate.json",
+      "bytes": 4848,
+      "sha256": "d003c832dcf339d07cd85b4dd4bec3f1a5f96bded28baa0f88acdac765411b50"
+    },
+    {
+      "file": "audit/2026-10-15-review-expiry.json",
+      "bytes": 1288,
+      "sha256": "c5c9a3494cb8e3a0756cfe4a5808b3976ba7dbce0920c433087f58dc600804a9"
+    },
+    {
+      "file": "audit/2026-10-15-review-live-baseline.json",
+      "bytes": 40821,
+      "sha256": "e765b4b4722706a47b963dae7be3e06e393672145bd6ce243a2681b7a01b3a24"
+    },
+    {
+      "file": "audit/2026-10-15-review-observed-campaign.json",
+      "bytes": 3048,
+      "sha256": "389fb137c1283021aa066a702efa107905b57903a42252f25c2032be83eea9e5"
+    },
+    {
+      "file": "audit/2026-10-15-review-policy-freshness.json",
+      "bytes": 3131,
+      "sha256": "719b71002499c10de407392b1ce7a63df59c5f930e14f8542ba8939f84741793"
+    },
+    {
+      "file": "audit/2026-10-15-review-schema-before.txt",
+      "bytes": 2306,
+      "sha256": "e6426c665c5323fb7ac20cd58f23011c69332f8c555aafd5682ccee6ab463655"
+    },
+    {
+      "file": "audit/2026-10-15-review-submission.json",
+      "bytes": 5483,
+      "sha256": "f2508f73f2165d6fe1eea4f3e959134a43ebbe0b08332e94272c7470c62d70f2"
+    },
+    {
+      "file": "audit/2026-10-15-review-tests.txt",
+      "bytes": 15607,
+      "sha256": "00d0cb5403d19732533946762023ad41a52991d895a12af2576a073647c1e6a2"
+    },
+    {
+      "file": "audit/2026-10-15-review-wall-before.txt",
+      "bytes": 1956,
+      "sha256": "041be35239b0e658784344fcac082d9104794aa7c0974c8972598c5e40f909c3"
+    },
+    {
+      "file": "package.json",
+      "bytes": 801,
+      "sha256": "7df774e207430a7b91e6de20d12277a02e47bbab477764cdf1a62b737d6dfb0e"
+    },
+    {
+      "file": "policy-candidates/world-policy.html",
+      "bytes": 15435,
+      "sha256": "151d8b9bbba4d3714eecd6c79aba3e861810cdf76f9e2fe971a64c91e0c4c749"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 54623,
+      "sha256": "bc14fc3559912df7142c7fde06eb41d275d74907c7496b085de6558877f8d277"
+    },
+    {
+      "file": "public/bootstrap.js",
+      "bytes": 1363,
+      "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e"
+    },
+    {
+      "file": "public/editor-route.html",
+      "bytes": 2736,
+      "sha256": "929994f5cdfe0cf54e654f5923f140f086524a418ac8674714c9505111b69e96"
+    },
+    {
+      "file": "public/editor.html",
+      "bytes": 10212,
+      "sha256": "8585ac4a7e4556939d01d8474b781ba065d7e203c446eda29fcfa3c7575a54dd"
+    },
+    {
+      "file": "public/editor.js",
+      "bytes": 22587,
+      "sha256": "ee87e857e0b1d1d7bb7206bae1eb7a412177f60f51c685a0b4819270b3dbd5a2"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 17520,
+      "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511"
+    },
+    {
+      "file": "public/graphics-recovery.js",
+      "bytes": 910,
+      "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 24196,
+      "sha256": "854f7cd24df277d1318fb383a237be73d1d325a1316758bc9782360e1943d638"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "ec4d7ff8c384d1475c588dcdfc2cf4468a5202fa2244a53c70aa96fafd37a4f4"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 26484,
+      "sha256": "83f53c389135e7055ddabcc3b5943732efde7a5d901aa303a3a8003abfea94ef"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 23561,
+      "sha256": "7b7e0cfaf593c4713fe40de5333bc10068599c20386671726ca7a7a75fe55aeb"
+    },
+    {
+      "file": "public/world-schema.js",
+      "bytes": 11997,
+      "sha256": "5ac75e0174487736b8dfc4b1a5afa407c0fa2d48871fef73fda06a55f064a432"
+    },
+    {
+      "file": "public/worlds/aurora-passage/definition.html",
+      "bytes": 23132,
+      "sha256": "687ad37573d28e032d4033e50c1acfe137701220c083a5bdbb511c258d2423ed"
+    },
+    {
+      "file": "public/worlds/clockwork-canopy/definition.html",
+      "bytes": 25597,
+      "sha256": "40239798a8314835233ca1109293c89534660c9f22a46d62b38d1e6dd53b0bb0"
+    },
+    {
+      "file": "public/worlds/cloud-carnival/definition.html",
+      "bytes": 21506,
+      "sha256": "385391cd58b520ac2ad2892a12e4220f05fa561d6a251f158f34256ee2f473c2"
+    },
+    {
+      "file": "public/worlds/cosmic-reef/definition.html",
+      "bytes": 20418,
+      "sha256": "435f2875d34f6de5e48b3873a52214a2078f81d91f2df3fa07f5b82579063200"
+    },
+    {
+      "file": "public/worlds/crystal-caverns/definition.html",
+      "bytes": 24239,
+      "sha256": "1e329673512564e9c45bb9638bd04db8a1cce64c1dad32c50af250dc0db351e6"
+    },
+    {
+      "file": "public/worlds/dawn-nexus/definition.html",
+      "bytes": 69768,
+      "sha256": "e43ff38b88e7b9bf31bab96f0d50771c13817b8bec028f35d38b7e6e57cf9c8a"
+    },
+    {
+      "file": "public/worlds/electric-city/definition.html",
+      "bytes": 21346,
+      "sha256": "d0f37bf5b3e1c3c9f5e0649f24d0ec3e09a181483c1353eab7d5fbe2465cfa45"
+    },
+    {
+      "file": "public/worlds/ember-foundry/definition.html",
+      "bytes": 22676,
+      "sha256": "9faa20887d415d702a7238149d79d7f10c18de694c22fbf6dee18ef70770f6d6"
+    },
+    {
+      "file": "public/worlds/event-horizon/definition.html",
+      "bytes": 25188,
+      "sha256": "88964cc41cc65da132047243b36c2e52b6d2767619e5456c8cb36b4a5ec5a76a"
+    },
+    {
+      "file": "public/worlds/frost-observatory/definition.html",
+      "bytes": 24479,
+      "sha256": "1b48fbe25d990df59b04a1b7df24300ffd39983d0a3fa5cffce30947ed3ce13f"
+    },
+    {
+      "file": "public/worlds/lunar-harbor/definition.html",
+      "bytes": 23964,
+      "sha256": "7f73dc712a697a4e1c343752c0aa1ac2ccd8bd57e96671caa979b4cf1b404e18"
+    },
+    {
+      "file": "public/worlds/mirage-dunes/definition.html",
+      "bytes": 21335,
+      "sha256": "23961bb1e1763173cf87a117cb26abfcc3e95117d345c746da2eed6fdb75766c"
+    },
+    {
+      "file": "public/worlds/prism-citadel/definition.html",
+      "bytes": 53819,
+      "sha256": "477dc0e0b16990f35971f6268107ee24e71b1ed8e1ffaec0d6dbb1b87571fd5f"
+    },
+    {
+      "file": "public/worlds/prism-garden/definition.html",
+      "bytes": 22026,
+      "sha256": "548f6485b96274b847780dcc06b954292a6b1540cc5200f16e23ad8e6b2d1f6e"
+    },
+    {
+      "file": "public/worlds/sunken-archive/definition.html",
+      "bytes": 24644,
+      "sha256": "12701120048870a19104c81acc2b99a7b114dfe105b318420a196588ff92356a"
+    },
+    {
+      "file": "public/worlds/thunder-spire/definition.html",
+      "bytes": 16746,
+      "sha256": "5d0d81608c9de0e42c83e47c9ddac13b923f1d034d857f1b07bc2ec8e2ce555f"
+    },
+    {
+      "file": "tests/follow-up-review.test.mjs",
+      "bytes": 6688,
+      "sha256": "b1ab23e6129975ab26b848dc1a999ab177edc4fe6f529d5e72acf254459d84a4"
+    },
+    {
+      "file": "tests/graphics-recovery.test.mjs",
+      "bytes": 2218,
+      "sha256": "764ee879b6970569b06e8c1b64074c3031e669a66925f7fd8febbd27ec966f9a"
+    },
+    {
+      "file": "tests/preview-contract.test.mjs",
+      "bytes": 1250,
+      "sha256": "406552316f4c6b84773f85bf29f79acb4d65e83dfa652b0f9dcfe9699f6dec3e"
+    },
+    {
+      "file": "tests/release-gate.test.mjs",
+      "bytes": 5276,
+      "sha256": "6ae6544f5c26c27a9510529132ca5a51a013f3d1b950de62bb12332c29bd864e"
+    },
+    {
+      "file": "tests/sharing-review.test.mjs",
+      "bytes": 1516,
+      "sha256": "139fe28dbe38042f18a406cc476fdf90dbf3d845019875bf9e3934ba04472527"
+    },
+    {
+      "file": "tests/startup-review.test.mjs",
+      "bytes": 1426,
+      "sha256": "d91853a3d886b6473c7d62c321c0d0e680f1fd4cd0c04b181f022c744bbe0a13"
+    },
+    {
+      "file": "tools/diagnose-dav-triggers.mjs",
+      "bytes": 16758,
+      "sha256": "d705ad67dfd59f2eded4e3e682347f6d0bb7f9bbfacd1eb5490807d69c49f732"
+    },
+    {
+      "file": "tools/final-browser-fixture.mjs",
+      "bytes": 5751,
+      "sha256": "c378215ce0515c4650ff8706f488bc8a6948bf159f40f12b6b94c3763d952b96"
+    },
+    {
+      "file": "tools/final-expiry-check.mjs",
+      "bytes": 5301,
+      "sha256": "9b9fd88c7daf9f64a1918be3479b858364b3facef3abd2bd5020a465ba28b320"
+    },
+    {
+      "file": "tools/final-live-check.mjs",
+      "bytes": 10439,
+      "sha256": "ce511fce25f7ca3c4642b8dedae931c40ed7c20ce2b51eec2a85db12adb19600"
+    },
+    {
+      "file": "tools/make-qa.mjs",
+      "bytes": 2712,
+      "sha256": "26743399ebc89c32d9900b3856460d979b9a0d1bdb148339fc827d3968b8f711"
+    },
+    {
+      "file": "tools/qa-bootstrap.mjs",
+      "bytes": 1111,
+      "sha256": "673ae85a379791513268ff1849320fbad8a60bae6b87ff32d4f05695da067589"
+    },
+    {
+      "file": "tools/release-gate.mjs",
+      "bytes": 4583,
+      "sha256": "e1f754906a1047701490294f3a30798129533e1dabcd164135c2dc92048c09e2"
+    },
+    {
+      "file": "tools/remote.mjs",
+      "bytes": 16199,
+      "sha256": "46b4b949182553503349732cd3ba76a5b9714d22d8d4aa23824e22d36e91a18a"
+    },
+    {
+      "file": "tools/repository-check.mjs",
+      "bytes": 2955,
+      "sha256": "222113f0e1b8b6659974d9740a053d40417b07b9c19732ee6adc90074494288f"
+    },
+    {
+      "file": "tools/review-browser-fixture.mjs",
+      "bytes": 4319,
+      "sha256": "ad62bb1923671540cb38ec404a1f75e532a2e1be4e420c81901c4c0f5aa2dd0b"
+    },
+    {
+      "file": "tools/startup-lab.mjs",
+      "bytes": 1972,
+      "sha256": "58cd96b7f8828251d0dd475c548250bb466d08d2f09440610774f223a4064cf7"
+    },
+    {
+      "file": "audit/2026-10-15-review-authoring-reconciliation.json",
+      "bytes": 837,
+      "sha256": "5f618efd94084011864f8ada45fe5281e9c9b1ce05fbcaeffee88ec932767287"
+    },
+    {
+      "file": "audit/2026-10-15-review-changes.patch",
+      "bytes": 126496,
+      "sha256": "f01714a6b71adac726acfcfbcdec0b7a5da18e9977765ee566445b6f9c7715bb"
+    }
+  ]
+}

@@ -9,6 +9,8 @@ const sha=b=>createHash('sha256').update(b).digest('hex');
 export const RECEIPT='test-results/release-gate.json';
 function git(root,args){const r=spawnSync('git',['-c','safe.directory='+root.replaceAll('\\','/'),...args],{cwd:root,encoding:'utf8'});if(r.status!==0)throw Error('Release gate needs a readable Git checkout');return r.stdout.trim();}
 export async function sourceIdentity(root=ROOT){
+ const actualRoot=path.resolve(git(root,['rev-parse','--show-toplevel'])),expectedRoot=path.resolve(root),sameRoot=process.platform==='win32'?actualRoot.toLowerCase()===expectedRoot.toLowerCase():actualRoot===expectedRoot;
+ if(!sameRoot)throw Error('Run release checks from the Prism Breaker Git checkout, not its outer authoring mirror or a parent repository.');
  const top=await fs.readdir(root),controls=top.filter(n=>n.endsWith('.md')||['.gitattributes','.gitignore','bunfig.toml'].includes(n));
  const files=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...controls,'package.json','bun.lock'].sort();
  const hashes=[];for(const file of files)hashes.push([file,sha(await fs.readFile(path.join(root,file)))]);

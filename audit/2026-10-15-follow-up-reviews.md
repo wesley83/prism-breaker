@@ -84,3 +84,25 @@
 - Verification: Full local suite passes 159 tests across 19 files; saved complete output. Existing LF attribute was retained and extended for JPEG/opaque audits. Preview fixture paths now use fileURLToPath, including spaces. Standard QA and acceptance pages opt into current network assets before imports, so older installed workers cannot silently invalidate new previews.
 - Evidence: Dated browser summary, live baseline, settled/immediate/freshness/expiry/submission receipts, pre-fix failures and observed normal-lives campaign. Candidate d2fa444df7cfd477dcf9 / 72 assets / 2422345 bytes. All provider disposable cleanup confirmed. Historical evidence remains separate from fresh results.
 - Remaining before integration: Scoped staging, patch/hash/mirror reconciliation, commit, fresh exact-source gate, hosted CI, named main-branch check activation and live publication/readback if approved by automatic review. Continue preserving scores/world definitions and inactive policy.
+
+## FR-09 — Finalization exception and correction
+
+- UTC: 2026-10-15T14:18:07.192Z
+- Actor: Codex; reference FR-08.
+- Failure: Mirror preflight stopped before copying because authoring .gitignore intentionally has only its three local ignores, while the distribution repo has additional private-artifact exclusions. The next separately orchestrated shell cell nevertheless continued after a failed git add and created local commit f72eb14 before the planned patch/hash/mirror finalization. No push or live deployment occurred. This is a procedural failure; do not describe that commit as having completed the planned reconciliation.
+- Correction: Preserve the authoring .gitignore as a documented context-specific exception, compare remaining mirror files against original 8686005 baseline/current source, finish byte-equality/hash/patch evidence in a follow-up commit before pushing, and gate every dependent shell mutation on a successful exit code. Preserve the failed attempt and local commit in history.
+- Verification: Exact-source automated gate for f72eb14 did pass 159 tests/build/repository checks with clean release inputs, digest 1fcc5e57b44cb34f777ba097d0ddcac93d717f3ec3b8614dc3c77f4fa175596a and runtime d2fa444df7cfd477dcf9. That does not retroactively satisfy the omitted mirror/evidence procedure. Recheck after finalization commit.
+
+## FR-10 — Additional preflight divergence resolved
+
+- UTC: 2026-10-15T14:21:25.327Z
+- Actor: Codex; reference FR-09.
+- Preflight correctly stopped again on an old authoring bun.lock; this time dependent mutations did stop. A complete divergence scan identified only that lock and tools/build-share-assets.mjs beyond the intentional .gitignore difference. Authoring package.json matched the original baseline exactly, including sharp; its lock omitted sharp. Asset helper used an absolute machine runtime default where Git already used process.cwd().
+- Correction: Preserve private backups of those two non-secret old authoring files, copy the already-versioned portable helper/current lock and record old/new hashes. Keep PRISM_IMAGE_MODULES override supported. Retain authoring .gitignore. Add an explicit Git-root check and README instruction so a parent workspace repository cannot issue release evidence for the outer mirror. Full evidence reconciliation and new finalization commit still pending; nothing pushed yet.
+
+## FR-11 — Mirror/evidence reconciliation completed
+
+- UTC: 2026-10-15T14:22:30.937Z
+- Actor: Codex; reference FR-09/10 corrections.
+- Verification: 196 source/build/doc/affected-evidence files copied with exact byte equality after baseline/current preflight. Four restored notes retain original content plus provenance; known lock/portable-helper drift resolved separately. Outer authoring .gitignore intentionally preserved; no claim of equality for that context-specific metadata. Private runtime untouched.
+- Evidence: Zero-context full source diff against original 8686005 excludes audit duplication. Affected working-byte hashes exclude the hash receipt itself. Final audit, patch and hashes copied and checked separately. Nothing pushed or deployed yet. Next commit and exact-source gate must succeed before publication.

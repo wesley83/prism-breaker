@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-15T14:21:25.326Z",
+  "actor": "Codex",
+  "changes": [
+    {
+      "file": "bun.lock",
+      "oldAuthoringSha256": "9a17eb5ab0022b80d7d3163eef21f5f3937b1db96d6e115dae0cca0a41209bfd",
+      "distributionSha256": "c39b760d354a6356a24a48029440418c1b707c1372f7be1317650d243292fe6c",
+      "reason": "Authoring manifest already declared sharp, but its old lock omitted it"
+    },
+    {
+      "file": "tools/build-share-assets.mjs",
+      "oldAuthoringSha256": "8b575634bc911d4eb73021ecb07e29ad681046ac65421f43f2dd1abdc282d7e6",
+      "distributionSha256": "e82e2c771ef35823ec51bbb0e773b640ec8f17f3973e0fa02eb43ee65fd0915e",
+      "reason": "Restore portable default; explicit PRISM_IMAGE_MODULES override remains supported"
+    }
+  ],
+  "exception": "Preserve distinct outer authoring .gitignore; no private files copied"
+}

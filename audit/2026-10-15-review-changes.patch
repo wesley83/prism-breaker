@@ -1,0 +1,1259 @@
+diff --git a/.gitattributes b/.gitattributes
+index 87de85f..a5bc1ab 100644
+--- a/.gitattributes
++++ b/.gitattributes
+@@ -3,0 +4 @@
++*.jpeg binary
+@@ -5,0 +7,2 @@
++# Historical evidence retains its original bytes, including dated patch files.
++audit/** -text
+diff --git a/.github/workflows/quality.yml b/.github/workflows/quality.yml
+new file mode 100644
+index 0000000..4509d0d
+--- /dev/null
++++ b/.github/workflows/quality.yml
+@@ -0,0 +1,24 @@
++name: Quality
++on:
++  push:
++  pull_request:
++permissions:
++  contents: read
++jobs:
++  quality:
++    name: Bun tests and release integrity
++    runs-on: ubuntu-latest
++    timeout-minutes: 10
++    steps:
++      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4 verified October 15, 2026
++      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2 verified October 15, 2026
++        with:
++          bun-version: 1.4.3
++      - run: bun install --frozen-lockfile
++      - name: Dependency advisories
++        run: bun audit
++      - name: Regenerate and reject stale checked-in artifacts
++        run: |
++          bun run build
++          git diff --exit-code -- public policy-candidates
++      - run: bun run release:check
+diff --git a/CINEMATIC-UPGRADE.md b/CINEMATIC-UPGRADE.md
+new file mode 100644
+index 0000000..0b2f3c3
+--- /dev/null
++++ b/CINEMATIC-UPGRADE.md
+@@ -0,0 +1,41 @@
++> Historical record: Restored from the authoring copy on October 15, 2026 UTC. Statements below describe that earlier release and its original verification limits; later changes supersede behavior, world counts and retention. See [RETROSPECTIVE.md](RETROSPECTIVE.md) and [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for subsequent findings. Original evidence is retained as recorded.
++
++# Cinematic, music and powerup upgrade
++
++## Implemented
++
++Each world now has a 13–17 second camera sequence with its own path, field-of-view changes and architecture. Story captions appear after the visual reveal; the next/skip control remains available throughout.
++
++| World | Cinematic setting | Soundtrack |
++| --- | --- | --- |
++| Prism Garden | Trees and a nested prism portal | Glasswing — bright plucked synths |
++| Cloud Carnival | Cloud clusters and carousel rings | Cloud Waltz — carousel bells in three |
++| Electric City | Neon towers and light lanes | Afterimage Avenue — driving neon electro |
++| Crystal Caverns | A corridor of glowing crystal formations | Beneath the Glass — echoing crystal bells |
++| Ember Foundry | Rotating forge gears and molten channels | Molten Engine — industrial pulse and metal |
++| Frost Observatory | An astrolabe and crystalline pillars | Northern Lens — slow celestial ambience |
++| Cosmic Reef | Coral rings and a curved cosmic tunnel | Tidal Orbit — shuffled cosmic marimba |
++| Prism Citadel | Towers and eight assembling satellites | Heart of the Prism — layered cinematic finale |
++
++Physical prism materials use clearcoat and iridescence. Bloom, soft light beams, orbiting fragments, dust, a vignette and subtle chromatic separation add depth. All camera and cinematic movement comes from elapsed scene time.
++
++The eight powerups use distinct faceted geometry, bright inner cores, animated orbit rings, transparent halos and short trails. Symbols remain camera-facing for readability.
++
++Music uses Web Audio synthesis: distinct melodies, harmony, rhythm and instrument combinations per world, stereo placement, reverb and a limiter. Playback starts after a user gesture. Music and effects retain independent controls, and music pauses when the game pauses, a dialog opens or the tab is hidden. No external music service, asset CDN or runtime dependency was added.
++
++Reduced motion uses a static camera/composition with a four-second transition and immediate captions. Fewer visual effects reduces particles/trails and bypasses bloom. Portrait framing adjusts the camera distance and lateral travel.
++
++## Checks
++
++- Twelve automated checks pass: nine existing engine checks plus soundtrack uniqueness/event bounds, eight camera-path validity checks at several aspect ratios, and stable reduced-motion framing.
++- All eight cinematic worlds rendered in the browser without warnings or errors.
++- Each soundtrack rendered through the actual Web Audio graph into a 14-second stereo offline preview. Measured peaks were 0.118–0.159; none clipped.
++- A 390-pixel-wide iframe rendered the portrait cinematic with matching document/scroll widths of 390. Settings and the cinematic skip/result transition worked at that width.
++- Powerup preview verified faceted bodies and halos both with bloom and with fewer effects enabled.
++- QA controls and audio preview pages are outside the deployable public directory. Deployment preserves the live score resource.
++
++Physical-phone GPU performance and subjective listening on speakers/headphones remain unmeasured.
++
++## Release evidence
++
++Published October 13, 2026 at 12:01:49 UTC to the supplied Pagelove host. All 20 deployed files passed authenticated read-back; binary and JavaScript/CSS files matched their local bytes. The existing score resource was excluded from deployment and remained readable afterward. The live game loaded without browser warnings/errors; Settings displayed Glasswing in Prism Garden and Molten Engine after entering Ember Foundry practice. See `deployment.json` for the receipt and hashes. Local cinematic screenshots are under ignored `test-results/`.
+diff --git a/DAV-INVESTIGATION-FINDINGS.md b/DAV-INVESTIGATION-FINDINGS.md
+index 4bf49d2..8ca59b3 100644
+--- a/DAV-INVESTIGATION-FINDINGS.md
++++ b/DAV-INVESTIGATION-FINDINGS.md
+@@ -103,0 +104,10 @@ The reusable diagnostic runner is [tools/diagnose-dav-triggers.mjs](tools/diagno
++
++## October 15, 2026: Fresh review evidence and interpretation
++
++The follow-up review repeated isolated probes rather than assuming the earlier host behavior persisted. The [immediate matrix](audit/2026-10-15-review-dav-immediate.json) accepted DAV writes, but its public reject controls were not active yet; it does not independently prove bypass. The [65-second settled matrix](audit/2026-10-15-dav-diagnostic-b9c0da97-3fa5-4a46-87f1-9ff8e2085982.json) then observed public GET rejection with 422 for JavaScript, Sessel and embedded reject triggers while corresponding owner-DAV PUTs returned 200 and persisted their marker. A PUT-only trigger correctly did not reject GET. The public host still rejected the owner key's PUT with 401. All twelve disposable resources were deleted and read back as 404.
++
++The [freshness run](audit/2026-10-15-review-policy-freshness.json) observed old policy A at 0, 1, 5, 15 and 31 seconds after storing B. Updated B and newly added C were observed at 61 seconds. One updated-target request returned 502 at 91 seconds; this is retained as a failure observation. Immediately after owner deletion/readback 404, the public path still executed B. Four disposable paths were cleaned.
++
++Current official documentation explicitly describes WebDAV as a raw authoring/repair path and documents bypass of transition constraints/handlers, with DAV-edited transition rules taking effect within 60 seconds. See [Protocol/WebDAV](https://docs.pagelove.com/all/reference/protocol/) and [Transitions](https://docs.pagelove.com/all/reference/reacting-to-changes/). Those statements concern transitions; they do not alone settle the intended contract for every general Trigger or schema guard. The correct platform question is which enforcement/freshness guarantees apply to the actual mutation path. Do not describe an intentional authoring bypass as a confirmed backend implementation bug.
++
++The [new expiry probe](audit/2026-10-15-review-expiry.json) again saw an unexpired synthetic record removed during fresh policy propagation, followed by settled rejection of unsafe deletion and successful expired-only cleanup. Client filtering and access-driven deletion still do not establish unattended TTL. No production rules, world documents or score records were changed in these probes. The world guard remains inactive. No external issue or message was submitted.
+diff --git a/DESIGN-REVIEW.md b/DESIGN-REVIEW.md
+new file mode 100644
+index 0000000..dcf8cc2
+--- /dev/null
++++ b/DESIGN-REVIEW.md
+@@ -0,0 +1,48 @@
++> Historical record: Restored from the authoring copy on October 15, 2026 UTC. Statements below describe that earlier release and its original verification limits; later changes supersede behavior, world counts and retention. See [RETROSPECTIVE.md](RETROSPECTIVE.md) and [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for subsequent findings. Original evidence is retained as recorded.
++
++# Taste review and implementation plan
++
++## Scope and design read
++
++Reading this as: a preserve-and-improve redesign of a colorful browser arcade for casual players, with a playful, tactile visual language. Design variance 6, motion intensity 5, visual density 4. The opening screen and menus use Taste's redesign guidance; the game HUD and leaderboard use functional game UI patterns. Source: https://github.com/Leonxlnx/taste-skill, installed with Bun as `design-taste-frontend`.
++
++The existing assets are the geometric Prism Breaker wordmark, locally hosted Space Grotesk, a charcoal/green shell and eight theme palettes. The actual Three.js arena is the opening screen's visual asset. Colorful worlds, numbered game progression and gameplay effects are deliberate requirements. The existing page title, URL, nav labels, score field names and public score schema stay intact.
++
++## Audit
++
++1. At a short desktop viewport, the opening facts and controls overlap. There are too many competing small labels, including decorative edition text and an infinity statistic.
++2. Body text and controls are often 8-12 pixels. Mobile icons are inconsistent text glyphs with little visible context. The stage's labels compete with the scene.
++3. A saved adventure has no world/score summary and receives less emphasis than starting again. The pause message incorrectly promises a save in every mode.
++4. The HUD's score leader is useful but has no visible stale-data state. The leaderboard has no leader summary and empties the table while fetching.
++5. World progress and tips disappear when the sidebar is hidden. Powerup glyphs have no explanation for a new player.
++6. Reduced motion still leaves several cosmetic 3D movements running. Ambient scenery competes with the game board.
++7. The interface has one dark palette. Controls need consistent focus, press, disabled and theme contrast treatments.
++
++## Plan and acceptance criteria
++
++- Recompose the existing opening panel, remove decorative statistics, prioritize a saved adventure and expose its actual world and score. Add a confirmation before replacing a checkpoint.
++- Bundle one official SVG icon family locally; use readable control sizes, visible small-screen nav labels and a help dialog with keyboard, pointer and powerup explanations.
++- Rebuild CSS with semantic dark/light tokens, one radius scale (16px surfaces, 8px controls), documented layering and responsive layouts. The game arena remains themed media inside either shell theme.
++- Add compact world progress during play, a score-to-beat message, a contextual pause description and a next-world preview between levels.
++- Add a leader summary, highlighted first row, accessible loading skeleton, meaningful empty/error panels and visible stale-score feedback. Reuse the existing Pagelove selector API and score record format.
++- Improve motivated dialog and button feedback with opacity/transform and honor reduced motion in DOM and cosmetic Three.js motion. Keep the opening headline immediately visible and active ball physics readable and functional.
++- Verify syntax, existing engine checks, home/resume/help/leaderboard/results/cutscene flows, 390px mobile, short desktop and light/dark themes. Publish with authenticated read-back, preserve live scores and confirm the public UI.
++
++## Taste pre-flight interpretation
++
++Marketing-only rules (testimonials, logo walls, editorial images, scroll sections, React client leaves and GSAP patterns) do not apply to this native HTML/Three.js game. Actual world numbers, UTC challenge dates, scores and progress are useful game data. The game provides its own real rendered visual, so generated stock art would not serve the brief. The chosen foundation remains native HTML/CSS/modules with local Three.js, not a new framework. Light/dark tokens apply to the interface; the themed arena stays dark for ball/brick contrast. Runtime requests remain on the supplied Pagelove host.
++
++## Completion evidence
++
++Nine existing engine checks passed. Local browser checks covered the saved checkpoint summary and replacement prompt, help/powerup guide, themes, leaderboard ranking/summary, empty and failed refresh states (with cached rows retained), retry after a local submission failure, resume and next-world transition. The header fits at 320px and 390px without horizontal overflow. Reduced motion removes cosmetic prism pulsing, scenery drift, paddle preview movement, drop wobble and particles.
++
++The initial Lighthouse desktop audit found two accessibility issues, corrected by matching the wordmark's accessible name to its visible name and assigning a role to the active-powerup group. The initial mobile audit also found delayed LCP caused by animated opening text and late control-hint mutation after loading Three.js. The final implementation shows the headline and pointer-specific hints immediately, defers the 3D import until after first paint, presents a preparation status, gates play until WebGL is ready, defaults coarse pointers to fewer effects and renders idle scenery at 30fps. The game physics remain at the existing 120Hz timestep.
++
++Local Lighthouse reports are under ignored `test-results/`. Scores measure this workstation and simulated network/CPU conditions, not real-user field performance. Mobile first-render GPU work remains a cost of the 3D renderer. INP on physical devices is unmeasured; Lighthouse total blocking time is a diagnostic, not an INP result.
++
++| Final local audit | Performance | Accessibility | Best practices | SEO | LCP | CLS | Total blocking time |
++| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
++| Desktop | 100 | 100 | 100 | 100 | 0.5s | 0.008 | 10ms |
++| Simulated mobile | 86 | 100 | 100 | 100 | 2.0s | 0 | 520ms |
++
++Release completed on the supplied `sane-guild-8399.onpagelove.com` host. The existing authoring helper confirmed the host identity, published 16 files and read them back (byte equality for non-HTML resources). Live score documents were excluded from publication. The public opening screen loaded the deferred 3D arena, enabled its play controls, and showed the existing leaderboard with Wesley's 71,150-point leading Adventure run. The public page produced no browser warnings/errors. Screenshots are saved under ignored `test-results/taste-live-home.png` and `test-results/taste-live-leaderboard.png`. The prior code files were retained under ignored `.private/backup/` for rollback. No external runtime services were added.
+diff --git a/FOLLOW-UP-REVIEW-PLAN.md b/FOLLOW-UP-REVIEW-PLAN.md
+index 6881423..a6bd1da 100644
+--- a/FOLLOW-UP-REVIEW-PLAN.md
++++ b/FOLLOW-UP-REVIEW-PLAN.md
+@@ -4,0 +5,2 @@ Prepared October 15, 2026 UTC. Companion to the [retrospective](RETROSPECTIVE.md
++**Execution update:** Wesley subsequently requested these reviews. See [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for actual checks, fixes, remaining gaps and the updated assessment. Original planning statuses below are retained as historical scope; they are not the current execution ledger.
++
+diff --git a/FOLLOW-UP-REVIEW-RESULTS.md b/FOLLOW-UP-REVIEW-RESULTS.md
+new file mode 100644
+index 0000000..2090415
+--- /dev/null
++++ b/FOLLOW-UP-REVIEW-RESULTS.md
+@@ -0,0 +1,101 @@
++# Follow-up review results and updated assessment
++
++Reviewed October 15, 2026 UTC by Codex, following the [retrospective](RETROSPECTIVE.md) and [14-review plan](FOLLOW-UP-REVIEW-PLAN.md). Initial source: `86860052cabadcc01419faaeb30d6f5a5d9d5404`. Initial live runtime freshly verified as `a998edcd3009a53d6733`.
++
++## Result
++
++All fourteen areas received review work. **Their full acceptance conditions are not all satisfied.** Further application defects were reproduced, corrected and given regression coverage. Physical devices, native share receivers, human balance/accessibility judgments and unresolved platform guarantees remain explicit gaps.
++
++The latest full local suite passes **159 tests across 19 files**, with zero failures, compared with the fresh 136-test baseline. Candidate **`d2fa444df7cfd477dcf9`** contains 72 cached assets / 2,422,345 bytes. A generated candidate is not deployment evidence. Final hosted CI/publication results are recorded below and in the execution audit.
++
++## Newly found defects and corrections
++
++| Finding | Reproduction and correction |
++| --- | --- |
++| Another paddle miss beside a wall | The old engine clamped the ball at the wall and discarded its inward travel. An independent two-segment oracle failed; an explicit replay also failed at the actual 1/120-second game step. Preserve reflected distance and sweep each segment against the moving paddle. The exact case and 6,000 sampled wall trajectories now pass alongside the earlier geometry/power checks |
++| Invisible gameplay during graphics loss | Actual Chromium context loss left state playing, advanced the clock about 0.717 seconds and later lost a life while drawing was unavailable. The game/workshop now pause through a shared guard, clear input, expose recovery and block premature resume |
++| Restoration preparation hung | The first recovery check exposed Three.js asynchronous shader polling throwing after renderer properties were reset. Preparation now compiles while play is paused; power pools are reused. The repeated real loss/restoration reports zero errors and leaves the player in control of resuming. Physical preparation cost remains unmeasured |
++| Unsupported metadata disappeared | Imported unsupported properties were accepted and silently omitted on export. Reject unsupported structured properties/children explicitly at each scope. Supported records still round-trip; imported decorative markup is reconstructed into safe output |
++| Invalid brick types/geometry passed validation | Inherited names such as constructor passed base/kind lookup, and some barriers/moving origins extended outside the arena. Each case was accepted before correction. Own-key checks and complete motion/stationary bounds now reject them; all official formations remain valid |
++| Startup could remain Preparing forever | A document whose engine import failed had inert Start controls and no working recovery. An independent bootstrap now catches app-import failure, explains it, disables unavailable controls and binds Reload directly. Real browser failure→asset restoration→Reload enabled the game |
++| Repository/release controls were missing | Added pinned read-only CI, link/import checks, a limited credential-pattern scan and a publisher gate tied to source commit/content/release. Actual failing Bun tests, stale generated files, changed documents and expired/wrong receipts refuse approval. Dirty release inputs cannot deploy |
++| Documentation/encoding gaps | Restored four historical README-linked documents with provenance. Reconciled source bytes with the existing LF policy, preserved historical audits, and corrected actual mojibake in titles/validation copy. Also corrected singular-life visible/accessibility wording |
++
++The collision fix retains the intended existing contact contract; it is not a reconstruction of the original reporting player's device/session. Neither sampled tests nor a working recovery flow prove every possible defect is eliminated.
++
++## Review-by-review disposition
++
++Passes below apply to the stated method. Partial means useful checks passed while named acceptance conditions remain unverified. Blocked means the required guarantee remains unresolved.
++
++| Review | Executed work / result | Remaining boundary |
++| --- | --- | --- |
++| R01: Release gates | Local gate/negative demonstrations pass; live branch/workflow configuration inspected; CI prepared | Hosted execution/configuration recorded during publication below; no independent human signoff implied |
++| R02: Physics | Independent wall/solid geometry cases, exact 120 Hz reproduction and power regressions pass after correction | Physical input timing and original user session unknown |
++| R03: PWA lifecycle | Chromium old release→A→B, failed B asset, activation with network 503, retained saves/settings/queue pass; worker/client fault suites pass | Partial: installed Android/iOS, OS termination/airplane mode/storage pressure and Firefox/WebKit remain unverified |
++| R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | Blocked: public reject controls execute while owner DAV persists writes; exact generic Trigger contract needs platform clarification |
++| R05: Retention | Fresh isolated delete-protection/expiry checks, controlled display boundary and GET cleanup readback performed | Blocked for unattended physical deletion. Fresh-policy unsafe deletion reproduced; cleanup still needs access |
++| R06: Queue/saves | Real IndexedDB abort/outage/reopen/two-connection race; original Daily identity retained; controlled lease/retry/migration suites pass | OS process death, destructive eviction and every clock/suspension combination not established |
++| R07: Scoring/fairness | Independently calculated streak/pickup/speed/clear totals and UTC/expiry/tie/ruleset checks pass; top-score/source trust model reviewed | Client-reported scores are not anti-cheat proof; actual concurrent-host celebration races not exhaustively established |
++| R08: Editor/security | Adversarial parser/schema cases, canonical/identity/event suites and actual local editor/3D preview pass | Partial: server guard remains blocked; every real owner-publish/conflict/readback UI sequence was not repeated |
++| R09: Rendering/audio | Actual context loss/restoration, three all-world/all-power resource passes, scheduler/source checks performed | Partial: cold/thermal phone frame times and subjective audio quality unmeasured |
++| R10: Interface/accessibility | Current app at 390×844 and 844×390 fullscreen; dialog scrolling/focus return and launch geometry checked; copy corrected | Partial: physical keyboards, screen-reader speech, zoom/large text and every animated reading state not fully exercised |
++| R11: Sharing | Complete Android text+link, native file payload, other platforms, touch iPad and readable-date regressions pass; fallback source reviewed | Partial: actual received Android→Slack/iOS messages remain unverified; no message sent |
++| R12: Campaign | Fresh accelerated 16-world/20-formation browser traversal; complete ordinary-lives collision bot passes without replenishment/damage shortcuts | Partial: not a human playthrough or full real-time watch of every cinematic |
++| R13: Rollout/rollback | Broken B preserves A; B applies offline; rollback retains another B tab's B modules; missing-module recovery added | Partial: sequential uploading still permits an uncontrolled mixed network graph; immutable/atomic publication remains open |
++| R14: Traceability | Four historical documents restored; link/import checks, encoding and source/evidence reconciliation performed | Clean Linux build and final hashes/mirror/publication results follow below |
++
++## Browser evidence
++
++- Graphics: before correction, playing with elapsed delta about `0.716666666666666` and no recovery state. After correction, paused with delta `0`, blocked during loss; restored with error hidden and blocked false, still paused, no errors. Closing the pause dialog while lost did not resume play.
++- Resource passes: each of three cycles across sixteen worlds and all powers ended at **34 geometries / 30 textures**. This establishes stability in that sequence, not a complete memory-leak or mobile-performance proof.
++- Actual IndexedDB: queued after outage; competing connections sent once; durable sent receipt retained original `2026-10-14` Daily identity; aborted metadata transaction left no row. Temporary database was closed/deleted. Sending used a controlled adapter, not a production score write.
++- PWA lab: cached `ebb648f339435f994a1c` automatically offered A `1b5bccba9d380881f02e`. A retained checkpoint, Classic and one synthetic queued score. B `269befd6252bcf6a2007` initially failed on its engine asset, then applied with network requests returning 503. Rollback A became available without a forced manual check. A second open B tab returned B's module under A's worker. Lab hashes differ from production because of instrumentation.
++- Layout: at 390×844, canvas bottom `748` and launch top `748.375`; at 844×390 fullscreen, canvas bottom `326` and launch top `336`. Settings scrolled within the viewport and closing it returned focus to its opener. Backend screenshot scaling was inconsistent with emulated DOM dimensions; it is not physical-device evidence.
++- Campaign: accelerated browser traversal reached the final Adventure record result with zero captured errors. A separate ordinary-lives bot finished all twenty formations at **174,440 points** in about **1,370 simulated seconds**. It moved algorithmically and auto-launched, but used no forced damage, invulnerability or life replenishment. Earned lives/powers remained normal.
++- Workshop: actual local editor loaded the semantic world and launched its Three.js preview. Browser/fixture clocks and share payloads are not substitutes for physical-device/native-receiver outcomes.
++
++Browser summaries are transcribed from visible diagnostic output; they are not raw telemetry or a recording of every frame. Isolated tools preserve reproducibility. Temporary fixtures/test output remain under ignored `test-results/`.
++
++## Provider evidence and interpretation
++
++The immediate DAV matrix lacked active public rejection controls, so it alone did not prove bypass. A separate 65-second settled matrix observed public 422 rejection for JavaScript, Sessel and embedded guards while corresponding owner-DAV PUTs returned 200 and persisted their marker. Public owner-key PUT returned 401. All twelve disposable paths were deleted and read back as 404.
++
++Freshness: policy A remained at 0/1/5/15/31 seconds after storing B; B and newly added C appeared at 61 seconds. One updated-target request returned 502 at 91 seconds and is preserved. Immediately after policy deletion/owner 404, the public path still executed B. Four disposable paths were cleaned.
++
++Expiry: readiness statuses were `403,204,403,500,403,403,403`, including removal of an unexpired synthetic control. Settled unsafe/future deletion returned 403 and retained controls; expired-only deletion returned 204 and kept the active row. GET cleanup returned the expired row on its triggering read and removed it by the next read. Later passes do not erase unsafe observations or prove a propagation guarantee.
++
++Current official [reacting-to-changes reference](https://docs.pagelove.com/all/reference/reacting-to-changes/) explicitly documents WebDAV bypass for **transition constraints/handlers** and delayed discovery for DAV-edited transition rules. The [protocol reference](https://docs.pagelove.com/all/reference/protocol/) describes the authoring path. Some bypass behavior is therefore intentional. Those transition statements do not settle every general Trigger/schema guarantee; obtain the exact platform contract before labeling all observations backend bugs or enabling the world guard.
++
++No native unattended TTL/scheduling guarantee was found in the inspected sections. That is a research limit, not proof of platform absence. No scheduler/external service was introduced. No production world, score record or policy was mutated by these review probes. A fresh isolated copy of the live score rules accepted a valid POST with 206, rejected its duplicate with 422 and retained exactly one run. Independently keyed negative-score and client-expiry payloads each returned 422. The disposable board was deleted/read 404. Live source mismatches in that receipt are expected: it compares the still-deployed baseline with these local corrections.
++
++## Ruleset decision
++
++These fixes restore the intended solid-contact behavior; scoring formulas, official formation geometry, Daily randomness and content order remain unchanged. Preserve the current declared ruleset, historical scores and compatible saves. Schema rejection and UTF-8 fixes do not change valid official gameplay definitions.
++
++Future intentional physics/scoring/timing/geometry/randomness changes need an explicit compatibility decision. When comparisons or saves cease to be compatible, change the catalog ruleset declaration, rebuild and verify migration while retaining queued-run provenance. Engine edits alone do not automatically change the generated ruleset identity.
++
++Scores remain client-reported. Bounds, unique IDs, schemas and revision labels protect particular data contracts; they do not establish an authentic human run. Trusted competition would need separate validation architecture. The UI disclaimer Wesley asked to remove is not restored.
++
++## Updated “What needs to change” assessment
++
++1. **Resolve the persistence contract.** Identify a supported authenticated mutation path that actually enforces world validation, and a reliable policy activation/deletion guarantee. Keep the candidate guard inactive. The fresh unsafe-delete window needs platform support, not repeated successful probes treated as certainty.
++2. **Implement native unattended retention or explicitly revise the requirement.** Five-day ranking filtering and on-access cleanup work in checked cases. Physical deletion without traffic still is not implemented. Do not silently add an external scheduler.
++3. **Complete physical-device and receiver checks.** Actual Android/iOS installation, two-release updates, process termination, airplane mode, storage pressure, keyboards and received share messages remain necessary. Available surfaces provided Chromium desktop; no connected phone or Firefox/WebKit session was available.
++4. **Obtain independent human play/accessibility review.** Ordinary-lives bot completion strengthens progression evidence; human difficulty, cinematic reading time, screen-reader speech and listening quality still require observers. This agent's additional checks are not another person's signoff.
++5. **Reduce sequential-publication exposure.** Startup failures now have recovery, and controlled clients retain coherent releases. Immutable assets or native atomic publication would further protect uncontrolled visitors from successfully loaded mixed files. Retain the limitation and verified rollback procedure until then.
++6. **Keep release checks enforced and evidence scoped.** Require the named CI check after its first hosted run is confirmed; run the publisher gate against committed exact source. Maintain explicit device/platform exceptions. Passing automation cannot close those exceptions.
++7. **Decide the ranking trust level.** Casual client-reported standings are supported. Tamper-resistant competition is additional architecture with separate acceptance criteria.
++
++The game can receive a scoped corrective release while those limits remain open. Such a release must not be described as universally production-verified or used to close unfinished requirements.
++
++## Publication and final checks
++
++At this report revision, corrections/CI are local. Hosted CI, branch-check configuration, exact-source gate, clean-checkout verification, mirror/hash reconciliation and publication remain pending finalization. No new game deployment is claimed here. This section will be updated from actual results; the dated audit retains the sequence and failures.
++
++## Evidence
++
++- [Execution audit](audit/2026-10-15-follow-up-reviews.md) and [fresh live baseline](audit/2026-10-15-review-live-baseline.json)
++- [Immediate DAV](audit/2026-10-15-review-dav-immediate.json), [settled DAV](audit/2026-10-15-dav-diagnostic-b9c0da97-3fa5-4a46-87f1-9ff8e2085982.json), [freshness](audit/2026-10-15-review-policy-freshness.json), [expiry](audit/2026-10-15-review-expiry.json), [isolated submission](audit/2026-10-15-review-submission.json), [expanded investigation](DAV-INVESTIGATION-FINDINGS.md)
++- [Independent review regressions](tests/follow-up-review.test.mjs), [graphics lifecycle](tests/graphics-recovery.test.mjs), [release refusals](tests/release-gate.test.mjs), [sharing](tests/sharing-review.test.mjs), [startup](tests/startup-review.test.mjs)
++- [Repository checks](tools/repository-check.mjs), [publisher gate](tools/release-gate.mjs), [CI](.github/workflows/quality.yml)
++- [Browser review fixture](tools/review-browser-fixture.mjs), [startup lab](tools/startup-lab.mjs), [two-release lab](tools/update-lab.mjs)
+diff --git a/PADDLE-DAILY-UPGRADE.md b/PADDLE-DAILY-UPGRADE.md
+new file mode 100644
+index 0000000..92f1bfd
+--- /dev/null
++++ b/PADDLE-DAILY-UPGRADE.md
+@@ -0,0 +1,33 @@
++> Historical record: Restored from the authoring copy on October 15, 2026 UTC. Statements below describe that earlier release and its original verification limits; later changes supersede behavior, world counts and retention. See [RETROSPECTIVE.md](RETROSPECTIVE.md) and [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for subsequent findings. Original evidence is retained as recorded.
++
++# Sticky catches, Daily Challenge endings and victory music
++
++## Paddle behavior
++
++- Each sticky catch records the ball's local horizontal offset, contact height and upward rebound direction. Holding follows paddle movement without centering the ball; manual launch preserves the catch position and direction.
++- Wide now stacks with sticky or laser. Sticky and laser remain alternatives.
++- Effect expiry is applied before calculating the paddle width. A held ball outside the reduced half-width launches automatically; supported held balls remain attached. This applies independently to each ball, including catches on either edge. Pausing still freezes effect timers.
++- Paddle width changes clamp the paddle to the arena bounds. Paddle collision positions use the crossing point at the top surface rather than the final position of the simulation step.
++
++## Daily endings
++
++- Every completed Daily Challenge uses a twelve-second orbital-clock sequence, with 24 illuminated hour markers, a moving hand, a central prism, a star field and the UTC challenge date. It replaces the level's Adventure cinematic in daily mode.
++- A Daily Challenge top score receives a separate eleven-second golden solar-crown sequence. It uses its own geometry, palette and copy, independently of the Adventure trophy scene.
++- Camera movement, particles and reveal timing use elapsed scene time. Reduced motion uses static compositions and four-second scenes; fewer effects reduces particles and bypasses bloom.
++
++## Victory soundtracks
++
++- Adventure: **Every Color, A Crown** — a major-key anthem with brass-like synthesized tones, choir and drums.
++- Daily Challenge: **Crown of the Day** — bells, bright synths and celebratory beats.
++- Confirming a top finish switches the scheduler to the appropriate victory arrangement, stopping the level track and resetting the musical sequence. Music continues on the record result/score form. Other dialogs and hidden tabs pause it; existing music volume and mute controls still apply. Starting another run returns to that level's track.
++- Positive top scores in completed or ended runs qualify, including ties. Practice and previous-day Daily Challenge scores do not qualify for the current board. Shared rankings are fetched before awarding the celebration.
++
++## Browser review
++
++The local preview exercised actual engine collisions with three sticky catches at offsets +1.05, +2.10 and -2.10 on a 4.90-wide paddle. Moving the paddle preserved those offsets. Expiring wide reduced it to 3.30, leaving the +1.05 ball held and launching both outer balls. The normal daily clock and daily record crown rendered separately without browser warnings/errors. The record music scheduler showed victory:daily; Adventure Settings showed its distinct victory track. Preview code and sample records are outside public/.
++
++No automated tests were added or run for this release. Speaker/headphone listening and physical-phone performance remain unmeasured.
++
++A 390-pixel iframe also displayed the Daily Challenge record scene and its reduced-motion/fewer-effects variant, with matching document and scroll widths of 390. The existing powerup assertion was updated to reflect independent width; the suite was not run.
++
++Published October 13, 2026 at 12:49:37 UTC. All 25 public files passed authenticated read-back (HTML normalization allowed). The live game loaded without browser warnings/errors and its help panel displayed the new sticky positioning and compatible wide behavior. Live scores were excluded from this deployment. See deployment.json for the hashes and .private/backup/pre-paddle-daily-* for prior source snapshots.
+diff --git a/README.md b/README.md
+index 691b8c0..4b6b680 100644
+--- a/README.md
++++ b/README.md
+@@ -319,0 +320,6 @@ bun tools/build-pwa.mjs --check
++Commit the exact source, then run `bun run release:check` before publishing. This runs the behavioral suite, PWA consistency, maintained document links, local module imports and a limited credential-pattern check. Its ignored evidence names the source commit, content digest and runtime release and lasts 24 hours. The publisher rejects missing/stale evidence and dirty release inputs; it checks again before uploading the worker. Recheck after source/documentation edits or a new commit. This gate does not certify physical devices or unresolved platform contracts.
++
++Run publishing checks from the actual Git checkout of `wesley83/prism-breaker`. A separate authoring mirror or a folder inside an unrelated parent repository cannot issue release approval. It can still build, run tests and preview the game.
++
++The pinned [Quality workflow](.github/workflows/quality.yml) installs frozen Bun dependencies, regenerates artifacts, rejects generated drift and runs the gate on pushes and pull requests. See [review results](FOLLOW-UP-REVIEW-RESULTS.md) for actual hosted-check/branch-protection status. Run repository checks separately with `bun run check:repository`.
++
+@@ -361,0 +368 @@ Three.js, Web Audio and Pagelove are the game's technologies. The project record
++- [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) — executed reviews, corrected defects, remaining acceptance gaps and the updated “What needs to change” assessment.
+diff --git a/RECORD-UPGRADE.md b/RECORD-UPGRADE.md
+new file mode 100644
+index 0000000..39d35d0
+--- /dev/null
++++ b/RECORD-UPGRADE.md
+@@ -0,0 +1,17 @@
++> Historical record: Restored from the authoring copy on October 15, 2026 UTC. Statements below describe that earlier release and its original verification limits; later changes supersede behavior, world counts and retention. See [RETROSPECTIVE.md](RETROSPECTIVE.md) and [FOLLOW-UP-REVIEW-RESULTS.md](FOLLOW-UP-REVIEW-RESULTS.md) for subsequent findings. Original evidence is retained as recorded.
++
++# Top-score finish and daily leaderboard
++
++Completed runs at or above the current leading score receive a dedicated nine-second Three.js coronation: golden trophy, floating iridescent prism, eight colored orbit rings and gems, rainbow particle fireworks, camera movement and a synthesized fanfare. Campaign and Daily Challenge are compared separately; practice and unfinished runs do not qualify. Ties receive their own copy. The shared board is fetched before the celebration; unavailable ranking leaves the regular result accessible. The claim button returns to the score form. The saved result names the player as #1 only when the refreshed ranking confirms that run leads.
++
++Reduced motion renders a static trophy scene for four seconds without fireworks. Fewer effects reduces particle counts and bypasses bloom. Settings and other dialogs pause the celebration, and it remains skippable.
++
++Daily rankings always use the current UTC date. A midnight timer, a one-second date check, and visibility/focus recovery refresh the date in open pages. Old daily records remain stored as history and disappear from the active board. Runs started before midnight keep their original challenge date and cannot claim the new day's record. The home challenge button and in-game leader change to the current date. The game uses the host's HTTP Date to adjust its clock when available.
++
++Daily tables replace World with AGE (MIN), using whole elapsed minutes from a stored submittedAt value. Cells update every second while visible; shared rankings refresh each minute. Adventure retains World. Submission timestamps are generated at submission using the adjusted browser clock, and stored with the immutable score row. Scores remain self-reported. Original rows did not have timestamps; their age shows an em dash with an explanation, with no fabricated backfill.
++
++The score schema adds optional DateTime submittedAt. The trigger accepts both legacy clients' payloads and the new timestamped form. The authenticated publisher merges the current live score container into the new rules and uses If-Match to avoid overwriting concurrent submissions. Migration preserved 11 existing run IDs and has a backup under ignored .private/. The deployment continues excluding scores.html from its normal file upload.
++
++Local browser preview confirmed the trophy/claim/result flow, age values and unknown legacy age, and switching an open daily table to the next date. A 390-pixel iframe showed the trophy and caption with no horizontal overflow. Preview controls and sample scores stay outside public/. No automated tests were added or run for this change.
++
++Published October 13, 2026 at 12:28:20 UTC. Authenticated read-back matched all 22 deployed files (HTML normalization allowed). Live browser review showed AGE (MIN), the 00:00 UTC reset notice, preserved daily scores and no warnings/errors. Deployment hashes are in deployment.json; schema migration evidence is in score-rules-release.json. Production score submission and subjective fanfare listening were not exercised during this release.
+diff --git a/package.json b/package.json
+index 83910d1..07f3bd8 100644
+--- a/package.json
++++ b/package.json
+@@ -9,0 +10,2 @@
++    "check:repository": "bun tools/repository-check.mjs",
++    "release:check": "bun tools/release-gate.mjs",
+diff --git a/policy-candidates/world-policy.html b/policy-candidates/world-policy.html
+index eb0c53f..8849b6d 100644
+--- a/policy-candidates/world-policy.html
++++ b/policy-candidates/world-policy.html
+@@ -13,0 +14,9 @@ const bool=(p,key)=>{if(p[key]!==undefined&&!['true','false'].includes(p[key]))t
++const propertyScopes={world:['schemaVersion','id','slug','name','note','tag','story','mechanic','shape','music','sky','accent','colors'],brickType:['type','name','base','effect','points','radius','duration','power'],formation:['phase','nextBrickId'],row:['index','x','y'],brick:['id','row','x','y','width','height','hitpoints','color','baseX'],barrier:['id','x','y','width','height','moving','gate'],portal:['x','y']};
++function checkStructuredFields(element,scope){
++ const childScopes=scope==='world'?['brickType','formation']:scope==='formation'?['row','brick','barrier','portal']:[];
++ for(const node of element.children){const name=node.getAttribute('itemprop');if(name===null)continue;
++  if(node.tagName.toLowerCase()==='meta'){if(!propertyScopes[scope].includes(name))throw Error('Unsupported property '+name+' in '+scope);}
++  else if(node.hasAttribute('itemscope')&&childScopes.includes(name))checkStructuredFields(node,name);
++  else throw Error('Unsupported structured child '+name+' in '+scope);
++ }
++}
+@@ -27 +36 @@ function validateWorld(world){
+-  text(type.name,40,'brick type name');if(!BASE_TYPES[type.base]||!EFFECTS.includes(type.effect))throw Error('Invalid brick behavior');
++  text(type.name,40,'brick type name');if(!Object.hasOwn(BASE_TYPES,type.base)||!EFFECTS.includes(type.effect))throw Error('Invalid brick behavior');
+@@ -34 +43 @@ function validateWorld(world){
+-  if(f.phase!==phase||!Array.isArray(f.bricks)||f.bricks.length<1||f.bricks.length>80)throw Error('A formation needs 1â€“80 bricks');
++  if(f.phase!==phase||!Array.isArray(f.bricks)||f.bricks.length<1||f.bricks.length>80)throw Error('A formation needs 1–80 bricks');
+@@ -41 +50 @@ function validateWorld(world){
+-   if(!BASE_TYPES[b.kind]||typeof b.moving!=='boolean')throw Error('Invalid brick type');
++   if(!Object.hasOwn(BASE_TYPES,b.kind)||typeof b.moving!=='boolean')throw Error('Invalid brick type');
+@@ -42,0 +52 @@ function validateWorld(world){
++   if(b.moving&&Math.abs(b.baseX)+.28+b.w/2>=10)throw Error('Moving brick extends outside the arena');
+@@ -47,0 +58 @@ function validateWorld(world){
++  for(const b of f.barriers)if(!b.moving&&Math.abs(b.x)+b.w/2>=10)throw Error('Barrier extends outside the arena');
+@@ -74 +85 @@ function worldHTML(input){
+-function worldDocument(world){return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>'+escape(world.name)+' Â· World definition</title><link rel="stylesheet" href="/world-data.css"></head><body>'+worldHTML(world)+'</body></html>';}
++function worldDocument(world){return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>'+escape(world.name)+' · World definition</title><link rel="stylesheet" href="/world-data.css"></head><body>'+worldHTML(world)+'</body></html>';}
+@@ -79,0 +91 @@ function parseWorld(input,{expectedSlug,Parser=globalThis.DOMParser}={}){
++ checkStructuredFields(root,'world');
+diff --git a/public/app.js b/public/app.js
+index 243fa73..066712b 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -5 +5 @@ import {BRICK_GUIDE,brickMarkerSVG} from './brick-labels.js?v=2';
+-import {Game,speedBonus,isValidSnapshot} from './engine.js?v=9';
++import {Game,speedBonus,isValidSnapshot} from './engine.js?v=10';
+@@ -15,0 +16 @@ import {setupGameDisplay} from './display.js';
++import {setupGraphicsRecovery} from './graphics-recovery.js';
+@@ -40 +41 @@ $('#install-instructions').textContent=ios?'Open the browser’s Share menu, cho
+-async function initializeStage(){try{const {Stage}=await import('./scene.js?v=14');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
++async function initializeStage(){try{const {Stage}=await import('./scene.js?v=15');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
+@@ -58 +59 @@ function hud(){
+- $('#score').textContent=game.score.toLocaleString();$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' lives');updateChase();
++ $('#score').textContent=game.score.toLocaleString();$('#combo').textContent='×'+Math.min(5,1+Math.floor(game.combo/6));$('#lives').innerHTML=game.lives<=3?icon('heart').repeat(Math.max(0,game.lives)):icon('heart')+'<span>×'+game.lives+'</span>';$('#lives').setAttribute('aria-label',game.lives+' '+(game.lives===1?'life':'lives'));updateChase();
+@@ -91 +92 @@ function handleEvent(e){
+- if(e.type==='life'){toast(game.lives+' lives left. You’ve got this.');persist();}
++ if(e.type==='life'){toast(game.lives+' '+(game.lives===1?'life':'lives')+' left. You’ve got this.');persist();}
+@@ -110 +111 @@ async function begin(mode='campaign',level=0){
+- if(!stage)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
++ if(!stage||graphicsRecovery.blocked)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
+@@ -165 +166 @@ function openDialog(id){
+-all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length){game.state=modalResume;modalResume=null;lastHud='';hud();}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
++all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked){game.state=modalResume;modalResume=null;lastHud='';hud();}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
+@@ -180,0 +182,8 @@ const canvas=$('#game-canvas');let dragging=false;
++const graphicsRecovery=setupGraphicsRecovery(canvas,{
++ pause(){keys.clear();dragging=false;accumulator=0;if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');sound.update(false,THEMES.indexOf(game.world.music));},
++ async restore(){if(!stage)throw Error('Arena not initialized');stage.preparedModes?.clear();await stage.prepare(game);stage.resize();},
++ onStatus(status){const ready=status==='ready';$('#error').hidden=ready;$('#unpause').disabled=!ready;
++  if(ready){if(view==='game'&&game.state==='paused'&&!$('dialog[open]'))openDialog('#pause-dialog');if($('#pause-dialog').open)$('#pause-description').textContent='Arena restored. Resume when ready.';toast('Arena restored. Resume when ready.');}
++  else {$('#error-text').textContent=status==='recovering'?'Restoring the 3D arena. Your game is paused.':status==='failed'?'The 3D arena could not recover. Reload the game to try again. An unfinished Daily Challenge or Practice run will end.':'Graphics were interrupted. Your game is paused while the arena recovers. Reload if it does not return; an unfinished Daily Challenge or Practice run will end.';if($('#pause-dialog').open)$('#pause-description').textContent=$('#error-text').textContent;}
++ }
++});
+@@ -360 +369 @@ let last=performance.now(),saveTimer=0,lastScenePaint=0,sceneDelta=0;
+-function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing){
++function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing&&!graphicsRecovery.blocked){
+diff --git a/public/bootstrap.js b/public/bootstrap.js
+new file mode 100644
+index 0000000..55be4f7
+--- /dev/null
++++ b/public/bootstrap.js
+@@ -0,0 +1,17 @@
++// Keep recovery independent of the application module graph. A missing engine
++// must not leave an uncontrolled first visit on an endless preparation screen.
++export function startupFailure(doc,reload){
++ const find=id=>doc.querySelector(id);
++ for(const button of doc.querySelectorAll('#play,#resume,#daily,.world-card,#worlds-menu,#scores-open,#help-open,#settings-open,#sound-toggle,#fullscreen,#install-game,#update-game,#retry-download,#check-updates,[data-pwa-update]'))button.disabled=true;
++ if(find('#arena-status'))find('#arena-status').hidden=true;
++ find('#stage')?.setAttribute('aria-busy','false');
++ if(find('#error'))find('#error').hidden=false;
++ if(find('#error-text'))find('#error-text').textContent='The game files could not load. Reconnect and reload the game. If an update is being published, try again in a moment.';
++ if(find('#reload'))find('#reload').onclick=reload;
++ if(find('#offline-status'))find('#offline-status').textContent='Game download unavailable';
++ if(find('#offline-detail'))find('#offline-detail').textContent='Reconnect and reload to finish loading Prism Breaker.';
++}
++export async function startGame({document:doc=globalThis.document,load=()=>import('./app.js?v=32'),reload=()=>location.reload()}={}){
++ try{await load();return true;}catch{startupFailure(doc,reload);return false;}
++}
++if(typeof document!=='undefined')startGame();
+diff --git a/public/editor-route.html b/public/editor-route.html
+index aa48551..e2fb821 100644
+--- a/public/editor-route.html
++++ b/public/editor-route.html
+@@ -3 +3 @@
+-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2YHmr/sBWgBjyxPTJ410ePAn3wvQw+OPFL9uPARCmcw='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
++<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rpGjQ1rEqP/IdQW4t20OVWXoGVQmTfHOPvrXUUoniDo='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
+@@ -11,2 +11,2 @@
+- const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=88533e2bb067';document.head.append(stylesheet);
+- await import('/editor.js?v=d392fd136bce');
++ const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=9f7e670228b6';document.head.append(stylesheet);
++ await import('/editor.js?v=ee87e857e0b1');
+diff --git a/public/editor.html b/public/editor.html
+index 8c19e49..dc296bc 100644
+--- a/public/editor.html
++++ b/public/editor.html
+@@ -3 +3 @@
+-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-2YHmr/sBWgBjyxPTJ410ePAn3wvQw+OPFL9uPARCmcw='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
++<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-rpGjQ1rEqP/IdQW4t20OVWXoGVQmTfHOPvrXUUoniDo='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
+@@ -11,2 +11,2 @@
+- const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=88533e2bb067';document.head.append(stylesheet);
+- await import('/editor.js?v=d392fd136bce');
++ const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=9f7e670228b6';document.head.append(stylesheet);
++ await import('/editor.js?v=ee87e857e0b1');
+diff --git a/public/editor.js b/public/editor.js
+index 5597e08..4340cfa 100644
+--- a/public/editor.js
++++ b/public/editor.js
+@@ -5 +5 @@ import {WORLD_SLUGS,originalWorld,normalizeWorld,parseWorld,worldHTML,worldDocum
+-import {Game} from './engine.js?v=9';
++import {Game} from './engine.js?v=10';
+@@ -6,0 +7 @@ import {attachBrickDOM} from './brick-events.js';
++import {setupGraphicsRecovery} from './graphics-recovery.js';
+@@ -10,0 +12,8 @@ const keys=new Set();const draftKey=slug=>'prism.world-draft.'+slug;
++const previewGraphics=setupGraphicsRecovery(document.querySelector('#preview-canvas'),{
++ pause(){keys.clear();previewReady=false;if(previewGame)previewGame.state='paused';},
++ async restore(){if(!stage||!previewGame)throw Error('Preview unavailable');stage.preparedModes?.clear();await stage.prepare(previewGame);stage.resize();},
++ onStatus(status){const ready=status==='ready';previewReady=ready;$('#restart-preview').disabled=!ready;$('#preview-launch').disabled=!ready;
++  if(ready&&previewGame){previewGame.state='ready';$('#preview-launch').textContent='Resume preview';}
++  $('#preview-status').textContent=ready?'Arena restored. Resume the preview when ready.':status==='failed'?'The arena could not recover. Close the preview and reload the workshop. Your saved draft is retained.':'Graphics interrupted. Preview paused while the arena recovers.';
++ }
++});
+@@ -127 +136 @@ function startPreview(){
+- $('#preview-title').textContent=world.name+' · Formation '+(phase+1);$('#preview-status').textContent='Practice preview. Move with the pointer or arrows; Space launches.';$('#preview-launch').hidden=false;
++ $('#preview-title').textContent=world.name+' · Formation '+(phase+1);$('#preview-status').textContent='Practice preview. Move with the pointer or arrows; Space launches.';$('#preview-launch').hidden=false;$('#preview-launch').textContent='Launch ball';
+@@ -130 +139 @@ $('#preview').onclick=async()=>{
+- try{normalizeWorld(world);$('#preview-dialog').showModal();previewReady=false;startPreview();if(!stage){const {Stage}=await import('./scene.js?v=14');stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}stage.resize();await stage.prepare(previewGame);previewReady=true;$('#preview-canvas').focus();}catch(e){$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
++ try{normalizeWorld(world);$('#preview-dialog').showModal();previewReady=false;startPreview();if(!stage){const {Stage}=await import('./scene.js?v=15');stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}stage.resize();await stage.prepare(previewGame);previewReady=true;$('#preview-canvas').focus();}catch(e){$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
+@@ -142 +151 @@ let last=performance.now(),accumulator=0;
+-function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if($('#preview-dialog').open&&previewReady&&!document.hidden){previewClock+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}stage.render(previewGame,dt,previewClock,'game');$('#preview-score').textContent='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;$('#preview-launch').hidden=!previewGame.balls.some(b=>b.held)||previewGame.state==='over'||previewGame.state==='cleared';}requestAnimationFrame(frame);}requestAnimationFrame(frame);
++function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if($('#preview-dialog').open&&previewReady&&!document.hidden&&!previewGraphics.blocked){previewClock+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}stage.render(previewGame,dt,previewClock,'game');$('#preview-score').textContent='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;$('#preview-launch').hidden=(previewGame.state!=='ready'&&!previewGame.balls.some(b=>b.held))||previewGame.state==='over'||previewGame.state==='cleared';}requestAnimationFrame(frame);}requestAnimationFrame(frame);
+diff --git a/public/engine.js b/public/engine.js
+index 475b06c..f814811 100644
+--- a/public/engine.js
++++ b/public/engine.js
+@@ -24,0 +25,9 @@ function paddleImpact(b,oldX,oldY,paddle,oldPaddleX){
++function paddleTrajectory(b,oldX,oldY,paddle,oldPaddleX,wall){
++ if(!wall){const time=paddleImpact(b,oldX,oldY,paddle,oldPaddleX);return time===null?null:{time,x:oldX+(b.x-oldX)*time};}
++ // A wall bounce is two segments. The chord from start to clamped wall loses
++ // inward travel and can miss a paddle moving away beside the wall.
++ const t=wall.time,y=oldY+(b.y-oldY)*t,px=oldPaddleX+(paddle.x-oldPaddleX)*t;
++ if(t>0){const hit=paddleImpact({...b,x:wall.x,y},oldX,oldY,{...paddle,x:px},oldPaddleX);if(hit!==null)return {time:hit*t,x:oldX+(wall.x-oldX)*hit};}
++ if(t<1){const hit=paddleImpact(b,wall.x,y,paddle,px);if(hit!==null)return {time:t+hit*(1-t),x:wall.x+(b.x-wall.x)*hit};}
++ return null;
++}
+@@ -150,2 +159,2 @@ export class Game {
+-     if(b.x<-10+b.r){b.x=-10+b.r;b.vx=Math.abs(b.vx);this.emit({type:'wall'});}
+-     if(b.x>10-b.r){b.x=10-b.r;b.vx=-Math.abs(b.vx);this.emit({type:'wall'});}
++     let wall=null;
++     if(b.x<-10+b.r||b.x>10-b.r){const x=b.x<0?-10+b.r:10-b.r;wall={x,time:Math.max(0,Math.min(1,(x-oldX)/(b.x-oldX)))};b.x=2*x-b.x;b.vx=x<0?Math.abs(b.vx):-Math.abs(b.vx);this.emit({type:'wall'});}
+@@ -154 +163 @@ export class Game {
+-     const contact=paddleImpact(b,oldX,oldY,this.paddle,oldPaddleX);
++     const impact=paddleTrajectory(b,oldX,oldY,this.paddle,oldPaddleX,wall),contact=impact?.time??null;
+@@ -157 +166 @@ export class Game {
+-        b.x=oldX+(b.x-oldX)*contact;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
++        b.x=impact.x;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
+diff --git a/public/graphics-recovery.js b/public/graphics-recovery.js
+new file mode 100644
+index 0000000..c63dd59
+--- /dev/null
++++ b/public/graphics-recovery.js
+@@ -0,0 +1,12 @@
++// A lost drawing context must freeze simulation as well as rendering.
++export function setupGraphicsRecovery(canvas,{pause=()=>{},restore=async()=>{},onStatus=()=>{}}={}){
++ let blocked=false,generation=0,disposed=false;
++ const lost=event=>{event.preventDefault();if(disposed)return;blocked=true;++generation;pause();onStatus('lost');};
++ const restored=async()=>{
++  if(disposed||!blocked)return;const ticket=++generation;onStatus('recovering');
++  try{await restore();if(disposed||ticket!==generation)return;blocked=false;onStatus('ready');}
++  catch{if(!disposed&&ticket===generation)onStatus('failed');}
++ };
++ canvas.addEventListener('webglcontextlost',lost);canvas.addEventListener('webglcontextrestored',restored);
++ return {get blocked(){return blocked;},dispose(){disposed=true;++generation;canvas.removeEventListener('webglcontextlost',lost);canvas.removeEventListener('webglcontextrestored',restored);}};
++}
+diff --git a/public/index.html b/public/index.html
+index 141aadf..6275c1f 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -4 +4 @@
+- <meta name="prism-release" content="a998edcd3009a53d6733">
++ <meta name="prism-release" content="d2fa444df7cfd477dcf9">
+@@ -18 +18 @@
+- <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/app.js?v=31"></script>
++ <link rel="stylesheet" href="/display.css?v=2"><script type="module" src="/bootstrap.js?v=1"></script>
+@@ -53 +53 @@
+-    <div id="error" class="error-panel" hidden><h2>A little help from your browser</h2><p id="error-text">This game needs WebGL 2. Try enabling hardware acceleration or using a current browser.</p><button class="button primary" id="reload">Reload game</button></div>
++    <div id="error" class="error-panel" hidden><h2>A little help from your browser</h2><p id="error-text" role="alert">This game needs WebGL 2. Try enabling hardware acceleration or using a current browser.</p><button class="button primary" id="reload">Reload game</button></div>
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index 9bc17fa..303faff 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -2 +2 @@
+-export const PWA_RELEASE = "a998edcd3009a53d6733";
++export const PWA_RELEASE = "d2fa444df7cfd477dcf9";
+diff --git a/public/scene.js b/public/scene.js
+index 40145dd..bb270e9 100644
+--- a/public/scene.js
++++ b/public/scene.js
+@@ -27 +27,2 @@ export class Stage {
+-  await this.renderer.compileAsync(this.scene,this.camera);
++  // Compile while controls are paused; Three.js async polling can outlive a lost context.
++   this.renderer.compile(this.scene,this.camera);
+@@ -38,2 +39,3 @@ export class Stage {
+-    const pool=[];this.powerPools.set(mode+':'+kind,pool);
+-    for(let n=0;n<2;n++){const power=this.makePower(kind);power.userData.poolKey=mode+':'+kind;power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);pool.push(power);i++;}
++    const key=mode+':'+kind,pool=this.powerPools.get(key)||[];this.powerPools.set(key,pool);
++    while(pool.length<2){const power=this.makePower(kind);power.userData.poolKey=key;pool.push(power);}
++    for(const power of pool){power.position.set((i%4-1.5)*3,Math.floor(i/4)*3-6,2);warm.add(power);i++;}
+@@ -51 +53,2 @@ export class Stage {
+-   await this.renderer.compileAsync(this.scene,this.camera);
++   // Compile while controls are paused; Three.js async polling can outlive a lost context.
++   this.renderer.compile(this.scene,this.camera);
+diff --git a/public/sw.js b/public/sw.js
+index 3c083e8..9b86ef3 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -2 +2 @@
+-const VERSION = "a998edcd3009a53d6733";
++const VERSION = "d2fa444df7cfd477dcf9";
+@@ -6,2 +6,2 @@ const PRECACHE = [
+-    "sha256": "8937682d5930165f6eefa33d4d0e3f6dd6fb357767c71a270d95e85ab9f52792",
+-    "bytes": 53551
++    "sha256": "bc14fc3559912df7142c7fde06eb41d275d74907c7496b085de6558877f8d277",
++    "bytes": 54623
+@@ -26,2 +26,2 @@ const PRECACHE = [
+-    "sha256": "c9a6f76d065b19ee383e42c8a114915e733bcbaed9759de41f4016b64d502cd5",
+-    "bytes": 4494
++    "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
++    "bytes": 4401
+@@ -163,0 +164,5 @@ const PRECACHE = [
++  {
++    "path": "/bootstrap.js",
++    "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
++    "bytes": 1363
++  },
+@@ -166,2 +171,2 @@ const PRECACHE = [
+-    "sha256": "548828a2306da7c6b9b12a73f8815ef0b2df64b7bd8a5c695afbf839e97e8cad",
+-    "bytes": 3945
++    "sha256": "3ed016a3adf5fb6c91d3e088c981b28c04caa3e57866486b5c349f132f564cfe",
++    "bytes": 3894
+@@ -181,2 +186,2 @@ const PRECACHE = [
+-    "sha256": "aead9574141a4ccb7d56d73755336a1ad7492f6b319482f6129c2164685eb675",
+-    "bytes": 5803
++    "sha256": "a33604726497adc9efc6b9002f067b640234942d88e0ebe39d2de8155c7b3ef8",
++    "bytes": 5802
+@@ -191,2 +196,2 @@ const PRECACHE = [
+-    "sha256": "d9dc77d96e678144a677759b94f9cc90b009438c17d8198fcf09c0e02b5ee6e0",
+-    "bytes": 15555
++    "sha256": "e39eead18646a2ef8c4f2e7276db395a85bf1d870dccaca1ebf4bd39c9d74ed2",
++    "bytes": 15450
+@@ -221,2 +226,2 @@ const PRECACHE = [
+-    "sha256": "88533e2bb067e23e40ccc8d12c96b5448ac6160561c898c9ef4d40860203fdf8",
+-    "bytes": 7616
++    "sha256": "9f7e670228b6524f8dae1878d634af576462ec6b5629cdcfa9ab8b40796f521d",
++    "bytes": 7605
+@@ -226,2 +231,2 @@ const PRECACHE = [
+-    "sha256": "d392fd136bce9e9d8de6c9293904f05f05c2bf829415338a49fb1912e9faaff9",
+-    "bytes": 21725
++    "sha256": "ee87e857e0b1d1d7bb7206bae1eb7a412177f60f51c685a0b4819270b3dbd5a2",
++    "bytes": 22587
+@@ -231,2 +236,2 @@ const PRECACHE = [
+-    "sha256": "d6feeb5bee43f9d20f7191ace7506776f1c987f8157a86357b0f769d29eae11c",
+-    "bytes": 16934
++    "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511",
++    "bytes": 17520
+@@ -243,0 +249,5 @@ const PRECACHE = [
++  {
++    "path": "/graphics-recovery.js",
++    "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
++    "bytes": 910
++  },
+@@ -246,2 +256,2 @@ const PRECACHE = [
+-    "sha256": "89d7a6d3f46c943986c33c300311e79a74a71de9f073b69b89527f007053b236",
+-    "bytes": 24178
++    "sha256": "854f7cd24df277d1318fb383a237be73d1d325a1316758bc9782360e1943d638",
++    "bytes": 24196
+@@ -251,2 +261,2 @@ const PRECACHE = [
+-    "sha256": "e147243419aa5413a4159c14e9be3cbd6d708aa21f453c086d416c0d38c37521",
+-    "bytes": 1447
++    "sha256": "77e7ca7317fafa78843d559a33a49c5572ae304762ddc103bc9c0de952ca03fe",
++    "bytes": 1427
+@@ -271,2 +281,2 @@ const PRECACHE = [
+-    "sha256": "6a69b6d269ea965cde8964faea89df1d0458d1254d080dcf1273758e1944cb9b",
+-    "bytes": 10428
++    "sha256": "2cce4c462b8ad2f51c1b79c9aaafbfc844379190e6cffcda3b296f245cafc49f",
++    "bytes": 10268
+@@ -286 +296 @@ const PRECACHE = [
+-    "sha256": "8b5d949a82d82d7c55f0490f3741687efc4ea9449950559f7f2a4566c8960934",
++    "sha256": "ec4d7ff8c384d1475c588dcdfc2cf4468a5202fa2244a53c70aa96fafd37a4f4",
+@@ -296,2 +306,2 @@ const PRECACHE = [
+-    "sha256": "24181057c2c4e9318d8e703ad3e99f6271e45499685fa3ab004dc2da3a50decf",
+-    "bytes": 26441
++    "sha256": "83f53c389135e7055ddabcc3b5943732efde7a5d901aa303a3a8003abfea94ef",
++    "bytes": 26484
+@@ -336,2 +346,2 @@ const PRECACHE = [
+-    "sha256": "9a5f828ea7255e5645d648c4e43ca2d0666765aeb46a1583771d9551646f8c70",
+-    "bytes": 870
++    "sha256": "f84402f80042657f4624eee1245db099f4f1b42ca6e0206769ebe97bf36db1b2",
++    "bytes": 859
+@@ -341,2 +351,2 @@ const PRECACHE = [
+-    "sha256": "b8af124a0420f14636211a54e4b110e10e3dc10e0f78e1c9725361f285fdcf96",
+-    "bytes": 2820
++    "sha256": "d983e2a502991c0a67e320d742601a348bee674b01d275ca41e1f890d5f72b57",
++    "bytes": 2792
+@@ -351,2 +361,2 @@ const PRECACHE = [
+-    "sha256": "4bc2096d6d0d566e8b57be405cc7fdb82ece25a5839a9e3358e888d7b3775163",
+-    "bytes": 10802
++    "sha256": "5ac75e0174487736b8dfc4b1a5afa407c0fa2d48871fef73fda06a55f064a432",
++    "bytes": 11997
+diff --git a/public/world-schema.js b/public/world-schema.js
+index 69e42b5..68535f6 100644
+--- a/public/world-schema.js
++++ b/public/world-schema.js
+@@ -13,0 +14,9 @@ const bool=(p,key)=>{if(p[key]!==undefined&&!['true','false'].includes(p[key]))t
++const propertyScopes={world:['schemaVersion','id','slug','name','note','tag','story','mechanic','shape','music','sky','accent','colors'],brickType:['type','name','base','effect','points','radius','duration','power'],formation:['phase','nextBrickId'],row:['index','x','y'],brick:['id','row','x','y','width','height','hitpoints','color','baseX'],barrier:['id','x','y','width','height','moving','gate'],portal:['x','y']};
++function checkStructuredFields(element,scope){
++ const childScopes=scope==='world'?['brickType','formation']:scope==='formation'?['row','brick','barrier','portal']:[];
++ for(const node of element.children){const name=node.getAttribute('itemprop');if(name===null)continue;
++  if(node.tagName.toLowerCase()==='meta'){if(!propertyScopes[scope].includes(name))throw Error('Unsupported property '+name+' in '+scope);}
++  else if(node.hasAttribute('itemscope')&&childScopes.includes(name))checkStructuredFields(node,name);
++  else throw Error('Unsupported structured child '+name+' in '+scope);
++ }
++}
+@@ -27 +36 @@ export function validateWorld(world){
+-  text(type.name,40,'brick type name');if(!BASE_TYPES[type.base]||!EFFECTS.includes(type.effect))throw Error('Invalid brick behavior');
++  text(type.name,40,'brick type name');if(!Object.hasOwn(BASE_TYPES,type.base)||!EFFECTS.includes(type.effect))throw Error('Invalid brick behavior');
+@@ -34 +43 @@ export function validateWorld(world){
+-  if(f.phase!==phase||!Array.isArray(f.bricks)||f.bricks.length<1||f.bricks.length>80)throw Error('A formation needs 1â€“80 bricks');
++  if(f.phase!==phase||!Array.isArray(f.bricks)||f.bricks.length<1||f.bricks.length>80)throw Error('A formation needs 1–80 bricks');
+@@ -41 +50 @@ export function validateWorld(world){
+-   if(!BASE_TYPES[b.kind]||typeof b.moving!=='boolean')throw Error('Invalid brick type');
++   if(!Object.hasOwn(BASE_TYPES,b.kind)||typeof b.moving!=='boolean')throw Error('Invalid brick type');
+@@ -42,0 +52 @@ export function validateWorld(world){
++   if(b.moving&&Math.abs(b.baseX)+.28+b.w/2>=10)throw Error('Moving brick extends outside the arena');
+@@ -47,0 +58 @@ export function validateWorld(world){
++  for(const b of f.barriers)if(!b.moving&&Math.abs(b.x)+b.w/2>=10)throw Error('Barrier extends outside the arena');
+@@ -74 +85 @@ export function worldHTML(input){
+-export function worldDocument(world){return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>'+escape(world.name)+' Â· World definition</title><link rel="stylesheet" href="/world-data.css"></head><body>'+worldHTML(world)+'</body></html>';}
++export function worldDocument(world){return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>'+escape(world.name)+' · World definition</title><link rel="stylesheet" href="/world-data.css"></head><body>'+worldHTML(world)+'</body></html>';}
+@@ -79,0 +91 @@ export function parseWorld(input,{expectedSlug,Parser=globalThis.DOMParser}={}){
++ checkStructuredFields(root,'world');
+diff --git a/public/worlds/aurora-passage/definition.html b/public/worlds/aurora-passage/definition.html
+index 05da158..63c1841 100644
+--- a/public/worlds/aurora-passage/definition.html
++++ b/public/worlds/aurora-passage/definition.html
+@@ -6 +6 @@
+-<title>Aurora Passage Â· World definition</title>
++<title>Aurora Passage · World definition</title>
+diff --git a/public/worlds/clockwork-canopy/definition.html b/public/worlds/clockwork-canopy/definition.html
+index 58a1296..8aa4278 100644
+--- a/public/worlds/clockwork-canopy/definition.html
++++ b/public/worlds/clockwork-canopy/definition.html
+@@ -6 +6 @@
+-<title>Clockwork Canopy Â· World definition</title>
++<title>Clockwork Canopy · World definition</title>
+diff --git a/public/worlds/cloud-carnival/definition.html b/public/worlds/cloud-carnival/definition.html
+index e49e759..a8d27dd 100644
+--- a/public/worlds/cloud-carnival/definition.html
++++ b/public/worlds/cloud-carnival/definition.html
+@@ -6 +6 @@
+-<title>Cloud Carnival Â· World definition</title>
++<title>Cloud Carnival · World definition</title>
+diff --git a/public/worlds/cosmic-reef/definition.html b/public/worlds/cosmic-reef/definition.html
+index fe1f887..b02fc99 100644
+--- a/public/worlds/cosmic-reef/definition.html
++++ b/public/worlds/cosmic-reef/definition.html
+@@ -6 +6 @@
+-<title>Cosmic Reef Â· World definition</title>
++<title>Cosmic Reef · World definition</title>
+diff --git a/public/worlds/crystal-caverns/definition.html b/public/worlds/crystal-caverns/definition.html
+index d354a07..0c9aa43 100644
+--- a/public/worlds/crystal-caverns/definition.html
++++ b/public/worlds/crystal-caverns/definition.html
+@@ -6 +6 @@
+-<title>Crystal Caverns Â· World definition</title>
++<title>Crystal Caverns · World definition</title>
+diff --git a/public/worlds/dawn-nexus/definition.html b/public/worlds/dawn-nexus/definition.html
+index a518443..45b6178 100644
+--- a/public/worlds/dawn-nexus/definition.html
++++ b/public/worlds/dawn-nexus/definition.html
+@@ -6 +6 @@
+-<title>Dawn Nexus Â· World definition</title>
++<title>Dawn Nexus · World definition</title>
+diff --git a/public/worlds/electric-city/definition.html b/public/worlds/electric-city/definition.html
+index 225656e..97107d0 100644
+--- a/public/worlds/electric-city/definition.html
++++ b/public/worlds/electric-city/definition.html
+@@ -6 +6 @@
+-<title>Electric City Â· World definition</title>
++<title>Electric City · World definition</title>
+diff --git a/public/worlds/ember-foundry/definition.html b/public/worlds/ember-foundry/definition.html
+index f9e91dd..9e9a670 100644
+--- a/public/worlds/ember-foundry/definition.html
++++ b/public/worlds/ember-foundry/definition.html
+@@ -6 +6 @@
+-<title>Ember Foundry Â· World definition</title>
++<title>Ember Foundry · World definition</title>
+diff --git a/public/worlds/event-horizon/definition.html b/public/worlds/event-horizon/definition.html
+index 9900339..322b6f7 100644
+--- a/public/worlds/event-horizon/definition.html
++++ b/public/worlds/event-horizon/definition.html
+@@ -6 +6 @@
+-<title>Event Horizon Â· World definition</title>
++<title>Event Horizon · World definition</title>
+diff --git a/public/worlds/frost-observatory/definition.html b/public/worlds/frost-observatory/definition.html
+index 13c849b..cb58363 100644
+--- a/public/worlds/frost-observatory/definition.html
++++ b/public/worlds/frost-observatory/definition.html
+@@ -6 +6 @@
+-<title>Frost Observatory Â· World definition</title>
++<title>Frost Observatory · World definition</title>
+diff --git a/public/worlds/lunar-harbor/definition.html b/public/worlds/lunar-harbor/definition.html
+index 63a0c80..ae7d7fe 100644
+--- a/public/worlds/lunar-harbor/definition.html
++++ b/public/worlds/lunar-harbor/definition.html
+@@ -6 +6 @@
+-<title>Lunar Harbor Â· World definition</title>
++<title>Lunar Harbor · World definition</title>
+diff --git a/public/worlds/mirage-dunes/definition.html b/public/worlds/mirage-dunes/definition.html
+index c969c3f..7fe983f 100644
+--- a/public/worlds/mirage-dunes/definition.html
++++ b/public/worlds/mirage-dunes/definition.html
+@@ -6 +6 @@
+-<title>Mirage Dunes Â· World definition</title>
++<title>Mirage Dunes · World definition</title>
+diff --git a/public/worlds/prism-citadel/definition.html b/public/worlds/prism-citadel/definition.html
+index 654e1ed..0863008 100644
+--- a/public/worlds/prism-citadel/definition.html
++++ b/public/worlds/prism-citadel/definition.html
+@@ -6 +6 @@
+-<title>Prism Citadel Â· World definition</title>
++<title>Prism Citadel · World definition</title>
+diff --git a/public/worlds/prism-garden/definition.html b/public/worlds/prism-garden/definition.html
+index 4710599..731896b 100644
+--- a/public/worlds/prism-garden/definition.html
++++ b/public/worlds/prism-garden/definition.html
+@@ -6 +6 @@
+-<title>Prism Garden Â· World definition</title>
++<title>Prism Garden · World definition</title>
+diff --git a/public/worlds/sunken-archive/definition.html b/public/worlds/sunken-archive/definition.html
+index 1cf9bbf..5a2307e 100644
+--- a/public/worlds/sunken-archive/definition.html
++++ b/public/worlds/sunken-archive/definition.html
+@@ -6 +6 @@
+-<title>Sunken Archive Â· World definition</title>
++<title>Sunken Archive · World definition</title>
+diff --git a/public/worlds/thunder-spire/definition.html b/public/worlds/thunder-spire/definition.html
+index 4f1f187..6a9f8c8 100644
+--- a/public/worlds/thunder-spire/definition.html
++++ b/public/worlds/thunder-spire/definition.html
+@@ -6 +6 @@
+-<title>Thunder Spire Â· World definition</title>
++<title>Thunder Spire · World definition</title>
+diff --git a/tests/follow-up-review.test.mjs b/tests/follow-up-review.test.mjs
+new file mode 100644
+index 0000000..0b38869
+--- /dev/null
++++ b/tests/follow-up-review.test.mjs
+@@ -0,0 +1,79 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {DOMParser} from 'linkedom';
++import {Game,LIMIT,PICKUP_POINTS,speedBonus} from '../public/engine.js';
++import {rng,WORLD_COUNT} from '../public/levels.js';
++import {originalWorld,worldDocument,parseWorld,worldHTML} from '../public/world-format.js';
++
++test('R08 unsupported structured properties fail explicitly instead of disappearing on export',()=>{
++ const html=worldDocument(originalWorld(0));
++ for(const anchor of ['itemprop="name"','itemprop="phase"','itemprop="hitpoints"']){
++  const altered=html.replace('<meta '+anchor,'<meta itemprop="designerNote" content="keep me"><meta '+anchor);
++  assert.throws(()=>parseWorld(altered,{Parser:DOMParser}),/Unsupported property/);
++ }
++ const child=html.replace('</article>','<section itemprop="newMechanic" itemscope itemtype="urn:NewMechanic"></section></article>');
++ assert.throws(()=>parseWorld(child,{Parser:DOMParser}),/Unsupported structured child/);
++});
++test('R08 hostile markup stays inert and supported worlds retain complete canonical round trips',()=>{
++ const world=originalWorld(0);world.name='<img src=x onerror=alert(1)>';world.story='<script>bad()</script>';
++ const html=worldDocument(world).replace('</body>','<script>bad()</script></body>');
++ const parsed=parseWorld(html,{Parser:DOMParser}),doc=new DOMParser().parseFromString(worldHTML(parsed),'text/html');
++ assert.equal(doc.querySelector('script,img'),null);assert.equal(parsed.name,world.name);assert.equal(parsed.story,world.story);
++ assert.equal(worldHTML(parseWorld(worldHTML(parsed),{Parser:DOMParser})),worldHTML(parsed));
++});
++test('R14 generated document titles and validation messages retain correct UTF-8',()=>{
++ assert.ok(worldDocument(originalWorld(0)).includes('<title>Prism Garden · World definition</title>'));
++ const empty=originalWorld(0);empty.formations[0].bricks=[];assert.throws(()=>worldHTML(empty),/1–80 bricks/);
++});
++test('R08 inherited object names and off-board obstacle/movement geometry are rejected',()=>{
++ const inherited=originalWorld(0);inherited.types.push({type:'urn:Brick:Custom:review',name:'Review',base:'constructor',effect:'none'});assert.throws(()=>worldHTML(inherited),/Invalid brick behavior/);
++ const kind=originalWorld(0);kind.formations[0].bricks[0].kind='constructor';assert.throws(()=>worldHTML(kind),/Invalid brick type/);
++ const obstacle=originalWorld(0);obstacle.formations[0].barriers.push({id:999,x:9,y:0,w:8,h:.5,moving:false,gate:false});assert.throws(()=>worldHTML(obstacle),/Barrier extends/);
++ const moving=originalWorld(0);Object.assign(moving.formations[0].bricks[0],{moving:true,baseX:9,w:2});assert.throws(()=>worldHTML(moving),/Moving brick extends/);
++});
++test('R02 independent piecewise wall trajectories never miss sampled paddle-solid contacts',()=>{
++ let state=72031,contacts=0;const random=()=>{state=(Math.imul(state,1664525)+1013904223)>>>0;return state/4294967296;};
++ for(let n=0;n<6000;n++){
++  const g=new Game();g.state='playing';g.hits=200;const wide=random()<.5,slow=random()<.5,side=random()<.5?-1:1;
++  if(wide)g.power('wide');if(slow)g.power('slow');g.paddle.x=side*(10-g.paddle.w/2-random()*.8);g.move(g.paddle.x-side*random()*3);
++  const b=g.balls[0],dt=[1/240,1/120,1/60,.05][n%4],angle=.2+random()*.9,speed=g.speed();
++  Object.assign(b,{held:false,x:side*(9.65+random()*.12),y:LIMIT.paddleY-.3+random()*.95,vx:side*Math.sin(angle)*speed,vy:-Math.cos(angle)*speed});
++  const x=b.x,y=b.y,vx=b.vx*(slow?.67:1),vy=b.vy*(slow?.67:1),px=g.paddle.x,tx=px+(g.target-px)*Math.min(1,dt*25),wall=side*(10-b.r);
++  let touches=false;
++  for(let sample=0;sample<=200;sample++){const time=dt*sample/200,raw=x+vx*time,bx=side*raw>side*wall?2*wall-raw:raw;
++   const gapX=Math.max(0,Math.abs(bx-(px+(tx-px)*sample/200))-g.paddle.w/2),gapY=Math.max(0,Math.abs(y+vy*time-LIMIT.paddleY)-.17);
++   if(Math.hypot(gapX,gapY)<=b.r){touches=true;break;}
++  }
++  g.tick(dt);if(touches){contacts++;assert.ok(b.held||b.vy>0,'wall/contact miss '+JSON.stringify({n,dt,side,x,y,vx,vy,px,tx,ball:{x:b.x,y:b.y,vx:b.vx,vy:b.vy},width:g.paddle.w}));}
++ }
++ assert.ok(contacts>500,'oracle must actually encounter contacts');
++});
++test('R07 independently calculated streak, pickup, clear and speed totals agree',()=>{
++ const g=new Game();g.state='playing';g.random=()=>.99;g.hits=20;
++ g.bricks=Array.from({length:13},(_,id)=>({id,x:id*3,y:5,w:1,h:.7,hp:1,maxHp:1,kind:'normal',color:'#ffffff'}));
++ let expected=0;for(let i=1;i<=13;i++){g.damage(g.bricks[i-1]);expected+=100*Math.min(5,1+Math.floor(i/6));assert.equal(g.score,expected);}
++ g.power('wide',true);expected+=150;assert.equal(PICKUP_POINTS,150);assert.equal(g.score,expected);
++ g.boardElapsed=42;g.tick(1/120);expected+=1580+750+3*150;assert.equal(g.score,expected);assert.equal(g.state,'cleared');
++ assert.equal(speedBonus(199.999),10);assert.equal(speedBonus(200),0);assert.equal(speedBonus(-1),2000);
++});
++test('R02 pause freezes powers and saved board time, including Sticky/Wide support',()=>{
++ const g=new Game();g.state='playing';g.power('wide');g.power('sticky');const ball=g.balls[0];ball.held=true;ball.holdOffset=2.2;
++ g.state='paused';const before=structuredClone({effects:g.effects,elapsed:g.elapsed,boardElapsed:g.boardElapsed,paddle:g.paddle});
++ g.tick(10);assert.deepEqual({effects:g.effects,elapsed:g.elapsed,boardElapsed:g.boardElapsed,paddle:g.paddle},before);assert.equal(ball.held,true);
++ g.state='playing';g.effects.wide=.001;g.tick(1/120);assert.equal(ball.held,false);assert.ok(ball.vy>0);
++});
++test('R02 a reflected wall contact catches the lower paddle during the actual 120 Hz game step',()=>{
++ const g=new Game();g.state='playing';g.hits=200;g.power('wide');g.paddle.x=7.056439482606947;g.move(7.022434298414736);
++ const b=g.balls[0];Object.assign(b,{held:false,x:9.746397232338786,y:-10.650728908495513,vx:15.862878344996556,vy:-13.761144233378243});
++ g.tick(1/120);assert.ok(b.vy>0,'wall clamp must not discard the inward segment');assert.equal(g.lives,3);
++});
++test('R12 all sixteen worlds complete through real collisions with ordinary lives and earned powers only',()=>{
++ const g=new Game(),random=rng(54);g.runId='00000000-0000-4000-8000-000000000054';let offset=.2;g.emit=e=>{if(e.type==='paddle')offset=(random()-.5)*1.8;};
++ for(let level=0;level<WORLD_COUNT;level++){
++  for(let frame=0;frame<180000&&!['cleared','over'].includes(g.state);frame++){
++   if(g.state==='ready'||g.balls.some(b=>b.held))g.launch();const ball=[...g.balls].sort((a,b)=>a.y-b.y)[0];if(ball)g.move(ball.x+offset);g.tick(1/120);
++  }
++  assert.equal(g.state,'cleared','ordinary-lives collision bot stalled at world '+(level+1));assert.ok(g.lives>0);g.next();
++ }
++ assert.equal(g.state,'won');
++});
+diff --git a/tests/graphics-recovery.test.mjs b/tests/graphics-recovery.test.mjs
+new file mode 100644
+index 0000000..99596e9
+--- /dev/null
++++ b/tests/graphics-recovery.test.mjs
+@@ -0,0 +1,21 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {setupGraphicsRecovery} from '../public/graphics-recovery.js';
++const flush=async()=>{for(let i=0;i<8;i++)await Promise.resolve();};
++test('R09 actual context-loss event blocks simulation synchronously and recovery never auto-resumes play',async()=>{
++ const canvas=new EventTarget(),states=[];let playing=true,restores=0;
++ const guard=setupGraphicsRecovery(canvas,{pause:()=>playing=false,restore:async()=>restores++,onStatus:s=>states.push(s)});
++ const loss=new Event('webglcontextlost',{cancelable:true});canvas.dispatchEvent(loss);assert.equal(loss.defaultPrevented,true);assert.equal(guard.blocked,true);assert.equal(playing,false);
++ canvas.dispatchEvent(new Event('webglcontextrestored'));await flush();assert.equal(guard.blocked,false);assert.equal(playing,false);assert.equal(restores,1);assert.deepEqual(states,['lost','recovering','ready']);guard.dispose();
++});
++test('R09 failed restoration stays blocked and a later restoration can recover',async()=>{
++ const canvas=new EventTarget(),states=[];let fail=true;const guard=setupGraphicsRecovery(canvas,{restore:async()=>{if(fail)throw Error('compile failed');},onStatus:s=>states.push(s)});
++ canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true}));canvas.dispatchEvent(new Event('webglcontextrestored'));await flush();assert.equal(guard.blocked,true);assert.equal(states.at(-1),'failed');
++ fail=false;canvas.dispatchEvent(new Event('webglcontextrestored'));await flush();assert.equal(guard.blocked,false);guard.dispose();
++});
++test('R09 a late restore cannot unfreeze a newer context loss or a disposed view',async()=>{
++ const canvas=new EventTarget(),waiting=[];const guard=setupGraphicsRecovery(canvas,{restore:()=>new Promise(resolve=>waiting.push(resolve))});
++ canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true}));canvas.dispatchEvent(new Event('webglcontextrestored'));
++ canvas.dispatchEvent(new Event('webglcontextlost',{cancelable:true}));waiting.shift()();await flush();assert.equal(guard.blocked,true);
++ canvas.dispatchEvent(new Event('webglcontextrestored'));guard.dispose();waiting.shift()();await flush();assert.equal(guard.blocked,true);
++});
+diff --git a/tests/preview-contract.test.mjs b/tests/preview-contract.test.mjs
+new file mode 100644
+index 0000000..fe4c201
+--- /dev/null
++++ b/tests/preview-contract.test.mjs
+@@ -0,0 +1,8 @@
++import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs/promises';import {spawnSync} from 'node:child_process';import {DOMParser} from 'linkedom';import {ROOT} from '../tools/repository-check.mjs';
++test('R14 generated previews opt into current network assets before loading their application graph',async()=>{
++ for(const tool of ['tools/make-qa.mjs','tools/review-browser-fixture.mjs']){const result=spawnSync(process.execPath,[tool],{cwd:ROOT,encoding:'utf8'});assert.equal(result.status,0,result.stderr);}
++ for(const [name,entry]of [['index.html','/__qa/app.js'],['acceptance.html','/__qa/acceptance-app.js'],['reviews.html','/__qa/review-app.js']]){
++  const html=await fs.readFile(new URL('../test-results/fixture/'+name,import.meta.url),'utf8'),doc=new DOMParser().parseFromString(html,'text/html'),script=doc.querySelector('script[data-qa-entry]');assert.ok(script);assert.equal(script.getAttribute('src'),'/__qa/network-bootstrap.js');assert.equal(script.getAttribute('data-qa-entry'),entry);
++ }
++ const bootstrap=await fs.readFile(new URL('../test-results/fixture/network-bootstrap.js',import.meta.url),'utf8');assert.ok(bootstrap.indexOf("version:'network'")<bootstrap.indexOf('await import(entry)'));
++});
+diff --git a/tests/release-gate.test.mjs b/tests/release-gate.test.mjs
+new file mode 100644
+index 0000000..f601ebc
+--- /dev/null
++++ b/tests/release-gate.test.mjs
+@@ -0,0 +1,46 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {fileURLToPath} from 'node:url';
++import {spawnSync} from 'node:child_process';
++import {buildPwa} from '../tools/build-pwa.mjs';
++import {runReleaseGate,assertReleaseGate,validateReceipt} from '../tools/release-gate.mjs';
++import {checkRepository} from '../tools/repository-check.mjs';
++async function fixture(t){
++ const base=new URL('../test-results/',import.meta.url);await fs.mkdir(base,{recursive:true});const root=await fs.mkdtemp(path.join(fileURLToPath(base),'gate-review-'));
++ // Preserve fixtures as ignored evidence; no recursive deletion or shared Git mutation.
++ for(const dir of ['public','tools','tests'])await fs.mkdir(path.join(root,dir));
++ for(const [name,body]of [['public/index.html','<!doctype html><html><head></head><body>Fixture</body></html>'],['public/app.js','export const fixture=true;'],['tools/service-worker.template.js','// __PWA_CONSTANTS__'],['package.json','{"type":"module"}'],['bun.lock','{}'],['README.md','# Fixture\n']])await fs.writeFile(path.join(root,name),body);
++ const init=spawnSync('git',['init'],{cwd:root});assert.equal(init.status,0);
++ // Empty tree commit gives the fixture a stable source identity without changing this repo.
++ const commit=spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','--allow-empty','-m','fixture'],{cwd:root});assert.equal(commit.status,0,commit.stderr?.toString());
++ await buildPwa({root});spawnSync('git',['add','.'],{cwd:root});const saved=spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','-m','source'],{cwd:root});assert.equal(saved.status,0);return root;
++}
++test('R01 a failing suite invalidates an existing approval and blocks the publisher gate',async t=>{
++ const root=await fixture(t);await runReleaseGate({root,runSuite:async()=>({status:0})});await assertReleaseGate({root});
++ await assert.rejects(runReleaseGate({root,runSuite:async()=>({status:1,stderr:'deliberate failure'})}),/suite failed/);
++ await assert.rejects(assertReleaseGate({root}),/stale release evidence/);
++});
++test('R01 stale generated assets and post-check source changes independently block release',async t=>{
++ const root=await fixture(t);await runReleaseGate({root,runSuite:async()=>({status:0})});
++ await fs.appendFile(path.join(root,'public/app.js'),'\n// edit');await assert.rejects(runReleaseGate({root,runSuite:async()=>({status:0})}),/Stale PWA/);
++ await buildPwa({root});spawnSync('git',['add','.'],{cwd:root});spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','-m','updated source'],{cwd:root});await runReleaseGate({root,runSuite:async()=>({status:0})});await assertReleaseGate({root});
++ await fs.appendFile(path.join(root,'tools/service-worker.template.js'),'\n// worker edit');await assert.rejects(assertReleaseGate({root}),/Stale PWA/);
++});
++test('R01 receipt rejects wrong commits, digests, release identities, missing checks and expired approval',()=>{
++ const now=Date.now(),identity={commit:'a',digest:'b'},receipt={schema:1,passed:true,identity,release:'c',completedAt:new Date(now).toISOString(),checks:{suite:true,pwa:true,repository:true}};
++ assert.equal(validateReceipt(receipt,{identity,release:'c',now}),true);
++ for(const value of [{...receipt,identity:{...identity,commit:'wrong'}},{...receipt,identity:{...identity,digest:'wrong'}},{...receipt,release:'wrong'},{...receipt,checks:{}},{...receipt,completedAt:new Date(now-86400001).toISOString()}])assert.throws(()=>validateReceipt(value,{identity,release:'c',now}));
++});
++test('R01 local link/module failures and credential patterns fail without exposing the value',async t=>{
++ const root=await fixture(t);await fs.writeFile(path.join(root,'README.md'),'[Missing](missing.md)');await assert.rejects(checkRepository({root}),/missing missing.md/);
++ await fs.writeFile(path.join(root,'README.md'),'# Safe');await fs.writeFile(path.join(root,'public/app.js'),"import './missing.js';");await assert.rejects(checkRepository({root}),/missing module/);
++ await fs.writeFile(path.join(root,'public/app.js'),'const secret="'+'pk_'+'a'.repeat(40)+'";');await assert.rejects(checkRepository({root}),e=>e.message.includes('value suppressed')&&!e.message.includes('a'.repeat(40)));
++});
++test('R01 an actual failing Bun test cannot create approval, and dirty documents block deployment',async t=>{
++ const root=await fixture(t);await fs.writeFile(path.join(root,'tests/deliberate.test.mjs'),"import {test} from 'bun:test'; test('deliberate release refusal',()=>{throw Error('intentional fixture failure');});");
++ spawnSync('git',['add','.'],{cwd:root});spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','-m','negative suite'],{cwd:root});
++ await assert.rejects(runReleaseGate({root}),/suite failed/);await assert.rejects(assertReleaseGate({root}),/stale release evidence/);
++ const clean=await fixture(t);await runReleaseGate({root:clean,runSuite:async()=>({status:0})});await fs.appendFile(path.join(clean,'README.md'),'\nChanged after review');await assert.rejects(assertReleaseGate({root:clean}),/Commit release inputs/);
++});
+diff --git a/tests/sharing-review.test.mjs b/tests/sharing-review.test.mjs
+new file mode 100644
+index 0000000..8d4ef91
+--- /dev/null
++++ b/tests/sharing-review.test.mjs
+@@ -0,0 +1,13 @@
++import test from 'node:test';import assert from 'node:assert/strict';
++import {platformProfile,formatShareDate,SharePreview} from '../public/sharing.js';
++const model={title:'Daily result',text:'I scored 12,345 points for October 15, 2026 (UTC).',url:'https://sane-guild-8399.onpagelove.com/?leaderboard=daily'};
++test('R11 Android invitation contains the full message and link in one text body',()=>{
++ const data=SharePreview.prototype.shareData.call({model,profile:{os:'android'}});assert.equal(data.text,model.text+'\n\n'+model.url);assert.equal(data.url,undefined);
++});
++test('R11 native file sharing and other platforms retain readable message, date and correct link',()=>{
++ for(const os of ['ios','mac','windows','other']){const data=SharePreview.prototype.shareData.call({model,profile:{os}});assert.equal(data.text,model.text);assert.equal(data.url,model.url);}
++ const file={name:'score.png'},data=SharePreview.prototype.shareData.call({model,profile:{os:'android'},file},true);assert.deepEqual(data.files,[file]);assert.ok(data.text.endsWith(model.url));assert.equal(formatShareDate('2026-10-15'),'October 15, 2026 (UTC)');
++});
++test('R11 platform selection recognizes Android, touch iPads and ordinary desktops',()=>{
++ assert.equal(platformProfile({userAgent:'Android Chrome',platform:'Linux',maxTouchPoints:5}).os,'android');assert.equal(platformProfile({userAgent:'Safari',platform:'MacIntel',maxTouchPoints:5}).os,'ios');assert.equal(platformProfile({userAgent:'Chrome',platform:'Win32'}).os,'windows');
++});
+diff --git a/tests/startup-review.test.mjs b/tests/startup-review.test.mjs
+new file mode 100644
+index 0000000..4e7fb9c
+--- /dev/null
++++ b/tests/startup-review.test.mjs
+@@ -0,0 +1,9 @@
++import test from 'node:test';import assert from 'node:assert/strict';import {DOMParser} from 'linkedom';import {startGame} from '../public/bootstrap.js';
++test('R13 a rejected application import exposes real recovery and disables inert controls',async()=>{
++ const doc=new DOMParser().parseFromString('<html><body><div id="stage" aria-busy="true"><button id="play">Start</button><p id="arena-status">Preparing</p><div id="error" hidden><p id="error-text"></p><button id="reload">Reload game</button></div></div><span id="offline-status"></span><p id="offline-detail"></p></body></html>','text/html');let reloads=0;
++ assert.equal(await startGame({document:doc,load:async()=>{throw Error('engine 503');},reload:()=>reloads++}),false);
++ assert.equal(doc.querySelector('#error').hidden,false);assert.equal(doc.querySelector('#play').disabled,true);assert.equal(doc.querySelector('#arena-status').hidden,true);assert.equal(doc.querySelector('#stage').getAttribute('aria-busy'),'false');assert.match(doc.querySelector('#error-text').textContent,/Reconnect and reload/);doc.querySelector('#reload').onclick();assert.equal(reloads,1);
++});
++test('R13 successful application import leaves existing interface state untouched',async()=>{
++ let mutations=0;const document={querySelector(){mutations++;},querySelectorAll(){mutations++;}};assert.equal(await startGame({document,load:async()=>{},reload(){}}),true);assert.equal(mutations,0);
++});
+diff --git a/tools/diagnose-dav-triggers.mjs b/tools/diagnose-dav-triggers.mjs
+index deee5ef..9c2058a 100644
+--- a/tools/diagnose-dav-triggers.mjs
++++ b/tools/diagnose-dav-triggers.mjs
+@@ -30 +30 @@ async function diagnose(key,mode){
+- const receipt={utc:new Date().toISOString(),origin,dav,isolatedPerCase:true,checks:[],cleanup:[]};
++ const receipt={utc:new Date().toISOString(),mode:mode||'immediate',origin,dav,isolatedPerCase:true,checks:[],cleanup:[]};
+@@ -111,0 +112 @@ async function diagnose(key,mode){
++  if(mode==='settled')await new Promise(resolve=>setTimeout(resolve,65000));
+@@ -127 +128 @@ async function diagnose(key,mode){
+-  await fs.mkdir('audit',{recursive:true});const output='audit/2026-10-14-dav-diagnostic-'+id+'.json';await fs.writeFile(output,JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({receipt:output,cleanup:receipt.cleanup}));
++  await fs.mkdir('audit',{recursive:true});const output='audit/'+new Date().toISOString().slice(0,10)+'-dav-diagnostic-'+id+'.json';await fs.writeFile(output,JSON.stringify(receipt,null,2)+'\n');console.log(JSON.stringify({receipt:output,cleanup:receipt.cleanup}));
+diff --git a/tools/final-browser-fixture.mjs b/tools/final-browser-fixture.mjs
+index 646d69e..9a6049d 100644
+--- a/tools/final-browser-fixture.mjs
++++ b/tools/final-browser-fixture.mjs
+@@ -2,0 +3 @@ import fs from 'node:fs/promises';
++import {writeQaBootstrap} from './qa-bootstrap.mjs';
+@@ -3,0 +5 @@ await fs.mkdir('test-results/fixture',{recursive:true});
++await writeQaBootstrap('test-results/fixture');
+@@ -6 +8 @@ const controls='<aside id="qa-panel" style="position:fixed;z-index:9999;bottom:0
+-await fs.writeFile('test-results/fixture/acceptance.html',html.replace(/src="\/app.js[^\"]*"/,'src="/__qa/acceptance-app.js"').replace('</body>',controls+'</body>'));
++await fs.writeFile('test-results/fixture/acceptance.html',html.replace(/src="\/(?:app|bootstrap).js[^\"]*"/,'src="/__qa/network-bootstrap.js" data-qa-entry="/__qa/acceptance-app.js"').replace('</body>',controls+'</body>'));
+diff --git a/tools/final-expiry-check.mjs b/tools/final-expiry-check.mjs
+index 1ce8118..2685b06 100644
+--- a/tools/final-expiry-check.mjs
++++ b/tools/final-expiry-check.mjs
+@@ -8 +8 @@ if(process.stdin.isTTY)process.stdin.setRawMode(true);process.stdin.setEncoding(
+-process.stdin.on('data',async chunk=>{input+=chunk;if(!/[\r\n]/.test(input))return;process.stdin.removeAllListeners('data');try{const {key}=JSON.parse(input);input='';await run(key);}catch(e){proof.failure=e.message;console.log(e.message);process.exitCode=1;}finally{await fs.writeFile('audit/2026-10-14-final-expiry-check.json',JSON.stringify(proof,null,2));process.exit(process.exitCode||0);}});
++process.stdin.on('data',async chunk=>{input+=chunk;if(!/[\r\n]/.test(input))return;process.stdin.removeAllListeners('data');try{const {key}=JSON.parse(input);input='';await run(key);}catch(e){proof.failure=e.message;console.log(e.message);process.exitCode=1;}finally{await fs.writeFile(process.argv[2]||'audit/2026-10-14-final-expiry-check.json',JSON.stringify(proof,null,2));process.exit(process.exitCode||0);}});
+@@ -24 +24 @@ async function run(key){
+-  const warmup=[];for(let i=0;i<8;i++){await new Promise(r=>setTimeout(r,2000));const response=await req(origin,path,{method:'DELETE',headers:{Range:'selector=#scores > li'}});warmup.push(response.status);if(response.status!==403){record('readiness-control',{status:response.status,retained:parse((await req(dav,path,{headers:auth})).body)});await seed(false);}if(warmup.length>=3&&warmup.slice(-3).every(s=>s===403))break;}
++  const warmup=[];for(let i=0;i<40;i++){await new Promise(r=>setTimeout(r,2000));const response=await req(origin,path,{method:'DELETE',headers:{Range:'selector=#scores > li'}});warmup.push(response.status);if(response.status!==403){record('readiness-control',{status:response.status,retained:parse((await req(dav,path,{headers:auth})).body)});await seed(false);}if(warmup.length>=3&&warmup.slice(-3).every(s=>s===403))break;}
+diff --git a/tools/final-live-check.mjs b/tools/final-live-check.mjs
+index e3b1c45..22ca69b 100644
+--- a/tools/final-live-check.mjs
++++ b/tools/final-live-check.mjs
+@@ -8,0 +9,2 @@ import {parseWorld} from '../public/world-format.js';
++const isolatedOnly=process.argv.includes('--isolated-only');
++const receiptFile=process.argv.find(v=>v.startsWith('--receipt='))?.slice(10)||'audit/2026-10-14-final-live-check.json';
+@@ -16 +18 @@ let input='';if(process.stdin.isTTY)process.stdin.setRawMode(true);process.stdin
+-process.stdin.on('data',async chunk=>{input+=chunk;if(!/[\r\n]/.test(input))return;process.stdin.removeAllListeners('data');try{const {key}=JSON.parse(input.trim());input='';await run(key);process.exitCode=0;}catch(e){receipt.failure=e.message;console.log(JSON.stringify({failure:e.message}));process.exitCode=1;}finally{await fs.writeFile('audit/2026-10-14-final-live-check.json',JSON.stringify(receipt,null,2));process.exit(process.exitCode);}});
++process.stdin.on('data',async chunk=>{input+=chunk;if(!/[\r\n]/.test(input))return;process.stdin.removeAllListeners('data');try{const {key}=JSON.parse(input.trim());input='';await run(key);process.exitCode=0;}catch(e){receipt.failure=e.message;console.log(JSON.stringify({failure:e.message}));process.exitCode=1;}finally{await fs.writeFile(receiptFile,JSON.stringify(receipt,null,2));process.exit(process.exitCode);}});
+@@ -33,0 +36 @@ async function run(key){
++  if(!isolatedOnly){
+@@ -38,0 +42 @@ async function run(key){
++  }else await new Promise(resolve=>setTimeout(resolve,65000));
+@@ -43,0 +48,2 @@ async function run(key){
++  if(!submitted.ok)throw Error('Valid isolated submission failed');
++  const duplicate=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:sample}),persisted=rows((await request(dav,resource,{headers:auth})).body).filter(r=>r.runKey===sampleId);record('isolated-duplicate',{status:duplicate.status,persistedCount:persisted.length});if(duplicate.status!==422||persisted.length!==1)throw Error('Duplicate contract failed');
+@@ -45 +51 @@ async function run(key){
+-   const r=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body});record(name,{status:r.status,detail:r.ok?'unexpected acceptance':r.body.slice(0,200)});
++   const r=await request(origin,resource,{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:body.replace(sampleId,randomUUID())});record(name,{status:r.status,detail:r.ok?'unexpected acceptance':r.body.slice(0,200)});if(r.status!==422)throw Error('Invalid isolated score accepted: '+name);
+@@ -46,0 +53 @@ async function run(key){
++  if(isolatedOnly)return;
+diff --git a/tools/make-qa.mjs b/tools/make-qa.mjs
+index ed106b1..69df0e4 100644
+--- a/tools/make-qa.mjs
++++ b/tools/make-qa.mjs
+@@ -1,0 +2 @@ import fs from 'node:fs/promises';
++import {writeQaBootstrap} from './qa-bootstrap.mjs';
+@@ -2,0 +4 @@ await fs.mkdir('test-results/fixture',{recursive:true});
++await writeQaBootstrap('test-results/fixture');
+@@ -4 +6 @@ const html=await fs.readFile('public/index.html','utf8');
+-await fs.writeFile('test-results/fixture/index.html',html.replace(/\/app\.js\?v=\d+/,'/__qa/app.js').replace('</body>','<div id="qa" style="position:fixed;bottom:0;left:0;z-index:999;background:#243749;padding:8px;display:flex;flex-wrap:wrap;max-width:100%;gap:5px"><button id="qa-clear">QA clear level</button><button id="qa-power">QA multiball</button><button id="qa-shield">QA shield</button><button id="qa-over">QA finish run</button></div></body>'));
++await fs.writeFile('test-results/fixture/index.html',html.replace(/src="\/(?:app|bootstrap)\.js\?v=\d+"/,'src="/__qa/network-bootstrap.js" data-qa-entry="/__qa/app.js"').replace('</body>','<div id="qa" style="position:fixed;bottom:0;left:0;z-index:999;background:#243749;padding:8px;display:flex;flex-wrap:wrap;max-width:100%;gap:5px"><button id="qa-clear">QA clear level</button><button id="qa-power">QA multiball</button><button id="qa-shield">QA shield</button><button id="qa-over">QA finish run</button></div></body>'));
+diff --git a/tools/qa-bootstrap.mjs b/tools/qa-bootstrap.mjs
+new file mode 100644
+index 0000000..da1e0e0
+--- /dev/null
++++ b/tools/qa-bootstrap.mjs
+@@ -0,0 +1,12 @@
++import fs from 'node:fs/promises';
++import path from 'node:path';
++// Preview documents must opt into current network modules before importing them.
++// Registering no worker is insufficient when an older worker already controls the origin.
++export async function writeQaBootstrap(directory){
++ await fs.writeFile(path.join(directory,'network-bootstrap.js'),`try{
++const controller=navigator.serviceWorker?.controller;
++if(controller)await new Promise((resolve,reject)=>{const channel=new MessageChannel(),timer=setTimeout(()=>reject(Error('Preview worker handshake timed out')),5000);channel.port1.onmessage=()=>{clearTimeout(timer);channel.port1.close();resolve();};controller.postMessage({type:'CLIENT_VERSION',version:'network'},[channel.port2]);});
++const entry=document.querySelector('script[data-qa-entry]')?.dataset.qaEntry;if(!entry?.startsWith('/__qa/'))throw Error('Invalid local preview entry');await import(entry);
++}catch(error){const output=document.createElement('pre');output.id='qa-bootstrap-error';output.textContent='Local preview could not load: '+error.message;document.body.append(output);}
++`);
++}
+diff --git a/tools/release-gate.mjs b/tools/release-gate.mjs
+new file mode 100644
+index 0000000..2d21143
+--- /dev/null
++++ b/tools/release-gate.mjs
+@@ -0,0 +1,42 @@
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {createHash} from 'node:crypto';
++import {spawnSync} from 'node:child_process';
++import {pathToFileURL} from 'node:url';
++import {buildPwa} from './build-pwa.mjs';
++import {ROOT,filesUnder,checkRepository} from './repository-check.mjs';
++const sha=b=>createHash('sha256').update(b).digest('hex');
++export const RECEIPT='test-results/release-gate.json';
++function git(root,args){const r=spawnSync('git',['-c','safe.directory='+root.replaceAll('\\','/'),...args],{cwd:root,encoding:'utf8'});if(r.status!==0)throw Error('Release gate needs a readable Git checkout');return r.stdout.trim();}
++export async function sourceIdentity(root=ROOT){
++ const actualRoot=path.resolve(git(root,['rev-parse','--show-toplevel'])),expectedRoot=path.resolve(root),sameRoot=process.platform==='win32'?actualRoot.toLowerCase()===expectedRoot.toLowerCase():actualRoot===expectedRoot;
++ if(!sameRoot)throw Error('Run release checks from the Prism Breaker Git checkout, not its outer authoring mirror or a parent repository.');
++ const top=await fs.readdir(root),controls=top.filter(n=>n.endsWith('.md')||['.gitattributes','.gitignore','bunfig.toml'].includes(n));
++ const files=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...controls,'package.json','bun.lock'].sort();
++ const hashes=[];for(const file of files)hashes.push([file,sha(await fs.readFile(path.join(root,file)))]);
++ return {commit:git(root,['rev-parse','HEAD']),digest:sha(JSON.stringify(hashes)),files:hashes.length,dirty:!!git(root,['status','--porcelain','--untracked-files=all','--','public','tools','tests','.github',...controls,'package.json','bun.lock'])};
++}
++export function validateReceipt(receipt,{identity,release,now=Date.now()}){
++ if(identity.dirty)throw Error('Commit release inputs before approval or deployment.');
++ if(receipt?.schema!==1||receipt.passed!==true||receipt.identity?.commit!==identity.commit||receipt.identity?.digest!==identity.digest||receipt.release!==release)throw Error('Missing or stale release evidence. Run bun run release:check after committing the exact source.');
++ const age=now-Date.parse(receipt.completedAt);if(!Number.isFinite(age)||age<0||age>86400000)throw Error('Release evidence expired. Run bun run release:check.');
++ if(!receipt.checks?.suite||!receipt.checks?.pwa||!receipt.checks?.repository)throw Error('Incomplete release checks');return true;
++}
++export async function assertReleaseGate({root=ROOT,now=Date.now()}={}){
++ const pwa=await buildPwa({root,check:true}),identity=await sourceIdentity(root);
++ const receipt=JSON.parse(await fs.readFile(path.join(root,RECEIPT),'utf8').catch(()=>'{"passed":false}'));
++ validateReceipt(receipt,{identity,release:pwa.version,now});return {commit:identity.commit,sourceDigest:identity.digest,release:pwa.version,completedAt:receipt.completedAt};
++}
++export async function runReleaseGate({root=ROOT,runSuite}={}){
++ // Invalidate prior approval first, including when the next suite/build fails.
++ await fs.mkdir(path.join(root,'test-results'),{recursive:true});await fs.writeFile(path.join(root,RECEIPT),JSON.stringify({schema:1,passed:false}));
++ const before=await sourceIdentity(root),pwa=await buildPwa({root,check:true}),repository=await checkRepository({root});
++ if(before.dirty)throw Error('Commit release inputs before generating approval.');
++ const result=runSuite?await runSuite():spawnSync(process.execPath,['test','./tests'],{cwd:root,encoding:'utf8',timeout:120000,maxBuffer:16*1024*1024});
++ await fs.writeFile(path.join(root,'test-results/release-tests.txt'),String(result.stdout||'')+String(result.stderr||''));
++ if(result.status!==0)throw Error('Behavioral suite failed; no release approved. See test-results/release-tests.txt');
++ const after=await sourceIdentity(root);if(JSON.stringify(before)!==JSON.stringify(after))throw Error('Source changed during release checks; rerun.');
++ const receipt={schema:1,passed:true,completedAt:new Date().toISOString(),identity:after,release:pwa.version,checks:{suite:true,pwa:true,repository:true},repository,limits:['Automated local evidence only; physical devices, independent review and platform contracts require separate acceptance records.']};
++ await fs.writeFile(path.join(root,RECEIPT),JSON.stringify(receipt,null,2)+'\n');return receipt;
++}
++if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{console.log(JSON.stringify(await runReleaseGate()));}catch(e){console.error(e.message);process.exitCode=1;}}
+diff --git a/tools/remote.mjs b/tools/remote.mjs
+index d19da32..4caaa59 100644
+--- a/tools/remote.mjs
++++ b/tools/remote.mjs
+@@ -4,0 +5 @@ import {buildPwa} from './build-pwa.mjs';
++import {assertReleaseGate} from './release-gate.mjs';
+@@ -117,0 +119 @@ process.stdin.on('data', async chunk=>{
++        const approval=await assertReleaseGate();
+@@ -124,2 +126,2 @@ process.stdin.on('data', async chunk=>{
+-        for(const file of files){if(path.basename(file)==='sw.js')await buildPwa({check:true});let target='/'+path.relative('public',file).split(path.sep).join('/');if(target==='/editor-route.html')target='/editor/:worldname';const bytes=await fs.readFile(file);const r=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':types[path.extname(file)]||'application/octet-stream'},body:bytes});if(!r.ok)throw Error(target+' upload '+r.status);const check=await fetch(dav+target,{headers});const read=Buffer.from(await check.arrayBuffer());if(!check.ok)throw Error(target+' readback '+check.status);if(!target.endsWith('.html')&&target!=='/editor/:worldname'&&!bytes.equals(read))throw Error(target+' byte mismatch');const entry={path:target,status:r.status,bytes:read.length,sha256:createHash('sha256').update(read).digest('hex')};receipt.push(entry);console.log(JSON.stringify({uploaded:target,status:r.status}));if(target==='/editor.html'){const alias=await fetch(dav+'/editor/index.html',{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8'},body:bytes});if(!alias.ok)throw Error('Editor index '+alias.status);}}
+-        await fs.writeFile('deployment.json',JSON.stringify({origin,authoringHost:dav,deployedAt:new Date().toISOString(),pwa,files:receipt},null,2));result={deployed:true,files:receipt.length,pwa};
++        for(const file of files){if(path.basename(file)==='sw.js'){await buildPwa({check:true});await assertReleaseGate();}let target='/'+path.relative('public',file).split(path.sep).join('/');if(target==='/editor-route.html')target='/editor/:worldname';const bytes=await fs.readFile(file);const r=await fetch(dav+target,{method:'PUT',headers:{...headers,'Content-Type':types[path.extname(file)]||'application/octet-stream'},body:bytes});if(!r.ok)throw Error(target+' upload '+r.status);const check=await fetch(dav+target,{headers});const read=Buffer.from(await check.arrayBuffer());if(!check.ok)throw Error(target+' readback '+check.status);if(!target.endsWith('.html')&&target!=='/editor/:worldname'&&!bytes.equals(read))throw Error(target+' byte mismatch');const entry={path:target,status:r.status,bytes:read.length,sha256:createHash('sha256').update(read).digest('hex')};receipt.push(entry);console.log(JSON.stringify({uploaded:target,status:r.status}));if(target==='/editor.html'){const alias=await fetch(dav+'/editor/index.html',{method:'PUT',headers:{...headers,'Content-Type':'text/html; charset=utf-8'},body:bytes});if(!alias.ok)throw Error('Editor index '+alias.status);}}
++        await fs.writeFile('deployment.json',JSON.stringify({origin,authoringHost:dav,deployedAt:new Date().toISOString(),approval,pwa,files:receipt},null,2));result={deployed:true,files:receipt.length,pwa};
+diff --git a/tools/repository-check.mjs b/tools/repository-check.mjs
+new file mode 100644
+index 0000000..187cf1c
+--- /dev/null
++++ b/tools/repository-check.mjs
+@@ -0,0 +1,33 @@
++import fs from 'node:fs/promises';
++import path from 'node:path';
++import {fileURLToPath,pathToFileURL} from 'node:url';
++export const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
++export async function filesUnder(root,folder){
++ const result=[];for(const entry of await fs.readdir(path.join(root,folder),{withFileTypes:true}).catch(e=>{if(e.code==='ENOENT')return [];throw e;})){
++  const name=path.posix.join(folder,entry.name);if(entry.isDirectory())result.push(...await filesUnder(root,name));else if(entry.isFile())result.push(name);else throw Error('Unsupported repository entry: '+name);
++ }return result.sort();
++}
++// Bounded detection of credential formats used here; not an exhaustive secret scanner.
++const credentials=[/\bpk_[a-f0-9]{32,}\b/i,/\bgh[pousr]_[A-Za-z0-9]{30,}\b/,/\bgithub_pat_[A-Za-z0-9_]{40,}\b/,/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/];
++export async function checkRepository({root=ROOT}={}){
++ const docs=(await fs.readdir(root)).filter(n=>n.endsWith('.md')),issues=[],links=[];
++ for(const file of docs){const text=await fs.readFile(path.join(root,file),'utf8');
++  for(const m of text.matchAll(/\]\((<[^>]+>|[^\s)]+)(?:\s+"[^"]*")?\)/g)){
++   const value=m[1].replace(/^<|>$/g,'');if(/^(?:[a-z][a-z0-9+.-]*:|#)/i.test(value))continue;
++   let target;try{target=decodeURIComponent(value.split(/[?#]/)[0]);}catch{issues.push(file+': malformed link');continue;}
++   let exists=true;try{await fs.access(path.resolve(root,path.dirname(file),target));}catch{exists=false;}
++   links.push({file,target,exists});if(!exists)issues.push(file+': missing '+target);
++  }
++ }
++ const sources=[...await filesUnder(root,'public'),...await filesUnder(root,'tools'),...await filesUnder(root,'tests'),...await filesUnder(root,'.github'),...(await filesUnder(root,'audit')).filter(n=>/\.(?:md|json|patch|txt)$/.test(n)),...docs,'package.json','bun.lock'];
++ for(const file of sources){const text=await fs.readFile(path.join(root,file),'utf8');if(credentials.some(pattern=>pattern.test(text)))issues.push(file+': credential pattern found (value suppressed)');}
++ for(const file of sources.filter(n=>n.startsWith('public/')&&n.endsWith('.js')&&!n.startsWith('public/vendor/'))){
++  const text=await fs.readFile(path.join(root,file),'utf8');
++  for(const m of text.matchAll(/(?:\bfrom\s*|\bimport\s*(?:\(\s*)?)['"]([^'"]+)['"]/g)){
++   if(!m[1].startsWith('.'))continue;try{await fs.access(path.resolve(root,path.dirname(file),m[1].split('?')[0]));}catch{issues.push(file+': missing module '+m[1]);}
++  }
++ }
++ if(issues.length)throw Error('Repository checks failed:\n'+issues.join('\n'));
++ return {documents:docs.length,localLinks:links.length,scannedFiles:sources.length,secretScan:'limited high-confidence credential patterns'};
++}
++if(process.argv[1]&&import.meta.url===pathToFileURL(path.resolve(process.argv[1])).href){try{console.log(JSON.stringify(await checkRepository()));}catch(e){console.error(e.message);process.exitCode=1;}}
+diff --git a/tools/review-browser-fixture.mjs b/tools/review-browser-fixture.mjs
+new file mode 100644
+index 0000000..26d9a5e
+--- /dev/null
++++ b/tools/review-browser-fixture.mjs
+@@ -0,0 +1,23 @@
++// Isolated UI controls for reproducible faults; never shipped or written to live scores.
++import fs from 'node:fs/promises';
++await import('./final-browser-fixture.mjs');
++let html=await fs.readFile('test-results/fixture/acceptance.html','utf8');
++html=html.replace('id="qa-worlds"','id="qa-worlds"').replace('<pre id="qa-result"','<button id="qa-graphics-loss">Lose graphics context</button> <button id="qa-graphics-restore">Restore graphics context</button> <button id="qa-storage">Review actual IndexedDB</button> <button id="qa-resources">Review render resources</button><pre id="qa-result"');
++html=html.replace('/__qa/acceptance-app.js','/__qa/review-app.js');
++await fs.writeFile('test-results/fixture/review-bootstrap.js',`const controller=navigator.serviceWorker?.controller;if(controller)await new Promise((resolve,reject)=>{const c=new MessageChannel(),timer=setTimeout(()=>reject(Error('Worker handshake timed out')),5000);c.port1.onmessage=()=>{clearTimeout(timer);c.port1.close();resolve();};controller.postMessage({type:'CLIENT_VERSION',version:'network'},[c.port2]);});await import('/__qa/review-app.js');`);await fs.writeFile('test-results/fixture/reviews.html',html);
++const app=await fs.readFile('test-results/fixture/acceptance-app.js','utf8');
++const extra=`
++import {OfflineStore} from "/offline.js";
++let qaContextExtension;
++$('#qa-storage').onclick=async()=>{let first,second,store,other;try{const name='prism-review-'+crypto.randomUUID();store=new OfflineStore({name});other=new OfflineStore({name});const run={id:crypto.randomUUID(),ruleset:RULESET_REVISION,mode:'daily',day:'2026-10-14',score:1234,level:1,seconds:20};let sent=0;
++first=new ScoreOutbox({store,send:async()=>{throw Error('controlled outage');}});await first.enqueue(run,'QA Offline');await first.sync({force:true});const queued=await first.get(run.id);first.dispose();
++const send=async()=>{sent++;await qaSleep(40);return {submittedAt:new Date().toISOString()};};second=new ScoreOutbox({store:other,send});const third=new ScoreOutbox({store,send});await Promise.all([second.retry(run.id),third.retry(run.id)]);const saved=await second.get(run.id);third.dispose();
++let abort=true;try{await store.transaction('metadata','readwrite',s=>{s.put('should not commit','abort-probe');throw Error('abort');});abort=false;}catch{}const absent=await store.transaction('metadata','readonly',(s,done)=>{s.get('abort-probe').onsuccess=e=>done(e.target.result===undefined);});
++qaReport({actualIndexedDB:{queuedAfterOutage:queued.status,sent,saved:saved.status,originalDay:saved.run.day,transactionAborted:abort&&absent},errors:qaErrors});
++const db=await store.open(),db2=await other.open();db.close();db2.close();indexedDB.deleteDatabase(name);
++}catch(e){qaReport({failure:e.message});}finally{first?.dispose();second?.dispose();}};
++$('#qa-graphics-loss').onclick=async()=>{try{home();await begin('campaign');game.launch();await qaSleep(100);qaContextExtension=stage.renderer.getContext().getExtension('WEBGL_lose_context');if(!qaContextExtension)return qaReport({graphicsLoss:'unsupported'});const elapsed=game.elapsed;qaContextExtension.loseContext();await qaSleep(700);qaReport({graphicsLoss:{state:game.state,elapsedDelta:game.elapsed-elapsed,errorVisible:!$('#error').hidden,blocked:typeof graphicsRecovery==='undefined'?null:graphicsRecovery.blocked},errors:qaErrors});}catch(e){qaReport({failure:e.message});}};
++$('#qa-graphics-restore').onclick=async()=>{qaContextExtension?.restoreContext();await qaSleep(1000);qaReport({graphicsRestored:{state:game.state,errorVisible:!$('#error').hidden,blocked:typeof graphicsRecovery==='undefined'?null:graphicsRecovery.blocked},errors:qaErrors});};
++$('#qa-resources').onclick=async()=>{try{home();const memory=[];for(let pass=0;pass<3;pass++){for(let index=0;index<WORLD_COUNT;index++){game.start('practice',index);stage.render(game,0,pass*20+index,'game');for(const kind of Object.keys(POWERS))game.drops.push({id:++game.uid,kind,x:0,y:0});stage.render(game,0,pass*20+index,'game');stage.reset();await qaSleep(10);}memory.push({...stage.renderer.info.memory});}home();qaReport({resourcePasses:memory,errors:qaErrors});}catch(e){qaReport({failure:e.message});}};
++`;
++await fs.writeFile('test-results/fixture/review-app.js',app+extra);console.log('Review fixture: http://127.0.0.1:4173/__qa/reviews.html');
+diff --git a/tools/startup-lab.mjs b/tools/startup-lab.mjs
+new file mode 100644
+index 0000000..ce3cf4e
+--- /dev/null
++++ b/tools/startup-lab.mjs
+@@ -0,0 +1,13 @@
++// Disposable first-visit module failure lab. No writes to any production service.
++import http from 'node:http';import fs from 'node:fs/promises';import path from 'node:path';
++let fail=true;const root=path.resolve('public');
++const control="document.querySelector('#restore-local-assets').onclick=async()=>{await fetch('/__qa/restore',{method:'POST'});document.querySelector('#startup-lab-status').textContent='Assets restored. Use Reload game to retry.';};";
++http.createServer(async(req,res)=>{try{const url=new URL(req.url,'http://127.0.0.1:4175');
++ if(req.method==='POST'&&url.pathname==='/__qa/restore'){if(req.headers.origin!=='http://127.0.0.1:4175'){res.writeHead(403).end();return;}fail=false;res.writeHead(200).end();return;}
++ if(req.method!=='GET'){res.writeHead(405).end();return;}
++ if(url.pathname==='/sw.js'||(fail&&url.pathname==='/engine.js')){res.writeHead(503).end('Intentional isolated failure');return;}
++ if(url.pathname==='/__qa/startup-controls.js'){res.writeHead(200,{'Content-Type':'text/javascript'}).end(control);return;}
++ const name=url.pathname==='/'?'/index.html':decodeURIComponent(url.pathname),file=path.resolve(root,'.'+name);if(!file.startsWith(root+path.sep)){res.writeHead(403).end();return;}
++ let body=await fs.readFile(file);if(name==='/index.html')body=Buffer.from(body.toString().replace('</body>','<aside style="padding:20px"><button id="restore-local-assets">Restore local assets</button><p id="startup-lab-status">Isolated engine failure; worker registration disabled.</p></aside><script src="/__qa/startup-controls.js"></script></body>'));
++ const type={'.js':'text/javascript','.html':'text/html','.css':'text/css','.svg':'image/svg+xml','.png':'image/png','.woff2':'font/woff2'}[path.extname(file)]||'application/octet-stream';res.writeHead(200,{'Content-Type':type,'Cache-Control':'no-store'}).end(body);
++ }catch{res.writeHead(404).end();}}).listen(4175,'127.0.0.1',()=>console.log('Startup fault lab http://127.0.0.1:4175/'));
