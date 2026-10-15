@@ -1,12 +1,12 @@
 {
-  "at": "2026-10-15T21:26:08.9318351Z",
+  "at": "2026-10-15T21:27:00.0227980Z",
   "phase": "Verified publication",
   "source": "241c185a346132286032f837822e1557fafa975a",
   "release": "e5d8bccada0716d7b933",
   "files": [
     {
       "path": "audit/2026-10-15-experience-fixes.md",
-      "sha256": "880448f2b9fb3e856f3133e0bcae03b38fbd47b437db0a99c4c353ac63a3bb2d"
+      "sha256": "ff165f8a7dc93fe5d5efb632648f1b36d2e209579b80253fb82bf49721fb1f31"
     },
     {
       "path": "audit/experience-fixes-2026-10-15/adventure-victory.png",

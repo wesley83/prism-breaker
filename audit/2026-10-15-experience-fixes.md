@@ -37,3 +37,9 @@
 - Cleanup: Closed the two local regression tabs and live verification tab owned by this turn. Stopped owned preview session 80137; port 4187 has no listener. User tabs were preserved.
 - Reconciliation: Sixty-seven implementation/review files were mirrored byte-for-byte to the outer project after checking existing bytes against known baselines. Final publication evidence is a separate documentation-only commit/PR; it does not alter runtime bytes or require another deployment. Its hashes exclude the manifest itself. The earlier fix/review hash manifests remain historical snapshots bound to their earlier commits.
 - Remaining limits: Independent human difficulty, listening, large-text, assistive-technology and physical-device acceptance remain open. All four actionable review findings are implemented and locally verified; no claim of universal accessibility or a platform policy-activation guarantee is made.
+
+## EF-04 — Evidence packaging correction
+
+- UTC: 2026-10-15T21:26:35.0917200Z
+- Actor: Codex; reference EF-03.
+- The final whitespace check flagged a CRLF at the appended audit ending. Normalized this audit to LF and reran the check. The repository's broad deployment.json ignore rule also omitted the sanitized publication receipt from the first staging pass; explicitly included only the reviewed audit receipt. No runtime or external state changed. A second whitespace check also found CRLF in the JSON manifest; normalized that file too. The first evidence commit was pushed before this correction completed, and PR creation then stopped because its body file had not been written. These packaging corrections are recorded in a new follow-up commit; no published history is rewritten.
