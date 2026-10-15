@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T15:19:51.368Z",
+  "actor": "Codex",
+  "basis": "SC-04 final wording/audit; prior support-hashes receipt remains historical for 22b78c6",
+  "files": [
+    {
+      "file": "FOLLOW-UP-REVIEW-RESULTS.md",
+      "sha256": "9823af8ad4022ad7645f15b52e47fe7a0f20427d452e0704c30a5b64fce0a3e3"
+    },
+    {
+      "file": "audit/2026-10-15-support-clarification.md",
+      "sha256": "8e6f828a414d726d3fea65dbdb4868ed963ced7d91c5784292af7b30987d533a"
+    }
+  ]
+}

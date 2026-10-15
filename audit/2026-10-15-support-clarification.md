@@ -27,3 +27,10 @@
 - Memory: Saved the stable support-confirmed contract in repository and outer authoring AGENTS.md, plus parent Pagelove AGENTS.md for future projects. Honcho tools unavailable; no Honcho persistence claimed. Parent instruction file is outside this game repository and will not be included wholesale in the public commit; its changed bytes are represented by SHA-256 below.
 - Configuration: Approved protection retry succeeded; independent GET confirms strict required check from app 15368, administrator enforcement enabled, no human-review requirement, no push restrictions; exact approved description and public visibility confirmed. Sanitized provider receipt: 2026-10-15-approved-github-settings.json. Original rejected proposal stays historical.
 - Verification: Review of corrected current statements and preserved historical sections complete. Mirror preflight passes against current/HEAD bytes. Final diff/link/hash checks and CI publication follow; no new runtime tests or platform probes run for this documentation correction.
+
+## SC-04 — Final current-status consistency correction
+
+- UTC: 2026-10-15T15:19:51.367Z
+- Actor: Codex; reference SC-03.
+- Review finding and fix: Final wording search found one R01 table cell still saying approval pending after its assessment/publication paragraphs were corrected. Updated that cell to the verified enforced setting; original rejected proposal and earlier audit remain historical.
+- Verification: Prior diff and repository checks passed (27 documents, 205 local links, 296 scanned files). Published source 22b78c6 is receiving CI. This final consistency change gets a separate commit/check; existing runtime is unchanged. Updated report/audit copied to authoring mirror with SHA-256 equality.

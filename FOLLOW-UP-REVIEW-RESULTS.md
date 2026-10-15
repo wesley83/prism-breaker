@@ -29,7 +29,7 @@ Passes below apply to the stated method. Partial means useful checks passed whil
 
 | Review | Executed work / result | Remaining boundary |
 | --- | --- | --- |
-| R01: Release gates | Local gate/negative demonstrations and clean Linux CI pass; publisher accepted exact committed source | Required main-branch check activation awaits explicit approval following automatic review rejection; no independent human signoff implied |
+| R01: Release gates | Local gate/negative demonstrations and clean Linux CI pass; publisher accepted exact committed source | Required check now enabled after explicit approval, including administrators; no human approval required and no independent human signoff implied |
 | R02: Physics | Independent wall/solid geometry cases, exact 120 Hz reproduction and power regressions pass after correction | Physical input timing and original user session unknown |
 | R03: PWA lifecycle | Chromium old release→A→B, failed B asset, activation with network 503, retained saves/settings/queue pass; worker/client fault suites pass | Partial: installed Android/iOS, OS termination/airplane mode/storage pressure and Firefox/WebKit remain unverified |
 | R04: Enforcement/freshness | Immediate and settled owner/public probes, timed policy updates/deletion and actual persistence readback performed | DAV bypass resolved as intentional trusted authoring by support. Public-policy freshness remains unresolved; authoritative world mutations need a supported application path |
