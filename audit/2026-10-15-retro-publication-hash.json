@@ -1,0 +1,12 @@
+{
+  "at": "2026-10-15T03:52:36.128Z",
+  "actor": "Codex",
+  "scope": "Documentation publication receipt; hash file excludes itself",
+  "files": [
+    {
+      "file": "audit/2026-10-15-retro-publication.md",
+      "bytes": 1202,
+      "sha256": "097a6a4560e3888fe00b24dfa0338d9af3a36657355c71cd3eaa07776ec0f656"
+    }
+  ]
+}
