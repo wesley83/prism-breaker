@@ -4,9 +4,9 @@ export const DIAMOND_PATH='M64 18 110 64 64 110 18 64Z';
 export const BRICK_COUNT_COLORS=Object.freeze({'1':'#ff9c96','2':'#ffd36e','3':'#79e6ff'});
 export const BRICK_GUIDE=Object.freeze([
  {kind:'normal',name:'Regular',mark:null,description:'No symbol. Breaks with one hit.'},
- {kind:'armor',name:'Armored',mark:'3',description:'The number and its color show hits remaining: cyan 3, gold 2, coral 1. Cracks spread after each hit. Most start at 2; armored bricks in the Citadel’s final formation start at 3.'},
+ {kind:'armor',name:'Armored',mark:'3',description:'The number and its color show hits remaining: cyan 3, gold 2, coral 1. Cracks spread after each hit. Armored bricks can start with two or three hits remaining.'},
  {kind:'explode',name:'Explosive',mark:'★',description:'Break the star to deal one hit to nearby bricks. Explosives can trigger chain reactions; armored neighbors may survive.'},
- {kind:'switch',name:'Switch',mark:'◇',description:'Break the outlined diamond to open Electric City’s glowing gates.'}
+ {kind:'switch',name:'Switch',mark:'◇',description:'Break the outlined diamond to open the formation’s glowing gates.'}
 ]);
 export function brickMark(brick){
  if(!brick||!Number.isInteger(brick.hp)||brick.hp<=0)return null;

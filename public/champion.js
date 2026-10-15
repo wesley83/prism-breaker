@@ -34,7 +34,7 @@ export class Champion{
  render(seconds,aspect,settings){
   if(this.low!==settings.lowEffects)this.build(settings.lowEffects);const t=settings.reducedMotion?12:seconds,ease=1-Math.pow(1-Math.min(1,t/2),3);
   this.trophy.scale.setScalar(.65+ease*.35);this.trophy.rotation.y=settings.reducedMotion?.3:Math.sin(t*.28)*.18;this.prism.rotation.y=settings.reducedMotion?.3:t*.45;
-  for(let i=0;i<8;i++){const a=i*Math.PI*2/WORLDS.length+t*.12;this.gems[i].position.set(Math.cos(a)*6,4.4+Math.sin(a*2)*1.4,Math.sin(a)*5);this.gems[i].rotation.set(t*.4,i+t*.6,0);this.orbits[i].position.y=3.8;this.orbits[i].rotation.z=i*.25+t*.035*(i%2?1:-1);}
+  for(let i=0;i<this.gems.length;i++){const a=i*Math.PI*2/this.gems.length+t*.12;this.gems[i].position.set(Math.cos(a)*6,4.4+Math.sin(a*2)*1.4,Math.sin(a)*5);this.gems[i].rotation.set(t*.4,i+t*.6,0);this.orbits[i].position.y=3.8;this.orbits[i].rotation.z=i*.25+t*.035*(i%2?1:-1);}
   for(const {dots,base,delay}of this.fireworks){const age=t-delay;dots.visible=!settings.reducedMotion&&age>0&&age<2.4;dots.material.opacity=Math.max(0,1-age/2.4);if(dots.visible){const attr=dots.geometry.attributes.position;for(let i=0;i<base.length;i+=3){attr.array[i]=base[i]*age;attr.array[i+1]=base[i+1]*age-age*age*.65;attr.array[i+2]=base[i+2]*age;}attr.needsUpdate=true;}}
   const z=(aspect<.85?22/aspect:26)+(1-ease)*9,angle=settings.reducedMotion?.15:Math.sin(t*.2)*.18;
   const p=settings.reducedMotion?.82:Math.min(1,seconds/CHAMPION_DURATION);

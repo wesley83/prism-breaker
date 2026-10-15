@@ -1,0 +1,86 @@
+{
+  "at": "2026-10-15T21:20:50.3911628Z",
+  "phase": "Pre-release implementation",
+  "files": [
+    {
+      "path": "public/app.js",
+      "sha256": "5b44430fd6b64289704c882b5f7ba1ed991f13011d466ed47af6731f566a4adf"
+    },
+    {
+      "path": "public/champion.js",
+      "sha256": "c809470a263242dd830f9515ee319e4be549727b3524e62d85f8d3fb47e9f3c0"
+    },
+    {
+      "path": "public/scene-playback.js",
+      "sha256": "d37ae969db01d5a794aaea07d5fad01f59e974fc98609838c14ac8e4a73ec3cf"
+    },
+    {
+      "path": "public/brick-labels.js",
+      "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716"
+    },
+    {
+      "path": "public/index.html",
+      "sha256": "458a2f6007e6261b93247650420ed030ce07b0db8344f936ff61c0e0b124c1a9"
+    },
+    {
+      "path": "public/style.css",
+      "sha256": "8a6cc483ff0beb0c0d9958b6a679dc5f1bc4ac22cfac671367a1c090fb5292b6"
+    },
+    {
+      "path": "public/sw.js",
+      "sha256": "7a6cb8065f7efe8ccdb47486c0df8b092e131516c017d831fbe59a5516917459"
+    },
+    {
+      "path": "public/pwa-release.js",
+      "sha256": "198c883997a279890486958d3016a8850b05f263e4e67e9f90961ac3245d4b7c"
+    },
+    {
+      "path": "tests/experience-review.test.mjs",
+      "sha256": "bdfc33ca78aeecbf77afcf786ffee80ed7c05693728657c4ccef203c442ea267"
+    },
+    {
+      "path": "README.md",
+      "sha256": "543f6cac5ed7955ef3c5778baa5c2dd088d4eaeabd60df7b1e528bb471d31e04"
+    },
+    {
+      "path": "EXPERIENCE-REVIEW.md",
+      "sha256": "425f133f70863d52e89d108b4aed6ba142955b14439f3917210b58ffedbd470d"
+    },
+    {
+      "path": "REMAINING-WORK-IMPLEMENTATION.md",
+      "sha256": "f473830646fb1af76486640501f2eb06ca42493c532bc512962acb0a07ec41cc"
+    },
+    {
+      "path": "audit/2026-10-15-experience-fixes.md",
+      "sha256": "cbc450e490a95bfbc0afe81a762531d4e229199b8ebfa8a42b094918a63a4f9b"
+    },
+    {
+      "path": "audit/2026-10-15-experience-fixes.patch",
+      "sha256": "d11add1eeb2eb6cfc768dcbcdd5b1889cffd912e66dcb2eb63e8adbc29f09bce"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/adventure-victory.png",
+      "sha256": "8495711c5c69d0465412db852c53bd402046c23e5f3a1a8d5763cc756c29f505"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/browser.json",
+      "sha256": "377efd6e71b70101fb44908343be92d8e1039eeb1e756a548c3c6e0bb9529ee2"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/daily-record-320.png",
+      "sha256": "ae696f3cef5f2fb4958a1c03e0de2a24ff5b0d034607f90d20b1ab1f5ed4efd1"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/tests.txt",
+      "sha256": "4dd2428dbca21e0eb13735789b45a98a990969ebfaf6e60eb66e2eaba8d70ec0"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/transition-320.png",
+      "sha256": "45c1fd23e939781199e692b221d06d317c636b921629f0969057af8f2aa393c5"
+    },
+    {
+      "path": "audit/experience-fixes-2026-10-15/transition-desktop.png",
+      "sha256": "df9b27ef03a91a6d43d5874f325c7c55081962869def34b3636b9d32697071e8"
+    }
+  ]
+}

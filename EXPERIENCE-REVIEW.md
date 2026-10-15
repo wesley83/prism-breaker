@@ -4,6 +4,8 @@ Reviewed October 15, 2026 UTC by Codex. Source baseline: `75b5af4ad24b4f0a00341a
 
 ## Assessment
 
+**Implementation update, October 15:** ER-01 through ER-04 are corrected in the subsequent [fix audit](audit/2026-10-15-experience-fixes.md). The original findings below remain as historical evidence. The fixes restore gameplay focus, animate all sixteen champion gems, make every ending explicitly advanced with persistent text and pause controls, and generalize brick guidance. Browser regression covered all sixteen transitions, record/Daily holds, nested modal focus and narrow layout. Release verification is recorded in that audit. Human/device acceptance remains separate.
+
 The agent review is complete. It found **four actionable issues**, including two reproducible implementation bugs. Fix the keyboard-resume issue first, then the incomplete Adventure victory animation. Improve story pacing/accessibility and update the brick guide next.
 
 This is a separate review pass by the coding agent, **not an independent human review**. Human campaign difficulty, perceived audio quality, motion comfort, large-text behavior and screen-reader acceptance remain open. No gameplay code or production content was changed during this review. No score was submitted to the production leaderboard.

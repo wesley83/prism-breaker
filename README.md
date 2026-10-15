@@ -166,7 +166,7 @@ These rules validate record structure and ranges. Scores are self-reported; ther
 
 ## Install and play offline
 
-Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **72 cached files, approximately 2.42 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
+Open the game while connected and wait for **Ready to play offline**. The service worker downloads all sixteen worlds' code and artwork, fonts, music code, cinematics and sharing assets: currently **73 cached files, approximately 2.43 MB** before browser storage overhead. Installation is optional; a prepared browser tab also works offline. The authoring catalog remains online; its generated runtime representation is included in the offline world bundle.
 
 - **Android:** use **Install game** or the browser's **Install app / Add to Home screen** command.
 - **iPhone and iPad:** use the browser's Share menu, then **Add to Home Screen**.
@@ -229,9 +229,10 @@ The preview supports `GET`/`HEAD` and serves the committed site and local previe
 | Move paddle | Left/right arrows or A/D | Move mouse or drag |
 | Launch held balls | Space | Launch ball button or click/tap arena |
 | Pause | P or Escape | Pause button |
-| Skip a cinematic | Space or Enter | Next world / See your score button |
+| Continue from a cinematic | Space or Enter with the story heading focused | Next world / See your score / Save your name button |
+| Pause or resume a cinematic | P or Escape with the story heading focused | Pause animation / Resume animation button |
 
-Audio starts after a player interaction. Cinematic keyboard skipping ignores repeated key events and has a short grace period. A checkpoint restores the remaining board with a held ball; pending completed-world cinematics play before progression.
+Audio starts after a player interaction. World, Daily Challenge and record endings keep their text visible and wait for explicit continuation. Animation stops on its final composition; the pause control also pauses scene music. Story headings receive focus and describe the associated text. Keyboard actions ignore repeated key events. A checkpoint restores the remaining board with a held ball; pending completed-world cinematics play before progression. Resuming from the last gameplay dialog restores focus to the arena.
 
 ## Source map
 
