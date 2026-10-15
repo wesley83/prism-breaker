@@ -1,0 +1,801 @@
+diff --git a/public/display.js b/public/display.js
+index 178b391..be7a886 100644
+--- a/public/display.js
++++ b/public/display.js
+@@ -1,37 +1,54 @@
+ // Request browser fullscreen directly from the start tap. CSS still fills the
+ // available phone viewport when the browser or operating system declines it.
+ export function setupGameDisplay({isPlaying,onExit=()=>{},onError=()=>{},document:doc=globalThis.document,window:win=globalThis.window}){
+- const root=doc.documentElement,button=doc.querySelector('#fullscreen'),pauseButton=doc.querySelector('#pause-fullscreen');
+- let phoneFocus=false,previousFullscreen=!!doc.fullscreenElement;
++ const root=doc.documentElement,button=doc.querySelector('#fullscreen'),pauseButton=doc.querySelector('#pause-fullscreen'),layoutButton=doc.querySelector('#pause-layout');
++ let phoneFocus=false,previousFullscreen=!!doc.fullscreenElement,pending=false,requestEpoch=0;
+  const phone=()=>win.matchMedia('(max-width: 650px)').matches||(win.matchMedia('(pointer: coarse)').matches&&win.matchMedia('(max-width: 1100px)').matches);
+  const installedFullscreen=()=>win.matchMedia('(display-mode: fullscreen)').matches;
++ const canRequest=()=>typeof root.requestFullscreen==='function'&&doc.fullscreenEnabled!==false;
+  function refresh(){
+-  const expanded=!!doc.fullscreenElement||phoneFocus;
+-  root.classList.toggle('game-focus',isPlaying()&&expanded);
+-  button.setAttribute('aria-label',expanded?'Exit fullscreen view':'Enter fullscreen');button.title=expanded?'Exit fullscreen view':'Fullscreen';
+-  button.innerHTML='<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="'+(expanded?'M4 9h5V4m6 0v5h5M4 15h5v5m6 0v-5h5':'M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5')+'"/></svg>';
+-  pauseButton.textContent=expanded?'Exit fullscreen view':'Enter fullscreen';
++  const nativeFullscreen=!!doc.fullscreenElement;
++  root.classList.toggle('game-focus',isPlaying()&&(nativeFullscreen||phoneFocus));
++  const label=pending?'Opening fullscreen…':nativeFullscreen?'Exit fullscreen':canRequest()?'Enter fullscreen':'Fullscreen unavailable';
++  button.setAttribute('aria-label',label);button.title=label;
++  button.disabled=pauseButton.disabled=pending||(!nativeFullscreen&&!canRequest());
++  button.innerHTML='<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="'+(nativeFullscreen?'M4 9h5V4m6 0v5h5M4 15h5v5m6 0v-5h5':'M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5')+'"/></svg>';
++  pauseButton.textContent=label;
++  if(layoutButton){layoutButton.hidden=!phone()||!isPlaying()||nativeFullscreen;layoutButton.disabled=pending;layoutButton.textContent=phoneFocus?'Use standard layout':'Use screen-filling layout';}
+  }
+  function request(automatic=false){
+-  if(doc.fullscreenElement||installedFullscreen())return;
+-  if(!root.requestFullscreen||doc.fullscreenEnabled===false){if(!automatic&&!phone())onError();return;}
+-  try{Promise.resolve(root.requestFullscreen({navigationUI:'hide'})).catch(()=>{if(!automatic)onError();});}catch{if(!automatic)onError();}
++  // Installed window mode and API fullscreen are independent. An explicit tap
++  // can still request API fullscreen; automatic entry avoids redundant requests.
++  if(pending||doc.fullscreenElement||(automatic&&installedFullscreen()))return;
++  if(!canRequest()){if(!automatic)onError();refresh();return;}
++  const epoch=++requestEpoch;pending=true;refresh();
++  const failed=()=>{if(epoch===requestEpoch&&!automatic)onError();};
++  try{
++   // Browsers may ignore this optional hint; success is observed through the API.
++   Promise.resolve(root.requestFullscreen({navigationUI:'hide'})).then(()=>{
++    if(epoch!==requestEpoch&&doc.fullscreenElement===root)return doc.exitFullscreen();
++   }).catch(failed).finally(()=>{pending=false;refresh();});
++  }catch{pending=false;failed();refresh();}
+  }
+  function enterForPlay(){if(!phone())return;phoneFocus=true;refresh();request(true);}
+  function leave(){
+-  phoneFocus=false;refresh();
++  ++requestEpoch;phoneFocus=false;refresh();
+   if(doc.fullscreenElement===root)try{Promise.resolve(doc.exitFullscreen()).catch(()=>{});}catch{}
+  }
+  function toggle(){
++  if(pending)return;
+   if(doc.fullscreenElement){try{Promise.resolve(doc.exitFullscreen()).catch(onError);}catch{onError();}return;}
+-  if(phoneFocus){phoneFocus=false;refresh();onExit();return;}
+   if(phone()&&isPlaying())phoneFocus=true;
+   refresh();request();
+  }
++ function toggleLayout(){
++  if(pending||doc.fullscreenElement||!phone()||!isPlaying())return;
++  phoneFocus=!phoneFocus;refresh();if(!phoneFocus)onExit();
++ }
+  doc.addEventListener('fullscreenchange',()=>{
+   const current=!!doc.fullscreenElement,exited=previousFullscreen&&!current;previousFullscreen=current;
+   if(exited)phoneFocus=false;refresh();if(exited&&isPlaying())onExit();
+  });
+  win.addEventListener('resize',refresh);
+- button.onclick=toggle;pauseButton.onclick=toggle;refresh();return {enterForPlay,refresh,leave};
++ button.onclick=toggle;pauseButton.onclick=toggle;if(layoutButton)layoutButton.onclick=toggleLayout;refresh();return {enterForPlay,refresh,leave};
+ }
+diff --git a/public/pwa.js b/public/pwa.js
+index f982a07..6300401 100644
+--- a/public/pwa.js
++++ b/public/pwa.js
+@@ -18,6 +18,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+   if(checkStatus)checkStatus.textContent=unavailable?'Update checks are unavailable in this preview or browser.':applying?'Applying the update…':checking?'Checking for updates…':newVersion?(isSafeToUpdate()?'An update is ready to install.':'An update is ready. Return to the start screen to apply it.'):checkError||(failed?'The game download could not finish. Reconnect and check again.':['installing','installed'].includes(registration?.installing?.state)?'Downloading the update…':checked?'You’re up to date.':'Updates are checked automatically while the game is open.');
+   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;retry.hidden=true;return;}
+   install.hidden=installed||standalone();
++  install.textContent=prompt?'Install game':'How to install';
+   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
+   detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All sixteen worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
+   retry.hidden=!failed;retry.disabled=applying;
+@@ -59,7 +60,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
+  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;render();});
+  window.addEventListener('appinstalled',()=>{prompt=null;installed=true;render();});
+  install.onclick=async()=>{
+-  if(prompt){const invitation=prompt;prompt=null;try{await invitation.prompt();await invitation.userChoice;}catch{openHelp();}}
++  if(prompt){const invitation=prompt;prompt=null;render();try{await invitation.prompt();await invitation.userChoice;}catch{openHelp();}}
+   else openHelp();
+   // A denied persistence request is harmless; normal browser storage still works.
+   navigator.storage?.persist?.().catch(()=>{});
+diff --git a/public/app.js b/public/app.js
+index 066712b..d0b13e9 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -37,7 +37,8 @@ const currentDay=()=>utcDay(boardNow());
+ const gameDisplay=setupGameDisplay({isPlaying:()=>view!=='home',onExit:()=>{if(view==='game'&&['playing','ready'].includes(game.state)&&!$('dialog[open]'))openDialog('#pause-dialog');},onError:()=>toast('Fullscreen is unavailable. The game still fills the available phone screen.')});
+ const offlinePlay=setupOfflinePlay({isSafeToUpdate:()=>view==='home',openHelp:()=>openDialog('#install-dialog')});
+ const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+-$('#install-instructions').textContent=ios?'Open the browser’s Share menu, choose Add to Home Screen, then Add. Launch Prism Breaker from its new icon.':/Android/i.test(navigator.userAgent)?'Open your browser’s menu and choose Install app or Add to Home screen. Launch Prism Breaker from its new icon.':'Use the install icon in your browser’s address bar or the Install app command in its menu. If installation is unavailable, you can still play offline in this browser after the download completes.';
++const firefoxAndroid=/Android/i.test(navigator.userAgent)&&/Firefox\//i.test(navigator.userAgent);
++$('#install-instructions').textContent=ios?'Open the browser’s Share menu, choose Add to Home Screen, then Add. Launch Prism Breaker from its new icon.':firefoxAndroid?'Open Firefox’s three-dot menu and choose Install or Add app to Home screen, then add the icon. Launch Prism Breaker from its new home-screen icon.':/Android/i.test(navigator.userAgent)?'Open your browser’s menu and choose Install app or Add to Home screen. Launch Prism Breaker from its new icon.':'Use the install icon in your browser’s address bar or the Install app command in its menu. If installation is unavailable, you can still play offline in this browser after the download completes.';
+ async function initializeStage(){try{const {Stage}=await import('./scene.js?v=15');const readyStage=new Stage($('#game-canvas'),settings);await readyStage.prepare(game);stage=readyStage;all('#play,#resume,#daily,.world-card').forEach(button=>button.disabled=false);$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');}catch(error){$('#arena-status').hidden=true;$('#stage').setAttribute('aria-busy','false');$('#error').hidden=false;$('#error-text').textContent='The 3D arena could not load. Check your connection, enable hardware acceleration, or try a current Chrome, Edge, Firefox or Safari browser.';console.error('WebGL initialization failed:',error);}}
+ game.emit=handleEvent;
+ function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');toastUntil=performance.now()+2600;}
+diff --git a/public/index.html b/public/index.html
+index c7ae12d..860f067 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -1,7 +1,7 @@
+ <!doctype html>
+ <html lang="en" prefix="og: https://ogp.me/ns#">
+ <head>
+- <meta name="prism-release" content="d77abd4a8738088292f7">
++ <meta name="prism-release" content="fae02ab6c0bf2e26a92a">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Break through sixteen colorful worlds in Prism Breaker. A Three.js arcade adventure with power-ups, cinematic transitions and a shared leaderboard. Play free on Pagelove.">
+  <meta name="theme-color" content="#111d20"><meta name="color-scheme" content="dark light">
+@@ -55,10 +55,10 @@
+     <div class="arena-display"><button id="fullscreen" class="icon-button" aria-label="Toggle fullscreen" title="Fullscreen"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#maximize"/></svg></button></div>
+    </section>
+   </main>
+-  <section class="offline-bar" aria-label="Offline play"><div><strong id="offline-status" role="status">Preparing offline play…</strong><p id="offline-detail">Keep this page open while the complete game downloads.</p></div><div class="offline-actions"><button id="install-game" class="button secondary">Install game</button><button id="retry-download" class="button secondary" hidden>Retry download</button><button id="update-game" class="button secondary" hidden>Update game</button></div></section>
++  <section class="offline-bar" aria-label="Offline play"><div><strong id="offline-status" role="status">Preparing offline play…</strong><p id="offline-detail">Keep this page open while the complete game downloads.</p></div><div class="offline-actions"><button id="install-game" class="button secondary">How to install</button><button id="retry-download" class="button secondary" hidden>Retry download</button><button id="update-game" class="button secondary" hidden>Update game</button></div></section>
+   <footer class="footer"><span>Prism Breaker. Made to be played.</span><a href="https://pagelove.com" target="_blank" rel="noopener" aria-label="Built on Pagelove (opens in a new tab)">Built on Pagelove</a></footer>
+  </div>
+- <dialog id="pause-dialog"><button class="close icon-button" data-close aria-label="Close pause menu"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Take a breather.</h2><p id="pause-description">Your adventure is saved.</p><p id="pause-update-notice" class="small" hidden>An update is ready. Return to the start screen to apply it.</p><button id="unpause" class="button primary">Back to the game →</button><button id="pause-settings" class="button secondary">Settings</button><button id="pause-fullscreen" class="button secondary">Enter fullscreen</button><button id="quit" class="button secondary">Back to start screen</button></dialog>
++ <dialog id="pause-dialog"><button class="close icon-button" data-close aria-label="Close pause menu"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Take a breather.</h2><p id="pause-description">Your adventure is saved.</p><p id="pause-update-notice" class="small" hidden>An update is ready. Return to the start screen to apply it.</p><button id="unpause" class="button primary">Back to the game →</button><button id="pause-settings" class="button secondary">Settings</button><button id="pause-fullscreen" class="button secondary">Enter fullscreen</button><button id="pause-layout" class="button secondary" hidden>Use standard layout</button><button id="quit" class="button secondary">Back to start screen</button></dialog>
+  <dialog id="settings-dialog"><button class="close icon-button" data-close aria-label="Close settings"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Your kind of arcade.</h2><label class="setting">Interface theme<select id="interface-theme" aria-label="Interface theme"><option value="system">System</option><option value="dark">Dark</option><option value="light">Light</option></select></label><label class="setting"><span>Classic mode<small id="classic-mode-description">Original bricks and paddle</small></span><input id="classic-mode" type="checkbox" aria-label="Classic mode" aria-describedby="classic-mode-description"></label><label class="setting">Music <input id="music-volume" type="range" min="0" max="100" value="35"></label><label class="setting">Sound effects <input id="effects-volume" type="range" min="0" max="100" value="70"></label><label class="setting">Reduced motion <input id="reduced-motion" type="checkbox"></label><label class="setting">Fewer visual effects <input id="low-effects" type="checkbox"></label><p id="music-credit" class="music-credit"></p><p class="small">The arena keeps each world’s colors. Your preferences are saved.</p><section class="settings-updates" aria-labelledby="settings-updates-title"><h3 id="settings-updates-title">Game updates</h3><p id="settings-update-status" class="small" role="status">Updates are checked automatically while the game is open.</p><div class="offline-actions"><button id="check-updates" class="button secondary">Check for updates</button><button id="settings-update" data-pwa-update class="button primary" hidden>Update game</button></div></section><button class="button primary" data-close>All set →</button></dialog>
+  <dialog id="worlds-dialog" class="wide-dialog"><button class="close icon-button" data-close aria-label="Close world selection"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>Sixteen worlds to explore.</h2><p>Jump into any world in practice mode. Campaign scores begin in Prism Garden.</p><p id="journey-summary" class="journey-summary"></p><p><a id="world-editor-link" class="button secondary" href="/editor/prism-garden">Open world workshop</a></p><div id="world-grid" class="world-grid"></div></dialog>
+  <dialog id="scores-dialog" class="wide-dialog"><button class="close icon-button" data-close aria-label="Close leaderboard"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>The high-score club.</h2><div class="score-tabs"><button id="tab-campaign" aria-pressed="true">Adventure</button><button id="tab-daily" aria-pressed="false">Daily challenge</button><button id="refresh-scores" aria-label="Refresh scores"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#refresh"/></svg><span>Refresh</span></button></div><div id="leader-summary" class="leader-summary" hidden><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#trophy"/></svg><div><span>Score to beat</span><strong id="leader-name"></strong></div><strong id="leader-points"></strong></div><div id="score-skeleton" class="score-skeleton" hidden aria-hidden="true"><i></i><i></i><i></i></div><p id="score-status" class="small" role="status">Loading shared scores…</p><section id="pending-scores" class="pending-scores" hidden aria-labelledby="pending-title"><h3 id="pending-title">Scores waiting to sync</h3><p class="small">Queued scores keep their original challenge date. Open the game when connected to send them.</p><div id="pending-list"></div></section><div class="leaderboard-sharing"><div class="leaderboard-share-actions"><button id="share-leaderboard" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share leaderboard</span></button><button id="copy-leaderboard-link" class="button secondary">Copy link</button></div><p id="share-status" class="small" role="status"></p><div id="share-link-fallback" hidden><label for="share-link">Leaderboard link</label><div class="share-link-row"><input id="share-link" type="url" readonly autocomplete="off"></div></div></div><p id="score-age-legend" class="score-age-legend" aria-label="Adventure score age"><span data-age-band="green"><i aria-hidden="true"></i>0–48 hours</span><span data-age-band="yellow"><i aria-hidden="true"></i>Over 48–96 hours</span><span data-age-band="red"><i aria-hidden="true"></i>Over 96 hours</span></p><div class="table-wrap"><table id="score-table"><caption id="score-caption" class="sr-only">Shared leaderboard ranked by score, world reached, then time</caption><thead><tr><th scope="col">RANK</th><th scope="col">PLAYER</th><th scope="col" id="score-detail-heading">WORLD</th><th scope="col">SCORE</th></tr></thead><tbody id="score-rows"></tbody></table></div><p class="small muted">Scores expire after 5 days.<span id="daily-reset-note" hidden> Daily standings reset at 00:00 UTC.</span></p></dialog>
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index 7b12f8c..41cfde4 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -1,2 +1,2 @@
+ // Generated by tools/build-pwa.mjs.
+-export const PWA_RELEASE = "d77abd4a8738088292f7";
++export const PWA_RELEASE = "fae02ab6c0bf2e26a92a";
+diff --git a/public/sw.js b/public/sw.js
+index 8074d41..51a405c 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -1,437 +1,437 @@
+ // Generated by tools/build-pwa.mjs. Keep runtime edits in this template.
+-const VERSION = "d77abd4a8738088292f7";
++const VERSION = "fae02ab6c0bf2e26a92a";
+ const PRECACHE = [
+   {
+     "path": "/app.js",
+-    "sha256": "6c99fcbb34bba7fc26c82e4f018aa5da70e112bf7769ed9979e349e09099e7ed",
+-    "bytes": 54683,
+-    "url": "/releases/d77abd4a8738088292f7/app.js"
++    "sha256": "68c18c598d15250f6ef11748f8f422be5b48cb92e0aa6a4cec766751b0a3cbc1",
++    "bytes": 54948,
++    "url": "/releases/fae02ab6c0bf2e26a92a/app.js"
+   },
+   {
+     "path": "/apple-touch-icon.png",
+     "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+     "bytes": 3811,
+-    "url": "/releases/d77abd4a8738088292f7/apple-touch-icon.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/apple-touch-icon.png"
+   },
+   {
+     "path": "/assets/display.woff2",
+     "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+     "bytes": 22288,
+-    "url": "/releases/d77abd4a8738088292f7/assets/display.woff2"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/display.woff2"
+   },
+   {
+     "path": "/assets/favicon-32.png",
+     "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+     "bytes": 791,
+-    "url": "/releases/d77abd4a8738088292f7/assets/favicon-32.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/favicon-32.png"
+   },
+   {
+     "path": "/assets/FONT-LICENSE.txt",
+     "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+     "bytes": 4401,
+-    "url": "/releases/d77abd4a8738088292f7/assets/FONT-LICENSE.txt"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/FONT-LICENSE.txt"
+   },
+   {
+     "path": "/assets/ICON-LICENSE.txt",
+     "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+     "bytes": 1073,
+-    "url": "/releases/d77abd4a8738088292f7/assets/ICON-LICENSE.txt"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/ICON-LICENSE.txt"
+   },
+   {
+     "path": "/assets/icons.svg",
+     "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+     "bytes": 10681,
+-    "url": "/releases/d77abd4a8738088292f7/assets/icons.svg"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/icons.svg"
+   },
+   {
+     "path": "/assets/og-prism-breaker-square.jpg",
+     "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+     "bytes": 420420,
+-    "url": "/releases/d77abd4a8738088292f7/assets/og-prism-breaker-square.jpg"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/og-prism-breaker-square.jpg"
+   },
+   {
+     "path": "/assets/og-prism-breaker.jpg",
+     "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+     "bytes": 222971,
+-    "url": "/releases/d77abd4a8738088292f7/assets/og-prism-breaker.jpg"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/og-prism-breaker.jpg"
+   },
+   {
+     "path": "/assets/prism-icon-192.png",
+     "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+     "bytes": 4055,
+-    "url": "/releases/d77abd4a8738088292f7/assets/prism-icon-192.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-192.png"
+   },
+   {
+     "path": "/assets/prism-icon-512.png",
+     "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+     "bytes": 27390,
+-    "url": "/releases/d77abd4a8738088292f7/assets/prism-icon-512.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-icon-512.png"
+   },
+   {
+     "path": "/assets/prism-maskable-512.png",
+     "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+     "bytes": 13028,
+-    "url": "/releases/d77abd4a8738088292f7/assets/prism-maskable-512.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-maskable-512.png"
+   },
+   {
+     "path": "/assets/prism-maskable.svg",
+     "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+     "bytes": 500,
+-    "url": "/releases/d77abd4a8738088292f7/assets/prism-maskable.svg"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-maskable.svg"
+   },
+   {
+     "path": "/assets/prism-wordmark.svg",
+     "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+     "bytes": 1375,
+-    "url": "/releases/d77abd4a8738088292f7/assets/prism-wordmark.svg"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/prism-wordmark.svg"
+   },
+   {
+     "path": "/assets/QR-LICENSE.txt",
+     "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+     "bytes": 1094,
+-    "url": "/releases/d77abd4a8738088292f7/assets/QR-LICENSE.txt"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/QR-LICENSE.txt"
+   },
+   {
+     "path": "/assets/world-preview-01.png",
+     "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+     "bytes": 27953,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-01.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-01.png"
+   },
+   {
+     "path": "/assets/world-preview-02.png",
+     "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+     "bytes": 29205,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-02.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-02.png"
+   },
+   {
+     "path": "/assets/world-preview-03.png",
+     "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+     "bytes": 31118,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-03.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-03.png"
+   },
+   {
+     "path": "/assets/world-preview-04.png",
+     "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+     "bytes": 29656,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-04.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-04.png"
+   },
+   {
+     "path": "/assets/world-preview-05.png",
+     "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+     "bytes": 29165,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-05.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-05.png"
+   },
+   {
+     "path": "/assets/world-preview-06.png",
+     "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+     "bytes": 25415,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-06.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-06.png"
+   },
+   {
+     "path": "/assets/world-preview-07.png",
+     "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+     "bytes": 27961,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-07.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-07.png"
+   },
+   {
+     "path": "/assets/world-preview-08.png",
+     "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+     "bytes": 27056,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-08.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-08.png"
+   },
+   {
+     "path": "/assets/world-preview-09.png",
+     "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+     "bytes": 27537,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-09.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-09.png"
+   },
+   {
+     "path": "/assets/world-preview-10.png",
+     "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+     "bytes": 27226,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-10.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-10.png"
+   },
+   {
+     "path": "/assets/world-preview-11.png",
+     "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+     "bytes": 30170,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-11.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-11.png"
+   },
+   {
+     "path": "/assets/world-preview-12.png",
+     "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+     "bytes": 29931,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-12.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-12.png"
+   },
+   {
+     "path": "/assets/world-preview-13.png",
+     "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+     "bytes": 27592,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-13.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-13.png"
+   },
+   {
+     "path": "/assets/world-preview-14.png",
+     "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+     "bytes": 22221,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-14.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-14.png"
+   },
+   {
+     "path": "/assets/world-preview-15.png",
+     "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+     "bytes": 26493,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-15.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-15.png"
+   },
+   {
+     "path": "/assets/world-preview-16.png",
+     "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+     "bytes": 32667,
+-    "url": "/releases/d77abd4a8738088292f7/assets/world-preview-16.png"
++    "url": "/releases/fae02ab6c0bf2e26a92a/assets/world-preview-16.png"
+   },
+   {
+     "path": "/audio.js",
+     "sha256": "b544d6bdb35002caf77641bc6728e4069aa7ff6fc06af262b6b67193403b96f0",
+     "bytes": 7105,
+-    "url": "/releases/d77abd4a8738088292f7/audio.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/audio.js"
+   },
+   {
+     "path": "/bootstrap.js",
+     "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+     "bytes": 1363,
+-    "url": "/releases/d77abd4a8738088292f7/bootstrap.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/bootstrap.js"
+   },
+   {
+     "path": "/brick-events.js",
+     "sha256": "3ed016a3adf5fb6c91d3e088c981b28c04caa3e57866486b5c349f132f564cfe",
+     "bytes": 3894,
+-    "url": "/releases/d77abd4a8738088292f7/brick-events.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/brick-events.js"
+   },
+   {
+     "path": "/brick-labels.js",
+     "sha256": "f662152af6fd60ce439bc2733a2ec1c03601c219d70a35178541f66c12bfba6d",
+     "bytes": 2674,
+-    "url": "/releases/d77abd4a8738088292f7/brick-labels.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/brick-labels.js"
+   },
+   {
+     "path": "/bundled-worlds.js",
+     "sha256": "46ded10b86f0a915465149cdbb14dc7e3e8e0cd7582787f8a4619b4644073990",
+     "bytes": 127892,
+-    "url": "/releases/d77abd4a8738088292f7/bundled-worlds.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/bundled-worlds.js"
+   },
+   {
+     "path": "/champion.js",
+     "sha256": "a33604726497adc9efc6b9002f067b640234942d88e0ebe39d2de8155c7b3ef8",
+     "bytes": 5802,
+-    "url": "/releases/d77abd4a8738088292f7/champion.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/champion.js"
+   },
+   {
+     "path": "/cinematic-score.js",
+     "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+     "bytes": 1984,
+-    "url": "/releases/d77abd4a8738088292f7/cinematic-score.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/cinematic-score.js"
+   },
+   {
+     "path": "/cinematics.js",
+     "sha256": "e39eead18646a2ef8c4f2e7276db395a85bf1d870dccaca1ebf4bd39c9d74ed2",
+     "bytes": 15450,
+-    "url": "/releases/d77abd4a8738088292f7/cinematics.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/cinematics.js"
+   },
+   {
+     "path": "/crystal-bricks.js",
+     "sha256": "ea0b69e565240df3e96d6f12f417fb5e4968d0833e90db2bd19e7550c12fb3cf",
+     "bytes": 6127,
+-    "url": "/releases/d77abd4a8738088292f7/crystal-bricks.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/crystal-bricks.js"
+   },
+   {
+     "path": "/daily-ending.js",
+     "sha256": "e0834285478e75555c7ae56e66a1b312d175e629600a756acc51d3829d7dd2c4",
+     "bytes": 6513,
+-    "url": "/releases/d77abd4a8738088292f7/daily-ending.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/daily-ending.js"
+   },
+   {
+     "path": "/daily-score.js",
+     "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+     "bytes": 489,
+-    "url": "/releases/d77abd4a8738088292f7/daily-score.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/daily-score.js"
+   },
+   {
+     "path": "/display.css",
+     "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
+     "bytes": 4199,
+-    "url": "/releases/d77abd4a8738088292f7/display.css"
++    "url": "/releases/fae02ab6c0bf2e26a92a/display.css"
+   },
+   {
+     "path": "/display.js",
+-    "sha256": "5c5bf0ef94d9bd73530e3d0793659446c713973e2bbf121f39bf1da449528571",
+-    "bytes": 2573,
+-    "url": "/releases/d77abd4a8738088292f7/display.js"
++    "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45",
++    "bytes": 3729,
++    "url": "/releases/fae02ab6c0bf2e26a92a/display.js"
+   },
+   {
+     "path": "/editor.css",
+-    "sha256": "62a6d01ee45d00381c36037aed3a96329de6b5bed912e83fe2574a823e7c7654",
++    "sha256": "e1a3873536bdd3f95024d55c9cc5281bdc2f15b0a260aa19404d3779c5775c11",
+     "bytes": 7635,
+-    "url": "/releases/d77abd4a8738088292f7/editor.css"
++    "url": "/releases/fae02ab6c0bf2e26a92a/editor.css"
+   },
+   {
+     "path": "/editor.js",
+     "sha256": "ee87e857e0b1d1d7bb7206bae1eb7a412177f60f51c685a0b4819270b3dbd5a2",
+     "bytes": 22587,
+-    "url": "/releases/d77abd4a8738088292f7/editor.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/editor.js"
+   },
+   {
+     "path": "/engine.js",
+     "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511",
+     "bytes": 17520,
+-    "url": "/releases/d77abd4a8738088292f7/engine.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/engine.js"
+   },
+   {
+     "path": "/favicon.ico",
+     "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+     "bytes": 2456,
+-    "url": "/releases/d77abd4a8738088292f7/favicon.ico"
++    "url": "/releases/fae02ab6c0bf2e26a92a/favicon.ico"
+   },
+   {
+     "path": "/favicon.svg",
+     "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+     "bytes": 442,
+-    "url": "/releases/d77abd4a8738088292f7/favicon.svg"
++    "url": "/releases/fae02ab6c0bf2e26a92a/favicon.svg"
+   },
+   {
+     "path": "/graphics-recovery.js",
+     "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+     "bytes": 910,
+-    "url": "/releases/d77abd4a8738088292f7/graphics-recovery.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/graphics-recovery.js"
+   },
+   {
+     "path": "/index.html",
+-    "sha256": "ccc646254c23eed0c1422068a3990009e8a0f7738d85c0c37325440537fb81d6",
+-    "bytes": 25366,
+-    "url": "/releases/d77abd4a8738088292f7/index.html"
++    "sha256": "7969f81c425ead7e4dd7901cadf9113e4576bcdbc7a7dc27627863d26f909457",
++    "bytes": 25454,
++    "url": "/releases/fae02ab6c0bf2e26a92a/index.html"
+   },
+   {
+     "path": "/leaderboard.js",
+     "sha256": "77e7ca7317fafa78843d559a33a49c5572ae304762ddc103bc9c0de952ca03fe",
+     "bytes": 1427,
+-    "url": "/releases/d77abd4a8738088292f7/leaderboard.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/leaderboard.js"
+   },
+   {
+     "path": "/levels.js",
+     "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+     "bytes": 1660,
+-    "url": "/releases/d77abd4a8738088292f7/levels.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/levels.js"
+   },
+   {
+     "path": "/manifest.webmanifest",
+-    "sha256": "8b84ab165a835b93b47a3cd3f461314c5e58e46b8a6cf64a39cc366d8ed7704f",
++    "sha256": "837bb570832779d5b54f2387510e75eb7b37b4fbcd7de516da700aebeb62a0a4",
+     "bytes": 1301,
+-    "url": "/releases/d77abd4a8738088292f7/manifest.webmanifest"
++    "url": "/releases/fae02ab6c0bf2e26a92a/manifest.webmanifest"
+   },
+   {
+     "path": "/music.js",
+     "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+     "bytes": 6483,
+-    "url": "/releases/d77abd4a8738088292f7/music.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/music.js"
+   },
+   {
+     "path": "/offline.js",
+     "sha256": "2cce4c462b8ad2f51c1b79c9aaafbfc844379190e6cffcda3b296f245cafc49f",
+     "bytes": 10268,
+-    "url": "/releases/d77abd4a8738088292f7/offline.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/offline.js"
+   },
+   {
+     "path": "/paddle-art.js",
+     "sha256": "0d3d5ccc3527546a2044e0d014586bf4eb41b7e2bbb5e014de4d0a69771d5ce1",
+     "bytes": 4692,
+-    "url": "/releases/d77abd4a8738088292f7/paddle-art.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/paddle-art.js"
+   },
+   {
+     "path": "/postprocessing.js",
+     "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+     "bytes": 19341,
+-    "url": "/releases/d77abd4a8738088292f7/postprocessing.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/postprocessing.js"
+   },
+   {
+     "path": "/pwa-release.js",
+-    "sha256": "2486737a1a50bb702419ffaaf2843942bdcc6a4d5ed5a69e0c37356fae308a79",
++    "sha256": "2729af219d0e428e8a27a6bcd923fede129a3a0c16bf97c617acfef6dc18982e",
+     "bytes": 88,
+-    "url": "/releases/d77abd4a8738088292f7/pwa-release.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/pwa-release.js"
+   },
+   {
+     "path": "/pwa.js",
+-    "sha256": "cfab105c2c783420e38c376caad3a0ea5c78392eda73c85fd201aca0cc0af386",
+-    "bytes": 8986,
+-    "url": "/releases/d77abd4a8738088292f7/pwa.js"
++    "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
++    "bytes": 9057,
++    "url": "/releases/fae02ab6c0bf2e26a92a/pwa.js"
+   },
+   {
+     "path": "/scene.js",
+     "sha256": "83f53c389135e7055ddabcc3b5943732efde7a5d901aa303a3a8003abfea94ef",
+     "bytes": 26484,
+-    "url": "/releases/d77abd4a8738088292f7/scene.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/scene.js"
+   },
+   {
+     "path": "/sharing.js",
+-    "sha256": "20906f92e539d9daf312bde68c71726cff492b58d662266717176cf9d3442a89",
++    "sha256": "248175ca1a5a2921357f11f8ac098e2f03b06dd072c2f7f5ddf28c8ac9c5f00f",
+     "bytes": 11750,
+-    "url": "/releases/d77abd4a8738088292f7/sharing.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/sharing.js"
+   },
+   {
+     "path": "/style.css",
+-    "sha256": "9c676265594c32a22a4781ec831e95b3d5d44bf9292b11f9a5ca18118748bfae",
++    "sha256": "5dd3f62601de347b9c30013f7ec36099a013bbcdf76b1e597cde2d2a8303bcdd",
+     "bytes": 37678,
+-    "url": "/releases/d77abd4a8738088292f7/style.css"
++    "url": "/releases/fae02ab6c0bf2e26a92a/style.css"
+   },
+   {
+     "path": "/vendor/qr.js",
+     "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+     "bytes": 51907,
+-    "url": "/releases/d77abd4a8738088292f7/vendor/qr.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/vendor/qr.js"
+   },
+   {
+     "path": "/vendor/THREE-LICENSE.txt",
+     "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+     "bytes": 1081,
+-    "url": "/releases/d77abd4a8738088292f7/vendor/THREE-LICENSE.txt"
++    "url": "/releases/fae02ab6c0bf2e26a92a/vendor/THREE-LICENSE.txt"
+   },
+   {
+     "path": "/vendor/three.core.min.js",
+     "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+     "bytes": 381124,
+-    "url": "/releases/d77abd4a8738088292f7/vendor/three.core.min.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/vendor/three.core.min.js"
+   },
+   {
+     "path": "/vendor/three.module.min.js",
+     "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+     "bytes": 338908,
+-    "url": "/releases/d77abd4a8738088292f7/vendor/three.module.min.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/vendor/three.module.min.js"
+   },
+   {
+     "path": "/victory-music.js",
+     "sha256": "ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa",
+     "bytes": 1331,
+-    "url": "/releases/d77abd4a8738088292f7/victory-music.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/victory-music.js"
+   },
+   {
+     "path": "/world-data.css",
+-    "sha256": "7dcca355cbe481c9bd39168649304957797a3621132dfbf0dc28fc6d5c6c55aa",
++    "sha256": "596bc6ff6ec6c60508088967c8e44d2b19989783c41988f71b823acab8b09e5b",
+     "bytes": 889,
+-    "url": "/releases/d77abd4a8738088292f7/world-data.css"
++    "url": "/releases/fae02ab6c0bf2e26a92a/world-data.css"
+   },
+   {
+     "path": "/world-format.js",
+     "sha256": "d983e2a502991c0a67e320d742601a348bee674b01d275ca41e1f890d5f72b57",
+     "bytes": 2792,
+-    "url": "/releases/d77abd4a8738088292f7/world-format.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/world-format.js"
+   },
+   {
+     "path": "/world-identity.js",
+-    "sha256": "63fbeb4039f546e6307cfc7b0583cc6559fd376991f5fd8b461c3d9e024ea5dd",
++    "sha256": "3e2a5f2dc3640c5a8dc8af86ceb0870ae852dc652153129ac532b016d825188e",
+     "bytes": 810,
+-    "url": "/releases/d77abd4a8738088292f7/world-identity.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/world-identity.js"
+   },
+   {
+     "path": "/world-schema.js",
+-    "sha256": "302814e31b662005ac70344309f0bdc37a0cdbf67f9a1847d0bab076164c7c77",
++    "sha256": "4c820f37f4e70dc3836981c446b0177f8ef6c496abb3e94ec27c04217b16351f",
+     "bytes": 12027,
+-    "url": "/releases/d77abd4a8738088292f7/world-schema.js"
++    "url": "/releases/fae02ab6c0bf2e26a92a/world-schema.js"
+   }
+ ];
+ const CACHE_PREFIX = 'prism-breaker-release-';
+diff --git a/tests/display.test.mjs b/tests/display.test.mjs
+index 47964e7..1d931e9 100644
+--- a/tests/display.test.mjs
++++ b/tests/display.test.mjs
+@@ -3,19 +3,19 @@ import assert from 'node:assert/strict';
+ import {setupGameDisplay} from '../public/display.js';
+ 
+ function fixture({phone=true,allowed=true,reject=false,installed=false}={}){
+- const listeners={},classes=new Set(),button={setAttribute(){},innerHTML:''},pauseButton={},root={classList:{toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
++ const listeners={},classes=new Set(),button={setAttribute(){},innerHTML:''},pauseButton={},layoutButton={},root={classList:{toggle(name,on){if(on)classes.add(name);else classes.delete(name);}}};
+  let requests=0,exits=0,paused=0,errors=0,playing=true;
+- const doc={documentElement:root,fullscreenElement:null,fullscreenEnabled:allowed,querySelector:s=>s==='#fullscreen'?button:pauseButton,addEventListener:(name,fn)=>listeners[name]=fn,exitFullscreen:async()=>{doc.fullscreenElement=null;exits++;listeners.fullscreenchange();}};
++ const doc={documentElement:root,fullscreenElement:null,fullscreenEnabled:allowed,querySelector:s=>s==='#fullscreen'?button:s==='#pause-layout'?layoutButton:pauseButton,addEventListener:(name,fn)=>listeners[name]=fn,exitFullscreen:async()=>{doc.fullscreenElement=null;exits++;listeners.fullscreenchange();}};
+  root.requestFullscreen=()=>{requests++;if(reject)return Promise.reject(Error('Denied'));doc.fullscreenElement=root;listeners.fullscreenchange();return Promise.resolve();};
+  const win={matchMedia:query=>({matches:query==='(display-mode: fullscreen)'?installed:query==='(max-width: 650px)'?phone:false}),addEventListener(){}};
+  const display=setupGameDisplay({document:doc,window:win,isPlaying:()=>playing,onExit:()=>paused++,onError:()=>errors++});
+- return {display,doc,root,button,pauseButton,classes,listeners,get requests(){return requests;},get exits(){return exits;},get paused(){return paused;},get errors(){return errors;},home(){playing=false;display.leave();}};
++ return {display,doc,root,button,pauseButton,layoutButton,classes,listeners,get requests(){return requests;},get exits(){return exits;},get paused(){return paused;},get errors(){return errors;},home(){playing=false;display.leave();}};
+ }
+ test('phone start requests fullscreen synchronously on the document root, including dialogs',()=>{
+  const f=fixture();f.display.enterForPlay();assert.equal(f.requests,1);assert.equal(f.doc.fullscreenElement,f.root);assert.equal(f.classes.has('game-focus'),true);
+ });
+-test('denied phone fullscreen retains the viewport layout and allows an explicit exit',async()=>{
+- const f=fixture({reject:true});f.display.enterForPlay();await Promise.resolve();assert.equal(f.classes.has('game-focus'),true);assert.equal(f.errors,0);f.button.onclick();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.paused,1);
++test('denied phone fullscreen retains the viewport layout with a separate layout exit',async()=>{
++ const f=fixture({reject:true});f.display.enterForPlay();await new Promise(resolve=>setImmediate(resolve));assert.equal(f.classes.has('game-focus'),true);assert.equal(f.errors,0);f.layoutButton.onclick();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.paused,1);
+ });
+ test('ordinary desktop starts never request fullscreen automatically',()=>{
+  const f=fixture({phone:false});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),false);f.button.onclick();assert.equal(f.doc.fullscreenElement,f.root);
+diff --git a/FULLSCREEN-UPGRADE.md b/FULLSCREEN-UPGRADE.md
+index 8cd64f0..cdf94b8 100644
+--- a/FULLSCREEN-UPGRADE.md
++++ b/FULLSCREEN-UPGRADE.md
+@@ -16,3 +16,41 @@ Verification recorded October 13, 2026:
+ - Physical Android/iPhone launches and device-specific notch values remain unverified. Manifest changes for an already-installed app can require a later browser-managed manifest refresh; the start-tap request still provides supported fullscreen gameplay.
+ 
+ Runtime edits require rebuilding the complete offline package with `bun tools/build-pwa.mjs` before publishing. Normal deployment preserves the live leaderboard.
++
++## Firefox for Android review — October 15, 2026
++
++Scope: documentation and source inspection, not a physical Firefox run. The reported Edge issue is on Pixel 11 Pro / Android 17 / Edge 155.0.4283.48. No Firefox result has yet been supplied for that device. This review does not certify the full game or establish that Firefox eliminates the gray strip.
++
++### Supported path
++
++Mozilla documents installation from the browser menu: visit the game, open the three-dot menu, choose **Install**, then add the icon to the home screen. Menu wording can vary by version. Use the installed icon for the launch comparison. [Mozilla installation instructions](https://support.mozilla.org/en-US/kb/use-web-apps-firefox-android).
++
++Current MDN browser-compatibility data records Firefox Android support for manifest `display: fullscreen` from version 47. This differs from desktop Firefox's manifest support; a desktop Firefox check cannot establish installed Android behavior. Our existing manifest requests fullscreen and needs no Firefox-specific replacement. `display_override` is not supported there, so adding it is not a Firefox fullscreen fix. [Manifest compatibility data](https://github.com/mdn/browser-compat-data/blob/main/manifests/webapp/display.json), [override compatibility](https://github.com/mdn/browser-compat-data/blob/main/manifests/webapp/display_override.json).
++
++The standard `requestFullscreen()` API and its Promise return are supported. The `navigationUI` option is not supported in Firefox according to the reviewed data; it must be treated as an optional hint, not a guarantee that Android system areas disappear. Retaining the option for browsers that support it is reasonable. Unsupported dictionary options do not, by themselves, establish that the fullscreen call fails. Fullscreen still requires a user gesture; a page-load request is not a reliable workaround. [API compatibility](https://github.com/mdn/browser-compat-data/blob/main/api/Element.json), [API requirements](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullscreen).
++
++The reviewed data also lists support for ServiceWorkerContainer, CacheStorage and WebGL2RenderingContext. The source uses these standard capabilities for offline play and rendering. Their availability supports an expectation of compatibility, not proof of successful gameplay, cache retention, graphics-driver behavior or update handling on a particular phone. [Saved compatibility excerpts](audit/2026-10-15-firefox-compatibility.json).
++
++### Adjustments recommended
++
++1. **Make installation help specific to Firefox Android.** Firefox does not implement `beforeinstallprompt` or `appinstalled` in the reviewed compatibility data. The existing game safely falls back to installation instructions, so installation is not blocked. Improve the button/help wording to say **How to install** and direct Firefox users to its browser menu when no native prompt is available. Preserve capability-based handling and avoid implying that every missing prompt identifies Firefox. [Event compatibility](https://github.com/mdn/browser-compat-data/blob/main/api/Window.json).
++2. **Separate actual fullscreen state from the phone layout fallback.** In `public/display.js`, `phoneFocus` is set before the fullscreen request resolves, and `refresh()` treats it as expanded even if the request is rejected. The button then says **Exit fullscreen view**, and its next click turns off the layout rather than retrying native fullscreen. Model native fullscreen, installed display mode and viewport-filling layout separately. When native fullscreen is unavailable, label the layout action accurately and keep an explicit fullscreen retry available when supported. This is a general controller issue, not a Firefox-only defect or an established explanation of the Edge gray strip.
++3. **Keep an explicit manual request available.** The request helper currently returns immediately when the display-mode query says fullscreen. That can prevent a manual attempt to enter API fullscreen independently of the installed window mode. Keep automatic requests conservative, but permit a deliberate user request when `document.fullscreenElement` is absent and the API is available. Do not automatically re-enter after the user exits. This is a resilience improvement; it is not a verified cutout workaround.
++
++No runtime adjustment has been implemented or deployed as part of this review. Keep the existing `display: fullscreen`, `viewport-fit=cover`, safe-area layout and gesture-triggered API path. Do not apply negative top offsets to hide the gray strip.
++
++### Remaining device check
++
++Install the game separately through Firefox while retaining Edge and its data. Compare icon launch before any tap, the fullscreen button, Start adventure, portrait/landscape, return from background, and an offline reopen after **Ready to play offline**. Record the Firefox version and whether the upper strip persists. If it does, collect actual display-mode, fullscreenElement, viewport/screen dimensions and safe-area values to distinguish browser-window handling from page layout. A different result narrows the cause; it does not alone prove an Edge defect.
++
++Audit: [Firefox review](audit/2026-10-15-firefox-review.md). The fourteen formal hardware/human procedures remain uncompleted.
++
++## Implemented follow-up — October 15, 2026
++
++The three recommendations above are now implemented in source. Installation buttons say **How to install** until a native prompt is available, and Firefox Android receives its own browser-menu instructions. Capability detection still controls native prompting; browser identification only selects help text.
++
++Fullscreen button labels now reflect API fullscreen, with **Opening fullscreen…** while a request is pending and **Fullscreen unavailable** when the API cannot be used. A failed automatic request retains the phone layout but does not show an exit-fullscreen label. The pause menu has a separate **Use standard layout / Use screen-filling layout** action when phone gameplay is outside API fullscreen. The fullscreen button retries native entry on a deliberate tap, including in an installed fullscreen window. Automatic starts continue to skip redundant installed-mode requests, and leaving fullscreen does not trigger automatic re-entry. Returning home invalidates an outstanding entry request and exits it if it completes late.
++
++The optional navigationUI hint remains for browsers that honor it; no promise of hidden Android system areas is added. The existing controller fixture and declined-request expectation were adjusted for the separate layout control, but no tests were added or run for this implementation request. The offline package was rebuilt; physical Firefox/Edge verification and deployment remain pending. These changes do not establish a fix for PB-003's gray strip.
++
++Implementation audit: [fullscreen improvements](audit/2026-10-15-fullscreen-implementation.md).
+diff --git a/audit/2026-10-15-fullscreen-implementation.md b/audit/2026-10-15-fullscreen-implementation.md
+new file mode 100644
+index 0000000..5b8f331
+--- /dev/null
++++ b/audit/2026-10-15-fullscreen-implementation.md
+@@ -0,0 +1,30 @@
++# Fullscreen controls and Firefox installation improvements
++
++## FI-01 — Implementation plan
++
++- UTC: 2026-10-15T20:01:59.4680717Z
++- Actor: Codex.
++- Request: Implement the Firefox review recommendations.
++- Plan: Distinguish native API fullscreen from the phone's viewport layout; keep a manual native retry available even when installed display-mode reports fullscreen; retain conservative automatic entry and respect user exits. Give the CSS layout its own accurately labeled pause control. Reflect pending/unsupported API state without false exit labels. Keep navigationUI as an optional hint, not a guarantee.
++- Installation: When no native install prompt is available, label the action How to install. Provide Firefox Android menu instructions while retaining existing iOS/general fallback and capability-driven prompt handling.
++- Files: public/display.js, public/pwa.js, public/app.js, public/index.html; generated offline package/public release files; existing fullscreen documentation; audit/evidence. Update the existing controller fixture/expectation only as needed to reflect the intentionally changed contract; no new tests or test execution because this request does not ask for testing.
++- Review: Inspect changed control flows and generated release evidence, preserve prior uncommitted work, compare mirror baselines before copying. No physical-device verification or promise to remove the Android gray strip. No production mutation, commit/push or deployment requested in this turn.
++- Memory: Honcho tools unavailable; no memory write claimed.
++
++## FI-02 — Controls, guidance and offline build implemented
++
++- UTC: 2026-10-15T20:04:05.0795945Z
++- Actor: Codex; reference FI-01.
++- Changes: Native fullscreen determines native control labels/icons; pending and unavailable states are explicit. Manual requests bypass only the installed-window suppression, while automatic requests remain conservative. A separate pause-layout control toggles the CSS phone layout. Outstanding requests are invalidated on returning home. navigationUI remains an optional hint. Installation action labels follow prompt availability, and Firefox Android gets menu-specific guidance.
++- Files: public/display.js, public/pwa.js, public/app.js, public/index.html; tests/display.test.mjs existing fixture and rejected-request expectation updated for the new layout control, without adding tests; FULLSCREEN-UPGRADE.md records implementation and limits. Generated public/pwa-release.js and public/sw.js rebuilt with the index release marker.
++- Build: bun tools/build-pwa.mjs completed successfully, candidate fae02ab6c0bf2e26a92a, 72 offline assets, 2425515 bytes, immutable package under test-results/release-package/fae02ab6c0bf2e26a92a. No deployment performed.
++- Review: Inspected state transitions and diff, including rejection/unsupported API, manual requests in installed mode, pending-entry return-home handling, and user exits. No automated tests or physical-device checks run. PB-003's device gray strip remains unresolved.
++- Remaining: Whitespace/review evidence and baseline-safe outer mirror reconciliation. Previous research/audit changes remain intact and uncommitted.
++
++## FI-03 — Final diff and mirror reconciliation
++
++- UTC: 2026-10-15T20:04:38.9501182Z
++- Actor: Codex; reference FI-02.
++- Verification: Build completed; git diff --check passed. Source diff reviewed with generated release changes. All runtime/test mirror files match their pre-change Git baseline; fullscreen documentation matches its prior Firefox-review hash. Task patch, build receipt and SHA-256 manifest saved, followed by mirror copies with hash equality checks. No independent mirror edits overwritten.
++- Scope limits: Existing regression expectation updated but no tests run or added. Device verification, commit/push and production deployment remain pending. This implementation does not close the Android gray-strip issue.
++
+diff --git a/audit/2026-10-15-fullscreen-build.json b/audit/2026-10-15-fullscreen-build.json
+new file mode 100644
+index 0000000..9fc9c34
+--- /dev/null
++++ b/audit/2026-10-15-fullscreen-build.json
+@@ -0,0 +1,12 @@
++{
++  "version": "fae02ab6c0bf2e26a92a",
++  "deviceVerification": "Pending",
++  "releaseManifestSha256": "5c813b6e6436a76adf8a471ad91b949920e7da7a0f4382157eadb9a2224ddba4",
++  "command": "bun tools/build-pwa.mjs",
++  "assets": 72,
++  "utc": "2026-10-15T20:04:38.9501182Z",
++  "bytes": 2425515,
++  "deployment": "Not performed",
++  "actor": "Codex",
++  "tests": "Not run"
++}

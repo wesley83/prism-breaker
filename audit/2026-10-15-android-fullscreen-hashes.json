@@ -1,0 +1,26 @@
+{
+  "actor": "Codex",
+  "utc": "2026-10-15T19:51:22.2970192Z",
+  "files": [
+    {
+      "path": "audit/2026-10-15-android-fullscreen.md",
+      "sha256": "b525cb5670d446c33a283dd412df2f1eee5d8713b81dbac14a93e6a18f6a3ed5"
+    },
+    {
+      "path": "audit/2026-10-15-android-fullscreen-live.json",
+      "sha256": "7a991c47c95cc2283da83db1870dfc73c8c25c4de488912ba849ca86b68c77f2"
+    },
+    {
+      "path": "BUG-LOG.md",
+      "sha256": "beab03d9928f8243ddb826cb905b0eb1af98dd7f78bfa5c0d01c414dafe90c94"
+    },
+    {
+      "path": "REMAINING-WORK-IMPLEMENTATION.md",
+      "sha256": "79aac6283213ebe3b8102ed2c28a5957b8c7db7faaf7ee201b54e7b41d26bd82"
+    },
+    {
+      "path": "audit/2026-10-15-android-fullscreen-changes.patch",
+      "sha256": "0c96852fe39004a470a9652d94a453e2cd0c62f2f9cd791efaf7a6c17d8651f1"
+    }
+  ]
+}

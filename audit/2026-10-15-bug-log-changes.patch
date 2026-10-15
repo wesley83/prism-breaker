@@ -1,0 +1,162 @@
+diff --git a/BUG-LOG.md b/BUG-LOG.md
+new file mode 100644
+index 0000000..5e54b10
+--- /dev/null
++++ b/BUG-LOG.md
+@@ -0,0 +1,129 @@
++# Prism Breaker bug log
++
++## PB-001 — Intermittent HTTP 503 on a constant JavaScript processor condition
++
++| Field | Value |
++| --- | --- |
++| Status | Open — reproduced; awaiting provider investigation |
++| Logged | October 15, 2026 UTC |
++| Area | Pagelove public GET processing / JavaScript processor condition |
++| Impact observed | Intermittent failure to read disposable documents; production leaderboard controls succeeded |
++| Cause | Unconfirmed; suspected platform execution or memory-budget accounting issue |
++| Support submission | Prepared; not sent |
++| Fix / workaround | None verified |
++
++### Summary
++
++A 660-byte document with an empty list and a JavaScript processor condition that only returns `false` intermittently returned **HTTP 503: memory budget exceeded**. It contained no scores, custom schema, expiry parsing or deletion action. The harmless Sessel action should be skipped by the false condition.
++
++The platform reported allocated and consumed memory as **33,554,432 bytes (32 MiB)**. These are reported budget values, not independently measured allocations by the function.
++
++### Environment
++
++- Public host: `https://sane-guild-8399.onpagelove.com`
++- Authoring host: `https://dav-sane-guild-8399.onpagelove.com`
++- Client: Bun 1.4.3, sequential HTTPS requests; no browser or service worker involved.
++- Example capture: **2026-10-15T18:51:05.615Z**; response Date: **Thu, 15 Oct 2026 18:51:02 GMT**.
++- Exact failing fixture and response: [recorded evidence](audit/2026-10-15-memory-budget-2026-10-15T18-50-30-790Z.json), variant `zero-js-sessel`, round `6`.
++
++### Reproduction steps
++
++1. Choose a new disposable filename, for example `/_processor-memory-repro-UNIQUE.html`. Replace `UNIQUE` with a fresh identifier in the filename, HTML and request script below.
++2. Upload this HTML to that path through the authorized host's DAV authoring endpoint. Use a create-only condition (`If-None-Match: *`) to avoid replacing an existing resource. Do not upload to `/scores.html`.
++
++```html
++<!doctype html>
++<html>
++<head>
++  <meta name="robots" content="noindex">
++  <title>Isolated processor probe</title>
++</head>
++<body>
++  <ul id="scores"></ul>
++  <div itemscope itemtype="https://pagelove.org/Processor">
++    <meta itemprop="resource" content="/_processor-memory-repro-UNIQUE.html">
++    <meta itemprop="method" content="GET">
++    <div itemprop="when" itemscope itemtype="https://pagelove.org/JavaScript/Module">
++      <script itemprop="source" type="module">export default () => false;</script>
++    </div>
++    <div itemprop="action" itemscope itemtype="https://pagelove.org/Sessel">
++      <script itemprop="source" type="text/sessel">true</script>
++    </div>
++  </div>
++</body>
++</html>
++```
++
++3. Make 12 sequential **public** GETs, alternating full-document and selector requests. Save this as a local `.mjs` file and run it with Bun after replacing `UNIQUE`. The loop is bounded, uses no credentials and does not create concurrent load.
++
++```js
++const url = 'https://sane-guild-8399.onpagelove.com/_processor-memory-repro-UNIQUE.html';
++for (let i = 0; i < 12; i++) {
++  const selector = i % 2 === 0;
++  const response = await fetch(`${url}?cb=${Date.now()}-${i}`, {
++    headers: selector ? { Range: 'selector=#scores' } : {},
++    cache: 'no-store',
++    redirect: 'error',
++    signal: AbortSignal.timeout(20000),
++  });
++  const body = await response.text();
++  console.log(JSON.stringify({
++    utc: new Date().toISOString(),
++    selector,
++    status: response.status,
++    serverDate: response.headers.get('date'),
++    errorBody: response.ok ? null : body,
++  }));
++  await Bun.sleep(300);
++}
++```
++
++4. Preserve all statuses, UTC timestamps and error bodies. The issue is intermittent; 12 successful requests do not disprove it. For the controlled comparisons already performed, use [the investigation runner](tools/memory-budget-probe.mjs) and [detailed procedure](PAGELOVE-MEMORY-BUDGET-REPORT.md).
++5. On separate unique paths, compare plain HTML without a processor and the same processor with a Sessel `false` condition instead of the JavaScript module. Update each resource path to match its own filename.
++6. Remove each disposable fixture through DAV and confirm a subsequent DAV GET returns 404. Keep credentials out of saved evidence. No real player records are needed.
++
++The formatted HTML is equivalent to the recorded 660-byte minified fixture; its byte count differs. DAV is used only to author the fixture. The failure occurs on a public GET, so this is separate from the previously resolved, intentional DAV validation bypass.
++
++### Expected result
++
++Each request returns the document (200) or selected empty list (206). The false condition skips the action.
++
++### Actual result
++
++Some requests return:
++
++```text
++503 Service Unavailable - Budget Exceeded
++The request exceeded the allocated memory budget.
++resourceType: memory
++allocated: 33554432
++consumed: 33554432
++```
++
++Other requests to the same unchanged document succeed. The recorded minimal failure completed in 112 ms. The checked response headers contained no request or trace identifier.
++
++### Findings and limits
++
++- Four controlled experiments made **240 public GETs**, capturing **11 memory-budget failures** across variants. This is not a production failure-rate estimate.
++- The 660-byte empty-document variant failed **1 of 12** requests in its recorded comparison.
++- All **12 established production leaderboard control reads succeeded**.
++- A final sample after leaving fixtures unchanged for 65 seconds succeeded. Waiting is **not a verified fix**; an earlier immediate sample also succeeded before a later equivalent fixture failed.
++- Rewriting the expiry predicate to avoid building a match array still produced failures. The minimal reproduction does not need expiry code at all.
++- All 19 investigation fixtures were removed. Real leaderboard document and native-policy identities were unchanged in every run.
++- No production fix, budget increase or policy change has been applied. Provider logs are needed to establish the cause and whether newly authored processor handling contributes.
++
++### Next action and closure criteria
++
++Submit [the detailed support report](PAGELOVE-MEMORY-BUDGET-REPORT.md) and its linked receipts to Pagelove support. Ask which operation consumes or reserves the budget for this constant condition and whether worker initialization, module compilation, context marshaling or accounting is responsible.
++
++Close PB-001 only after a provider explanation or correction is recorded and the minimal and original expiry cases are rechecked across fresh and previously read fixtures, with full/selector requests and active-record preservation. One successful retry, a larger budget or a short error-free sample is insufficient to establish a fix.
++
++### History
++
++| UTC date | Event |
++| --- | --- |
++| 2026-10-15 | Expiry verification captured intermittent memory-budget 503s. |
++| 2026-10-15 | Four controlled comparisons reduced the failure to an empty document with a constant-false JavaScript processor condition. |
++| 2026-10-15 | Logged PB-001 as open; support-ready reproduction prepared, not submitted. |
++
++Full investigation: [PAGELOVE-MEMORY-BUDGET-REPORT.md](PAGELOVE-MEMORY-BUDGET-REPORT.md). Audit: [memory-budget investigation](audit/2026-10-15-memory-budget-investigation.md).
+diff --git a/audit/2026-10-15-bug-log.md b/audit/2026-10-15-bug-log.md
+new file mode 100644
+index 0000000..048b470
+--- /dev/null
++++ b/audit/2026-10-15-bug-log.md
+@@ -0,0 +1,21 @@
++# Bug log creation
++
++## BL-01 — Plan
++
++- UTC: 2026-10-15T18:59:01Z
++- Actor: Codex.
++- User request: "Create a bug log for this with repro steps."
++- Plan: Add BUG-LOG.md with stable identifier PB-001 for the reproduced processor memory-budget 503. Include status, scope, minimal HTML, bounded public-request reproduction, expected/actual results, evidence, uncertainty and closure criteria. Link the existing detailed report without replacing historical evidence.
++- Why: Give the issue a concise, maintainable tracking entry that can be submitted to support.
++- Files: BUG-LOG.md and this audit, with reviewable patch/hash evidence and matching outer authoring copies.
++- Verification: Evidence already established in the four investigation receipts. No new live probe, production edit or support submission is needed. Document/link/hash checks pending.
++
++## BL-02 — PB-001 logged
++
++- UTC: 2026-10-15T19:00:36.8061325Z
++- Actor: Codex; reference BL-01.
++- Changed: Added BUG-LOG.md with PB-001, open status, minimal HTML, a bounded Bun request loop, expected/actual behavior, evidence links, uncertainty, history and closure criteria.
++- Verification: Compared details against the existing investigation report and receipts. Repository check passed: 33 documents, 258 local links, 352 scanned files; credential scan is limited to high-confidence patterns. No live probe or runtime test repeated for this documentation-only change.
++- Evidence: Change patch and SHA-256 manifest saved with this audit; synchronize only these new files to the outer authoring mirror after collision/hash checks.
++- Status: Created locally; not committed, pushed or submitted to support.
++

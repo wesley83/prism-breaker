@@ -1,0 +1,1061 @@
+{
+  "startedAt": "2026-10-15T18:48:44.599Z",
+  "output": "audit/2026-10-15-memory-budget-2026-10-15T18-48-44-599Z.json",
+  "experiment": "minimal-zero-row-processors",
+  "method": "Sequential interleaved fixtures; no concurrent requests, no synthetic memory pressure",
+  "fixtures": [
+    {
+      "name": "plain",
+      "path": "/_prism-memory-plain-340d5df9-ef91-4ad7-b1c4-8e07aa226d49.html",
+      "bytes": 152,
+      "sourceSha256": "1925e02b9db50f78a29d7ac9614a11f45c8175b4393e5585193d79a4c95b9cf7",
+      "storedSha256": "9dd0fa936883bed4117823df6c7829a4ac3555a8d54b90de4f7177123740b9c5",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:49:03.855Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "js-false",
+      "path": "/_prism-memory-js-false-3330b306-1026-4cc8-bcf2-305c5bc62959.html",
+      "bytes": 654,
+      "sourceSha256": "08bef05107b395428a30596f64b1b147c37b113cd7625a2a95429bd63fad30a0",
+      "storedSha256": "1e3648635bdad7c27e59e9a66335a9bc7b5b7adf33e1c2783f8a248f964a75b6",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:49:04.062Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-js-false-3330b306-1026-4cc8-bcf2-305c5bc62959.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => false;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "sessel-false",
+      "path": "/_prism-memory-sessel-false-8bfa1259-dddd-4a8a-b4bc-beb4962b7aee.html",
+      "bytes": 630,
+      "sourceSha256": "3d82db2336e30e62a17b3ece4b2f127923bfcbc0d4ad560b4a4e197ae2198d1f",
+      "storedSha256": "4c0f541911a64fccd0e882d715d43a3ccdfa4c86eb946721183298f82f299569",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:49:04.256Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-sessel-false-8bfa1259-dddd-4a8a-b4bc-beb4962b7aee.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">false</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "js-true",
+      "path": "/_prism-memory-js-true-cd2cab88-2c80-4993-a5be-fc5f99577a6a.html",
+      "bytes": 652,
+      "sourceSha256": "6c03615fbe7d72dd7f2d7fba0b259a576d45572c915c7b3445b0d2066ed7961d",
+      "storedSha256": "bd9b094117dcc02df270666ed898d401fb6556948dab554ff81cd5f4fe7b3d20",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:49:04.455Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-js-true-cd2cab88-2c80-4993-a5be-fc5f99577a6a.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => true;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "sessel-true",
+      "path": "/_prism-memory-sessel-true-50cb9da2-061b-438f-96a2-bbc59a0181d9.html",
+      "bytes": 628,
+      "sourceSha256": "16beb32c00653b66122a9d5043293bddeac2782c7e82beda89819fdfe55356dd",
+      "storedSha256": "4ed54b5e282131f4afe321cf8a514e778e3979ea0a9db4b79342de13bfd4b5e7",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:49:04.652Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-sessel-true-50cb9da2-061b-438f-96a2-bbc59a0181d9.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "utc": "2026-10-15T18:49:05.257Z",
+      "variant": "plain",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 605,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:01 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:05.681Z",
+      "variant": "js-false",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 122,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:02 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:06.094Z",
+      "variant": "sessel-false",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 111,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:02 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:06.499Z",
+      "variant": "js-true",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 104,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:03 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:06.908Z",
+      "variant": "sessel-true",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 108,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:03 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:07.359Z",
+      "variant": "production-read",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 149,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:04 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:49:07.439Z",
+      "variant": "js-false",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 80,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:04 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:07.823Z",
+      "variant": "sessel-false",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 81,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:04 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:08.218Z",
+      "variant": "js-true",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 94,
+      "responseBytes": 1411,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:04 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:08.604Z",
+      "variant": "sessel-true",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 83,
+      "responseBytes": 1387,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:05 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:08.986Z",
+      "variant": "plain",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 82,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:05 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:09.389Z",
+      "variant": "sessel-false",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 101,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:06 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:09.808Z",
+      "variant": "js-true",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 117,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:06 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:10.207Z",
+      "variant": "sessel-true",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 98,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:06 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:10.627Z",
+      "variant": "plain",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 118,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:07 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:11.023Z",
+      "variant": "js-false",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 94,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:07 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:11.427Z",
+      "variant": "js-true",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 102,
+      "responseBytes": 1411,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:08 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:11.809Z",
+      "variant": "sessel-true",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 82,
+      "responseBytes": 1387,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:08 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:12.224Z",
+      "variant": "plain",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 113,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:08 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:12.611Z",
+      "variant": "js-false",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 86,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:09 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:13.019Z",
+      "variant": "sessel-false",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 108,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:09 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:13.425Z",
+      "variant": "sessel-true",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 104,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:10 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:13.832Z",
+      "variant": "plain",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 105,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:10 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:14.236Z",
+      "variant": "js-false",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 102,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:10 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:14.649Z",
+      "variant": "sessel-false",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 112,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:11 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:15.081Z",
+      "variant": "js-true",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 131,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:11 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:15.496Z",
+      "variant": "plain",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 113,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:12 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:15.908Z",
+      "variant": "js-false",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 111,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:12 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:16.317Z",
+      "variant": "sessel-false",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 107,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:13 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:16.964Z",
+      "variant": "js-true",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 345,
+      "responseBytes": 1411,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:13 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:17.369Z",
+      "variant": "sessel-true",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 103,
+      "responseBytes": 1387,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:14 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:17.813Z",
+      "variant": "production-read",
+      "round": 5,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 143,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:14 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:49:17.917Z",
+      "variant": "js-false",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 103,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:14 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:18.311Z",
+      "variant": "sessel-false",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 92,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:15 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:18.719Z",
+      "variant": "js-true",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 108,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:15 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:19.131Z",
+      "variant": "sessel-true",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 111,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:15 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:19.527Z",
+      "variant": "plain",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 94,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:16 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:19.934Z",
+      "variant": "sessel-false",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 103,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:16 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:20.335Z",
+      "variant": "js-true",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 100,
+      "responseBytes": 1411,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:17 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:20.733Z",
+      "variant": "sessel-true",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 98,
+      "responseBytes": 1387,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:17 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:21.107Z",
+      "variant": "plain",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 72,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:17 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:21.511Z",
+      "variant": "js-false",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 103,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:18 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:21.918Z",
+      "variant": "js-true",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 105,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:18 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:22.329Z",
+      "variant": "sessel-true",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 110,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:19 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:22.728Z",
+      "variant": "plain",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 98,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:19 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:23.128Z",
+      "variant": "js-false",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 99,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:19 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:23.525Z",
+      "variant": "sessel-false",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 95,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:20 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:23.915Z",
+      "variant": "sessel-true",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 89,
+      "responseBytes": 1387,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:20 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:24.302Z",
+      "variant": "plain",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 85,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:21 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:24.724Z",
+      "variant": "js-false",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 121,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:21 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:25.104Z",
+      "variant": "sessel-false",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 77,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:21 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:25.520Z",
+      "variant": "js-true",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 114,
+      "responseBytes": 1411,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:22 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:25.910Z",
+      "variant": "plain",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 88,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:22 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:26.312Z",
+      "variant": "js-false",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 101,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:23 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:26.737Z",
+      "variant": "sessel-false",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 124,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:23 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:27.148Z",
+      "variant": "js-true",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 109,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:23 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:27.568Z",
+      "variant": "sessel-true",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 118,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:24 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:27.997Z",
+      "variant": "js-false",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 128,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:24 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:28.406Z",
+      "variant": "sessel-false",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 107,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:25 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:28.816Z",
+      "variant": "js-true",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 109,
+      "responseBytes": 1411,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:25 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:29.222Z",
+      "variant": "sessel-true",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 104,
+      "responseBytes": 1387,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:25 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:29.619Z",
+      "variant": "plain",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 96,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:26 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:49:30.082Z",
+      "variant": "production-read",
+      "round": 11,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 161,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:49:26 GMT",
+        "content-type": "text/html"
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-memory-plain-340d5df9-ef91-4ad7-b1c4-8e07aa226d49.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-js-false-3330b306-1026-4cc8-bcf2-305c5bc62959.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-sessel-false-8bfa1259-dddd-4a8a-b4bc-beb4962b7aee.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-js-true-cd2cab88-2c80-4993-a5be-fc5f99577a6a.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-sessel-true-50cb9da2-061b-438f-96a2-bbc59a0181d9.html",
+      "status": 204,
+      "readStatus": 404
+    }
+  ],
+  "productionBefore": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "references": [
+    {
+      "url": "https://docs.pagelove.com/all/languages/javascript/",
+      "status": 200,
+      "sha256": "69b384572e3b5b57e613ce6042ed904bdfaf82da45fc2f6f8da0032a48d69754",
+      "resourceLimits": "Resource limits Every evaluation runs under a per-request budget. In production the budget is read from the host's https://pagelove.org/TransactionBudget Microdata, shared with Sessel. A request touching one Sessel binding and one JavaScript binding sees a single shared budget, not two competing ones. Limit Source in production Default in unbudgeted contexts Exhaustion error Memory Remaining memory budget on the request 16 MB per context out-of-memory Stack Per-thread default 256 KB per context threw (typically InternalError: stack overflow) Time Remaining time budget on the request Per-thread default timeout Ops Charged in batches against the request budget on every periodic interrupt Not charged for short, straight-line code Surfaces via the request budget Errors Every failure is rendered to the client as an HTML Microdata document of type https://pagelove.org/BindingFailure, nested inside the https://pagelove.org/SchemaViolation envelope. Variant Trigger parse The module source fails to parse as an ES module. shape The module parsed but has no default export, or the default export is not a function. threw The default function ran and threw. The message and (when available) stack are carried in the failure item. timeout The evaluation exceeded the time budget. out-of-memory The evaluation exceeded the memory budget. marshal An input value (a field of this, or a key of context"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reacting-to-changes/",
+      "status": 200,
+      "sha256": "0763c337d87e7a474e9631a029e4e671c629dbea0f058ff242ba61cb6439d6c5",
+      "resourceLimits": null
+    }
+  ],
+  "productionAfter": {
+    "status": 200,
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "productionUnchanged": true,
+  "productionPolicyUnchanged": true,
+  "summary": {
+    "plain": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "js-false": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "sessel-false": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "js-true": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "sessel-true": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "production-read": {
+      "requests": 3,
+      "errors": 0,
+      "statuses": {
+        "206": 3
+      }
+    }
+  },
+  "finishedAt": "2026-10-15T18:49:31.683Z"
+}

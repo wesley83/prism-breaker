@@ -1,0 +1,42 @@
+{
+  "files": [
+    {
+      "sha256": "9ca6899abdc126151981cb92b1a6ea36b14f12ea5831edc22288382f10f1cd6d",
+      "path": "PLATFORM-REQUIREMENTS.md"
+    },
+    {
+      "sha256": "d31f2841e2f30270f36b22aa6368caf12ee3bf53bed3f1c97c1ea6cad1321a6c",
+      "path": "REMAINING-WORK-IMPLEMENTATION.md"
+    },
+    {
+      "sha256": "175f0934b04cee99fa910a8eccc4e88b995161beed1b08aad065a8bb401c3945",
+      "path": "BUG-LOG.md"
+    },
+    {
+      "sha256": "78548395a02d9feed0a55dbf2aff7ba132089b10ced7a1a67a060a2718809917",
+      "path": "POLICY-ACTIVATION-VERIFICATION.md"
+    },
+    {
+      "sha256": "d6fdb00ec8d320e9eea192427ddec61ef362bec230691139459e982d1c6386f6",
+      "path": "tools/policy-activation-probe.mjs"
+    },
+    {
+      "sha256": "ff801539f1655133d098bf8b9cbcdd936a7e7bcf2e8bed06e408da82f6ba807f",
+      "path": "audit/2026-10-15-policy-activation.md"
+    },
+    {
+      "sha256": "cfc90c75de3aead982a7d5afc1aa9d8799d14a8712a90ec7b8db8bca293bac7a",
+      "path": "audit/2026-10-15-policy-activation-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.json"
+    },
+    {
+      "sha256": "f9bd6709e79b91601b51416cf1e735f98a03b67c26b37559af26ce04239f2b34",
+      "path": "audit/2026-10-15-policy-activation-c66eb3d1-8b2b-462a-b310-c2803cef3d86.json"
+    },
+    {
+      "sha256": "0b9c3f2a84876328f1af6217955273577aa19f4e0a38b66ad16297ecba6c7f36",
+      "path": "audit/2026-10-15-policy-activation-changes.patch"
+    }
+  ],
+  "utc": "2026-10-15T19:23:06.6096906Z",
+  "actor": "Codex"
+}

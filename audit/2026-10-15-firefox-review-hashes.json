@@ -1,0 +1,22 @@
+{
+  "actor": "Codex",
+  "utc": "2026-10-15T19:56:16.9630911Z",
+  "files": [
+    {
+      "sha256": "4a03435d5949f01e2f32536e705ee9062d2da4148f84993f550caf1cf6b5ef85",
+      "path": "FULLSCREEN-UPGRADE.md"
+    },
+    {
+      "sha256": "b5a9ee9f0de37c2ee55dd9ea1344642461cbddc05b7f2523f0880af00736b1c1",
+      "path": "audit/2026-10-15-firefox-review.md"
+    },
+    {
+      "sha256": "6c4f90a6addfb7d9bdc6380668c9422be7976b170b05869c9b8f18a204073370",
+      "path": "audit/2026-10-15-firefox-compatibility.json"
+    },
+    {
+      "sha256": "de6261908f173681265bb5f38f6db32bf42236bbf5c3265eb435ab6edaffae93",
+      "path": "audit/2026-10-15-firefox-review-changes.patch"
+    }
+  ]
+}

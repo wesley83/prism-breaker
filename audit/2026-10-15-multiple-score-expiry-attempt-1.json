@@ -1,0 +1,7 @@
+{
+  "startedAt": "2026-10-15T18:34:39.428Z",
+  "scope": "isolated public request and production-filter verification; not a browser UI test",
+  "checks": [],
+  "failure": "ECONNREFUSED: Unable to connect. Is the computer able to access the url?",
+  "finishedAt": "2026-10-15T18:34:53.820Z"
+}

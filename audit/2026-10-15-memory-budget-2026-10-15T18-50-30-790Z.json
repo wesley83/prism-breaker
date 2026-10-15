@@ -1,0 +1,1099 @@
+{
+  "startedAt": "2026-10-15T18:50:30.790Z",
+  "output": "audit/2026-10-15-memory-budget-2026-10-15T18-50-30-790Z.json",
+  "experiment": "row-and-action-language-matrix",
+  "method": "Sequential interleaved fixtures; no concurrent requests, no synthetic memory pressure",
+  "fixtures": [
+    {
+      "name": "zero-js-js",
+      "path": "/_prism-memory-zero-js-js-72c8be7c-3417-4891-a76e-e6a2e40a1635.html",
+      "bytes": 684,
+      "sourceSha256": "4bf11d782c5f48efadbc98edcd4cc547c254149964b4f0c5abfaa1342cf4a200",
+      "storedSha256": "025184a5f381aeeadab9daf61507fa3c8030d966a6557ed9ba59e7824926f824",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:50:51.107Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-zero-js-js-72c8be7c-3417-4891-a76e-e6a2e40a1635.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => false;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => true;</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "zero-js-sessel",
+      "path": "/_prism-memory-zero-js-sessel-74af68a5-1649-4164-997d-d15238dfcb05.html",
+      "bytes": 660,
+      "sourceSha256": "640740b7507442a2bca964ed911497103b7e8490d70ad0eb2008bcd8c2b79255",
+      "storedSha256": "eb3ea24ebc2d178e4f291fde5d92ea3e71d0ec396f082eb52ebea569660e4360",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:50:51.318Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-zero-js-sessel-74af68a5-1649-4164-997d-d15238dfcb05.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => false;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "seven-js-js",
+      "path": "/_prism-memory-seven-js-js-aa184201-c7be-42d5-ab26-ed0d6c7bac72.html",
+      "bytes": 4423,
+      "sourceSha256": "384e651c310d12fd0e92e0b5e79c095df42b8f48ff332bc0534d9a1dfec28278",
+      "storedSha256": "b44abd33f1e79f3a5b0d6a7cca9bcb1235fb0d14a2e0a9571c61cc27dd077b99",
+      "rowsSha256": "31783b7cd07491dedb66e183b05542d93fc6398c34a58c588528ac0d3f7a4bed",
+      "createdAt": "2026-10-15T18:50:51.508Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"371a4f0a-ba2d-416d-9896-239f554f22ed\"><meta itemprop=\"player\" content=\"Control 0\"><meta itemprop=\"score\" content=\"100\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:46.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522246000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"7f40b278-47e1-4d73-83b4-8b84076c34d0\"><meta itemprop=\"player\" content=\"Control 1\"><meta itemprop=\"score\" content=\"101\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:47.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522247000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"beeecf7c-541e-4d17-a47c-34c0a1b92c48\"><meta itemprop=\"player\" content=\"Control 2\"><meta itemprop=\"score\" content=\"102\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:48.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522248000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"7c201273-5b24-4544-8f0d-7da534c588b1\"><meta itemprop=\"player\" content=\"Control 3\"><meta itemprop=\"score\" content=\"103\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:49.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522249000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"d9e157b0-eae8-4568-90f2-6fa8bbdacc82\"><meta itemprop=\"player\" content=\"Control 4\"><meta itemprop=\"score\" content=\"104\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:50.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522250000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"d3e24c2a-8ede-4c8d-9627-1dfb973302bf\"><meta itemprop=\"player\" content=\"Control 5\"><meta itemprop=\"score\" content=\"105\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:51.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522251000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-842d6334-384b-49ed-b481-0749a40c58a3\"><meta itemprop=\"runKey\" content=\"f1719af3-1c73-496e-8a9c-c6e453297e77\"><meta itemprop=\"player\" content=\"Control 6\"><meta itemprop=\"score\" content=\"106\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:52.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522252000\"></li></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-seven-js-js-aa184201-c7be-42d5-ab26-ed0d6c7bac72.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => false;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => true;</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "seven-js-sessel",
+      "path": "/_prism-memory-seven-js-sessel-65dc3399-f91c-4d6e-8f7c-0c239d5c6567.html",
+      "bytes": 4399,
+      "sourceSha256": "56ea305726ba373b9c39111e14ac93ec7fe6925800aea7a44dcc449233d48d03",
+      "storedSha256": "7ed4a0ad544e0e5da6db4fdbaf53f7020ac3934d9289ba4bf4815f1043c03a56",
+      "rowsSha256": "93d964f4c4ba4d4d6b265ea99afc1fa21ffda6ec4d2d674604cab8b37579bb60",
+      "createdAt": "2026-10-15T18:50:51.729Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"e525a26b-277d-4ff8-a2b0-131cba87a675\"><meta itemprop=\"player\" content=\"Control 0\"><meta itemprop=\"score\" content=\"100\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:46.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522246000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"3f3fb228-c71d-44ec-8cae-00730c351464\"><meta itemprop=\"player\" content=\"Control 1\"><meta itemprop=\"score\" content=\"101\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:47.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522247000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"8e11721e-50df-4d73-b6a3-4b8db69a7540\"><meta itemprop=\"player\" content=\"Control 2\"><meta itemprop=\"score\" content=\"102\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:48.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522248000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"263a6c5c-c157-46cd-8302-461266eb456a\"><meta itemprop=\"player\" content=\"Control 3\"><meta itemprop=\"score\" content=\"103\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:49.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522249000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"333bd7d2-b301-4a8f-bced-298a7cc843ea\"><meta itemprop=\"player\" content=\"Control 4\"><meta itemprop=\"score\" content=\"104\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:50.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522250000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"1ddf429d-0946-452b-9210-cfdccee10a3a\"><meta itemprop=\"player\" content=\"Control 5\"><meta itemprop=\"score\" content=\"105\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:51.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522251000\"></li><li itemscope itemtype=\"https://sane-guild-8399.onpagelove.com/MemoryProbe-18473b00-3eb1-4469-afcd-3965dd813756\"><meta itemprop=\"runKey\" content=\"00e8b9c0-1b62-4eea-b4be-b5bec4eb84db\"><meta itemprop=\"player\" content=\"Control 6\"><meta itemprop=\"score\" content=\"106\"><meta itemprop=\"level\" content=\"1\"><meta itemprop=\"mode\" content=\"campaign\"><meta itemprop=\"day\" content=\"all\"><meta itemprop=\"seconds\" content=\"15\"><meta itemprop=\"submittedAt\" content=\"2026-10-15T18:50:52.000Z\"><meta itemprop=\"expiresAt\" content=\"1792522252000\"></li></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-seven-js-sessel-65dc3399-f91c-4d6e-8f7c-0c239d5c6567.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => false;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "zero-sessel-js",
+      "path": "/_prism-memory-zero-sessel-js-f5817d6c-10f0-4e45-a93c-b7594aa13b3e.html",
+      "bytes": 660,
+      "sourceSha256": "df6b94b5969d0d37e1ab3b0e71980af3aaa4124db14894dd7c20e95116c141bd",
+      "storedSha256": "d969efcb832f800419e0247a9c5ed7602dc99c44d97d016bc0b94a4936ba6f77",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:50:51.934Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-zero-sessel-js-f5817d6c-10f0-4e45-a93c-b7594aa13b3e.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">false</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => true;</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "utc": "2026-10-15T18:50:52.538Z",
+      "variant": "zero-js-js",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 604,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:49 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:52.927Z",
+      "variant": "zero-js-sessel",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 88,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:49 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:53.682Z",
+      "variant": "seven-js-js",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 452,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:50 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:50:54.085Z",
+      "variant": "seven-js-sessel",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 102,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:50 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:50:54.493Z",
+      "variant": "zero-sessel-js",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 104,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:51 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:54.962Z",
+      "variant": "production-read",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 167,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:51 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:50:55.077Z",
+      "variant": "zero-js-sessel",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 114,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:51 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:55.475Z",
+      "variant": "seven-js-js",
+      "round": 1,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 97,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:52 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:50:55.881Z",
+      "variant": "seven-js-sessel",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 104,
+      "responseBytes": 5158,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:52 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:50:56.256Z",
+      "variant": "zero-sessel-js",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 73,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:52 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:56.683Z",
+      "variant": "zero-js-js",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 126,
+      "responseBytes": 1443,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:53 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:57.094Z",
+      "variant": "seven-js-js",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 107,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:53 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:50:57.484Z",
+      "variant": "seven-js-sessel",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 88,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:54 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:50:57.891Z",
+      "variant": "zero-sessel-js",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 105,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:54 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:58.319Z",
+      "variant": "zero-js-js",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 127,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:55 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:58.718Z",
+      "variant": "zero-js-sessel",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 98,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:55 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:59.114Z",
+      "variant": "seven-js-sessel",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 95,
+      "responseBytes": 5158,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:55 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:50:59.520Z",
+      "variant": "zero-sessel-js",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 105,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:56 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:50:59.921Z",
+      "variant": "zero-js-js",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 100,
+      "responseBytes": 1443,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:56 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:00.337Z",
+      "variant": "zero-js-sessel",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 114,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:57 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:00.740Z",
+      "variant": "seven-js-js",
+      "round": 3,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 101,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:57 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:51:01.369Z",
+      "variant": "zero-sessel-js",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 323,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:58 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:01.786Z",
+      "variant": "zero-js-js",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 116,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:58 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:02.178Z",
+      "variant": "zero-js-sessel",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 92,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:58 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:02.594Z",
+      "variant": "seven-js-js",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 114,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:59 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:03.022Z",
+      "variant": "seven-js-sessel",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 126,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:50:59 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:03.423Z",
+      "variant": "zero-js-js",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 98,
+      "responseBytes": 1443,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:00 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:03.846Z",
+      "variant": "zero-js-sessel",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 121,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:00 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:04.230Z",
+      "variant": "seven-js-js",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 83,
+      "responseBytes": 5182,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:00 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:04.639Z",
+      "variant": "seven-js-sessel",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 107,
+      "responseBytes": 5158,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:01 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:05.031Z",
+      "variant": "zero-sessel-js",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 91,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:01 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:05.502Z",
+      "variant": "production-read",
+      "round": 5,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 169,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:02 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:51:05.615Z",
+      "variant": "zero-js-sessel",
+      "round": 6,
+      "selector": true,
+      "status": 503,
+      "elapsedMs": 112,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:02 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:51:06.054Z",
+      "variant": "seven-js-js",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 137,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:02 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:06.484Z",
+      "variant": "seven-js-sessel",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 129,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:03 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:06.886Z",
+      "variant": "zero-sessel-js",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 99,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:03 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:07.309Z",
+      "variant": "zero-js-js",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 121,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:04 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:07.711Z",
+      "variant": "seven-js-js",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 101,
+      "responseBytes": 5182,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:04 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:08.121Z",
+      "variant": "seven-js-sessel",
+      "round": 7,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 107,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:04 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:51:08.556Z",
+      "variant": "zero-sessel-js",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 133,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:05 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:08.960Z",
+      "variant": "zero-js-js",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 102,
+      "responseBytes": 1443,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:05 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:09.342Z",
+      "variant": "zero-js-sessel",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 80,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:06 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:09.756Z",
+      "variant": "seven-js-sessel",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 112,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:06 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:10.144Z",
+      "variant": "zero-sessel-js",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 86,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:06 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:10.558Z",
+      "variant": "zero-js-js",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 112,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:07 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:10.976Z",
+      "variant": "zero-js-sessel",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 116,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:07 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:11.378Z",
+      "variant": "seven-js-js",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 102,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:08 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:11.773Z",
+      "variant": "zero-sessel-js",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 93,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:08 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:12.188Z",
+      "variant": "zero-js-js",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 113,
+      "responseBytes": 1443,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:08 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:12.597Z",
+      "variant": "zero-js-sessel",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 107,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:09 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:12.994Z",
+      "variant": "seven-js-js",
+      "round": 9,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 96,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:09 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:51:13.403Z",
+      "variant": "seven-js-sessel",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 106,
+      "responseBytes": 5158,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:10 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:13.795Z",
+      "variant": "zero-js-js",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 90,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:10 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:14.226Z",
+      "variant": "zero-js-sessel",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 128,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:10 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:14.640Z",
+      "variant": "seven-js-js",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 113,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:11 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:15.058Z",
+      "variant": "seven-js-sessel",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 116,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:11 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:15.476Z",
+      "variant": "zero-sessel-js",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 116,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:12 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:15.870Z",
+      "variant": "zero-js-sessel",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 92,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:12 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:16.295Z",
+      "variant": "seven-js-js",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 123,
+      "responseBytes": 5182,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:13 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:16.703Z",
+      "variant": "seven-js-sessel",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 105,
+      "responseBytes": 5158,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:13 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:51:17.103Z",
+      "variant": "zero-sessel-js",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 98,
+      "responseBytes": 1419,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:13 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:17.512Z",
+      "variant": "zero-js-js",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 107,
+      "responseBytes": 1443,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:14 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:51:18.003Z",
+      "variant": "production-read",
+      "round": 11,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 190,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:51:14 GMT",
+        "content-type": "text/html"
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-memory-zero-js-js-72c8be7c-3417-4891-a76e-e6a2e40a1635.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-zero-js-sessel-74af68a5-1649-4164-997d-d15238dfcb05.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-seven-js-js-aa184201-c7be-42d5-ab26-ed0d6c7bac72.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-seven-js-sessel-65dc3399-f91c-4d6e-8f7c-0c239d5c6567.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-zero-sessel-js-f5817d6c-10f0-4e45-a93c-b7594aa13b3e.html",
+      "status": 204,
+      "readStatus": 404
+    }
+  ],
+  "productionBefore": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "references": [
+    {
+      "url": "https://docs.pagelove.com/all/languages/javascript/",
+      "status": 200,
+      "sha256": "69b384572e3b5b57e613ce6042ed904bdfaf82da45fc2f6f8da0032a48d69754",
+      "resourceLimits": "Resource limits Every evaluation runs under a per-request budget. In production the budget is read from the host's https://pagelove.org/TransactionBudget Microdata, shared with Sessel. A request touching one Sessel binding and one JavaScript binding sees a single shared budget, not two competing ones. Limit Source in production Default in unbudgeted contexts Exhaustion error Memory Remaining memory budget on the request 16 MB per context out-of-memory Stack Per-thread default 256 KB per context threw (typically InternalError: stack overflow) Time Remaining time budget on the request Per-thread default timeout Ops Charged in batches against the request budget on every periodic interrupt Not charged for short, straight-line code Surfaces via the request budget Errors Every failure is rendered to the client as an HTML Microdata document of type https://pagelove.org/BindingFailure, nested inside the https://pagelove.org/SchemaViolation envelope. Variant Trigger parse The module source fails to parse as an ES module. shape The module parsed but has no default export, or the default export is not a function. threw The default function ran and threw. The message and (when available) stack are carried in the failure item. timeout The evaluation exceeded the time budget. out-of-memory The evaluation exceeded the memory budget. marshal An input value (a field of this, or a key of context"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reacting-to-changes/",
+      "status": 200,
+      "sha256": "0763c337d87e7a474e9631a029e4e671c629dbea0f058ff242ba61cb6439d6c5",
+      "resourceLimits": null
+    }
+  ],
+  "productionAfter": {
+    "status": 200,
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "productionUnchanged": true,
+  "productionPolicyUnchanged": true,
+  "summary": {
+    "zero-js-js": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "zero-js-sessel": {
+      "requests": 12,
+      "errors": 1,
+      "statuses": {
+        "200": 6,
+        "206": 5,
+        "503": 1
+      }
+    },
+    "seven-js-js": {
+      "requests": 12,
+      "errors": 3,
+      "statuses": {
+        "200": 3,
+        "206": 6,
+        "503": 3
+      }
+    },
+    "seven-js-sessel": {
+      "requests": 12,
+      "errors": 1,
+      "statuses": {
+        "200": 5,
+        "206": 6,
+        "503": 1
+      }
+    },
+    "zero-sessel-js": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "production-read": {
+      "requests": 3,
+      "errors": 0,
+      "statuses": {
+        "206": 3
+      }
+    }
+  },
+  "finishedAt": "2026-10-15T18:51:19.319Z"
+}

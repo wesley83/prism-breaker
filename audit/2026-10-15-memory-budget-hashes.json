@@ -1,0 +1,50 @@
+{
+  "actor": "Codex",
+  "utc": "2026-10-15T18:56:06.5087469Z",
+  "files": [
+    {
+      "sha256": "666c1ecabaf578e8e3e4f62310c6428372f9f9d151e1a7f8d35e22b01ab246c5",
+      "path": "PLATFORM-REQUIREMENTS.md"
+    },
+    {
+      "sha256": "2ae5695042b350b7daf48d5a216fad5d8bbf0652c164b7782ca7bc95340cb5d3",
+      "path": "REMAINING-WORK-IMPLEMENTATION.md"
+    },
+    {
+      "sha256": "e9cddb7062978a8ccff82c74cd2885c5cf9db6e977ad00fa6062367275a2b6d6",
+      "path": "SCORE-EXPIRY-VERIFICATION.md"
+    },
+    {
+      "sha256": "80d8b2919ba3798e8821f71870e78524167e1ccf022ca6aa62f1372954c568b8",
+      "path": "PAGELOVE-MEMORY-BUDGET-REPORT.md"
+    },
+    {
+      "sha256": "1165c56cc478d0b7d5a011dbb65823f2554dbc97f9ab6596dae62879f2890dbc",
+      "path": "tools/memory-budget-probe.mjs"
+    },
+    {
+      "sha256": "3319535ed96494fe3cb2c60c899db8268c372b57f51705b3ac8838e901c052f5",
+      "path": "audit/2026-10-15-memory-budget-investigation.md"
+    },
+    {
+      "sha256": "0f104a43159f4c7f182580821d6caacc365fcb5ef46aff5bebb047ea744385bf",
+      "path": "audit/2026-10-15-memory-budget-2026-10-15T18-46-55-848Z.json"
+    },
+    {
+      "sha256": "f8b85e637036f7786917541f1fdcffe23a8829e0dd09cd1ca63dc80ff678a1ae",
+      "path": "audit/2026-10-15-memory-budget-2026-10-15T18-48-44-599Z.json"
+    },
+    {
+      "sha256": "2ec5aea4eed36b9858fbc807377407de8e0506b27f7b3a6b7b80554bb8d8d4e7",
+      "path": "audit/2026-10-15-memory-budget-2026-10-15T18-50-30-790Z.json"
+    },
+    {
+      "sha256": "935c407f5443443907718a3408930c21d287339371f065bd6c328f1cc348e366",
+      "path": "audit/2026-10-15-memory-budget-2026-10-15T18-52-14-966Z.json"
+    },
+    {
+      "sha256": "1894d24e8504d89fb2717dee790df59cf98dca39c0583f0f284480f55b9ece36",
+      "path": "audit/2026-10-15-memory-budget-changes.patch"
+    }
+  ]
+}

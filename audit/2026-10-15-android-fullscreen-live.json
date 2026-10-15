@@ -1,0 +1,92 @@
+{
+  "utc": "2026-10-15T19:40:46.559Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "requests": [
+    {
+      "path": "/",
+      "status": 200,
+      "headers": {
+        "content-type": "text/html",
+        "etag": "\"d1233b340b775ef1223cb1b0fca501bdaf87e6bbbaf69bbf55c5ce68d0832241\""
+      },
+      "sha256": "1bb1ee55056811b896f44bac26856446da274522d9ece5797ea9f238cbfdddbf",
+      "manifestLinks": [
+        "<link rel=\"manifest\" href=\"/manifest.webmanifest\">"
+      ],
+      "scripts": [
+        "<script type=\"module\" src=\"/releases/d77abd4a8738088292f7/bootstrap.js?v=1\">"
+      ]
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "status": 200,
+      "headers": {
+        "content-type": "application/manifest+json",
+        "etag": "\"8b84ab165a835b93b47a3cd3f461314c5e58e46b8a6cf64a39cc366d8ed7704f\""
+      },
+      "sha256": "8b84ab165a835b93b47a3cd3f461314c5e58e46b8a6cf64a39cc366d8ed7704f",
+      "manifest": {
+        "id": "/",
+        "name": "Prism Breaker",
+        "short_name": "Prism Breaker",
+        "description": "Break through sixteen colorful 3D worlds. Play Adventure, Practice and the Daily Challenge online or offline.",
+        "lang": "en",
+        "start_url": "/?source=installed",
+        "scope": "/",
+        "display": "fullscreen",
+        "background_color": "#111d20",
+        "theme_color": "#111d20",
+        "categories": [
+          "games",
+          "entertainment"
+        ],
+        "icons": [
+          {
+            "src": "/releases/d77abd4a8738088292f7/assets/prism-icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+          },
+          {
+            "src": "/releases/d77abd4a8738088292f7/assets/prism-icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+          },
+          {
+            "src": "/releases/d77abd4a8738088292f7/assets/prism-maskable-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+          }
+        ],
+        "shortcuts": [
+          {
+            "name": "Daily Challenge leaderboard",
+            "short_name": "Daily Challenge",
+            "url": "/?leaderboard=daily",
+            "icons": [
+              {
+                "src": "/releases/d77abd4a8738088292f7/assets/prism-icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+              }
+            ]
+          },
+          {
+            "name": "Adventure leaderboard",
+            "short_name": "Leaderboard",
+            "url": "/?leaderboard=campaign",
+            "icons": [
+              {
+                "src": "/releases/d77abd4a8738088292f7/assets/prism-icon-192.png",
+                "sizes": "192x192",
+                "type": "image/png"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

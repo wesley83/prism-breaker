@@ -1,0 +1,1293 @@
+{
+  "startedAt": "2026-10-15T18:46:55.848Z",
+  "output": "audit/2026-10-15-memory-budget-2026-10-15T18-46-55-848Z.json",
+  "method": "Sequential interleaved fixtures; no concurrent requests, no synthetic memory pressure",
+  "fixtures": [
+    {
+      "name": "plain",
+      "path": "/_prism-memory-plain-efd7b333-9393-4f4a-8f30-f5ba83060c94.html",
+      "bytes": 4029,
+      "sourceSha256": "6de87d1b9aa53f4a8fe2ca5ffcc3390d4f257a0ea541996400dbdc55b373895a",
+      "storedSha256": "6de87d1b9aa53f4a8fe2ca5ffcc3390d4f257a0ea541996400dbdc55b373895a",
+      "rowsSha256": "dc84d5ec3fe3486d8bff27085ff0b05a9c5b6ac66d33178f4245134b7ac70e49",
+      "createdAt": "2026-10-15T18:47:15.494Z",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "rules-without-get",
+      "path": "/_prism-memory-rules-without-get-763aff06-f61b-418a-bd7b-d8f276ad8750.html",
+      "bytes": 10038,
+      "sourceSha256": "56d858281e3797582c1cca1b906628a72e45794a1aa709064bc9913f2065a177",
+      "storedSha256": "56d858281e3797582c1cca1b906628a72e45794a1aa709064bc9913f2065a177",
+      "rowsSha256": "53ffd3de7459977e3f0abf55d65db03d3b6d5ba24f574900006af03542fe2063",
+      "createdAt": "2026-10-15T18:47:15.765Z",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "constant-false-processor",
+      "path": "/_prism-memory-constant-false-processor-5c71344a-de84-4fa3-8e81-d627bdd03c9f.html",
+      "bytes": 4575,
+      "sourceSha256": "3edb6a1a997c227ed342ca55b2ba4bc5d6a9e190ded468f52478412bc5781dec",
+      "storedSha256": "3edb6a1a997c227ed342ca55b2ba4bc5d6a9e190ded468f52478412bc5781dec",
+      "rowsSha256": "a3c5b6937b8efe5d6e3e5fccb2b06f3443745abb88dcc22dc2763f20238649d0",
+      "createdAt": "2026-10-15T18:47:16.062Z",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "original-expiry",
+      "path": "/_prism-memory-original-expiry-45f0b06b-b622-4631-b4f4-eea924fa8235.html",
+      "bytes": 11185,
+      "sourceSha256": "ba863236bb22189053939652219edf2b7c0dce42a115f0756e9fe1dd622585bf",
+      "storedSha256": "ba863236bb22189053939652219edf2b7c0dce42a115f0756e9fe1dd622585bf",
+      "rowsSha256": "103ea6874b87964fc218fa970d238006c7a3bff870b42d88380ea12604ee5d1d",
+      "createdAt": "2026-10-15T18:47:16.421Z",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "streaming-expiry",
+      "path": "/_prism-memory-streaming-expiry-ad0235b2-cece-47a1-b381-61d8a9fbefdc.html",
+      "bytes": 11267,
+      "sourceSha256": "7f392d7ddd3254d038ba9a4012557bf65ff1b42bc68256766746d2578e7bc2a5",
+      "storedSha256": "7f392d7ddd3254d038ba9a4012557bf65ff1b42bc68256766746d2578e7bc2a5",
+      "rowsSha256": "7a258b84707c90dd1e7ef51ca73f2d4378ee684d473ede52689974b93f803d4a",
+      "createdAt": "2026-10-15T18:47:16.851Z",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "constant-true-trigger",
+      "path": "/_prism-memory-constant-true-trigger-49c3d437-64b5-442d-a2bf-743f700a183f.html",
+      "bytes": 4407,
+      "sourceSha256": "4c76011e66d86b4fa00606980caf33c0f2c496d81b7914fd3b3e292225643c58",
+      "storedSha256": "4c76011e66d86b4fa00606980caf33c0f2c496d81b7914fd3b3e292225643c58",
+      "rowsSha256": "d27a79f737944634a8e07349ca731e9401e73757c7652c8db6481ae149177c02",
+      "createdAt": "2026-10-15T18:47:17.146Z",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "utc": "2026-10-15T18:47:17.821Z",
+      "variant": "plain",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 674,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:14 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:18.683Z",
+      "variant": "rules-without-get",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 561,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:15 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:19.112Z",
+      "variant": "constant-false-processor",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 126,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:15 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:19.537Z",
+      "variant": "original-expiry",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 123,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:16 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:19.964Z",
+      "variant": "streaming-expiry",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 124,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:16 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:20.378Z",
+      "variant": "constant-true-trigger",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 112,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:17 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:20.841Z",
+      "variant": "production-read",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 159,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:17 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:20.958Z",
+      "variant": "rules-without-get",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 117,
+      "responseBytes": 10797,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:17 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:21.353Z",
+      "variant": "constant-false-processor",
+      "round": 1,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 94,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:18 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:21.755Z",
+      "variant": "original-expiry",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 100,
+      "responseBytes": 11944,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:18 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:22.175Z",
+      "variant": "streaming-expiry",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 116,
+      "responseBytes": 12026,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:18 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:22.573Z",
+      "variant": "constant-true-trigger",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 96,
+      "responseBytes": 5166,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:19 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:23.034Z",
+      "variant": "plain",
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 159,
+      "responseBytes": 4788,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:19 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:23.439Z",
+      "variant": "constant-false-processor",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 100,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:20 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:23.891Z",
+      "variant": "original-expiry",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 150,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:20 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:24.345Z",
+      "variant": "streaming-expiry",
+      "round": 2,
+      "selector": true,
+      "status": 503,
+      "elapsedMs": 151,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:21 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:24.773Z",
+      "variant": "constant-true-trigger",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 127,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:21 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:25.211Z",
+      "variant": "plain",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 136,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:21 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:25.636Z",
+      "variant": "rules-without-get",
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 123,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:22 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:26.028Z",
+      "variant": "original-expiry",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 88,
+      "responseBytes": 11944,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:22 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:26.441Z",
+      "variant": "streaming-expiry",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 111,
+      "responseBytes": 12026,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:23 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:26.846Z",
+      "variant": "constant-true-trigger",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 103,
+      "responseBytes": 5166,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:23 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:27.262Z",
+      "variant": "plain",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 114,
+      "responseBytes": 4788,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:23 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:27.674Z",
+      "variant": "rules-without-get",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 110,
+      "responseBytes": 10797,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:24 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:28.090Z",
+      "variant": "constant-false-processor",
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 114,
+      "responseBytes": 5334,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:24 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:28.525Z",
+      "variant": "streaming-expiry",
+      "round": 4,
+      "selector": true,
+      "status": 503,
+      "elapsedMs": 134,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:25 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:28.970Z",
+      "variant": "constant-true-trigger",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 143,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:25 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:29.384Z",
+      "variant": "plain",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 112,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:26 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:29.785Z",
+      "variant": "rules-without-get",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 100,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:26 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:30.199Z",
+      "variant": "constant-false-processor",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 113,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:26 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:30.620Z",
+      "variant": "original-expiry",
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 120,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:27 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:31.026Z",
+      "variant": "constant-true-trigger",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 105,
+      "responseBytes": 5166,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:27 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:31.439Z",
+      "variant": "plain",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 111,
+      "responseBytes": 4788,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:28 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:32.021Z",
+      "variant": "rules-without-get",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 280,
+      "responseBytes": 10797,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:28 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:32.447Z",
+      "variant": "constant-false-processor",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 124,
+      "responseBytes": 5334,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:29 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:32.926Z",
+      "variant": "original-expiry",
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 178,
+      "responseBytes": 11944,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:29 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:33.321Z",
+      "variant": "streaming-expiry",
+      "round": 5,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 92,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:30 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:33.786Z",
+      "variant": "production-read",
+      "round": 5,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 164,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:30 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:33.900Z",
+      "variant": "plain",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 114,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:30 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:34.307Z",
+      "variant": "rules-without-get",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 105,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:31 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:34.727Z",
+      "variant": "constant-false-processor",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 116,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:31 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:35.143Z",
+      "variant": "original-expiry",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 115,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:31 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:35.573Z",
+      "variant": "streaming-expiry",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 129,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:32 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:35.982Z",
+      "variant": "constant-true-trigger",
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 107,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:32 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:36.393Z",
+      "variant": "rules-without-get",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 109,
+      "responseBytes": 10797,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:33 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:36.789Z",
+      "variant": "constant-false-processor",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 94,
+      "responseBytes": 5334,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:33 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:37.179Z",
+      "variant": "original-expiry",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 89,
+      "responseBytes": 11944,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:33 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:37.659Z",
+      "variant": "streaming-expiry",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 178,
+      "responseBytes": 12026,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:34 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:38.078Z",
+      "variant": "constant-true-trigger",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 116,
+      "responseBytes": 5166,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:34 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:38.485Z",
+      "variant": "plain",
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 105,
+      "responseBytes": 4788,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:35 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:38.913Z",
+      "variant": "constant-false-processor",
+      "round": 8,
+      "selector": true,
+      "status": 503,
+      "elapsedMs": 126,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:35 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:39.351Z",
+      "variant": "original-expiry",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 137,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:36 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:39.803Z",
+      "variant": "streaming-expiry",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 150,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:36 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:40.210Z",
+      "variant": "constant-true-trigger",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 104,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:36 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:40.658Z",
+      "variant": "plain",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 146,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:37 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:41.073Z",
+      "variant": "rules-without-get",
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 114,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:37 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:41.473Z",
+      "variant": "original-expiry",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 97,
+      "responseBytes": 11944,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:38 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:41.887Z",
+      "variant": "streaming-expiry",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 112,
+      "responseBytes": 12026,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:38 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:42.320Z",
+      "variant": "constant-true-trigger",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 131,
+      "responseBytes": 5166,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:39 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:42.732Z",
+      "variant": "plain",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 110,
+      "responseBytes": 4788,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:39 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:43.169Z",
+      "variant": "rules-without-get",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 136,
+      "responseBytes": 10797,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:39 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:43.576Z",
+      "variant": "constant-false-processor",
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 106,
+      "responseBytes": 5334,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:40 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:43.981Z",
+      "variant": "streaming-expiry",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 103,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:40 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:44.423Z",
+      "variant": "constant-true-trigger",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 140,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:41 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:44.870Z",
+      "variant": "plain",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 145,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:41 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:45.318Z",
+      "variant": "rules-without-get",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 148,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:41 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:45.794Z",
+      "variant": "constant-false-processor",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 175,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:42 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:46.211Z",
+      "variant": "original-expiry",
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 115,
+      "responseBytes": 3759,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:42 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:46.614Z",
+      "variant": "constant-true-trigger",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 101,
+      "responseBytes": 5166,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:43 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:47.027Z",
+      "variant": "plain",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 111,
+      "responseBytes": 4788,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:43 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:47.439Z",
+      "variant": "rules-without-get",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 110,
+      "responseBytes": 10797,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:44 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:47.878Z",
+      "variant": "constant-false-processor",
+      "round": 11,
+      "selector": false,
+      "status": 503,
+      "elapsedMs": 137,
+      "responseBytes": 652,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:44 GMT",
+        "content-type": "text/html"
+      },
+      "error": {
+        "name": "Budget Exceeded",
+        "description": "The request exceeded the allocated memory budget.",
+        "resourceType": "memory",
+        "allocated": "33554432",
+        "consumed": "33554432",
+        "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33554432</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33554432</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:47:48.302Z",
+      "variant": "original-expiry",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 122,
+      "responseBytes": 11944,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:45 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:48.762Z",
+      "variant": "streaming-expiry",
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 159,
+      "responseBytes": 12026,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:45 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 7
+    },
+    {
+      "utc": "2026-10-15T18:47:49.227Z",
+      "variant": "production-read",
+      "round": 11,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 162,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:47:45 GMT",
+        "content-type": "text/html"
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-memory-plain-efd7b333-9393-4f4a-8f30-f5ba83060c94.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-rules-without-get-763aff06-f61b-418a-bd7b-d8f276ad8750.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-constant-false-processor-5c71344a-de84-4fa3-8e81-d627bdd03c9f.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-original-expiry-45f0b06b-b622-4631-b4f4-eea924fa8235.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-streaming-expiry-ad0235b2-cece-47a1-b381-61d8a9fbefdc.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-constant-true-trigger-49c3d437-64b5-442d-a2bf-743f700a183f.html",
+      "status": 204,
+      "readStatus": 404
+    }
+  ],
+  "productionBefore": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "references": [
+    {
+      "url": "https://docs.pagelove.com/all/languages/javascript/",
+      "status": 200,
+      "sha256": "69b384572e3b5b57e613ce6042ed904bdfaf82da45fc2f6f8da0032a48d69754",
+      "resourceLimits": "Resource limits Every evaluation runs under a per-request budget. In production the budget is read from the host's https://pagelove.org/TransactionBudget Microdata, shared with Sessel. A request touching one Sessel binding and one JavaScript binding sees a single shared budget, not two competing ones. Limit Source in production Default in unbudgeted contexts Exhaustion error Memory Remaining memory budget on the request 16 MB per context out-of-memory Stack Per-thread default 256 KB per context threw (typically InternalError: stack overflow) Time Remaining time budget on the request Per-thread default timeout Ops Charged in batches against the request budget on every periodic interrupt Not charged for short, straight-line code Surfaces via the request budget Errors Every failure is rendered to the client as an HTML Microdata document of type https://pagelove.org/BindingFailure, nested inside the https://pagelove.org/SchemaViolation envelope. Variant Trigger parse The module source fails to parse as an ES module. shape The module parsed but has no default export, or the default export is not a function. threw The default function ran and threw. The message and (when available) stack are carried in the failure item. timeout The evaluation exceeded the time budget. out-of-memory The evaluation exceeded the memory budget. marshal An input value (a field of this, or a key of context"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reacting-to-changes/",
+      "status": 200,
+      "sha256": "0763c337d87e7a474e9631a029e4e671c629dbea0f058ff242ba61cb6439d6c5",
+      "resourceLimits": null
+    }
+  ],
+  "productionAfter": {
+    "status": 200,
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "productionUnchanged": true,
+  "productionPolicyUnchanged": true,
+  "summary": {
+    "plain": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "rules-without-get": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "constant-false-processor": {
+      "requests": 12,
+      "errors": 3,
+      "statuses": {
+        "200": 4,
+        "206": 5,
+        "503": 3
+      }
+    },
+    "original-expiry": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "streaming-expiry": {
+      "requests": 12,
+      "errors": 3,
+      "statuses": {
+        "200": 5,
+        "206": 4,
+        "503": 3
+      }
+    },
+    "constant-true-trigger": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "production-read": {
+      "requests": 3,
+      "errors": 0,
+      "statuses": {
+        "206": 3
+      }
+    }
+  },
+  "finishedAt": "2026-10-15T18:47:51.216Z"
+}

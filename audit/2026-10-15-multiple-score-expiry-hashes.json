@@ -1,0 +1,46 @@
+{
+  "utc": "2026-10-15T18:42:03.3597952Z",
+  "actor": "Codex",
+  "files": [
+    {
+      "path": "PLATFORM-REQUIREMENTS.md",
+      "sha256": "c2fe0c66fd66964bd2a222aec741b19a36d43764cd03b2b9f23492204bdea0dd"
+    },
+    {
+      "path": "REMAINING-WORK-IMPLEMENTATION.md",
+      "sha256": "133ea9a27f783752668c1127bb410368b69809f902dfde6ff33b4345443e2e82"
+    },
+    {
+      "path": "SCORE-EXPIRY-VERIFICATION.md",
+      "sha256": "a3f2a5a52fca0092647183f1645691bfcc3e2f37fe8a9eee00c4d71d7f81043f"
+    },
+    {
+      "path": "tools/multiple-score-expiry-check.mjs",
+      "sha256": "b646d42ef6eb209b2765f3c50434713ff073f19aa029bdd0f23b2cae061724de"
+    },
+    {
+      "path": "audit/2026-10-15-multiple-score-expiry.md",
+      "sha256": "e1abd09d615cb70ba18cdb8582e0fbf46ba6836a8d752c159338536f2b6d77b2"
+    },
+    {
+      "path": "audit/2026-10-15-multiple-score-expiry.json",
+      "sha256": "3a3369b541b60b64819906d36d5d369c7e58cf1fc15580d7df3a5d02102316a7"
+    },
+    {
+      "path": "audit/2026-10-15-multiple-score-expiry-attempt-1.json",
+      "sha256": "da227dabce1897538fb9b81732f32f2fe30b6e9f31ef55620f5c78b164559bd1"
+    },
+    {
+      "path": "audit/2026-10-15-multiple-score-expiry-attempt-2.json",
+      "sha256": "19f3198277e1db7d9602a799860b254de0e72cb378106e3fb4e81e452269f749"
+    },
+    {
+      "path": "audit/2026-10-15-multiple-score-expiry-attempt-3.json",
+      "sha256": "d2be2944182671bc75ab34c379bd30feeb95427085acc9546af8089e6d5234a7"
+    },
+    {
+      "path": "audit/2026-10-15-multiple-score-expiry-changes.patch",
+      "sha256": "a293a8df3a6b7ac057f5bac7f501c16e410cd3b3d3dd1785318991e11ec21567"
+    }
+  ]
+}

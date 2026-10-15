@@ -18,6 +18,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   if(checkStatus)checkStatus.textContent=unavailable?'Update checks are unavailable in this preview or browser.':applying?'Applying the update…':checking?'Checking for updates…':newVersion?(isSafeToUpdate()?'An update is ready to install.':'An update is ready. Return to the start screen to apply it.'):checkError||(failed?'The game download could not finish. Reconnect and check again.':['installing','installed'].includes(registration?.installing?.state)?'Downloading the update…':checked?'You’re up to date.':'Updates are checked automatically while the game is open.');
   if(unavailable){status.textContent=unavailable==='preview'?'Preview mode':'Offline play is unavailable in this browser.';detail.textContent=unavailable==='preview'?'Offline downloads are disabled in previews.':'Open the game in a current browser over HTTPS.';install.hidden=true;retry.hidden=true;return;}
   install.hidden=installed||standalone();
+  install.textContent=prompt?'Install game':'How to install';
   status.textContent=ready?(navigator.onLine?'Ready to play offline':'Offline · ready to play'):failed?'Offline download unavailable':'Preparing offline play…';
   detail.textContent=applying?(reloadReady&&!isSafeToUpdate()?'Update ready. Return to the start screen to finish.':'Applying the update…'):updateError|| (newVersion?'An update is ready. Apply it from the start screen.':failed?'Reconnect and retry to finish downloading the game.':ready?'All sixteen worlds, music and cutscenes are saved.':'Keep this page open while the complete game downloads.');
   retry.hidden=!failed;retry.disabled=applying;
@@ -59,7 +60,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;render();});
  window.addEventListener('appinstalled',()=>{prompt=null;installed=true;render();});
  install.onclick=async()=>{
-  if(prompt){const invitation=prompt;prompt=null;try{await invitation.prompt();await invitation.userChoice;}catch{openHelp();}}
+  if(prompt){const invitation=prompt;prompt=null;render();try{await invitation.prompt();await invitation.userChoice;}catch{openHelp();}}
   else openHelp();
   // A denied persistence request is harmless; normal browser storage still works.
   navigator.storage?.persist?.().catch(()=>{});

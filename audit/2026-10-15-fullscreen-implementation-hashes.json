@@ -1,0 +1,50 @@
+{
+  "utc": "2026-10-15T20:04:38.9501182Z",
+  "actor": "Codex",
+  "files": [
+    {
+      "path": "public/display.js",
+      "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45"
+    },
+    {
+      "path": "public/pwa.js",
+      "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd"
+    },
+    {
+      "path": "public/app.js",
+      "sha256": "4bb2cc33a50ca7b005038b6fdae81d49b879591e9057304501f0b545e8454d41"
+    },
+    {
+      "path": "public/index.html",
+      "sha256": "b9f98dd2aae5ea9efb491e71651f18cf1cd5e9896a3b7f4f760b95ccba37cb54"
+    },
+    {
+      "path": "public/pwa-release.js",
+      "sha256": "2729af219d0e428e8a27a6bcd923fede129a3a0c16bf97c617acfef6dc18982e"
+    },
+    {
+      "path": "public/sw.js",
+      "sha256": "3c6ae3d169442a2ad60d2978108ddba72c9bdf4920b5564fe208f6a81d677c5a"
+    },
+    {
+      "path": "tests/display.test.mjs",
+      "sha256": "e2bc9fb111148534612a7d62430ff6c89d02263410eafd63d1f60c134b5c749a"
+    },
+    {
+      "path": "FULLSCREEN-UPGRADE.md",
+      "sha256": "21f8982703d1717d3509cbfb45b870711a777ab1dfc9ae8cee92e4542cf0c69e"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-implementation.md",
+      "sha256": "89dfb0dff4c87fb39ca2a00bc48d0287576b4fec6629b0d9c6e0111623254a18"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-build.json",
+      "sha256": "69c78a03486c6893702a5ba7742bcda626376a4f12ae83adb3c5b58fd4ddd5cf"
+    },
+    {
+      "path": "audit/2026-10-15-fullscreen-implementation-changes.patch",
+      "sha256": "91a32aff7446679041b821b14f27c4789c4eb00b6b76c0b689264d696f0ed267"
+    }
+  ]
+}

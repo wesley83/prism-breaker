@@ -1,0 +1,712 @@
+{
+  "startedAt": "2026-10-15T18:52:14.966Z",
+  "output": "audit/2026-10-15-memory-budget-2026-10-15T18-52-14-966Z.json",
+  "experiment": "aged-zero-row-controls",
+  "method": "Sequential interleaved fixtures; no concurrent requests, no synthetic memory pressure",
+  "fixtures": [
+    {
+      "name": "plain",
+      "path": "/_prism-memory-plain-604537a7-73e3-4178-bb90-db1dd54bb14b.html",
+      "bytes": 152,
+      "sourceSha256": "1925e02b9db50f78a29d7ac9614a11f45c8175b4393e5585193d79a4c95b9cf7",
+      "storedSha256": "9dd0fa936883bed4117823df6c7829a4ac3555a8d54b90de4f7177123740b9c5",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:52:33.774Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "js-false",
+      "path": "/_prism-memory-js-false-c4edbe7a-bb09-4a89-b526-eb7fd7c67fa0.html",
+      "bytes": 654,
+      "sourceSha256": "df3948cddc2a44d4477a624dd2a7684a97c3c1f697a229492ac163439d0b1b88",
+      "storedSha256": "de2ac527138a4ebb67778f43b1d635ad396dc7782dde3dc9fed54ca59c514b56",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:52:33.963Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-js-false-c4edbe7a-bb09-4a89-b526-eb7fd7c67fa0.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/JavaScript/Module\"><script itemprop=\"source\" type=\"module\">export default () => false;</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    },
+    {
+      "name": "sessel-false",
+      "path": "/_prism-memory-sessel-false-79c0f264-0ff0-4304-b596-298841ed791b.html",
+      "bytes": 630,
+      "sourceSha256": "fe0debec3b57558674bb9c39963c80d8c8a9a4a6b877a68415e22ba39321097e",
+      "storedSha256": "bd4e2884e2dafbef71053993a43e634266c2b6cba20bb4da530d5bd0ab1100e4",
+      "rowsSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "createdAt": "2026-10-15T18:52:34.143Z",
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Isolated processor probe</title></head><body><ul id=\"scores\"></ul><div itemscope itemtype=\"https://pagelove.org/Processor\"><meta itemprop=\"resource\" content=\"/_prism-memory-sessel-false-79c0f264-0ff0-4304-b596-298841ed791b.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"when\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">false</script></div><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">true</script></div></div></body></html>",
+      "after": {
+        "status": 200,
+        "rowsUnchanged": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "utc": "2026-10-15T18:53:39.735Z",
+      "variant": "plain",
+      "fixtureAgeMs": 65961,
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 579,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:36 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:40.452Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 66489,
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 414,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:37 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:40.849Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 66706,
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 95,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:37 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:41.330Z",
+      "variant": "production-read",
+      "round": 0,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 180,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:37 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:53:41.432Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 67469,
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 102,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:38 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:41.835Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 67693,
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 101,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:38 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:42.244Z",
+      "variant": "plain",
+      "fixtureAgeMs": 68470,
+      "round": 1,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 106,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:38 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:42.659Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 68516,
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 113,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:39 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:43.054Z",
+      "variant": "plain",
+      "fixtureAgeMs": 69280,
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 93,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:39 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:43.456Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 69493,
+      "round": 2,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 101,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:40 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:43.864Z",
+      "variant": "plain",
+      "fixtureAgeMs": 70090,
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 106,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:40 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:44.274Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 70311,
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 109,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:40 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:44.662Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 70519,
+      "round": 3,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 86,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:41 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:45.070Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 71107,
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 106,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:41 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:45.470Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 71327,
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 99,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:42 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:45.886Z",
+      "variant": "plain",
+      "fixtureAgeMs": 72112,
+      "round": 4,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 114,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:42 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:46.302Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 72159,
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 115,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:43 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:46.735Z",
+      "variant": "plain",
+      "fixtureAgeMs": 72961,
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 131,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:43 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:47.120Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 73157,
+      "round": 5,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 83,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:43 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:47.605Z",
+      "variant": "production-read",
+      "round": 5,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 183,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:44 GMT",
+        "content-type": "text/html"
+      }
+    },
+    {
+      "utc": "2026-10-15T18:53:47.708Z",
+      "variant": "plain",
+      "fixtureAgeMs": 73934,
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 103,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:44 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:48.100Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 74137,
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 90,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:44 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:48.509Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 74366,
+      "round": 6,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 107,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:45 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:48.912Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 74949,
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 101,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:45 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:49.344Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 75201,
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 130,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:46 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:49.736Z",
+      "variant": "plain",
+      "fixtureAgeMs": 75962,
+      "round": 7,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 91,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:46 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:50.168Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 76025,
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 130,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:46 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:50.556Z",
+      "variant": "plain",
+      "fixtureAgeMs": 76782,
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 87,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:47 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:50.999Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 77036,
+      "round": 8,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 142,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:47 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:51.400Z",
+      "variant": "plain",
+      "fixtureAgeMs": 77626,
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 98,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:48 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:51.806Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 77843,
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 105,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:48 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:52.223Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 78080,
+      "round": 9,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 115,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:48 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:52.628Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 78665,
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 103,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:49 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:53.044Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 78901,
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 115,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:49 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:53.439Z",
+      "variant": "plain",
+      "fixtureAgeMs": 79665,
+      "round": 10,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 93,
+      "responseBytes": 21,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:50 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:53.823Z",
+      "variant": "sessel-false",
+      "fixtureAgeMs": 79680,
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 82,
+      "responseBytes": 1389,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:50 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:54.208Z",
+      "variant": "plain",
+      "fixtureAgeMs": 80434,
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 83,
+      "responseBytes": 911,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:50 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:54.601Z",
+      "variant": "js-false",
+      "fixtureAgeMs": 80638,
+      "round": 11,
+      "selector": false,
+      "status": 200,
+      "elapsedMs": 91,
+      "responseBytes": 1413,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:51 GMT",
+        "content-type": "text/html"
+      },
+      "rowCount": 0
+    },
+    {
+      "utc": "2026-10-15T18:53:55.040Z",
+      "variant": "production-read",
+      "round": 11,
+      "selector": true,
+      "status": 206,
+      "elapsedMs": 138,
+      "responseBytes": 40236,
+      "headers": {
+        "date": "Thu, 15 Oct 2026 18:53:51 GMT",
+        "content-type": "text/html"
+      }
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-memory-plain-604537a7-73e3-4178-bb90-db1dd54bb14b.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-js-false-c4edbe7a-bb09-4a89-b526-eb7fd7c67fa0.html",
+      "status": 204,
+      "readStatus": 404
+    },
+    {
+      "path": "/_prism-memory-sessel-false-79c0f264-0ff0-4304-b596-298841ed791b.html",
+      "status": 204,
+      "readStatus": 404
+    }
+  ],
+  "productionBefore": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "references": [
+    {
+      "url": "https://docs.pagelove.com/all/languages/javascript/",
+      "status": 200,
+      "sha256": "69b384572e3b5b57e613ce6042ed904bdfaf82da45fc2f6f8da0032a48d69754",
+      "resourceLimits": "Resource limits Every evaluation runs under a per-request budget. In production the budget is read from the host's https://pagelove.org/TransactionBudget Microdata, shared with Sessel. A request touching one Sessel binding and one JavaScript binding sees a single shared budget, not two competing ones. Limit Source in production Default in unbudgeted contexts Exhaustion error Memory Remaining memory budget on the request 16 MB per context out-of-memory Stack Per-thread default 256 KB per context threw (typically InternalError: stack overflow) Time Remaining time budget on the request Per-thread default timeout Ops Charged in batches against the request budget on every periodic interrupt Not charged for short, straight-line code Surfaces via the request budget Errors Every failure is rendered to the client as an HTML Microdata document of type https://pagelove.org/BindingFailure, nested inside the https://pagelove.org/SchemaViolation envelope. Variant Trigger parse The module source fails to parse as an ES module. shape The module parsed but has no default export, or the default export is not a function. threw The default function ran and threw. The message and (when available) stack are carried in the failure item. timeout The evaluation exceeded the time budget. out-of-memory The evaluation exceeded the memory budget. marshal An input value (a field of this, or a key of context"
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reacting-to-changes/",
+      "status": 200,
+      "sha256": "0763c337d87e7a474e9631a029e4e671c629dbea0f058ff242ba61cb6439d6c5",
+      "resourceLimits": null
+    }
+  ],
+  "aging": {
+    "start": "2026-10-15T18:52:34.143Z",
+    "minimumIdleMs": 65000,
+    "end": "2026-10-15T18:53:39.156Z"
+  },
+  "productionAfter": {
+    "status": 200,
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "productionUnchanged": true,
+  "productionPolicyUnchanged": true,
+  "summary": {
+    "plain": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "js-false": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "sessel-false": {
+      "requests": 12,
+      "errors": 0,
+      "statuses": {
+        "200": 6,
+        "206": 6
+      }
+    },
+    "production-read": {
+      "requests": 3,
+      "errors": 0,
+      "statuses": {
+        "206": 3
+      }
+    }
+  },
+  "finishedAt": "2026-10-15T18:53:55.976Z"
+}

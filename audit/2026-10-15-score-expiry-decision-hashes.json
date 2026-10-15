@@ -1,0 +1,19 @@
+{
+  "verification": "Documentation diff review; no runtime tests or live mutations",
+  "utc": "2026-10-15T18:05:33.7582513Z",
+  "files": [
+    {
+      "sha256": "c6d95d889964925d3e63f654f9684e014e225121a5822e82c1eac2fc33f625dd",
+      "path": "PLATFORM-REQUIREMENTS.md"
+    },
+    {
+      "sha256": "02c43ad4d50388430aa9551f59e8e66a4a77637ebad214e445519c60510d22cc",
+      "path": "REMAINING-WORK-IMPLEMENTATION.md"
+    },
+    {
+      "sha256": "3f88f0bb48f8dc76e2ab245e9b60df69cbfaef886d877d39e092346e39e1b2c0",
+      "path": "audit/2026-10-15-score-expiry-decision.patch"
+    }
+  ],
+  "actor": "Codex"
+}

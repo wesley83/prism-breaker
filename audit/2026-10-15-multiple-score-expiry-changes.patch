@@ -1,0 +1,872 @@
+diff --git a/PLATFORM-REQUIREMENTS.md b/PLATFORM-REQUIREMENTS.md
+index 96e4d80..e0137a1 100644
+--- a/PLATFORM-REQUIREMENTS.md
++++ b/PLATFORM-REQUIREMENTS.md
+@@ -2,7 +2,13 @@
+ 
+ October 15, 2026. This is an implementation dependency/request specification, not a claim that Pagelove is defective or that no undocumented capability exists. [Research receipt](audit/2026-10-15-native-capability-research.json).
+ 
+-## Shared scores: physical deletion without traffic
++## Shared scores: accepted cleanup on leaderboard access
++
++Wesley accepted this behavior on October 15, 2026: scores expire from the displayed rankings after five days; physical deletion occurs on subsequent online leaderboard access. Records may remain stored during periods with no requests. An unattended scheduler is no longer a requirement for this game.
++
++Expiry filtering, a GET cleanup processor and a browser cleanup request already exist in the source. Isolated live verification on October 15, 2026 removed four expired records while preserving three interleaved active controls, both with a public GET alone and with the game's GET-plus-fallback request sequence. Two subsequent reads per case preserved the remaining controls. DAV storage reads confirmed physical removal. Offline views can filter saved standings but cannot perform server cleanup. [Results and limits](SCORE-EXPIRY-VERIFICATION.md).
++
++### Historical requirement and research: deletion without traffic
+ 
+ The requested behavior is a maximum five-day lifetime for persistent shared leaderboard records. A server-assigned `expiresAt`, ranking filters and access-driven cleanup exist. They do not execute a physical deletion when all clients are closed and no requests arrive.
+ 
+@@ -14,14 +20,14 @@ Fresh official reference reads established:
+ 
+ No supported native shared-record TTL or unattended scheduler was identified in the inspected reference. No external scheduler, background browser timer or self-request loop is introduced. Browser periodic sync is not an execution guarantee when the app/OS is closed.
+ 
+-### Questions for platform support
++### Historical questions for platform support (no longer a release dependency)
+ 
+ 1. Is there a native persistent-record expiry or scheduled-task facility that executes without incoming HTTP traffic? What is its documented schema and supported deployment procedure?
+ 2. What maximum deletion delay, clock basis, restart/retry behavior and authorization identity does it guarantee? Can it preserve all records whose server expiry is still in the future?
+ 3. How can we observe stored records without a read-triggered cleanup producing an apparent pass? Is there native task execution evidence or a non-triggering inspection path?
+ 4. If no facility exists, is one planned? The application must then either retain this requirement as blocked or obtain an explicit requirement change. This implementation does not silently relax it.
+ 
+-### Acceptance procedure once available
++### Historical acceptance procedure if unattended deletion is requested again
+ 
+ Use disposable records with independently assigned short expiries and active controls. Observe the native job/TTL without any client request during the expiry interval. Verify physical removal via a non-triggering path and native execution evidence. Test exact cutoffs, skew, restart/retry, concurrency and duplicate execution; retain active records. Only then implement the five-day configuration on the real board while preserving existing records and provenance.
+ 
+@@ -40,3 +46,9 @@ Wesley chose to retain **owner DAV publishing only** and the **casual leaderboar
+ ## Additional native-editor availability observation
+ 
+ A direct public GET of `/editor/prism-garden` returned 500 at 2026-10-15T16:29:23.962Z after the immutable release. The first failed verification retained status metadata but not its body. Subsequent shell/template/route reads and three additional cache-busted composition reads returned 200, and the actual browser editor/3D preview worked. No source change occurred between failure and recovery. Preserve this observation for provider tracing; do not label its cause as confirmed or describe it as an application fix. [Receipt](audit/2026-10-15-remaining-native-editor.json).
++
++## Isolated score-read memory-budget failures
++
++During the multiple-record expiry check, intermittent public GETs of a disposable seven-row score resource returned HTTP 503. Responses captured at 2026-10-15T18:38:14.109Z and 2026-10-15T18:38:23.797Z explicitly reported an exceeded memory budget, with allocated and consumed values both 33,553,172 bytes. Bounded retries succeeded; active controls remained unchanged. Earlier attempts also returned 503 but did not retain the response bodies. The cause and applicability to the established production route are not determined. These failures do not establish the cause of the separate editor 500.
++
++Provider follow-up: explain the memory-budget failure on this small isolated resource, identify what contributes to that budget, and determine whether a supported application change or platform correction is needed. Native policy activation remains a separate question. [Detailed results](SCORE-EXPIRY-VERIFICATION.md), [captured responses](audit/2026-10-15-multiple-score-expiry.json).
+diff --git a/REMAINING-WORK-IMPLEMENTATION.md b/REMAINING-WORK-IMPLEMENTATION.md
+index 51b2c6b..4fb82f7 100644
+--- a/REMAINING-WORK-IMPLEMENTATION.md
++++ b/REMAINING-WORK-IMPLEMENTATION.md
+@@ -17,11 +17,15 @@ The final full local suite passes **170 tests across 21 files**, with zero failu
+ 
+ Actual Chromium browser checks: old d2fa444df7cfd477dcf9 updated to interim c27c6272afcf8cc2f916 and reached offline-ready with fixture best retained. A fresh origin loaded 31591d6326d6abfc91b3 with immutable bootstrap, enabled controls and zero captured errors. With its web server stopped, it reloaded from cache and started Adventure. This is server-unavailable desktop evidence, not OS airplane mode or installed-phone evidence. The final candidate d77abd4a8738088292f7 also applied successfully while an older 31591 tab remained open on its own immutable bootstrap, retaining Continue adventure. The compiled editor loaded its 45-brick formation and launched the 3D preview with zero captured errors. [Browser receipt](audit/2026-10-15-remaining-browser.json), [full local suite](audit/2026-10-15-remaining-tests.txt). Live publication evidence follows below.
+ 
+-## What is still blocked
++## Accepted score-expiry behavior
++
++On October 15, 2026, Wesley accepted five-day expiry from displayed rankings with physical cleanup on subsequent online leaderboard access. No unattended scheduler is required. Isolated live checks subsequently removed four expired records while preserving three active controls, using both GET-only and game GET-plus-fallback cleanup. Repeated reads were safe. The actual live leaderboard opened and refreshed normally in the browser. The fixture checks and production UI check were separate; synthetic records were never added to the real board. [Verification and limits](SCORE-EXPIRY-VERIFICATION.md), [decision and historical research](PLATFORM-REQUIREMENTS.md).
++
++## What is still open
+ 
+ | Requirement | Status and next dependency |
+ | --- | --- |
+-| Physical shared-score deletion at five days without traffic | No supported native shared TTL/scheduler identified. JavaScript timers are unavailable; transient/session expiry is fixed at 30 days and ignores per-element TTL. Obtain the supported native facility or explicitly revise the requirement. [Support specification](PLATFORM-REQUIREMENTS.md) |
++| Intermittent memory-budget failures on isolated score reads | HTTP 503 responses explicitly reported exceeded memory budget; retries succeeded. Bulk expiry and control preservation passed, but the availability cause remains open. [Evidence](SCORE-EXPIRY-VERIFICATION.md) |
+ | Guaranteed safe public-policy activation | No native revision/readiness barrier established. Normal release and policy-migration safeguards are implemented, but cannot establish a platform guarantee |
+ | Android/iOS installation, OS termination/airplane mode/storage pressure and actual native share receivers | Not run: Wesley confirmed no devices are available |
+ | Independent campaign, cinematic/audio, keyboard/large-text and screen-reader review | Not run: Wesley confirmed no independent reviewer is available |
+@@ -37,4 +41,4 @@ Actual Chromium browser checks: old d2fa444df7cfd477dcf9 updated to interim c27c
+ - **One direct native-editor request returned 500 at 2026-10-15T16:29:23.962Z.** No body was retained for that first failed verification. Later route/shell/template reads and three further cache-busted composition checks returned 200 with the routed world, shell and immutable bootstrap. No source change caused recovery. The cause remains unestablished; later success does not erase the availability observation or establish an activation guarantee. [Native route receipt](audit/2026-10-15-remaining-native-editor.json).
+ - Owner readbacks confirm the **full score resource and policy remained unchanged** across the release. All **70 legacy root cache assets** match their pre-release hashes. Individual world definitions were excluded from publisher writes. [Data preservation](audit/2026-10-15-remaining-data-preservation.json), [legacy assets](audit/2026-10-15-remaining-legacy-assets.json).
+ - Initial staging stopped on a harmless entity-node comparison mismatch before any entry promotion. The narrow correction was tested against actual provider readback, committed and passed gate/CI before retry. [Normalization evidence](audit/2026-10-15-remaining-html-normalization.json).
+-- The authenticated publisher exited. Final documentation/evidence reconciliation and its own commit/CI follow; hardware/human checks remain 14 not-run and native unattended retention/readiness dependencies remain open.
++- The authenticated publisher exited. Final documentation/evidence reconciliation and its own commit/CI follow. At publication, hardware/human checks remained 14 not-run and native unattended retention/readiness dependencies were open. The later accepted score-expiry behavior above supersedes the unattended-retention requirement; the other verification gaps remain.
+diff --git a/SCORE-EXPIRY-VERIFICATION.md b/SCORE-EXPIRY-VERIFICATION.md
+new file mode 100644
+index 0000000..312428e
+--- /dev/null
++++ b/SCORE-EXPIRY-VERIFICATION.md
+@@ -0,0 +1,46 @@
++# Score expiry verification — October 15, 2026
++
++The accepted behavior passed the isolated live cleanup checks: expired scores are excluded from rankings, and an online leaderboard read initiates physical cleanup. An intermittent HTTP 503 issue remains open separately.
++
++## What was checked
++
++The test copied the live score policies to a unique disposable resource on the same Pagelove host, using a unique schema type. Owner DAV seeded synthetic timestamps and read storage without invoking application cleanup. No test scores were added to the real leaderboard and its document was never written.
++
++Each expiry case contained four expired scores interleaved with three active controls. Controls were compared field-for-field against their seed readback. The production `activeScores` function checked which synthetic rows would be displayed.
++
++| Check | Observed result |
++| --- | --- |
++| Seven active-only controls | Successful reads preserved every field of every control |
++| Public GET processor alone | Four expired rows were absent from stored data by the second DAV observation, about 2.2 seconds after the successful GET; all three active controls remained unchanged |
++| Game GET plus browser fallback DELETE sequence | Four expired rows were absent at the first DAV observation, about 1.1 seconds after the successful request sequence; all three active controls remained unchanged |
++| Ranking filter | Only the three active controls appeared in filtered results |
++| Two additional reads after each completed cleanup | No expired rows reappeared; active records were unchanged |
++| Disposable resource removal | Authoring DELETE returned 204; subsequent authoring GET returned 404 |
++| Real leaderboard preservation | Full document and native-policy SHA-256 identities matched before and after each network-capable fixture run |
++
++The successful final fixture run completed at **2026-10-15T18:38:30.758Z**. These are observed completion times, not guaranteed cleanup latency. Four expired rows establish this case; they do not establish arbitrary-volume performance.
++
++## Browser check
++
++Separately, a fresh temporary browser tab opened the live game, clicked the normal Leaderboard control, and refreshed the Adventure board. Both loads completed with `Top 25 adventure runs`, 25 rendered rows and the five-day expiry notice. The captured console contained no warnings or errors. The temporary tab was closed.
++
++The synthetic cleanup test exercised the public request sequence and production filtering function through the test runner. It did not inject synthetic records into the production browser UI. The separate browser check confirms normal opening/refresh behavior; storage deletion is established by the fixture's DAV observations.
++
++## Availability finding still open
++
++Several isolated public reads returned **503 Service Unavailable**. In the final run, two captured responses stated **Budget Exceeded: The request exceeded the allocated memory budget**, reporting allocated and consumed memory as **33,553,172 bytes**. They occurred at 18:38:14.109Z with active-only records and at 18:38:23.797Z before the game-sequence expiry check. Bounded retries succeeded.
++
++The first restricted attempt failed to connect before creating any resource. The next two attempts encountered 503 responses and removed their fixtures safely. Their initial runner did not retain error bodies. One runner assertion incorrectly labeled an HTTP failure as an active-control change; the saved record comparison showed that all controls were unchanged. The audit preserves that correction and each attempt.
++
++These responses identify the reported failure category, not its underlying cause. They do not prove that a small score list alone consumed the budget, that the established production leaderboard has the same issue, or that policy propagation caused it. No production change was made to address it. The separate native-editor 500 remains unexplained.
++
++## Evidence
++
++- [Final live request/storage receipt](audit/2026-10-15-multiple-score-expiry.json)
++- [Network-limited attempt](audit/2026-10-15-multiple-score-expiry-attempt-1.json)
++- [First isolated 503 attempt](audit/2026-10-15-multiple-score-expiry-attempt-2.json)
++- [Second isolated 503 attempt](audit/2026-10-15-multiple-score-expiry-attempt-3.json)
++- [Plan, failures and corrections](audit/2026-10-15-multiple-score-expiry.md)
++- [Reproducible runner](tools/multiple-score-expiry-check.mjs)
++
++The runner uses the owner credential only in hidden TTY input. Saved receipts contain fixture records and aggregate identities, not credentials or production player records. Re-running requires preserving prior receipts and uses a newly generated disposable path.
+diff --git a/tools/multiple-score-expiry-check.mjs b/tools/multiple-score-expiry-check.mjs
+new file mode 100644
+index 0000000..a6d033a
+--- /dev/null
++++ b/tools/multiple-score-expiry-check.mjs
+@@ -0,0 +1,130 @@
++import fs from 'node:fs/promises';
++import {createHash, randomUUID} from 'node:crypto';
++import {DOMParser} from 'linkedom';
++import {activeScores} from '../public/leaderboard.js';
++import {scorePolicyIdentity} from './policy-publication.mjs';
++
++const origin='https://sane-guild-8399.onpagelove.com';
++const dav='https://dav-sane-guild-8399.onpagelove.com';
++const output='audit/2026-10-15-multiple-score-expiry.json';
++const proof={startedAt:new Date().toISOString(),scope:'isolated public request and production-filter verification; not a browser UI test',checks:[]};
++const hash=value=>createHash('sha256').update(value).digest('hex');
++const sleep=ms=>new Promise(resolve=>setTimeout(resolve,ms));
++const record=(name,data)=>{const item={name,utc:new Date().toISOString(),...data};proof.checks.push(item);console.log(JSON.stringify(item));};
++function rows(body){
++  const doc=new DOMParser().parseFromString(body,'text/html');
++  if(!doc.querySelector('#scores'))throw Error('Response missing score list');
++  return [...doc.querySelectorAll('#scores > li')].map(li=>Object.fromEntries([...li.querySelectorAll('meta[itemprop]')].map(meta=>[meta.getAttribute('itemprop'),meta.getAttribute('content')])));
++}
++async function run(key){
++  const auth={Authorization:'Bearer '+key};
++  const request=async(base,path,options={})=>{
++    const r=await fetch(base+path,{...options,redirect:'error',signal:AbortSignal.timeout(20000)});
++    return {status:r.status,ok:r.ok,etag:r.headers.get('etag'),serverTime:Date.parse(r.headers.get('date')),body:await r.text()};
++  };
++  const inspect=async path=>{const r=await request(dav,path,{headers:auth});if(!r.ok)throw Error('Authoring read '+r.status);return r;};
++  const identity=await request('https://config.onpagelove.com','/console/index.html',{headers:auth});
++  if(!identity.ok||!identity.body.includes('dav-sane-guild-8399.onpagelove.com'))throw Error('Host identity failed');
++  const baseline=await inspect('/scores.html');
++  const target='/_prism-multiple-expiry-'+randomUUID()+'.html';
++  const type=origin+'/MultipleExpiry-'+randomUUID();
++  proof.target=target;
++  proof.productionBefore={sha256:hash(baseline.body),policy:scorePolicyIdentity(baseline.body)};
++  const template=baseline.body.replace(/<ul\b[^>]*id="scores"[^>]*>[\s\S]*?<\/ul>/,'<ul id="scores"></ul>')
++    .replaceAll('/scores.html',target).replaceAll(origin+'/Run',type)
++    .replaceAll('onpagelove[.]com/Run',type.replace(origin,'onpagelove[.]com'));
++  if(template.includes('/scores.html')||rows(template).length)throw Error('Unsafe fixture transformation');
++  let created=false;
++  async function publicRead(label){
++    let response;
++    for(let attempt=1;attempt<=5;attempt++){
++      response=await request(origin,target+'?cb='+Date.now(),{headers:{Range:'selector=#scores'},cache:'no-store'});
++      if(response.ok)return response;
++      record('failed-read',{label,attempt,status:response.status,body:response.body.slice(0,1500)});
++      if(attempt<5)await sleep(2000);
++    }
++    throw Error(label+' failed HTTP '+response.status+' after bounded retries');
++  }
++  try{
++    const put=await request(dav,target,{method:'PUT',headers:{...auth,'Content-Type':'text/html','If-None-Match':'*'},body:template});
++    if(!put.ok)throw Error('Fixture create '+put.status);created=true;
++    record('created',{status:put.status,target});
++    // Empty reads exercise discovery without risking any active test record.
++    for(let i=0;i<3;i++){await sleep(2000);const r=await publicRead('empty-discovery');record('empty-discovery',{status:r.status,rows:rows(r.body).length});}
++    async function seed(includeExpired){
++      const before=await inspect(target);
++      if(!before.etag||!Number.isFinite(before.serverTime))throw Error('Missing ETag or server clock');
++      const fixtures=[];
++      for(let i=0;i<7;i++){
++        const expired=includeExpired&&i%2===0;
++        const expiresAt=before.serverTime+(expired?-(i+1)*60000:432000000+i*60000);
++        fixtures.push({runKey:randomUUID(),player:(expired?'Expired ':'Active ')+i,score:100+i,level:1,mode:'campaign',day:'all',seconds:15,submittedAt:new Date(expiresAt-432000000).toISOString(),expiresAt});
++      }
++      const html=fixtures.map(row=>'<li itemscope itemtype="'+type+'">'+Object.entries(row).map(([k,v])=>'<meta itemprop="'+k+'" content="'+v+'">').join('')+'</li>').join('');
++      const seeded=await request(dav,target,{method:'PUT',headers:{...auth,'Content-Type':'text/html','If-Match':before.etag},body:template.replace('<ul id="scores"></ul>','<ul id="scores">'+html+'</ul>')});
++      if(!seeded.ok)throw Error('Fixture seed '+seeded.status);
++      const expected=rows((await inspect(target)).body);
++      if(expected.length!==7)throw Error('Seed readback mismatch');
++      return {expected,active:expected.filter(row=>row.player.startsWith('Active '))};
++    }
++    function describe(body,expected){
++      const actual=rows(body),active=actual.filter(row=>row.player.startsWith('Active '));
++      const intact=JSON.stringify(active)===JSON.stringify(expected.active);
++      return {stored:actual.map(row=>row.player),expiredRemaining:actual.filter(row=>row.player.startsWith('Expired ')).length,activeUnchanged:intact};
++    }
++    const controls=await seed(false);
++    for(let i=0;i<3;i++){
++      const r=await publicRead('active-only');
++      await sleep(1000);const state=describe((await inspect(target)).body,controls);
++      record('active-only-read',{status:r.status,...state});if(!state.activeUnchanged)throw Error('Active control changed');
++    }
++    for(const mode of ['native-get-only','game-get-plus-fallback']){
++      const expected=await seed(true);
++      record('seed-'+mode,describe((await inspect(target)).body,expected));
++      async function view(index){
++        const response=await publicRead(mode+'-'+index);
++        const readRows=rows(response.body),now=Number.isFinite(response.serverTime)?response.serverTime:Date.now();
++        let fallbackStatus=null;
++        if(mode==='game-get-plus-fallback'&&readRows.some(row=>Number(row.expiresAt)<=now)){
++          const range='selector=#scores > li:has(meta[itemprop="expiresAt"]:value-less-than("'+Math.floor(now)+'"))';
++          fallbackStatus=(await request(origin,target,{method:'DELETE',headers:{Range:range},cache:'no-store'})).status;
++        }
++        const visible=activeScores(readRows,now).map(row=>row.player);
++        record('view-'+mode,{index,status:response.status,fallbackStatus,visible,expiredVisible:visible.some(name=>name.startsWith('Expired '))});
++        // DAV polls do not invoke the GET processor; they observe completion only.
++        let state;
++        for(let poll=0;poll<5;poll++){
++          await sleep(1000);state=describe((await inspect(target)).body,expected);
++          record('storage-'+mode,{index,poll,...state});
++          if(!state.activeUnchanged)throw Error('Active control altered during cleanup');
++          if(!state.expiredRemaining)break;
++        }
++        return state;
++      }
++      let state=await view(1);
++      proof[mode]={allRemovedAfterOneAccess:state.expiredRemaining===0};
++      for(let i=2;i<=6&&state.expiredRemaining;i++)state=await view(i);
++      proof[mode].allRemovedAfterRepeatedAccess=state.expiredRemaining===0;
++      for(let i=0;i<2;i++){const repeated=await view('idempotent-'+i);if(repeated.expiredRemaining||!repeated.activeUnchanged)throw Error('Repeat cleanup failed');}
++      proof[mode].activeControlsPreserved=true;
++    }
++  }finally{
++    if(created){const del=await request(dav,target,{method:'DELETE',headers:auth});const check=await request(dav,target,{headers:auth});proof.cleanup={status:del.status,readStatus:check.status};if(check.status!==404)throw Error('Fixture cleanup failed');}
++    const after=await inspect('/scores.html');
++    proof.productionAfter={sha256:hash(after.body),policy:scorePolicyIdentity(after.body)};
++    proof.productionUnchanged=proof.productionBefore.sha256===proof.productionAfter.sha256;
++    proof.productionPolicyUnchanged=proof.productionBefore.policy===proof.productionAfter.policy;
++    record('finished',{cleanup:proof.cleanup,productionUnchanged:proof.productionUnchanged,productionPolicyUnchanged:proof.productionPolicyUnchanged});
++  }
++}
++let input='';
++if(!process.stdin.isTTY)throw Error('Use a hidden TTY for the owner credential');
++process.stdin.setRawMode(true);process.stdin.setEncoding('utf8');
++console.log('Ready for hidden JSON input.');
++process.stdin.on('data',async chunk=>{
++  input+=chunk;if(!/[\r\n]/.test(input))return;
++  process.stdin.removeAllListeners('data');
++  try{const parsed=JSON.parse(input);input='';await run(parsed.key);parsed.key='';}
++  catch(error){proof.failure=error.message;console.log(JSON.stringify({failure:error.message}));process.exitCode=1;}
++  finally{proof.finishedAt=new Date().toISOString();await fs.writeFile(output,JSON.stringify(proof,null,2)+'\n');process.exit(process.exitCode||0);}
++});
+diff --git a/audit/2026-10-15-multiple-score-expiry.md b/audit/2026-10-15-multiple-score-expiry.md
+new file mode 100644
+index 0000000..221c97a
+--- /dev/null
++++ b/audit/2026-10-15-multiple-score-expiry.md
+@@ -0,0 +1,48 @@
++# Multiple score expiry verification
++
++## ME-01 — Plan
++
++- UTC: 2026-10-15T18:33:03Z
++- Actor: Codex.
++- User request: "Can you do those steps?" referring to several expired test scores, unexpired controls, a normal leaderboard read, stored-record verification and repeat safety.
++- Plan: Clone the live score document's policies to a unique disposable resource with a unique schema type. Use owner DAV only to seed synthetic timestamps and inspect storage without triggering application cleanup. Exercise the public GET processor alone, then the same GET and browser fallback DELETE sequence used by the game. Check visible standings using the production expiry filter, inspect physical removal separately, repeat requests, and compare active controls exactly. Remove the disposable resource and verify its absence. Read production score policy identity before and after; never write the real score resource.
++- Why: Existing single-expired-row evidence does not establish bulk deletion on one leaderboard access.
++- Files: tools/multiple-score-expiry-check.mjs, sanitized audit receipt/report, current assessment and related audit evidence. Mirror only this change batch after reconciliation.
++- Boundaries: Credential only in hidden process stdin; no credentials/player payloads in files or logs. Disposable route rules never target /scores.html. Fresh-policy observations do not prove a platform-wide activation guarantee. No production policy migration or release.
++- Verification: Pending. Prior source read shows a single selector DELETE per cleanup call; live cardinality and asynchronous processor timing need measurement. Scripted request checks are not an actual browser UI pass.
++
++## ME-02 — Network retry
++
++- UTC: 2026-10-15T18:35:08.6812634Z
++- Actor: Codex; reference ME-01.
++- Attempt: The initial restricted process failed with ECONNREFUSED at the identity request before any resource was created. Saved attempt-1 receipt.
++- Next: Retry the same isolated test with network-capable execution. No change to scope, credentials handling or production-write boundary.
++
++
++## ME-03 — Isolated read returned 503
++
++- UTC: 2026-10-15T18:36:33.8761099Z
++- Actor: Codex; reference ME-01/02.
++- Result: Empty discovery and three active-only GETs succeeded, preserving all seven controls. First GET after seeding four expired and three active records returned 503. Original runner did not retain that error body. Fixture removed (204, then DAV 404); production resource and policy hashes unchanged.
++- Revision: Preserve attempt-2 receipt. Add bounded GET retries with fixture-only response diagnostics and record each failure separately. Re-run against a new isolated resource; later success will not erase the 503 observation or prove general policy readiness.
++
++
++## ME-04 — Retry coverage corrected
++
++- UTC: 2026-10-15T18:37:39.5252164Z
++- Actor: Codex; reference ME-03.
++- Result: The second network-capable run returned 503 on the first active-only read after seeding. All seven controls were unchanged. The runner's combined status/control assertion emitted the misleading label 'Active control changed'; the stored-row evidence proves no control changed. Fixture removed and production hashes unchanged.
++- Correction: Apply bounded, logged GET retry diagnostics to discovery/control reads as well as expiry reads; distinguish HTTP failure from preservation failure. Preserve attempt-3 evidence and this correction.
++
++
++## ME-05 — Verification completed; separate availability concern retained
++
++- UTC: 2026-10-15T18:42:03.3597952Z
++- Actor: Codex; references ME-01 through ME-04.
++- Live result: Final fixture run completed at 18:38:30.758Z. GET-only cleanup physically removed four expired scores by the second non-triggering DAV observation (about 2.2 seconds); GET plus fallback removed all four by the first observation (about 1.1 seconds after the successful sequence). Three interleaved active controls retained every field. Two subsequent reads per case were safe. Production activeScores filtered all expired fixtures.
++- Availability: Captured 503 responses at 18:38:14.109Z and 18:38:23.797Z reported memory-budget exhaustion (33,553,172 allocated/consumed bytes). Retries succeeded; root cause remains unestablished. Earlier failures and the misleading runner assertion are preserved and corrected above.
++- Preservation: Each network-capable attempt removed its disposable resource and verified DAV 404. Full production score document and policy identities matched before/after each run. All credential-bearing processes exited.
++- Browser: A new temporary live-game tab opened the normal Leaderboard control and refreshed Adventure successfully: 25 rows, completed status and five-day notice, no captured warnings/errors. Synthetic deletion was tested separately through request/storage checks, not by inserting fixtures in the production UI. Temporary tab closed.
++- Changed: Added reusable isolated runner, sanitized receipts and SCORE-EXPIRY-VERIFICATION.md; updated PLATFORM-REQUIREMENTS.md and REMAINING-WORK-IMPLEMENTATION.md to close bulk-cleanup verification and retain memory-budget investigation as open.
++- Verification: Repository check passed (31 documents, 243 local links, 339 scanned files before final artifacts; secret scan limited to high-confidence patterns). Tracked diff whitespace check passed. No production runtime or policy changed, so no build/deployment is required. Evidence patch and SHA-256 manifest accompany this audit. Mirror preflight matched the preceding decision's recorded hashes.
++- Status: Completed locally; changes remain uncommitted and unpushed. No support message sent.
+diff --git a/audit/2026-10-15-multiple-score-expiry.json b/audit/2026-10-15-multiple-score-expiry.json
+new file mode 100644
+index 0000000..05ae06b
+--- /dev/null
++++ b/audit/2026-10-15-multiple-score-expiry.json
+@@ -0,0 +1,332 @@
++{
++  "startedAt": "2026-10-15T18:37:44.892Z",
++  "scope": "isolated public request and production-filter verification; not a browser UI test",
++  "checks": [
++    {
++      "name": "created",
++      "utc": "2026-10-15T18:38:03.576Z",
++      "status": 201,
++      "target": "/_prism-multiple-expiry-39e91b0d-15c7-411f-86cb-e70b48f167f6.html"
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:38:06.236Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:38:08.368Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:38:10.838Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:38:12.647Z",
++      "status": 206,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:38:13.945Z",
++      "status": 206,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "failed-read",
++      "utc": "2026-10-15T18:38:14.109Z",
++      "label": "active-only",
++      "attempt": 1,
++      "status": 503,
++      "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33553172</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33553172</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:38:17.286Z",
++      "status": 206,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "seed-native-get-only",
++      "utc": "2026-10-15T18:38:17.786Z",
++      "stored": [
++        "Expired 0",
++        "Active 1",
++        "Expired 2",
++        "Active 3",
++        "Expired 4",
++        "Active 5",
++        "Expired 6"
++      ],
++      "expiredRemaining": 4,
++      "activeUnchanged": true
++    },
++    {
++      "name": "view-native-get-only",
++      "utc": "2026-10-15T18:38:18.104Z",
++      "index": 1,
++      "status": 206,
++      "fallbackStatus": null,
++      "visible": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredVisible": false
++    },
++    {
++      "name": "storage-native-get-only",
++      "utc": "2026-10-15T18:38:19.182Z",
++      "index": 1,
++      "poll": 0,
++      "stored": [
++        "Active 1",
++        "Expired 2",
++        "Active 3",
++        "Expired 4",
++        "Active 5",
++        "Expired 6"
++      ],
++      "expiredRemaining": 3,
++      "activeUnchanged": true
++    },
++    {
++      "name": "storage-native-get-only",
++      "utc": "2026-10-15T18:38:20.298Z",
++      "index": 1,
++      "poll": 1,
++      "stored": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "view-native-get-only",
++      "utc": "2026-10-15T18:38:20.704Z",
++      "index": "idempotent-0",
++      "status": 206,
++      "fallbackStatus": null,
++      "visible": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredVisible": false
++    },
++    {
++      "name": "storage-native-get-only",
++      "utc": "2026-10-15T18:38:21.797Z",
++      "index": "idempotent-0",
++      "poll": 0,
++      "stored": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "view-native-get-only",
++      "utc": "2026-10-15T18:38:21.940Z",
++      "index": "idempotent-1",
++      "status": 206,
++      "fallbackStatus": null,
++      "visible": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredVisible": false
++    },
++    {
++      "name": "storage-native-get-only",
++      "utc": "2026-10-15T18:38:23.014Z",
++      "index": "idempotent-1",
++      "poll": 0,
++      "stored": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "seed-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:23.513Z",
++      "stored": [
++        "Expired 0",
++        "Active 1",
++        "Expired 2",
++        "Active 3",
++        "Expired 4",
++        "Active 5",
++        "Expired 6"
++      ],
++      "expiredRemaining": 4,
++      "activeUnchanged": true
++    },
++    {
++      "name": "failed-read",
++      "utc": "2026-10-15T18:38:23.797Z",
++      "label": "game-get-plus-fallback-1",
++      "attempt": 1,
++      "status": 503,
++      "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33553172</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33553172</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
++    },
++    {
++      "name": "view-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:26.679Z",
++      "index": 1,
++      "status": 206,
++      "fallbackStatus": 204,
++      "visible": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredVisible": false
++    },
++    {
++      "name": "storage-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:27.746Z",
++      "index": 1,
++      "poll": 0,
++      "stored": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "view-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:28.143Z",
++      "index": "idempotent-0",
++      "status": 206,
++      "fallbackStatus": null,
++      "visible": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredVisible": false
++    },
++    {
++      "name": "storage-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:29.222Z",
++      "index": "idempotent-0",
++      "poll": 0,
++      "stored": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "view-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:29.375Z",
++      "index": "idempotent-1",
++      "status": 206,
++      "fallbackStatus": null,
++      "visible": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredVisible": false
++    },
++    {
++      "name": "storage-game-get-plus-fallback",
++      "utc": "2026-10-15T18:38:30.442Z",
++      "index": "idempotent-1",
++      "poll": 0,
++      "stored": [
++        "Active 1",
++        "Active 3",
++        "Active 5"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "finished",
++      "utc": "2026-10-15T18:38:30.758Z",
++      "cleanup": {
++        "status": 204,
++        "readStatus": 404
++      },
++      "productionUnchanged": true,
++      "productionPolicyUnchanged": true
++    }
++  ],
++  "target": "/_prism-multiple-expiry-39e91b0d-15c7-411f-86cb-e70b48f167f6.html",
++  "productionBefore": {
++    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
++    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
++  },
++  "native-get-only": {
++    "allRemovedAfterOneAccess": true,
++    "allRemovedAfterRepeatedAccess": true,
++    "activeControlsPreserved": true
++  },
++  "game-get-plus-fallback": {
++    "allRemovedAfterOneAccess": true,
++    "allRemovedAfterRepeatedAccess": true,
++    "activeControlsPreserved": true
++  },
++  "cleanup": {
++    "status": 204,
++    "readStatus": 404
++  },
++  "productionAfter": {
++    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
++    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
++  },
++  "productionUnchanged": true,
++  "productionPolicyUnchanged": true,
++  "finishedAt": "2026-10-15T18:38:30.758Z"
++}
+diff --git a/audit/2026-10-15-multiple-score-expiry-attempt-1.json b/audit/2026-10-15-multiple-score-expiry-attempt-1.json
+new file mode 100644
+index 0000000..be96677
+--- /dev/null
++++ b/audit/2026-10-15-multiple-score-expiry-attempt-1.json
+@@ -0,0 +1,7 @@
++{
++  "startedAt": "2026-10-15T18:34:39.428Z",
++  "scope": "isolated public request and production-filter verification; not a browser UI test",
++  "checks": [],
++  "failure": "ECONNREFUSED: Unable to connect. Is the computer able to access the url?",
++  "finishedAt": "2026-10-15T18:34:53.820Z"
++}
+diff --git a/audit/2026-10-15-multiple-score-expiry-attempt-2.json b/audit/2026-10-15-multiple-score-expiry-attempt-2.json
+new file mode 100644
+index 0000000..b4493eb
+--- /dev/null
++++ b/audit/2026-10-15-multiple-score-expiry-attempt-2.json
+@@ -0,0 +1,120 @@
++{
++  "startedAt": "2026-10-15T18:35:15.763Z",
++  "scope": "isolated public request and production-filter verification; not a browser UI test",
++  "checks": [
++    {
++      "name": "created",
++      "utc": "2026-10-15T18:35:39.187Z",
++      "status": 201,
++      "target": "/_prism-multiple-expiry-e0ec2ed7-c2da-4373-9349-80fcfa49244a.html"
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:35:42.100Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:35:44.228Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:35:46.619Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:35:48.424Z",
++      "status": 206,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:35:49.639Z",
++      "status": 206,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:35:50.879Z",
++      "status": 206,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "seed-native-get-only",
++      "utc": "2026-10-15T18:35:51.434Z",
++      "stored": [
++        "Expired 0",
++        "Active 1",
++        "Expired 2",
++        "Active 3",
++        "Expired 4",
++        "Active 5",
++        "Expired 6"
++      ],
++      "expiredRemaining": 4,
++      "activeUnchanged": true
++    },
++    {
++      "name": "finished",
++      "utc": "2026-10-15T18:35:52.003Z",
++      "cleanup": {
++        "status": 204,
++        "readStatus": 404
++      },
++      "productionUnchanged": true,
++      "productionPolicyUnchanged": true
++    }
++  ],
++  "target": "/_prism-multiple-expiry-e0ec2ed7-c2da-4373-9349-80fcfa49244a.html",
++  "productionBefore": {
++    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
++    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
++  },
++  "cleanup": {
++    "status": 204,
++    "readStatus": 404
++  },
++  "productionAfter": {
++    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
++    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
++  },
++  "productionUnchanged": true,
++  "productionPolicyUnchanged": true,
++  "failure": "View failed 503",
++  "finishedAt": "2026-10-15T18:35:52.003Z"
++}
+diff --git a/audit/2026-10-15-multiple-score-expiry-attempt-3.json b/audit/2026-10-15-multiple-score-expiry-attempt-3.json
+new file mode 100644
+index 0000000..4d867b3
+--- /dev/null
++++ b/audit/2026-10-15-multiple-score-expiry-attempt-3.json
+@@ -0,0 +1,73 @@
++{
++  "startedAt": "2026-10-15T18:36:37.188Z",
++  "scope": "isolated public request and production-filter verification; not a browser UI test",
++  "checks": [
++    {
++      "name": "created",
++      "utc": "2026-10-15T18:36:57.872Z",
++      "status": 201,
++      "target": "/_prism-multiple-expiry-83eb2aaf-2bd3-4a17-9622-196e10cd3f86.html"
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:37:00.634Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:37:02.785Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "empty-discovery",
++      "utc": "2026-10-15T18:37:04.887Z",
++      "status": 206,
++      "rows": 0
++    },
++    {
++      "name": "active-only-read",
++      "utc": "2026-10-15T18:37:06.774Z",
++      "status": 503,
++      "stored": [
++        "Active 0",
++        "Active 1",
++        "Active 2",
++        "Active 3",
++        "Active 4",
++        "Active 5",
++        "Active 6"
++      ],
++      "expiredRemaining": 0,
++      "activeUnchanged": true
++    },
++    {
++      "name": "finished",
++      "utc": "2026-10-15T18:37:07.135Z",
++      "cleanup": {
++        "status": 204,
++        "readStatus": 404
++      },
++      "productionUnchanged": true,
++      "productionPolicyUnchanged": true
++    }
++  ],
++  "target": "/_prism-multiple-expiry-83eb2aaf-2bd3-4a17-9622-196e10cd3f86.html",
++  "productionBefore": {
++    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
++    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
++  },
++  "cleanup": {
++    "status": 204,
++    "readStatus": 404
++  },
++  "productionAfter": {
++    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
++    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
++  },
++  "productionUnchanged": true,
++  "productionPolicyUnchanged": true,
++  "failure": "Active control changed",
++  "finishedAt": "2026-10-15T18:37:07.135Z"
++}

@@ -1,0 +1,219 @@
+{
+  "utc": "2026-10-15T19:54:07.552Z",
+  "sources": [
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/api/Element.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "api.Element.requestFullscreen",
+          "firefox": [
+            {
+              "version_added": "64"
+            },
+            {
+              "alternative_name": "mozRequestFullScreen",
+              "version_added": "9",
+              "notes": "Before Firefox 44, Firefox incorrectly allowed elements inside a `<frame>` or `<object>` element to request, and to be granted, fullscreen. In Firefox 44 and onwards this has been fixed: only elements in the top-level document or in an `<iframe>` element with the `allowfullscreen` attribute can be displayed fullscreen."
+            }
+          ],
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/API/Element/requestFullscreen"
+        },
+        {
+          "feature": "api.Element.requestFullscreen.options_parameter",
+          "firefox": {
+            "version_added": "151"
+          },
+          "firefox_android": "mirror"
+        },
+        {
+          "feature": "api.Element.requestFullscreen.options_parameter.keyboardLock_option",
+          "firefox": {
+            "version_added": "151"
+          },
+          "firefox_android": "mirror"
+        },
+        {
+          "feature": "api.Element.requestFullscreen.options_parameter.navigationUI_option",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror"
+        },
+        {
+          "feature": "api.Element.requestFullscreen.options_parameter.screen_option",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror"
+        },
+        {
+          "feature": "api.Element.requestFullscreen.returns_promise",
+          "firefox": {
+            "version_added": "64"
+          },
+          "firefox_android": "mirror"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/api/Window.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "api.Window.appinstalled_event",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/API/Window/appinstalled_event"
+        },
+        {
+          "feature": "api.Window.beforeinstallprompt_event",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/API/Window/beforeinstallprompt_event"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/api/ServiceWorkerContainer.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "api.ServiceWorkerContainer",
+          "firefox": {
+            "version_added": "44"
+          },
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/API/ServiceWorkerContainer"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/api/CacheStorage.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "api.CacheStorage",
+          "firefox": {
+            "version_added": "41"
+          },
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/API/CacheStorage"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/api/WebGL2RenderingContext.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "api.WebGL2RenderingContext",
+          "firefox": {
+            "version_added": "51"
+          },
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/API/WebGL2RenderingContext"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/manifests/webapp/display.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "manifests.webapp.display",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": {
+            "version_added": "47"
+          },
+          "mdn_url": "https://developer.mozilla.org/docs/Web/Progressive_web_apps/Manifest/Reference/display"
+        },
+        {
+          "feature": "manifests.webapp.display.browser",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": {
+            "version_added": "47"
+          }
+        },
+        {
+          "feature": "manifests.webapp.display.fullscreen",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": {
+            "version_added": "47"
+          }
+        },
+        {
+          "feature": "manifests.webapp.display.minimal-ui",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": {
+            "version_added": "47"
+          }
+        },
+        {
+          "feature": "manifests.webapp.display.standalone",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": {
+            "version_added": "47"
+          }
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/manifests/webapp/display_override.json",
+      "status": 200,
+      "rows": [
+        {
+          "feature": "manifests.webapp.display_override",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror",
+          "mdn_url": "https://developer.mozilla.org/docs/Web/Progressive_web_apps/Manifest/Reference/display_override"
+        },
+        {
+          "feature": "manifests.webapp.display_override.tabbed",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror"
+        },
+        {
+          "feature": "manifests.webapp.display_override.window-controls-overlay",
+          "firefox": {
+            "version_added": false
+          },
+          "firefox_android": "mirror"
+        }
+      ]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/css/properties/height.json",
+      "status": 200,
+      "rows": []
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/css/properties/--custom-property.json",
+      "status": 404
+    },
+    {
+      "url": "https://raw.githubusercontent.com/mdn/browser-compat-data/main/html/elements/meta.json",
+      "status": 200,
+      "rows": []
+    }
+  ]
+}

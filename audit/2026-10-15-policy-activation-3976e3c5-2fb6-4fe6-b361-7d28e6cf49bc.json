@@ -1,0 +1,1942 @@
+{
+  "startedAt": "2026-10-15T19:09:01.158Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "target": "/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html",
+  "policy": "/_prism-activation-policy-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html",
+  "publicMutations": "Synthetic POSTs to the disposable #records list only",
+  "events": [
+    {
+      "name": "before-grant",
+      "utc": "2026-10-15T19:09:21.074Z",
+      "post": {
+        "status": 401,
+        "elapsedMs": 261,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:17 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "storedRows": []
+    },
+    {
+      "name": "published",
+      "utc": "2026-10-15T19:09:21.327Z",
+      "revision": "A",
+      "status": 201,
+      "committedAt": "2026-10-15T19:09:21.206Z",
+      "etagAfter": "\"38a5cc4304dcba61c4c074cbbd4bc93f94e0fc171a043c6438fae6134f3b7d58\"",
+      "grant": true,
+      "sourceSha256": "f440782f40ec1732cabe0bda4aac2194258e74f268f710e645a466d575587d21",
+      "storedSha256": "38a5cc4304dcba61c4c074cbbd4bc93f94e0fc171a043c6438fae6134f3b7d58",
+      "sourceVerified": true,
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><div itemscope itemtype=\"https://pagelove.org/AuthorizationRule\"><meta itemprop=\"actor\" content=\"*\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"POST\"><meta itemprop=\"selector\" content=\"#records\"><meta itemprop=\"action\" content=\"Allow\"></div><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">@schema HTTPResponse url(\"https://pagelove.org/HTTPResponse\"); throw new HTTPResponse {status: 418, body: \"activation-revision-A\"}</script></div></div><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"POST\"><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">@schema Context url(\"https://pagelove.org/Context\"); @schema HTTPResponse url(\"https://pagelove.org/HTTPResponse\"); if (!Context.request.body.matches(\"^<li>A</li>$\")) {throw new HTTPResponse {status: 422, body: \"activation-reject-A\"}}</script></div></div></body></html>"
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:09:22.897Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 0,
+      "elapsedMs": 1691,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 206,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:18 GMT",
+          "etag": "\"e631e85856ef982c1383c45bf0beb74a03653fb5f9616f3fd24461355a98a99f\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 124,
+        "headers": {
+          "allow": "POST, HEAD, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:09:18 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 268,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:18 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 206,
+        "elapsedMs": 639,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:19 GMT",
+          "etag": "\"45f37125136d7d54b71f477d3ea727f343206d51e46c1057a8a16d0071b601d5-45f37125136d7d54b71f477d3ea727f343206d51e46c1057a8a16d0071b601d5-2\""
+        },
+        "marker": null,
+        "body": "<li>B</li>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 208,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:19 GMT",
+          "etag": "\"a83766beffb245a0a9d0b39f4008e1787689008704ea8675f338dc35fe85db70\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 0,
+      "rowsAfter": 1,
+      "added": [
+        "B"
+      ],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:09:24.730Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 1,
+      "elapsedMs": 3524,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 109,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:19 GMT",
+          "etag": "\"a83766beffb245a0a9d0b39f4008e1787689008704ea8675f338dc35fe85db70\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 69,
+        "headers": {
+          "allow": "GET, HEAD, POST, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:09:19 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 206,
+        "elapsedMs": 612,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:20 GMT",
+          "etag": "\"568dbf41d99d91de421ba5129752c58d566bc6597ae77993efb347a6dce2d6ec-568dbf41d99d91de421ba5129752c58d566bc6597ae77993efb347a6dce2d6ec-3\""
+        },
+        "marker": null,
+        "body": "<li>A</li>"
+      },
+      "postB": {
+        "status": 206,
+        "elapsedMs": 784,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:21 GMT",
+          "etag": "\"45f37125136d7d54b71f477d3ea727f343206d51e46c1057a8a16d0071b601d5-45f37125136d7d54b71f477d3ea727f343206d51e46c1057a8a16d0071b601d5-4\""
+        },
+        "marker": null,
+        "body": "<li>B</li>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 135,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:21 GMT",
+          "etag": "\"4c257d6b427cb11c9a57433a00075850b7f5a4d381f8627efd45a4dff5a51c4d\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 1,
+      "rowsAfter": 3,
+      "added": [
+        "A",
+        "B"
+      ],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:09:26.026Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 3,
+      "elapsedMs": 4820,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 138,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:21 GMT",
+          "etag": "\"4c257d6b427cb11c9a57433a00075850b7f5a4d381f8627efd45a4dff5a51c4d\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 71,
+        "headers": {
+          "allow": "POST, GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:09:21 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 95,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:21 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 206,
+        "elapsedMs": 609,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:22 GMT",
+          "etag": "\"45f37125136d7d54b71f477d3ea727f343206d51e46c1057a8a16d0071b601d5-45f37125136d7d54b71f477d3ea727f343206d51e46c1057a8a16d0071b601d5-5\""
+        },
+        "marker": null,
+        "body": "<li>B</li>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 248,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:22 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 3,
+      "rowsAfter": 4,
+      "added": [
+        "B"
+      ],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:09:30.163Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 8,
+      "elapsedMs": 8957,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 211,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:26 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 118,
+        "headers": {
+          "allow": "POST, GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:09:26 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 277,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:26 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 102,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:26 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 121,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:26 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:09:41.808Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 20,
+      "elapsedMs": 20602,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 133,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:38 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 91,
+        "headers": {
+          "allow": "POST, HEAD, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:09:38 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 72,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:38 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 75,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:38 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 102,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:38 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:02.067Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 40,
+      "elapsedMs": 40861,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 169,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:58 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 85,
+        "headers": {
+          "allow": "POST, GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:09:58 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 261,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:58 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 100,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:09:58 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 115,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:09:58 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:27.109Z",
+      "phase": "initial-A",
+      "scheduledOffsetSeconds": 65,
+      "elapsedMs": 65903,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 138,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:23 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 84,
+        "headers": {
+          "allow": "HEAD, POST, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:10:23 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 135,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:23 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 308,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:23 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 92,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:23 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "published",
+      "utc": "2026-10-15T19:10:27.465Z",
+      "revision": "B",
+      "status": 200,
+      "committedAt": "2026-10-15T19:10:27.400Z",
+      "etagBefore": "\"38a5cc4304dcba61c4c074cbbd4bc93f94e0fc171a043c6438fae6134f3b7d58\"",
+      "etagAfter": "\"9c2cf13f702d43fcd627e2b66fca4e733ce4ca749fcb1b1a86aa965268392835\"",
+      "grant": true,
+      "sourceSha256": "30ad37a4287c20d0a6a4dbeba961a53066e4d3fd6e2181cb6bc6f57be72ae259",
+      "storedSha256": "9c2cf13f702d43fcd627e2b66fca4e733ce4ca749fcb1b1a86aa965268392835",
+      "sourceVerified": true,
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><div itemscope itemtype=\"https://pagelove.org/AuthorizationRule\"><meta itemprop=\"actor\" content=\"*\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"POST\"><meta itemprop=\"selector\" content=\"#records\"><meta itemprop=\"action\" content=\"Allow\"></div><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">@schema HTTPResponse url(\"https://pagelove.org/HTTPResponse\"); throw new HTTPResponse {status: 418, body: \"activation-revision-B\"}</script></div></div><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"POST\"><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">@schema Context url(\"https://pagelove.org/Context\"); @schema HTTPResponse url(\"https://pagelove.org/HTTPResponse\"); if (!Context.request.body.matches(\"^<li>B</li>$\")) {throw new HTTPResponse {status: 422, body: \"activation-reject-B\"}}</script></div></div></body></html>"
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:28.106Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 0,
+      "elapsedMs": 706,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 136,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:24 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 92,
+        "headers": {
+          "allow": "POST, HEAD, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:10:24 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 101,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:24 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 86,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:24 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 107,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:24 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:28.922Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 1,
+      "elapsedMs": 1522,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 116,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:25 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 61,
+        "headers": {
+          "allow": "POST, GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:10:25 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 92,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:25 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 64,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:25 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 72,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:25 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:31.272Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 3,
+      "elapsedMs": 3872,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 125,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:27 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 80,
+        "headers": {
+          "allow": "GET, HEAD, POST, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:10:27 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 89,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:27 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 90,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:27 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 82,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:27 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:35.992Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 8,
+      "elapsedMs": 8592,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 110,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:32 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 83,
+        "headers": {
+          "allow": "GET, HEAD, POST, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:10:32 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 107,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:32 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 75,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:32 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 102,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:32 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:10:47.985Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 20,
+      "elapsedMs": 20585,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 98,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:44 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 87,
+        "headers": {
+          "allow": "GET, HEAD, POST, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:10:44 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 101,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:44 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 83,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:10:44 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 96,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:10:44 GMT"
+        },
+        "marker": "activation-revision-A",
+        "body": "activation-revision-A"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:11:08.369Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 40,
+      "elapsedMs": 40969,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 285,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:04 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 89,
+        "headers": {
+          "allow": "HEAD, GET, POST, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:11:04 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 252,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:04 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 114,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:04 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 103,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:04 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:11:33.414Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 65,
+      "elapsedMs": 66014,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 186,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:29 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 88,
+        "headers": {
+          "allow": "POST, GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:11:29 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 294,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:29 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 155,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:29 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 103,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:30 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:11:58.048Z",
+      "phase": "updated-B",
+      "scheduledOffsetSeconds": 90,
+      "elapsedMs": 90648,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 124,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:54 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 87,
+        "headers": {
+          "allow": "HEAD, POST, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:11:54 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 403,
+        "elapsedMs": 100,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:54 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 403,
+        "elapsedMs": 107,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:54 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>403 Forbidden</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>403 Forbidden</h1>\n    <p itemprop=\"message\">You do not have permission to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 75,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:54 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "published",
+      "utc": "2026-10-15T19:11:58.323Z",
+      "revision": "C",
+      "status": 200,
+      "committedAt": "2026-10-15T19:11:58.258Z",
+      "etagBefore": "\"9c2cf13f702d43fcd627e2b66fca4e733ce4ca749fcb1b1a86aa965268392835\"",
+      "etagAfter": "\"3239bb13ef4a5c1721af4ecf72b5bfa809bbc86c2ffe4c255bf28377373a146b\"",
+      "grant": false,
+      "sourceSha256": "e69dfd3ca5926992877cc2600855f588749bd73c8994e635d8304459fb01e02e",
+      "storedSha256": "3239bb13ef4a5c1721af4ecf72b5bfa809bbc86c2ffe4c255bf28377373a146b",
+      "sourceVerified": true,
+      "source": "<!doctype html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"GET\"><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">@schema HTTPResponse url(\"https://pagelove.org/HTTPResponse\"); throw new HTTPResponse {status: 418, body: \"activation-revision-C\"}</script></div></div><div itemscope itemtype=\"https://pagelove.org/Trigger\"><meta itemprop=\"resource\" content=\"/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html\"><meta itemprop=\"method\" content=\"POST\"><div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"><script itemprop=\"source\" type=\"text/sessel\">@schema Context url(\"https://pagelove.org/Context\"); @schema HTTPResponse url(\"https://pagelove.org/HTTPResponse\"); if (!Context.request.body.matches(\"^<li>B</li>$\")) {throw new HTTPResponse {status: 422, body: \"activation-reject-C\"}}</script></div></div></body></html>"
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:11:58.897Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 0,
+      "elapsedMs": 639,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 113,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:55 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 83,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:11:55 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 70,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:55 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 83,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:55 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 105,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:55 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:11:59.857Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 1,
+      "elapsedMs": 1599,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 117,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:56 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 103,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:11:56 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 103,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:56 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 71,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:56 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 91,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:56 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:12:01.936Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 3,
+      "elapsedMs": 3678,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 165,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:58 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 81,
+        "headers": {
+          "allow": "HEAD, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:11:58 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 135,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:58 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 108,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:11:58 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 73,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:11:58 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:12:06.819Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 8,
+      "elapsedMs": 8561,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 126,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:12:03 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 71,
+        "headers": {
+          "allow": "HEAD, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:12:03 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 97,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:12:03 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 71,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:12:03 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 73,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:12:03 GMT"
+        },
+        "marker": "activation-revision-B",
+        "body": "activation-revision-B"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:12:19.201Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 20,
+      "elapsedMs": 20943,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 313,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:12:15 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 63,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:12:15 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 103,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:12:15 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 87,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:12:15 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 254,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:12:15 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:12:39.011Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 40,
+      "elapsedMs": 40753,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 153,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:12:35 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 113,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:12:35 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 102,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:12:35 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 99,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:12:35 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 130,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:12:35 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:03.855Z",
+      "phase": "revoked-C",
+      "scheduledOffsetSeconds": 65,
+      "elapsedMs": 65597,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 104,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:00 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 84,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:00 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 84,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:00 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 80,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:00 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 83,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:00 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "policy-deleted",
+      "utc": "2026-10-15T19:13:04.120Z",
+      "status": 204,
+      "readStatus": 404,
+      "deletedAt": "2026-10-15T19:13:04.069Z"
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:04.783Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 0,
+      "elapsedMs": 714,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 224,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 78,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 95,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 60,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 81,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:05.592Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 1,
+      "elapsedMs": 1523,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 130,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 63,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:01 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 66,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:02 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 83,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:02 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 75,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:02 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:07.687Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 3,
+      "elapsedMs": 3618,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 97,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:03 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 75,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:03 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 116,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:04 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 115,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:04 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 93,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:04 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:12.737Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 8,
+      "elapsedMs": 8668,
+      "get1": {
+        "status": 418,
+        "elapsedMs": 195,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:08 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 79,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:09 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 77,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:09 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 63,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:09 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 418,
+        "elapsedMs": 127,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:09 GMT"
+        },
+        "marker": "activation-revision-C",
+        "body": "activation-revision-C"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:25.210Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 20,
+      "elapsedMs": 21141,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 302,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:21 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 216,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:21 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 90,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:21 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 94,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:21 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 112,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:21 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:13:45.143Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 40,
+      "elapsedMs": 41074,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 183,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:40 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 82,
+        "headers": {
+          "allow": "HEAD, GET, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:13:41 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 147,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:41 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 135,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:13:41 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 310,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:13:41 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "sample",
+      "utc": "2026-10-15T19:14:09.711Z",
+      "phase": "deleted",
+      "scheduledOffsetSeconds": 65,
+      "elapsedMs": 65642,
+      "get1": {
+        "status": 200,
+        "elapsedMs": 142,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:14:05 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "options": {
+        "status": 200,
+        "elapsedMs": 77,
+        "headers": {
+          "allow": "GET, HEAD, OPTIONS",
+          "date": "Thu, 15 Oct 2026 19:14:05 GMT"
+        },
+        "marker": null,
+        "body": ""
+      },
+      "postA": {
+        "status": 401,
+        "elapsedMs": 78,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:14:06 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "postB": {
+        "status": 401,
+        "elapsedMs": 114,
+        "headers": {
+          "content-type": "text/html; charset=utf-8",
+          "date": "Thu, 15 Oct 2026 19:14:06 GMT"
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <title>401 Unauthorized</title>\n</head>\n<body itemscope itemtype=\"https://pagelove.org/1.0/Error\">\n    <h1>401 Unauthorized</h1>\n    <p itemprop=\"message\">Authentication required to access this resource.</p>\n    <dl>\n        <dt>Resource</dt>\n        <dd itemprop=\"resource\">/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html</dd>\n    </dl>\n</body>\n</html>"
+      },
+      "get2": {
+        "status": 200,
+        "elapsedMs": 102,
+        "headers": {
+          "content-type": "text/html",
+          "date": "Thu, 15 Oct 2026 19:14:06 GMT",
+          "etag": "\"38a6e76406bc715e03ba4dbc193d795b9bf0a853c3bfab9e1bafb778c28505bd\""
+        },
+        "marker": null,
+        "body": "<!DOCTYPE html><html><head><meta name=\"robots\" content=\"noindex\"><title>Disposable activation probe</title></head><body><p>activation-base-document</p><ul id=\"records\"><li>B</li><li>A</li><li>B</li><li>B</li></ul>\n                <div style=\"\n                            position: fixed;\n                            bottom: 0;\n                            left: 0;\n                            right: 0;\n                            padding: 8px;\n                            background: #f0f0f0;\n                            text-align: center;\n                            font-size: 12px;\n                            color: #666;\n                            z-index: 9999;\n                            opacity: 0.8;\n                            border-top: 1px solid #ddd;\n                        \">\n                    Powered by\n                    <a href=\"https://pagelove.com/\" style=\"color: #4a90d9; text-decoration: none\">Pagelove</a>\n                </div>\n            </body></html>"
+      },
+      "rowsBefore": 4,
+      "rowsAfter": 4,
+      "added": [],
+      "priorRowsPreserved": true
+    },
+    {
+      "name": "finished",
+      "utc": "2026-10-15T19:14:10.038Z",
+      "cleanup": [
+        {
+          "path": "/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html",
+          "status": 204,
+          "readStatus": 404
+        }
+      ],
+      "productionUnchanged": false,
+      "productionPolicyUnchanged": true
+    }
+  ],
+  "cleanup": [
+    {
+      "path": "/_prism-activation-data-3976e3c5-2fb6-4fe6-b361-7d28e6cf49bc.html",
+      "status": 204,
+      "readStatus": 404
+    }
+  ],
+  "productionBefore": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "references": [
+    {
+      "url": "https://docs.pagelove.com/all/reference/permissions/",
+      "provenance": "Fresh direct HTTPS read performed immediately before this run",
+      "sha256": "2065685a2dff8f6efca29921f0010759f5a42cbddfe2e17601a90a1f532fec9e",
+      "excerpts": [
+        {
+          "term": "OPTIONS method",
+          "text": "tml> See also Group-based permissions — grant permissions to a group with the built-in Group schema OPTIONS method — query allowed methods for a resource JavaScript primitives — discover allowed methods via the client library Groups Groups A group is a named set of principals. Name a group in an AuthorizationRule actor, and the rule applies to every member — so you grant a permission once and manage who holds it in one place. Membership can come from a Group document you store on the host, the identity provider's roles, or the built-in groups. However it arises, it resolves to the group name used in actor, so a rule need not know where the membership came from. The Group document The platform-native group is an HTML Microdata item of type h"
+        }
+      ]
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/reacting-to-changes/",
+      "provenance": "Fresh direct HTTPS read performed immediately before this run",
+      "sha256": "0763c337d87e7a474e9631a029e4e671c629dbea0f058ff242ba61cb6439d6c5",
+      "excerpts": [
+        {
+          "term": "60 seconds",
+          "text": "ery next write validates against the new rules. Rules edited over WebDAV instead take effect within 60 seconds. A stored rule missing its selector or property is ignored; a malformed rule never blocks writes. WebDAV bypasses constraints WebDAV authoring writes are never transition-validated. The authoring tier edits documents raw, by design — it is how humans edit content directly, and the escape hatch for repairing data that a state machine has wedged. See the repair path. See also Transition handlers — notify an endpoint when a permitted change commits Declaring a state machine — the worked end-to-end example Property — declaring a @key primary key Triggers — run actions before a request is processed Transition handlers Transition handler"
+        },
+        {
+          "term": "cache",
+          "text": "s: 200, body: \"Hello\", header: new Pair { key: \"X-Custom\", value: \"one\" }, header: new Pair { key: \"Cache-Control\", value: \"no-cache\" } } Writing from triggers Trigger Sessel actions can write to the database using the Pagelove.PUT() and Pagelove.DELETE() methods. Import the Pagelove schema first: This is a Sessel-only capability. JavaScript actions do not have access to Pagelove.PUT()/Pagelove.DELETE() — they run the same evaluation path used for when gates, without a write provider. A JavaScript action that needs to write should queue an outbound HTTP request back to the host instead. <div itemprop=\"action\" itemscope itemtype=\"https://pagelove.org/Sessel\"> <script itemprop=\"source\" type=\"text/sessel\"> @schema Pagelove url(\"https://pagelov"
+        }
+      ]
+    },
+    {
+      "url": "https://docs.pagelove.com/all/reference/protocol/",
+      "provenance": "Fresh direct HTTPS read performed immediately before this run",
+      "sha256": "b46d9388ae6eb9807d10eb7f19987572274f76d624de1f8adac07e33b5368274",
+      "excerpts": [
+        {
+          "term": "OPTIONS method",
+          "text": "details — capability discovery via OPTIONS and file-level authoring via WebDAV. Pages in this group OPTIONS method — discover which HTTP methods are allowed on a resource or element WebDAV — file-level authoring interface for content management tools Accept-Ranges — the range units Pagelove advertises, and a known CDN header-rewrite caveat See also Reading and writing — GET, PUT, POST, and DELETE at the fragment level Primitives (JavaScript) — the client library that uses OPTIONS for capability discovery Permissions — authorization rules that control which methods are allowed OPTIONS OPTIONS method The HTTP OPTIONS method discovers which methods are allowed on a resource or a specific element within a resource. It is the capability-discover"
+        },
+        {
+          "term": "cache",
+          "text": "on the expression — it travels in the request body instead of a header. It is safe, idempotent, and cacheable, following the IETF draft draft-ietf-httpbis-safe-method-w-body. QUERY accepts two request content types, which select entirely different behavior: text/css-selector — a CSS selector, returning every matching element as a multipart/mixed response. Served by the WebDAV authoring server, and (for a single document) by the edge proxy. text/sessel — a Sessel expression, evaluated against a document. Served by the edge proxy. Servers advertise the content types a resource accepts on OPTIONS responses via the Accept-Query header. Sending the wrong body type gets 415 Unsupported Media Type with Accept-Query naming what's accepted. When to "
+        }
+      ]
+    }
+  ],
+  "productionAfter": {
+    "sha256": "43161ceaa5bb31ba95c7995384f2ed7743f736ae1071ff111277d6205f27a76a",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "productionUnchanged": false,
+  "productionPolicyUnchanged": true,
+  "finishedAt": "2026-10-15T19:14:10.038Z"
+}

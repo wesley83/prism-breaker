@@ -1,0 +1,332 @@
+{
+  "startedAt": "2026-10-15T18:37:44.892Z",
+  "scope": "isolated public request and production-filter verification; not a browser UI test",
+  "checks": [
+    {
+      "name": "created",
+      "utc": "2026-10-15T18:38:03.576Z",
+      "status": 201,
+      "target": "/_prism-multiple-expiry-39e91b0d-15c7-411f-86cb-e70b48f167f6.html"
+    },
+    {
+      "name": "empty-discovery",
+      "utc": "2026-10-15T18:38:06.236Z",
+      "status": 206,
+      "rows": 0
+    },
+    {
+      "name": "empty-discovery",
+      "utc": "2026-10-15T18:38:08.368Z",
+      "status": 206,
+      "rows": 0
+    },
+    {
+      "name": "empty-discovery",
+      "utc": "2026-10-15T18:38:10.838Z",
+      "status": 206,
+      "rows": 0
+    },
+    {
+      "name": "active-only-read",
+      "utc": "2026-10-15T18:38:12.647Z",
+      "status": 206,
+      "stored": [
+        "Active 0",
+        "Active 1",
+        "Active 2",
+        "Active 3",
+        "Active 4",
+        "Active 5",
+        "Active 6"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "active-only-read",
+      "utc": "2026-10-15T18:38:13.945Z",
+      "status": 206,
+      "stored": [
+        "Active 0",
+        "Active 1",
+        "Active 2",
+        "Active 3",
+        "Active 4",
+        "Active 5",
+        "Active 6"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "failed-read",
+      "utc": "2026-10-15T18:38:14.109Z",
+      "label": "active-only",
+      "attempt": 1,
+      "status": 503,
+      "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33553172</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33553172</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+    },
+    {
+      "name": "active-only-read",
+      "utc": "2026-10-15T18:38:17.286Z",
+      "status": 206,
+      "stored": [
+        "Active 0",
+        "Active 1",
+        "Active 2",
+        "Active 3",
+        "Active 4",
+        "Active 5",
+        "Active 6"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "seed-native-get-only",
+      "utc": "2026-10-15T18:38:17.786Z",
+      "stored": [
+        "Expired 0",
+        "Active 1",
+        "Expired 2",
+        "Active 3",
+        "Expired 4",
+        "Active 5",
+        "Expired 6"
+      ],
+      "expiredRemaining": 4,
+      "activeUnchanged": true
+    },
+    {
+      "name": "view-native-get-only",
+      "utc": "2026-10-15T18:38:18.104Z",
+      "index": 1,
+      "status": 206,
+      "fallbackStatus": null,
+      "visible": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredVisible": false
+    },
+    {
+      "name": "storage-native-get-only",
+      "utc": "2026-10-15T18:38:19.182Z",
+      "index": 1,
+      "poll": 0,
+      "stored": [
+        "Active 1",
+        "Expired 2",
+        "Active 3",
+        "Expired 4",
+        "Active 5",
+        "Expired 6"
+      ],
+      "expiredRemaining": 3,
+      "activeUnchanged": true
+    },
+    {
+      "name": "storage-native-get-only",
+      "utc": "2026-10-15T18:38:20.298Z",
+      "index": 1,
+      "poll": 1,
+      "stored": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "view-native-get-only",
+      "utc": "2026-10-15T18:38:20.704Z",
+      "index": "idempotent-0",
+      "status": 206,
+      "fallbackStatus": null,
+      "visible": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredVisible": false
+    },
+    {
+      "name": "storage-native-get-only",
+      "utc": "2026-10-15T18:38:21.797Z",
+      "index": "idempotent-0",
+      "poll": 0,
+      "stored": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "view-native-get-only",
+      "utc": "2026-10-15T18:38:21.940Z",
+      "index": "idempotent-1",
+      "status": 206,
+      "fallbackStatus": null,
+      "visible": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredVisible": false
+    },
+    {
+      "name": "storage-native-get-only",
+      "utc": "2026-10-15T18:38:23.014Z",
+      "index": "idempotent-1",
+      "poll": 0,
+      "stored": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "seed-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:23.513Z",
+      "stored": [
+        "Expired 0",
+        "Active 1",
+        "Expired 2",
+        "Active 3",
+        "Expired 4",
+        "Active 5",
+        "Expired 6"
+      ],
+      "expiredRemaining": 4,
+      "activeUnchanged": true
+    },
+    {
+      "name": "failed-read",
+      "utc": "2026-10-15T18:38:23.797Z",
+      "label": "game-get-plus-fallback-1",
+      "attempt": 1,
+      "status": 503,
+      "body": "<!DOCTYPE html>\n<html>\n  <head>\n    <title>503 Service Unavailable - Budget Exceeded</title>\n  </head>\n  <body itemscope itemtype=\"https://schema.org/FailedActionStatus\">\n    <h1 itemprop=\"name\">Budget Exceeded</h1>\n    <p itemprop=\"description\">The request exceeded the allocated memory budget.</p>\n\n    <div itemscope itemtype=\"https://pagelove.org/BudgetLimit\">\n      <span itemprop=\"resourceType\">memory</span>\n      <dl>\n        <dt>Allocated:</dt>\n        <dd><span itemprop=\"allocated\">33553172</span> bytes</dd>\n        <dt>Consumed:</dt>\n        <dd><span itemprop=\"consumed\">33553172</span> bytes</dd>\n      </dl>\n    </div>\n  </body>\n</html>"
+    },
+    {
+      "name": "view-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:26.679Z",
+      "index": 1,
+      "status": 206,
+      "fallbackStatus": 204,
+      "visible": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredVisible": false
+    },
+    {
+      "name": "storage-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:27.746Z",
+      "index": 1,
+      "poll": 0,
+      "stored": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "view-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:28.143Z",
+      "index": "idempotent-0",
+      "status": 206,
+      "fallbackStatus": null,
+      "visible": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredVisible": false
+    },
+    {
+      "name": "storage-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:29.222Z",
+      "index": "idempotent-0",
+      "poll": 0,
+      "stored": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "view-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:29.375Z",
+      "index": "idempotent-1",
+      "status": 206,
+      "fallbackStatus": null,
+      "visible": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredVisible": false
+    },
+    {
+      "name": "storage-game-get-plus-fallback",
+      "utc": "2026-10-15T18:38:30.442Z",
+      "index": "idempotent-1",
+      "poll": 0,
+      "stored": [
+        "Active 1",
+        "Active 3",
+        "Active 5"
+      ],
+      "expiredRemaining": 0,
+      "activeUnchanged": true
+    },
+    {
+      "name": "finished",
+      "utc": "2026-10-15T18:38:30.758Z",
+      "cleanup": {
+        "status": 204,
+        "readStatus": 404
+      },
+      "productionUnchanged": true,
+      "productionPolicyUnchanged": true
+    }
+  ],
+  "target": "/_prism-multiple-expiry-39e91b0d-15c7-411f-86cb-e70b48f167f6.html",
+  "productionBefore": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "native-get-only": {
+    "allRemovedAfterOneAccess": true,
+    "allRemovedAfterRepeatedAccess": true,
+    "activeControlsPreserved": true
+  },
+  "game-get-plus-fallback": {
+    "allRemovedAfterOneAccess": true,
+    "allRemovedAfterRepeatedAccess": true,
+    "activeControlsPreserved": true
+  },
+  "cleanup": {
+    "status": 204,
+    "readStatus": 404
+  },
+  "productionAfter": {
+    "sha256": "8d1c6a45aee81f63ebdb0aaaaeee3eb7861a7e4b46ec47cd2482fbb89fa9d6df",
+    "policy": "4ec912b878077b83be396a1dca90d1ea4478510b9508e77273ebc354803beb10"
+  },
+  "productionUnchanged": true,
+  "productionPolicyUnchanged": true,
+  "finishedAt": "2026-10-15T18:38:30.758Z"
+}

@@ -1,0 +1,12 @@
+{
+  "version": "fae02ab6c0bf2e26a92a",
+  "deviceVerification": "Pending",
+  "releaseManifestSha256": "5c813b6e6436a76adf8a471ad91b949920e7da7a0f4382157eadb9a2224ddba4",
+  "command": "bun tools/build-pwa.mjs",
+  "assets": 72,
+  "utc": "2026-10-15T20:04:38.9501182Z",
+  "bytes": 2425515,
+  "deployment": "Not performed",
+  "actor": "Codex",
+  "tests": "Not run"
+}
