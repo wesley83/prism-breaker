@@ -1,0 +1,22 @@
+{
+  "before": {
+    "release": "e5d8bccada0716d7b933",
+    "pauseButtons": 2,
+    "offline": "Ready to play offline"
+  },
+  "after": {
+    "at": "2026-10-16T00:14:59.352Z",
+    "continueVisible": true,
+    "cutButtons": [
+      "Continue"
+    ],
+    "help": true,
+    "offline": "Ready to play offline",
+    "pauseButtons": 0,
+    "recordButtons": [
+      "Save your name"
+    ],
+    "release": "61be83b456ccebaee354"
+  },
+  "method": "Existing client: Settings, Check for updates, Update game. No gameplay or score submission."
+}
