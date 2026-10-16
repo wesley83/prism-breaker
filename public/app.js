@@ -123,9 +123,8 @@ function showGame(){
 }
 function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';gameDisplay.leave();offlinePlay.refresh();updatePersonalBest();game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#play-tip').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Sixteen worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;for(const button of [$('#play'),$('#daily')]){button.classList.toggle('primary',!saved);button.classList.toggle('secondary',!!saved);}if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[dailyWorld(day)].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
 function prepareCut(mode){const generation=++cutGeneration;cutReady=false;stage.prepareCut(game,mode).catch(error=>console.warn('Cinematic warmup:',error)).finally(()=>{if(generation===cutGeneration)cutReady=true;});}
-function resetSceneControls(){scenePaused=false;for(const button of all('[data-pause-scene]')){button.textContent='Pause animation';button.setAttribute('aria-pressed','false');}}
-function toggleScenePause(){scenePaused=!scenePaused;for(const button of all('[data-pause-scene]')){button.textContent=scenePaused?'Resume animation':'Pause animation';button.setAttribute('aria-pressed',String(scenePaused));}}
-all('[data-pause-scene]').forEach(button=>button.onclick=toggleScenePause);
+function resetSceneControls(){scenePaused=false;}
+function toggleScenePause(){scenePaused=!scenePaused;}
 function beginCut(){
  resetSceneControls();
  prepareCut('cut');

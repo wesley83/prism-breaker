@@ -1,0 +1,47 @@
+{
+  "createdAt": "2026-10-16T00:05:04.845Z",
+  "actor": "Codex",
+  "release": "61be83b456ccebaee354",
+  "files": [
+    {
+      "path": "public/index.html",
+      "bytes": 24985,
+      "sha256": "7f8c4bea28d571bf95684da611c3b4fe026a0f31f5d13cd93100c1de46d07e63"
+    },
+    {
+      "path": "public/app.js",
+      "bytes": 54887,
+      "sha256": "eb389c2537e2e8312d890d8391a6558163ed639cdddb323dc7e5daadbb8eb294"
+    },
+    {
+      "path": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "7803851a14debd5b374a41f3a4b49f9be64fa3e93ec9466b956292530b38d292"
+    },
+    {
+      "path": "public/sw.js",
+      "bytes": 29214,
+      "sha256": "6a86a921eaa9136dbf01983bf397b0dfed86a0553ae7063c7f57650e4e49bd98"
+    },
+    {
+      "path": "README.md",
+      "bytes": 46975,
+      "sha256": "e7cd53455120737122dcdd35767404ffaac81e1be1d6d291f3d6bc374ec147ba"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 2811,
+      "sha256": "96f0016232c1dc23cda15d7b60902de8cc0c543964c2c051c512f533994a60f3"
+    },
+    {
+      "path": "audit/2026-10-16-remove-scene-pause.md",
+      "bytes": 2784,
+      "sha256": "3c5e201cc212f838bf4691f86934d995d46a74b683bf96e4986a9c2398c57d26"
+    },
+    {
+      "path": "audit/2026-10-16-remove-scene-pause-changes.patch",
+      "bytes": 49678,
+      "sha256": "9805cb23c7249f079a8c6387ac1d773cb8bd3982af4bad46514e08ddecebd2ca"
+    }
+  ]
+}

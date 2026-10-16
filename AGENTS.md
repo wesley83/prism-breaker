@@ -8,6 +8,7 @@
 - Keep the external Pagelove attribution text-only and announce that it opens in a new tab through its accessible label.
 - Keep the arena full width. Show personal bests beside start controls and on results, journey progress in the Worlds chooser, and contextual advice beside Launch ball.
 - Keep cinematic text on a consistent dark backing, with bold white headings, story text of at least 15px on phones, and large gold score figures. Keep caption readability independent of the world's colors and the interface theme.
+- Do not add Pause Animation / Resume Animation buttons to cinematics or record endings. Keep the explicit continuation actions and final readable composition; keyboard pause shortcuts may remain. Wesley requested removal on October 15, 2026 (America/New_York).
 
 ## Pagelove authoring contract — support clarification, October 15, 2026
 

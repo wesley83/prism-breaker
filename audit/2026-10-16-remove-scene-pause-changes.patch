@@ -1,0 +1,644 @@
+diff --git a/public/index.html b/public/index.html
+index f24745b..9ada5e3 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -1,7 +1,7 @@
+ <!doctype html>
+ <html lang="en" prefix="og: https://ogp.me/ns#">
+ <head>
+- <meta name="prism-release" content="e5d8bccada0716d7b933">
++ <meta name="prism-release" content="61be83b456ccebaee354">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Break through sixteen colorful worlds in Prism Breaker. A Three.js arcade adventure with power-ups, cinematic transitions and a shared leaderboard. Play free on Pagelove.">
+  <meta name="theme-color" content="#111d20"><meta name="color-scheme" content="dark light">
+@@ -48,8 +48,8 @@
+      <button id="launch" class="launch button primary" hidden>Launch ball <span id="launch-hint">SPACE</span></button>
+      <p id="play-tip" class="play-tip" hidden></p>
+     </div>
+-    <section id="cutscene" class="cutscene" hidden aria-labelledby="cut-title"><div id="cut-copy" class="scene-copy"><span class="eyebrow" id="cut-kicker">WORLD RESTORED</span><h2 id="cut-title" tabindex="-1" aria-describedby="cut-story cut-bonus cut-next cut-reading-hint"></h2><p id="cut-story"></p><p id="cut-bonus" class="cut-bonus" hidden></p><p id="cut-next" class="cut-next"></p><p id="cut-reading-hint" class="scene-hint">Continue when you’re ready.</p><div class="cut-progress" aria-hidden="true"><span id="cut-progress-bar"></span></div></div><div class="scene-controls"><button class="button secondary" data-pause-scene aria-pressed="false">Pause animation</button><button id="skip-cut" class="button primary">Continue</button></div></section>
+-    <section id="record-celebration" class="record-celebration" hidden aria-labelledby="record-heading"><div class="scene-controls"><button class="button secondary" data-pause-scene aria-pressed="false">Pause animation</button></div><div class="scene-copy record-copy"><div class="record-copy-heading"><span id="record-overline" class="eyebrow">THE HIGH-SCORE CLUB</span><h2 id="record-heading" tabindex="-1" aria-describedby="record-total record-message record-reading-hint">A new champion.</h2></div><div class="record-score"><strong id="record-total"></strong><span>points</span></div><p id="record-message"></p><p id="record-reading-hint" class="scene-hint">Continue when you’re ready.</p><button id="claim-record" class="button primary">Save your name</button></div></section>
++    <section id="cutscene" class="cutscene" hidden aria-labelledby="cut-title"><div id="cut-copy" class="scene-copy"><span class="eyebrow" id="cut-kicker">WORLD RESTORED</span><h2 id="cut-title" tabindex="-1" aria-describedby="cut-story cut-bonus cut-next cut-reading-hint"></h2><p id="cut-story"></p><p id="cut-bonus" class="cut-bonus" hidden></p><p id="cut-next" class="cut-next"></p><p id="cut-reading-hint" class="scene-hint">Continue when you’re ready.</p><div class="cut-progress" aria-hidden="true"><span id="cut-progress-bar"></span></div></div><div class="scene-controls"><button id="skip-cut" class="button primary">Continue</button></div></section>
++    <section id="record-celebration" class="record-celebration" hidden aria-labelledby="record-heading"><div class="scene-copy record-copy"><div class="record-copy-heading"><span id="record-overline" class="eyebrow">THE HIGH-SCORE CLUB</span><h2 id="record-heading" tabindex="-1" aria-describedby="record-total record-message record-reading-hint">A new champion.</h2></div><div class="record-score"><strong id="record-total"></strong><span>points</span></div><p id="record-message"></p><p id="record-reading-hint" class="scene-hint">Continue when you’re ready.</p><button id="claim-record" class="button primary">Save your name</button></div></section>
+     <div id="error" class="error-panel" hidden><h2>A little help from your browser</h2><p id="error-text" role="alert">This game needs WebGL 2. Try enabling hardware acceleration or using a current browser.</p><button class="button primary" id="reload">Reload game</button></div>
+     <div class="stage-bottom"><span id="arena-status" role="status">Preparing the 3D arena…</span><span id="control-help"><span class="touch-controls">Drag to steer. Tap the arena to launch.</span><span class="desktop-controls"><kbd>←</kbd><kbd>→</kbd> or mouse to move. <kbd>SPACE</kbd> to launch.</span></span></div>
+     <div class="arena-display"><button id="fullscreen" class="icon-button" aria-label="Toggle fullscreen" title="Fullscreen"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#maximize"/></svg></button></div>
+@@ -64,7 +64,7 @@
+  <dialog id="scores-dialog" class="wide-dialog"><button class="close icon-button" data-close aria-label="Close leaderboard"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2>The high-score club.</h2><div class="score-tabs"><button id="tab-campaign" aria-pressed="true">Adventure</button><button id="tab-daily" aria-pressed="false">Daily challenge</button><button id="refresh-scores" aria-label="Refresh scores"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#refresh"/></svg><span>Refresh</span></button></div><div id="leader-summary" class="leader-summary" hidden><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#trophy"/></svg><div><span>Score to beat</span><strong id="leader-name"></strong></div><strong id="leader-points"></strong></div><div id="score-skeleton" class="score-skeleton" hidden aria-hidden="true"><i></i><i></i><i></i></div><p id="score-status" class="small" role="status">Loading shared scores…</p><section id="pending-scores" class="pending-scores" hidden aria-labelledby="pending-title"><h3 id="pending-title">Scores waiting to sync</h3><p class="small">Queued scores keep their original challenge date. Open the game when connected to send them.</p><div id="pending-list"></div></section><div class="leaderboard-sharing"><div class="leaderboard-share-actions"><button id="share-leaderboard" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share leaderboard</span></button><button id="copy-leaderboard-link" class="button secondary">Copy link</button></div><p id="share-status" class="small" role="status"></p><div id="share-link-fallback" hidden><label for="share-link">Leaderboard link</label><div class="share-link-row"><input id="share-link" type="url" readonly autocomplete="off"></div></div></div><p id="score-age-legend" class="score-age-legend" aria-label="Adventure score age"><span data-age-band="green"><i aria-hidden="true"></i>0–48 hours</span><span data-age-band="yellow"><i aria-hidden="true"></i>Over 48–96 hours</span><span data-age-band="red"><i aria-hidden="true"></i>Over 96 hours</span></p><div class="table-wrap"><table id="score-table"><caption id="score-caption" class="sr-only">Shared leaderboard ranked by score, world reached, then time</caption><thead><tr><th scope="col">RANK</th><th scope="col">PLAYER</th><th scope="col" id="score-detail-heading">WORLD</th><th scope="col">SCORE</th></tr></thead><tbody id="score-rows"></tbody></table></div><p class="small muted">Scores expire after 5 days.<span id="daily-reset-note" hidden> Daily standings reset at 00:00 UTC.</span></p></dialog>
+  <dialog id="result-dialog"><span class="eyebrow" id="result-kicker">WHAT A RUN</span><h2 id="result-title">One more try?</h2><p id="result-description"></p><div id="record-badge" class="record-badge" hidden>NEW HIGH SCORE</div><div class="result-score"><span>FINAL SCORE</span><strong id="result-score">0</strong></div><p id="result-bonuses" class="result-bonuses"></p><p id="result-best" class="result-best"></p><form id="score-form"><label for="player-name">Name on the leaderboard</label><div class="submit-row"><input id="player-name" name="player" placeholder="Your arcade name" minlength="2" maxlength="16" pattern="[A-Za-z0-9 _\-]{2,16}" required autocomplete="nickname" aria-describedby="submit-status"><button class="button primary" type="submit" id="submit-score">Save score</button></div><p id="submit-status" role="status" class="small">2-16 letters, numbers, spaces, dashes or underscores.</p></form><button id="result-scores" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#trophy"/></svg><span>View leaderboard</span></button><button id="share-result" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share my score</span></button><button id="play-again" class="button primary">Play again →</button><button id="result-home" class="button secondary">Back to start screen</button></dialog>
+  <dialog id="new-run-dialog" aria-labelledby="new-run-title"><button class="close icon-button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="new-run-title">Start a new adventure?</h2><p id="new-run-detail"></p><button id="confirm-new-run" class="button primary">Start adventure</button><button class="button secondary" data-close>Keep my checkpoint</button></dialog>
+- <dialog id="help-dialog" class="wide-dialog" aria-labelledby="help-title"><button class="close icon-button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="help-title">One paddle. Your angle.</h2><p>Clear the bricks without losing all three lives. Hit with the paddle’s edges to steer the ball.</p><div class="control-guide"><div><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#keyboard"/></svg><strong>Keyboard</strong><p><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move.<br><kbd>SPACE</kbd> to launch. <kbd>P</kbd> or <kbd>ESC</kbd> to pause.</p></div><div><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#hand-finger"/></svg><strong>Mouse & touch</strong><p>Move the mouse or drag your finger to steer.<br>Click or tap the arena to launch.</p></div></div><section aria-labelledby="brick-guide-title"><h3 id="brick-guide-title">Know your bricks.</h3><div id="brick-guide" class="brick-guide"></div></section><h3>Take in the story.</h3><p>World endings and high-score scenes wait for you. Use the visible Continue action when you’re ready, or press Space or Enter while the story heading is focused. Pause animation stops the scene and its music; Resume animation starts them again. P or Escape also toggles the animation while the story heading is focused. Reduced motion is available in Settings.</p><h3>Catch a little advantage.</h3><div id="power-guide" class="power-guide"></div><section aria-labelledby="scoring-title"><h3 id="scoring-title">How scoring works.</h3><p>Destroying a brick earns <strong>100 × your combo multiplier</strong>. The combo counts bricks destroyed since the last paddle contact.</p><div class="table-wrap"><table><caption class="sr-only">Points per brick within a combo streak</caption><thead><tr><th scope="col">BRICKS IN STREAK</th><th scope="col">MULTIPLIER</th><th scope="col">POINTS EACH</th></tr></thead><tbody><tr><td>1–5</td><td>×1</td><td>100</td></tr><tr><td>6–11</td><td>×2</td><td>200</td></tr><tr><td>12–17</td><td>×3</td><td>300</td></tr><tr><td>18–23</td><td>×4</td><td>400</td></tr><tr><td>24 onward</td><td>×5</td><td>500</td></tr></tbody></table></div><p>A 12-brick streak earns <strong>2,000 points</strong>. Any ball touching the paddle resets the shared combo, including a Sticky catch. Losing all balls or starting a new board also resets it. Laser shots and explosion chains build that same combo; armored bricks score only when destroyed.</p><p><strong>Clear bonus: 750 + 150 × lives remaining.</strong> Clear with three lives for 1,200 bonus points. The first two Citadel and Nexus formations award 500 each; the final formation uses the normal clear bonus. Earn an extra life every 12,000 points, up to nine lives.</p><p><strong>Every collected power-up earns 150 points.</strong> Pickup points are added directly, without a combo multiplier. Multiball, Laser and Piercing can build brick combos. Wide, Slow and Shield help preserve lives. Sticky helps you aim, but each catch resets the combo. Each Extra life retained at a normal clear adds 150 to its bonus.</p><p><strong>Speed bonus: up to 2,000 points for each board.</strong> Subtract 10 points for every whole active second: a 40-second clear earns 1,600; a 100-second clear earns 1,000; at 200 seconds the bonus reaches zero. Each Citadel and Nexus formation earns its own speed bonus. Leaderboards rank by score, then world reached, then shortest active play time. Pauses, cutscenes and waiting to launch after a life loss do not count toward time. Losing a life or saving and resuming does not reset the board timer.</p><p>Your personal best combines Adventure and Daily Challenge runs. Practice does not update it.</p></section><p class="small">Adventure follows all sixteen worlds. Practice lets you try any world. The daily challenge is the same seeded world for everyone on its UTC date.</p><button class="button primary" data-close>Got it</button></dialog>
++ <dialog id="help-dialog" class="wide-dialog" aria-labelledby="help-title"><button class="close icon-button" data-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="help-title">One paddle. Your angle.</h2><p>Clear the bricks without losing all three lives. Hit with the paddle’s edges to steer the ball.</p><div class="control-guide"><div><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#keyboard"/></svg><strong>Keyboard</strong><p><kbd>←</kbd> <kbd>→</kbd> or <kbd>A</kbd> <kbd>D</kbd> to move.<br><kbd>SPACE</kbd> to launch. <kbd>P</kbd> or <kbd>ESC</kbd> to pause.</p></div><div><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#hand-finger"/></svg><strong>Mouse & touch</strong><p>Move the mouse or drag your finger to steer.<br>Click or tap the arena to launch.</p></div></div><section aria-labelledby="brick-guide-title"><h3 id="brick-guide-title">Know your bricks.</h3><div id="brick-guide" class="brick-guide"></div></section><h3>Take in the story.</h3><p>World endings and high-score scenes wait for you. Use the visible Continue action when you’re ready, or press Space or Enter while the story heading is focused. P or Escape pauses or resumes the animation and its music while the story heading is focused. Reduced motion is available in Settings.</p><h3>Catch a little advantage.</h3><div id="power-guide" class="power-guide"></div><section aria-labelledby="scoring-title"><h3 id="scoring-title">How scoring works.</h3><p>Destroying a brick earns <strong>100 × your combo multiplier</strong>. The combo counts bricks destroyed since the last paddle contact.</p><div class="table-wrap"><table><caption class="sr-only">Points per brick within a combo streak</caption><thead><tr><th scope="col">BRICKS IN STREAK</th><th scope="col">MULTIPLIER</th><th scope="col">POINTS EACH</th></tr></thead><tbody><tr><td>1–5</td><td>×1</td><td>100</td></tr><tr><td>6–11</td><td>×2</td><td>200</td></tr><tr><td>12–17</td><td>×3</td><td>300</td></tr><tr><td>18–23</td><td>×4</td><td>400</td></tr><tr><td>24 onward</td><td>×5</td><td>500</td></tr></tbody></table></div><p>A 12-brick streak earns <strong>2,000 points</strong>. Any ball touching the paddle resets the shared combo, including a Sticky catch. Losing all balls or starting a new board also resets it. Laser shots and explosion chains build that same combo; armored bricks score only when destroyed.</p><p><strong>Clear bonus: 750 + 150 × lives remaining.</strong> Clear with three lives for 1,200 bonus points. The first two Citadel and Nexus formations award 500 each; the final formation uses the normal clear bonus. Earn an extra life every 12,000 points, up to nine lives.</p><p><strong>Every collected power-up earns 150 points.</strong> Pickup points are added directly, without a combo multiplier. Multiball, Laser and Piercing can build brick combos. Wide, Slow and Shield help preserve lives. Sticky helps you aim, but each catch resets the combo. Each Extra life retained at a normal clear adds 150 to its bonus.</p><p><strong>Speed bonus: up to 2,000 points for each board.</strong> Subtract 10 points for every whole active second: a 40-second clear earns 1,600; a 100-second clear earns 1,000; at 200 seconds the bonus reaches zero. Each Citadel and Nexus formation earns its own speed bonus. Leaderboards rank by score, then world reached, then shortest active play time. Pauses, cutscenes and waiting to launch after a life loss do not count toward time. Losing a life or saving and resuming does not reset the board timer.</p><p>Your personal best combines Adventure and Daily Challenge runs. Practice does not update it.</p></section><p class="small">Adventure follows all sixteen worlds. Practice lets you try any world. The daily challenge is the same seeded world for everyone on its UTC date.</p><button class="button primary" data-close>Got it</button></dialog>
+  <dialog id="share-dialog" class="share-dialog" aria-labelledby="share-preview-title"><button class="close icon-button" data-close aria-label="Close share preview"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="share-preview-title">Invite a challenger.</h2><p id="share-preview-message" class="share-invitation-copy"></p><div class="scorecard-frame"><p id="scorecard-placeholder" class="small">Preparing your scorecard…</p><img id="scorecard-preview" hidden alt="" decoding="async"></div><p id="share-platform-hint" class="small"></p><div class="share-action-layout"><div class="share-preview-actions"><button id="share-invitation" class="button primary" hidden><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#share"/></svg><span>Share invitation</span></button><button id="copy-invitation" class="button secondary"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#copy"/></svg><span>Copy invitation</span></button><button id="share-image" class="button secondary" hidden><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#photo"/></svg><span>Share scorecard</span></button><button id="save-scorecard" class="button secondary" disabled><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#download"/></svg><span id="save-scorecard-label">Download scorecard</span></button></div><div id="share-qr-block" class="share-qr-block" hidden><img id="share-qr" alt="QR code for opening this game or leaderboard on your phone"><div><strong>Open on your phone</strong><p>Scan the code to jump into the challenge.</p></div></div></div><p id="share-preview-status" class="small" role="status"></p><div id="share-manual-copy" hidden><label for="share-copy-text">Invitation to copy</label><textarea id="share-copy-text" readonly rows="4"></textarea></div></dialog>
+  <dialog id="install-dialog" aria-labelledby="install-title"><button class="close icon-button" data-close aria-label="Close installation help"><svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#x"/></svg></button><h2 id="install-title">Take the arcade with you.</h2><p id="install-instructions"></p><p>Wait for <strong>Ready to play offline</strong> before disconnecting. All sixteen worlds, power-ups, music, cutscenes and scorecards will be available.</p><p>Save scores as usual. They join the shared leaderboard when you reconnect and open the game.</p><button class="button primary" data-close>Got it</button></dialog>
+  <noscript><p class="noscript">Prism Breaker needs JavaScript to play. Enable it and reload this page.</p></noscript>
+diff --git a/public/app.js b/public/app.js
+index bdd3c7d..1269af6 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -123,9 +123,8 @@ function showGame(){
+ }
+ function home(){closeDialogs();$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');view='home';gameDisplay.leave();offlinePlay.refresh();updatePersonalBest();game.start('campaign',0,8399);$('#home').hidden=false;$('#stage').classList.add('home-mode');$('#hud').hidden=true;$('#arena-progress').hidden=true;$('#launch').hidden=true;$('#play-tip').hidden=true;$('#cutscene').hidden=true;$('#effects').replaceChildren();$('#stage-label').textContent='Sixteen worlds to break through';$('#mode-label').textContent='3D ARCADE';const saved=storage.get('save');$('#resume').hidden=!saved;for(const button of [$('#play'),$('#daily')]){button.classList.toggle('primary',!saved);button.classList.toggle('secondary',!!saved);}if(saved)$('#resume-detail').textContent=(WORLDS[saved.game.level]?.name||'Adventure')+' · '+Number(saved.game.score||0).toLocaleString()+' points';const day=currentDay();$('#daily-detail').textContent=WORLDS[dailyWorld(day)].name+' · '+day+' UTC';updateWorld();lastHud='';hud();}
+ function prepareCut(mode){const generation=++cutGeneration;cutReady=false;stage.prepareCut(game,mode).catch(error=>console.warn('Cinematic warmup:',error)).finally(()=>{if(generation===cutGeneration)cutReady=true;});}
+-function resetSceneControls(){scenePaused=false;for(const button of all('[data-pause-scene]')){button.textContent='Pause animation';button.setAttribute('aria-pressed','false');}}
+-function toggleScenePause(){scenePaused=!scenePaused;for(const button of all('[data-pause-scene]')){button.textContent=scenePaused?'Resume animation':'Pause animation';button.setAttribute('aria-pressed',String(scenePaused));}}
+-all('[data-pause-scene]').forEach(button=>button.onclick=toggleScenePause);
++function resetSceneControls(){scenePaused=false;}
++function toggleScenePause(){scenePaused=!scenePaused;}
+ function beginCut(){
+  resetSceneControls();
+  prepareCut('cut');
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index 4c126d0..8d8db6f 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -1,2 +1,2 @@
+ // Generated by tools/build-pwa.mjs.
+-export const PWA_RELEASE = "e5d8bccada0716d7b933";
++export const PWA_RELEASE = "61be83b456ccebaee354";
+diff --git a/public/sw.js b/public/sw.js
+index a985630..7dbf3c8 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -1,443 +1,443 @@
+ // Generated by tools/build-pwa.mjs. Keep runtime edits in this template.
+-const VERSION = "e5d8bccada0716d7b933";
++const VERSION = "61be83b456ccebaee354";
+ const PRECACHE = [
+   {
+     "path": "/app.js",
+-    "sha256": "4bdb1941e28233eb67de190bacbf382cd7d648709d2356b3646dd981fe0c6ee6",
+-    "bytes": 55324,
+-    "url": "/releases/e5d8bccada0716d7b933/app.js"
++    "sha256": "7401d21ea1b0994fdb0888e119f90487c6aa89626ba30d2ebcffd6e20eb5e72d",
++    "bytes": 54947,
++    "url": "/releases/61be83b456ccebaee354/app.js"
+   },
+   {
+     "path": "/apple-touch-icon.png",
+     "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+     "bytes": 3811,
+-    "url": "/releases/e5d8bccada0716d7b933/apple-touch-icon.png"
++    "url": "/releases/61be83b456ccebaee354/apple-touch-icon.png"
+   },
+   {
+     "path": "/assets/display.woff2",
+     "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+     "bytes": 22288,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/display.woff2"
++    "url": "/releases/61be83b456ccebaee354/assets/display.woff2"
+   },
+   {
+     "path": "/assets/favicon-32.png",
+     "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+     "bytes": 791,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/favicon-32.png"
++    "url": "/releases/61be83b456ccebaee354/assets/favicon-32.png"
+   },
+   {
+     "path": "/assets/FONT-LICENSE.txt",
+     "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+     "bytes": 4401,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/FONT-LICENSE.txt"
++    "url": "/releases/61be83b456ccebaee354/assets/FONT-LICENSE.txt"
+   },
+   {
+     "path": "/assets/ICON-LICENSE.txt",
+     "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+     "bytes": 1073,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/ICON-LICENSE.txt"
++    "url": "/releases/61be83b456ccebaee354/assets/ICON-LICENSE.txt"
+   },
+   {
+     "path": "/assets/icons.svg",
+     "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+     "bytes": 10681,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/icons.svg"
++    "url": "/releases/61be83b456ccebaee354/assets/icons.svg"
+   },
+   {
+     "path": "/assets/og-prism-breaker-square.jpg",
+     "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+     "bytes": 420420,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/og-prism-breaker-square.jpg"
++    "url": "/releases/61be83b456ccebaee354/assets/og-prism-breaker-square.jpg"
+   },
+   {
+     "path": "/assets/og-prism-breaker.jpg",
+     "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+     "bytes": 222971,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/og-prism-breaker.jpg"
++    "url": "/releases/61be83b456ccebaee354/assets/og-prism-breaker.jpg"
+   },
+   {
+     "path": "/assets/prism-icon-192.png",
+     "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+     "bytes": 4055,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/prism-icon-192.png"
++    "url": "/releases/61be83b456ccebaee354/assets/prism-icon-192.png"
+   },
+   {
+     "path": "/assets/prism-icon-512.png",
+     "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+     "bytes": 27390,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/prism-icon-512.png"
++    "url": "/releases/61be83b456ccebaee354/assets/prism-icon-512.png"
+   },
+   {
+     "path": "/assets/prism-maskable-512.png",
+     "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+     "bytes": 13028,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/prism-maskable-512.png"
++    "url": "/releases/61be83b456ccebaee354/assets/prism-maskable-512.png"
+   },
+   {
+     "path": "/assets/prism-maskable.svg",
+     "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+     "bytes": 500,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/prism-maskable.svg"
++    "url": "/releases/61be83b456ccebaee354/assets/prism-maskable.svg"
+   },
+   {
+     "path": "/assets/prism-wordmark.svg",
+     "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+     "bytes": 1375,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/prism-wordmark.svg"
++    "url": "/releases/61be83b456ccebaee354/assets/prism-wordmark.svg"
+   },
+   {
+     "path": "/assets/QR-LICENSE.txt",
+     "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+     "bytes": 1094,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/QR-LICENSE.txt"
++    "url": "/releases/61be83b456ccebaee354/assets/QR-LICENSE.txt"
+   },
+   {
+     "path": "/assets/world-preview-01.png",
+     "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+     "bytes": 27953,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-01.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-01.png"
+   },
+   {
+     "path": "/assets/world-preview-02.png",
+     "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+     "bytes": 29205,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-02.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-02.png"
+   },
+   {
+     "path": "/assets/world-preview-03.png",
+     "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+     "bytes": 31118,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-03.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-03.png"
+   },
+   {
+     "path": "/assets/world-preview-04.png",
+     "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+     "bytes": 29656,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-04.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-04.png"
+   },
+   {
+     "path": "/assets/world-preview-05.png",
+     "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+     "bytes": 29165,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-05.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-05.png"
+   },
+   {
+     "path": "/assets/world-preview-06.png",
+     "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+     "bytes": 25415,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-06.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-06.png"
+   },
+   {
+     "path": "/assets/world-preview-07.png",
+     "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+     "bytes": 27961,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-07.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-07.png"
+   },
+   {
+     "path": "/assets/world-preview-08.png",
+     "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+     "bytes": 27056,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-08.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-08.png"
+   },
+   {
+     "path": "/assets/world-preview-09.png",
+     "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+     "bytes": 27537,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-09.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-09.png"
+   },
+   {
+     "path": "/assets/world-preview-10.png",
+     "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+     "bytes": 27226,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-10.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-10.png"
+   },
+   {
+     "path": "/assets/world-preview-11.png",
+     "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+     "bytes": 30170,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-11.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-11.png"
+   },
+   {
+     "path": "/assets/world-preview-12.png",
+     "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+     "bytes": 29931,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-12.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-12.png"
+   },
+   {
+     "path": "/assets/world-preview-13.png",
+     "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+     "bytes": 27592,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-13.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-13.png"
+   },
+   {
+     "path": "/assets/world-preview-14.png",
+     "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+     "bytes": 22221,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-14.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-14.png"
+   },
+   {
+     "path": "/assets/world-preview-15.png",
+     "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+     "bytes": 26493,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-15.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-15.png"
+   },
+   {
+     "path": "/assets/world-preview-16.png",
+     "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+     "bytes": 32667,
+-    "url": "/releases/e5d8bccada0716d7b933/assets/world-preview-16.png"
++    "url": "/releases/61be83b456ccebaee354/assets/world-preview-16.png"
+   },
+   {
+     "path": "/audio.js",
+     "sha256": "b544d6bdb35002caf77641bc6728e4069aa7ff6fc06af262b6b67193403b96f0",
+     "bytes": 7105,
+-    "url": "/releases/e5d8bccada0716d7b933/audio.js"
++    "url": "/releases/61be83b456ccebaee354/audio.js"
+   },
+   {
+     "path": "/bootstrap.js",
+     "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+     "bytes": 1363,
+-    "url": "/releases/e5d8bccada0716d7b933/bootstrap.js"
++    "url": "/releases/61be83b456ccebaee354/bootstrap.js"
+   },
+   {
+     "path": "/brick-events.js",
+     "sha256": "3ed016a3adf5fb6c91d3e088c981b28c04caa3e57866486b5c349f132f564cfe",
+     "bytes": 3894,
+-    "url": "/releases/e5d8bccada0716d7b933/brick-events.js"
++    "url": "/releases/61be83b456ccebaee354/brick-events.js"
+   },
+   {
+     "path": "/brick-labels.js",
+     "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
+     "bytes": 2654,
+-    "url": "/releases/e5d8bccada0716d7b933/brick-labels.js"
++    "url": "/releases/61be83b456ccebaee354/brick-labels.js"
+   },
+   {
+     "path": "/bundled-worlds.js",
+     "sha256": "46ded10b86f0a915465149cdbb14dc7e3e8e0cd7582787f8a4619b4644073990",
+     "bytes": 127892,
+-    "url": "/releases/e5d8bccada0716d7b933/bundled-worlds.js"
++    "url": "/releases/61be83b456ccebaee354/bundled-worlds.js"
+   },
+   {
+     "path": "/champion.js",
+     "sha256": "c809470a263242dd830f9515ee319e4be549727b3524e62d85f8d3fb47e9f3c0",
+     "bytes": 5820,
+-    "url": "/releases/e5d8bccada0716d7b933/champion.js"
++    "url": "/releases/61be83b456ccebaee354/champion.js"
+   },
+   {
+     "path": "/cinematic-score.js",
+     "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+     "bytes": 1984,
+-    "url": "/releases/e5d8bccada0716d7b933/cinematic-score.js"
++    "url": "/releases/61be83b456ccebaee354/cinematic-score.js"
+   },
+   {
+     "path": "/cinematics.js",
+     "sha256": "e39eead18646a2ef8c4f2e7276db395a85bf1d870dccaca1ebf4bd39c9d74ed2",
+     "bytes": 15450,
+-    "url": "/releases/e5d8bccada0716d7b933/cinematics.js"
++    "url": "/releases/61be83b456ccebaee354/cinematics.js"
+   },
+   {
+     "path": "/crystal-bricks.js",
+     "sha256": "ea0b69e565240df3e96d6f12f417fb5e4968d0833e90db2bd19e7550c12fb3cf",
+     "bytes": 6127,
+-    "url": "/releases/e5d8bccada0716d7b933/crystal-bricks.js"
++    "url": "/releases/61be83b456ccebaee354/crystal-bricks.js"
+   },
+   {
+     "path": "/daily-ending.js",
+     "sha256": "e0834285478e75555c7ae56e66a1b312d175e629600a756acc51d3829d7dd2c4",
+     "bytes": 6513,
+-    "url": "/releases/e5d8bccada0716d7b933/daily-ending.js"
++    "url": "/releases/61be83b456ccebaee354/daily-ending.js"
+   },
+   {
+     "path": "/daily-score.js",
+     "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+     "bytes": 489,
+-    "url": "/releases/e5d8bccada0716d7b933/daily-score.js"
++    "url": "/releases/61be83b456ccebaee354/daily-score.js"
+   },
+   {
+     "path": "/display.css",
+     "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
+     "bytes": 4199,
+-    "url": "/releases/e5d8bccada0716d7b933/display.css"
++    "url": "/releases/61be83b456ccebaee354/display.css"
+   },
+   {
+     "path": "/display.js",
+     "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45",
+     "bytes": 3729,
+-    "url": "/releases/e5d8bccada0716d7b933/display.js"
++    "url": "/releases/61be83b456ccebaee354/display.js"
+   },
+   {
+     "path": "/editor.css",
+-    "sha256": "fb3578316013753543b9c2c89481d8255b64b1322542a91e19ddb18122d2cf9c",
++    "sha256": "7dbf585d6aaf9016279bfdc8610dd6aa3346608f86a045b2db2931ee2742b95c",
+     "bytes": 7635,
+-    "url": "/releases/e5d8bccada0716d7b933/editor.css"
++    "url": "/releases/61be83b456ccebaee354/editor.css"
+   },
+   {
+     "path": "/editor.js",
+     "sha256": "ee87e857e0b1d1d7bb7206bae1eb7a412177f60f51c685a0b4819270b3dbd5a2",
+     "bytes": 22587,
+-    "url": "/releases/e5d8bccada0716d7b933/editor.js"
++    "url": "/releases/61be83b456ccebaee354/editor.js"
+   },
+   {
+     "path": "/engine.js",
+     "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511",
+     "bytes": 17520,
+-    "url": "/releases/e5d8bccada0716d7b933/engine.js"
++    "url": "/releases/61be83b456ccebaee354/engine.js"
+   },
+   {
+     "path": "/favicon.ico",
+     "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+     "bytes": 2456,
+-    "url": "/releases/e5d8bccada0716d7b933/favicon.ico"
++    "url": "/releases/61be83b456ccebaee354/favicon.ico"
+   },
+   {
+     "path": "/favicon.svg",
+     "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+     "bytes": 442,
+-    "url": "/releases/e5d8bccada0716d7b933/favicon.svg"
++    "url": "/releases/61be83b456ccebaee354/favicon.svg"
+   },
+   {
+     "path": "/graphics-recovery.js",
+     "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+     "bytes": 910,
+-    "url": "/releases/e5d8bccada0716d7b933/graphics-recovery.js"
++    "url": "/releases/61be83b456ccebaee354/graphics-recovery.js"
+   },
+   {
+     "path": "/index.html",
+-    "sha256": "9a92f552544ab39c05bb935435356489ffebba6bb6f66f3f8fde8c92a0d9213b",
+-    "bytes": 26443,
+-    "url": "/releases/e5d8bccada0716d7b933/index.html"
++    "sha256": "6b8670cd6e0c401ea13a9332055ef0e7f889ff0591081e1defa8f150b9362d5b",
++    "bytes": 26155,
++    "url": "/releases/61be83b456ccebaee354/index.html"
+   },
+   {
+     "path": "/leaderboard.js",
+     "sha256": "77e7ca7317fafa78843d559a33a49c5572ae304762ddc103bc9c0de952ca03fe",
+     "bytes": 1427,
+-    "url": "/releases/e5d8bccada0716d7b933/leaderboard.js"
++    "url": "/releases/61be83b456ccebaee354/leaderboard.js"
+   },
+   {
+     "path": "/levels.js",
+     "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+     "bytes": 1660,
+-    "url": "/releases/e5d8bccada0716d7b933/levels.js"
++    "url": "/releases/61be83b456ccebaee354/levels.js"
+   },
+   {
+     "path": "/manifest.webmanifest",
+-    "sha256": "5e439aca6eea9b02fbe2b7a82837621abfbb69406b2d281488891f6b8835dc06",
++    "sha256": "6a4cc98f0b7c0d3b57444ef1554dfb8da8d844ea12b6daa4bfc60a6fb30af346",
+     "bytes": 1301,
+-    "url": "/releases/e5d8bccada0716d7b933/manifest.webmanifest"
++    "url": "/releases/61be83b456ccebaee354/manifest.webmanifest"
+   },
+   {
+     "path": "/music.js",
+     "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+     "bytes": 6483,
+-    "url": "/releases/e5d8bccada0716d7b933/music.js"
++    "url": "/releases/61be83b456ccebaee354/music.js"
+   },
+   {
+     "path": "/offline.js",
+     "sha256": "2cce4c462b8ad2f51c1b79c9aaafbfc844379190e6cffcda3b296f245cafc49f",
+     "bytes": 10268,
+-    "url": "/releases/e5d8bccada0716d7b933/offline.js"
++    "url": "/releases/61be83b456ccebaee354/offline.js"
+   },
+   {
+     "path": "/paddle-art.js",
+     "sha256": "0d3d5ccc3527546a2044e0d014586bf4eb41b7e2bbb5e014de4d0a69771d5ce1",
+     "bytes": 4692,
+-    "url": "/releases/e5d8bccada0716d7b933/paddle-art.js"
++    "url": "/releases/61be83b456ccebaee354/paddle-art.js"
+   },
+   {
+     "path": "/postprocessing.js",
+     "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+     "bytes": 19341,
+-    "url": "/releases/e5d8bccada0716d7b933/postprocessing.js"
++    "url": "/releases/61be83b456ccebaee354/postprocessing.js"
+   },
+   {
+     "path": "/pwa-release.js",
+-    "sha256": "198c883997a279890486958d3016a8850b05f263e4e67e9f90961ac3245d4b7c",
++    "sha256": "7803851a14debd5b374a41f3a4b49f9be64fa3e93ec9466b956292530b38d292",
+     "bytes": 88,
+-    "url": "/releases/e5d8bccada0716d7b933/pwa-release.js"
++    "url": "/releases/61be83b456ccebaee354/pwa-release.js"
+   },
+   {
+     "path": "/pwa.js",
+     "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
+     "bytes": 9057,
+-    "url": "/releases/e5d8bccada0716d7b933/pwa.js"
++    "url": "/releases/61be83b456ccebaee354/pwa.js"
+   },
+   {
+     "path": "/scene-playback.js",
+     "sha256": "d37ae969db01d5a794aaea07d5fad01f59e974fc98609838c14ac8e4a73ec3cf",
+     "bytes": 255,
+-    "url": "/releases/e5d8bccada0716d7b933/scene-playback.js"
++    "url": "/releases/61be83b456ccebaee354/scene-playback.js"
+   },
+   {
+     "path": "/scene.js",
+     "sha256": "83f53c389135e7055ddabcc3b5943732efde7a5d901aa303a3a8003abfea94ef",
+     "bytes": 26484,
+-    "url": "/releases/e5d8bccada0716d7b933/scene.js"
++    "url": "/releases/61be83b456ccebaee354/scene.js"
+   },
+   {
+     "path": "/sharing.js",
+-    "sha256": "d55bec37d67c92d1b2e0dcdd7e61ab162c6c1b3cbf7a29860810a74f90ef0e7e",
++    "sha256": "ecddeeef73acd6c647a925ca03ff632e878f48762e6729e8cb8f4c336957c010",
+     "bytes": 11750,
+-    "url": "/releases/e5d8bccada0716d7b933/sharing.js"
++    "url": "/releases/61be83b456ccebaee354/sharing.js"
+   },
+   {
+     "path": "/style.css",
+-    "sha256": "e4ff99b410aaa4e2aa0b1fc2ea33f0c6a10d7a4d9909f4ecc6edcb1e42df38a4",
++    "sha256": "63d65f872fd6d35ae18067c5bdac61e2f1586afbb7c53836687c02abce73e824",
+     "bytes": 37873,
+-    "url": "/releases/e5d8bccada0716d7b933/style.css"
++    "url": "/releases/61be83b456ccebaee354/style.css"
+   },
+   {
+     "path": "/vendor/qr.js",
+     "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+     "bytes": 51907,
+-    "url": "/releases/e5d8bccada0716d7b933/vendor/qr.js"
++    "url": "/releases/61be83b456ccebaee354/vendor/qr.js"
+   },
+   {
+     "path": "/vendor/THREE-LICENSE.txt",
+     "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+     "bytes": 1081,
+-    "url": "/releases/e5d8bccada0716d7b933/vendor/THREE-LICENSE.txt"
++    "url": "/releases/61be83b456ccebaee354/vendor/THREE-LICENSE.txt"
+   },
+   {
+     "path": "/vendor/three.core.min.js",
+     "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+     "bytes": 381124,
+-    "url": "/releases/e5d8bccada0716d7b933/vendor/three.core.min.js"
++    "url": "/releases/61be83b456ccebaee354/vendor/three.core.min.js"
+   },
+   {
+     "path": "/vendor/three.module.min.js",
+     "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+     "bytes": 338908,
+-    "url": "/releases/e5d8bccada0716d7b933/vendor/three.module.min.js"
++    "url": "/releases/61be83b456ccebaee354/vendor/three.module.min.js"
+   },
+   {
+     "path": "/victory-music.js",
+     "sha256": "ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa",
+     "bytes": 1331,
+-    "url": "/releases/e5d8bccada0716d7b933/victory-music.js"
++    "url": "/releases/61be83b456ccebaee354/victory-music.js"
+   },
+   {
+     "path": "/world-data.css",
+-    "sha256": "f6b707387abbca9b3298257eaf12aa2f0e5faa9a1c7e74177c1a423110428d28",
++    "sha256": "51d51b2aa8d998dab2e318a4e5258f1f81005c0ad65f66931cd07552426c37cd",
+     "bytes": 889,
+-    "url": "/releases/e5d8bccada0716d7b933/world-data.css"
++    "url": "/releases/61be83b456ccebaee354/world-data.css"
+   },
+   {
+     "path": "/world-format.js",
+     "sha256": "d983e2a502991c0a67e320d742601a348bee674b01d275ca41e1f890d5f72b57",
+     "bytes": 2792,
+-    "url": "/releases/e5d8bccada0716d7b933/world-format.js"
++    "url": "/releases/61be83b456ccebaee354/world-format.js"
+   },
+   {
+     "path": "/world-identity.js",
+-    "sha256": "4035adee4473dd6c8cb5a7eab9abd9fd142bfb45480f27593944c79856449e68",
++    "sha256": "4249015acdb30336ae2e439eed85caefb61a9d211ac19e9859f1b0bfa0544177",
+     "bytes": 810,
+-    "url": "/releases/e5d8bccada0716d7b933/world-identity.js"
++    "url": "/releases/61be83b456ccebaee354/world-identity.js"
+   },
+   {
+     "path": "/world-schema.js",
+-    "sha256": "977c270ab4d72c6c88e927bb397e515bab61258ed9f8fbe73334e72ea6244f00",
++    "sha256": "7f495e0973a33ecd86fb6fc2c2220b11be631000d451065c2ece14da8e431d6b",
+     "bytes": 12027,
+-    "url": "/releases/e5d8bccada0716d7b933/world-schema.js"
++    "url": "/releases/61be83b456ccebaee354/world-schema.js"
+   }
+ ];
+ const CACHE_PREFIX = 'prism-breaker-release-';
+diff --git a/README.md b/README.md
+index 6f89ba6..3acdeab 100644
+--- a/README.md
++++ b/README.md
+@@ -231,9 +231,9 @@ The preview supports `GET`/`HEAD` and serves the committed site and local previe
+ | Launch held balls | Space | Launch ball button or click/tap arena |
+ | Pause | P or Escape | Pause button |
+ | Continue from a cinematic | Space or Enter with the story heading focused | Next world / See your score / Save your name button |
+-| Pause or resume a cinematic | P or Escape with the story heading focused | Pause animation / Resume animation button |
++| Pause or resume a cinematic | P or Escape with the story heading focused | — |
+ 
+-Audio starts after a player interaction. World, Daily Challenge and record endings keep their text visible and wait for explicit continuation. Animation stops on its final composition; the pause control also pauses scene music. Story headings receive focus and describe the associated text. Keyboard actions ignore repeated key events. A checkpoint restores the remaining board with a held ball; pending completed-world cinematics play before progression. Resuming from the last gameplay dialog restores focus to the arena.
++Audio starts after a player interaction. World, Daily Challenge and record endings keep their text visible and wait for explicit continuation. Animation stops on its final composition; the keyboard pause shortcut also pauses scene music. Cinematics have no separate pause-animation buttons. Story headings receive focus and describe the associated text. Keyboard actions ignore repeated key events. A checkpoint restores the remaining board with a held ball; pending completed-world cinematics play before progression. Resuming from the last gameplay dialog restores focus to the arena.
+ 
+ ## Source map
+ 
+diff --git a/AGENTS.md b/AGENTS.md
+index 533dc94..db695e4 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -8,6 +8,7 @@
+ - Keep the external Pagelove attribution text-only and announce that it opens in a new tab through its accessible label.
+ - Keep the arena full width. Show personal bests beside start controls and on results, journey progress in the Worlds chooser, and contextual advice beside Launch ball.
+ - Keep cinematic text on a consistent dark backing, with bold white headings, story text of at least 15px on phones, and large gold score figures. Keep caption readability independent of the world's colors and the interface theme.
++- Do not add Pause Animation / Resume Animation buttons to cinematics or record endings. Keep the explicit continuation actions and final readable composition; keyboard pause shortcuts may remain. Wesley requested removal on October 15, 2026 (America/New_York).
+ 
+ ## Pagelove authoring contract — support clarification, October 15, 2026
+ 
+diff --git a/audit/2026-10-16-remove-scene-pause.md b/audit/2026-10-16-remove-scene-pause.md
+new file mode 100644
+--- /dev/null
++++ b/audit/2026-10-16-remove-scene-pause.md
+@@ -0,0 +1,20 @@
++# Remove cinematic pause buttons
++
++## SP-01 Plan
++
++- UTC: 2026-10-16T00:03:33Z.
++- Actor: Codex.
++- User request: Remove the added Pause Animation buttons.
++- Plan: Remove the visible pause/resume controls from both world/Daily cutscenes and record endings, remove their DOM binding/update code and empty record wrapper, and correct help/README wording. Preserve explicit continuation, final-frame hold, reduced motion and existing keyboard pause shortcut. Record the project UI preference. Rebuild the PWA package so installed clients can receive this change in the next release. Mirror only changed files after baseline checks and retain reviewable diff/hash evidence.
++- Scope: Existing uncommitted handbook work remains intact. No commit, push, live deployment, server-policy or score mutation is requested. No gameplay tests added or run; source/build consistency and documentation checks only.
++- Initial inspection: Two shared scene buttons cover the world/Daily and Adventure/Daily record variants. First broad search included minified vendor code and produced excessive output; narrowed subsequent inspection to exact application files. Honcho tools unavailable.
++- Verification: Pending implementation, reference/diff inspection, PWA generation and mirror reconciliation.
++
++## SP-02 Implemented and reconciled
++
++- UTC: 2026-10-16T00:05:04.841Z.
++- Actor: Codex; reference SP-01.
++- Changes: Removed both shared scene pause buttons and the empty record-control wrapper; removed unused button binding/label updates. Keyboard P/Escape pause remains, as do manual continuation and final-frame hold. Updated help, README and project instructions. Regenerated index release marker, pwa-release.js and sw.js. Earlier handbook files are preserved; README retains its earlier handbook link.
++- Verification: Source inspection finds no data-pause-scene controls or bindings in app.js/index.html. PWA build and consistency check pass for 61be83b456ccebaee354 (73 assets, 2,426,663 bytes). Repository check passes (36 documents, 344 local links, 420 files; limited credential patterns). Git diff whitespace check passes. No automated gameplay tests or browser/device run performed, per this request's implementation scope.
++- Evidence: Task diff compares the six changed files against snapshots taken before this request, so the earlier README handbook link is excluded from this batch. SHA-256 receipt records the changed working bytes; manifest excludes itself. Mirror preflight matches pre-change/current bytes and copying requires exact byte equality. The handbook's earlier receipts remain historical snapshots, not regenerated to conceal later README changes.
++- Status: Local implementation complete; no commit, push or live deployment. No server policies, scores or world definitions changed.

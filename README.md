@@ -39,6 +39,7 @@ World metadata and formations are authoritative HTML documents. The catalog prov
 
 - [Architecture and all 23 standards](DOCUMENT-FIRST-ARCHITECTURE.md): ownership, events, versioning, recovery, offline state and justified runtime exceptions.
 - [Reusable development rule](DOCUMENT-FIRST-DEVELOPMENT.md): the governing project philosophy.
+- [Complete game-development handbook](GAME-DEVELOPMENT-BEST-PRACTICES.md): reusable architecture, gameplay, balance, leaderboards, artwork, accessibility, PWA, review and release practices, including the complete parent document-first rule and lessons from the audit history.
 - [Implementation audit](audit/2026-10-14-document-first-implementation.md): exact verification and deployment status. Local completion does not establish live enforcement.
 
 Checkpoint v2 stores stable world identity, definition and ruleset revisions, and a complete definition including portals. Compatible legacy saves migrate; incompatible saves remain recoverable. Scores carry an optional ruleset fingerprint, and rankings compare compatible rulesets. Existing unversioned scores use a frozen legacy mapping.
@@ -230,9 +231,9 @@ The preview supports `GET`/`HEAD` and serves the committed site and local previe
 | Launch held balls | Space | Launch ball button or click/tap arena |
 | Pause | P or Escape | Pause button |
 | Continue from a cinematic | Space or Enter with the story heading focused | Next world / See your score / Save your name button |
-| Pause or resume a cinematic | P or Escape with the story heading focused | Pause animation / Resume animation button |
+| Pause or resume a cinematic | P or Escape with the story heading focused | — |
 
-Audio starts after a player interaction. World, Daily Challenge and record endings keep their text visible and wait for explicit continuation. Animation stops on its final composition; the pause control also pauses scene music. Story headings receive focus and describe the associated text. Keyboard actions ignore repeated key events. A checkpoint restores the remaining board with a held ball; pending completed-world cinematics play before progression. Resuming from the last gameplay dialog restores focus to the arena.
+Audio starts after a player interaction. World, Daily Challenge and record endings keep their text visible and wait for explicit continuation. Animation stops on its final composition; the keyboard pause shortcut also pauses scene music. Cinematics have no separate pause-animation buttons. Story headings receive focus and describe the associated text. Keyboard actions ignore repeated key events. A checkpoint restores the remaining board with a held ball; pending completed-world cinematics play before progression. Resuming from the last gameplay dialog restores focus to the arena.
 
 ## Source map
 
