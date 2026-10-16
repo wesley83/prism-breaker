@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-16T00:15:47.054Z",
+  "sourceCommit": "df35f5c972f8322d64565188979f5f3fafeca6ca",
+  "release": "61be83b456ccebaee354",
+  "files": [
+    {
+      "path": "audit/2026-10-16-handbook-controls-release.md",
+      "bytes": 3534,
+      "sha256": "044fa4496d8a3b6185deb4c0b47ed3779bb205196f0ea7fb67f5e0c7fa0ac4eb"
+    },
+    {
+      "path": "audit/2026-10-16-handbook-controls-deployment.json",
+      "bytes": 17516,
+      "sha256": "e2e62618b2a573be937c166db132826bf0d2c5d49c7e5d6595d4def8279a739c"
+    },
+    {
+      "path": "audit/2026-10-16-handbook-controls-gate.json",
+      "bytes": 703,
+      "sha256": "2791f05d556cb99a5cbfc6b5baf926b7df0ad03bff6e5dcdd03728c2552acc02"
+    },
+    {
+      "path": "audit/2026-10-16-handbook-controls-live.json",
+      "bytes": 47485,
+      "sha256": "62312ddbd590913afe5eb0650f1806e565a0226db415464752b40e034602dc70"
+    },
+    {
+      "path": "audit/2026-10-16-handbook-controls-browser.json",
+      "bytes": 531,
+      "sha256": "c4dfe79e8cdf9469e489be0512de5f34169c1d42c7d728d35854489024afd6c8"
+    },
+    {
+      "path": "audit/2026-10-16-handbook-controls-updated.png",
+      "bytes": 61629,
+      "sha256": "05626eb1ae4bd13b502f4d1955e207c2eecea78c80fba56f1e5d96f0926298b1"
+    }
+  ]
+}
