@@ -1,0 +1,46 @@
+{
+  "release": "be807e77f8a5dc2d2df7",
+  "source": "67e6d0c8c9fe4da9a0d7a120b2eda611d481b5f2",
+  "files": [
+    {
+      "path": "audit/2026-10-16-editor-direct-manipulation.md",
+      "sha256": "2026da56c1f18de1ad8824378824c1051d676606208e5787536e4ef2f36d7237",
+      "bytes": 5493
+    },
+    {
+      "path": "audit/2026-10-16-editor-320.png",
+      "sha256": "08d833d52227fb0c2589a5e93690f8d7fd6faee92468b1296a32b372d0b69c36",
+      "bytes": 31955
+    },
+    {
+      "path": "audit/2026-10-16-editor-desktop.png",
+      "sha256": "41edfb51b39deaaf2a33b36fc4f93a574f8daed63550c81de39b2053bfebd194",
+      "bytes": 109532
+    },
+    {
+      "path": "audit/2026-10-16-editor-live.png",
+      "sha256": "bfd6d245bd4ec0d4f7c1b42ff1cf0ee1a5fa7a13059dbce8ff4ca59c6ae1db38",
+      "bytes": 117882
+    },
+    {
+      "path": "audit/2026-10-16-editor-live.json",
+      "sha256": "f29247096637c763b69972b0caa119afe061b91aea7f6cb5df471596fc8562a1",
+      "bytes": 47486
+    },
+    {
+      "path": "audit/2026-10-16-editor-deployment.json",
+      "sha256": "c9389b88a6e2c4d5a713d907f7643a6d05c6dc77b7c29171e4b12e42e76d0f69",
+      "bytes": 17518
+    },
+    {
+      "path": "audit/2026-10-16-editor-gate.json",
+      "sha256": "c92970a2753638481aa7d405b4099d42393b0aa3ade45c4ca91f79ee749fcaea",
+      "bytes": 703
+    },
+    {
+      "path": "audit/2026-10-16-editor-browser.json",
+      "sha256": "e78755ac84c947720bf156c8fb3257cb7024528fc3843417f4bad06bd7f4194b",
+      "bytes": 770
+    }
+  ]
+}

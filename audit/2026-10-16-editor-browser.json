@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-16T02:02:33.394Z",
+  "release": "be807e77f8a5dc2d2df7",
+  "observed": [
+    "Live native /editor/prism-garden route loads new palette and controls",
+    "Existing draft restored; its contents were not edited or exported",
+    "World selector navigates to /editor/dawn-nexus with three formations",
+    "Dawn Nexus loads 49 bricks and the supported specializations",
+    "Selecting two armor bricks shows mixed hit points immediately",
+    "Stylesheet references the expected immutable release",
+    "No browser errors captured on initial live workshop load"
+  ],
+  "limits": [
+    "Desktop in-app browser only",
+    "No new live world publication or score submission",
+    "Local gesture review and responsive screenshots documented separately"
+  ]
+}
