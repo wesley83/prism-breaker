@@ -10,11 +10,19 @@ Unknown editor URLs require an explicit world selection. Failed reads offer reco
 
 ## Editing and play
 
-Select a world and formation. Select & move lets you inspect a brick and drag it on the grid. Arrow keys move a selected brick by 0.1 units. Add bricks paints grid cells; Erase or Delete removes a brick. The inspector edits its type, hit points, color, position and movement. Undo/redo retain up to fifty changes. Movement and one base specialization can be combined with one custom recipe. Multiple custom recipes on a single brick are rejected clearly.
+Select a world and formation, then choose a brick from the visual palette to start painting. Drag across empty cells to paint a row in one gesture; a placement preview shows occupied cells. Erase works continuously too. Each completed stroke is one Undo step, with up to fifty changes retained.
+
+Use **Select** to inspect or move a brick. Drag a rectangle through empty space to select a group, or Shift-click bricks to add or remove them. Properties apply immediately to the entire selection; mixed values are labeled. Drag the group to move it, Duplicate it into free space, Mirror it across the board, or delete it. A formation must retain at least one brick and can contain at most eighty. Painting, dragging, mirroring and duplication avoid occupied brick space. Precise coordinates remain available for intentional custom placement.
+
+The paintbrush has its own settings: inspecting a brick does not change the next brick you paint. **Use as brush** copies a single selected brick, including its color, movement and custom recipe. The world palette offers one-click colors. Undoing creation of a custom type resets an affected brush to its supported base type. Movement and one base specialization can be combined with one custom recipe; multiple custom recipes on a single brick are rejected clearly.
+
+On narrow screens, **Bricks & properties** opens a compact bottom drawer; **Done** returns focus to the board. Touch selection opens the drawer automatically. World settings, custom type creation and document recovery tools are collapsed until needed. The editing toolbar remains available while scrolling.
+
+Keyboard: **V** selects, **B** paints, **E** erases, **I** samples one selected brick and **P** opens Play. Arrow keys nudge a selection by 0.1 units; Shift + arrows moves a grid cell. Ctrl/Command + A selects all, D duplicates, Z undoes and Shift + Z redoes. Delete removes a selection. Enter or Space selects a focused brick. Escape cancels an active gesture, closes the mobile drawer, or clears the selection. Shortcuts leave text inputs and dialogs alone.
 
 Changes save automatically as a local draft. Download world exports a complete HTML document; Import world validates and rebuilds one for the same world. Inspect HTML shows the exact structure. Restore original restores the release layout and can be undone; Reload published retrieves the shared layout and can also be undone.
 
-Play this formation runs the actual Three.js renderer and fixed-step engine. Pointer/arrow keys move the paddle and Space launches. The preview displays score/lives and a short strike-event log. It never submits a leaderboard score.
+**Play** runs the actual Three.js renderer and fixed-step engine. Pointer/arrow keys move the paddle and Space launches. **Back to editing** returns to the same formation and selection; the brush and undo history remain intact. The preview displays score/lives and a short strike-event log. It never submits a leaderboard score.
 
 Published edited layouts are available through the game's Practice world chooser. Adventure and Daily Challenge use the official bundled layouts. This keeps community editing from silently changing leaderboard difficulty or an active Daily Challenge.
 

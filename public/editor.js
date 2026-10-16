@@ -7,7 +7,7 @@ import {attachBrickDOM} from './brick-events.js';
 import {setupGraphicsRecovery} from './graphics-recovery.js';
 
 const $=s=>document.querySelector(s),clone=v=>structuredClone(v);
-let world,phase=0,selected=null,tool='select',baseHTML='',history=[],future=[],drag=null,stage,previewGame,detachDOM,previewReady=false,previewClock=0;
+let world,phase=0,tool='select',baseHTML='',history=[],future=[],drag=null,stage,previewGame,detachDOM,previewReady=false,previewClock=0;
 const keys=new Set();const draftKey=slug=>'prism.world-draft.'+slug;
 const previewGraphics=setupGraphicsRecovery(document.querySelector('#preview-canvas'),{
  pause(){keys.clear();previewReady=false;if(previewGame)previewGame.state='paused';},
@@ -20,95 +20,218 @@ const previewGraphics=setupGraphicsRecovery(document.querySelector('#preview-can
 const message=text=>$('#editor-status').textContent=text;
 const safeStorage={get(key){try{return JSON.parse(localStorage.getItem(key));}catch{return null;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));return true;}catch{return false;}}};
 const current=()=>world.formations[phase];
-const selectedBrick=()=>current().bricks.find(b=>b.id===selected);
 const slugFromPath=editorSlug(location.pathname,location.search);
 const index=WORLD_SLUGS.indexOf(slugFromPath);
 WORLDS.forEach((w,i)=>$('#edit-world').add(new Option(w.name,WORLD_SLUGS[i])));
 if(index<0){const missing=new Option('Choose a world','');missing.disabled=true;$('#edit-world').add(missing,0);}$('#edit-world').value=index>=0?slugFromPath:'';
 $('#edit-world').onchange=()=>{location.href='/editor/'+$('#edit-world').value;};
 
-function saveDraft(){if(!world)return;
+const GRID_X=1.93,GRID_Y=1.05;
+const selection=new Set(),nodes=new Map();
+let brushState={kind:'normal',maxHp:1,color:'#b5ff6c',moving:false},colorEdit=null;
+const round=n=>Math.round(n*100)/100;
+const selectionBricks=()=>current().bricks.filter(b=>selection.has(b.id));
+const snapshot=()=>({world:clone(world),phase,selection:[...selection]});
+function restoreSnapshot(s){world=clone(s.world);phase=s.phase;selection.clear();for(const id of s.selection)selection.add(id);}
+function remember(s){history.push(s);if(history.length>50)history.shift();future=[];}
+function saveDraft(){
+ if(!world)return;
  const saved=safeStorage.set(draftKey(world.slug),{world,baseHTML,savedAt:Date.now()});
- message(saved?(baseHTML?'Draft saved':'Offline draft saved; reload published before publishing')+' · '+world.name+' · Formation '+(phase+1):'Draft storage is full. Download your world to keep it.');
+ $('#draft-status').textContent=saved?(baseHTML?'Draft saved':'Offline draft saved'):'Draft not saved';
+ if(!saved)message('Draft storage is full. Download your world to keep your changes.');
 }
-function remember(){history.push(clone(world));if(history.length>50)history.shift();future=[];}
-function commit(change){if(!world)return false;const previous=clone(world);try{change();world=normalizeWorld(world);phase=Math.min(phase,world.formations.length-1);populatePhases();history.push(previous);if(history.length>50)history.shift();future=[];render();saveDraft();return true;}catch(error){world=previous;message(error.message);return false;}}
+function commit(change,label='Change saved.'){if(!world||drag)return false;
+ finishColorEdit();const before=snapshot();
+ try{change();world=normalizeWorld(world);phase=Math.min(phase,world.formations.length-1);
+  if(JSON.stringify(before.world)===JSON.stringify(world)){render();return false;}
+  remember(before);render();saveDraft();message(label);return true;
+ }catch(error){restoreSnapshot(before);render();message(error.message);return false;}
+}
+function undo(){finishColorEdit();cancelDrag();if(!history.length)return;future.push(snapshot());restoreSnapshot(history.pop());render();saveDraft();message('Undone.');}
+function redo(){finishColorEdit();cancelDrag();if(!future.length)return;history.push(snapshot());restoreSnapshot(future.pop());render();saveDraft();message('Redone.');}
+const typeName=value=>world.types.find(t=>t.type===value)?.name||({normal:'Regular',armor:'Armored',explode:'Explosive',switch:'Switch'}[value]||value);
+const typeValue=b=>b.customType||b.kind;
+function applyType(b,value){const custom=world.types.find(t=>t.type===value);delete b.customType;b.kind=custom?.base||value;if(custom)b.customType=value;b.maxHp=b.kind==='armor'?2:1;b.hp=b.maxHp;}
+function brush(){return clone(brushState);}
+function chooseBrush(value){finishColorEdit();selection.clear();applyType(brushState,value);setTool('paint');}
 function syncTypes(){
- const value=$('#brick-type').value;$('#brick-type').replaceChildren();
- for(const [key,label]of [['normal','Regular'],['armor','Armored'],['explode','Explosive'],['switch','Switch']])$('#brick-type').add(new Option(label,key));
- for(const t of world.types)$('#brick-type').add(new Option(t.name,t.type));
- $('#brick-type').value=[...$('#brick-type').options].some(o=>o.value===value)?value:'normal';
+ const types=[['normal','Regular'],['armor','Armored'],['explode','Explosive'],['switch','Switch'],...world.types.map(t=>[t.type,t.name])];
+ $('#brick-type').replaceChildren(new Option('Mixed',''),...types.map(([value,label])=>new Option(label,value)));
+ const palette=$('#brick-palette');palette.replaceChildren();
+ for(const [value,label]of types){const button=document.createElement('button');button.type='button';button.dataset.type=value;button.setAttribute('aria-pressed',String(tool==='paint'&&typeValue(brushState)===value));
+  const brick=document.createElement('span');brick.className='palette-brick';brick.style.setProperty('--brick-color',brushState.color);const kind=world.types.find(t=>t.type===value)?.base||value;
+  brick.textContent=kind==='armor'?'2':kind==='explode'?'★':kind==='switch'?'◇':'';brick.setAttribute('aria-hidden','true');
+  const name=document.createElement('span');name.textContent=label;button.append(brick,name);palette.append(button);
+ }
 }
 function fillInspector(){
- const b=world?selectedBrick():null;$('#inspector-title').textContent=b?'Brick '+b.id:'Your brush';$('#delete-brick').hidden=!b;$('#apply-brick').textContent=b?'Apply changes':'Set brush';
- if(b){$('#brick-type').value=b.customType||b.kind;$('#brick-hp').value=String(b.maxHp);$('#brick-color').value=b.color;$('#brick-x').value=b.x;$('#brick-y').value=b.y;$('#brick-moving').checked=b.moving;}
+ const bricks=selectionBricks(),count=bricks.length,values=count?bricks:[brushState];
+ $('#brick-inspector').classList.toggle('has-selection',count>0);
+ const same=fn=>values.every(b=>fn(b)===fn(values[0])),first=values[0];
+ $('#inspector-title').textContent=count===1?'Selected brick':count?count+' selected bricks':'Your paintbrush';
+ $('#inspector-state').textContent=count?'Selection':'Brush';
+ $('#inspector-hint').textContent=count?'Changes apply immediately. Undo is always available.':typeName(typeValue(brushState))+' · '+brushState.maxHp+' hit'+(brushState.maxHp===1?'':'s')+' · ready to paint.';
+ $('#selection-type').hidden=!count;
+ $('#brick-type').value=same(typeValue)?typeValue(first):'';
+ $('#brick-hp').value=same(b=>b.maxHp)?String(first.maxHp):'';
+ $('#brick-color').value=first.color;$('#mixed-color').hidden=same(b=>b.color);
+ $('#brick-moving').checked=first.moving;$('#brick-moving').indeterminate=!same(b=>b.moving);$('#mixed-moving').hidden=same(b=>b.moving);
+ $('#position-details').hidden=count!==1;
+ $('#brick-x').value=count===1?first.x:'';$('#brick-y').value=count===1?first.y:'';
+ $('#selection-count').textContent=count?count+' selected':'No selection';
+ for(const id of ['duplicate-bricks','delete-brick','mirror-bricks'])$('#'+id).disabled=!count;
+ $('#sample-brick').disabled=count!==1;
+ const swatches=$('#color-swatches');swatches.replaceChildren();
+ for(const color of [...new Set(world.colors)]){const button=document.createElement('button');button.type='button';button.dataset.color=color;button.style.setProperty('--swatch',color);button.setAttribute('aria-label','Use color '+color);button.title=color;button.setAttribute('aria-pressed',String(same(b=>b.color)&&first.color.toLowerCase()===color.toLowerCase()));swatches.append(button);}
 }
 const left=x=>(x+10)/20*100,top=y=>(11-y)/20*100;
 function place(node,b){node.style.left=left(b.x-b.w/2)+'%';node.style.top=top(b.y+b.h/2)+'%';node.style.width=b.w/20*100+'%';node.style.height=b.h/20*100+'%';}
+function decorate(node,b){
+ place(node,b);node.style.setProperty('--brick-color',b.color);node.setAttribute('role','button');node.tabIndex=0;node.dataset.brickId=String(b.id);
+ node.classList.toggle('selected',selection.has(b.id));node.setAttribute('aria-pressed',String(selection.has(b.id)));
+ node.setAttribute('aria-label',typeName(typeValue(b))+' brick '+b.id+', '+b.maxHp+' hit'+(b.maxHp>1?'s':'')+', x '+b.x+', y '+b.y);
+ const rgb=b.color.slice(1).match(/../g).map(v=>parseInt(v,16));node.style.color=rgb[0]*.299+rgb[1]*.587+rgb[2]*.114>130?'#102025':'#f3f7fa';
+ let label=node.querySelector('span');if(!label){label=document.createElement('span');label.setAttribute('aria-hidden','true');node.append(label);}label.textContent=b.maxHp>1||b.kind==='armor'?String(b.maxHp):b.kind==='explode'?'★':b.kind==='switch'?'◇':b.customType?typeName(b.customType).slice(0,1):'';
+}
+function refreshBoard(){
+ const root=$('#edit-board #formation-'+phase);if(!root)return;
+ const ids=new Set(current().bricks.map(b=>b.id));for(const [id,node]of nodes)if(!ids.has(id)){node.remove();nodes.delete(id);}
+ for(const b of current().bricks){let node=nodes.get(b.id);if(!node){node=document.createElement('div');node.id='f'+phase+'-brick-'+b.id;node.setAttribute('itemscope','');node.setAttribute('itemprop','brick');node.setAttribute('itemtype','urn:Brick');root.append(node);nodes.set(b.id,node);}decorate(node,b);}
+ $('#brick-count').textContent=current().bricks.length+' / 80 bricks';
+}
+function refreshSelection(){
+ for(const [id,node]of nodes){node.classList.toggle('selected',selection.has(id));node.setAttribute('aria-pressed',String(selection.has(id)));}
+ const layer=$('#motion-guides');layer?.replaceChildren();
+ for(const b of selectionBricks().filter(b=>b.moving)){const guide=document.createElement('div');guide.className='motion-guide';place(guide,{...b,x:b.baseX,w:b.w+.56});layer?.append(guide);}
+ fillInspector();
+}
 function render(){
- $('#publish').disabled=!baseHTML;for(const key of ['name','note','tag','story','mechanic','shape','music','sky','accent'])$('#world-'+key).value=world[key];$('#world-colors').value=world.colors.join(' ');
+ if(!world)return;
+ if(brushState.customType&&!world.types.some(t=>t.type===brushState.customType))applyType(brushState,brushState.kind);
+ for(const id of selection)if(!current().bricks.some(b=>b.id===id))selection.delete(id);
+ $('#publish').disabled=!baseHTML;populatePhases();
+ for(const key of ['name','note','tag','story','mechanic','shape','music','sky','accent'])$('#world-'+key).value=world[key];$('#world-colors').value=world.colors.join(' ');
  $('#undo').disabled=!history.length;$('#redo').disabled=!future.length;syncTypes();
  const root=new DOMParser().parseFromString(worldHTML(world),'text/html').querySelector('#world');
  for(const section of root.querySelectorAll('[itemtype="urn:Formation"]'))section.hidden=Number(section.querySelector('meta[itemprop="phase"]').content)!==phase;
- const section=root.querySelector('#formation-'+phase);
- for(const b of current().bricks){
-  const node=section.querySelector('#f'+phase+'-brick-'+b.id);place(node,b);node.style.setProperty('--brick-color',b.color);node.setAttribute('role','button');node.tabIndex=0;node.dataset.brickId=String(b.id);node.classList.toggle('selected',b.id===selected);
-  const custom=world.types.find(t=>t.type===b.customType);node.setAttribute('aria-label',(custom?.name||b.kind)+' brick '+b.id+', '+b.maxHp+' hit'+(b.maxHp>1?'s':'')+', x '+b.x+', y '+b.y);node.setAttribute('aria-pressed',String(b.id===selected));
-  const rgb=b.color.slice(1).match(/../g).map(v=>parseInt(v,16));node.style.color=rgb[0]*.299+rgb[1]*.587+rgb[2]*.114>130?'#102025':'#f3f7fa';
-  const label=document.createElement('span');label.textContent=b.kind==='armor'||b.maxHp>1?String(b.maxHp):b.kind==='explode'?'★':b.kind==='switch'?'◇':custom?custom.name.slice(0,1).toUpperCase():'';label.setAttribute('aria-hidden','true');node.append(label);
- }
+ const section=root.querySelector('#formation-'+phase);nodes.clear();
+ for(const b of current().bricks){const node=section.querySelector('#f'+phase+'-brick-'+b.id);decorate(node,b);nodes.set(b.id,node);}
  [...section.querySelectorAll('[itemtype="urn:Barrier"]')].forEach((node,i)=>place(node,current().barriers[i]));
  [...section.querySelectorAll('[itemtype="urn:Portal"]')].forEach((node,i)=>{node.style.left=left(current().portals[i].x)+'%';node.style.top=top(current().portals[i].y)+'%';});
- $('#edit-board').replaceChildren(root);$('#brick-count').textContent=current().bricks.length+' / 80 bricks';fillInspector();
+ $('#edit-board').replaceChildren(root);
+ for(const id of ['motion-guides','brush-ghost','selection-box']){const node=document.createElement('div');node.id=id;node.setAttribute('aria-hidden','true');if(id!=='motion-guides')node.hidden=true;$('#edit-board').append(node);}
+ $('#brick-count').textContent=current().bricks.length+' / 80 bricks';refreshSelection();
 }
-function brush(){const value=$('#brick-type').value,type=world.types.find(t=>t.type===value);return {kind:type?.base||value,...(type?{customType:type.type}:{}),maxHp:Number($('#brick-hp').value),color:$('#brick-color').value,moving:$('#brick-moving').checked};}
-function choose(id){selected=id;for(const node of $('#edit-board').querySelectorAll('[data-brick-id]')){const on=Number(node.dataset.brickId)===id;node.classList.toggle('selected',on);node.setAttribute('aria-pressed',String(on));}fillInspector();}
-function position(event){const r=$('#edit-board').getBoundingClientRect(),x=(event.clientX-r.left)/r.width*20-10,y=11-(event.clientY-r.top)/r.height*20;const col=Math.max(-4,Math.min(4,Math.round(x/1.93))),row=Math.max(0,Math.min(15,Math.round((9-y)/1.05)));return {x:Math.round(col*1.93*100)/100,y:Math.round((9-row*1.05)*100)/100,row};}
-function paint(event){const p=position(event),f=current();if(f.bricks.length>=80)throw Error('A formation supports at most 80 bricks');if(f.bricks.some(b=>Math.abs(b.x-p.x)<.4&&Math.abs(b.y-p.y)<.3))return false;const b=brush();f.bricks.push({id:f.nextBrickId++,...p,w:1.7,h:.72,baseX:p.x,...b,hp:b.maxHp});return true;}
-for(const name of ['select','paint','erase'])$('#tool-'+name).onclick=()=>{tool=name;for(const n of ['select','paint','erase'])$('#tool-'+n).setAttribute('aria-pressed',String(n===name));if(name==='paint'){selected=null;fillInspector();}message(name==='paint'?'Click or drag on empty grid cells to add bricks.':name==='erase'?'Click a brick to erase it.':'Select a brick to inspect or move it.');};
+function setTool(value){if(drag)cancelDrag();finishColorEdit();tool=value;if(value!=='select')selection.clear();
+ for(const name of ['select','paint','erase'])$('#tool-'+name).setAttribute('aria-pressed',String(name===tool));
+ $('#edit-board').dataset.tool=tool;
+ $('#board-help').textContent=tool==='paint'?'Drag to paint. Empty cells only. Hold Alt over a brick to sample it.':tool==='erase'?'Drag across bricks to erase. One stroke is one Undo. Keep at least one brick.':'Drag empty space to select a group. Shift-click adds to a selection. Drag a brick to move it.';
+ if(world){syncTypes();refreshSelection();}$('#brush-ghost')?.setAttribute('hidden','');
+}
+function choose(id,add=false){finishColorEdit();if(!add)selection.clear();if(id!==null){if(add&&selection.has(id))selection.delete(id);else selection.add(id);}refreshSelection();}
+function position(event,snap=true){const r=$('#edit-board').getBoundingClientRect(),x=(event.clientX-r.left)/r.width*20-10,y=11-(event.clientY-r.top)/r.height*20;
+ if(!snap)return {x,y};const col=Math.max(-4,Math.min(4,Math.round(x/GRID_X))),row=Math.max(0,Math.min(15,Math.round((9-y)/GRID_Y)));return {x:round(col*GRID_X),y:round(9-row*GRID_Y),row};}
+function overlaps(a,b){return Math.abs(a.x-b.x)<(a.w+b.w)/2-.02&&Math.abs(a.y-b.y)<(a.h+b.h)/2-.02;}
+function inBounds(b){return b.x>=-9&&b.x<=9&&b.y>=-7.5&&b.y<=10.5&&Math.abs(b.x)+b.w/2+(b.moving ? .28 : 0)<10;}
+function canPlace(b,ignore=new Set()){return inBounds(b)&&!current().bricks.some(other=>!ignore.has(other.id)&&overlaps(b,other));}
+function hit(point){return [...current().bricks].reverse().find(b=>Math.abs(point.x-b.x)<=b.w/2&&Math.abs(point.y-b.y)<=b.h/2);}
+function ghost(event){const node=$('#brush-ghost');if(!node||tool!=='paint'||drag?.kind==='box')return;const p=position(event),b={...brush(),...p,w:1.7,h:.72};place(node,b);node.style.setProperty('--brick-color',b.color);node.classList.toggle('invalid',!canPlace(b)||current().bricks.length>=80);node.hidden=false;}
+function stamp(p){if(current().bricks.length>=80){message('The formation is full: 80 bricks maximum.');return false;}const b={...brush(),...p,w:1.7,h:.72,baseX:p.x};if(!canPlace(b))return false;b.id=current().nextBrickId++;b.hp=b.maxHp;current().bricks.push(b);return true;}
+function eraseAt(p){const b=hit(p);if(!b)return false;if(current().bricks.length===1){message('Keep at least one brick in the formation.');return false;}current().bricks=current().bricks.filter(other=>other.id!==b.id);selection.delete(b.id);return true;}
+function stroke(from,to,kind){const steps=Math.max(1,Math.ceil(Math.max(Math.abs(to.x-from.x)/.35,Math.abs(to.y-from.y)/.2)));let changed=false;
+ for(let i=0;i<=steps;i++){const p={x:from.x+(to.x-from.x)*i/steps,y:from.y+(to.y-from.y)*i/steps};if(kind==='paint'){p.row=Math.max(0,Math.min(15,Math.round((9-p.y)/GRID_Y)));p.x=round(Math.max(-4,Math.min(4,Math.round(p.x/GRID_X)))*GRID_X);p.y=round(9-p.row*GRID_Y);changed=stamp(p)||changed;}else changed=eraseAt(p)||changed;}
+ return changed;
+}
+function sample(){const b=selectionBricks()[0];if(!b)return;brushState={kind:b.kind,maxHp:b.maxHp,color:b.color,moving:b.moving,...(b.customType?{customType:b.customType}:{})};setTool('paint');message(typeName(typeValue(b))+' sampled. Paint matching bricks.');}
+function moveGroup(originals,dx,dy){
+ const proposed=originals.map(b=>dx===0&&dy===0?clone(b):({...b,x:round(b.x+dx),y:round(b.y+dy),baseX:round(b.baseX+dx),row:Math.max(0,Math.min(79,Math.round((9-(b.y+dy))/GRID_Y)))}));
+ if(proposed.some(b=>!canPlace(b,selection)))return false;
+ for(const value of proposed)Object.assign(current().bricks.find(b=>b.id===value.id),value);return true;
+}
+function duplicate(){const selected=selectionBricks();if(!selected.length)return;if(current().bricks.length+selected.length>80){message('Not enough room in the 80-brick limit to duplicate this selection.');return;}
+ for(let distance=1;distance<=16;distance++)for(const [dx,dy]of [[0,-GRID_Y*distance],[GRID_X*distance,0],[-GRID_X*distance,0],[0,GRID_Y*distance]]){
+  const copies=selected.map(b=>({...b,x:round(b.x+dx),y:round(b.y+dy),baseX:round(b.baseX+dx),row:Math.max(0,Math.min(79,Math.round((9-b.y-dy)/GRID_Y)))}));
+  if(copies.every(b=>canPlace(b))){commit(()=>{selection.clear();for(const b of copies){b.id=current().nextBrickId++;current().bricks.push(b);selection.add(b.id);}},'Selection duplicated. Drag it into place.');return;}
+ }message('No free space fits this selection. Move or erase some bricks first.');
+}
+function deleteSelection(){if(!selection.size)return;if(selection.size>=current().bricks.length){message('Keep at least one brick. Deselect a brick before deleting.');return;}commit(()=>{current().bricks=current().bricks.filter(b=>!selection.has(b.id));selection.clear();},'Selection deleted.');}
+function cancelDrag(){if(!drag)return;const prior=drag;drag=null;restoreSnapshot(prior.before);render();$('#edit-board').classList.remove('blocked-move');if($('#edit-board').hasPointerCapture(prior.pointer))$('#edit-board').releasePointerCapture(prior.pointer);message('Gesture canceled.');}
+function endDrag(){if(!drag)return;const prior=drag;drag=null;
+ if(prior.kind==='box'){refreshSelection();$('#selection-box').hidden=true;return;}
+ if(!prior.changed){refreshSelection();return;}
+ try{world=normalizeWorld(world);if(JSON.stringify(world)!==JSON.stringify(prior.before.world)){remember(prior.before);saveDraft();message(prior.kind==='paint'?'Stroke painted.':prior.kind==='erase'?'Stroke erased.':'Selection moved.');}render();}
+ catch(error){restoreSnapshot(prior.before);render();message(error.message);}
+}
 $('#edit-board').onpointerdown=event=>{
- if(!world||event.button!==0)return;const node=event.target.closest('[data-brick-id]');
- if(tool==='erase'){if(node)commit(()=>{current().bricks=current().bricks.filter(b=>b.id!==Number(node.dataset.brickId));selected=null;});return;}
- if(tool==='select'&&!node){choose(null);return;}
- if(node&&tool==='select')choose(Number(node.dataset.brickId));
- drag={before:clone(world),changed:false,id:selected,pointer:event.pointerId};$('#edit-board').setPointerCapture(event.pointerId);
- if(tool==='paint')try{drag.changed=paint(event);if(drag.changed)render();}catch(e){message(e.message);}
+ if(!world||event.button!==0||drag)return;finishColorEdit();const point=position(event,false),brick=hit(point);$('#edit-board').focus({preventScroll:true});
+ if(event.altKey&&brick){choose(brick.id);sample();return;}
+ if(tool==='select'&&brick&&event.shiftKey){choose(brick.id,true);return;}
+ const before=snapshot();if(tool==='select'&&brick&&!selection.has(brick.id))choose(brick.id);
+ if(tool==='select'&&!brick&&!event.shiftKey)selection.clear();
+ drag={before,pointer:event.pointerId,start:point,last:point,changed:false,kind:tool==='select'?(brick?'move':'box'):tool,originals:clone(selectionBricks()),add:event.shiftKey};
+ $('#edit-board').setPointerCapture(event.pointerId);
+ if(tool==='paint'||tool==='erase'){drag.changed=stroke(point,point,tool);refreshBoard();}
+ refreshSelection();
 };
 $('#edit-board').onpointermove=event=>{
- if(!drag||drag.pointer!==event.pointerId)return;
- if(tool==='paint'){try{if(paint(event)){drag.changed=true;render();}}catch(e){message(e.message);}return;}
- const b=selectedBrick(),p=position(event);if(!b||b.x===p.x&&b.y===p.y)return;Object.assign(b,p,{baseX:p.x});drag.changed=true;render();
+ ghost(event);if(!drag||drag.pointer!==event.pointerId)return;const point=position(event,false);
+ if(drag.kind==='paint'||drag.kind==='erase'){drag.changed=stroke(drag.last,point,drag.kind)||drag.changed;drag.last=point;refreshBoard();return;}
+ if(drag.kind==='box'){const x1=Math.min(point.x,drag.start.x),x2=Math.max(point.x,drag.start.x),y1=Math.min(point.y,drag.start.y),y2=Math.max(point.y,drag.start.y);selection.clear();if(drag.add)for(const id of drag.before.selection)selection.add(id);for(const b of current().bricks)if(b.x+b.w/2>=x1&&b.x-b.w/2<=x2&&b.y+b.h/2>=y1&&b.y-b.h/2<=y2)selection.add(b.id);const box=$('#selection-box');place(box,{x:(x1+x2)/2,y:(y1+y2)/2,w:x2-x1,h:y2-y1});box.hidden=false;refreshSelection();return;}
+ const dx=round(Math.round((point.x-drag.start.x)/GRID_X)*GRID_X),dy=round(Math.round((point.y-drag.start.y)/GRID_Y)*GRID_Y);
+ if(moveGroup(drag.originals,dx,dy)){drag.changed=dx!==0||dy!==0;$('#edit-board').classList.remove('blocked-move');refreshBoard();}else $('#edit-board').classList.add('blocked-move');
 };
-function endDrag(){if(!drag)return;const before=drag.before,changed=drag.changed;drag=null;if(!changed)return;try{world=normalizeWorld(world);history.push(before);future=[];render();saveDraft();}catch(e){world=before;render();message(e.message);}}
-$('#edit-board').onpointerup=endDrag;$('#edit-board').onpointercancel=endDrag;
-$('#edit-board').onclick=event=>{const node=event.target.closest('[data-brick-id]');if(tool==='select'&&node)choose(Number(node.dataset.brickId));};
-$('#edit-board').onkeydown=event=>{
- if(event.key==='Enter'||event.key===' '){const node=event.target.closest('[data-brick-id]');if(node){event.preventDefault();choose(Number(node.dataset.brickId));}return;}
- if(event.key==='Delete'||event.key==='Backspace'){if(selectedBrick()){event.preventDefault();$('#delete-brick').click();}return;}
- const delta={ArrowLeft:[-.1,0],ArrowRight:[.1,0],ArrowUp:[0,.1],ArrowDown:[0,-.1]}[event.key];if(!delta||!selectedBrick())return;
- event.preventDefault();const id=selected;commit(()=>{const b=selectedBrick();b.x=Math.round((b.x+delta[0])*100)/100;b.y=Math.round((b.y+delta[1])*100)/100;b.baseX=b.x;});$('#edit-board [data-brick-id="'+id+'"]').focus();
-};
-$('#brick-form').onsubmit=event=>{event.preventDefault();if(!selectedBrick()){message('Brush ready. Choose Add bricks to paint.');return;}commit(()=>{const b=selectedBrick(),settings=brush();delete b.customType;Object.assign(b,settings,{hp:settings.maxHp,x:Number($('#brick-x').value),y:Number($('#brick-y').value)});b.baseX=b.x;});};
-$('#brick-type').onchange=()=>{const t=world.types.find(t=>t.type===$('#brick-type').value);$('#brick-hp').value=(t?.base||$('#brick-type').value)==='armor'?'2':'1';};
-$('#delete-brick').onclick=()=>commit(()=>{current().bricks=current().bricks.filter(b=>b.id!==selected);selected=null;});
-$('#undo').onclick=()=>{if(!history.length)return;future.push(clone(world));world=history.pop();selected=null;render();saveDraft();};
-$('#redo').onclick=()=>{if(!future.length)return;history.push(clone(world));world=future.pop();selected=null;render();saveDraft();};
-$('#edit-phase').onchange=()=>{phase=Number($('#edit-phase').value);selected=null;render();};
+$('#edit-board').onpointerup=event=>{endDrag();if(event.pointerType==='touch'&&tool==='select'&&selection.size)inspectorSheet(true);$('#edit-board').classList.remove('blocked-move');};
+$('#edit-board').onpointercancel=cancelDrag;
+$('#edit-board').onlostpointercapture=()=>{if(drag)cancelDrag();};
+$('#edit-board').onpointerleave=()=>{$('#brush-ghost')?.setAttribute('hidden','');};
+$('#edit-board').onclick=event=>{if(event.detail!==0)return;const node=event.target.closest('[data-brick-id]');if(node)choose(Number(node.dataset.brickId),event.shiftKey);};
+for(const name of ['select','paint','erase'])$('#tool-'+name).onclick=()=>setTool(name);
+$('#brick-palette').onclick=event=>{const button=event.target.closest('[data-type]');if(button)chooseBrush(button.dataset.type);};
+$('#brick-form').onsubmit=event=>event.preventDefault();
+function changeProperty(key,value){if(!world)return;
+ const apply=b=>{if(key==='type')applyType(b,value);else{b[key]=value;if(key==='maxHp'){b.hp=value;if(!b.customType&&b.kind==='normal'&&value>1)b.kind='armor';}if(key==='x')b.baseX=value;if(key==='y')b.row=Math.max(0,Math.min(79,Math.round((9-value)/GRID_Y)));}};
+ if(selection.size)commit(()=>{for(const b of selectionBricks())apply(b);},'Selection updated.');else{apply(brushState);syncTypes();fillInspector();}
+}
+$('#brick-type').onchange=event=>{if(event.target.value)changeProperty('type',event.target.value);};
+$('#brick-hp').onchange=event=>{if(event.target.value)changeProperty('maxHp',Number(event.target.value));};
+$('#brick-moving').onchange=event=>changeProperty('moving',event.target.checked);
+for(const key of ['x','y'])$('#brick-'+key).onchange=event=>{if(event.target.value!==''&&event.target.checkValidity())changeProperty(key,Number(event.target.value));else{message('Enter a valid position inside the board.');fillInspector();}};
+$('#brick-color').oninput=event=>{if(!selection.size){brushState.color=event.target.value;syncTypes();return;}colorEdit??=snapshot();for(const b of selectionBricks())b.color=event.target.value;refreshBoard();$('#mixed-color').hidden=true;};
+function finishColorEdit(){if(!colorEdit)return;const before=colorEdit;colorEdit=null;try{world=normalizeWorld(world);if(JSON.stringify(before.world)!==JSON.stringify(world)){remember(before);saveDraft();}render();}catch(e){restoreSnapshot(before);render();message(e.message);}}
+$('#brick-color').onchange=()=>{finishColorEdit();syncTypes();fillInspector();};
+$('#brick-color').onblur=finishColorEdit;
+$('#color-swatches').onclick=event=>{const button=event.target.closest('[data-color]');if(button)changeProperty('color',button.dataset.color);};
+$('#select-all').onclick=()=>{setTool('select');for(const b of current().bricks)selection.add(b.id);refreshSelection();};
+$('#duplicate-bricks').onclick=duplicate;$('#delete-brick').onclick=deleteSelection;$('#sample-brick').onclick=sample;
+$('#mirror-bricks').onclick=()=>{const mirrored=selectionBricks().map(b=>({...b,x:-b.x,baseX:-b.baseX}));if(mirrored.some(b=>!canPlace(b,selection))){message('The mirrored selection would overlap another brick.');return;}commit(()=>{for(const b of mirrored)Object.assign(current().bricks.find(v=>v.id===b.id),b);},'Selection mirrored.');};
+$('#undo').onclick=undo;$('#redo').onclick=redo;
+$('#edit-phase').onchange=event=>{finishColorEdit();cancelDrag();phase=Number(event.target.value);selection.clear();render();};
+document.addEventListener('keydown',event=>{
+ if(!world||$('.editor-layout').inert||$('dialog[open]')||event.target.closest('input,textarea,select,[contenteditable=true]'))return;
+ const key=event.key.toLowerCase(),mod=event.ctrlKey||event.metaKey;
+ if(event.key==='Escape'){event.preventDefault();if(drag)cancelDrag();else if($('#brick-inspector').classList.contains('sheet-open')){inspectorSheet(false);$('#edit-board').focus({preventScroll:true});}else{selection.clear();setTool('select');}return;}
+ if(drag)return;
+ const actions=mod?{z:event.shiftKey?redo:undo,y:redo,a:()=>$('#select-all').click(),d:duplicate}:{v:()=>setTool('select'),b:()=>setTool('paint'),e:()=>setTool('erase'),i:sample,p:()=>$('#preview').click(),delete:deleteSelection,backspace:deleteSelection};
+ if(actions[key]){event.preventDefault();if(!event.repeat)actions[key]();return;}
+ const delta={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,1],ArrowDown:[0,-1]}[event.key];
+ if(delta&&selection.size){event.preventDefault();const originals=clone(selectionBricks()),dx=delta[0]*(event.shiftKey?GRID_X:.1),dy=delta[1]*(event.shiftKey?GRID_Y:.1);commit(()=>{if(!moveGroup(originals,dx,dy))throw Error('That move would overlap a brick or leave the board.');},'Selection moved.');$('#edit-board').focus({preventScroll:true});}
+});
+window.addEventListener('blur',()=>{cancelDrag();finishColorEdit();});
 
 function typeOptions(){const effect=$('#type-effect').value;for(const [name,shown]of [['points','bonus'],['radius','pulse'],['duration','slow-ball'],['power','power-up']]){const input=$('#type-'+name);input.hidden=effect!==shown;document.querySelector('label[for="type-'+name+'"]').hidden=effect!==shown;}}
 $('#type-effect').onchange=typeOptions;typeOptions();
 $('#type-form').onsubmit=event=>{event.preventDefault();const name=$('#type-name').value.trim();let slug=name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');if(!/^[a-z]/.test(slug))slug='brick-'+slug;slug=slug.slice(0,40);const type='urn:Brick:Custom:'+slug;
  const created=commit(()=>world.types.push({type,name,base:$('#type-base').value,effect:$('#type-effect').value,points:Number($('#type-points').value),radius:Number($('#type-radius').value),duration:Number($('#type-duration').value),power:$('#type-power').value}));
- if(created){$('#brick-type').value=type;$('#brick-type').onchange();selected=null;fillInspector();message(name+' created. Choose Add bricks to place it.');}
+ if(created){chooseBrush(type);$('#type-form').reset();typeOptions();message(name+' is ready. Paint it on the board.');}
 };
 $('#show-html').onclick=()=>{$('#html-source').value=worldDocument(world).replaceAll('><','>\n<');$('#html-status').textContent='';$('#html-dialog').showModal();};
 $('#copy-html').onclick=async()=>{try{await navigator.clipboard.writeText($('#html-source').value);$('#html-status').textContent='HTML copied.';}catch{$('#html-source').select();$('#html-status').textContent='Select and copy the HTML above.';}};
 $('#export').onclick=()=>{const url=URL.createObjectURL(new Blob([worldDocument(world)],{type:'text/html'})),a=document.createElement('a');a.href=url;a.download=world.slug+'.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),10000);};
 $('#import').onclick=()=>$('#import-file').click();
-$('#import-file').onchange=async()=>{const file=$('#import-file').files[0];$('#import-file').value='';if(!file)return;try{if(file.size>1000000)throw Error('World file is too large');const imported=parseWorld(await file.text(),{expectedSlug:world.slug});commit(()=>{world=imported;selected=null;});}catch(e){message(e.message);}};
-$('#restore').onclick=()=>commit(()=>{world=originalWorld(world.index);selected=null;});
+$('#import-file').onchange=async()=>{const file=$('#import-file').files[0];$('#import-file').value='';if(!file)return;try{if(file.size>1000000)throw Error('World file is too large');const imported=parseWorld(await file.text(),{expectedSlug:world.slug});commit(()=>{world=imported;selection.clear();});}catch(e){message(e.message);}};
+$('#restore').onclick=()=>commit(()=>{world=originalWorld(world.index);selection.clear();});
 async function published(slug){const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Could not load the published world ('+response.status+').');const fresh=parseWorld(await response.text(),{expectedSlug:slug});safeStorage.set('prism.world-published.'+slug,{world:fresh,savedAt:Date.now()});return fresh;}
-$('#reload').onclick=async()=>{try{const fresh=await published(slugFromPath);baseHTML=worldHTML(fresh);commit(()=>{world=fresh;selected=null;phase=0;});populatePhases();saveDraft();}catch(e){message(e.message);}};
+$('#reload').onclick=async()=>{try{const fresh=await published(slugFromPath);baseHTML=worldHTML(fresh);commit(()=>{world=fresh;selection.clear();phase=0;});populatePhases();saveDraft();}catch(e){message(e.message);}};
 
 $('#publish').onclick=()=>{if(!world||!baseHTML)return;$('#publish-status').textContent='';$('#owner-key').value='';$('#publish-dialog').showModal();};
 $('#publish-form').onsubmit=async event=>{
@@ -128,7 +251,9 @@ $('#publish-form').onsubmit=async event=>{
  }catch(e){$('#publish-status').textContent=e.message;}finally{button.disabled=false;}
 };
 
+let previewGeneration=0,preparation=Promise.resolve();
 function startPreview(){
+ keys.clear();accumulator=0;previewClock=0;
  detachDOM?.();previewGame=new Game(e=>{stage?.event(e);if(e.type==='phase'){previewGame.state='cleared';previewGame.bricks=[];previewGame.barriers=[];}if(e.type==='phase'||e.type==='clear')$('#preview-status').textContent='Formation cleared. Try another idea, or play again.';if(e.type==='over')$('#preview-status').textContent='Run finished. Restart to try again.';});
  previewGame.catalog=formationCatalog(world);previewGame.start('practice',world.index,8399);previewGame.phase=phase;previewGame.loadLevel();stage?.reset();
  detachDOM=attachBrickDOM(previewGame,$('#edit-board #world'));$('#strike-events').replaceChildren();
@@ -136,15 +261,22 @@ function startPreview(){
  $('#preview-title').textContent=world.name+' · Formation '+(phase+1);$('#preview-status').textContent='Practice preview. Move with the pointer or arrows; Space launches.';$('#preview-launch').hidden=false;$('#preview-launch').textContent='Launch ball';
 }
 $('#preview').onclick=async()=>{
- try{normalizeWorld(world);$('#preview-dialog').showModal();previewReady=false;startPreview();if(!stage){const {Stage}=await import('./scene.js?v=15');stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}stage.resize();await stage.prepare(previewGame);previewReady=true;$('#preview-canvas').focus();}catch(e){$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
+ const generation=++previewGeneration,active=()=>generation===previewGeneration&&$('#preview-dialog').open;
+ try{
+  finishColorEdit();normalizeWorld(world);$('#preview-dialog').showModal();previewReady=false;$('#restart-preview').disabled=true;$('#preview-launch').disabled=true;
+  await preparation.catch(()=>{});if(!active())return;startPreview();
+  if(!stage){const {Stage}=await import('./scene.js?v=15');if(!active())return;stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}
+  stage.resize();preparation=stage.prepare(previewGame);await preparation;if(!active())return;
+  previewReady=true;$('#restart-preview').disabled=false;$('#preview-launch').disabled=false;$('#preview-canvas').focus();
+ }catch(e){if(active())$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
 };
 $('#restart-preview').onclick=()=>{startPreview();previewReady=true;$('#preview-canvas').focus();};
-$('#preview-launch').onclick=()=>previewGame?.launch();
+$('#preview-launch').onclick=()=>{if(previewReady)previewGame?.launch();};
 $('#preview-canvas').onpointermove=event=>{if(previewGame&&stage)previewGame.move(stage.screenX(event.clientX,event.clientY));};
-$('#preview-canvas').onpointerdown=event=>{event.preventDefault();$('#preview-canvas').focus();previewGame?.launch();};
+$('#preview-canvas').onpointerdown=event=>{event.preventDefault();$('#preview-canvas').focus();if(previewReady)previewGame?.launch();};
 document.addEventListener('keydown',event=>{if(!$('#preview-dialog').open||/INPUT|SELECT|TEXTAREA/.test(event.target.tagName))return;if(['ArrowLeft','ArrowRight',' ','a','d'].includes(event.key)){event.preventDefault();keys.add(event.key);if(event.key===' ')previewGame?.launch();}});
 document.addEventListener('keyup',event=>keys.delete(event.key));window.addEventListener('blur',()=>keys.clear());
-$('#preview-dialog').addEventListener('close',()=>{keys.clear();previewReady=false;detachDOM?.();render();});
+$('#preview-dialog').addEventListener('close',()=>{previewGeneration++;keys.clear();previewReady=false;detachDOM?.();render();$('#edit-board').focus({preventScroll:true});});
 for(const button of document.querySelectorAll('[data-close]'))button.onclick=()=>$('#'+button.dataset.close).close();
 window.addEventListener('resize',()=>{if($('#preview-dialog').open)stage?.resize();});
 let last=performance.now(),accumulator=0;
@@ -154,8 +286,8 @@ function setEditing(enabled){
  for(const selector of ['.editor-layout','.workshop-actions'])$(selector).inert=!enabled;
  $('#edit-phase').disabled=!enabled;$('#publish').disabled=!enabled||!baseHTML;
 }
-function populatePhases(){ $('#edit-phase').replaceChildren();world.formations.forEach((_,i)=>$('#edit-phase').add(new Option('Formation '+(i+1),String(i))));phase=Math.min(phase,world.formations.length-1);$('#edit-phase').value=String(phase);}
-function openWorld(value,status){world=normalizeWorld(value);phase=0;selected=null;populatePhases();$('#brick-color').value=world.accent;setEditing(true);render();message(status);}
+function populatePhases(){ $('#edit-phase').replaceChildren();world.formations.forEach((_,i)=>$('#edit-phase').add(new Option((i+1)+' of '+world.formations.length,String(i))));phase=Math.min(phase,world.formations.length-1);$('#edit-phase').value=String(phase);}
+function openWorld(value,status){world=normalizeWorld(value);phase=0;selection.clear();populatePhases();brushState.color=world.accent;history=[];future=[];setEditing(true);render();setTool('select');$('#draft-status').textContent=status.includes('restor')?'Draft restored':'World loaded';message(status);}
 for(const key of ['shape','music'])for(const theme of THEMES)$('#world-'+key).add(new Option(theme,theme));
 $('#world-details').onsubmit=event=>{event.preventDefault();commit(()=>{for(const key of ['name','note','tag','story','mechanic','shape','music','sky','accent'])world[key]=$('#world-'+key).value.trim();world.colors=$('#world-colors').value.trim().split(/\s+/);});};
 $('#retry-world').onclick=initialize;
@@ -172,3 +304,9 @@ async function initialize(){
  }catch(error){world=null;baseHTML='';$('#world-recovery').hidden=false;$('#use-draft').hidden=!safeStorage.get(draftKey(slugFromPath));message(error.message+' Choose Retry, your saved draft, or the original release.');}
 }
 initialize();
+
+function inspectorSheet(open){$('#brick-inspector').classList.toggle('sheet-open',open);$('#mobile-inspector').setAttribute('aria-expanded',String(open));}
+$('#mobile-inspector').onclick=()=>inspectorSheet(!$('#brick-inspector').classList.contains('sheet-open'));
+$('#close-inspector').onclick=()=>{inspectorSheet(false);$('#edit-board').focus({preventScroll:true});};
+$('#edit-board').addEventListener('keydown',event=>{const node=event.target.closest('[data-brick-id]');if(node&&['Enter',' '].includes(event.key)){event.preventDefault();setTool('select');choose(Number(node.dataset.brickId),event.shiftKey);}});
+new ResizeObserver(entries=>{const r=entries[0].contentRect;$('#edit-board').style.backgroundPosition=(r.width*.06575)+'px '+(r.height*.07375)+'px';}).observe($('#edit-board'));
