@@ -1,0 +1,38 @@
+{
+  "createdAt": "2026-10-15T22:56:49.246Z",
+  "actor": "Codex",
+  "baseCommit": "54a24854bc47e4fd540e3749aa55b52ec4636f07",
+  "scope": "Documentation-only working bytes; patch normalizes line endings for review, original guide preserves baseline bytes. Hash manifest excludes itself. No runtime/production changes.",
+  "files": [
+    {
+      "path": "GAME-DEVELOPMENT-BEST-PRACTICES.md",
+      "bytes": 125614,
+      "sha256": "525c7c01d3fc3486ebeb006ac117259e97f0fc8872895ac814835e814a0c05b1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 46950,
+      "sha256": "f03697d620fa8df9c16114776b6bf4ac4096f6c17cd839e7998258b8d3c2ed12"
+    },
+    {
+      "path": "audit/2026-10-15-game-best-practices.md",
+      "bytes": 7087,
+      "sha256": "d3109733e7fe61f5fc9537907f804b7849f7dc9a23760d172365d6e06314a0b3"
+    },
+    {
+      "path": "audit/2026-10-15-game-best-practices-sources.json",
+      "bytes": 86649,
+      "sha256": "e78055c90ba27ff1f10ff658e5a02ec86b9446aeee0b30af472f109be4bdbfff"
+    },
+    {
+      "path": "audit/2026-10-15-game-best-practices-validation.json",
+      "bytes": 907,
+      "sha256": "14a703f38fd269f4a62bf3e1554eb11422bc384cec4d5c47f89493d97b9867b5"
+    },
+    {
+      "path": "audit/2026-10-15-game-best-practices-changes.patch",
+      "bytes": 226032,
+      "sha256": "ce6e5f611cbb37640eecea90744f34b07ddd40470b7fccdf19f0ddc45c8fbe8e"
+    }
+  ]
+}

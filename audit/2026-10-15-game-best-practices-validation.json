@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-15T22:55:39.221Z",
+  "scope": "Documentation validation only; no gameplay test suite, new browser/device run, provider probe or publication.",
+  "guide": {
+    "path": "GAME-DEVELOPMENT-BEST-PRACTICES.md",
+    "bytes": 125614,
+    "sha256": "525c7c01d3fc3486ebeb006ac117259e97f0fc8872895ac814835e814a0c05b1",
+    "words": 17507
+  },
+  "baseline": {
+    "bytes": 29189,
+    "sha256": "c18dadce85e2b419e4a3b24f35c36fb9cdbb9fb20b60b8f8ed8bb5ad2b0a2ac6",
+    "exactEmbeddedBytes": true,
+    "all23RulesMapped": true
+  },
+  "localAnchors": 27,
+  "balancedCodeFences": true,
+  "sourceInventoryHashesVerified": 304,
+  "repositoryCheck": "Run separately; result recorded in audit.",
+  "limits": "Link checks validate local destinations, not every remote URL or every linked heading. Limited credential scanning is not exhaustive. Source inventory indexes raw evidence, not full replay."
+}
