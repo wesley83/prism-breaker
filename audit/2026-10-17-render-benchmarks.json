@@ -1,0 +1,138 @@
+[
+  {
+    "version": "previous",
+    "scenario": "quiet",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1.5,
+    "cpuMeanMS": 1.89,
+    "cpuP95MS": 2.6,
+    "refreshFPS": 59.89,
+    "slowFrames": 0,
+    "meanDrawCalls": 234,
+    "meanTriangles": 4249,
+    "peakParticles": 0
+  },
+  {
+    "version": "optimized",
+    "scenario": "quiet",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1.25,
+    "cpuMeanMS": 0.88,
+    "cpuP95MS": 1.1,
+    "refreshFPS": 59.89,
+    "slowFrames": 0,
+    "meanDrawCalls": 29,
+    "meanTriangles": 4328,
+    "peakParticles": 0
+  },
+  {
+    "version": "previous",
+    "scenario": "stress",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1.5,
+    "cpuMeanMS": 3.54,
+    "cpuP95MS": 4.5,
+    "refreshFPS": 59.88,
+    "slowFrames": 0,
+    "meanDrawCalls": 526.88,
+    "meanTriangles": 20296,
+    "peakParticles": 229
+  },
+  {
+    "version": "optimized",
+    "scenario": "stress",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1.25,
+    "cpuMeanMS": 1.47,
+    "cpuP95MS": 2.1,
+    "refreshFPS": 59.89,
+    "slowFrames": 0,
+    "meanDrawCalls": 116,
+    "meanTriangles": 20163.4,
+    "peakParticles": 192
+  },
+  {
+    "version": "previous",
+    "scenario": "low",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1,
+    "cpuMeanMS": 2.85,
+    "cpuP95MS": 3.5,
+    "refreshFPS": 59.89,
+    "slowFrames": 0,
+    "meanDrawCalls": 448.13,
+    "meanTriangles": 15883.07,
+    "peakParticles": 187
+  },
+  {
+    "version": "optimized",
+    "scenario": "low",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1,
+    "cpuMeanMS": 1.17,
+    "cpuP95MS": 1.5,
+    "refreshFPS": 59.87,
+    "slowFrames": 0,
+    "meanDrawCalls": 84,
+    "meanTriangles": 14772.73,
+    "peakParticles": 48
+  },
+  {
+    "version": "previous",
+    "scenario": "classic",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1.5,
+    "cpuMeanMS": 3.39,
+    "cpuP95MS": 4.7,
+    "refreshFPS": 59.88,
+    "slowFrames": 0,
+    "meanDrawCalls": 494.12,
+    "meanTriangles": 18041.93,
+    "peakParticles": 230
+  },
+  {
+    "version": "optimized",
+    "scenario": "classic",
+    "frames": 120,
+    "canvas": [
+      900,
+      560
+    ],
+    "pixelRatio": 1.25,
+    "cpuMeanMS": 1.37,
+    "cpuP95MS": 1.8,
+    "refreshFPS": 59.88,
+    "slowFrames": 0,
+    "meanDrawCalls": 105,
+    "meanTriangles": 17852.33,
+    "peakParticles": 192
+  }
+]
