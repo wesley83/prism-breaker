@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-17T21:08:01.350Z",
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "scope": "Observed desktop Chromium in-app browser; no physical-device certification",
+  "baseline": "f040e06f64812c205108",
+  "updatedRelease": "61ed4fec441fef26f87e",
+  "updateNoticeObserved": true,
+  "updateButtonApplied": true,
+  "retained": {
+    "resume": true,
+    "personalBest": true,
+    "interfaceTheme": true,
+    "classicMode": true,
+    "musicVolume": true,
+    "effectsVolume": true,
+    "reducedMotion": true,
+    "fewerEffects": true
+  },
+  "completeOfflineCacheAcknowledged": true,
+  "gameConsoleErrors": [],
+  "editor": {
+    "firstNavigation": {
+      "path": "/editor/prism-garden",
+      "status": 500,
+      "error": "Composition failed: internal error: JS method 'world' failed: javascript/module binding exceeded memory budget"
+    },
+    "subsequentReadOnlyRequests": [
+      {
+        "path": "/editor/prism-garden",
+        "status": 200
+      },
+      {
+        "path": "/editor.html",
+        "status": 200
+      },
+      {
+        "path": "/editor/cloud-carnival",
+        "status": 200
+      }
+    ],
+    "browserReload": "Workshop fully loaded, 16 worlds, saved draft restored",
+    "consoleErrors": [],
+    "authoredServerMethodUnchanged": true,
+    "authoredMethodSha256": "f34f1ceb250be3993f910e4aa55681b1a58503fe4d5f16ad2d6e1510c90b7342",
+    "limitation": "Transient provider error reproduced once. Cause not established and not claimed fixed."
+  }
+}
