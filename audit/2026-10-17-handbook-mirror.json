@@ -1,0 +1,190 @@
+{
+  "utc": "2026-10-17T20:43:35.058Z",
+  "copied": [
+    {
+      "file": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "status": "mirrored"
+    },
+    {
+      "file": "GAME-DEVELOPMENT-BEST-PRACTICES.md",
+      "status": "already-identical"
+    },
+    {
+      "file": "PUBLIC-DATA-OPERATIONS.md",
+      "status": "mirrored"
+    },
+    {
+      "file": "README.md",
+      "status": "independent-readme-preserved-with-task-section"
+    },
+    {
+      "file": "SCORING.md",
+      "status": "mirrored"
+    },
+    {
+      "file": "WORLD-EDITOR.md",
+      "status": "mirrored"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-browser-final.json",
+      "status": "mirrored"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-browser-initial.json",
+      "status": "mirrored"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-changes.patch",
+      "status": "mirrored"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-game-score-hashes.json",
+      "status": "already-identical"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-game-score.md",
+      "status": "already-identical"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-implementation.md",
+      "status": "mirrored"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-tests.txt",
+      "status": "mirrored"
+    },
+    {
+      "file": "audit/2026-10-17-handbook-workshop.png",
+      "status": "mirrored"
+    },
+    {
+      "file": "package.json",
+      "status": "mirrored"
+    },
+    {
+      "file": "policy-candidates/world-policy.html",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/app.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/editor-drafts.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/editor-route.html",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/editor.css",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/editor.html",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/editor.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/engine.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/index.html",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/leaderboard.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/offline.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/pointer-input.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/save-recovery.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/score-contract.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/style.css",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/sw.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/world-format.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/world-schema.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "public/world-working-document.js",
+      "status": "mirrored"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "status": "mirrored"
+    },
+    {
+      "file": "review/requirements.html",
+      "status": "mirrored"
+    },
+    {
+      "file": "tests/handbook-acceptance.test.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tests/handbook-recovery.test.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tests/offline.test.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tests/release-gate.test.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tools/release-gate.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tools/requirements-check.mjs",
+      "status": "mirrored"
+    },
+    {
+      "file": "tools/run-trace.mjs",
+      "status": "already-identical"
+    },
+    {
+      "file": "tools/visual-audit.mjs",
+      "status": "mirrored"
+    }
+  ],
+  "conflicts": []
+}

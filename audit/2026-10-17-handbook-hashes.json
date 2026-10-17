@@ -1,0 +1,244 @@
+{
+  "schema": 1,
+  "utc": "2026-10-17T20:43:35.199Z",
+  "baseline": "79dfc0eb9ac0a39722879c35bb2f829ed0d87cff",
+  "runtime": "61ed4fec441fef26f87e",
+  "files": [
+    {
+      "file": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "sha256": "33331c1befcb53c9fb2e48971ffd8c085a0f5de82dd5add8f1e2d08579e4773e",
+      "bytes": 16569
+    },
+    {
+      "file": "GAME-DEVELOPMENT-BEST-PRACTICES.md",
+      "sha256": "03964bbadaf11c9942853d566bf47bc0fc4beab2cd120f3e1e4362451d63e5ac",
+      "bytes": 226882
+    },
+    {
+      "file": "PUBLIC-DATA-OPERATIONS.md",
+      "sha256": "c7aeee6628859cc557478a539e8a1ec4a2244dab5480a45cf18cb66de4cc8f92",
+      "bytes": 7016
+    },
+    {
+      "file": "README.md",
+      "sha256": "34396f0f2471ee9ee8297e145abd973853d4c5a39dcb2f7ad9c46b09677e4355",
+      "bytes": 48994
+    },
+    {
+      "file": "SCORING.md",
+      "sha256": "4898b349d8c60315d03592b2a3f8d5ce4df9d635702ff797ed44ff4c40a89966",
+      "bytes": 6903
+    },
+    {
+      "file": "WORLD-EDITOR.md",
+      "sha256": "72f69084a65aea2cb6434bf5eaf03ce2d7df701ffa2c2227469294023974f134",
+      "bytes": 13685
+    },
+    {
+      "file": "audit/2026-10-17-handbook-browser-final.json",
+      "sha256": "a54dcd490f9167d8ecc4df912e80d8e346814a9f6e00c7ef2d3a58881e994d1e",
+      "bytes": 160374
+    },
+    {
+      "file": "audit/2026-10-17-handbook-browser-initial.json",
+      "sha256": "c5a3cbaf75a52099364a144c0f5a73f21c29d80eb21b87953ff99a6c72d8358a",
+      "bytes": 130791
+    },
+    {
+      "file": "audit/2026-10-17-handbook-changes.patch",
+      "sha256": "99d46a4bd0db9b861134e21110bea7017f95dcbdf1caf7011a6f742c211e952d",
+      "bytes": 719734
+    },
+    {
+      "file": "audit/2026-10-17-handbook-game-score-hashes.json",
+      "sha256": "d631ca18c327ea608cce57f3653e1bbc029520487a456bdb278063560551e903",
+      "bytes": 3635
+    },
+    {
+      "file": "audit/2026-10-17-handbook-game-score.md",
+      "sha256": "73da920a2571dde71ec8414c56bc4a27e16f4f2b4eca8ee3f97bfa5ce4e88cf2",
+      "bytes": 19705
+    },
+    {
+      "file": "audit/2026-10-17-handbook-implementation.md",
+      "sha256": "1b3a695445a60592bdb18558164d600d7a075a6a7c6fdc4e5c27af87fa709d56",
+      "bytes": 12927
+    },
+    {
+      "file": "audit/2026-10-17-handbook-mirror.json",
+      "sha256": "1618c344fec02f3f61a29ecb95c4cc28eb790d197401fb8f5702dcb8a5f5b01c",
+      "bytes": 3999
+    },
+    {
+      "file": "audit/2026-10-17-handbook-tests.txt",
+      "sha256": "4b6b2f4d0858ce69288c3f0da7e94bdbf4e88c624d70e168022f348f0f8e5834",
+      "bytes": 19572
+    },
+    {
+      "file": "audit/2026-10-17-handbook-workshop.png",
+      "sha256": "2918ced5a46ddaab191e4de6ec47b8cc8648d10927652bda08d013709a97f40a",
+      "bytes": 56347
+    },
+    {
+      "file": "package.json",
+      "sha256": "162f59201928ab5c1b01583e00b9a8fb61defb02417fefd353754680f790d02e",
+      "bytes": 863
+    },
+    {
+      "file": "policy-candidates/world-policy.html",
+      "sha256": "0542dbaded2d85df7b8d21f893a1c1967e67a820cb636ea9238325e5718d6029",
+      "bytes": 15746
+    },
+    {
+      "file": "public/app.js",
+      "sha256": "2c675da00bc73c9172e24ca04c328c00792ec455c1a88ca2f558e263d67dc7c0",
+      "bytes": 57329
+    },
+    {
+      "file": "public/editor-drafts.js",
+      "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
+      "bytes": 1023
+    },
+    {
+      "file": "public/editor-route.html",
+      "sha256": "f122fcd3ff80401c30f00b3d2f2408969bbf86d602f714398566886f28a6ac30",
+      "bytes": 2736
+    },
+    {
+      "file": "public/editor.css",
+      "sha256": "6fb24c742eddf1801a6880d508bc3ecee2b60fe38fad48f62c7312f4623e1ab7",
+      "bytes": 15346
+    },
+    {
+      "file": "public/editor.html",
+      "sha256": "7a496a123afb2ac444e625b5ba9ac64cd4b2df8a49c04077c014c4925cd820d3",
+      "bytes": 12460
+    },
+    {
+      "file": "public/editor.js",
+      "sha256": "62ce792eadba85f332de2ac4337c34ac0e440b08183de38d378fdbdc1f6758d5",
+      "bytes": 41560
+    },
+    {
+      "file": "public/engine.js",
+      "sha256": "e97f08e18f069e80866386043f0504d8b140fd53d037865a6abd2bc8d7a8fffd",
+      "bytes": 18039
+    },
+    {
+      "file": "public/index.html",
+      "sha256": "fe9adc6c8effcf1afde282491e8fd2c6ab027593cc5c7dc9c54946eb9e6b229c",
+      "bytes": 25087
+    },
+    {
+      "file": "public/leaderboard.js",
+      "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
+      "bytes": 1490
+    },
+    {
+      "file": "public/offline.js",
+      "sha256": "b40629e329c8c07649c142eb27b1ac30ef0405f39cdcb3f4d7fa89b6c8a4a0b6",
+      "bytes": 10867
+    },
+    {
+      "file": "public/pointer-input.js",
+      "sha256": "330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480",
+      "bytes": 1420
+    },
+    {
+      "file": "public/pwa-release.js",
+      "sha256": "89571a7c1ada0a6fe13a6977d2810e2fce98caaf9be662827f6da23553ca8ad0",
+      "bytes": 88
+    },
+    {
+      "file": "public/save-recovery.js",
+      "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
+      "bytes": 3009
+    },
+    {
+      "file": "public/score-contract.js",
+      "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
+      "bytes": 819
+    },
+    {
+      "file": "public/style.css",
+      "sha256": "2bb75230fdb6503064cdd3d0f9a2098cda2da28a9cccd0db932c58dcc7ffb934",
+      "bytes": 38803
+    },
+    {
+      "file": "public/sw.js",
+      "sha256": "ccd907c1392c747f597c5f3471b1cbe209e63e7f025d622dbea3c0b5b3b6aeba",
+      "bytes": 31069
+    },
+    {
+      "file": "public/world-format.js",
+      "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
+      "bytes": 2768
+    },
+    {
+      "file": "public/world-schema.js",
+      "sha256": "a10129d9ed7d412a18ca0cfc6e8c586c3c0d63f6210c2d5a375ff1a501972387",
+      "bytes": 12315
+    },
+    {
+      "file": "public/world-working-document.js",
+      "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
+      "bytes": 2867
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "sha256": "a54dcd490f9167d8ecc4df912e80d8e346814a9f6e00c7ef2d3a58881e994d1e",
+      "bytes": 160374
+    },
+    {
+      "file": "review/requirements.html",
+      "sha256": "befbc3297bfdcb219bf0dde50df5fb4bc2eb2c5491354a23dfcb4e0a2a8f19cd",
+      "bytes": 4057
+    },
+    {
+      "file": "tests/handbook-acceptance.test.mjs",
+      "sha256": "98ad6b2c9c81abe5cd6ff424cea7b3a270b9c480179beea64567874cb3b9ef68",
+      "bytes": 4262
+    },
+    {
+      "file": "tests/handbook-recovery.test.mjs",
+      "sha256": "17577f08e5cf0c9366d86a467ff10dc1d0c2a09c85c817baf8e6d2ac50a5c407",
+      "bytes": 5997
+    },
+    {
+      "file": "tests/offline.test.mjs",
+      "sha256": "c94150acf228afd20263ccb86a467584412d2a3ceb811629a72a257509c45bdc",
+      "bytes": 9232
+    },
+    {
+      "file": "tests/release-gate.test.mjs",
+      "sha256": "da501f7a97ec45945f91fa9fa4cfe1fd15f5865e90960d2abb68b19d5ed68620",
+      "bytes": 5557
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "sha256": "7d9caf154d5e977cb76bdbb652ced9c5fbf0d0a1aa0cc34ae187ab6de31641cf",
+      "bytes": 22486
+    },
+    {
+      "file": "tools/release-gate.mjs",
+      "sha256": "1a7e38177e861b1a008edc099969b84e0d703b2be80209d9fdde21bae98e561b",
+      "bytes": 4826
+    },
+    {
+      "file": "tools/requirements-check.mjs",
+      "sha256": "e97c5340b6e59111fbcd3c91f615c4a843f871fde6047a858dfcff60dfb0894a",
+      "bytes": 3010
+    },
+    {
+      "file": "tools/run-trace.mjs",
+      "sha256": "03e59157dde20351c364df015c0c6e1a176c8bcab3b4998bed97bf9bce1fe9b8",
+      "bytes": 2684
+    },
+    {
+      "file": "tools/visual-audit.mjs",
+      "sha256": "32d88074903542915838bc18ea5a5b424bee292edb5bd9132fcc0b33ae769e66",
+      "bytes": 1288
+    }
+  ],
+  "selfExcluded": true
+}

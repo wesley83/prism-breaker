@@ -11,6 +11,7 @@ async function fixture(t){
  const base=new URL('../test-results/',import.meta.url);await fs.mkdir(base,{recursive:true});const root=await fs.mkdtemp(path.join(fileURLToPath(base),'gate-review-'));
  // Preserve fixtures as ignored evidence; no recursive deletion or shared Git mutation.
  for(const dir of ['public','tools','tests'])await fs.mkdir(path.join(root,dir));
+ await fs.mkdir(path.join(root,'review'));await fs.writeFile(path.join(root,'review/requirements.html'),'<main id="requirements" data-version="1"><article id="fixture-suite" itemscope itemtype="urn:PrismBreaker:Requirement" data-kind="suite"></article></main>');
  for(const [name,body]of [['public/index.html','<!doctype html><html><head></head><body>Fixture</body></html>'],['public/app.js','export const fixture=true;'],['tools/service-worker.template.js','// __PWA_CONSTANTS__'],['package.json','{"type":"module"}'],['bun.lock','{}'],['README.md','# Fixture\n']])await fs.writeFile(path.join(root,name),body);
  const init=spawnSync('git',['init'],{cwd:root});assert.equal(init.status,0);
  // Empty tree commit gives the fixture a stable source identity without changing this repo.
@@ -29,7 +30,7 @@ test('R01 stale generated assets and post-check source changes independently blo
  await fs.appendFile(path.join(root,'tools/service-worker.template.js'),'\n// worker edit');await assert.rejects(assertReleaseGate({root}),/Stale PWA/);
 });
 test('R01 receipt rejects wrong commits, digests, release identities, missing checks and expired approval',()=>{
- const now=Date.now(),identity={commit:'a',digest:'b'},receipt={schema:1,passed:true,identity,release:'c',completedAt:new Date(now).toISOString(),checks:{suite:true,pwa:true,repository:true}};
+ const now=Date.now(),identity={commit:'a',digest:'b'},receipt={schema:1,passed:true,identity,release:'c',completedAt:new Date(now).toISOString(),checks:{suite:true,pwa:true,repository:true,requirements:true}};
  assert.equal(validateReceipt(receipt,{identity,release:'c',now}),true);
  for(const value of [{...receipt,identity:{...identity,commit:'wrong'}},{...receipt,identity:{...identity,digest:'wrong'}},{...receipt,release:'wrong'},{...receipt,checks:{}},{...receipt,completedAt:new Date(now-86400001).toISOString()}])assert.throws(()=>validateReceipt(value,{identity,release:'c',now}));
 });

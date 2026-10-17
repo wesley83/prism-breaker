@@ -90,3 +90,5 @@ Worlds 3–6 use 5% faster ball movement before the existing speed cap. Electric
 Your personal best is one combined Adventure/Daily best saved under `prism.best` in local storage. The interface omits device/storage qualifiers. Saving a score to the shared Pagelove leaderboard is a separate operation; existing scores retain their originally earned totals.
 
 Leaderboard entries expire five days after reaching the server. Expired entries cannot qualify as the top score or appear in shared standings. Daily standings also filter to the current UTC challenge date.
+
+Exact leaderboard ties use the stable run key as the final ascending order after score, world and active duration. Matching the highest point total is announced as a tied top score; rank-one wording uses the actual sorted row. Duplicate retry acknowledgement compares the canonical run payload, excluding transport/submission timestamps.

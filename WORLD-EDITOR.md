@@ -20,7 +20,9 @@ On narrow screens, **Bricks & properties** opens a compact bottom drawer; **Done
 
 Keyboard: **V** selects, **B** paints, **E** erases, **I** samples one selected brick and **P** opens Play. Arrow keys nudge a selection by 0.1 units; Shift + arrows moves a grid cell. Ctrl/Command + A selects all, D duplicates, Z undoes and Shift + Z redoes. Delete removes a selection. Enter or Space selects a focused brick. Escape cancels an active gesture, closes the mobile drawer, or clears the selection. Shortcuts leave text inputs and dialogs alone.
 
-Changes save automatically as a local draft. Download world exports a complete HTML document; Import world validates and rebuilds one for the same world. Inspect HTML shows the exact structure. Restore original restores the release layout and can be undone; Reload published retrieves the shared layout and can also be undone.
+Changes save automatically as revisioned IndexedDB drafts. A write is confirmed only after its transaction completes. A failed save retains the working document; navigation offers retry, recovery download or deliberate discard. Two workshop tabs cannot overwrite the same draft revision silently. Legacy drafts remain readable. Download world exports a complete HTML document; Import world validates and rebuilds one for the same world. Inspect HTML shows the exact structure. Restore original restores the release layout and can be undone; Reload published retrieves the shared layout and can also be undone.
+
+The live `#edit-board > #world` semantic subtree is the editable authority. `WorldWorkingDocument` validates scoped commands and reconciles accepted markup while retaining brick nodes by stable identity. Commands use a temporary mutable candidate; resting JavaScript projections are deeply frozen. Selection, brush state and decorative attributes do not enter canonical exports. Undo stores historical HTML snapshots. The 3D preview receives a detached derived model and event subtree, so gameplay damage cannot change the authored source. Form drafts materialize current values on Apply, export, preview or navigation, with invalid drafts retained for recovery.
 
 **Play** runs the actual Three.js renderer and fixed-step engine. Pointer/arrow keys move the paddle and Space launches. **Back to editing** returns to the same formation and selection; the brush and undo history remain intact. The preview displays score/lives and a short strike-event log. It never submits a leaderboard score.
 
@@ -41,9 +43,7 @@ Worlds live at `/worlds/<slug>/definition.html`. The world, formation, row, bric
   <section id="formation-0" itemprop="formation" itemscope itemtype="urn:Formation">
     <meta itemprop="phase" content="0">
     <div id="f0-row-0" itemprop="row" itemscope itemtype="urn:Row">
-      <meta itemprop="schemaVersion" content="2">
-  <meta itemprop="id" content="prism-garden">
-  <!-- Other required metadata is omitted from this abbreviated example. -->
+      <meta itemprop="index" content="0">
       <meta itemprop="x" content="-5.79">
       <meta itemprop="y" content="9">
     </div>
@@ -121,4 +121,4 @@ The local preview server serves `/editor/<slug>` from the editor shell and reads
 
 ## Server policy and release status
 
-The generated world policy candidate lives in policy-candidates/, outside deployed assets. Its local checks require canonical, validated complete conditional PUTs, but the live DAV probe accepted invalid and unconditional writes. Separate triggers were confirmed to run on public GET requests; public owner-key PUT returned 401. Therefore the candidate is not active, and server-authoritative world validation remains a platform-dependent gap. The existing owner-only DAV path, editor validation, ETags and readback remain in use. Existing hosted v1 definitions remain readable and migrate on their next owner publication. No new public write permission is granted. Activation requires a passing probe against the actual DAV write path. See the [implementation audit](audit/2026-10-14-document-first-implementation.md).
+The generated world policy candidate lives in policy-candidates/, outside deployed assets, and activation is disabled. Pagelove support confirmed that owner DAV intentionally bypasses schema validation and triggers because it is a trusted authoring path. Wesley selected owner DAV publishing only; application-write grants are outside this project's scope. The editor/build validate, owner publishing uses strong ETags and readback, and normal releases preserve hosted worlds and existing score policies. Existing v1 definitions migrate on their next owner publication. No DAV probe can establish application enforcement that this path intentionally bypasses. See the [architecture contract](DOCUMENT-FIRST-ARCHITECTURE.md) and [public-data operations](PUBLIC-DATA-OPERATIONS.md); dated failed probes remain historical evidence.

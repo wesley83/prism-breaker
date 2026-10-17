@@ -41,6 +41,10 @@ A brick supports one custom recipe, combined with its base specialization and op
 
 ## Editing and recovery
 
+The live workshop `#edit-board > #world` subtree is the editing authority under handbook 2.8. Typed reads derive frozen projections. Each synchronous editing command creates a temporary candidate, validates it and reconciles its accepted fields into the same semantic root; entity nodes retain identity. Controls/selection/drag decorations are excluded from canonical serialization. Undo snapshots, queued write payloads and preview models are historical/derived values. Preview events target a detached copy. IndexedDB compare/write transactions serialize draft snapshots with a revision and confirmed baseline; a stale tab cannot overwrite a replacement. Failed writes preserve the working DOM and block application navigation until retry, export/recovery or deliberate discard.
+
+Checkpoint writes return explicit outcomes; the pause screen describes the actual result. Engine restore prepares a separate candidate and commits only after final preparation, retaining listeners and random-stream ownership. Paddle contacts have one accepted pointer owner, explicit primary-button policy and cancellation across modals, focus/capture loss and geometry changes. Score retry reconciliation compares the complete canonical payload before acknowledgement. See the [implementation audit](audit/2026-10-17-handbook-implementation.md).
+
 Unknown routes present a chooser with editing disabled. They never select Prism Garden. A failed read presents Retry, an available saved draft and an explicit original-release choice.
 
 A draft without a known published baseline cannot publish. Download it before reloading the published world. Importing or undoing into a reviewed baseline is an explicit action. Drafts with a baseline keep it for conflict comparison.

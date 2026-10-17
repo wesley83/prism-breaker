@@ -84,9 +84,14 @@ export function worldHTML(input){
 }
 export function worldDocument(world){return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>'+escape(world.name)+' · World definition</title><link rel="stylesheet" href="/world-data.css"></head><body>'+worldHTML(world)+'</body></html>';}
 
+export function parseWorldMarkup(input,Parser=globalThis.DOMParser){
+ if(input.length>1000000)throw Error('World file is too large');
+ // Template contents are inert: imported image/frame URLs are never mounted or fetched.
+ if(globalThis.document?.createElement){const template=document.createElement('template');template.innerHTML=input;return template.content.querySelector('#world');}
+ return new Parser().parseFromString(input,'text/html').querySelector('#world');
+}
 export function parseWorld(input,{expectedSlug,Parser=globalThis.DOMParser}={}){
- const root=typeof input==='string'?new Parser().parseFromString(input,'text/html').querySelector('#world[itemtype="urn:world"]'):input;
- if(typeof input==='string'&&input.length>1000000)throw Error('World file is too large');
+ const root=typeof input==='string'?parseWorldMarkup(input,Parser):input;
  if(!root||root.getAttribute('itemtype')!=='urn:world')throw Error('No structured world found');
  checkStructuredFields(root,'world');
  const p=props(root),world={schemaVersion:Number(p.schemaVersion),id:p.id,slug:p.slug,name:p.name,note:p.note,tag:p.tag,story:p.story,mechanic:p.mechanic,shape:p.shape,music:p.music,sky:p.sky,accent:p.accent,colors:p.colors?.split(/\s+/),types:[],formations:[]};
