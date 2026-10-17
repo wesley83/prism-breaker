@@ -33,3 +33,9 @@
 - Existing Chromium client started on `61ed4fec441fef26f87e`. Clicked Settings → Check for updates; the new update became available. The visible start-screen Update game action loaded this release's marker/bootstrap. Saved-run copy, personal best and all observed settings matched the prior values. Offline status returned to complete readiness; game error log was empty. Saved sanitized state-comparison evidence and before/after screenshots.
 - These are local/browser and public-byte observations, not a physical-phone or original-user-device certification. Complete-cache acknowledgement is not a new offline-network-disconnection exercise. No production score or world edits were made for verification.
 - Finalization: commit sanitized publication/live/gate/test receipts and hashes through an evidence-only PR with required CI; mirror the new adopted browser receipt and audit files after conflict checks; keep the deployed runtime unchanged. All runtime source changes are already merged and published.
+
+## CUT-RELEASE-CI-RETRY — 2026-10-17T22:07:30Z
+
+- Actor: Codex; reference: CUT-RELEASE-PLAN.
+- Evidence commit `61c4ef61d21d192c1d10d6a5a60b550c08422619` passed its exact-source gate and push CI. PR #12's separate workflow `39073578645` remained in "Set up job" before checkout for over two minutes; no project step or test failure was reported. Requested cancellation of that stalled run and stopped the local status watcher.
+- Recovery plan: add this audit entry/hash update as an ordinary follow-up commit on the same evidence branch and push it to obtain fresh required CI on that exact head. Do not bypass branch protection or reinterpret the canceled run as passing. Runtime/public graph and deployed state remain unchanged. Merge only after the new required checks pass, then synchronize clean main.

@@ -1,5 +1,5 @@
 {
-  "at": "2026-10-17T22:04:12.413Z",
+  "at": "2026-10-17T22:07:47.355Z",
   "runtime": "5d10bdab9808ae015b0b",
   "deployedCommit": "e0a3a45e48c22ed7877980cae68a20160ec8ffa7",
   "records": [
@@ -45,8 +45,8 @@
     },
     {
       "file": "audit/2026-10-17-cutscene-release.md",
-      "bytes": 5814,
-      "sha256": "2e34193f6479d3c24bc4e30f02f579612ea495665ca12d26b8a32bba05a3fd0c"
+      "bytes": 6624,
+      "sha256": "1758cc72f92a00c9da36821e36b57e04139e0d720894f2cde2d8002bc6079007"
     },
     {
       "file": "audit/2026-10-17-cutscene-update-ready.png",
