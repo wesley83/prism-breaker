@@ -16,3 +16,26 @@
 - Sustained 3600-frame sample: frame p95 17.1 ms, maximum 33.5 ms, CPU submission p95 1.4 ms. Controlled before/after comparison passed. All 19 conservative flash samples had no flags; scope remains sampled screening, not full WCAG certification or hardware certification.
 - Several status reads timed out during synchronous flash-render batches. The fixture continued and completed successfully; no check was waived or failed receipt adopted. The complete result was read after completion.
 - Source/runtime whitespace checks pass, excluding preserved historical raw audit artifacts. Existing main is synchronized with origin and strict required CI still covers administrators. Created unique branch `codex/cutscene-motion-20261017`; committed-source gate, CI integration and deployment are next.
+
+## CUT-RELEASE-INTEGRATION — 2026-10-17T22:01:54Z
+
+- Actor: Codex; reference: CUT-RELEASE-PLAN.
+- Committed implementation/review as `ebed53e3f1d3ca7f23dc9d51e6085d70263f9fcf`. PR #11 passed both required CI runs and merged normally as `e0a3a45e48c22ed7877980cae68a20160ec8ffa7`; main CI passed too. No branch-protection bypass.
+- Exact-source gate passed on both commits: 193 tests across 25 files; PWA/repository/seven-row requirements checks passed. Merged source digest `5a91e6faf91b553d99362392392ef82e1c64fe588ce1e5b7617a450a5c462b8a`, runtime `5d10bdab9808ae015b0b`. Saved merged gate/raw test output in dated audit evidence.
+- Existing live browser is on `61ed4fec441fef26f87e`, with its saved adventure and personal best present and offline readiness acknowledged. The scoped local acceptance tab/server have been closed; the user's live tab remains open for update verification.
+- Authenticated the pinned owner publisher through hidden stdin; host identity matched (console 200, DAV 207). Publishing/public verification next; native policies and mutable game data remain outside release scope.
+
+## CUT-RELEASE-LIVE — 2026-10-17T22:03:56Z
+
+- Actor: Codex; reference: CUT-RELEASE-PLAN.
+- Published runtime `5d10bdab9808ae015b0b` at `2026-10-17T22:02:40.799Z` from merged commit `e0a3a45e48c22ed7877980cae68a20160ec8ffa7`; 82 cache assets, 2,484,006 bytes. Immutable dependency staging/readback preceded conditional entry promotion. Publisher receipt records preserved scores, world definitions, older releases and legacy root modules; no policy migration occurred. Exited the publisher to clear its in-memory credential.
+- Public verification at `2026-10-17T22:03:03.037Z` passed all 82 cached asset hashes plus the coherent entry graph, root release marker and fullscreen manifest. Both `/editor/prism-garden` and `/editor.html` returned 200, contained the workshop shell and referenced this release. No transient server composition error occurred in these reads.
+- Existing Chromium client started on `61ed4fec441fef26f87e`. Clicked Settings → Check for updates; the new update became available. The visible start-screen Update game action loaded this release's marker/bootstrap. Saved-run copy, personal best and all observed settings matched the prior values. Offline status returned to complete readiness; game error log was empty. Saved sanitized state-comparison evidence and before/after screenshots.
+- These are local/browser and public-byte observations, not a physical-phone or original-user-device certification. Complete-cache acknowledgement is not a new offline-network-disconnection exercise. No production score or world edits were made for verification.
+- Finalization: commit sanitized publication/live/gate/test receipts and hashes through an evidence-only PR with required CI; mirror the new adopted browser receipt and audit files after conflict checks; keep the deployed runtime unchanged. All runtime source changes are already merged and published.
+
+## CUT-RELEASE-CI-RETRY — 2026-10-17T22:07:30Z
+
+- Actor: Codex; reference: CUT-RELEASE-PLAN.
+- Evidence commit `61c4ef61d21d192c1d10d6a5a60b550c08422619` passed its exact-source gate and push CI. PR #12's separate workflow `39073578645` remained in "Set up job" before checkout for over two minutes; no project step or test failure was reported. Requested cancellation of that stalled run and stopped the local status watcher.
+- Recovery plan: add this audit entry/hash update as an ordinary follow-up commit on the same evidence branch and push it to obtain fresh required CI on that exact head. Do not bypass branch protection or reinterpret the canceled run as passing. Runtime/public graph and deployed state remain unchanged. Merge only after the new required checks pass, then synchronize clean main.

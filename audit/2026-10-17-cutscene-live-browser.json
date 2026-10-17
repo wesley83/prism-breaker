@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-17T22:03:41.189Z",
+  "environment": "Desktop Chromium 155 in-app browser",
+  "previousRelease": "61ed4fec441fef26f87e",
+  "newRelease": "5d10bdab9808ae015b0b",
+  "checkForUpdatesClicked": true,
+  "updateNoticeObserved": true,
+  "updateGameClicked": true,
+  "preserved": {
+    "best": true,
+    "classic": true,
+    "effects": true,
+    "low": true,
+    "music": true,
+    "reduced": true,
+    "resume": true,
+    "theme": true
+  },
+  "offline": "Ready to play offline",
+  "offlineDetail": "All sixteen worlds, music and cutscenes are saved.",
+  "scripts": [
+    "https://sane-guild-8399.onpagelove.com/releases/5d10bdab9808ae015b0b/bootstrap.js?v=1"
+  ],
+  "errors": [],
+  "limits": [
+    "Complete-cache acknowledgement, not a new network-disconnection test.",
+    "No physical-device or original-user-device certification."
+  ]
+}

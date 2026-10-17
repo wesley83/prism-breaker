@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-17T22:03:55.971Z",
+  "rows": [
+    {
+      "path": "/editor/prism-garden",
+      "status": 200,
+      "releaseReferenced": true,
+      "editorShell": true,
+      "error": null
+    },
+    {
+      "path": "/editor.html",
+      "status": 200,
+      "releaseReferenced": true,
+      "editorShell": true,
+      "error": null
+    }
+  ]
+}
