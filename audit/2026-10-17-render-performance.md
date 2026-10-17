@@ -27,3 +27,12 @@ Run targeted meaningful tests and the existing full release gate. Follow the est
 - Full suite passed: 182 tests across 23 files. Latest targeted render checks passed nine tests after the final warmup changes. Required exact-source release gate and hosted CI remain part of the release below.
 - Candidate: f040e06f64812c205108, 77 cached assets, 2,465,173 bytes. Source uses LF line endings; the gameplay ruleset remains ea3ef3d4e217bb394db6f5e3d9e73dd49512b01091ab39ec40cc740a3a3089dd.
 - Limits: no Android/iOS hardware, thermal/battery trial, GPU timer or universal 60 FPS guarantee. Adaptive resolution is a bounded fallback, not evidence that every device can meet the target.
+
+## Release verified
+
+- UTC: 2026-10-17T18:23:42.152Z. PR https://github.com/wesley83/prism-breaker/pull/7 passed branch/PR CI and merged normally at 2026-10-17T18:18:39Z into main 7477b124f3c765fdaeb57cfa55b80dfdfc2b3c32. Merged-main Quality run 39057529784 also passed.
+- Exact merged-source gate passed at 2026-10-17T18:19:00.236Z: 182 tests, PWA integrity and repository checks; digest a48687e5f7215514e78dc1357a0a685b739ff05223d6a6f0d22f7df295c89787.
+- Pinned-host publisher authenticated console/DAV 200/207, published 86 files at 2026-10-17T18:20:29.925Z, conditionally promoted entries and exited. Release f040e06f64812c205108; 77 cached assets; 2,465,173 bytes. Runtime publication preserved score policies/data, hosted world definitions and prior release assets.
+- Public readback at 2026-10-17T18:20:49.076Z passed all 77 asset checks, root release identity and fullscreen manifest. An existing be807e77f8a5dc2d2df7 browser client used Check for updates and Update game, then loaded f040e06f64812c205108. Offline readiness, checkpoint summary, personal best and settings were retained; no captured warnings/errors. A helper initially counted duplicate readiness text in a hidden installation dialog; the final receipt reads the actual offline-status element. No production run or score submission was needed.
+- Runtime/performance documentation and evidence were mirrored to the authoring directory. Independent root README edits about the handbook/license were preserved with a selective performance-section update; those unrelated edits were not imported into this release.
+- Live screenshots, deployment/gate/readback/browser receipts and hashes are retained. This evidence-only follow-up changes no runtime input and needs no second deployment. Physical-device and platform acceptance limitations remain as stated above.
