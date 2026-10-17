@@ -1,0 +1,62 @@
+{
+  "at": "2026-10-17T22:04:12.413Z",
+  "runtime": "5d10bdab9808ae015b0b",
+  "deployedCommit": "e0a3a45e48c22ed7877980cae68a20160ec8ffa7",
+  "records": [
+    {
+      "file": "audit/2026-10-17-cutscene-live-browser.json",
+      "bytes": 851,
+      "sha256": "941982c4811c0b0684b4d1b5ba24ae2c87b24dda11142a5c515d02441895b607"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-live-editor-routes.json",
+      "bytes": 350,
+      "sha256": "49a98162d537cb368967c15170794fd4f2a15ccec7c465f5f3e3878561a62372"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-live.json",
+      "bytes": 53012,
+      "sha256": "18247eb13c146f3ccd22ebc0c527ae605ad810525ad46d3392bc1a2e9b52bdde"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-live.png",
+      "bytes": 56153,
+      "sha256": "29d5081e14a5f3a205e85c99b549c250aa88e96ef9a3336128db16b29ed423df"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-publication.json",
+      "bytes": 19354,
+      "sha256": "c1bd17d229f62cac7e0632e67d9f1708d3d1c9a4c2a1fe42a68b466b15e5553f"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-release-browser.json",
+      "bytes": 157916,
+      "sha256": "38261d048f1ad485ffcd228a4d41fb6e2035efe408d3f37c276af45c6b5ebbc7"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-release-gate.json",
+      "bytes": 1380,
+      "sha256": "ce76c87d332fd36934ff20e91c408ec39712194d9a02fbc9234d2893c540a681"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-release-tests.txt",
+      "bytes": 19315,
+      "sha256": "56470202b57c9ac9f60983dca4768e0224a59c08d10e11b3588d713c6e86019c"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-release.md",
+      "bytes": 5814,
+      "sha256": "2e34193f6479d3c24bc4e30f02f579612ea495665ca12d26b8a32bba05a3fd0c"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-update-ready.png",
+      "bytes": 56658,
+      "sha256": "72c294052b5a39a523248595208b9a51411e1ae44e2ba7d755ff612a222aa03b"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 157916,
+      "sha256": "38261d048f1ad485ffcd228a4d41fb6e2035efe408d3f37c276af45c6b5ebbc7"
+    }
+  ]
+}
