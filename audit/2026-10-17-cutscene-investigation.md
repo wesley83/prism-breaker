@@ -1,0 +1,36 @@
+# Cutscene animation investigation
+
+## CUT-ANIM-PLAN — 2026-10-17T21:44:24Z
+
+- Actor: Codex; request: investigate a user's report that some cutscenes do not animate.
+- Baseline: clean main `f124f0310db50e3bd7182b7977ec2a8568b29330`, deployed runtime `61ed4fec441fef26f87e`.
+- Plan: trace scene clocks, warmup, render cadence, pause/modal/visibility behavior and reduced-motion branches; reproduce the 16 world scenes and three endings in a local diagnostic using the ordinary application loop; inspect console failures and distinguish intentional motion reduction/final-frame holding from unintended freezes. Apply a narrowly supported correction if a defect is reproduced; preserve user motion choices and explicit continuation.
+- Initial source observations: reduced motion intentionally fixes each scene's pose; `advanceScene` clamps all scene time to 94% of duration; P/Escape can pause cinematics with no visible pause indication. These are candidate explanations, not proof of the reported user's cause. Device, scene names and progress-bar behavior requested asynchronously.
+- Scope: read-only production observation and local reproduction; no public world/score/policy mutations or release. Honcho tools are unavailable in this session. HyperFrames routing was inspected; this is an existing interactive Three.js runtime investigation, not a rendered-video deliverable, so no video workflow was adopted.
+- Verification status: pending local reproduction. Earlier raw search attempts used unsupported Windows wildcard arguments and were corrected to explicit file/directory queries; no source changes resulted.
+## CUT-ANIM-SCOPE — 2026-10-17T21:50:00Z
+
+- Actor: Codex; reference: CUT-ANIM-PLAN.
+- Wesley clarified that the progress bar moved after World 13 (Thunder Spire), possibly World 14 (Lunar Harbor), and requested review of every other cutscene too. Cover all 16 worlds plus Daily completion and both record endings, including visible motion throughout all shots and low/full effects.
+- Initial local start observations showed advancing clocks/cameras for all 38 scene/quality starts. That first diagnostic had unstyled/reflowing layout and sampled the wrong retained group for Daily/record scenes; its rendering/layout observations are not accepted as final evidence. Correct the isolated fixture, retain the limitation, and re-run the review. The production runtime is still unchanged.
+- Port 4173 was already in use; left that process alone and started a new scoped preview on 4176. Temporary diagnostic files remain ignored under test-results.
+
+## CUT-ANIM-FINDING-PLAN — 2026-10-17T21:55:00Z
+
+- Actor: Codex; reference: CUT-ANIM-PLAN and Wesley's all-scenes review request.
+- Reproduced an early stop in the focal animation, distinct from a stopped render loop: between seconds 10 and 11, all nine Thunder Spire lightning nodes have identical transforms; Lunar Harbor's only authored actor (the ship) has identical transforms. Both use activation that finishes at 55% (9.075 seconds) of their 16.5-second timeline. Background fragments/camera can continue while the story subject appears stationary. Raw primary-motion observations are saved in the adjacent JSON.
+- Corrected, styled browser diagnostics have observed advancing timelines/cameras, nonblocked rendering and stable reduced-motion poses across the reviewed quality/scene combinations so far; complete matrix still running. No render-loop crash has been reproduced. These local observations do not establish the original device/browser cause.
+- Narrow correction plan: give lightning bounded, slow continuous deformation/rotation without added geometry, draws or rapid brightness changes; spread the ship's existing departure trajectory over the full pre-hold timeline instead of the shared early activation window. Keep explicit continuation, static reduced-motion mode and the final readable hold unchanged. Recheck primary actors late in the timeline and review all scenes after the change.
+- Files intended: `public/cinematics.js`, generated PWA identity/worker/entry marker, this audit and reproduction evidence. No scoring, physics, world definitions or native policies change. Publication remains outside this investigation request.
+
+## CUT-ANIM-RESULT — 2026-10-17T21:52:16Z
+
+- Actor: Codex; references: CUT-ANIM-PLAN / FINDING-PLAN.
+- Timestamp correction: the scope and finding-plan headings above used estimated time labels (21:50 and 21:55). Both were actually written before the observed clock read at 21:51:15Z; the 21:55 label was erroneous, not a measured event time. Their recorded sequence and plan-before-edit order remain accurate. This entry uses the clock tool's observed UTC time.
+- Changed only the lightning and departure animation branches in `public/cinematics.js`. Lightning now has slow bounded scale/yaw motion throughout its active timeline, with no new meshes, materials, geometry uploads or draws. Removed the ineffective shared-material opacity assignment (the material is opaque). The ship follows a smooth curved departure from progress .12 through .94, instead of finishing at .55. Generated the corresponding PWA package/marker/worker: `5d10bdab9808ae015b0b`, 82 cache assets, 2,484,006 bytes.
+- Reproduction/fix observations: before, 0/9 lightning nodes and 0/1 ship actors changed between seconds 10 and 11; after, all 9 lightning nodes and the ship change in both effects modes. Reduced-motion poses remain stable, and scene object/geometry counts stay bounded.
+- Full browser review: 19 scenes × two effects modes = 38 cases; 152 real-loop motion windows and 266 sampled transition frames. Every window advanced, with changing camera/object transforms; no hidden document, blocked graphics or error records. Every sampled draw had a nonzero buffer and at least 30 draw calls. All 38 reduced-motion comparisons remained static. This local Chromium fixture isolates persistence in memory and mocks leaderboard reads; it does not write production data.
+- Visually inspected all 19 scenes at seconds 3, 8 and 13. Four screenshots retain the 57 compositions, including the corrected reported worlds and distinct Daily/Adventure endings. Camera/scene geometry was also inspected at 0.1-second intervals and three aspect ratios in the adjacent motion observation script; these mathematical aspect checks are not physical phone evidence.
+- No additional stopped timelines or rendering failures reproduced. Static architectural subjects after their reveal still have a moving camera/ambient scene; those were not changed unnecessarily. Final readable hold and keyboard pause remain, with no Pause Animation button introduced.
+- Verification: PWA package integrity and source whitespace checks pass. No full release gate or deployment is claimed: the previous handbook browser receipt correctly belongs to the earlier public-source digest and must be refreshed before a later release. These changes are local and uncommitted. Original user's device/browser was not supplied; this corrects the reproduced early stop, not a claim to rule out every device-specific cause.
+- Evidence/reproduction tooling is saved with the audit; task-owned files are mirrored using baseline/hash checks. The existing unrelated local preview process on port 4173 is preserved; the scoped 4176 process/tab are closed after inspection.

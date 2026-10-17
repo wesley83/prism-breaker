@@ -1,0 +1,92 @@
+{
+  "at": "2026-10-17T21:53:10.403Z",
+  "baseline": "f124f0310db50e3bd7182b7977ec2a8568b29330",
+  "runtime": "5d10bdab9808ae015b0b",
+  "records": [
+    {
+      "file": "public/cinematics.js",
+      "bytes": 15898,
+      "sha256": "cd9c01ce9d85717ba01c15df91e82d2308253a8ba9d2b91cdfdcdee4496ec978"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 25087,
+      "sha256": "eba5b7e66428bb7b6c83f5f3bffb6e2e246cc217421b4060f7d68cd23eca65ce"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "6e964cbb71ee800b3b4e35843e99aadbb63e998d24a00cabf488e5f611f5c1b5"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 31069,
+      "sha256": "9845b0743e574473ead4cc96a05fd4131877d41106ea3562ce10f46783bac115"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-browser-after.json",
+      "bytes": 119295,
+      "sha256": "3d3bb89714b72f61b77d63f7f9ab74828fa2d3c8ef490dfa9302611f51f61c8c"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-browser-before.json",
+      "bytes": 119252,
+      "sha256": "ba754c2d07c7ee5691b0f9b4d363e9c692c548d57e4c0176a1c07416affe992c"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-changes.patch",
+      "bytes": 26972,
+      "sha256": "a496a203c309d490901986831c3531362e330e5b0ab5724c9e9c487548fb8312"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-final-hold.json",
+      "bytes": 23739,
+      "sha256": "2d87b205cf7a8287ca59d5588e6b21af8a5da3010640e402dbd858edd5d739d2"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-investigation.md",
+      "bytes": 7337,
+      "sha256": "d218774ecab6b060f63565f578caf3988d8e669b4b8fb411a0fd9c5f9ddb8d1b"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-motion-after.json",
+      "bytes": 17044,
+      "sha256": "ec359bbbdddac0ebaf16708635cd6e540930aebd959251892b10c4c944955cbd"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-motion-observer.mjs",
+      "bytes": 2685,
+      "sha256": "347f3f7ded33bd734a62917d4107dbc49435c047fe14da6abba0a8b789529256"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-primary-motion.json",
+      "bytes": 3645,
+      "sha256": "b994fa274c712148dc1beb818329e6f4d3d7817f905773a981a2e1a95fc9b900"
+    },
+    {
+      "file": "audit/2026-10-17-cutscene-reproduce.mjs",
+      "bytes": 9970,
+      "sha256": "5741a221d6721e0928625b7714401645af369fe35f9bbcf1f45eefe1ec94f905"
+    },
+    {
+      "file": "audit/2026-10-17-cutscenes-01-05.png",
+      "bytes": 81886,
+      "sha256": "79285256c33e7907c9fee00e5acff15386ca9c0f34e2d2020da3234bf193827b"
+    },
+    {
+      "file": "audit/2026-10-17-cutscenes-06-10.png",
+      "bytes": 80412,
+      "sha256": "8bfa786abcb5fec075a2fc3a12c0bc87da3fad379099d50b730144ca317c55e1"
+    },
+    {
+      "file": "audit/2026-10-17-cutscenes-11-15.png",
+      "bytes": 81455,
+      "sha256": "69926ff5964f1eb6e7a2f5d90e2b64ffdc1cbbbb52e7cb7017dcfc14cec882b8"
+    },
+    {
+      "file": "audit/2026-10-17-cutscenes-16-19.png",
+      "bytes": 60197,
+      "sha256": "1cc45c0be1c9100b4c13e31eebaee892823b48ce57f3481d0455bf5f8b02d800"
+    }
+  ]
+}
