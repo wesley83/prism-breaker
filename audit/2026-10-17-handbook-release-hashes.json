@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-17T21:08:01.356Z",
+  "runtime": "61ed4fec441fef26f87e",
+  "deployedCommit": "88c213b18944d7cf5fc1c6a9fd8ea634c0ad3760",
+  "files": [
+    {
+      "path": "audit/2026-10-17-handbook-live-browser.json",
+      "bytes": 1483,
+      "sha256": "1ad856b5b42273b860ef06e3197c2dfbe6aa0c5f5dad67cb4d6aa2f33e2517a0"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-live-editor.png",
+      "bytes": 81326,
+      "sha256": "233bcc5902dd0ab1121c279a668c1923965fda92f6cf44107843605e57f31314"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-live.json",
+      "bytes": 53012,
+      "sha256": "cdbbd3046fc3f8775c413b22e1342b57ee27e34c89a5c6424e9db9978e949ab4"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-live.png",
+      "bytes": 56050,
+      "sha256": "7938a519eda2a5d7ac31275227fba7bf7dc6f8f94e940f575554c45d1ee2f432"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-publication.json",
+      "bytes": 19354,
+      "sha256": "f1dde2ddfdf2f7ff8b5bd6d99aa7ed25e6845204ff2e6acb0ffea310b47b057d"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-release-gate.json",
+      "bytes": 1380,
+      "sha256": "cde354d82da135e933730a8e0c6564f2d33be4c276d99d110943b578c739ad9d"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-release-tests.txt",
+      "bytes": 19311,
+      "sha256": "1ea9e021d558a144f7ce8b90ce6db8acab7c9fce469a32752f2e1dca8531f187"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-release.md",
+      "bytes": 6697,
+      "sha256": "98c4ada5303f58bb9da48bc361e89e4183418e5fac5595e7731de6cf0e9b7663"
+    },
+    {
+      "path": "audit/2026-10-17-handbook-update-ready.png",
+      "bytes": 56619,
+      "sha256": "fda241a1e478e3293331eb628dde1164652e6ffa13d6ffbe2cf122f40fc41020"
+    }
+  ]
+}
