@@ -397,6 +397,14 @@ The repository currently has no top-level license declaration for the game sourc
 
 ## Current acceptance and remaining work
 
-See [remaining-work implementation](REMAINING-WORK-IMPLEMENTATION.md) for current outcomes. Owner DAV publishing and the casual leaderboard are explicit choices. Native unattended five-day physical deletion and a guaranteed public-policy activation barrier still need supported platform mechanisms. [Fourteen device and human checks](review/acceptance-plan.html) are prepared but not run because no devices or independent reviewer are available.
+See [remaining-work implementation](REMAINING-WORK-IMPLEMENTATION.md) for current outcomes. Owner DAV publishing and the casual leaderboard are explicit choices. Five-day exclusion with physical cleanup on online board access is the accepted retention contract; no unattended scheduler is required. A guaranteed public-policy activation barrier still needs a supported platform mechanism. [Fourteen device and human checks](review/acceptance-plan.html) are prepared but not run because no devices or independent reviewer are available.
 
 Run `bun tools/acceptance-status.mjs init` to create a private release-specific record and `bun tools/acceptance-status.mjs report` to validate/report it. Existing records are never overwritten by initialization. A submitted human record is not a hardware attestation; synthetic results cannot be relabeled as observed phone tests. No private evidence is uploaded automatically.
+
+## Handbook 2.8 implementation
+
+The tracked Web Game Development Handbook now matches the identified authoring edition. The workshop uses a semantic DOM working root, immutable command snapshots and revision-checked IndexedDB drafts. Save failures retain recoverable work before navigation; checkpoint text reflects actual storage outcomes. Paddle input has explicit contact ownership; duplicate score recovery checks all canonical fields; restore commits a prepared candidate.
+
+[Release requirements](review/requirements.html) independently enumerate required exports, behavioral contracts and exact-runtime browser evidence. The release gate rejects missing, failed or stale required receipts. Browser fixtures cover save failure followed by ordinary actions, DOM editing/preview isolation, layout/text enlargement and controlled/sustained rendering. Evidence is scoped to its recorded engine and conditions. See [public data and recovery operations](PUBLIC-DATA-OPERATIONS.md) and the [implementation audit](audit/2026-10-17-handbook-implementation.md).
+
+Local diagnostic tools include a bounded checkpoint/input trace with compatibility checks and first-divergence replay; traces do not establish score authenticity or upload themselves. The original physical-device/human procedures remain separate and uncompleted where no evidence exists.

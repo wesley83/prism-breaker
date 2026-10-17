@@ -1,4 +1,8 @@
 import {RenderClock} from './render-budget.js';
+import {writeJSON,downloadRecovery,createSaveRecovery} from './save-recovery.js';
+import {setupPaddleInput} from './pointer-input.js';
+import {sameScorePayload,scoreConflict,retryAfterMS} from './score-contract.js';
+import {editorDrafts} from './editor-drafts.js';
 import {advanceScene} from './scene-playback.js';
 import {checkpointLevel,compatibleRuleset,LEGACY_RULESET_REVISION} from './world-identity.js';
 import {THEMES} from './world-schema.js';
@@ -21,7 +25,8 @@ import {CHAMPION_DURATION} from './cinematic-score.js?v=3';
 import {VICTORY_TRACKS} from './victory-music.js';
 const elements=new Map(),$=s=>{if(!/^#[\w-]+$/.test(s))return document.querySelector(s);if(!elements.has(s))elements.set(s,document.querySelector(s));return elements.get(s);},all=s=>[...document.querySelectorAll(s)];
 function rankedScores(scores,mode,day=utcDay()){return rankScores(scores,mode,day,boardNow());}
-const storage={get(key,fallback=null){try{const value=JSON.parse(localStorage.getItem('prism.'+key))??fallback;if(key==='save'&&value){if(!isValidSnapshot(value.game))return fallback;return {...value,game:{...value.game,level:checkpointLevel(value.game)}};}return value;}catch{return fallback;}},set(key,value){try{localStorage.setItem('prism.'+key,JSON.stringify(value));}catch{}},remove(key){try{localStorage.removeItem('prism.'+key);}catch{}}};
+const storage={get(key,fallback=null){try{const value=JSON.parse(localStorage.getItem('prism.'+key))??fallback;if(key==='save'&&value){if(!isValidSnapshot(value.game))return fallback;return {...value,game:{...value.game,level:checkpointLevel(value.game)}};}return value;}catch{return fallback;}},set(key,value){try{return writeJSON(localStorage,'prism.'+key,value).saved;}catch{return false;}},remove(key){try{localStorage.removeItem('prism.'+key);return true;}catch{return false;}}};
+const recoverSave=createSaveRecovery();let checkpointSaved=true,leaving=false;
 const settings={music:.35,effects:.7,muted:false,interfaceTheme:'system',classicMode:false,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,lowEffects:matchMedia('(pointer:coarse)').matches,...storage.get('settings',{})};
 const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#'+name+'"/></svg>';
 const powerIcons={wide:'arrows-horizontal',multi:'circles',sticky:'magnet',laser:'bolt',pierce:'diamond',slow:'clock',shield:'shield',life:'heart'};
@@ -68,7 +73,13 @@ function hud(){
  updatePlayTip(held);
  const effectSignature=effects+game.shield;if(hudEffects!==effectSignature){hudEffects=effectSignature;$('#effects').replaceChildren();for(const key in game.effects){const value=game.effects[key];if(value>0){const el=document.createElement('span');el.className='effect';el.style.color=POWERS[key].color;el.innerHTML=icon(powerIcons[key])+POWERS[key].name+' · '+Math.ceil(value)+'s';$('#effects').append(el);}}if(game.shield){const el=document.createElement('span');el.className='effect';el.innerHTML=icon('shield')+'Safety shield ready';$('#effects').append(el);}}
 }
-function persist(pendingNext=false){if(game.mode==='campaign'&&game.lives>0){try{const old=JSON.parse(localStorage.getItem('prism.save')||'null');if(old&&!isValidSnapshot(old.game))localStorage.setItem('prism.save-recovery',JSON.stringify(old));}catch{}storage.set('save',{pendingNext,game:game.snapshot()});}}
+function checkpointData(pendingNext=game.state==='cleared'){return {pendingNext,game:game.snapshot()};}
+function persist(pendingNext=game.state==='cleared'){
+ if(game.mode!=='campaign'||game.lives<=0||['over','won'].includes(game.state))return true;
+ try{const old=JSON.parse(localStorage.getItem('prism.save')||'null');if(old&&!isValidSnapshot(old.game)&&!storage.set('save-recovery',old)){checkpointSaved=false;return false;}}catch{}
+ checkpointSaved=storage.set('save',checkpointData(pendingNext));return checkpointSaved;
+}
+async function preserveRun(){if(persist())return true;return recoverSave({save:()=>persist(),download:()=>downloadRecovery(checkpointData(),'prism-adventure-recovery.json')});}
 function updatePersonalBest(){
  $('#best').textContent=best?best.toLocaleString():'No runs yet';
  $('#result-best').textContent='Your personal best: '+(best?best.toLocaleString():'No runs yet');
@@ -166,16 +177,18 @@ function setRecordResult(result){
 function finishCelebration(){if(view!=='champion')return;view='result';$('#record-celebration').hidden=true;$('#stage').classList.remove('cinematic-mode');$('#result-dialog').showModal();}
 $('#claim-record').onclick=finishCelebration;
 function openDialog(id){
+ paddleInput?.cancel();keys.clear();
  $('#play-tip').hidden=true;if(id==='#worlds-dialog')updateWorldCards();
- if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?game.world.name+' · '+game.score.toLocaleString()+' points. Your checkpoint is saved.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Returning to the start screen ends this run.';$('#quit').textContent='Back to start screen';}
+ if(id==='#pause-dialog'){$('#pause-description').textContent=game.mode==='campaign'?game.world.name+' · '+game.score.toLocaleString()+' points.':'This '+(game.mode==='daily'?'daily challenge':'practice run')+' is paused. Returning to the start screen ends this run.';$('#quit').textContent='Back to start screen';}
  if(view==='game'&&['playing','ready'].includes(game.state)){modalResume=game.state;game.state='paused';persist();$('#launch').hidden=true;}
+ if(id==='#pause-dialog'&&game.mode==='campaign')$('#pause-description').textContent+=checkpointSaved?' Your checkpoint is saved.':' Your latest checkpoint could not be saved. Keep playing, or download it before leaving.';
  sound.update(false,THEMES.indexOf(game.world.music));
  $(id).showModal();
 }
 all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked){game.state=modalResume;modalResume=null;keys.clear();lastHud='';hud();$('#game-canvas').focus({preventScroll:true});}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
 $('#result-dialog').addEventListener('cancel',e=>{e.preventDefault();home();});all('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 $('#play').onclick=()=>{const saved=storage.get('save');if(saved){$('#new-run-detail').textContent='Your checkpoint in '+(WORLDS[saved.game.level]?.name||'Adventure')+' will be replaced when the new run starts.';openDialog('#new-run-dialog');}else begin();};$('#confirm-new-run').onclick=()=>begin();$('#daily').onclick=()=>begin('daily');$('#resume').onclick=()=>{const saved=storage.get('save');if(!saved||!game.restore(saved.game)){toast('This checkpoint needs its original game version. It has been kept; you can start a new adventure.');home();return;}view='game';gameDisplay.enterForPlay();sound.unlock();showGame();stage?.reset();if(saved.pendingNext){game.state='cleared';beginCut();}};
-$('#launch').onclick=()=>{sound.unlock();game.launch();lastHud='';hud();};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=()=>{persist();home();};$('#skip-cut').onclick=finishCut;
+$('#launch').onclick=()=>{sound.unlock();game.launch();lastHud='';hud();};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=async()=>{if(await preserveRun())home();};$('#skip-cut').onclick=finishCut;
 $('#play-again').onclick=()=>begin(endResult.mode,endResult.mode==='practice'?endResult.level-1:0);$('#result-home').onclick=home;
 $('#settings-open').onclick=()=>openDialog('#settings-dialog');$('#pause-settings').onclick=()=>openDialog('#settings-dialog');$('#help-open').onclick=()=>openDialog('#help-dialog');$('#worlds-menu').onclick=()=>openDialog('#worlds-dialog');
 Object.entries(POWERS).forEach(([key,power])=>{const item=document.createElement('div');item.innerHTML='<span class="power-symbol" style="color:'+power.color+'">'+icon(powerIcons[key])+'</span><div><strong>'+power.name+'</strong><p>'+powerDescriptions[key]+'</p></div>';$('#power-guide').append(item);});
@@ -187,20 +200,21 @@ $('#interface-theme').value=settings.interfaceTheme;$('#interface-theme').onchan
 $('#sound-toggle').onclick=()=>{settings.muted=!settings.muted;sound.unlock();saveSettings();};for(const [id,key]of [['music-volume','music'],['effects-volume','effects']]){$('#'+id).value=settings[key]*100;$('#'+id).oninput=e=>{settings[key]=Number(e.target.value)/100;sound.unlock();saveSettings();};}
 for(const [id,key]of [['reduced-motion','reducedMotion'],['low-effects','lowEffects'],['classic-mode','classicMode']]){$('#'+id).checked=settings[key];$('#'+id).onchange=async e=>{settings[key]=e.target.checked;saveSettings();if(stage&&key==='lowEffects'){const input=e.target;input.disabled=true;stage.configureQuality();try{await stage.prepare(game);}finally{input.disabled=false;}}};}
 $('#reload').onclick=()=>location.reload();
-const canvas=$('#game-canvas');let dragging=false;
+const canvas=$('#game-canvas');let paddleInput;
 const graphicsRecovery=setupGraphicsRecovery(canvas,{
- pause(){keys.clear();dragging=false;accumulator=0;if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');sound.update(false,THEMES.indexOf(game.world.music));},
+ pause(){keys.clear();paddleInput?.cancel();accumulator=0;if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');sound.update(false,THEMES.indexOf(game.world.music));},
  async restore(){if(!stage)throw Error('Arena not initialized');stage.preparedModes?.clear();await stage.prepare(game);stage.resize();},
  onStatus(status){const ready=status==='ready';$('#error').hidden=ready;$('#unpause').disabled=!ready;
   if(ready){if(view==='game'&&game.state==='paused'&&!$('dialog[open]'))openDialog('#pause-dialog');if($('#pause-dialog').open)$('#pause-description').textContent='Arena restored. Resume when ready.';toast('Arena restored. Resume when ready.');}
   else {$('#error-text').textContent=status==='recovering'?'Restoring the 3D arena. Your game is paused.':status==='failed'?'The 3D arena could not recover. Reload the game to try again. An unfinished Daily Challenge or Practice run will end.':'Graphics were interrupted. Your game is paused while the arena recovers. Reload if it does not return; an unfinished Daily Challenge or Practice run will end.';if($('#pause-dialog').open)$('#pause-description').textContent=$('#error-text').textContent;}
  }
 });
-canvas.addEventListener('pointerdown',e=>{if(view!=='game'||all('dialog[open]').length)return;dragging=true;canvas.setPointerCapture(e.pointerId);game.move(stage.screenX(e.clientX,e.clientY));sound.unlock();game.launch();});
-canvas.addEventListener('pointermove',e=>{if(view==='game'&&(e.pointerType==='mouse'||dragging))game.move(stage.screenX(e.clientX,e.clientY));});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+paddleInput=setupPaddleInput(canvas,{enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!!stage&&['ready','playing'].includes(game.state),move:e=>game.move(stage.screenX(e.clientX,e.clientY)),launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
 document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select,button,a')||all('dialog[open]').length)return;if(view==='cut'||view==='champion'){if(['Space','Enter','KeyP','Escape'].includes(e.code)){e.preventDefault();if(!e.repeat){if(e.code==='KeyP'||e.code==='Escape')toggleScenePause();else if(view==='champion')finishCelebration();else finishCut();}}return;}if(view!=='game')return;if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
 document.addEventListener('visibilitychange',()=>{keys.clear();if(document.hidden&&view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');});window.addEventListener('pagehide',()=>{if(view==='game')persist();});
-const ro=new ResizeObserver(()=>stage?.resize());ro.observe($('#stage'));ro.observe(canvas);
+const ro=new ResizeObserver(()=>{paddleInput?.cancel();stage?.resize();});ro.observe($('#stage'));ro.observe(canvas);
+document.addEventListener('click',async event=>{const link=event.target.closest('a[href]');if(!link||link.target==='_blank'||link.hasAttribute('download')||event.defaultPrevented||event.ctrlKey||event.metaKey||event.shiftKey||view==='home'||game.mode!=='campaign')return;const url=new URL(link.href,location.href);if(url.origin!==location.origin)return;event.preventDefault();if(view==='game'&&!$('dialog[open]'))openDialog('#pause-dialog');if(await preserveRun()){leaving=true;location.href=url.href;}});
+window.addEventListener('beforeunload',event=>{if(!leaving&&view==='game'&&!persist()){event.preventDefault();event.returnValue='';}});
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 export function scoreHTML(r,name){const props={runKey:r.id,player:name,score:r.score,level:r.level,mode:r.mode,day:r.day,seconds:r.seconds,submittedAt:r.submittedAt,ruleset:r.ruleset||LEGACY_RULESET_REVISION};return '<li itemscope itemtype="https://sane-guild-8399.onpagelove.com/Run">'+Object.entries(props).map(([key,value])=>'<meta itemprop="'+key+'" content="'+escapeHTML(value)+'">').join('')+'</li>';}
 async function sendQueuedScore(run,player){
@@ -210,10 +224,10 @@ async function sendQueuedScore(run,player){
   // A previous attempt may have arrived even if its response was lost.
   if(scoresRequest)await scoresRequest.catch(()=>{});
   const existing=(await fetchScores()).find(row=>row.runKey===run.id);
-  if(existing)return {submittedAt:existing.submittedAt||run.submittedAt};
+  if(existing){if(!sameScorePayload(existing,run,player))throw scoreConflict();return {submittedAt:existing.submittedAt||run.submittedAt};}
  }
  const error=Error(response.status===400||response.status===422?'The leaderboard could not accept this score. Remove it or retry.':'The leaderboard is temporarily unavailable. Your score will retry automatically.');
- error.permanent=response.status===400||response.status===422;throw error;
+ error.permanent=response.status===400||response.status===422;error.retryAfterMS=retryAfterMS(response.headers.get('Retry-After'),boardNow());throw error;
 }
 const outbox=new ScoreOutbox({send:sendQueuedScore,now:boardNow,onChange:change=>{
  renderPendingScores();updateSavedResult(change.entry);
@@ -360,10 +374,12 @@ async function loadPracticeWorld(level){
   return {world};
  }catch{
   // Published snapshots and drafts have separate keys and visible provenance.
-  for(const [cacheKey,label]of [[key,'Cached published world'],['prism.world-draft.'+slug,'Saved draft']])try{
+  for(const [cacheKey,label]of [[key,'Cached published world']])try{
    const saved=JSON.parse(localStorage.getItem(cacheKey)||'null');if(!saved)continue;const world=normalizeWorld(saved.world);if(world.slug!==slug)continue;
    toast(label+' · '+world.name);return {world};
   }catch{}
+  try{const saved=await editorDrafts.read(slug);if(saved){const world=parseWorld(saved.html,{expectedSlug:slug});toast('Saved draft · '+world.name);return {world};}}catch{}
+  try{const saved=JSON.parse(localStorage.getItem('prism.world-draft.'+slug)||'null');if(saved){const world=normalizeWorld(saved.world);if(world.slug===slug){toast('Saved draft · '+world.name);return {world};}}}catch{}
   toast('Shared world unavailable. Playing the original release.');return null;
  }
 }

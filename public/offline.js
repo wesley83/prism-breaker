@@ -1,5 +1,6 @@
 import {LEGACY_RULESET_REVISION} from './world-identity.js';
 import {WORLD_COUNT} from './levels.js';
+import {sameScorePayload,scoreConflict} from './score-contract.js';
 // IndexedDB keeps score submissions intact across reloads, updates and tabs.
 const DATABASE='prism-offline',VERSION=1,LEASE_MS=60000,RECEIPT_DAYS=30;
 
@@ -37,14 +38,15 @@ export class OfflineStore{
  async transaction(name,mode,work){
   const db=await this.open();
   return new Promise((resolve,reject)=>{
-   let transaction,result;
+   let transaction,result,failure;
    try{try{transaction=db.transaction(name,mode,{durability:'strict'});}catch(error){if(error.name!=='TypeError')throw error;transaction=db.transaction(name,mode);}}
    catch(error){this.opening=null;reject(new OfflineStorageError(error));return;}
    transaction.oncomplete=()=>resolve(result);
-   transaction.onabort=()=>reject(new OfflineStorageError(transaction.error));
+   transaction.onabort=()=>reject(failure??new OfflineStorageError(transaction.error));
    transaction.onerror=()=>{}; // The transaction abort reports request and quota failures.
-   try{work(transaction.objectStore(name),value=>{result=value;});}
-   catch(error){transaction.abort();reject(new OfflineStorageError(error));}
+   const fail=error=>{failure=error;transaction.abort();};
+   try{work(transaction.objectStore(name),value=>{result=value;},fail);}
+   catch(error){fail(new OfflineStorageError(error));}
   });
  }
  readBoard(){return this.transaction('metadata','readonly',(store,done)=>{store.get('board').onsuccess=e=>done(e.target.result??null);});}
@@ -59,8 +61,8 @@ export class OfflineStore{
  get(id){return this.transaction('outbox','readonly',(store,done)=>{store.get(id).onsuccess=e=>done(e.target.result??null);});}
  all(){return this.transaction('outbox','readonly',(store,done)=>{store.getAll().onsuccess=e=>done(e.target.result);});}
  mutate(id,change){
-  return this.transaction('outbox','readwrite',(store,done)=>{store.get(id).onsuccess=e=>{
-   const value=change(e.target.result??null);
+  return this.transaction('outbox','readwrite',(store,done,fail)=>{store.get(id).onsuccess=e=>{
+   let value;try{value=change(e.target.result??null);}catch(error){fail(error);return;}
    if(value===undefined){done(null);return;}
    if(value===null)store.delete(id);else store.put(value);
    done(value);
@@ -75,19 +77,19 @@ export class OfflineStore{
 }
 
 export const offlineStore=new OfflineStore();
-export const retryDelay=attempts=>Math.min(300000,5000*2**Math.min(6,Math.max(0,attempts-1)));
+export const retryDelay=(attempts,random=Math.random)=>Math.round(Math.min(300000,5000*2**Math.min(6,Math.max(0,attempts-1)))*(.8+.2*Math.max(0,Math.min(1,random()))));
 
 export class ScoreOutbox{
- constructor({send,onChange=()=>{},onError=()=>{},now=Date.now,isOnline=()=>globalThis.navigator?.onLine!==false,store=offlineStore}={}){
+ constructor({send,onChange=()=>{},onError=()=>{},now=Date.now,isOnline=()=>globalThis.navigator?.onLine!==false,store=offlineStore,random=Math.random}={}){
   if(typeof send!=='function')throw new TypeError('ScoreOutbox requires a send function.');
-  Object.assign(this,{send,onChange,onError,now,isOnline,store});this.active=null;this.timer=null;this.disposed=false;this.again=false;this.forceAgain=false;
+  Object.assign(this,{send,onChange,onError,now,isOnline,store,random});this.active=null;this.timer=null;this.disposed=false;this.again=false;this.forceAgain=false;
  }
  notify(type,entry){try{this.onChange({type,entry});}catch(error){this.report(error);}}
  report(error){try{this.onError(error);}catch{/* A display callback cannot change the saved queue. */}}
  async enqueue(run,player){
   const input=scoreRecord(run,player),time=this.now();
   try{
-   const entry=await this.store.mutate(input.id,previous=>previous??{...input,status:'queued',createdAt:time,attempts:0,nextAttemptAt:time,lastError:'',leaseId:null,leaseUntil:0});
+   const entry=await this.store.mutate(input.id,previous=>{if(previous&&!sameScorePayload({...previous.run,player:previous.player},input.run,input.player))throw scoreConflict();return previous??{...input,status:'queued',createdAt:time,attempts:0,nextAttemptAt:time,lastError:'',leaseId:null,leaseUntil:0};});
    this.notify(entry.status,entry);return entry;
   }catch(error){this.report(error);throw error;}
  }
@@ -137,11 +139,11 @@ export class ScoreOutbox{
    try{response=await this.send(run,claimed.player);}catch(error){failure=error&&typeof error==='object'?error:new Error(String(error||'Could not reach the leaderboard.'));}
    // A tab that lost its lease cannot overwrite a later tab's result.
    const finished=await this.store.mutate(claimed.id,entry=>{
-    if(!entry||entry.leaseId!==leaseId)return undefined;
+    if(!entry||entry.leaseId!==leaseId||entry.leaseUntil<=this.now()||!sameScorePayload({...entry.run,player:entry.player},claimed.run,claimed.player))return undefined;
     const common={...entry,leaseId:null,leaseUntil:0};
     if(!failure)return {...common,run:{...run,submittedAt:response?.submittedAt??run.submittedAt},status:'sent',sentAt:this.now(),nextAttemptAt:0,lastError:''};
     const permanent=failure.permanent===true;
-    return {...common,status:permanent?'failed':'queued',lastError:String(failure.message||'Could not reach the leaderboard.').slice(0,240),nextAttemptAt:permanent?0:this.now()+retryDelay(entry.attempts)};
+    return {...common,status:permanent?'failed':'queued',lastError:String(failure.message||'Could not reach the leaderboard.').slice(0,240),nextAttemptAt:permanent?0:this.now()+Math.max(retryDelay(entry.attempts,this.random),Math.min(86400000,Math.max(0,Number(failure.retryAfterMS)||0)))};
    });
    if(finished)this.notify(finished.status==='sent'?'sent':finished.status==='failed'?'failed':'retrying',finished);
   }

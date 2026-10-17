@@ -1,6 +1,6 @@
 // Compatibility adapters; build tools import world-schema directly.
 import {BUNDLED_WORLDS} from './bundled-worlds.js';
-import {parseWorld as parseDocument,normalizeWorld as normalizeDocument,worldHTML,worldDocument,validateWorld,THEMES} from './world-schema.js';
+import {parseWorld as parseDocument,parseWorldMarkup,normalizeWorld as normalizeDocument,worldHTML,worldDocument,validateWorld,THEMES} from './world-schema.js';
 export {worldHTML,worldDocument,validateWorld,THEMES};
 export {BASE_TYPES,EFFECTS} from './world-schema.js';
 export const WORLD_SLUGS=BUNDLED_WORLDS.map(w=>w.slug);
@@ -15,7 +15,7 @@ export function normalizeWorld(input){
 export function parseWorld(input,options={}){
  const Parser=options.Parser||globalThis.DOMParser;
  if(typeof input==='string'&&input.length>1000000)throw Error('World file is too large');
- const root=typeof input==='string'?new Parser().parseFromString(input,'text/html').querySelector('#world'):input?.cloneNode(true);
+ const root=typeof input==='string'?parseWorldMarkup(input,Parser):input?.cloneNode(true);
  if(!root)throw Error('No structured world found');
  if(!root.querySelector(':scope > meta[itemprop="schemaVersion"]')){
   const slug=root.querySelector(':scope > meta[itemprop="slug"]')?.getAttribute('content'),original=BUNDLED_WORLDS.find(w=>w.slug===slug);

@@ -78,7 +78,7 @@ export class Game {
    this.resetRandom();
    this.paddle={x:0,w:3.3};this.target=0;this.balls=[];this.drops=[];this.shots=[];this.effects={};this.shield=false;this.combo=0;this.time=0;this.boardElapsed=0;this.lastClear=null;this.lastShot=0;this.hits=0;this.total=this.bricks.length;this.state='ready';this.addBall(true);this.emit({type:'level'});
  }
- resetRandom(draws=0){const random=rng(this.seed+this.level*97+this.phase*541);this.randomDraws=0;this.random=()=>{this.randomDraws++;return random();};for(let i=0;i<draws;i++)this.random();}
+ resetRandom(draws=0){const random=rng(this.seed+this.level*97+this.phase*541);this.randomDraws=0;this.random=function(){this.randomDraws++;return random();};for(let i=0;i<draws;i++)this.random();}
  addBall(held=false,x=this.paddle.x,y=LIMIT.paddleY+.58,vx=3,vy=14){const b={id:++this.uid,x,y,vx,vy,r:.23,held,holdOffset:held?x-this.paddle.x:0,holdHeight:y-LIMIT.paddleY,portal:0,hits:new Set()};this.balls.push(b);return b;}
  speed(){return Math.min(21,(13.5+this.level*.6+this.hits*.065)*(this.level>=2&&this.level<=5?1.05:1));}
  freshLaunchAngle(){
@@ -191,11 +191,20 @@ export class Game {
  }
  next(){if(this.level===LAST_WORLD||this.mode!=='campaign'){this.state='won';return false;}this.level++;this.phase=0;this.loadLevel();return true;}
  snapshot(){return structuredClone({version:2,worldId:this.world.id,worldRevision:this.world.revision||WORLDS[this.level].revision,ruleset:RULESET_REVISION,definition:this.world,mode:this.mode,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,randomDraws:this.randomDraws,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits});}
- restore(s){if(!isValidSnapshot(s))return false;s={...s,level:checkpointLevel(s)};
-   this.start(s.mode,s.level,s.seed);for(const k of ['phase','score','lives','nextLife','elapsed','runId','time','hits'])if(s[k]!==undefined)this[k]=s[k];this.nextLife=s.nextLife??(Math.floor(this.score/12000)+1)*12000;this.bricks=structuredClone(s.bricks);this.barriers=structuredClone(s.barriers??[]);this.total=this.bricks.length;this.pinnedWorld=s.version===2?structuredClone(s.definition):structuredClone(WORLDS[this.level]);this.world=this.pinnedWorld;this.portals=structuredClone(this.world.formations[this.phase].portals);this.behaviors.configure(this.world.types);
+ restore(s,{prepare=()=>{}}={}){
+  try{
+   if(!isValidSnapshot(s))return false;
+   const candidate=new Game();candidate.catalog=this.catalog;candidate.start(s.mode??'campaign',checkpointLevel(s),s.seed??8399);candidate.uid=Math.max(candidate.uid,this.uid);
+   candidate.restoreFields(structuredClone(s));candidate.behaviors.handlers=this.behaviors.handlers;
+   const prepared=prepare(candidate);if(prepared?.then){prepared.catch?.(()=>{});throw Error('Restore preparation must be synchronous');}
+   candidate.emit=this.emit;candidate.events=this.events;Object.assign(this,candidate);return true;
+  }catch{return false;}
+ }
+ restoreFields(s){
+   for(const k of ['phase','score','lives','nextLife','elapsed','runId','time','hits'])if(s[k]!==undefined)this[k]=s[k];this.nextLife=s.nextLife??(Math.floor(this.score/12000)+1)*12000;this.bricks=structuredClone(s.bricks);this.barriers=structuredClone(s.barriers??[]);this.total=this.bricks.length;this.pinnedWorld=s.version===2?structuredClone(s.definition):structuredClone(WORLDS[this.level]);this.world=this.pinnedWorld;this.portals=structuredClone(this.world.formations[this.phase].portals);this.behaviors.configure(this.world.types);
    this.resetRandom(Number.isSafeInteger(s.randomDraws)&&s.randomDraws>=0&&s.randomDraws<=10000?s.randomDraws:0);
    this.boardElapsed=Number.isFinite(s.boardElapsed)&&s.boardElapsed>=0?s.boardElapsed:Math.max(0,Number(s.time)||0);
    this.launchCount=Number.isSafeInteger(s.launchCount)&&s.launchCount>=0?s.launchCount:0;
    for(const key of ['speed','pickups','clear'])this.bonusTotals[key]=Number.isFinite(s.bonusTotals?.[key])&&s.bonusTotals[key]>=0?s.bonusTotals[key]:0;
-   this.lastClear=s.lastClear||null;this.state='ready';return true;}
+   this.lastClear=s.lastClear||null;this.state='ready';}
 }

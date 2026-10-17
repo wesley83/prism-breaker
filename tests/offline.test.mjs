@@ -32,18 +32,19 @@ test('two tabs and repeated saves send a run once and preserve the first saved p
  const store=new MemoryStore(),started=deferred(),finish=deferred();let sends=0;
  const send=async()=>{sends++;started.resolve();await finish.promise;};
  const first=queue(t,{store,send}),second=queue(t,{store,send});
- await Promise.all([first.enqueue(originalRun,'Wes'),second.enqueue({...originalRun,score:1},'Other')]);
+ await first.enqueue(originalRun,'Wes');await assert.rejects(second.enqueue({...originalRun,score:1},'Other'),error=>error.code==='score-conflict');
  const sending=first.sync();await started.promise;await second.sync();
  assert.equal(sends,1);
  finish.resolve();await sending;
- const receipt=await second.enqueue({...originalRun,score:50},'Other');
+ await assert.rejects(second.enqueue({...originalRun,score:50},'Other'),error=>error.code==='score-conflict');
+ const receipt=await second.enqueue(originalRun,'Wes');
  assert.equal(receipt.status,'sent');assert.equal(receipt.run.score,12500);assert.equal(receipt.player,'Wes');
  await second.sync();assert.equal(sends,1);
 });
 
 test('retry timing backs off after network failure and uses a fresh submission timestamp',async t=>{
  let now=Date.parse('2026-10-13T12:00:00Z'),attempts=0;
- const outbox=queue(t,{now:()=>now,send:async()=>{if(++attempts===1)throw new Error('Connection interrupted.');}});
+ const outbox=queue(t,{now:()=>now,random:()=>1,send:async()=>{if(++attempts===1)throw new Error('Connection interrupted.');}});
  await outbox.enqueue(originalRun,'Wes');await outbox.sync();
  const pending=await outbox.get(originalRun.id);
  assert.equal(pending.status,'queued');assert.equal(pending.nextAttemptAt,now+5000);assert.equal(pending.attempts,1);
@@ -51,7 +52,7 @@ test('retry timing backs off after network failure and uses a fresh submission t
  now+=5000;await outbox.sync();
  const receipt=await outbox.get(originalRun.id);
  assert.equal(receipt.status,'sent');assert.equal(receipt.run.submittedAt,'2026-10-13T12:00:05.000Z');
- assert.equal(retryDelay(500),300000);
+ assert.equal(retryDelay(500,()=>1),300000);assert.equal(retryDelay(1,()=>0),4000);
 });
 
 test('confirmed validation rejection remains visible until retry or removal',async t=>{

@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "id": "SCORE-20261017",
+  "createdAt": "2026-10-17T20:01:37.2116432Z",
+  "sourceCommit": "79dfc0eb9ac0a39722879c35bb2f829ed0d87cff",
+  "runtime": "f040e06f64812c205108",
+  "rubric": {
+    "path": "authoring-mirror/GAME-DEVELOPMENT-BEST-PRACTICES.md",
+    "edition": "2.8.0",
+    "sha256": "03964bbadaf11c9942853d566bf47bc0fc4beab2cd120f3e1e4362451d63e5ac"
+  },
+  "rawScore": 77.5,
+  "roundedScore": 78,
+  "method": "Source and retained evidence review; no new tests or browser/live checks",
+  "files": [
+    {
+      "path": "audit/2026-10-17-handbook-game-score.md",
+      "sha256": "73da920a2571dde71ec8414c56bc4a27e16f4f2b4eca8ee3f97bfa5ce4e88cf2"
+    },
+    {
+      "path": "public/app.js",
+      "sha256": "e8e93b912bfe36af05c1db585a478e8bbbb6825636da1b30b0b5ec0caf2976bd"
+    },
+    {
+      "path": "public/editor.js",
+      "sha256": "d0a36030ae23f5b1b7232593bb620b9e12a0ecbc8194e9a7dcc14cd089a21763"
+    },
+    {
+      "path": "public/engine.js",
+      "sha256": "95aab5490c572ed9004436644b886d615294bfd681e985a5657897b955acf511"
+    },
+    {
+      "path": "public/world-format.js",
+      "sha256": "d983e2a502991c0a67e320d742601a348bee674b01d275ca41e1f890d5f72b57"
+    },
+    {
+      "path": "public/world-schema.js",
+      "sha256": "5ac75e0174487736b8dfc4b1a5afa407c0fa2d48871fef73fda06a55f064a432"
+    },
+    {
+      "path": "public/leaderboard.js",
+      "sha256": "77e7ca7317fafa78843d559a33a49c5572ae304762ddc103bc9c0de952ca03fe"
+    },
+    {
+      "path": "public/offline.js",
+      "sha256": "2cce4c462b8ad2f51c1b79c9aaafbfc844379190e6cffcda3b296f245cafc49f"
+    },
+    {
+      "path": "public/scores.html",
+      "sha256": "14302fea38504e70816ad3f6a13ef0072433edd3969e64d25760964c3f94668d"
+    },
+    {
+      "path": "public/display.js",
+      "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45"
+    },
+    {
+      "path": "public/index.html",
+      "sha256": "142f00e3773cd5b73d88f58e0d4269a06ba5bc8bc76acf089aa01a368ec21f55"
+    },
+    {
+      "path": "tools/release-gate.mjs",
+      "sha256": "4df8ad49ee5224ec95011daf54e96557a358031263dab12aa771b866fe887636"
+    },
+    {
+      "path": "tools/repository-check.mjs",
+      "sha256": "433c0c2a3e339d5700699004a806db766f9570b48b5a8e634e88575098a7ed04"
+    },
+    {
+      "path": ".github/workflows/quality.yml",
+      "sha256": "360bfa55f470891eaac2a0c4bbd7fe3979667fe71f3e17ab780384910e8023a2"
+    },
+    {
+      "path": "DOCUMENT-FIRST-ARCHITECTURE.md",
+      "sha256": "8254ff8581292241357bd9d12efaf1218c3df56118f24b5d1a433d3c5cde21b5"
+    },
+    {
+      "path": "WORLD-EDITOR.md",
+      "sha256": "32fafc2712ab769954c1cb3f069b1b51af088cb03832b841046a8d154b3af45f"
+    },
+    {
+      "path": "REMAINING-WORK-IMPLEMENTATION.md",
+      "sha256": "f473830646fb1af76486640501f2eb06ca42493c532bc512962acb0a07ec41cc"
+    },
+    {
+      "path": "EXPERIENCE-REVIEW.md",
+      "sha256": "425f133f70863d52e89d108b4aed6ba142955b14439f3917210b58ffedbd470d"
+    },
+    {
+      "path": "README.md",
+      "sha256": "0524aca16b343099c0b9e7ead01245ed57c97bf278b57d38a46f7f222b0b8db5"
+    },
+    {
+      "path": "RENDER-PERFORMANCE.md",
+      "sha256": "8188fba01129985172947bd1ddc95079f44279dbd10b46c5f4ee3a22431e882c"
+    },
+    {
+      "path": "audit/2026-10-17-render-performance.md",
+      "sha256": "1574c47ad170bf80f6428070cafd527558c09490117ec13ecd32d5b5d4fa9fc7"
+    },
+    {
+      "path": "GAME-DEVELOPMENT-BEST-PRACTICES.md",
+      "sha256": "525c7c01d3fc3486ebeb006ac117259e97f0fc8872895ac814835e814a0c05b1"
+    }
+  ]
+}
