@@ -49,6 +49,7 @@ export function crystalResources(){
  }
  const environment=crystalEnvironment();return {body:crystalGeometry(),edges:crystalEdges(),crackPlane:new T.PlaneGeometry(1,1),textures,environment,
   bodyMaterial:new T.MeshPhysicalMaterial({vertexColors:true,transparent:true,opacity:.64,depthWrite:false,roughness:.13,metalness:.06,clearcoat:.9,clearcoatRoughness:.1,flatShading:true,emissiveIntensity:.06,envMap:environment,envMapIntensity:1.2}),
+  lowBodyMaterial:new T.MeshStandardMaterial({vertexColors:true,transparent:true,opacity:.64,depthWrite:false,roughness:.33,metalness:.06,flatShading:true,emissiveIntensity:.08}),
   edgeMaterial:new T.LineBasicMaterial({transparent:true,opacity:.46,depthWrite:false,toneMapped:false}),
   crackMaterial:new T.MeshBasicMaterial({map:textures.get('1:0'),transparent:true,depthWrite:false,toneMapped:false,polygonOffset:true,polygonOffsetFactor:-1})};
 }

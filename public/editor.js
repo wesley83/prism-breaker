@@ -1,4 +1,5 @@
 import {editorSlug} from './world-identity.js';
+import {RenderClock} from './render-budget.js';
 import {THEMES} from './world-schema.js';
 import {WORLDS} from './levels.js';
 import {WORLD_SLUGS,originalWorld,normalizeWorld,parseWorld,worldHTML,worldDocument,formationCatalog} from './world-format.js';
@@ -253,7 +254,7 @@ $('#publish-form').onsubmit=async event=>{
 
 let previewGeneration=0,preparation=Promise.resolve();
 function startPreview(){
- keys.clear();accumulator=0;previewClock=0;
+ keys.clear();accumulator=0;previewClock=0;previewRenderClock.reset();previewSceneDelta=0;
  detachDOM?.();previewGame=new Game(e=>{stage?.event(e);if(e.type==='phase'){previewGame.state='cleared';previewGame.bricks=[];previewGame.barriers=[];}if(e.type==='phase'||e.type==='clear')$('#preview-status').textContent='Formation cleared. Try another idea, or play again.';if(e.type==='over')$('#preview-status').textContent='Run finished. Restart to try again.';});
  previewGame.catalog=formationCatalog(world);previewGame.start('practice',world.index,8399);previewGame.phase=phase;previewGame.loadLevel();stage?.reset();
  detachDOM=attachBrickDOM(previewGame,$('#edit-board #world'));$('#strike-events').replaceChildren();
@@ -279,8 +280,19 @@ document.addEventListener('keyup',event=>keys.delete(event.key));window.addEvent
 $('#preview-dialog').addEventListener('close',()=>{previewGeneration++;keys.clear();previewReady=false;detachDOM?.();render();$('#edit-board').focus({preventScroll:true});});
 for(const button of document.querySelectorAll('[data-close]'))button.onclick=()=>$('#'+button.dataset.close).close();
 window.addEventListener('resize',()=>{if($('#preview-dialog').open)stage?.resize();});
-let last=performance.now(),accumulator=0;
-function frame(now){const dt=Math.min(.05,(now-last)/1000);last=now;if($('#preview-dialog').open&&previewReady&&!document.hidden&&!previewGraphics.blocked){previewClock+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}stage.render(previewGame,dt,previewClock,'game');$('#preview-score').textContent='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;$('#preview-launch').hidden=(previewGame.state!=='ready'&&!previewGame.balls.some(b=>b.held))||previewGame.state==='over'||previewGame.state==='cleared';}requestAnimationFrame(frame);}requestAnimationFrame(frame);
+const previewRenderClock=new RenderClock();let last=performance.now(),accumulator=0,previewSceneDelta=0,previewHud='';
+function frame(now){
+ const dt=Math.min(.05,(now-last)/1000);last=now;
+ if($('#preview-dialog').open&&previewReady&&!document.hidden&&!previewGraphics.blocked){
+  previewClock+=dt;previewSceneDelta+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);
+  accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}
+  if(previewRenderClock.due(now,60)){stage.render(previewGame,previewSceneDelta,previewClock,'game');stage.observeFrame(previewRenderClock.elapsed,previewGame.state==='playing');previewSceneDelta=0;
+   const text='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;if(text!==previewHud){$('#preview-score').textContent=text;previewHud=text;}
+   $('#preview-launch').hidden=(previewGame.state!=='ready'&&!previewGame.balls.some(b=>b.held))||previewGame.state==='over'||previewGame.state==='cleared';
+  }
+ }else{previewRenderClock.reset();previewSceneDelta=0;}
+ requestAnimationFrame(frame);
+}requestAnimationFrame(frame);
 
 function setEditing(enabled){
  for(const selector of ['.editor-layout','.workshop-actions'])$(selector).inert=!enabled;

@@ -30,7 +30,7 @@ The browser runs the gameplay and creates the music and scorecards. Native Pagel
 - **Progress:** campaign checkpoints, personal best, preferences and the last entered nickname persist in browser storage.
 - **Offline play and installation:** install the game or keep playing in a browser tab after its complete download. All worlds, music, cinematics and scorecards work offline; saved scores queue for reconnection.
 - **Safe updates:** complete releases download before becoming available. Players apply updates from the start screen; open games retain their existing assets.
-- **Performance:** shaders and textures prepare before play, power-ups and particles reuse objects, hidden pages stop rendering, and muted music stops scheduling new voices.
+- **Performance:** active play targets 60 FPS independently of the 120 Hz physics step. Crystal bodies, edges, count/crack artwork, scenery and bounded particles use shared GPU batches; resolution adapts to sustained load. Low effects uses simpler crystal lighting, gameplay uses glow sprites, and cinematic bloom stays in the cut scenes. Shaders/textures prepare before play, hidden pages stop rendering, and muted music stops scheduling new voices. See [rendering performance](RENDER-PERFORMANCE.md) for limits and reproducible measurements.
 - **Social artwork:** SVG/ICO/PNG favicons, touch icons, and landscape/square Open Graph and Twitter card images.
 
 ## Document-first architecture
@@ -244,6 +244,7 @@ Audio starts after a player interaction. World, Daily Challenge and record endin
 | `public/engine.js`, `public/levels.js`, `public/bundled-worlds.js` | Physics, points, powers, seeded randomness and the official snapshot generated from HTML worlds |
 | `public/brick-labels.js` | Remaining-hit labels and shared symbol artwork for the arena and How to play |
 | `public/crystal-bricks.js`, `public/assets/prism-wordmark.svg` | Faceted translucent bricks, cached fracture artwork, local reflections and OG-inspired vector lettering |
+| `public/brick-batch.js`, `public/particle-batch.js`, `public/scenery-batch.js`, `public/render-budget.js` | Derived GPU batches, bounded particles, frame scheduling, adaptive resolution and local diagnostics |
 | `public/paddle-art.js` | Beveled OG-style paddle, fixed-size end caps, shared reflections and power-up indicators; artwork is created before play |
 | `public/scene.js`, `public/postprocessing.js` | Three.js rendering, power-up preparation/pooling and effects |
 | `public/cinematics.js`, `public/cinematic-score.js` | World transition geometry and camera timing |
