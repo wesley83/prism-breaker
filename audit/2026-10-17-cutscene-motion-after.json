@@ -1,0 +1,866 @@
+{
+  "at": "2026-10-17T21:52:45.222Z",
+  "scope": "Renderer-object and camera observations, without a WebGL context or device certification",
+  "rows": [
+    {
+      "index": 0,
+      "name": "Prism Garden",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "grow": {
+          "total": 1,
+          "moving": 0
+        },
+        "rise": {
+          "total": 30,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 79,
+        "geometries": 15
+      }
+    },
+    {
+      "index": 1,
+      "name": "Cloud Carnival",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 12,
+          "moving": 0
+        },
+        "spin": {
+          "total": 1,
+          "moving": 1
+        },
+        "float": {
+          "total": 9,
+          "moving": 9
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 99,
+        "geometries": 17
+      }
+    },
+    {
+      "index": 2,
+      "name": "Electric City",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "grow": {
+          "total": 34,
+          "moving": 0
+        },
+        "rise": {
+          "total": 1,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 220,
+        "geometries": 16
+      }
+    },
+    {
+      "index": 3,
+      "name": "Crystal Caverns",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 31,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 81,
+        "geometries": 18
+      }
+    },
+    {
+      "index": 4,
+      "name": "Ember Foundry",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "spin": {
+          "total": 3,
+          "moving": 3
+        },
+        "pulse": {
+          "total": 1,
+          "moving": 1
+        },
+        "orbit": {
+          "total": 7,
+          "moving": 7
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 98,
+        "geometries": 26
+      }
+    },
+    {
+      "index": 5,
+      "name": "Frost Observatory",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "orbit": {
+          "total": 5,
+          "moving": 5
+        },
+        "float": {
+          "total": 1,
+          "moving": 1
+        },
+        "rise": {
+          "total": 12,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 55,
+        "geometries": 20
+      }
+    },
+    {
+      "index": 6,
+      "name": "Cosmic Reef",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "float": {
+          "total": 6,
+          "moving": 6
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 88,
+        "geometries": 61
+      }
+    },
+    {
+      "index": 7,
+      "name": "Prism Citadel",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 8,
+          "moving": 0
+        },
+        "door": {
+          "total": 2,
+          "moving": 0
+        },
+        "portal": {
+          "total": 8,
+          "moving": 8
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 56,
+        "geometries": 24
+      }
+    },
+    {
+      "index": 8,
+      "name": "Sunken Archive",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "float": {
+          "total": 2,
+          "moving": 2
+        },
+        "rise": {
+          "total": 12,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 93,
+        "geometries": 25
+      }
+    },
+    {
+      "index": 9,
+      "name": "Aurora Passage",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "ribbon": {
+          "total": 6,
+          "moving": 6
+        },
+        "rise": {
+          "total": 12,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 56,
+        "geometries": 21
+      }
+    },
+    {
+      "index": 10,
+      "name": "Clockwork Canopy",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "spin": {
+          "total": 5,
+          "moving": 5
+        },
+        "rise": {
+          "total": 20,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 150,
+        "geometries": 21
+      }
+    },
+    {
+      "index": 11,
+      "name": "Mirage Dunes",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 1,
+          "moving": 0
+        },
+        "portal": {
+          "total": 1,
+          "moving": 1
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 55,
+        "geometries": 16
+      }
+    },
+    {
+      "index": 12,
+      "name": "Thunder Spire",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 1,
+          "moving": 0
+        },
+        "lightning": {
+          "total": 9,
+          "moving": 9
+        },
+        "orbit": {
+          "total": 4,
+          "moving": 4
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 53,
+        "geometries": 27
+      }
+    },
+    {
+      "index": 13,
+      "name": "Lunar Harbor",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "depart": {
+          "total": 1,
+          "moving": 1
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 52,
+        "geometries": 16
+      }
+    },
+    {
+      "index": 14,
+      "name": "Event Horizon",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "accretion": {
+          "total": 18,
+          "moving": 18
+        },
+        "pulse": {
+          "total": 1,
+          "moving": 1
+        },
+        "rise": {
+          "total": 7,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 61,
+        "geometries": 33
+      }
+    },
+    {
+      "index": 15,
+      "name": "Dawn Nexus",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 19,
+          "moving": 19
+        },
+        "grow": {
+          "total": 16,
+          "moving": 16
+        },
+        "pulse": {
+          "total": 1,
+          "moving": 1
+        },
+        "orbit": {
+          "total": 6,
+          "moving": 6
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 86,
+        "geometries": 25
+      }
+    },
+    {
+      "index": 16,
+      "name": "Daily completion",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {},
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 68,
+        "geometries": 63
+      }
+    },
+    {
+      "index": 17,
+      "name": "Adventure record",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {},
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 77,
+        "geometries": 52
+      }
+    },
+    {
+      "index": 18,
+      "name": "Daily record",
+      "lowEffects": true,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {},
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 122,
+        "geometries": 92
+      }
+    },
+    {
+      "index": 0,
+      "name": "Prism Garden",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "grow": {
+          "total": 1,
+          "moving": 0
+        },
+        "rise": {
+          "total": 42,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 129,
+        "geometries": 15
+      }
+    },
+    {
+      "index": 1,
+      "name": "Cloud Carnival",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 12,
+          "moving": 0
+        },
+        "spin": {
+          "total": 1,
+          "moving": 1
+        },
+        "float": {
+          "total": 18,
+          "moving": 18
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 161,
+        "geometries": 17
+      }
+    },
+    {
+      "index": 2,
+      "name": "Electric City",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "grow": {
+          "total": 34,
+          "moving": 0
+        },
+        "rise": {
+          "total": 1,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 246,
+        "geometries": 16
+      }
+    },
+    {
+      "index": 3,
+      "name": "Crystal Caverns",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 31,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 107,
+        "geometries": 18
+      }
+    },
+    {
+      "index": 4,
+      "name": "Ember Foundry",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "spin": {
+          "total": 3,
+          "moving": 3
+        },
+        "pulse": {
+          "total": 1,
+          "moving": 1
+        },
+        "orbit": {
+          "total": 7,
+          "moving": 7
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 148,
+        "geometries": 26
+      }
+    },
+    {
+      "index": 5,
+      "name": "Frost Observatory",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "orbit": {
+          "total": 5,
+          "moving": 5
+        },
+        "float": {
+          "total": 1,
+          "moving": 1
+        },
+        "rise": {
+          "total": 12,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 81,
+        "geometries": 20
+      }
+    },
+    {
+      "index": 6,
+      "name": "Cosmic Reef",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "float": {
+          "total": 11,
+          "moving": 11
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 159,
+        "geometries": 101
+      }
+    },
+    {
+      "index": 7,
+      "name": "Prism Citadel",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 8,
+          "moving": 0
+        },
+        "door": {
+          "total": 2,
+          "moving": 0
+        },
+        "portal": {
+          "total": 8,
+          "moving": 8
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 82,
+        "geometries": 24
+      }
+    },
+    {
+      "index": 8,
+      "name": "Sunken Archive",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "float": {
+          "total": 2,
+          "moving": 2
+        },
+        "rise": {
+          "total": 12,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 119,
+        "geometries": 25
+      }
+    },
+    {
+      "index": 9,
+      "name": "Aurora Passage",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "ribbon": {
+          "total": 6,
+          "moving": 6
+        },
+        "rise": {
+          "total": 12,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 82,
+        "geometries": 21
+      }
+    },
+    {
+      "index": 10,
+      "name": "Clockwork Canopy",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "spin": {
+          "total": 9,
+          "moving": 9
+        },
+        "rise": {
+          "total": 36,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 340,
+        "geometries": 25
+      }
+    },
+    {
+      "index": 11,
+      "name": "Mirage Dunes",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 1,
+          "moving": 0
+        },
+        "portal": {
+          "total": 1,
+          "moving": 1
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 81,
+        "geometries": 16
+      }
+    },
+    {
+      "index": 12,
+      "name": "Thunder Spire",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 1,
+          "moving": 0
+        },
+        "lightning": {
+          "total": 9,
+          "moving": 9
+        },
+        "orbit": {
+          "total": 4,
+          "moving": 4
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 79,
+        "geometries": 27
+      }
+    },
+    {
+      "index": 13,
+      "name": "Lunar Harbor",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "depart": {
+          "total": 1,
+          "moving": 1
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 78,
+        "geometries": 16
+      }
+    },
+    {
+      "index": 14,
+      "name": "Event Horizon",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "accretion": {
+          "total": 18,
+          "moving": 18
+        },
+        "pulse": {
+          "total": 1,
+          "moving": 1
+        },
+        "rise": {
+          "total": 7,
+          "moving": 0
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 87,
+        "geometries": 33
+      }
+    },
+    {
+      "index": 15,
+      "name": "Dawn Nexus",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {
+        "rise": {
+          "total": 19,
+          "moving": 19
+        },
+        "grow": {
+          "total": 16,
+          "moving": 16
+        },
+        "pulse": {
+          "total": 1,
+          "moving": 1
+        },
+        "orbit": {
+          "total": 6,
+          "moving": 6
+        }
+      },
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 112,
+        "geometries": 25
+      }
+    },
+    {
+      "index": 16,
+      "name": "Daily completion",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {},
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 68,
+        "geometries": 63
+      }
+    },
+    {
+      "index": 17,
+      "name": "Adventure record",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {},
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 81,
+        "geometries": 56
+      }
+    },
+    {
+      "index": 18,
+      "name": "Daily record",
+      "lowEffects": false,
+      "samples": 630,
+      "finite": true,
+      "lateMotion": {},
+      "reducedStable": true,
+      "resourcesStable": true,
+      "resources": {
+        "objects": 162,
+        "geometries": 92
+      }
+    }
+  ]
+}

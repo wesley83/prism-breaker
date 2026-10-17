@@ -96,8 +96,10 @@ export class Cinematic{
    if(n.kind==='portal'){o.scale.multiplyScalar(.75+activation*.25);o.rotation.z+=t*.025;}
    if(n.kind==='pulse'){o.scale.multiplyScalar(.94+activation*.08+Math.sin(t*1.1)*.015);o.rotation.y+=t*.1;}
    if(n.kind==='ribbon'){o.position.y+=Math.sin(t*.35+a)*.5;o.rotation.y=Math.sin(t*.2+a)*.06;o.material.opacity=.08+activation*.15;}
-   if(n.kind==='lightning'){o.material.opacity=.16+activation*.65;o.scale.y=n.scale.y*(.8+activation*.2);}
-   if(n.kind==='depart'){o.position.y+=activation*2.5;o.position.z-=activation*7;o.rotation.y=-.35*activation;}
+   // Keep the storm moving after its reveal; slow deformation avoids strobing and extra draws.
+   if(n.kind==='lightning'){o.scale.x=n.scale.x*(1+Math.sin(t*.8+a)*activation*.12);o.scale.y=n.scale.y*(.8+activation*(.2+Math.sin(t*.9+a)*.035));o.scale.z=n.scale.z*(1+Math.cos(t*.65+a)*activation*.1);o.rotation.y+=Math.sin(t*.6+a)*activation*.06;}
+   // Departure occupies all three shots, ending at the explicit final-frame hold.
+   if(n.kind==='depart'){const departure=smooth((p-.12)/.82);o.position.x+=Math.sin(departure*Math.PI)*1.1;o.position.y+=departure*2.5;o.position.z-=departure*7;o.rotation.y=-.35*departure;o.rotation.z+=Math.sin(departure*Math.PI)*.05;}
    if(n.kind==='accretion'){o.rotation.z+=t*.08*(a%2?1:-1);o.scale.multiplyScalar(1+Math.sin(t*.5+a)*.015);}
   }
   for(const o of this.fragments){const u=o.userData,a=u.a+t*.08;o.position.set(Math.cos(a)*u.r,-3+(u.y+t*.45)%17,Math.sin(a)*u.r);o.rotation.set(t*.2,a,0);o.visible=activation>.1;}return frame;

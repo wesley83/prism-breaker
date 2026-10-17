@@ -1,0 +1,246 @@
+[
+  {
+    "world": 1,
+    "name": "Prism Garden",
+    "kinds": {
+      "grow": {
+        "total": 1,
+        "moving": 0
+      },
+      "rise": {
+        "total": 30,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 2,
+    "name": "Cloud Carnival",
+    "kinds": {
+      "rise": {
+        "total": 12,
+        "moving": 0
+      },
+      "spin": {
+        "total": 1,
+        "moving": 1
+      },
+      "float": {
+        "total": 9,
+        "moving": 9
+      }
+    }
+  },
+  {
+    "world": 3,
+    "name": "Electric City",
+    "kinds": {
+      "grow": {
+        "total": 34,
+        "moving": 0
+      },
+      "rise": {
+        "total": 1,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 4,
+    "name": "Crystal Caverns",
+    "kinds": {
+      "rise": {
+        "total": 31,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 5,
+    "name": "Ember Foundry",
+    "kinds": {
+      "spin": {
+        "total": 3,
+        "moving": 3
+      },
+      "pulse": {
+        "total": 1,
+        "moving": 1
+      },
+      "orbit": {
+        "total": 7,
+        "moving": 7
+      }
+    }
+  },
+  {
+    "world": 6,
+    "name": "Frost Observatory",
+    "kinds": {
+      "orbit": {
+        "total": 5,
+        "moving": 5
+      },
+      "float": {
+        "total": 1,
+        "moving": 1
+      },
+      "rise": {
+        "total": 12,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 7,
+    "name": "Cosmic Reef",
+    "kinds": {
+      "float": {
+        "total": 6,
+        "moving": 6
+      }
+    }
+  },
+  {
+    "world": 8,
+    "name": "Prism Citadel",
+    "kinds": {
+      "rise": {
+        "total": 8,
+        "moving": 0
+      },
+      "door": {
+        "total": 2,
+        "moving": 0
+      },
+      "portal": {
+        "total": 8,
+        "moving": 8
+      }
+    }
+  },
+  {
+    "world": 9,
+    "name": "Sunken Archive",
+    "kinds": {
+      "float": {
+        "total": 2,
+        "moving": 2
+      },
+      "rise": {
+        "total": 12,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 10,
+    "name": "Aurora Passage",
+    "kinds": {
+      "ribbon": {
+        "total": 6,
+        "moving": 6
+      },
+      "rise": {
+        "total": 12,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 11,
+    "name": "Clockwork Canopy",
+    "kinds": {
+      "spin": {
+        "total": 5,
+        "moving": 5
+      },
+      "rise": {
+        "total": 20,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 12,
+    "name": "Mirage Dunes",
+    "kinds": {
+      "rise": {
+        "total": 1,
+        "moving": 0
+      },
+      "portal": {
+        "total": 1,
+        "moving": 1
+      }
+    }
+  },
+  {
+    "world": 13,
+    "name": "Thunder Spire",
+    "kinds": {
+      "rise": {
+        "total": 1,
+        "moving": 0
+      },
+      "lightning": {
+        "total": 9,
+        "moving": 0
+      },
+      "orbit": {
+        "total": 4,
+        "moving": 4
+      }
+    }
+  },
+  {
+    "world": 14,
+    "name": "Lunar Harbor",
+    "kinds": {
+      "depart": {
+        "total": 1,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 15,
+    "name": "Event Horizon",
+    "kinds": {
+      "accretion": {
+        "total": 18,
+        "moving": 18
+      },
+      "pulse": {
+        "total": 1,
+        "moving": 1
+      },
+      "rise": {
+        "total": 7,
+        "moving": 0
+      }
+    }
+  },
+  {
+    "world": 16,
+    "name": "Dawn Nexus",
+    "kinds": {
+      "rise": {
+        "total": 19,
+        "moving": 19
+      },
+      "grow": {
+        "total": 16,
+        "moving": 16
+      },
+      "pulse": {
+        "total": 1,
+        "moving": 1
+      },
+      "orbit": {
+        "total": 6,
+        "moving": 6
+      }
+    }
+  }
+]

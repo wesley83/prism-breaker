@@ -1,0 +1,6272 @@
+[
+  {
+    "index": 0,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1670000000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183700000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208599999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          15,
+          51,
+          46,
+          255
+        ],
+        "camera": [
+          -17,
+          3,
+          24
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 56,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          16,
+          52,
+          46,
+          255
+        ],
+        "camera": [
+          -16.458930030695928,
+          3.2387073393988555,
+          23.840861773734098
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          23,
+          60,
+          51,
+          255
+        ],
+        "camera": [
+          -10.209419626555736,
+          5.995844282401881,
+          22.002770478398745
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 59,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          23,
+          60,
+          51,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          205,
+          122,
+          137,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          165,
+          91,
+          109,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 75,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          163,
+          88,
+          109,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 1,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183700000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183800000000005,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.167,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.192,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 68,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          181,
+          158,
+          136,
+          255
+        ],
+        "camera": [
+          15,
+          0,
+          26
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 68,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          93,
+          80,
+          83,
+          255
+        ],
+        "camera": [
+          14.522585321202289,
+          0.4774146787977114,
+          25.68172354746819
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 85,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          57,
+          49,
+          83,
+          255
+        ],
+        "camera": [
+          9.008311435196237,
+          5.991688564803762,
+          22.005540956797493
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          52,
+          45,
+          78,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 76,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          67,
+          57,
+          93,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 84,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          64,
+          54,
+          90,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 86,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          68,
+          58,
+          94,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 2,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837000000000009,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.166900000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183599999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.2087,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 189,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          3,
+          10,
+          18,
+          255
+        ],
+        "camera": [
+          -15,
+          -1,
+          28
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 189,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          9,
+          18,
+          255
+        ],
+        "camera": [
+          -14.522585321202289,
+          -0.4430162080693367,
+          27.52258532120229
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 193,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          1,
+          8,
+          15,
+          255
+        ],
+        "camera": [
+          -9.008311435196237,
+          5.990303325604389,
+          22.008311435196237
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 163,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          1,
+          8,
+          15,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 162,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          50,
+          34,
+          87,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 207,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          47,
+          32,
+          84,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 209,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          51,
+          35,
+          89,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 3,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999973,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.1836,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.166999999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208900000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 56,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          21,
+          33,
+          64,
+          255
+        ],
+        "camera": [
+          -16,
+          2,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 56,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          21,
+          33,
+          64,
+          255
+        ],
+        "camera": [
+          -15.490757675949109,
+          2.3182764525318076,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          27,
+          41,
+          73,
+          255
+        ],
+        "camera": [
+          -9.608865530875988,
+          5.994459043202507,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 72,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          26,
+          41,
+          72,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 70,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          192,
+          170,
+          218,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          170,
+          117,
+          174,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 74,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          154,
+          127,
+          186,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 4,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183700000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183700000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.1669,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208599999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 74,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          69,
+          31,
+          26,
+          255
+        ],
+        "camera": [
+          18,
+          0,
+          23
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 74,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          71,
+          31,
+          26,
+          255
+        ],
+        "camera": [
+          17.427102385442748,
+          0.4774146787977114,
+          22.92043088686705
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 90,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          88,
+          43,
+          32,
+          255
+        ],
+        "camera": [
+          10.809973722235485,
+          5.991688564803762,
+          22.001385239199372
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 85,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          85,
+          41,
+          32,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 85,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          249,
+          131,
+          159,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 90,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          220,
+          175,
+          130,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 91,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          218,
+          172,
+          128,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 5,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183700000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183800000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183599999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208599999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 33,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          24,
+          44,
+          71,
+          255
+        ],
+        "camera": [
+          -17,
+          8,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 33,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          88,
+          125,
+          144,
+          255
+        ],
+        "camera": [
+          -16.458930030695928,
+          7.840861773734096,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          31,
+          53,
+          80,
+          255
+        ],
+        "camera": [
+          -10.209419626555736,
+          6.002770478398746,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 43,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          31,
+          52,
+          79,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 44,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          142,
+          158,
+          150,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 51,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          196,
+          200,
+          216,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 51,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          193,
+          197,
+          213,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 6,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999993,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183600000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.1669,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.2087,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 61,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          196,
+          196,
+          156,
+          255
+        ],
+        "camera": [
+          18,
+          5,
+          28
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 61,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          199,
+          210,
+          172,
+          255
+        ],
+        "camera": [
+          17.427102385442748,
+          5.079569113132952,
+          27.52258532120229
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          187,
+          223,
+          214,
+          255
+        ],
+        "camera": [
+          10.809973722235485,
+          5.998614760800627,
+          22.008311435196237
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 76,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          20,
+          58,
+          69,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          32,
+          73,
+          83,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          29,
+          70,
+          80,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          32,
+          74,
+          84,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 7,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999975,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.1835,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.1837,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 15.299999999999999,
+        "end": 15.4838,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 34,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          203,
+          205,
+          157,
+          255
+        ],
+        "camera": [
+          -19,
+          0,
+          28
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 34,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          204,
+          205,
+          156,
+          255
+        ],
+        "camera": [
+          -18.48633656872508,
+          0.4055237615328318,
+          27.59447623846717
+        ]
+      },
+      {
+        "second": 4.940000000000001,
+        "draws": 52,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          50,
+          47,
+          61,
+          255
+        ],
+        "camera": [
+          -11.408857084868046,
+          5.993007564577859,
+          22.00699243542214
+        ]
+      },
+      {
+        "second": 5.140000000000001,
+        "draws": 44,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          51,
+          48,
+          62,
+          255
+        ],
+        "camera": [
+          8.98780673677793,
+          6.997967789462988,
+          18.001016105268505
+        ]
+      },
+      {
+        "second": 10.34,
+        "draws": 43,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          66,
+          63,
+          74,
+          255
+        ],
+        "camera": [
+          -2.98780673677793,
+          5.002032210537012,
+          18.998983894731495
+        ]
+      },
+      {
+        "second": 10.54,
+        "draws": 51,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          63,
+          60,
+          72,
+          255
+        ],
+        "camera": [
+          -5.997918909763483,
+          8.999479727440871,
+          34.00156081767739
+        ]
+      },
+      {
+        "second": 16.2,
+        "draws": 52,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          131,
+          113,
+          181,
+          255
+        ],
+        "camera": [
+          -2.5722924090271033,
+          8.143073102256777,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 8,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837000000000009,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.1837,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.2087,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          11,
+          38,
+          50,
+          255
+        ],
+        "camera": [
+          -16,
+          1,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          11,
+          38,
+          50,
+          255
+        ],
+        "camera": [
+          -15.490757675949109,
+          1.3978455656647595,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 80,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          17,
+          47,
+          58,
+          255
+        ],
+        "camera": [
+          -9.608865530875988,
+          5.993073804003135,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          17,
+          46,
+          58,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 76,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          27,
+          61,
+          72,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 81,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          25,
+          58,
+          69,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 80,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          28,
+          62,
+          73,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 9,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836000000000024,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.1836,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183599999999995,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 40,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          48,
+          64,
+          90,
+          255
+        ],
+        "camera": [
+          17,
+          7,
+          27
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 40,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          48,
+          65,
+          90,
+          255
+        ],
+        "camera": [
+          16.458930030695928,
+          6.920430886867048,
+          26.60215443433524
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          109,
+          136,
+          161,
+          255
+        ],
+        "camera": [
+          10.209419626555736,
+          6.001385239199373,
+          22.006926195996865
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 47,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          114,
+          141,
+          166,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          153,
+          190,
+          215,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 56,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          65,
+          86,
+          109,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 58,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          39,
+          64,
+          82,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 10,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183600000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183799999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.192,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 124,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          36,
+          32,
+          28,
+          255
+        ],
+        "camera": [
+          -18,
+          4,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 124,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          24,
+          32,
+          31,
+          255
+        ],
+        "camera": [
+          -17.427102385442748,
+          4.159138226265904,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 140,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          37,
+          53,
+          47,
+          255
+        ],
+        "camera": [
+          -10.809973722235485,
+          5.997229521601254,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 136,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          37,
+          53,
+          48,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 134,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          172,
+          201,
+          158,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 141,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          191,
+          174,
+          127,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 142,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          193,
+          178,
+          132,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 11,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183700000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.1837000000000035,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.166899999999995,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 34,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          61,
+          40,
+          60,
+          255
+        ],
+        "camera": [
+          18,
+          1,
+          29
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 34,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          61,
+          40,
+          60,
+          255
+        ],
+        "camera": [
+          17.427102385442748,
+          1.3978455656647595,
+          28.443016208069338
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 51,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          70,
+          49,
+          68,
+          255
+        ],
+        "camera": [
+          10.809973722235485,
+          5.993073804003135,
+          22.009696674395613
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 45,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          70,
+          48,
+          67,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 41,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          92,
+          67,
+          87,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 52,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          191,
+          165,
+          124,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 52,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          188,
+          162,
+          122,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 12,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183600000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.167000000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208700000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 32,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          20,
+          37,
+          64,
+          255
+        ],
+        "camera": [
+          -17,
+          0,
+          27
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 32,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          17,
+          34,
+          59,
+          255
+        ],
+        "camera": [
+          -16.458930030695928,
+          0.4774146787977114,
+          26.60215443433524
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 46,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          182,
+          187,
+          189,
+          255
+        ],
+        "camera": [
+          -10.209419626555736,
+          5.991688564803762,
+          22.006926195996865
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 43,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          6,
+          21,
+          40,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 41,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          245,
+          248,
+          255,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 48,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          6,
+          20,
+          39,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          7,
+          21,
+          41,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 13,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837000000000013,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183600000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.1839,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 30,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          115,
+          148,
+          164,
+          255
+        ],
+        "camera": [
+          17,
+          9,
+          30
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 30,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          114,
+          146,
+          163,
+          255
+        ],
+        "camera": [
+          16.458930030695928,
+          8.761292660601145,
+          29.363447094936383
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 46,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          115,
+          140,
+          158,
+          255
+        ],
+        "camera": [
+          10.209419626555736,
+          6.004155717598119,
+          22.011081913594985
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 38,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          103,
+          128,
+          145,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 39,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          48,
+          62,
+          86,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 46,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          42,
+          55,
+          79,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 48,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          45,
+          58,
+          82,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 14,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183700000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.167000000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.191999999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 40,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          1,
+          4,
+          255
+        ],
+        "camera": [
+          -16,
+          9,
+          26
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 40,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          1,
+          3,
+          255
+        ],
+        "camera": [
+          -15.490757675949109,
+          8.761292660601145,
+          25.68172354746819
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          203,
+          181,
+          226,
+          255
+        ],
+        "camera": [
+          -9.608865530875988,
+          6.004155717598119,
+          22.005540956797493
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 54,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          222,
+          186,
+          226,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 51,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          1,
+          0,
+          1,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 55,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          2,
+          5,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 58,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          2,
+          5,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 15,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999969,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183700000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.1671,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 17.849999999999998,
+        "end": 18.03359999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 62,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          196,
+          192,
+          154,
+          255
+        ],
+        "camera": [
+          19,
+          3,
+          32
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 62,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          197,
+          193,
+          156,
+          255
+        ],
+        "camera": [
+          18.616234480279225,
+          3.1514863893634644,
+          31.495045368788453
+        ]
+      },
+      {
+        "second": 5.780000000000001,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          223,
+          219,
+          184,
+          255
+        ],
+        "camera": [
+          11.406519707239646,
+          5.997426431352771,
+          22.008578562157428
+        ]
+      },
+      {
+        "second": 5.98,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          242,
+          240,
+          226,
+          255
+        ],
+        "camera": [
+          8.991025687170811,
+          6.998504281195135,
+          18.00074785940243
+        ]
+      },
+      {
+        "second": 12.08,
+        "draws": 75,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          230,
+          227,
+          197,
+          255
+        ],
+        "camera": [
+          -2.9910256871708114,
+          5.001495718804865,
+          18.99925214059757
+        ]
+      },
+      {
+        "second": 12.28,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          189,
+          186,
+          148,
+          255
+        ],
+        "camera": [
+          -5.998469092475338,
+          8.999617273118835,
+          34.0011481806435
+        ]
+      },
+      {
+        "second": 18.900000000000002,
+        "draws": 80,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          189,
+          184,
+          142,
+          255
+        ],
+        "camera": [
+          -2.5722924090271015,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 16,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999987,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.166900000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 13.6,
+        "end": 13.783699999999994,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          164,
+          203,
+          213,
+          255
+        ],
+        "camera": [
+          -13,
+          3,
+          24
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          4,
+          24,
+          35,
+          255
+        ],
+        "camera": [
+          -12.57862609329446,
+          3.3370991253644315,
+          23.915725218658892
+        ]
+      },
+      {
+        "second": 4.380000000000001,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          8,
+          28,
+          39,
+          255
+        ],
+        "camera": [
+          -8.00736247693832,
+          6.994110018449344,
+          23.001472495387663
+        ]
+      },
+      {
+        "second": 4.58,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          49,
+          160,
+          140,
+          255
+        ],
+        "camera": [
+          6.993580005787037,
+          6,
+          20.00385199652778
+        ]
+      },
+      {
+        "second": 9.18,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          13,
+          54,
+          66,
+          255
+        ],
+        "camera": [
+          2.006419994212963,
+          6,
+          22.99614800347222
+        ]
+      },
+      {
+        "second": 9.379999999999999,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          151,
+          197,
+          200,
+          255
+        ],
+        "camera": [
+          2.998026786979673,
+          8,
+          35.001315475346885
+        ]
+      },
+      {
+        "second": 14.4,
+        "draws": 63,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          175,
+          207,
+          209,
+          255
+        ],
+        "camera": [
+          0.4292193067703267,
+          8,
+          36.71385379548645
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 17,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.2004000000000015,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.1836,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999995,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 13.6,
+        "end": 13.767099999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          214,
+          222,
+          194,
+          255
+        ],
+        "camera": [
+          -12,
+          1,
+          23
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          211,
+          219,
+          181,
+          255
+        ],
+        "camera": [
+          -11.662900874635568,
+          1.3370991253644315,
+          22.747175655976676
+        ]
+      },
+      {
+        "second": 4.380000000000001,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          215,
+          223,
+          183,
+          255
+        ],
+        "camera": [
+          -8.005889981550656,
+          4.994110018449344,
+          20.004417486162993
+        ]
+      },
+      {
+        "second": 4.58,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          224,
+          230,
+          200,
+          255
+        ],
+        "camera": [
+          7.987160011574074,
+          6.001283998842593,
+          18.002567997685187
+        ]
+      },
+      {
+        "second": 9.18,
+        "draws": 60,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          222,
+          229,
+          197,
+          255
+        ],
+        "camera": [
+          -1.9871600115740744,
+          6.998716001157407,
+          19.997432002314817
+        ]
+      },
+      {
+        "second": 9.379999999999999,
+        "draws": 60,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          157,
+          134,
+          78,
+          255
+        ],
+        "camera": [
+          3.998026786979673,
+          8,
+          31.001315475346885
+        ]
+      },
+      {
+        "second": 14.4,
+        "draws": 57,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          158,
+          136,
+          80,
+          255
+        ],
+        "camera": [
+          1.4292193067703267,
+          8,
+          32.71385379548645
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 18,
+    "lowEffects": true,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183800000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183700000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 15.299999999999999,
+        "end": 15.483700000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 116,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          114,
+          120,
+          109,
+          255
+        ],
+        "camera": [
+          -13,
+          3,
+          24
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 116,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          202,
+          186,
+          122,
+          255
+        ],
+        "camera": [
+          -12.662063532055974,
+          3.2703491743552213,
+          23.932412706411196
+        ]
+      },
+      {
+        "second": 4.940000000000001,
+        "draws": 116,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          24,
+          38,
+          38,
+          255
+        ],
+        "camera": [
+          -8.00582702951845,
+          6.99533837638524,
+          23.00116540590369
+        ]
+      },
+      {
+        "second": 5.140000000000001,
+        "draws": 109,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          80,
+          132,
+          108,
+          255
+        ],
+        "camera": [
+          6.994919473657471,
+          6,
+          20.00304831580552
+        ]
+      },
+      {
+        "second": 10.34,
+        "draws": 113,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          226,
+          221,
+          196,
+          255
+        ],
+        "camera": [
+          2.005080526342529,
+          6,
+          22.99695168419448
+        ]
+      },
+      {
+        "second": 10.54,
+        "draws": 114,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          205,
+          200,
+          162,
+          255
+        ],
+        "camera": [
+          2.9984391823226124,
+          8,
+          35.00104054511826
+        ]
+      },
+      {
+        "second": 16.2,
+        "draws": 116,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          204,
+          199,
+          164,
+          255
+        ],
+        "camera": [
+          0.4292193067703276,
+          8,
+          36.71385379548645
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 0,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999987,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183700000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208600000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 97,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -17,
+          3,
+          24
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 97,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          126,
+          132,
+          74,
+          255
+        ],
+        "camera": [
+          -16.458930030695928,
+          3.2387073393988555,
+          23.840861773734098
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 135,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          96,
+          156,
+          47,
+          255
+        ],
+        "camera": [
+          -10.209419626555736,
+          5.995844282401881,
+          22.002770478398745
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 121,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          102,
+          161,
+          50,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 120,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          133,
+          56,
+          70,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 137,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          101,
+          38,
+          54,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 139,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          179,
+          87,
+          111,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 1,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999969,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183700000000006,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183599999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208599999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 110,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          15,
+          0,
+          26
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 110,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          67,
+          55,
+          83,
+          255
+        ],
+        "camera": [
+          14.522585321202289,
+          0.4774146787977114,
+          25.68172354746819
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 153,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          47,
+          30,
+          49,
+          255
+        ],
+        "camera": [
+          9.008311435196237,
+          5.991688564803762,
+          22.005540956797493
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 134,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          35,
+          21,
+          37,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 130,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          65,
+          35,
+          55,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 152,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          68,
+          45,
+          60,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 154,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          129,
+          87,
+          121,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 2,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999969,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183599999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208700000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 213,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -15,
+          -1,
+          28
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 213,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          13,
+          11,
+          25,
+          255
+        ],
+        "camera": [
+          -14.522585321202289,
+          -0.4430162080693367,
+          27.52258532120229
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 247,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          140,
+          40,
+          99,
+          255
+        ],
+        "camera": [
+          -9.008311435196237,
+          5.990303325604389,
+          22.008311435196237
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 213,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          75,
+          32,
+          70,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 208,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          26,
+          15,
+          51,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 256,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          25,
+          12,
+          47,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 257,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          64,
+          41,
+          112,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 3,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999984,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.167000000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999995,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208500000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 71,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -16,
+          2,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 71,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          12,
+          35,
+          61,
+          255
+        ],
+        "camera": [
+          -15.490757675949109,
+          2.3182764525318076,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 112,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          1,
+          21,
+          34,
+          255
+        ],
+        "camera": [
+          -9.608865530875988,
+          5.994459043202507,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 105,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          7,
+          22,
+          36,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 98,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          124,
+          106,
+          170,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 112,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          105,
+          71,
+          123,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 115,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          167,
+          148,
+          206,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 4,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837000000000044,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 113,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          18,
+          0,
+          23
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 113,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          81,
+          29,
+          15,
+          255
+        ],
+        "camera": [
+          17.427102385442748,
+          0.4774146787977114,
+          22.92043088686705
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 157,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          160,
+          38,
+          58,
+          255
+        ],
+        "camera": [
+          10.809973722235485,
+          5.991688564803762,
+          22.001385239199372
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 147,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          135,
+          95,
+          56,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 146,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          205,
+          60,
+          89,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 156,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          197,
+          119,
+          67,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 156,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          242,
+          191,
+          137,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 5,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1838000000000026,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183599999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999996,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 48,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -17,
+          8,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 48,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          93,
+          134,
+          154,
+          255
+        ],
+        "camera": [
+          -16.458930030695928,
+          7.840861773734096,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 92,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          47,
+          72,
+          92,
+          255
+        ],
+        "camera": [
+          -10.209419626555736,
+          6.002770478398746,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 81,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          61,
+          80,
+          108,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          143,
+          179,
+          194,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 92,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          172,
+          179,
+          205,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 91,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          226,
+          230,
+          240,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 6,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837000000000044,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183600000000007,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208800000000005,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 116,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          18,
+          5,
+          28
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 116,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          225,
+          225,
+          201,
+          255
+        ],
+        "camera": [
+          17.427102385442748,
+          5.079569113132952,
+          27.52258532120229
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 160,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          63,
+          141,
+          116,
+          255
+        ],
+        "camera": [
+          10.809973722235485,
+          5.998614760800627,
+          22.008311435196237
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 149,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          87,
+          107,
+          194,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 144,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          31,
+          117,
+          132,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 159,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          215,
+          245,
+          233,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 159,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          242,
+          253,
+          248,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 7,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999987,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183700000000005,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 15.299999999999999,
+        "end": 15.4838,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -19,
+          0,
+          28
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          232,
+          234,
+          183,
+          255
+        ],
+        "camera": [
+          -18.48633656872508,
+          0.4055237615328318,
+          27.59447623846717
+        ]
+      },
+      {
+        "second": 4.940000000000001,
+        "draws": 92,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          160,
+          168,
+          91,
+          255
+        ],
+        "camera": [
+          -11.408857084868046,
+          5.993007564577859,
+          22.00699243542214
+        ]
+      },
+      {
+        "second": 5.140000000000001,
+        "draws": 82,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          115,
+          127,
+          49,
+          255
+        ],
+        "camera": [
+          8.98780673677793,
+          6.997967789462988,
+          18.001016105268505
+        ]
+      },
+      {
+        "second": 10.34,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          70,
+          76,
+          84,
+          255
+        ],
+        "camera": [
+          -2.98780673677793,
+          5.002032210537012,
+          18.998983894731495
+        ]
+      },
+      {
+        "second": 10.54,
+        "draws": 93,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          38,
+          41,
+          26,
+          255
+        ],
+        "camera": [
+          -5.997918909763483,
+          8.999479727440871,
+          34.00156081767739
+        ]
+      },
+      {
+        "second": 16.2,
+        "draws": 92,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          157,
+          139,
+          207,
+          255
+        ],
+        "camera": [
+          -2.5722924090271033,
+          8.143073102256777,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 8,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999984,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183599999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183499999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.2087,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -16,
+          1,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          12,
+          42,
+          44,
+          255
+        ],
+        "camera": [
+          -15.490757675949109,
+          1.3978455656647595,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 120,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          25,
+          25,
+          255
+        ],
+        "camera": [
+          -9.608865530875988,
+          5.993073804003135,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 112,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          2,
+          24,
+          24,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 101,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          5,
+          46,
+          42,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 121,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          3,
+          39,
+          37,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 119,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          21,
+          101,
+          96,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 9,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183799999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.166899999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 55,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          17,
+          7,
+          27
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 55,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          94,
+          87,
+          115,
+          255
+        ],
+        "camera": [
+          16.458930030695928,
+          6.920430886867048,
+          26.60215443433524
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 99,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          79,
+          97,
+          105,
+          255
+        ],
+        "camera": [
+          10.209419626555736,
+          6.001385239199373,
+          22.006926195996865
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 86,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          81,
+          99,
+          105,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 85,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          98,
+          142,
+          141,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 98,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          57,
+          61,
+          70,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 99,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          103,
+          126,
+          117,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 10,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1838000000000028,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183599999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183799999999996,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208499999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 299,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -18,
+          4,
+          25
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 299,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          54,
+          45,
+          29,
+          255
+        ],
+        "camera": [
+          -17.427102385442748,
+          4.159138226265904,
+          24.761292660601143
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 343,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          47,
+          34,
+          16,
+          255
+        ],
+        "camera": [
+          -10.809973722235485,
+          5.997229521601254,
+          22.00415571759812
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 337,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          37,
+          30,
+          15,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 330,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          105,
+          143,
+          89,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 342,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          145,
+          117,
+          64,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 343,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          219,
+          200,
+          146,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 11,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837999999999955,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183600000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999996,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208599999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          18,
+          1,
+          29
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 49,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          56,
+          34,
+          48,
+          255
+        ],
+        "camera": [
+          17.427102385442748,
+          1.3978455656647595,
+          28.443016208069338
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 90,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          39,
+          24,
+          27,
+          255
+        ],
+        "camera": [
+          10.809973722235485,
+          5.993073804003135,
+          22.009696674395613
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          40,
+          24,
+          25,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 70,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          61,
+          41,
+          41,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 92,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          141,
+          107,
+          65,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 90,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          208,
+          179,
+          133,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 12,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1837999999999957,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183599999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999996,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 47,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -17,
+          0,
+          27
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 47,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          19,
+          35,
+          60,
+          255
+        ],
+        "camera": [
+          -16.458930030695928,
+          0.4774146787977114,
+          26.60215443433524
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 90,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          118,
+          125,
+          127,
+          255
+        ],
+        "camera": [
+          -10.209419626555736,
+          5.991688564803762,
+          22.006926195996865
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          16,
+          20,
+          42,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 74,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          200,
+          202,
+          238,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 88,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          8,
+          14,
+          30,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 90,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          16,
+          30,
+          64,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 13,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.200399999999994,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183800000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183700000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.208700000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 45,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          17,
+          9,
+          30
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 45,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          149,
+          191,
+          201,
+          255
+        ],
+        "camera": [
+          16.458930030695928,
+          8.761292660601145,
+          29.363447094936383
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 86,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          100,
+          128,
+          139,
+          255
+        ],
+        "camera": [
+          10.209419626555736,
+          6.004155717598119,
+          22.011081913594985
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 79,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          69,
+          106,
+          117,
+          255
+        ],
+        "camera": [
+          8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 73,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          36,
+          53,
+          65,
+          255
+        ],
+        "camera": [
+          -2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 88,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          29,
+          43,
+          54,
+          255
+        ],
+        "camera": [
+          -5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 88,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          85,
+          110,
+          127,
+          255
+        ],
+        "camera": [
+          -2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 14,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1835999999999982,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183800000000005,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183700000000002,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 14.025,
+        "end": 14.192,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 55,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -16,
+          9,
+          26
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 55,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          1,
+          255
+        ],
+        "camera": [
+          -15.490757675949109,
+          8.761292660601145,
+          25.68172354746819
+        ]
+      },
+      {
+        "second": 4.5200000000000005,
+        "draws": 97,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          143,
+          113,
+          193,
+          255
+        ],
+        "camera": [
+          -9.608865530875988,
+          6.004155717598119,
+          22.005540956797493
+        ]
+      },
+      {
+        "second": 4.72,
+        "draws": 86,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          180,
+          115,
+          184,
+          255
+        ],
+        "camera": [
+          -8.985505498820467,
+          6.9975842498034115,
+          18.001207875098295
+        ]
+      },
+      {
+        "second": 9.469999999999999,
+        "draws": 80,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          2.9855054988204657,
+          5.0024157501965885,
+          18.998792124901705
+        ]
+      },
+      {
+        "second": 9.669999999999998,
+        "draws": 96,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          5.997525333757164,
+          8.99938133343929,
+          34.00185599968213
+        ]
+      },
+      {
+        "second": 14.85,
+        "draws": 96,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          1,
+          255
+        ],
+        "camera": [
+          2.5722924090271024,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 15,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999969,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183799999999995,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183599999999998,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 17.849999999999998,
+        "end": 18.0336,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 77,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          19,
+          3,
+          32
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 77,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          229,
+          223,
+          184,
+          255
+        ],
+        "camera": [
+          18.616234480279225,
+          3.1514863893634644,
+          31.495045368788453
+        ]
+      },
+      {
+        "second": 5.780000000000001,
+        "draws": 121,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          219,
+          210,
+          153,
+          255
+        ],
+        "camera": [
+          11.406519707239646,
+          5.997426431352771,
+          22.008578562157428
+        ]
+      },
+      {
+        "second": 5.98,
+        "draws": 112,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          246,
+          242,
+          215,
+          255
+        ],
+        "camera": [
+          8.991025687170811,
+          6.998504281195135,
+          18.00074785940243
+        ]
+      },
+      {
+        "second": 12.08,
+        "draws": 107,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          233,
+          228,
+          192,
+          255
+        ],
+        "camera": [
+          -2.9910256871708114,
+          5.001495718804865,
+          18.99925214059757
+        ]
+      },
+      {
+        "second": 12.28,
+        "draws": 121,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          137,
+          132,
+          81,
+          255
+        ],
+        "camera": [
+          -5.998469092475338,
+          8.999617273118835,
+          34.0011481806435
+        ]
+      },
+      {
+        "second": 18.900000000000002,
+        "draws": 120,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          216,
+          209,
+          161,
+          255
+        ],
+        "camera": [
+          -2.5722924090271015,
+          8.143073102256775,
+          36.57078069322967
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 16,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.1836999999999973,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.167000000000001,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183699999999993,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 13.6,
+        "end": 13.78369999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -13,
+          3,
+          24
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          34,
+          47,
+          255
+        ],
+        "camera": [
+          -12.57862609329446,
+          3.3370991253644315,
+          23.915725218658892
+        ]
+      },
+      {
+        "second": 4.380000000000001,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          19,
+          26,
+          255
+        ],
+        "camera": [
+          -8.00736247693832,
+          6.994110018449344,
+          23.001472495387663
+        ]
+      },
+      {
+        "second": 4.58,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          107,
+          110,
+          255
+        ],
+        "camera": [
+          6.993580005787037,
+          6,
+          20.00385199652778
+        ]
+      },
+      {
+        "second": 9.18,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          44,
+          58,
+          255
+        ],
+        "camera": [
+          2.006419994212963,
+          6,
+          22.99614800347222
+        ]
+      },
+      {
+        "second": 9.379999999999999,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          68,
+          160,
+          167,
+          255
+        ],
+        "camera": [
+          2.998026786979673,
+          8,
+          35.001315475346885
+        ]
+      },
+      {
+        "second": 14.4,
+        "draws": 78,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          177,
+          225,
+          227,
+          255
+        ],
+        "camera": [
+          0.4292193067703267,
+          8,
+          36.71385379548645
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 17,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.183699999999997,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183599999999999,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183799999999994,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 13.6,
+        "end": 13.783699999999996,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 72,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -12,
+          1,
+          23
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 72,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          230,
+          237,
+          202,
+          255
+        ],
+        "camera": [
+          -11.662900874635568,
+          1.3370991253644315,
+          22.747175655976676
+        ]
+      },
+      {
+        "second": 4.380000000000001,
+        "draws": 72,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          180,
+          198,
+          128,
+          255
+        ],
+        "camera": [
+          -8.005889981550656,
+          4.994110018449344,
+          20.004417486162993
+        ]
+      },
+      {
+        "second": 4.58,
+        "draws": 72,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          223,
+          231,
+          190,
+          255
+        ],
+        "camera": [
+          7.987160011574074,
+          6.001283998842593,
+          18.002567997685187
+        ]
+      },
+      {
+        "second": 9.18,
+        "draws": 75,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          223,
+          231,
+          188,
+          255
+        ],
+        "camera": [
+          -1.9871600115740744,
+          6.998716001157407,
+          19.997432002314817
+        ]
+      },
+      {
+        "second": 9.379999999999999,
+        "draws": 75,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          112,
+          85,
+          48,
+          255
+        ],
+        "camera": [
+          3.998026786979673,
+          8,
+          31.001315475346885
+        ]
+      },
+      {
+        "second": 14.4,
+        "draws": 72,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          177,
+          156,
+          91,
+          255
+        ],
+        "camera": [
+          1.4292193067703267,
+          8,
+          32.71385379548645
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  },
+  {
+    "index": 18,
+    "lowEffects": false,
+    "windows": [
+      {
+        "start": 1,
+        "end": 1.2004000000000012,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 5,
+        "end": 5.183800000000003,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 10,
+        "end": 10.183600000000006,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      },
+      {
+        "start": 15.299999999999999,
+        "end": 15.483800000000004,
+        "advanced": true,
+        "objectMotion": true,
+        "cameraMotion": true,
+        "visible": true,
+        "blocked": false
+      }
+    ],
+    "frames": [
+      {
+        "second": 0,
+        "draws": 171,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          0,
+          0,
+          0,
+          255
+        ],
+        "camera": [
+          -13,
+          3,
+          24
+        ]
+      },
+      {
+        "second": 0.8,
+        "draws": 171,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          228,
+          213,
+          156,
+          255
+        ],
+        "camera": [
+          -12.662063532055974,
+          3.2703491743552213,
+          23.932412706411196
+        ]
+      },
+      {
+        "second": 4.940000000000001,
+        "draws": 171,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          88,
+          74,
+          38,
+          255
+        ],
+        "camera": [
+          -8.00582702951845,
+          6.99533837638524,
+          23.00116540590369
+        ]
+      },
+      {
+        "second": 5.140000000000001,
+        "draws": 161,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          145,
+          139,
+          91,
+          255
+        ],
+        "camera": [
+          6.994919473657471,
+          6,
+          20.00304831580552
+        ]
+      },
+      {
+        "second": 10.34,
+        "draws": 166,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          218,
+          204,
+          154,
+          255
+        ],
+        "camera": [
+          2.005080526342529,
+          6,
+          22.99695168419448
+        ]
+      },
+      {
+        "second": 10.54,
+        "draws": 170,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          174,
+          156,
+          87,
+          255
+        ],
+        "camera": [
+          2.9984391823226124,
+          8,
+          35.00104054511826
+        ]
+      },
+      {
+        "second": 16.2,
+        "draws": 170,
+        "width": 1499,
+        "height": 703,
+        "pixel": [
+          231,
+          222,
+          174,
+          255
+        ],
+        "camera": [
+          0.4292193067703276,
+          8,
+          36.71385379548645
+        ]
+      }
+    ],
+    "reducedStable": true,
+    "errors": []
+  }
+]
