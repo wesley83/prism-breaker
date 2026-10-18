@@ -1,0 +1,601 @@
+{
+  "origin": "https://sane-guild-8399.onpagelove.com",
+  "authoringHost": "https://dav-sane-guild-8399.onpagelove.com",
+  "deployedAt": "2026-10-18T01:01:54.990Z",
+  "approval": {
+    "commit": "94863d7fa95b1bf6fe1101c481a0087c0df3c251",
+    "sourceDigest": "bc59675ac1af98fc8f4dea9a4fe8d7a0c2846c9010716fd4d10a5c07ea796dc7",
+    "release": "17efa40ae205c5a4b863",
+    "completedAt": "2026-10-18T01:00:44.549Z"
+  },
+  "pwa": {
+    "version": "17efa40ae205c5a4b863",
+    "assets": 86,
+    "bytes": 2490557,
+    "checked": true
+  },
+  "version": "17efa40ae205c5a4b863",
+  "files": [
+    {
+      "path": "/releases/17efa40ae205c5a4b863/app.js",
+      "status": 201,
+      "sha256": "edbfe3dcf6496874c4d451c5ac692a49e6ee9af30ca1e640ba468f131e5c4e15",
+      "bytes": 58429
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/apple-touch-icon.png",
+      "status": 201,
+      "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+      "bytes": 3811
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/FONT-LICENSE.txt",
+      "status": 201,
+      "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+      "bytes": 4401
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/ICON-LICENSE.txt",
+      "status": 201,
+      "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+      "bytes": 1073
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/QR-LICENSE.txt",
+      "status": 201,
+      "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+      "bytes": 1094
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/display.woff2",
+      "status": 201,
+      "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+      "bytes": 22288
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/favicon-32.png",
+      "status": 201,
+      "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+      "bytes": 791
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/icons.svg",
+      "status": 201,
+      "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+      "bytes": 10681
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/og-prism-breaker-square.jpg",
+      "status": 201,
+      "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+      "bytes": 420420
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/og-prism-breaker.jpg",
+      "status": 201,
+      "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+      "bytes": 222971
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/prism-icon-192.png",
+      "status": 201,
+      "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+      "bytes": 4055
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/prism-icon-512.png",
+      "status": 201,
+      "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+      "bytes": 27390
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/prism-maskable-512.png",
+      "status": 201,
+      "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+      "bytes": 13028
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/prism-maskable.svg",
+      "status": 201,
+      "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+      "bytes": 500
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/prism-wordmark.svg",
+      "status": 201,
+      "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+      "bytes": 1375
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-01.png",
+      "status": 201,
+      "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+      "bytes": 27953
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-02.png",
+      "status": 201,
+      "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+      "bytes": 29205
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-03.png",
+      "status": 201,
+      "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+      "bytes": 31118
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-04.png",
+      "status": 201,
+      "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+      "bytes": 29656
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-05.png",
+      "status": 201,
+      "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+      "bytes": 29165
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-06.png",
+      "status": 201,
+      "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+      "bytes": 25415
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-07.png",
+      "status": 201,
+      "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+      "bytes": 27961
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-08.png",
+      "status": 201,
+      "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+      "bytes": 27056
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-09.png",
+      "status": 201,
+      "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+      "bytes": 27537
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-10.png",
+      "status": 201,
+      "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+      "bytes": 27226
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-11.png",
+      "status": 201,
+      "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+      "bytes": 30170
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-12.png",
+      "status": 201,
+      "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+      "bytes": 29931
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-13.png",
+      "status": 201,
+      "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+      "bytes": 27592
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-14.png",
+      "status": 201,
+      "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+      "bytes": 22221
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-15.png",
+      "status": 201,
+      "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+      "bytes": 26493
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/assets/world-preview-16.png",
+      "status": 201,
+      "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+      "bytes": 32667
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/audio.js",
+      "status": 201,
+      "sha256": "aca0db21116d576b8a7fb23306ed8a75a21244781b0d9629c0fcdd34d196be0d",
+      "bytes": 7726
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/bootstrap.js",
+      "status": 201,
+      "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+      "bytes": 1363
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/brick-batch.js",
+      "status": 201,
+      "sha256": "7e369885e65904e70db0110e623548e40ff94f6563357b1490e492fc10cbb6ee",
+      "bytes": 10111
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/brick-events.js",
+      "status": 201,
+      "sha256": "3ed016a3adf5fb6c91d3e088c981b28c04caa3e57866486b5c349f132f564cfe",
+      "bytes": 3894
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/brick-labels.js",
+      "status": 201,
+      "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
+      "bytes": 2654
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/bundled-worlds.js",
+      "status": 201,
+      "sha256": "46ded10b86f0a915465149cdbb14dc7e3e8e0cd7582787f8a4619b4644073990",
+      "bytes": 127892
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/champion.js",
+      "status": 201,
+      "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d",
+      "bytes": 5979
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/cinematic-score.js",
+      "status": 201,
+      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+      "bytes": 1984
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/cinematics.js",
+      "status": 201,
+      "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c",
+      "bytes": 15958
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/crystal-bricks.js",
+      "status": 201,
+      "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2",
+      "bytes": 6307
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/daily-ending.js",
+      "status": 201,
+      "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7",
+      "bytes": 6526
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/daily-score.js",
+      "status": 201,
+      "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+      "bytes": 489
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/display.css",
+      "status": 201,
+      "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
+      "bytes": 4199
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/display.js",
+      "status": 201,
+      "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45",
+      "bytes": 3729
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/editor-drafts.js",
+      "status": 201,
+      "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
+      "bytes": 1023
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/editor-template.html",
+      "status": 201,
+      "sha256": "529232adde11db4b60a4728b05b76c838459f329adfdaad37926c3ec66dac669",
+      "bytes": 11093
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/editor.css",
+      "status": 201,
+      "sha256": "9eb654ac94100793366a39da9affcc07654b6938d3595f46f7dbc1e090ae2a60",
+      "bytes": 15376
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/editor.js",
+      "status": 201,
+      "sha256": "50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a",
+      "bytes": 41010
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/engine.js",
+      "status": 201,
+      "sha256": "e97f08e18f069e80866386043f0504d8b140fd53d037865a6abd2bc8d7a8fffd",
+      "bytes": 18039
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/favicon.ico",
+      "status": 201,
+      "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+      "bytes": 2456
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/favicon.svg",
+      "status": 201,
+      "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+      "bytes": 442
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/frame-loop.js",
+      "status": 201,
+      "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0",
+      "bytes": 627
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/graphics-recovery.js",
+      "status": 201,
+      "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+      "bytes": 910
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/index.html",
+      "status": 201,
+      "sha256": "8801ffa513f7789fa9c252b3fb3bc2a543610634652482d630ca0eedd04d957c",
+      "bytes": 26393
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/keyboard-input.js",
+      "status": 201,
+      "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b",
+      "bytes": 357
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/leaderboard.js",
+      "status": 201,
+      "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
+      "bytes": 1490
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/levels.js",
+      "status": 201,
+      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+      "bytes": 1660
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/manifest.webmanifest",
+      "status": 201,
+      "sha256": "91a39349894f872de096f816429494986b4ab5dc7e09649bab446e57c7d22677",
+      "bytes": 1301
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/music.js",
+      "status": 201,
+      "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+      "bytes": 6483
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/offline.js",
+      "status": 201,
+      "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be",
+      "bytes": 11425
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/paddle-art.js",
+      "status": 201,
+      "sha256": "0d3d5ccc3527546a2044e0d014586bf4eb41b7e2bbb5e014de4d0a69771d5ce1",
+      "bytes": 4692
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/particle-batch.js",
+      "status": 201,
+      "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678",
+      "bytes": 3000
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/pointer-input.js",
+      "status": 201,
+      "sha256": "330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480",
+      "bytes": 1420
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/postprocessing.js",
+      "status": 201,
+      "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+      "bytes": 19341
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/preferences.js",
+      "status": 201,
+      "sha256": "e7a5c896e2f7a1ba2788aeb8a008b3f7db83cea5e6e3b45671f4df8102e9bb0a",
+      "bytes": 886
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/publish-world.js",
+      "status": 201,
+      "sha256": "53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b",
+      "bytes": 2314
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/pwa.js",
+      "status": 201,
+      "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
+      "bytes": 9057
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/render-budget.js",
+      "status": 201,
+      "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2",
+      "bytes": 1698
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/save-recovery.js",
+      "status": 201,
+      "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
+      "bytes": 3009
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/scene-playback.js",
+      "status": 201,
+      "sha256": "d37ae969db01d5a794aaea07d5fad01f59e974fc98609838c14ac8e4a73ec3cf",
+      "bytes": 255
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/scene.js",
+      "status": 201,
+      "sha256": "d8208c43e438ac8ed6e8cae30f64b127c72117c2997a1afb4afc88c9de7ab3f0",
+      "bytes": 24689
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/scenery-batch.js",
+      "status": 201,
+      "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca",
+      "bytes": 2884
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/score-contract.js",
+      "status": 201,
+      "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
+      "bytes": 819
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/sharing.js",
+      "status": 201,
+      "sha256": "c2a55c26c3f4005a8bc606f45cc8272f2dbd284d37b873f0a81027194774331b",
+      "bytes": 12202
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/style.css",
+      "status": 201,
+      "sha256": "70271214cf0dbac266ba016babd95dad2cfab6f7810a98f17cfeffbacabf3dd7",
+      "bytes": 38833
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/vendor/THREE-LICENSE.txt",
+      "status": 201,
+      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+      "bytes": 1081
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/vendor/qr.js",
+      "status": 201,
+      "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+      "bytes": 51907
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/vendor/three.core.min.js",
+      "status": 201,
+      "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+      "bytes": 381124
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/vendor/three.module.min.js",
+      "status": 201,
+      "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+      "bytes": 338908
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/victory-music.js",
+      "status": 201,
+      "sha256": "ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa",
+      "bytes": 1331
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/world-data.css",
+      "status": 201,
+      "sha256": "15aaffcca17ce2b2249db1bb028d772b726ccd25514119a69e03496392f20644",
+      "bytes": 889
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/world-format.js",
+      "status": 201,
+      "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
+      "bytes": 2768
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/world-identity.js",
+      "status": 201,
+      "sha256": "4ce0fcbc6e2530ca3a36d34677f7d8b64c967132646d2e878a77b93224006038",
+      "bytes": 810
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/world-schema.js",
+      "status": 201,
+      "sha256": "147d6b4a2c006bf779b7c61dcf583f1fc2bd8ef9d53f6e4dacda0cb3ed762ba7",
+      "bytes": 12345
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/world-working-document.js",
+      "status": 201,
+      "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
+      "bytes": 2867
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/pwa-release.js",
+      "status": 201,
+      "sha256": "38d8b0dcef7a7f8cc566b6964417b786045e3b4799d8d20499a7576edcec2bee",
+      "bytes": 88
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/service-worker.js",
+      "status": 201,
+      "sha256": "11377581b739d65b38c947980614fb2da1ea398491d67102d962cb18ba15cec4",
+      "bytes": 31874
+    },
+    {
+      "path": "/releases/17efa40ae205c5a4b863/release.json",
+      "status": 201,
+      "sha256": "a0ebf7db35bba551c101b8a4f2ea1ac8454b0b0d9c52cdc82c31687467007eff",
+      "bytes": 22252
+    },
+    {
+      "path": "/manifest.webmanifest",
+      "status": 200,
+      "sha256": "91a39349894f872de096f816429494986b4ab5dc7e09649bab446e57c7d22677",
+      "bytes": 1301
+    },
+    {
+      "path": "/editor.html",
+      "status": 200,
+      "sha256": "fc6ddf881b206b7ab28d04aed9361bd1bc34d8b255f2af7e4ed5cfa05ed89220",
+      "bytes": 12619
+    },
+    {
+      "path": "/editor/index.html",
+      "status": 200,
+      "sha256": "fc6ddf881b206b7ab28d04aed9361bd1bc34d8b255f2af7e4ed5cfa05ed89220",
+      "bytes": 12619
+    },
+    {
+      "path": "/editor/:worldname",
+      "status": 200,
+      "sha256": "26180785bd889f815cf01862b7dfd633549e3b6f0f439e9c78e8369e9515a57c",
+      "bytes": 2856
+    },
+    {
+      "path": "/index.html",
+      "status": 200,
+      "sha256": "8801ffa513f7789fa9c252b3fb3bc2a543610634652482d630ca0eedd04d957c",
+      "bytes": 26393
+    },
+    {
+      "path": "/sw.js",
+      "status": 200,
+      "sha256": "11377581b739d65b38c947980614fb2da1ea398491d67102d962cb18ba15cec4",
+      "bytes": 31874
+    }
+  ],
+  "cache": {
+    "assets": 86,
+    "bytes": 2490557
+  },
+  "publication": "immutable dependencies before conditional entry promotion",
+  "preserved": [
+    "scores",
+    "world definitions",
+    "legacy root scripts/styles",
+    "older release directories"
+  ]
+}
