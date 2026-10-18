@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-18T01:03:04.483Z",
+  "before": {
+    "release": "5d10bdab9808ae015b0b",
+    "best": "5,300",
+    "resume": "Prism Garden · 0 points",
+    "theme": "system",
+    "music": "35",
+    "effects": "70",
+    "classic": false,
+    "reduced": false,
+    "low": false
+  },
+  "updateReadyNotice": true,
+  "updateButtonClicked": true,
+  "after": {
+    "best": "5,300",
+    "classic": false,
+    "effects": "70",
+    "entry": "https://sane-guild-8399.onpagelove.com/releases/17efa40ae205c5a4b863/bootstrap.js?v=1",
+    "errorVisible": false,
+    "low": false,
+    "music": "35",
+    "offline": "Ready to play offline",
+    "reduced": false,
+    "release": "17efa40ae205c5a4b863",
+    "resume": "Prism Garden · 0 points",
+    "theme": "system"
+  },
+  "consoleErrors": []
+}

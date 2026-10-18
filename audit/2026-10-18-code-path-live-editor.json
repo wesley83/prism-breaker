@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-18T01:02:39.093Z",
+  "records": [
+    {
+      "path": "/editor/prism-garden",
+      "status": 200,
+      "currentRelease": true,
+      "structuredWorld": true
+    },
+    {
+      "path": "/editor.html",
+      "status": 200,
+      "currentRelease": true,
+      "structuredWorld": false
+    }
+  ]
+}
