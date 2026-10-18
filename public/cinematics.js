@@ -11,7 +11,7 @@ export class Cinematic{
  ring(r,m,p=[0,0,0],tube=.06,parent=this.group){return this.mesh(this.geometry(new T.TorusGeometry(r,tube,8,this.low?48:96)),m,p,[1,1,1],parent);}
  haloAt(color,size,p,parent=this.group){const m=new T.SpriteMaterial({map:this.halo,color,transparent:true,opacity:.18,depthWrite:false,blending:T.AdditiveBlending});this.materials.add(m);const o=new T.Sprite(m);o.position.set(...p);o.scale.setScalar(size);parent.add(o);return o;}
  animate(mesh,kind,phase=0){this.nodes.push({mesh,kind,phase,position:mesh.position.clone(),scale:mesh.scale.clone(),rotation:mesh.rotation.clone()});return mesh;}
- clear(){this.group.clear();for(const g of this.geometries)g.dispose();for(const m of this.materials)m.dispose();this.geometries.clear();this.materials.clear();this.nodes=[];}
+ clear(){this.group.traverse(o=>{if(o.isInstancedMesh)o.dispose();});this.group.clear();for(const g of this.geometries)g.dispose();for(const m of this.materials)m.dispose();this.geometries.clear();this.materials.clear();this.nodes=[];}
  build(index,low=false,definition=WORLDS[index]){
   this.clear();this.currentDefinition=definition;this.current=index;this.lowEffects=this.low=low;const w=definition,rand=rng(19381+index),TAU=Math.PI*2;
   const box=this.geometry(new T.BoxGeometry(1,1,1)),gem=this.geometry(new T.OctahedronGeometry(1)),sphere=this.geometry(new T.SphereGeometry(1,low?20:40,low?12:24)),pillar=this.geometry(new T.CylinderGeometry(.65,.9,1,8));

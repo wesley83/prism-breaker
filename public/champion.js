@@ -5,7 +5,7 @@ import {WORLDS,rng} from './levels.js';
 export class Champion{
  constructor(scene,halo,environment){this.environment=environment;this.group=new T.Group();scene.add(this.group);this.halo=halo;this.low=null;}
  build(low){
-  this.group.traverse(o=>{o.geometry?.dispose();if(o.material)o.material.dispose();});this.group.clear();this.low=low;const rand=rng(7621),colors=WORLDS.map(w=>w.accent);this.orbits=[];this.gems=[];
+  const geometries=new Set(),materials=new Set();this.group.traverse(o=>{if(o.geometry&&!o.isSprite)geometries.add(o.geometry);if(o.material)materials.add(o.material);});for(const g of geometries)g.dispose();for(const m of materials)m.dispose();this.group.clear();this.low=low;const rand=rng(7621),colors=WORLDS.map(w=>w.accent);this.orbits=[];this.gems=[];
   const gold=new T.MeshPhysicalMaterial({color:'#ffe3a0',metalness:.72,roughness:.18,envMap:this.environment,envMapIntensity:1,clearcoat:low?0:1,emissive:'#b98523',emissiveIntensity:.2});
   this.trophy=new T.Group();this.trophy.position.y=3.4;this.group.add(this.trophy);
   const add=(g,m,pos,scale=[1,1,1])=>{const mesh=new T.Mesh(g,m);mesh.position.set(...pos);mesh.scale.set(...scale);this.trophy.add(mesh);return mesh;};

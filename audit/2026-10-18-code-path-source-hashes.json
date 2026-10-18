@@ -1,0 +1,118 @@
+{
+  "at": "2026-10-18T00:59:25.785Z",
+  "baseline": "7c741c11ae6a2e1237e9ba71e47b5302dbcfdf1c",
+  "runtime": "17efa40ae205c5a4b863",
+  "records": [
+    {
+      "file": "public/app.js",
+      "bytes": 58369,
+      "sha256": "966b1dc35d4d377b3d404e384c34fa3bdd2d0e5095fa2334cd396a30313ac813"
+    },
+    {
+      "file": "public/audio.js",
+      "bytes": 7726,
+      "sha256": "aca0db21116d576b8a7fb23306ed8a75a21244781b0d9629c0fcdd34d196be0d"
+    },
+    {
+      "file": "public/champion.js",
+      "bytes": 5979,
+      "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d"
+    },
+    {
+      "file": "public/cinematics.js",
+      "bytes": 15958,
+      "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c"
+    },
+    {
+      "file": "public/daily-ending.js",
+      "bytes": 6526,
+      "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7"
+    },
+    {
+      "file": "public/editor-route.html",
+      "bytes": 2736,
+      "sha256": "242a6e528d115ae82b7179c4aa80b4c9c24e94c9cd8694e515c90b9535793b71"
+    },
+    {
+      "file": "public/editor.html",
+      "bytes": 12460,
+      "sha256": "761c4bc7f1772e23a4986d59fbda31db77e02ce2e74216d2eff45c805ac851a7"
+    },
+    {
+      "file": "public/editor.js",
+      "bytes": 41010,
+      "sha256": "50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a"
+    },
+    {
+      "file": "public/frame-loop.js",
+      "bytes": 627,
+      "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 25087,
+      "sha256": "0d6b5af8ae5b9248cb6ccb2b2640adc6dbf94606f02d94c0c00e4b2f54a8d037"
+    },
+    {
+      "file": "public/keyboard-input.js",
+      "bytes": 357,
+      "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b"
+    },
+    {
+      "file": "public/offline.js",
+      "bytes": 11425,
+      "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be"
+    },
+    {
+      "file": "public/preferences.js",
+      "bytes": 886,
+      "sha256": "e7a5c896e2f7a1ba2788aeb8a008b3f7db83cea5e6e3b45671f4df8102e9bb0a"
+    },
+    {
+      "file": "public/publish-world.js",
+      "bytes": 2314,
+      "sha256": "53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "38d8b0dcef7a7f8cc566b6964417b786045e3b4799d8d20499a7576edcec2bee"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 24689,
+      "sha256": "d8208c43e438ac8ed6e8cae30f64b127c72117c2997a1afb4afc88c9de7ab3f0"
+    },
+    {
+      "file": "public/sharing.js",
+      "bytes": 12142,
+      "sha256": "b6d3d17bf4ca4db6754d5e8bf7e536579a18bec77deaac8f60337f9844e38e46"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 31874,
+      "sha256": "11377581b739d65b38c947980614fb2da1ea398491d67102d962cb18ba15cec4"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 161893,
+      "sha256": "acfdb7f700687a662f2bf8fc5da687f2df26ff2cc0335ce41a4df6475b403641"
+    },
+    {
+      "file": "tests/code-path-review.test.mjs",
+      "bytes": 14287,
+      "sha256": "08aff28e9b5a3edd9022e985e8b59e505984e083fbb47cf609de98b42f2ece40"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "bytes": 24606,
+      "sha256": "74681ab94e766473c71bee3585fac3f4e9e94e47290e6b81d20180ad921a9020"
+    }
+  ],
+  "patch": {
+    "file": "audit/2026-10-18-code-path-reviewed.patch",
+    "bytes": 272754,
+    "sha256": "be1aebd5b0423e2b866e2bd04304da64e17b55ed0ec6048441247e725c462f3e"
+  },
+  "mirrored": 25
+}

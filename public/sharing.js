@@ -19,7 +19,8 @@ function qrCanvas(url,size=180){
  const qr=qrcode(0,'M');qr.addData(url);qr.make();const modules=qr.getModuleCount(),cell=Math.max(1,Math.floor(size/(modules+8))),canvas=document.createElement('canvas');canvas.width=canvas.height=(modules+8)*cell;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);ctx.fillStyle='#071218';
  for(let y=0;y<modules;y++)for(let x=0;x<modules;x++)if(qr.isDark(y,x))ctx.fillRect((x+4)*cell,(y+4)*cell,cell,cell);return canvas;
 }
-function loadImage(src){return new Promise(resolve=>{const image=new Image();image.onload=()=>resolve(image);image.onerror=()=>resolve(null);image.src=src;});}
+export function settleWithin(promise,ms,fallback=null){return new Promise(resolve=>{const timer=setTimeout(()=>resolve(fallback),ms);Promise.resolve(promise).then(value=>{clearTimeout(timer);resolve(value);},()=>{clearTimeout(timer);resolve(fallback);});});}
+function loadImage(src){return new Promise(resolve=>{const image=new Image();const finish=value=>{clearTimeout(timer);image.onload=image.onerror=null;resolve(value);};const timer=setTimeout(()=>{finish(null);image.src='';},8000);image.onload=()=>finish(image);image.onerror=()=>finish(null);image.src=src;});}
 function fitText(ctx,text,x,y,size,maxWidth,color='#f8fafc',weight=700){ctx.fillStyle=color;ctx.font=weight+' '+size+'px Arcade, Arial, sans-serif';while(ctx.measureText(text).width>maxWidth&&size>14){size--;ctx.font=weight+' '+size+'px Arcade, Arial, sans-serif';}ctx.fillText(text,x,y);}
 function cover(ctx,image,x,y,w,h){if(!image)return;const scale=Math.max(w/image.width,h/image.height);ctx.save();ctx.beginPath();ctx.rect(x,y,w,h);ctx.clip();ctx.drawImage(image,x+(w-image.width*scale)/2,y+(h-image.height*scale)/2,image.width*scale,image.height*scale);ctx.restore();}
 function duration(seconds){return Math.floor(seconds/60)+'m '+String(seconds%60).padStart(2,'0')+'s';}
@@ -27,7 +28,7 @@ function duration(seconds){return Math.floor(seconds/60)+'m '+String(seconds%60)
 async function drawScorecard(model,profile){
  const portrait=profile.mobile,w=portrait?1080:1200,h=portrait?1350:630,pad=portrait?64:60;
  const [scene,mark]=await Promise.all([loadImage('/assets/world-preview-'+String(model.world||WORLD_COUNT).padStart(2,'0')+'.png'),loadImage('/assets/prism-icon-192.png')]);
- try{await document.fonts.load('700 24px Arcade');}catch{/* System font keeps the scorecard available. */}
+ try{await settleWithin(document.fonts.load('700 24px Arcade'),1500);}catch{/* System font keeps the scorecard available. */}
  const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');if(!ctx)throw Error('Scorecard drawing unavailable');ctx.fillStyle='#071218';ctx.fillRect(0,0,w,h);
  if(portrait){cover(ctx,scene,0,100,w,540);const fade=ctx.createLinearGradient(0,100,0,640);fade.addColorStop(0,'#07121866');fade.addColorStop(.55,'#07121822');fade.addColorStop(1,'#071218');ctx.fillStyle=fade;ctx.fillRect(0,100,w,540);}
  else{cover(ctx,scene,520,0,680,h);const fade=ctx.createLinearGradient(380,0,w,0);fade.addColorStop(0,'#071218');fade.addColorStop(.55,'#07121888');fade.addColorStop(1,'#07121844');ctx.fillStyle=fade;ctx.fillRect(380,0,w-380,h);}
@@ -46,7 +47,8 @@ async function drawScorecard(model,profile){
  fitText(ctx,model.kind==='result'?'CAN YOU BEAT IT?':'YOUR NEXT CHALLENGE',pad,h-(portrait?161:112),portrait?34:27,qx-pad-24);
  fitText(ctx,'Play Prism Breaker',pad,h-(portrait?108:69),portrait?27:22,qx-pad-24,'#cce6f1',500);
  fitText(ctx,new URL(model.url).hostname,pad,h-(portrait?64:34),portrait?21:17,qx-pad-24,'#b2c9d0',500);
- return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('Scorecard image unavailable')),'image/png'));
+ const blob=await settleWithin(new Promise(resolve=>canvas.toBlob(resolve,'image/png')),5000);
+ if(!blob)throw Error('Scorecard image unavailable');return blob;
 }
 
 export class SharePreview {

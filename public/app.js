@@ -1,4 +1,7 @@
 import {RenderClock} from './render-budget.js';
+import {normalizeSettings,storedProgress} from './preferences.js';
+import {ownsKeyboard} from './keyboard-input.js';
+import {startFrameLoop} from './frame-loop.js';
 import {writeJSON,downloadRecovery,createSaveRecovery} from './save-recovery.js';
 import {setupPaddleInput} from './pointer-input.js';
 import {sameScorePayload,scoreConflict,retryAfterMS} from './score-contract.js';
@@ -27,7 +30,7 @@ const elements=new Map(),$=s=>{if(!/^#[\w-]+$/.test(s))return document.querySele
 function rankedScores(scores,mode,day=utcDay()){return rankScores(scores,mode,day,boardNow());}
 const storage={get(key,fallback=null){try{const value=JSON.parse(localStorage.getItem('prism.'+key))??fallback;if(key==='save'&&value){if(!isValidSnapshot(value.game))return fallback;return {...value,game:{...value.game,level:checkpointLevel(value.game)}};}return value;}catch{return fallback;}},set(key,value){try{return writeJSON(localStorage,'prism.'+key,value).saved;}catch{return false;}},remove(key){try{localStorage.removeItem('prism.'+key);return true;}catch{return false;}}};
 const recoverSave=createSaveRecovery();let checkpointSaved=true,leaving=false;
-const settings={music:.35,effects:.7,muted:false,interfaceTheme:'system',classicMode:false,reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,lowEffects:matchMedia('(pointer:coarse)').matches,...storage.get('settings',{})};
+const settings=normalizeSettings(storage.get('settings'),{reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,lowEffects:matchMedia('(pointer:coarse)').matches});
 const icon=name=>'<svg class="icon" aria-hidden="true"><use href="/assets/icons.svg?v=4#'+name+'"/></svg>';
 const powerIcons={wide:'arrows-horizontal',multi:'circles',sticky:'magnet',laser:'bolt',pierce:'diamond',slow:'clock',shield:'shield',life:'heart'};
 const powerDescriptions={wide:'A wider paddle for 18 seconds. Works with sticky or laser.',multi:'Three balls. Keep one in play.',sticky:'Holds each ball where it lands for 16 seconds. Launch with space or a tap.',laser:'Fire automatically for 14 seconds.',pierce:'Cut through bricks for 12 seconds.',slow:'Slower balls for 14 seconds.',shield:'Saves one ball at the bottom.',life:'One extra life, up to nine.'};
@@ -36,7 +39,7 @@ function applyTheme(){document.documentElement.dataset.theme=settings.interfaceT
 applyTheme();
 const sound=new Sound(settings);let cutReady=true,cutGeneration=0;let game=new Game(),stage,view='home',accumulator=0,cutTime=0,scenePaused=false,toastUntil=0,modalResume=null,lastHud='',leaderMode='campaign',scoreLoading=false,runDay='',endResult=null;
 const sharePreview=$('#share-dialog')?new SharePreview($('#share-dialog')):{open:()=>copyLeaderboardLink()};
-const keys=new Set();let best=storage.get('best',0),highest=storage.get('highest',0);
+const keys=new Set();let best=storedProgress(storage.get('best'),10000000),highest=storedProgress(storage.get('highest'),WORLD_COUNT);
 let sharedScores=null,scoresRequest=null,scoresUnavailable=false,scoresFetchedAt=0;
 let boardDate=utcDay(),rolloverTimer,clockOffset=0;
 const boardNow=()=>Date.now()+clockOffset;
@@ -124,7 +127,7 @@ function bindWorldDOM(){
  detachWorldDOM=attachBrickDOM(game,root);
 }
 async function begin(mode='campaign',level=0){
- if(!stage||graphicsRecovery.blocked)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
+ if(!stage||graphicsRecovery.blocked||appLoop.failed)return;closeDialogs();view=mode==='practice'?'loading':'game';gameDisplay.enterForPlay();sound.unlock();runDay=currentDay();let seed=mode==='daily'?daySeed(runDay):8399;
  const generation=++beginGeneration;detachWorldDOM?.();
  let practiceData;
  if(mode==='practice'){all('#play,#resume,#daily,.world-card').forEach(b=>b.disabled=true);toast('Loading the shared Practice world…');practiceData=await loadPracticeWorld(level);all('#play,#resume,#daily,.world-card').forEach(b=>b.disabled=false);if(generation!==beginGeneration)return;activePracticeWorld=practiceData?.world;game.catalog=practiceData?formationCatalog(practiceData.world):new Map();view='game';}
@@ -185,10 +188,10 @@ function openDialog(id){
  sound.update(false,THEMES.indexOf(game.world.music));
  $(id).showModal();
 }
-all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked){game.state=modalResume;modalResume=null;keys.clear();lastHud='';hud();$('#game-canvas').focus({preventScroll:true});}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
+all('dialog').forEach(d=>{const title=d.querySelector('h2');if(title&&!d.hasAttribute('aria-labelledby')){if(!title.id)title.id=d.id+'-title';d.setAttribute('aria-labelledby',title.id);}d.addEventListener('close',()=>{if(modalResume&&view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed){game.state=modalResume;modalResume=null;keys.clear();lastHud='';hud();$('#game-canvas').focus({preventScroll:true});}});d.addEventListener('click',e=>{if(e.target===d&&d.id!=='result-dialog'){const r=d.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)d.close();}});});
 $('#result-dialog').addEventListener('cancel',e=>{e.preventDefault();home();});all('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));
 $('#play').onclick=()=>{const saved=storage.get('save');if(saved){$('#new-run-detail').textContent='Your checkpoint in '+(WORLDS[saved.game.level]?.name||'Adventure')+' will be replaced when the new run starts.';openDialog('#new-run-dialog');}else begin();};$('#confirm-new-run').onclick=()=>begin();$('#daily').onclick=()=>begin('daily');$('#resume').onclick=()=>{const saved=storage.get('save');if(!saved||!game.restore(saved.game)){toast('This checkpoint needs its original game version. It has been kept; you can start a new adventure.');home();return;}view='game';gameDisplay.enterForPlay();sound.unlock();showGame();stage?.reset();if(saved.pendingNext){game.state='cleared';beginCut();}};
-$('#launch').onclick=()=>{sound.unlock();game.launch();lastHud='';hud();};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=async()=>{if(await preserveRun())home();};$('#skip-cut').onclick=finishCut;
+$('#launch').onclick=()=>{if(appLoop.failed||graphicsRecovery.blocked)return;sound.unlock();game.launch();lastHud='';hud();$('#game-canvas').focus({preventScroll:true});};$('#pause').onclick=()=>openDialog('#pause-dialog');$('#unpause').onclick=()=>$('#pause-dialog').close();$('#quit').onclick=async()=>{if(await preserveRun())home();};$('#skip-cut').onclick=finishCut;
 $('#play-again').onclick=()=>begin(endResult.mode,endResult.mode==='practice'?endResult.level-1:0);$('#result-home').onclick=home;
 $('#settings-open').onclick=()=>openDialog('#settings-dialog');$('#pause-settings').onclick=()=>openDialog('#settings-dialog');$('#help-open').onclick=()=>openDialog('#help-dialog');$('#worlds-menu').onclick=()=>openDialog('#worlds-dialog');
 Object.entries(POWERS).forEach(([key,power])=>{const item=document.createElement('div');item.innerHTML='<span class="power-symbol" style="color:'+power.color+'">'+icon(powerIcons[key])+'</span><div><strong>'+power.name+'</strong><p>'+powerDescriptions[key]+'</p></div>';$('#power-guide').append(item);});
@@ -203,14 +206,14 @@ $('#reload').onclick=()=>location.reload();
 const canvas=$('#game-canvas');let paddleInput;
 const graphicsRecovery=setupGraphicsRecovery(canvas,{
  pause(){keys.clear();paddleInput?.cancel();accumulator=0;if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');sound.update(false,THEMES.indexOf(game.world.music));},
- async restore(){if(!stage)throw Error('Arena not initialized');stage.preparedModes?.clear();await stage.prepare(game);stage.resize();},
+ async restore(){if(!stage)throw Error('Arena not initialized');stage.preparedModes?.clear();await stage.prepare(game);stage.resize();last=performance.now();accumulator=0;sceneDelta=0;renderClock.reset();appLoop.resume();},
  onStatus(status){const ready=status==='ready';$('#error').hidden=ready;$('#unpause').disabled=!ready;
   if(ready){if(view==='game'&&game.state==='paused'&&!$('dialog[open]'))openDialog('#pause-dialog');if($('#pause-dialog').open)$('#pause-description').textContent='Arena restored. Resume when ready.';toast('Arena restored. Resume when ready.');}
   else {$('#error-text').textContent=status==='recovering'?'Restoring the 3D arena. Your game is paused.':status==='failed'?'The 3D arena could not recover. Reload the game to try again. An unfinished Daily Challenge or Practice run will end.':'Graphics were interrupted. Your game is paused while the arena recovers. Reload if it does not return; an unfinished Daily Challenge or Practice run will end.';if($('#pause-dialog').open)$('#pause-description').textContent=$('#error-text').textContent;}
  }
 });
-paddleInput=setupPaddleInput(canvas,{enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!!stage&&['ready','playing'].includes(game.state),move:e=>game.move(stage.screenX(e.clientX,e.clientY)),launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
-document.addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select,button,a')||all('dialog[open]').length)return;if(view==='cut'||view==='champion'){if(['Space','Enter','KeyP','Escape'].includes(e.code)){e.preventDefault();if(!e.repeat){if(e.code==='KeyP'||e.code==='Escape')toggleScenePause();else if(view==='champion')finishCelebration();else finishCut();}}return;}if(view!=='game')return;if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
+paddleInput=setupPaddleInput(canvas,{enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed&&!!stage&&['ready','playing'].includes(game.state),move:e=>game.move(stage.screenX(e.clientX,e.clientY)),launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
+document.addEventListener('keydown',e=>{if(ownsKeyboard(e.target,e.code)||all('dialog[open]').length||appLoop.failed||graphicsRecovery.blocked)return;if(view==='cut'||view==='champion'){if(['Space','Enter','KeyP','Escape'].includes(e.code)){e.preventDefault();if(!e.repeat){if(e.code==='KeyP'||e.code==='Escape')toggleScenePause();else if(view==='champion')finishCelebration();else finishCut();}}return;}if(view!=='game')return;if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
 document.addEventListener('visibilitychange',()=>{keys.clear();if(document.hidden&&view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');});window.addEventListener('pagehide',()=>{if(view==='game')persist();});
 const ro=new ResizeObserver(()=>{paddleInput?.cancel();stage?.resize();});ro.observe($('#stage'));ro.observe(canvas);
 document.addEventListener('click',async event=>{const link=event.target.closest('a[href]');if(!link||link.target==='_blank'||link.hasAttribute('download')||event.defaultPrevented||event.ctrlKey||event.metaKey||event.shiftKey||view==='home'||game.mode!=='campaign')return;const url=new URL(link.href,location.href);if(url.origin!==location.origin)return;event.preventDefault();if(view==='game'&&!$('dialog[open]'))openDialog('#pause-dialog');if(await preserveRun()){leaving=true;location.href=url.href;}});
@@ -248,8 +251,10 @@ async function confirmSavedResult(entry){
   if(endResult.record&&leader?.runKey===entry.id){$('#result-title').textContent='You’re #1, '+entry.player+'.';$('#record-badge').textContent='RECORD SAVED';$('#result-description').textContent='Your '+entry.run.score.toLocaleString()+'-point finish is now leading the '+(entry.run.mode==='daily'?'Daily Challenge':'Adventure')+' board.';}
  }catch{/* A confirmed submission remains saved even if the following read fails. */}
 }
+let pendingRenderGeneration=0;
 async function renderPendingScores(){
- try{const entries=await outbox.list(),container=$('#pending-list');container.replaceChildren();$('#pending-scores').hidden=!entries.length;
+ const generation=++pendingRenderGeneration;
+ try{const entries=await outbox.list();if(generation!==pendingRenderGeneration)return;const container=$('#pending-list');container.replaceChildren();$('#pending-scores').hidden=!entries.length;
   for(const entry of entries){const row=document.createElement('div');row.className='pending-score';const title=document.createElement('strong'),description=document.createElement('p'),actions=document.createElement('div');actions.className='pending-actions';title.textContent=entry.player+' · '+Number(entry.run.score).toLocaleString()+' points';description.textContent=(entry.run.mode==='daily'?'Daily Challenge · '+formatShareDate(entry.run.day):'Adventure')+' · '+(entry.status==='failed'?entry.lastError:entry.status==='sending'&&entry.leaseUntil>boardNow()?'Syncing…':navigator.onLine?'Waiting to sync':'Waiting for connection');
    for(const [label,action] of [['Retry',()=>outbox.retry(entry.id)],['Remove',()=>outbox.remove(entry.id)]]){const button=document.createElement('button');button.className='button secondary';button.textContent=label;button.disabled=entry.status==='sending'&&entry.leaseUntil>boardNow();button.onclick=async()=>{button.disabled=true;try{await action();await renderPendingScores();if(label==='Remove'&&endResult?.id===entry.id){$('#submit-score').disabled=false;$('#submit-score').textContent='Save score';$('#submit-status').textContent='Removed from the queue. You can save this result again.';}}catch{toast('Could not change the queued score. Try again.');button.disabled=false;}};actions.append(button);}
    row.append(title,description,actions);container.append(row);
@@ -398,5 +403,5 @@ function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
  if(view==='champion'&&cutReady&&!document.hidden&&!$('dialog[open]'))cutTime=advanceScene(cutTime,dt,settings.reducedMotion?9:game.mode==='daily'?DAILY_RECORD_DURATION:CHAMPION_DURATION,scenePaused);
  const victory=endResult?.record&&['champion','result'].includes(view)?endResult.mode:null,dialogs=all('dialog[open]'),musicActive=!document.hidden&&((!dialogs.length&&['game','cut','champion'].includes(view)&&game.state!=='paused')||(view==='result'&&victory&&dialogs.length===1&&$('#result-dialog').open));
  sound.update(musicActive&&!(['cut','champion'].includes(view)&&scenePaused),THEMES.indexOf(game.world.music),view==='cut'||view==='champion',victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderFPS=view==='home'||dialogs.length||game.state==='paused'?30:60;if(document.hidden)renderClock.reset();else if(renderClock.due(now,renderFPS)){stage.render(game,sceneDelta,now/1000,view,cutTime);stage.observeFrame(renderClock.elapsed,view==='game'&&game.state==='playing'&&!dialogs.length);sceneDelta=0;}
- }if(toastUntil&&now>toastUntil){$('#toast').classList.remove('visible');toastUntil=0;}requestAnimationFrame(frame);}
-requestAnimationFrame(frame);
+ }if(toastUntil&&now>toastUntil){$('#toast').classList.remove('visible');toastUntil=0;}}
+const appLoop=startFrameLoop(frame,{onError(error){keys.clear();paddleInput?.cancel();accumulator=0;sound.update(false,THEMES.indexOf(game.world.music));if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');persist();$('#unpause').disabled=true;$('#error').hidden=false;$('#error-text').textContent='The arena stopped unexpectedly. Reload the game to try again. Your Adventure checkpoint has been kept if saving is available; an unfinished Daily Challenge or Practice run will end.';console.error('Game frame failed:',error);}});
