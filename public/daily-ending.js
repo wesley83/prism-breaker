@@ -4,7 +4,7 @@ import {dailyFrame,DAILY_DURATION,DAILY_RECORD_DURATION} from './daily-score.js'
 // Daily completion: a 24-hour orbital clock. Daily record: a solar crown.
 export class DailyEnding{
  constructor(scene,halo,environment){this.environment=environment;this.group=new T.Group();scene.add(this.group);this.halo=halo;this.key='';}
- clear(){const geometries=new Set(),materials=new Set();this.group.traverse(o=>{if(o.geometry)geometries.add(o.geometry);if(o.material)materials.add(o.material);});this.group.clear();for(const g of geometries)g.dispose();for(const m of materials)m.dispose();}
+ clear(){const geometries=new Set(),materials=new Set();this.group.traverse(o=>{if(o.geometry&&!o.isSprite)geometries.add(o.geometry);if(o.material)materials.add(o.material);});this.group.clear();for(const g of geometries)g.dispose();for(const m of materials)m.dispose();}
  build(record,low,seed){
   this.clear();this.crown=null;this.key=[record,low,seed].join(':');const rand=rng(seed+8101),color=record?'#ffe096':'#7cecff',secondary=record?'#d1fcff':'#b59fff';this.ticks=[];this.orbits=[];this.sparks=[];
   this.clock=new T.Group();this.clock.position.y=4;this.group.add(this.clock);

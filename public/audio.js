@@ -11,7 +11,12 @@ export class Sound{
   this.noiseBuffer=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);const noise=this.noiseBuffer.getChannelData(0);for(let i=0;i<noise.length;i++){seed=(Math.imul(seed,1664525)+1013904223)>>>0;noise[i]=seed/4294967296*2-1;}
   this.musicBus.gain.value=0;this.effectsBus.gain.value=this.settings.muted?0:this.settings.effects;
  }
- async unlock(){try{if(!this.ctx)this.setup(new (window.AudioContext||window.webkitAudioContext)());await this.ctx.resume();}catch{}}
+ async unlock(){try{if(!this.ctx){try{this.setup(new (window.AudioContext||window.webkitAudioContext)());}catch(error){this.disable(error);return;}}await this.ctx.resume();}catch{/* A later player gesture can retry resuming suspended audio. */}}
+ disable(error){
+  const ctx=this.ctx;this.ctx=null;this.musicBus=this.effectsBus=this.musicInput=this.master=null;this.active=false;this.lastGain='';this.trackKey=null;this.next=0;this.voices.clear();
+  try{ctx?.close()?.catch(()=>{});}catch{}
+  if(!this.warned){this.warned=true;console.warn('Audio unavailable; gameplay continues.',error);}
+ }
  syncGain(){if(!this.ctx)return;const music=this.active&&!this.settings.muted?this.settings.music:0,effects=this.settings.muted?0:this.settings.effects,signature=music+'|'+effects;if(signature===this.lastGain)return;this.lastGain=signature;this.musicBus.gain.setTargetAtTime(music,this.ctx.currentTime,.06);this.effectsBus.gain.setTargetAtTime(effects,this.ctx.currentTime,.03);}
  tone(freq,duration=.12,type='sine',volume=.1,delay=0,music=false,end,pan=0,at,attack=.008){
   if(!this.ctx||(!this.offline&&this.ctx.state!=='running'))return;
@@ -30,7 +35,8 @@ export class Sound{
  }
  scheduleStep(level,step,at,cinematic=false,victory=null){for(const event of victory?victoryEvents(victory,step):musicEvents(level,step,cinematic))this.play(event,at);}
  stopMusic(){if(!this.ctx)return;const now=this.ctx.currentTime;for(const voice of this.voices)if(voice.music){try{voice.gain.cancelScheduledValues(now);voice.gain.setTargetAtTime(.0001,now,.012);voice.source.stop(now+.045);}catch{}}}
- event(e){
+ event(e){try{this.playEvent(e);}catch(error){this.disable(error);}}
+ playEvent(e){
   this.syncGain();if(this.settings.muted||this.settings.effects<=0)return;
   if(e.type==='paddle')this.tone(240,.1,'sine',.23,0,false,460);
   if(e.type==='wall')this.tone(145,.045,'sine',.08);
@@ -44,7 +50,8 @@ export class Sound{
   if(e.type==='champion'){[523,659,784,1046,1318,1568,2093].forEach((f,i)=>this.tone(f,.7,'triangle',.1,i*.14));[262,330,392].forEach(f=>this.tone(f,1.6,'sine',.09,1.05));}
   if(e.type==='launch')this.tone(380,.16,'sine',.09,0,false,650);
  }
- update(active,level,cinematic=false,victory=null){
+ update(...args){try{this.updateMusic(...args);}catch(error){this.disable(error);}}
+ updateMusic(active,level,cinematic=false,victory=null){
   if(!this.ctx)return;const trackKey=victory?'victory:'+victory:'level:'+level;if(this.trackKey!==trackKey){this.stopMusic();this.trackKey=trackKey;this.level=level;this.victory=victory;this.step=0;this.next=0;}
   const audible=active&&!this.settings.muted&&this.settings.music>0;
   if(this.active&&!audible)this.stopMusic();this.active=audible;this.syncGain();

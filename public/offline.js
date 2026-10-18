@@ -4,6 +4,12 @@ import {sameScorePayload,scoreConflict} from './score-contract.js';
 // IndexedDB keeps score submissions intact across reloads, updates and tabs.
 const DATABASE='prism-offline',VERSION=1,LEASE_MS=60000,RECEIPT_DAYS=30;
 
+export function boardSnapshot(value){
+ if(!value||!Array.isArray(value.scores)||!Number.isFinite(value.fetchedAt)||!Number.isFinite(value.clockOffset)||!Number.isFinite(new Date(value.fetchedAt).getTime())||!Number.isFinite(new Date(Date.now()+value.clockOffset).getTime()))return null;
+ const scores=value.scores.filter(row=>row&&typeof row==='object'&&!Array.isArray(row)&&typeof row.player==='string'&&(typeof row.score==='number'||typeof row.score==='string'&&row.score.trim()!=='')&&Number.isFinite(Number(row.score)));
+ return {scores,fetchedAt:value.fetchedAt,clockOffset:value.clockOffset};
+}
+
 export class OfflineStorageError extends Error{
  constructor(cause){super('Offline storage is unavailable. Keep this result open and try again.',{cause});this.name='OfflineStorageError';this.code='storage-unavailable';}
 }
@@ -49,11 +55,11 @@ export class OfflineStore{
    catch(error){fail(new OfflineStorageError(error));}
   });
  }
- readBoard(){return this.transaction('metadata','readonly',(store,done)=>{store.get('board').onsuccess=e=>done(e.target.result??null);});}
+ readBoard(){return this.transaction('metadata','readonly',(store,done)=>{store.get('board').onsuccess=e=>done(boardSnapshot(e.target.result));});}
  writeBoard(board){
-  if(!Array.isArray(board?.scores)||!Number.isFinite(board.fetchedAt)||!Number.isFinite(board.clockOffset))return Promise.reject(new TypeError('Invalid leaderboard snapshot.'));
+  board=boardSnapshot(board);if(!board)return Promise.reject(new TypeError('Invalid leaderboard snapshot.'));
   return this.transaction('metadata','readwrite',(store,done)=>{store.get('board').onsuccess=e=>{
-   const previous=e.target.result;
+   const previous=boardSnapshot(e.target.result);
    if(previous&&previous.fetchedAt>board.fetchedAt){done(previous);return;}
    const value={scores:board.scores,fetchedAt:board.fetchedAt,clockOffset:board.clockOffset};store.put(value,'board');done(value);
   };});

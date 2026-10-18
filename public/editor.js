@@ -10,16 +10,19 @@ import {writeJSON,downloadRecovery,createSaveRecovery} from './save-recovery.js'
 import {WorldWorkingDocument} from './world-working-document.js';
 import {setupPaddleInput} from './pointer-input.js';
 import {editorDrafts} from './editor-drafts.js';
+import {publishWorld} from './publish-world.js';
+import {ownsKeyboard} from './keyboard-input.js';
+import {startFrameLoop} from './frame-loop.js';
 
 const $=s=>document.querySelector(s),clone=v=>structuredClone(v);
 let world,phase=0,tool='select',baseHTML='',history=[],future=[],drag=null,stage,previewGame,detachDOM,previewReady=false,previewClock=0;
-let working,unsaved=false,detailsDirty=false,loadGeneration=0,leaving=false;
+let working,unsaved=false,detailsDirty=false,loadGeneration=0,leaving=false,publishing=false;
 let draftRevision=null,draftWrites=Promise.resolve();
 const recoverSave=createSaveRecovery();
 const keys=new Set();const draftKey=slug=>'prism.world-draft.'+slug;
 const previewGraphics=setupGraphicsRecovery(document.querySelector('#preview-canvas'),{
  pause(){keys.clear();previewReady=false;if(previewGame)previewGame.state='paused';},
- async restore(){if(!stage||!previewGame)throw Error('Preview unavailable');stage.preparedModes?.clear();await stage.prepare(previewGame);stage.resize();},
+ async restore(){if(!stage||!previewGame)throw Error('Preview unavailable');stage.preparedModes?.clear();await stage.prepare(previewGame);stage.resize();last=performance.now();accumulator=0;previewLoop.resume();},
  onStatus(status){const ready=status==='ready';previewReady=ready;$('#restart-preview').disabled=!ready;$('#preview-launch').disabled=!ready;
   if(ready&&previewGame){previewGame.state='ready';$('#preview-launch').textContent='Resume preview';}
   $('#preview-status').textContent=ready?'Arena restored. Resume the preview when ready.':status==='failed'?'The arena could not recover. Close the preview and reload the workshop. Your saved draft is retained.':'Graphics interrupted. Preview paused while the arena recovers.';
@@ -249,31 +252,23 @@ $('#type-form').onsubmit=event=>{event.preventDefault();const name=$('#type-name
  const created=commit(()=>world.types.push({type,name,base:$('#type-base').value,effect:$('#type-effect').value,points:Number($('#type-points').value),radius:Number($('#type-radius').value),duration:Number($('#type-duration').value),power:$('#type-power').value}));
  if(created){chooseBrush(type);$('#type-form').reset();typeOptions();message(name+' is ready. Paint it on the board.');}
 };
-$('#show-html').onclick=()=>{$('#html-source').value=worldDocument(world).replaceAll('><','>\n<');$('#html-status').textContent='';$('#html-dialog').showModal();};
+$('#show-html').onclick=()=>{finishColorEdit();cancelDrag();if(!finishDetails())return;$('#html-source').value=worldDocument(world).replaceAll('><','>\n<');$('#html-status').textContent='';$('#html-dialog').showModal();};
 $('#copy-html').onclick=async()=>{try{await navigator.clipboard.writeText($('#html-source').value);$('#html-status').textContent='HTML copied.';}catch{$('#html-source').select();$('#html-status').textContent='Select and copy the HTML above.';}};
 $('#export').onclick=()=>{finishColorEdit();if(finishDetails())downloadRecovery(worldDocument(working.read()),world.slug+'.html','text/html');};
 $('#import').onclick=()=>$('#import-file').click();
 $('#import-file').onchange=async()=>{const file=$('#import-file').files[0];$('#import-file').value='';if(!file)return;const generation=working?.generation;try{if(file.size>1000000)throw Error('World file is too large');const imported=parseWorld(await file.text(),{expectedSlug:world.slug});if(generation!==working.generation)throw Error('The world changed while importing. Choose the file again.');if(await preserveDraft())commit(()=>{world=imported;selection.clear();});}catch(e){message(e.message);}};
 $('#restore').onclick=()=>commit(()=>{world=originalWorld(world.index);selection.clear();});
 async function published(slug){const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Could not load the published world ('+response.status+').');const fresh=parseWorld(await response.text(),{expectedSlug:slug});safeStorage.set('prism.world-published.'+slug,{world:fresh,savedAt:Date.now()});return fresh;}
-$('#reload').onclick=async()=>{if(!await preserveDraft())return;const generation=working.generation;try{const fresh=await published(slugFromPath);if(generation!==working.generation)throw Error('Your world changed while loading. Reload published again when ready.');const priorBase=baseHTML;baseHTML=worldHTML(fresh);if(!commit(()=>{world=fresh;selection.clear();phase=0;}))baseHTML=priorBase;populatePhases();saveDraft();}catch(e){message(e.message);}};
+$('#reload').onclick=async()=>{if(!await preserveDraft())return;const generation=working.generation;try{const fresh=await published(slugFromPath);if(generation!==working.generation||detailsDirty)throw Error('Your world changed while loading. Reload published again when ready.');const html=worldHTML(fresh);if(working.serialize()!==html)commit(()=>{world=fresh;selection.clear();phase=0;});if(working.serialize()!==html)throw Error('The shared world could not be opened. Your draft is retained.');baseHTML=html;populatePhases();await saveDraft();}catch(e){message(e.message);}};
 
-$('#publish').onclick=()=>{if(!world||!baseHTML)return;$('#publish-status').textContent='';$('#owner-key').value='';$('#publish-dialog').showModal();};
+$('#publish').onclick=()=>{if(!world||!baseHTML||publishing)return;finishColorEdit();cancelDrag();if(!finishDetails())return;$('#publish-status').textContent='';$('#owner-key').value='';$('#publish-dialog').showModal();};
 $('#publish-form').onsubmit=async event=>{
- event.preventDefault();const key=$('#owner-key').value.trim();$('#owner-key').value='';const button=$('#confirm-publish');button.disabled=true;$('#publish-status').textContent='Checking the latest shared world…';
+ event.preventDefault();if(publishing)return;finishColorEdit();cancelDrag();if(!finishDetails())return;publishing=true;const key=$('#owner-key').value.trim();$('#owner-key').value='';const button=$('#confirm-publish');button.disabled=true;$('#publish-status').textContent='Checking the latest shared world…';
  try{
   if(!world||!baseHTML)throw Error('Load the published world before publishing.');
-  const snapshot=normalizeWorld(world),path='/worlds/'+snapshot.slug+'/definition.html',url='https://dav-sane-guild-8399.onpagelove.com'+path;
-  const read=await fetch(url,{headers:{Authorization:'Bearer '+key},cache:'no-store',redirect:'error',signal:AbortSignal.timeout(15000)});
-  if(!read.ok)throw Error(read.status===401||read.status===403?'This key cannot publish to this host.':'Could not read the shared world ('+read.status+').');
-  const etag=read.headers.get('ETag');if(!etag||!/^"[^"\r\n]+"$/.test(etag))throw Error('The host did not expose a strong ETag. Download your world and retry when the shared revision is available.');
-  const latest=parseWorld(await read.text(),{expectedSlug:snapshot.slug});if(worldHTML(latest)!==baseHTML)throw Error('The published world changed since you opened it. Download your draft, then Reload published to review the latest version.');
-  const write=await fetch(url,{method:'PUT',headers:{Authorization:'Bearer '+key,'Content-Type':'text/html; charset=utf-8','If-Match':etag},body:worldDocument(snapshot),redirect:'error',signal:AbortSignal.timeout(15000)});
-  if(write.status===412)throw Error('Someone changed this world while it was saving. Download your draft, then Reload published.');
-  if(!write.ok)throw Error('Publish failed ('+write.status+'). Your working copy remains open.');
-  const check=await fetch(url,{headers:{Authorization:'Bearer '+key},cache:'no-store',redirect:'error',signal:AbortSignal.timeout(15000)});if(!check.ok||worldHTML(parseWorld(await check.text(),{expectedSlug:snapshot.slug}))!==worldHTML(snapshot))throw Error('The save was sent, but its readback could not be confirmed. Reload published before retrying.');
-  baseHTML=worldHTML(snapshot);await saveDraft();$('#publish-status').textContent=(worldHTML(world)===worldHTML(snapshot)?'Published. This world is now available in shared Practice.':'Snapshot published. Your newer changes remain a draft.')+(unsaved?' Download your working copy: its draft could not be confirmed.':'');
- }catch(e){$('#publish-status').textContent=e.message;}finally{button.disabled=false;}
+  const html=await publishWorld({world,baseline:baseHTML,currentBaseline:()=>baseHTML,key});
+  baseHTML=html;await saveDraft();$('#publish-status').textContent=(worldHTML(world)===html&&!detailsDirty?'Published. This world is now available in shared Practice.':'Snapshot published. Your newer changes remain a draft.')+(unsaved?' Download your working copy: its draft could not be confirmed.':'');
+ }catch(e){$('#publish-status').textContent=e.message;}finally{publishing=false;button.disabled=false;}
 };
 
 let previewGeneration=0,preparation=Promise.resolve();
@@ -292,14 +287,14 @@ $('#preview').onclick=async()=>{
   await preparation.catch(()=>{});if(!active())return;startPreview();
   if(!stage){const {Stage}=await import('./scene.js?v=15');if(!active())return;stage=new Stage($('#preview-canvas'),{lowEffects:matchMedia('(pointer:coarse)').matches,reducedMotion:matchMedia('(prefers-reduced-motion:reduce)').matches,classicMode:false});}
   stage.resize();preparation=stage.prepare(previewGame);await preparation;if(!active())return;
-  previewReady=true;$('#restart-preview').disabled=false;$('#preview-launch').disabled=false;$('#preview-canvas').focus();
+  previewLoop.resume();last=performance.now();previewReady=true;$('#restart-preview').disabled=false;$('#preview-launch').disabled=false;$('#preview-canvas').focus();
  }catch(e){if(active())$('#preview-status').textContent='The 3D preview could not start: '+e.message;}
 };
 $('#restart-preview').onclick=()=>{startPreview();previewReady=true;$('#preview-canvas').focus();};
-$('#preview-launch').onclick=()=>{if(previewReady)previewGame?.launch();};
+$('#preview-launch').onclick=()=>{if(previewReady){previewGame?.launch();$('#preview-canvas').focus();}};
 const previewInput=setupPaddleInput($('#preview-canvas'),{enabled:()=>$('#preview-dialog').open&&previewReady&&!previewGraphics.blocked&&!!stage,move:event=>previewGame.move(stage.screenX(event.clientX,event.clientY)),launch:()=>{$('#preview-canvas').focus();previewGame.launch();},neutral:()=>{if(previewGame)previewGame.target=previewGame.paddle.x;}});
-document.addEventListener('keydown',event=>{if(!$('#preview-dialog').open||/INPUT|SELECT|TEXTAREA/.test(event.target.tagName))return;if(['ArrowLeft','ArrowRight',' ','a','d'].includes(event.key)){event.preventDefault();keys.add(event.key);if(event.key===' ')previewGame?.launch();}});
-document.addEventListener('keyup',event=>keys.delete(event.key));window.addEventListener('blur',()=>keys.clear());
+document.addEventListener('keydown',event=>{if(!$('#preview-dialog').open||!previewReady||ownsKeyboard(event.target,event.code))return;if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD'].includes(event.code)){event.preventDefault();keys.add(event.code);if(event.code==='Space'&&!event.repeat)previewGame?.launch();}});
+document.addEventListener('keyup',event=>keys.delete(event.code));window.addEventListener('blur',()=>keys.clear());
 $('#preview-dialog').addEventListener('close',()=>{previewGeneration++;keys.clear();previewInput.cancel();previewReady=false;detachDOM?.();render();$('#edit-board').focus({preventScroll:true});});
 for(const button of document.querySelectorAll('[data-close]'))button.onclick=()=>$('#'+button.dataset.close).close();
 window.addEventListener('resize',()=>{if($('#preview-dialog').open)stage?.resize();});
@@ -307,15 +302,15 @@ const previewRenderClock=new RenderClock();let last=performance.now(),accumulato
 function frame(now){
  const dt=Math.min(.05,(now-last)/1000);last=now;
  if($('#preview-dialog').open&&previewReady&&!document.hidden&&!previewGraphics.blocked){
-  previewClock+=dt;previewSceneDelta+=dt;if(keys.has('ArrowLeft')||keys.has('a'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('d'))previewGame.move(previewGame.target+22*dt);
+  previewClock+=dt;previewSceneDelta+=dt;if(keys.has('ArrowLeft')||keys.has('KeyA'))previewGame.move(previewGame.target-22*dt);if(keys.has('ArrowRight')||keys.has('KeyD'))previewGame.move(previewGame.target+22*dt);
   accumulator+=dt;while(accumulator>=1/120){previewGame.tick(1/120);accumulator-=1/120;}
   if(previewRenderClock.due(now,60)){stage.render(previewGame,previewSceneDelta,previewClock,'game');stage.observeFrame(previewRenderClock.elapsed,previewGame.state==='playing');previewSceneDelta=0;
    const text='Score '+previewGame.score.toLocaleString()+' · Lives '+previewGame.lives;if(text!==previewHud){$('#preview-score').textContent=text;previewHud=text;}
    $('#preview-launch').hidden=(previewGame.state!=='ready'&&!previewGame.balls.some(b=>b.held))||previewGame.state==='over'||previewGame.state==='cleared';
   }
  }else{previewRenderClock.reset();previewSceneDelta=0;}
- requestAnimationFrame(frame);
-}requestAnimationFrame(frame);
+}
+const previewLoop=startFrameLoop(frame,{onError(error){keys.clear();previewInput.cancel();previewReady=false;accumulator=0;if(previewGame)previewGame.state='paused';$('#preview-launch').disabled=true;$('#restart-preview').disabled=true;$('#preview-status').textContent='The preview stopped unexpectedly. Close it and try Preview again. Your working world is retained.';console.error('Preview frame failed:',error);}});
 
 function setEditing(enabled){
  for(const selector of ['.editor-layout','.workshop-actions'])$(selector).inert=!enabled;
@@ -334,13 +329,14 @@ async function initialize(){
  setEditing(false);$('#world-recovery').hidden=true;
  if(index<0){message('Unknown world. Choose a world from the menu.');$('#edit-world').focus();return;}
  try{
-  const routed=$('#routed-world #world');const fresh=routed?parseWorld(routed,{expectedSlug:slugFromPath}):await published(slugFromPath);routed?.remove();baseHTML=worldHTML(fresh);
+  const routed=$('#routed-world #world');const fresh=routed?parseWorld(routed,{expectedSlug:slugFromPath}):await published(slugFromPath);
   let durable;try{durable=await editorDrafts.read(slugFromPath);}catch{}
   if(generation!==loadGeneration)return;
+  routed?.remove();baseHTML=worldHTML(fresh);
   const draft=durable||safeStorage.get(draftKey(slugFromPath));let restored;draftRevision=durable?.revision??null;
   if(draft)try{restored=durable?parseWorld(durable.html,{expectedSlug:slugFromPath}):normalizeWorld(draft.world);baseHTML=draft.baseHTML?worldHTML(parseWorld(draft.baseHTML,{expectedSlug:slugFromPath})):'';}catch{restored=null;}
   openWorld(restored||fresh,restored?(baseHTML?'Your saved draft is restored. Publishing checks for changes to the shared world.':'Offline draft restored. Download it, then reload published before publishing.'):'Ready · '+fresh.name+' · Changes save as a draft.');
- }catch(error){if(generation!==loadGeneration)return;world=null;baseHTML='';$('#world-recovery').hidden=false;let durable;try{durable=await editorDrafts.read(slugFromPath);}catch{}$('#use-draft').hidden=!durable&&!safeStorage.get(draftKey(slugFromPath));message(error.message+' Choose Retry, your saved draft, or the original release.');}
+ }catch(error){let durable;try{durable=await editorDrafts.read(slugFromPath);}catch{}if(generation!==loadGeneration)return;world=null;baseHTML='';$('#world-recovery').hidden=false;$('#use-draft').hidden=!durable&&!safeStorage.get(draftKey(slugFromPath));message(error.message+' Choose Retry, your saved draft, or the original release.');}
 }
 initialize();
 window.addEventListener('beforeunload',event=>{if(leaving)return;finishColorEdit();if(drag)cancelDrag();if(detailsDirty||unsaved){event.preventDefault();event.returnValue='';}});

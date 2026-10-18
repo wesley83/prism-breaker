@@ -57,7 +57,7 @@ export class Stage {
    this.preparedModes??=new Set();this.preparedModes.add(mode);
   }finally{
    this.scene.remove(warm);warm.traverse(object=>{if(object.isInstancedMesh)object.dispose();});warm.clear();this.preparing=false;
-   this.render(game,0,0,'home');this.canvas.style.visibility='';
+   try{this.render(game,0,0,'home');}finally{this.canvas.style.visibility='';}
   }
  }
  acquirePower(kind){const key=(this.settings.lowEffects?'low':'full')+':'+kind,pool=this.powerPools?.get(key);const power=pool?.pop()||this.makePower(kind);power.userData.poolKey=key;return power;}
