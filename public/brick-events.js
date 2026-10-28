@@ -5,7 +5,7 @@ export class BrickBehaviors {
  constructor(){
   this.handlers=new Map();this.recipes=new Map();
   this.register(BASE_TYPES.switch,{onBreak:({game})=>this.openGates(game)});
-  this.register(BASE_TYPES.explode,{onBreak:({game,brick})=>this.pulse(game,brick,2.65)});
+  this.register(BASE_TYPES.explode,{onBreak:({game,brick})=>this.pulse(game,brick,game.engagement?.synergy==='fuse'?3.5:2.65)});
   this.effects=new Map([
    ['none',()=>{}],['bonus',({game},r)=>game.award(r.points??150)],
    ['pulse',({game,brick},r)=>this.pulse(game,brick,r.radius??2.65)],

@@ -38,6 +38,9 @@ export class Sound{
  event(e){try{this.playEvent(e);}catch(error){this.disable(error);}}
  playEvent(e){
   this.syncGain();if(this.settings.muted||this.settings.effects<=0)return;
+  if(e.type==='combo')[523,659,784].slice(0,Math.min(3,e.multiplier)).forEach((f,i)=>this.tone(f,.12,'sine',.06,i*.035));
+  if(e.type==='precision-ready'||e.type==='precision-catch')[659,880].forEach((f,i)=>this.tone(f,.15,'sine',.08,i*.07));
+  if(e.type==='synergy')[392,587,784].forEach((f,i)=>this.tone(f,.2,'triangle',.06,i*.06));
   if(e.type==='paddle')this.tone(240,.1,'sine',.23,0,false,460);
   if(e.type==='wall')this.tone(145,.045,'sine',.08);
   if(e.type==='hit')this.tone(330,.07,'triangle',.11);
