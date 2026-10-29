@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-29T00:52:18.508Z",
+  "before": {
+    "release": "17efa40ae205c5a4b863",
+    "checkpoint": "Continue adventure\nPrism Garden · 0 points",
+    "best": null,
+    "settings": {
+      "classic-mode": false,
+      "effects-volume": "70",
+      "interface-theme": "system",
+      "low-effects": false,
+      "music-volume": "35",
+      "reduced-motion": false
+    }
+  },
+  "after": {
+    "release": "5c27019bb69ddc78e888",
+    "checkpoint": "Continue adventure\nPrism Garden · 0 points",
+    "best": "5,300",
+    "offline": "Ready to play offline",
+    "settings": {
+      "ball-trail": "none",
+      "classic-mode": false,
+      "effects-volume": "70",
+      "interface-theme": "system",
+      "low-effects": false,
+      "music-volume": "35",
+      "paddle-finish": "original",
+      "play-notes": false,
+      "reduced-motion": false
+    }
+  },
+  "bestBeforeAccessibilityObservation": "5,300",
+  "checkpointPreserved": true,
+  "preferencesPreserved": true,
+  "usedOrdinaryCheckAndUpdateButtons": true,
+  "collectionWorlds": 16,
+  "errors": [],
+  "limits": [
+    "Desktop Chromium existing-client update; not native phone installation or OS lifecycle evidence.",
+    "Before best field selector returned null; 5,300 was visibly observed in the pre-update accessibility snapshot."
+  ],
+  "legacyCheckpointResumed": {
+    "mode": "ADVENTURE · ORIGINAL RULES",
+    "launchAvailable": true
+  }
+}

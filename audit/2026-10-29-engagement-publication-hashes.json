@@ -1,0 +1,47 @@
+{
+  "at": "2026-10-29T00:53:32.025Z",
+  "deployedSource": "ccc6fddab90b86146c03c42fc5f79c918fafcae7",
+  "runtime": "5c27019bb69ddc78e888",
+  "records": [
+    {
+      "file": "audit/2026-10-29-engagement-release.md",
+      "bytes": 9028,
+      "sha256": "4255cb75e850b25b70fc880de0b19f7ab7dcc072d61f4e59d84a03ca5d79cc58"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-deployment.json",
+      "bytes": 21314,
+      "sha256": "7725909aae7692c787a0a941be5133fa5e8b099a763b179a5cc34189a4139eaf"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-live-collection.png",
+      "bytes": 59969,
+      "sha256": "cf953dde02e5630419a430ec1a76abc2130bcf775a131b3e601cbc64af593b00"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-live-editor-followup.json",
+      "bytes": 606,
+      "sha256": "f5a321bffd536b256048d4ad997b0879a3a2fc64de6d3897e07bfcf8aaa077d8"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-live-editor.json",
+      "bytes": 377,
+      "sha256": "fb44b7ff30cd4a4a6744d4740b3b77244e8c82a671fefa7094b225bb1760a88a"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-live-update.json",
+      "bytes": 1409,
+      "sha256": "e915de5346771790510ef0323b6eab322cc6640c8b95d794522a5413b44eca94"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-live.json",
+      "bytes": 59100,
+      "sha256": "6cce7645d83bd2cc06d4e992b9bf4d422d446cf06e4024f0536e45edc378ba8f"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-publication.patch",
+      "bytes": 155910,
+      "sha256": "f2b92709f676aa25f513355914ff2bfe8dbadcf46e7722231d43e258b7898544"
+    }
+  ]
+}
