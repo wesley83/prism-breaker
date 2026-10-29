@@ -192,11 +192,11 @@ export class Game {
      if(this.lives<=0){this.state='over';this.emit({type:'over'});}else{this.addBall(true);this.state='ready';this.emit({type:'life'});}}
  }
  next(){if(this.level===LAST_WORLD||this.mode!=='campaign'){this.state='won';return false;}this.level++;this.phase=0;this.loadLevel();return true;}
- snapshot(){return structuredClone({version:2,worldId:this.world.id,worldRevision:this.world.revision||WORLDS[this.level].revision,ruleset:this.ruleset,engagement:this.engagement.snapshot(),definition:this.world,mode:this.mode,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,randomDraws:this.randomDraws,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits});}
+ snapshot(){return structuredClone({version:2,worldId:this.world.id,worldRevision:this.world.revision||WORLDS[this.level].revision,ruleset:this.ruleset,engagement:this.engagement.snapshot(),definition:this.world,mode:this.mode,officialPractice:this.officialPractice===true,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,randomDraws:this.randomDraws,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits});}
  restore(s,{prepare=()=>{}}={}){
   try{
    if(!isValidSnapshot(s))return false;
-   const candidate=new Game();candidate.catalog=this.catalog;candidate.start(s.mode??'campaign',checkpointLevel(s),s.seed??8399,{legacy:(s.ruleset||LEGACY_RULESET_REVISION)!==RULESET_REVISION});candidate.uid=Math.max(candidate.uid,this.uid);
+   const candidate=new Game();candidate.catalog=this.catalog;candidate.start(s.mode??'campaign',checkpointLevel(s),s.seed??8399,{legacy:(s.ruleset||LEGACY_RULESET_REVISION)!==RULESET_REVISION,official:s.officialPractice===true});candidate.uid=Math.max(candidate.uid,this.uid);
    candidate.restoreFields(structuredClone(s));candidate.behaviors.handlers=this.behaviors.handlers;
    const prepared=prepare(candidate);if(prepared?.then){prepared.catch?.(()=>{});throw Error('Restore preparation must be synchronous');}
    candidate.emit=this.emit;candidate.events=this.events;Object.assign(this,candidate);this.engagement.game=this;return true;

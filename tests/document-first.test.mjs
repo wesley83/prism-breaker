@@ -6,7 +6,7 @@ import {execFileSync} from 'node:child_process';
 import {DOMParser} from 'linkedom';
 import {originalWorld,parseWorld,worldDocument,worldHTML,formationCatalog,worldSlug} from '../public/world-format.js';
 import {WORLDS,RULESET_REVISION} from '../public/levels.js';
-import {editorSlug,compatibleRuleset} from '../public/world-identity.js';
+import {editorSlug,compatibleRuleset,compatibleCheckpointRuleset,LEGACY_RULESET_REVISION} from '../public/world-identity.js';
 import {Game,isValidSnapshot} from '../public/engine.js';
 import {rankedScores} from '../public/leaderboard.js';
 import {worldPolicy} from '../tools/world-policy.mjs';
@@ -49,7 +49,7 @@ test('checkpoint v2 pins complete world definition and restores saved portals',(
 });
 test('legacy checkpoints migrate, unknown versions and rulesets fail without mutation',()=>{
  const g=new Game(),legacy={...g.snapshot(),version:1};delete legacy.worldId;delete legacy.definition;delete legacy.ruleset;delete legacy.worldRevision;
- assert.equal(new Game().restore(legacy),true);assert.equal(compatibleRuleset(undefined),true);
+ assert.equal(new Game().restore(legacy),true);assert.equal(compatibleCheckpointRuleset(undefined),true);assert.equal(compatibleRuleset(undefined),false);
  const bad={...g.snapshot(),ruleset:'a'.repeat(64)};assert.equal(isValidSnapshot(bad),false);const before=g.snapshot();assert.equal(g.restore(bad),false);assert.deepEqual(g.snapshot(),before);
  assert.equal(isValidSnapshot({...g.snapshot(),worldId:'missing'}),false);
  assert.equal(isValidSnapshot({...g.snapshot(),ruleset:undefined}),false);
@@ -65,9 +65,9 @@ test('trusted request cancellation and unsubscribe do not remove other handlers'
 test('handler errors cancel a strike and report a structured failure',()=>{
  const g=new Game(),b=g.bricks[0];let error;g.events.addEventListener('brickbehaviorerror',e=>error=e.detail);g.behaviors.register('urn:Brick',{onStrike:()=>{throw Error('Example failure');}});g.damage(b);assert.equal(b.hp,1);assert.equal(error.hook,'onStrike');
 });
-test('rankings isolate incompatible rulesets and retain compatible legacy scores',()=>{
+test('rankings isolate legacy and unknown rulesets after the engagement revision',()=>{
  const now=Date.now(),base={mode:'campaign',day:'all',seconds:10,level:1,submittedAt:new Date(now).toISOString()};
- const rows=rankedScores([{...base,score:20},{...base,score:30,ruleset:RULESET_REVISION},{...base,score:999,ruleset:'a'.repeat(64)}],'campaign','all',now);assert.deepEqual(rows.map(r=>r.score),[30,20]);
+ const rows=rankedScores([{...base,score:20},{...base,score:25,ruleset:LEGACY_RULESET_REVISION},{...base,score:30,ruleset:RULESET_REVISION},{...base,score:999,ruleset:'a'.repeat(64)}],'campaign','all',now);assert.deepEqual(rows.map(r=>r.score),[30]);
 });
 test('persisted brick identity counter survives deletion of the highest numbered brick',()=>{
  const w=originalWorld(0),f=w.formations[0],next=f.nextBrickId;f.bricks.pop();
@@ -101,7 +101,7 @@ test('official bundle rebuilds from documents with no previous generated bundle'
  const parent=path.resolve('.private');await fs.mkdir(parent,{recursive:true});const root=await fs.mkdtemp(path.join(parent,'document-cold-build-'));
  try{
   for(const dir of ['public','tools'])await fs.mkdir(path.join(root,dir));
-  for(const file of ['tools/build-bundled-worlds.mjs','tools/read-world-catalog.mjs','public/world-schema.js','public/world-catalog.html'])await fs.copyFile(file,path.join(root,file));
+  for(const file of ['tools/build-bundled-worlds.mjs','tools/read-world-catalog.mjs','tools/read-engagement.mjs','public/engagement.html','public/world-schema.js','public/world-catalog.html'])await fs.copyFile(file,path.join(root,file));
   await fs.cp('public/worlds',path.join(root,'public/worlds'),{recursive:true});
   const output=execFileSync(process.execPath,['tools/build-bundled-worlds.mjs'],{cwd:root,encoding:'utf8'});assert.match(output,/Built 16 complete worlds/);
   assert.equal(await fs.readFile(path.join(root,'public/bundled-worlds.js'),'utf8'),await fs.readFile('public/bundled-worlds.js','utf8'));

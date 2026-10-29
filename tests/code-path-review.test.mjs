@@ -20,7 +20,7 @@ test('malformed preferences fall back per field and cannot supply nonfinite gain
  const defaults=normalizeSettings(null,{lowEffects:true,reducedMotion:true});
  for(const value of [null,[],true,'bad'])assert.deepEqual(normalizeSettings(value,{lowEffects:true,reducedMotion:true}),defaults);
  const settings=normalizeSettings({music:'oops',effects:NaN,muted:'false',classicMode:true,lowEffects:false,reducedMotion:null,interfaceTheme:'unknown',extra:true},{reducedMotion:true});
- assert.deepEqual(settings,{music:.35,effects:.7,muted:false,classicMode:true,lowEffects:false,reducedMotion:true,interfaceTheme:'system'});
+ assert.deepEqual(settings,{music:.35,effects:.7,muted:false,classicMode:true,lowEffects:false,reducedMotion:true,interfaceTheme:'system',paddleFinish:'original',ballTrail:'none'});
  assert.equal(normalizeSettings({music:2,effects:-1}).music,1);assert.equal(normalizeSettings({music:2,effects:-1}).effects,0);
  assert.equal(normalizeSettings({interfaceTheme:'light',muted:true}).interfaceTheme,'light');
  for(const value of [null,{},NaN,Infinity,-1,17,'12',1.5])assert.equal(storedProgress(value,16),0);

@@ -25,6 +25,17 @@ const hiFetch=globalThis.fetch.bind(globalThis);globalThis.fetch=(url,options)=>
 globalThis.hi={
  ready:()=>!!stage,
  home,begin,openDialog,
+ async engagement(){
+  home();$('#mastery-open').click();hiAssert($('#mastery-dialog').open,'mastery collection did not open');hiAssert($('#mastery-grid').children.length===16,'collection omitted worlds');
+  const play=$('#mastery-grid .button');play.click();await hiWait(()=>view==='game'&&game.officialPractice&&game.state==='ready');engagementUI.renderLive();
+  hiAssert(!$('#engagement-strip').hidden,'official instructions missing');game.launch();game.power('sticky');const ball=game.balls[0];Object.assign(ball,{x:game.paddle.x,y:-10.05,vx:0,vy:-20});game.tick(1/60);lastHud='';hud();engagementUI.renderLive();
+  hiAssert(ball.held&&!$('#aim-controls').hidden,'sticky aiming controls missing');
+  $('#aim-angle').value='35';$('#aim-angle').dispatchEvent(new Event('input',{bubbles:true}));hiAssert($('#aim-value').textContent==='35°','aim label did not follow input');
+  const angle=Math.atan2(game.balls[0].holdVX,game.balls[0].holdVY)*180/Math.PI;hiAssert(Math.abs(angle-35)<.01,'aim input did not alter the held ball');
+  $('#launch').click();hiAssert(!game.balls[0].held,'ordinary launch left ball held');
+  home();await begin('practice',12,{official:true,seed:8399});engagementUI.renderLive();hiAssert($('#encounter-live').textContent.includes('Storm'),'Thunder encounter instruction missing');
+  home();return {collectionHasSixteenWorlds:true,officialPracticeStarts:true,aimControlsAndLaunch:true,thunderInstructions:true};
+ },
  theme(value){settings.interfaceTheme=value;applyTheme();},
  async scene(index){closeDialogs();game.start(index===16?'daily':'practice',index===16?0:index);runDay=currentDay();beginCut();await hiWait(()=>cutReady);},
  async record(mode){closeDialogs();game.start(mode,mode==='campaign'?LAST_WORLD:0);runDay=currentDay();game.score=12345;finish(true);await hiWait(()=>view==='champion');},
@@ -84,16 +95,17 @@ function contrast(element,background){const style=getComputedStyle(element),fg=l
 function textContrast(element,win){let background=[255,255,255];const chain=[];for(let node=element;node;node=node.parentElement)chain.push(node);for(const node of chain.reverse()){const c=rgb(win.getComputedStyle(node).backgroundColor),alpha=c[3]??1;background=background.map((v,i)=>(c[i]??0)*alpha+v*(1-alpha));}const fg=rgb(win.getComputedStyle(element).color),alpha=fg[3]??1,color=background.map((v,i)=>(fg[i]??0)*alpha+v*(1-alpha)),a=luma(color),b=luma(background);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);}
 $('#run').onclick=async()=>{for(const b of document.querySelectorAll('button'))b.disabled=true;try{
  $('#status').textContent='Checking actual save-failure and editor paths…';let f=await frame('/__qa/handbook-app.html');receipt.cases.storage={passed:true,...await f.contentWindow.hi.storage()};
+ receipt.cases.engagement={passed:true,...await f.contentWindow.hi.engagement()};
  f=await frame('/__qa/handbook-editor.html?world=prism-garden');const edited=await f.contentWindow.hi.exercise();assert(!edited.errors.length,'Editor errors: '+edited.errors.join(';'));receipt.cases.editor={passed:true,...edited};
  $('#status').textContent='Checking viewport, text enlargement, contrast and dialog states…';f=await frame('/__qa/handbook-app.html');const w=f.contentWindow,d=f.contentDocument,observations=[];
  for(const [width,height]of [[320,640],[390,844],[844,390],[1100,800]]){f.style.width=width+'px';f.style.height=height+'px';await sleep(100);
-  for(const theme of ['dark','light'])for(const selector of ['#help-dialog','#settings-dialog','#scores-dialog','#result-dialog']){
-   w.hi.theme(theme);if(selector==='#result-dialog')w.hi.result();else{w.hi.home();w.hi.openDialog(selector);}await sleep(40);const dialog=d.querySelector(selector),size=bounds(dialog);assert(size.width<=width+1,selector+' exceeds '+width);
+  for(const theme of ['dark','light'])for(const selector of ['#help-dialog','#settings-dialog','#scores-dialog','#result-dialog','#mastery-dialog']){
+   w.hi.theme(theme);if(selector==='#result-dialog')w.hi.result();else{w.hi.home();w.hi.openDialog(selector);}await sleep(40);const dialog=d.querySelector(selector);for(const detail of dialog.querySelectorAll('details'))detail.open=true;const size=bounds(dialog);assert(size.width<=width+1,selector+' exceeds '+width);
    const heading=dialog.querySelector('h2'),ratio=contrast(heading,dialog);assert(ratio>=4.5,selector+' heading contrast '+ratio);
    assert(dialog.hasAttribute('aria-labelledby'),selector+' missing accessible name');if(dialog.scrollWidth>dialog.clientWidth+2)receipt.layoutDiagnostic={width,panel:size,client:dialog.clientWidth,scroll:dialog.scrollWidth,overflow:[...dialog.querySelectorAll('*')].map(el=>({tag:el.tagName,id:el.id,class:el.className,...bounds(el),text:el.textContent.slice(0,40)})).filter(el=>el.x+el.width>size.x+size.width-10).slice(0,12)};assert(dialog.scrollWidth<=dialog.clientWidth+2,selector+' horizontal overflow at '+width);
    const enlarged=[...dialog.querySelectorAll('h2,h3,p,label,button,input,select,td,th,span,strong,small,kbd,code')].map(el=>[el,el.style.fontSize,parseFloat(w.getComputedStyle(el).fontSize)*2+'px']);for(const [el,,size]of enlarged)el.style.fontSize=size;
    await sleep(30);const overflow=dialog.scrollWidth-dialog.clientWidth;assert(overflow<=2,selector+' 200% text overflow at '+width+': '+overflow);
-   const controls=[...dialog.querySelectorAll('button,input,select')].filter(el=>el.getClientRects().length&&!el.disabled);for(const el of controls){el.focus();el.scrollIntoView({block:'nearest'});const r=bounds(el),panel=bounds(dialog);assert(r.y+r.height>panel.y&&r.y<panel.y+panel.height,'focus completely obscured');}
+   const controls=[...dialog.querySelectorAll('button,input,select')].filter(el=>el.getClientRects().length&&!el.disabled);for(const el of controls){el.focus();el.scrollIntoView({block:'nearest'});const r=bounds(el),panel=bounds(dialog);assert(r.y+r.height>panel.y&&r.y<panel.y+panel.height,'focus completely obscured: '+selector+' '+width+' '+el.id+' '+el.textContent.slice(0,45)+' '+JSON.stringify({r,panel}));}
    let minimum=Infinity,textNodes=0;const walker=d.createTreeWalker(dialog,4);while(walker.nextNode()){const el=walker.currentNode.parentElement;if(!walker.currentNode.textContent.trim()||!el.getClientRects().length||el.closest('button:disabled')||el.closest('svg'))continue;const style=w.getComputedStyle(el),large=parseFloat(style.fontSize)>=24||parseFloat(style.fontSize)>=18.66&&Number(style.fontWeight)>=700,ratio=textContrast(el,w);minimum=Math.min(minimum,ratio);textNodes++;assert(ratio>=(large?3:4.5),'Low text contrast '+ratio.toFixed(2)+' in '+selector+' ('+walker.currentNode.textContent.slice(0,25)+')');}
    observations.push({width,height,theme,dialog:selector,headingContrast:+ratio.toFixed(2),minimumTextContrast:+minimum.toFixed(2),textNodes,textEnlargement:2,horizontalOverflow:overflow,controls:controls.length});for(const [el,font]of enlarged)el.style.fontSize=font;
   }

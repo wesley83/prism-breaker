@@ -3,9 +3,10 @@ import {DOMParser} from 'linkedom';
 import {createHash} from 'node:crypto';
 import {parseWorld,worldHTML} from '../public/world-schema.js';
 import {readWorldCatalog} from './read-world-catalog.mjs';
-import {ENGAGEMENT_REVISION} from '../public/engagement-data.js';
+import {readEngagement} from './read-engagement.mjs';
 const hash=value=>createHash('sha256').update(value).digest('hex');
 const {ruleset,entries}=await readWorldCatalog(),worlds=[];
+const {revision:ENGAGEMENT_REVISION}=await readEngagement();
 for(const entry of entries){
  const world=parseWorld(await fs.readFile('public/worlds/'+entry.slug+'/definition.html','utf8'),{expectedSlug:entry.slug,Parser:DOMParser});
  if(world.id!==entry.id)throw Error('Catalog identity mismatch');

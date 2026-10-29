@@ -1,0 +1,203 @@
+{
+  "at": "2026-10-29T00:46:55.544Z",
+  "baseline": "b70a52bdb1ff658b0656b5f2a1c4b383beb373f2",
+  "implementationCommit": "ccc9b71",
+  "runtime": "5c27019bb69ddc78e888",
+  "mirroredThisBatch": [
+    "ENGAGEMENT.md",
+    "public/engagement.css",
+    "public/engine.js",
+    "public/index.html",
+    "public/pwa-release.js",
+    "public/sw.js",
+    "review/evidence/handbook-browser.json",
+    "tests/code-path-review.test.mjs",
+    "tests/document-first.test.mjs",
+    "tests/release-gate.test.mjs",
+    "tools/build-bundled-worlds.mjs",
+    "tools/build-engagement.mjs",
+    "tools/build-pwa.mjs",
+    "tools/handbook-browser-fixture.mjs",
+    "audit/2026-10-29-engagement-browser.json",
+    "audit/2026-10-29-engagement-release.md",
+    "tests/engagement.test.mjs",
+    "tools/read-engagement.mjs"
+  ],
+  "records": [
+    {
+      "file": "ENGAGEMENT.md",
+      "bytes": 7872,
+      "sha256": "5967e6e98f268b2e4dc7555a10bf89fc356d2f156b45aa04e87b3dada1dc3a43"
+    },
+    {
+      "file": "README.md",
+      "bytes": 50038,
+      "sha256": "3802aa05254dbf61e2515f0f8cb77d4c1db7b223486ccb6ec7513ddf16000e07"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 61568,
+      "sha256": "eaf60c23ddbcbbb93a61eddf144c0a3ca935888156e0ab0702c8f0b4aae8763a"
+    },
+    {
+      "file": "public/audio.js",
+      "bytes": 8061,
+      "sha256": "be3ad967ac2336ec37889c19b141b9c9034d13e39ff539352048ccfcceeb5c3f"
+    },
+    {
+      "file": "public/brick-batch.js",
+      "bytes": 10222,
+      "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115"
+    },
+    {
+      "file": "public/brick-events.js",
+      "bytes": 3932,
+      "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee"
+    },
+    {
+      "file": "public/bundled-worlds.js",
+      "bytes": 127892,
+      "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0"
+    },
+    {
+      "file": "public/engagement-art.js",
+      "bytes": 3268,
+      "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677"
+    },
+    {
+      "file": "public/engagement-data.js",
+      "bytes": 5547,
+      "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d"
+    },
+    {
+      "file": "public/engagement-ui.js",
+      "bytes": 12464,
+      "sha256": "f04aa060b7c4042433f92f01b630bacfc7da8cdb9c38ec355cc3db0cde67a15a"
+    },
+    {
+      "file": "public/engagement.css",
+      "bytes": 4398,
+      "sha256": "661a4dddc956cb658dffb24b26ca4159777f7908c7aa8d0f183387a54efbbcad"
+    },
+    {
+      "file": "public/engagement.html",
+      "bytes": 13197,
+      "sha256": "2569e941d46b6e1d2f245a6277b964288de6d8bf517baef51045f646a10dddbb"
+    },
+    {
+      "file": "public/engagement.js",
+      "bytes": 5959,
+      "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 19240,
+      "sha256": "28e50da529288e83cc32b3d327f68678648e336453bd843b73ce51411627b265"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 30192,
+      "sha256": "be208c5e8222155cd1cefa7730ed3c869e24e217d4beb989f53c01a14e614ff3"
+    },
+    {
+      "file": "public/mastery.js",
+      "bytes": 3517,
+      "sha256": "0d49c0fa89890da60d6dcb8498b3ce999584f4862afc07f9caa4658d1f1d9fc5"
+    },
+    {
+      "file": "public/paddle-art.js",
+      "bytes": 4790,
+      "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97"
+    },
+    {
+      "file": "public/preferences.js",
+      "bytes": 1077,
+      "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "538e2eec79b8d18da2b2c43de4170fcb0edf7e9aad0dd06c4b4a94bb3d8ba6b2"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 25372,
+      "sha256": "0ee2e9d0ab94ea9778edddb6ec5c31adab5992d88cd3bfa68adcf6774eb5e4f0"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 33084,
+      "sha256": "95f57513d5b737d26b1616750574e6a032ac810da262093c4b0b9ea64b4c1380"
+    },
+    {
+      "file": "public/world-identity.js",
+      "bytes": 923,
+      "sha256": "b8971f8196a82276662f34841c21f9cbce0110b57f825fbf4217777620191b6a"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 160810,
+      "sha256": "f9520410c998c756b53d289f42b941c4938ecf87116d724d93e237c94cbc7cc2"
+    },
+    {
+      "file": "tests/code-path-review.test.mjs",
+      "bytes": 14328,
+      "sha256": "f73aa77a1bc63921358c6cbe4d421d4da90c1aa97f6c4cc1a1da5d57c49057c9"
+    },
+    {
+      "file": "tests/document-first.test.mjs",
+      "bytes": 9319,
+      "sha256": "8a560dc8dc5172ce0657ceea79ec482369245523d0d612d3095b87c6cd6b252c"
+    },
+    {
+      "file": "tests/engagement.test.mjs",
+      "bytes": 7932,
+      "sha256": "840168fa1df32c2d3322169cc6c68231642dc9b3982ad635c3d1bdee922dae9d"
+    },
+    {
+      "file": "tests/release-gate.test.mjs",
+      "bytes": 5621,
+      "sha256": "4c1252f4c196d61e5fdb1b45273b5251d70b548830534cf822ff58035e1db6aa"
+    },
+    {
+      "file": "tools/build-bundled-worlds.mjs",
+      "bytes": 1632,
+      "sha256": "b30b7a0656608cc8c7631cfb2afa64aa31f3f0130130e441c5e6b4d229265497"
+    },
+    {
+      "file": "tools/build-engagement.mjs",
+      "bytes": 486,
+      "sha256": "727f9bc498ef84aa016d03c603d7a53dad1157fb4c26bd083d25ebd10f4b0775"
+    },
+    {
+      "file": "tools/build-pwa.mjs",
+      "bytes": 6705,
+      "sha256": "820d05627c6a8419f2c759592c75a02a8ccdf2bfae53aec1b258170275ea9898"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "bytes": 26317,
+      "sha256": "cb08a53c986c5a2bc2401854447ad509ca744673236efce7b63a54e110670348"
+    },
+    {
+      "file": "tools/read-engagement.mjs",
+      "bytes": 4792,
+      "sha256": "2f7679f058ed00e289ea850adf5a9ba8ea3b5b6cb6122a2a257dc7d6845b2aef"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-browser.json",
+      "bytes": 160810,
+      "sha256": "f9520410c998c756b53d289f42b941c4938ecf87116d724d93e237c94cbc7cc2"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-release.md",
+      "bytes": 6226,
+      "sha256": "8427e8c4f4f50bcaf6a512e904a3f6f5a28d4fcc2a8ce663e0f948f3b8210f45"
+    },
+    {
+      "file": "audit/2026-10-29-engagement-release-source.patch",
+      "bytes": 533829,
+      "sha256": "78024a85ac4ffac44f90f67489890b7a12b632bed4d27312907c7b15e00320cf"
+    }
+  ]
+}
