@@ -1,0 +1,3403 @@
+diff --git a/audit/2026-10-29-engagement-deployment.json b/audit/2026-10-29-engagement-deployment.json
+new file mode 100644
+index 0000000..c11abbc
+--- /dev/null
++++ b/audit/2026-10-29-engagement-deployment.json
+@@ -0,0 +1,633 @@
++{
++  "origin": "https://sane-guild-8399.onpagelove.com",
++  "authoringHost": "https://dav-sane-guild-8399.onpagelove.com",
++  "deployedAt": "2026-10-29T00:50:05.261Z",
++  "approval": {
++    "commit": "ccc6fddab90b86146c03c42fc5f79c918fafcae7",
++    "sourceDigest": "3c209c356cf391e6fca651e7d20cfb3df20316a01d0a786365d191085b24b12f",
++    "release": "5c27019bb69ddc78e888",
++    "completedAt": "2026-10-29T00:48:43.537Z"
++  },
++  "version": "5c27019bb69ddc78e888",
++  "pwa": {
++    "version": "5c27019bb69ddc78e888",
++    "assets": 92,
++    "bytes": 2536874,
++    "checked": true
++  },
++  "publication": "immutable dependencies before conditional entry promotion",
++  "preserved": [
++    "scores",
++    "world definitions",
++    "legacy root scripts/styles",
++    "older release directories"
++  ],
++  "files": [
++    {
++      "path": "/releases/5c27019bb69ddc78e888/app.js",
++      "status": 201,
++      "sha256": "665defe1a6703b112c109dacffd437abed97475130ef474a1aa89ab81c22c4da",
++      "bytes": 61628
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/apple-touch-icon.png",
++      "status": 201,
++      "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
++      "bytes": 3811
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/FONT-LICENSE.txt",
++      "status": 201,
++      "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
++      "bytes": 4401
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/ICON-LICENSE.txt",
++      "status": 201,
++      "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
++      "bytes": 1073
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/QR-LICENSE.txt",
++      "status": 201,
++      "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
++      "bytes": 1094
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/display.woff2",
++      "status": 201,
++      "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
++      "bytes": 22288
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/favicon-32.png",
++      "status": 201,
++      "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
++      "bytes": 791
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/icons.svg",
++      "status": 201,
++      "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
++      "bytes": 10681
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/og-prism-breaker-square.jpg",
++      "status": 201,
++      "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
++      "bytes": 420420
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/og-prism-breaker.jpg",
++      "status": 201,
++      "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
++      "bytes": 222971
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/prism-icon-192.png",
++      "status": 201,
++      "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
++      "bytes": 4055
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/prism-icon-512.png",
++      "status": 201,
++      "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
++      "bytes": 27390
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/prism-maskable-512.png",
++      "status": 201,
++      "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
++      "bytes": 13028
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/prism-maskable.svg",
++      "status": 201,
++      "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
++      "bytes": 500
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/prism-wordmark.svg",
++      "status": 201,
++      "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
++      "bytes": 1375
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-01.png",
++      "status": 201,
++      "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
++      "bytes": 27953
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-02.png",
++      "status": 201,
++      "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
++      "bytes": 29205
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-03.png",
++      "status": 201,
++      "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
++      "bytes": 31118
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-04.png",
++      "status": 201,
++      "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
++      "bytes": 29656
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-05.png",
++      "status": 201,
++      "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
++      "bytes": 29165
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-06.png",
++      "status": 201,
++      "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
++      "bytes": 25415
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-07.png",
++      "status": 201,
++      "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
++      "bytes": 27961
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-08.png",
++      "status": 201,
++      "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
++      "bytes": 27056
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-09.png",
++      "status": 201,
++      "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
++      "bytes": 27537
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-10.png",
++      "status": 201,
++      "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
++      "bytes": 27226
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-11.png",
++      "status": 201,
++      "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
++      "bytes": 30170
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-12.png",
++      "status": 201,
++      "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
++      "bytes": 29931
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-13.png",
++      "status": 201,
++      "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
++      "bytes": 27592
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-14.png",
++      "status": 201,
++      "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
++      "bytes": 22221
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-15.png",
++      "status": 201,
++      "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
++      "bytes": 26493
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/assets/world-preview-16.png",
++      "status": 201,
++      "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
++      "bytes": 32667
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/audio.js",
++      "status": 201,
++      "sha256": "be3ad967ac2336ec37889c19b141b9c9034d13e39ff539352048ccfcceeb5c3f",
++      "bytes": 8061
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/bootstrap.js",
++      "status": 201,
++      "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
++      "bytes": 1363
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/brick-batch.js",
++      "status": 201,
++      "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115",
++      "bytes": 10222
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/brick-events.js",
++      "status": 201,
++      "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee",
++      "bytes": 3932
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/brick-labels.js",
++      "status": 201,
++      "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
++      "bytes": 2654
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/bundled-worlds.js",
++      "status": 201,
++      "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0",
++      "bytes": 127892
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/champion.js",
++      "status": 201,
++      "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d",
++      "bytes": 5979
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/cinematic-score.js",
++      "status": 201,
++      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
++      "bytes": 1984
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/cinematics.js",
++      "status": 201,
++      "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c",
++      "bytes": 15958
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/crystal-bricks.js",
++      "status": 201,
++      "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2",
++      "bytes": 6307
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/daily-ending.js",
++      "status": 201,
++      "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7",
++      "bytes": 6526
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/daily-score.js",
++      "status": 201,
++      "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
++      "bytes": 489
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/display.css",
++      "status": 201,
++      "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
++      "bytes": 4199
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/display.js",
++      "status": 201,
++      "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45",
++      "bytes": 3729
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/editor-drafts.js",
++      "status": 201,
++      "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
++      "bytes": 1023
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/editor-template.html",
++      "status": 201,
++      "sha256": "dc3c5dce4292664f644c3fb85d1b13ff7c0b209e4326e7616b3a0c33ea12e8ae",
++      "bytes": 11093
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/editor.css",
++      "status": 201,
++      "sha256": "9044ffb6e05381cc352cb2a33c4a3473f0ac906803c36625b732e31463a669ac",
++      "bytes": 15376
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/editor.js",
++      "status": 201,
++      "sha256": "50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a",
++      "bytes": 41010
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement-art.js",
++      "status": 201,
++      "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677",
++      "bytes": 3268
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement-data.js",
++      "status": 201,
++      "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d",
++      "bytes": 5547
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement-ui.js",
++      "status": 201,
++      "sha256": "5c4bc83ec0043b66acf5bed20af2f95ca70b842f22f0e4104be963d0485cac1d",
++      "bytes": 12494
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement.css",
++      "status": 201,
++      "sha256": "661a4dddc956cb658dffb24b26ca4159777f7908c7aa8d0f183387a54efbbcad",
++      "bytes": 4398
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement.js",
++      "status": 201,
++      "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d",
++      "bytes": 5959
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engine.js",
++      "status": 201,
++      "sha256": "28e50da529288e83cc32b3d327f68678648e336453bd843b73ce51411627b265",
++      "bytes": 19240
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/favicon.ico",
++      "status": 201,
++      "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
++      "bytes": 2456
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/favicon.svg",
++      "status": 201,
++      "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
++      "bytes": 442
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/frame-loop.js",
++      "status": 201,
++      "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0",
++      "bytes": 627
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/graphics-recovery.js",
++      "status": 201,
++      "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
++      "bytes": 910
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/index.html",
++      "status": 201,
++      "sha256": "e997198e577b8989ad574e0f61b79e89b41beb66bf739f5b429500ba85dd56d5",
++      "bytes": 31528
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/keyboard-input.js",
++      "status": 201,
++      "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b",
++      "bytes": 357
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/leaderboard.js",
++      "status": 201,
++      "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
++      "bytes": 1490
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/levels.js",
++      "status": 201,
++      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
++      "bytes": 1660
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/manifest.webmanifest",
++      "status": 201,
++      "sha256": "debce231feff70a610df4f279bc591cc4f21fc26513e2790ca302dc7122a6ead",
++      "bytes": 1301
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/mastery.js",
++      "status": 201,
++      "sha256": "0d49c0fa89890da60d6dcb8498b3ce999584f4862afc07f9caa4658d1f1d9fc5",
++      "bytes": 3517
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/music.js",
++      "status": 201,
++      "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
++      "bytes": 6483
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/offline.js",
++      "status": 201,
++      "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be",
++      "bytes": 11425
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/paddle-art.js",
++      "status": 201,
++      "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97",
++      "bytes": 4790
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/particle-batch.js",
++      "status": 201,
++      "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678",
++      "bytes": 3000
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/pointer-input.js",
++      "status": 201,
++      "sha256": "330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480",
++      "bytes": 1420
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/postprocessing.js",
++      "status": 201,
++      "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
++      "bytes": 19341
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/preferences.js",
++      "status": 201,
++      "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2",
++      "bytes": 1077
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/publish-world.js",
++      "status": 201,
++      "sha256": "53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b",
++      "bytes": 2314
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/pwa.js",
++      "status": 201,
++      "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
++      "bytes": 9057
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/render-budget.js",
++      "status": 201,
++      "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2",
++      "bytes": 1698
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/save-recovery.js",
++      "status": 201,
++      "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
++      "bytes": 3009
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/scene-playback.js",
++      "status": 201,
++      "sha256": "d37ae969db01d5a794aaea07d5fad01f59e974fc98609838c14ac8e4a73ec3cf",
++      "bytes": 255
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/scene.js",
++      "status": 201,
++      "sha256": "0ee2e9d0ab94ea9778edddb6ec5c31adab5992d88cd3bfa68adcf6774eb5e4f0",
++      "bytes": 25372
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/scenery-batch.js",
++      "status": 201,
++      "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca",
++      "bytes": 2884
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/score-contract.js",
++      "status": 201,
++      "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
++      "bytes": 819
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/sharing.js",
++      "status": 201,
++      "sha256": "0fcd40dc10617afc37fe4a48522209c090fdeed3f6c4b308dd37ddba49023447",
++      "bytes": 12202
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/style.css",
++      "status": 201,
++      "sha256": "7ba9028ffb13fec9e5a7dd7729b27ad2d711d545169b9a6a78fd26b07350deb6",
++      "bytes": 38833
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/vendor/THREE-LICENSE.txt",
++      "status": 201,
++      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
++      "bytes": 1081
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/vendor/qr.js",
++      "status": 201,
++      "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
++      "bytes": 51907
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/vendor/three.core.min.js",
++      "status": 201,
++      "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
++      "bytes": 381124
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/vendor/three.module.min.js",
++      "status": 201,
++      "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
++      "bytes": 338908
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/victory-music.js",
++      "status": 201,
++      "sha256": "ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa",
++      "bytes": 1331
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/world-data.css",
++      "status": 201,
++      "sha256": "4a37e7209ff51a4cd97e37442a33d04bfcd42562d723208e28768f7608d5b991",
++      "bytes": 889
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/world-format.js",
++      "status": 201,
++      "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
++      "bytes": 2768
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/world-identity.js",
++      "status": 201,
++      "sha256": "73a1fb9f99e9f6ef908eae2e230123b8ff8c311aa094461c60e57ab319d98905",
++      "bytes": 953
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/world-schema.js",
++      "status": 201,
++      "sha256": "f62ba100f7f5d54cbfb3ca2ef952712e0f669f95efd5de4a9d31e33cfc11fa3b",
++      "bytes": 12345
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/world-working-document.js",
++      "status": 201,
++      "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
++      "bytes": 2867
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/pwa-release.js",
++      "status": 201,
++      "sha256": "538e2eec79b8d18da2b2c43de4170fcb0edf7e9aad0dd06c4b4a94bb3d8ba6b2",
++      "bytes": 88
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/service-worker.js",
++      "status": 201,
++      "sha256": "95f57513d5b737d26b1616750574e6a032ac810da262093c4b0b9ea64b4c1380",
++      "bytes": 33084
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/release.json",
++      "status": 201,
++      "sha256": "2c17fa33bbf42992b58391326214fc73f974a61b199f325388e421e713debf25",
++      "bytes": 23897
++    },
++    {
++      "path": "/manifest.webmanifest",
++      "status": 200,
++      "sha256": "debce231feff70a610df4f279bc591cc4f21fc26513e2790ca302dc7122a6ead",
++      "bytes": 1301
++    },
++    {
++      "path": "/editor.html",
++      "status": 200,
++      "sha256": "bea2fa84530bfe09ccad668e0ae2c3caab3fd45f224188769fe8ff4b5eeea290",
++      "bytes": 12619
++    },
++    {
++      "path": "/editor/index.html",
++      "status": 200,
++      "sha256": "bea2fa84530bfe09ccad668e0ae2c3caab3fd45f224188769fe8ff4b5eeea290",
++      "bytes": 12619
++    },
++    {
++      "path": "/editor/:worldname",
++      "status": 200,
++      "sha256": "026c42a3c1c116fccfd26dbe2e38c99c83830abc3b8a843bc2445b38535f959f",
++      "bytes": 2856
++    },
++    {
++      "path": "/index.html",
++      "status": 200,
++      "sha256": "e997198e577b8989ad574e0f61b79e89b41beb66bf739f5b429500ba85dd56d5",
++      "bytes": 31528
++    },
++    {
++      "path": "/sw.js",
++      "status": 200,
++      "sha256": "95f57513d5b737d26b1616750574e6a032ac810da262093c4b0b9ea64b4c1380",
++      "bytes": 33084
++    }
++  ]
++}
+diff --git a/audit/2026-10-29-engagement-live-collection.png b/audit/2026-10-29-engagement-live-collection.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..84d09db7d0661bf61fe831c6b297be672ac1eb80
+GIT binary patch
+literal 59969
+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
+
+literal 0
+HcmV?d00001
+
+diff --git a/audit/2026-10-29-engagement-live-editor-followup.json b/audit/2026-10-29-engagement-live-editor-followup.json
+new file mode 100644
+index 0000000..08f102f
+--- /dev/null
++++ b/audit/2026-10-29-engagement-live-editor-followup.json
+@@ -0,0 +1,22 @@
++{
++  "at": "2026-10-29T00:51:39.321Z",
++  "correction": "Authoring engagement.html is excluded from staging by design, like other schema-bearing source HTML; generated engagement-data.js is the published runtime projection. The earlier 404 probe is retained as observed.",
++  "results": [
++    {
++      "path": "/editor/prism-garden",
++      "status": 200,
++      "valid": true
++    },
++    {
++      "path": "/editor.html",
++      "status": 200,
++      "valid": true
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement-data.js",
++      "status": 200,
++      "valid": true
++    }
++  ],
++  "passed": true
++}
+diff --git a/audit/2026-10-29-engagement-live-editor.json b/audit/2026-10-29-engagement-live-editor.json
+new file mode 100644
+index 0000000..0c1d6f3
+--- /dev/null
++++ b/audit/2026-10-29-engagement-live-editor.json
+@@ -0,0 +1,20 @@
++{
++  "at": "2026-10-29T00:51:03.607Z",
++  "results": [
++    {
++      "path": "/editor/prism-garden",
++      "status": 200,
++      "releasePinned": true
++    },
++    {
++      "path": "/editor.html",
++      "status": 200,
++      "releasePinned": true
++    },
++    {
++      "path": "/releases/5c27019bb69ddc78e888/engagement.html",
++      "status": 404,
++      "releasePinned": false
++    }
++  ]
++}
+diff --git a/audit/2026-10-29-engagement-live-update.json b/audit/2026-10-29-engagement-live-update.json
+new file mode 100644
+index 0000000..3a42b68
+--- /dev/null
++++ b/audit/2026-10-29-engagement-live-update.json
+@@ -0,0 +1,47 @@
++{
++  "at": "2026-10-29T00:52:18.508Z",
++  "before": {
++    "release": "17efa40ae205c5a4b863",
++    "checkpoint": "Continue adventure\nPrism Garden · 0 points",
++    "best": null,
++    "settings": {
++      "classic-mode": false,
++      "effects-volume": "70",
++      "interface-theme": "system",
++      "low-effects": false,
++      "music-volume": "35",
++      "reduced-motion": false
++    }
++  },
++  "after": {
++    "release": "5c27019bb69ddc78e888",
++    "checkpoint": "Continue adventure\nPrism Garden · 0 points",
++    "best": "5,300",
++    "offline": "Ready to play offline",
++    "settings": {
++      "ball-trail": "none",
++      "classic-mode": false,
++      "effects-volume": "70",
++      "interface-theme": "system",
++      "low-effects": false,
++      "music-volume": "35",
++      "paddle-finish": "original",
++      "play-notes": false,
++      "reduced-motion": false
++    }
++  },
++  "bestBeforeAccessibilityObservation": "5,300",
++  "checkpointPreserved": true,
++  "preferencesPreserved": true,
++  "usedOrdinaryCheckAndUpdateButtons": true,
++  "collectionWorlds": 16,
++  "errors": [],
++  "limits": [
++    "Desktop Chromium existing-client update; not native phone installation or OS lifecycle evidence.",
++    "Before best field selector returned null; 5,300 was visibly observed in the pre-update accessibility snapshot."
++  ],
++  "legacyCheckpointResumed": {
++    "mode": "ADVENTURE · ORIGINAL RULES",
++    "launchAvailable": true
++  }
++}
+diff --git a/audit/2026-10-29-engagement-live.json b/audit/2026-10-29-engagement-live.json
+new file mode 100644
+index 0000000..29c766c
+--- /dev/null
++++ b/audit/2026-10-29-engagement-live.json
+@@ -0,0 +1,1660 @@
++{
++  "at": "2026-10-29T00:50:31.190Z",
++  "origin": "https://sane-guild-8399.onpagelove.com",
++  "version": "5c27019bb69ddc78e888",
++  "worker": {
++    "status": 200,
++    "sha256": "95f57513d5b737d26b1616750574e6a032ac810da262093c4b0b9ea64b4c1380",
++    "headers": {
++      "content-type": "text/javascript",
++      "cache-control": "public, max-age=300",
++      "etag": "\"95f57513d5b737d26b1616750574e6a032ac810da262093c4b0b9ea64b4c1380\"",
++      "service-worker-allowed": null,
++      "content-security-policy": null,
++      "x-content-type-options": null
++    }
++  },
++  "manifest": {
++    "id": "/",
++    "name": "Prism Breaker",
++    "short_name": "Prism Breaker",
++    "description": "Break through sixteen colorful 3D worlds. Play Adventure, Practice and the Daily Challenge online or offline.",
++    "lang": "en",
++    "start_url": "/?source=installed",
++    "scope": "/",
++    "display": "fullscreen",
++    "background_color": "#111d20",
++    "theme_color": "#111d20",
++    "categories": [
++      "games",
++      "entertainment"
++    ],
++    "icons": [
++      {
++        "src": "/releases/5c27019bb69ddc78e888/assets/prism-icon-192.png",
++        "sizes": "192x192",
++        "type": "image/png",
++        "purpose": "any"
++      },
++      {
++        "src": "/releases/5c27019bb69ddc78e888/assets/prism-icon-512.png",
++        "sizes": "512x512",
++        "type": "image/png",
++        "purpose": "any"
++      },
++      {
++        "src": "/releases/5c27019bb69ddc78e888/assets/prism-maskable-512.png",
++        "sizes": "512x512",
++        "type": "image/png",
++        "purpose": "maskable"
++      }
++    ],
++    "shortcuts": [
++      {
++        "name": "Daily Challenge leaderboard",
++        "short_name": "Daily Challenge",
++        "url": "/?leaderboard=daily",
++        "icons": [
++          {
++            "src": "/releases/5c27019bb69ddc78e888/assets/prism-icon-192.png",
++            "sizes": "192x192",
++            "type": "image/png"
++          }
++        ]
++      },
++      {
++        "name": "Adventure leaderboard",
++        "short_name": "Leaderboard",
++        "url": "/?leaderboard=campaign",
++        "icons": [
++          {
++            "src": "/releases/5c27019bb69ddc78e888/assets/prism-icon-192.png",
++            "sizes": "192x192",
++            "type": "image/png"
++          }
++        ]
++      }
++    ]
++  },
++  "home": {
++    "status": 200,
++    "headers": {
++      "content-type": "text/html",
++      "cache-control": null,
++      "etag": "\"e997198e577b8989ad574e0f61b79e89b41beb66bf739f5b429500ba85dd56d5\"",
++      "service-worker-allowed": null,
++      "content-security-policy": null,
++      "x-content-type-options": null
++    },
++    "manifestLinked": true,
++    "releaseMarker": true
++  },
++  "entryIssues": [],
++  "assets": [
++    {
++      "path": "/app.js",
++      "url": "/releases/5c27019bb69ddc78e888/app.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"665defe1a6703b112c109dacffd437abed97475130ef474a1aa89ab81c22c4da\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 61628,
++      "sha256": "665defe1a6703b112c109dacffd437abed97475130ef474a1aa89ab81c22c4da",
++      "valid": true
++    },
++    {
++      "path": "/apple-touch-icon.png",
++      "url": "/releases/5c27019bb69ddc78e888/apple-touch-icon.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3811,
++      "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
++      "valid": true
++    },
++    {
++      "path": "/assets/display.woff2",
++      "url": "/releases/5c27019bb69ddc78e888/assets/display.woff2",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "font/woff2",
++        "cache-control": "public, max-age=300",
++        "etag": "\"0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 22288,
++      "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
++      "valid": true
++    },
++    {
++      "path": "/assets/favicon-32.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/favicon-32.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 791,
++      "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
++      "valid": true
++    },
++    {
++      "path": "/assets/FONT-LICENSE.txt",
++      "url": "/releases/5c27019bb69ddc78e888/assets/FONT-LICENSE.txt",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/plain",
++        "cache-control": null,
++        "etag": "\"18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 4401,
++      "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
++      "valid": true
++    },
++    {
++      "path": "/assets/ICON-LICENSE.txt",
++      "url": "/releases/5c27019bb69ddc78e888/assets/ICON-LICENSE.txt",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/plain",
++        "cache-control": null,
++        "etag": "\"b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1073,
++      "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
++      "valid": true
++    },
++    {
++      "path": "/assets/icons.svg",
++      "url": "/releases/5c27019bb69ddc78e888/assets/icons.svg",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/svg+xml",
++        "cache-control": "public, max-age=300",
++        "etag": "\"51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 10681,
++      "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
++      "valid": true
++    },
++    {
++      "path": "/assets/og-prism-breaker-square.jpg",
++      "url": "/releases/5c27019bb69ddc78e888/assets/og-prism-breaker-square.jpg",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/jpeg",
++        "cache-control": "public, max-age=300",
++        "etag": "\"bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 420420,
++      "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
++      "valid": true
++    },
++    {
++      "path": "/assets/og-prism-breaker.jpg",
++      "url": "/releases/5c27019bb69ddc78e888/assets/og-prism-breaker.jpg",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/jpeg",
++        "cache-control": "public, max-age=300",
++        "etag": "\"5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 222971,
++      "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
++      "valid": true
++    },
++    {
++      "path": "/assets/prism-icon-192.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/prism-icon-192.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 4055,
++      "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
++      "valid": true
++    },
++    {
++      "path": "/assets/prism-icon-512.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/prism-icon-512.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27390,
++      "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
++      "valid": true
++    },
++    {
++      "path": "/assets/prism-maskable-512.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/prism-maskable-512.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 13028,
++      "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
++      "valid": true
++    },
++    {
++      "path": "/assets/prism-maskable.svg",
++      "url": "/releases/5c27019bb69ddc78e888/assets/prism-maskable.svg",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/svg+xml",
++        "cache-control": "public, max-age=300",
++        "etag": "\"d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 500,
++      "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
++      "valid": true
++    },
++    {
++      "path": "/assets/prism-wordmark.svg",
++      "url": "/releases/5c27019bb69ddc78e888/assets/prism-wordmark.svg",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/svg+xml",
++        "cache-control": "public, max-age=300",
++        "etag": "\"974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1375,
++      "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
++      "valid": true
++    },
++    {
++      "path": "/assets/QR-LICENSE.txt",
++      "url": "/releases/5c27019bb69ddc78e888/assets/QR-LICENSE.txt",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/plain",
++        "cache-control": null,
++        "etag": "\"51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1094,
++      "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-01.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-01.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27953,
++      "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-02.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-02.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 29205,
++      "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-03.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-03.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 31118,
++      "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-04.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-04.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 29656,
++      "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-05.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-05.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 29165,
++      "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-06.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-06.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 25415,
++      "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-07.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-07.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27961,
++      "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-08.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-08.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27056,
++      "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-09.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-09.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27537,
++      "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-10.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-10.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27226,
++      "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-11.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-11.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 30170,
++      "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-12.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-12.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 29931,
++      "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-13.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-13.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 27592,
++      "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-14.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-14.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 22221,
++      "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-15.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-15.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 26493,
++      "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
++      "valid": true
++    },
++    {
++      "path": "/assets/world-preview-16.png",
++      "url": "/releases/5c27019bb69ddc78e888/assets/world-preview-16.png",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/png",
++        "cache-control": "public, max-age=300",
++        "etag": "\"a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 32667,
++      "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
++      "valid": true
++    },
++    {
++      "path": "/audio.js",
++      "url": "/releases/5c27019bb69ddc78e888/audio.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"be3ad967ac2336ec37889c19b141b9c9034d13e39ff539352048ccfcceeb5c3f\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 8061,
++      "sha256": "be3ad967ac2336ec37889c19b141b9c9034d13e39ff539352048ccfcceeb5c3f",
++      "valid": true
++    },
++    {
++      "path": "/bootstrap.js",
++      "url": "/releases/5c27019bb69ddc78e888/bootstrap.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1363,
++      "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
++      "valid": true
++    },
++    {
++      "path": "/brick-batch.js",
++      "url": "/releases/5c27019bb69ddc78e888/brick-batch.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 10222,
++      "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115",
++      "valid": true
++    },
++    {
++      "path": "/brick-events.js",
++      "url": "/releases/5c27019bb69ddc78e888/brick-events.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3932,
++      "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee",
++      "valid": true
++    },
++    {
++      "path": "/brick-labels.js",
++      "url": "/releases/5c27019bb69ddc78e888/brick-labels.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 2654,
++      "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
++      "valid": true
++    },
++    {
++      "path": "/bundled-worlds.js",
++      "url": "/releases/5c27019bb69ddc78e888/bundled-worlds.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 127892,
++      "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0",
++      "valid": true
++    },
++    {
++      "path": "/champion.js",
++      "url": "/releases/5c27019bb69ddc78e888/champion.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 5979,
++      "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d",
++      "valid": true
++    },
++    {
++      "path": "/cinematic-score.js",
++      "url": "/releases/5c27019bb69ddc78e888/cinematic-score.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1984,
++      "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
++      "valid": true
++    },
++    {
++      "path": "/cinematics.js",
++      "url": "/releases/5c27019bb69ddc78e888/cinematics.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 15958,
++      "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c",
++      "valid": true
++    },
++    {
++      "path": "/crystal-bricks.js",
++      "url": "/releases/5c27019bb69ddc78e888/crystal-bricks.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 6307,
++      "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2",
++      "valid": true
++    },
++    {
++      "path": "/daily-ending.js",
++      "url": "/releases/5c27019bb69ddc78e888/daily-ending.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 6526,
++      "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7",
++      "valid": true
++    },
++    {
++      "path": "/daily-score.js",
++      "url": "/releases/5c27019bb69ddc78e888/daily-score.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 489,
++      "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
++      "valid": true
++    },
++    {
++      "path": "/display.css",
++      "url": "/releases/5c27019bb69ddc78e888/display.css",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/css",
++        "cache-control": "public, max-age=300",
++        "etag": "\"3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 4199,
++      "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
++      "valid": true
++    },
++    {
++      "path": "/display.js",
++      "url": "/releases/5c27019bb69ddc78e888/display.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3729,
++      "sha256": "019f5232ada4dd2567360351297872fa1c0546948caaa461478f7c147c7c0c45",
++      "valid": true
++    },
++    {
++      "path": "/editor-drafts.js",
++      "url": "/releases/5c27019bb69ddc78e888/editor-drafts.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1023,
++      "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
++      "valid": true
++    },
++    {
++      "path": "/editor.css",
++      "url": "/releases/5c27019bb69ddc78e888/editor.css",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/css",
++        "cache-control": "public, max-age=300",
++        "etag": "\"9044ffb6e05381cc352cb2a33c4a3473f0ac906803c36625b732e31463a669ac\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 15376,
++      "sha256": "9044ffb6e05381cc352cb2a33c4a3473f0ac906803c36625b732e31463a669ac",
++      "valid": true
++    },
++    {
++      "path": "/editor.js",
++      "url": "/releases/5c27019bb69ddc78e888/editor.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 41010,
++      "sha256": "50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a",
++      "valid": true
++    },
++    {
++      "path": "/engagement-art.js",
++      "url": "/releases/5c27019bb69ddc78e888/engagement-art.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3268,
++      "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677",
++      "valid": true
++    },
++    {
++      "path": "/engagement-data.js",
++      "url": "/releases/5c27019bb69ddc78e888/engagement-data.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 5547,
++      "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d",
++      "valid": true
++    },
++    {
++      "path": "/engagement-ui.js",
++      "url": "/releases/5c27019bb69ddc78e888/engagement-ui.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"5c4bc83ec0043b66acf5bed20af2f95ca70b842f22f0e4104be963d0485cac1d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 12494,
++      "sha256": "5c4bc83ec0043b66acf5bed20af2f95ca70b842f22f0e4104be963d0485cac1d",
++      "valid": true
++    },
++    {
++      "path": "/engagement.css",
++      "url": "/releases/5c27019bb69ddc78e888/engagement.css",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/css",
++        "cache-control": "public, max-age=300",
++        "etag": "\"661a4dddc956cb658dffb24b26ca4159777f7908c7aa8d0f183387a54efbbcad\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 4398,
++      "sha256": "661a4dddc956cb658dffb24b26ca4159777f7908c7aa8d0f183387a54efbbcad",
++      "valid": true
++    },
++    {
++      "path": "/engagement.js",
++      "url": "/releases/5c27019bb69ddc78e888/engagement.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 5959,
++      "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d",
++      "valid": true
++    },
++    {
++      "path": "/engine.js",
++      "url": "/releases/5c27019bb69ddc78e888/engine.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"28e50da529288e83cc32b3d327f68678648e336453bd843b73ce51411627b265\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 19240,
++      "sha256": "28e50da529288e83cc32b3d327f68678648e336453bd843b73ce51411627b265",
++      "valid": true
++    },
++    {
++      "path": "/favicon.ico",
++      "url": "/releases/5c27019bb69ddc78e888/favicon.ico",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/vnd.microsoft.icon",
++        "cache-control": "public, max-age=300",
++        "etag": "\"d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 2456,
++      "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
++      "valid": true
++    },
++    {
++      "path": "/favicon.svg",
++      "url": "/releases/5c27019bb69ddc78e888/favicon.svg",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "image/svg+xml",
++        "cache-control": "public, max-age=300",
++        "etag": "\"9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 442,
++      "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
++      "valid": true
++    },
++    {
++      "path": "/frame-loop.js",
++      "url": "/releases/5c27019bb69ddc78e888/frame-loop.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 627,
++      "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0",
++      "valid": true
++    },
++    {
++      "path": "/graphics-recovery.js",
++      "url": "/releases/5c27019bb69ddc78e888/graphics-recovery.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 910,
++      "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
++      "valid": true
++    },
++    {
++      "path": "/index.html",
++      "url": "/releases/5c27019bb69ddc78e888/index.html",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/html",
++        "cache-control": null,
++        "etag": "\"e997198e577b8989ad574e0f61b79e89b41beb66bf739f5b429500ba85dd56d5\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 32287,
++      "sha256": "6bfdcecc8c8d1c5b99bd231e6565c05507ee9d326662729290aa87f9a813f3d5",
++      "valid": true
++    },
++    {
++      "path": "/keyboard-input.js",
++      "url": "/releases/5c27019bb69ddc78e888/keyboard-input.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 357,
++      "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b",
++      "valid": true
++    },
++    {
++      "path": "/leaderboard.js",
++      "url": "/releases/5c27019bb69ddc78e888/leaderboard.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1490,
++      "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
++      "valid": true
++    },
++    {
++      "path": "/levels.js",
++      "url": "/releases/5c27019bb69ddc78e888/levels.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1660,
++      "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
++      "valid": true
++    },
++    {
++      "path": "/manifest.webmanifest",
++      "url": "/releases/5c27019bb69ddc78e888/manifest.webmanifest",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "application/manifest+json",
++        "cache-control": null,
++        "etag": "\"debce231feff70a610df4f279bc591cc4f21fc26513e2790ca302dc7122a6ead\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1301,
++      "sha256": "debce231feff70a610df4f279bc591cc4f21fc26513e2790ca302dc7122a6ead",
++      "valid": true
++    },
++    {
++      "path": "/mastery.js",
++      "url": "/releases/5c27019bb69ddc78e888/mastery.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"0d49c0fa89890da60d6dcb8498b3ce999584f4862afc07f9caa4658d1f1d9fc5\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3517,
++      "sha256": "0d49c0fa89890da60d6dcb8498b3ce999584f4862afc07f9caa4658d1f1d9fc5",
++      "valid": true
++    },
++    {
++      "path": "/music.js",
++      "url": "/releases/5c27019bb69ddc78e888/music.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 6483,
++      "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
++      "valid": true
++    },
++    {
++      "path": "/offline.js",
++      "url": "/releases/5c27019bb69ddc78e888/offline.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 11425,
++      "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be",
++      "valid": true
++    },
++    {
++      "path": "/paddle-art.js",
++      "url": "/releases/5c27019bb69ddc78e888/paddle-art.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 4790,
++      "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97",
++      "valid": true
++    },
++    {
++      "path": "/particle-batch.js",
++      "url": "/releases/5c27019bb69ddc78e888/particle-batch.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3000,
++      "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678",
++      "valid": true
++    },
++    {
++      "path": "/pointer-input.js",
++      "url": "/releases/5c27019bb69ddc78e888/pointer-input.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1420,
++      "sha256": "330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480",
++      "valid": true
++    },
++    {
++      "path": "/postprocessing.js",
++      "url": "/releases/5c27019bb69ddc78e888/postprocessing.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 19341,
++      "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
++      "valid": true
++    },
++    {
++      "path": "/preferences.js",
++      "url": "/releases/5c27019bb69ddc78e888/preferences.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1077,
++      "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2",
++      "valid": true
++    },
++    {
++      "path": "/publish-world.js",
++      "url": "/releases/5c27019bb69ddc78e888/publish-world.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 2314,
++      "sha256": "53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b",
++      "valid": true
++    },
++    {
++      "path": "/pwa-release.js",
++      "url": "/releases/5c27019bb69ddc78e888/pwa-release.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"538e2eec79b8d18da2b2c43de4170fcb0edf7e9aad0dd06c4b4a94bb3d8ba6b2\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 88,
++      "sha256": "538e2eec79b8d18da2b2c43de4170fcb0edf7e9aad0dd06c4b4a94bb3d8ba6b2",
++      "valid": true
++    },
++    {
++      "path": "/pwa.js",
++      "url": "/releases/5c27019bb69ddc78e888/pwa.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 9057,
++      "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
++      "valid": true
++    },
++    {
++      "path": "/render-budget.js",
++      "url": "/releases/5c27019bb69ddc78e888/render-budget.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1698,
++      "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2",
++      "valid": true
++    },
++    {
++      "path": "/save-recovery.js",
++      "url": "/releases/5c27019bb69ddc78e888/save-recovery.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 3009,
++      "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
++      "valid": true
++    },
++    {
++      "path": "/scene-playback.js",
++      "url": "/releases/5c27019bb69ddc78e888/scene-playback.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"d37ae969db01d5a794aaea07d5fad01f59e974fc98609838c14ac8e4a73ec3cf\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 255,
++      "sha256": "d37ae969db01d5a794aaea07d5fad01f59e974fc98609838c14ac8e4a73ec3cf",
++      "valid": true
++    },
++    {
++      "path": "/scene.js",
++      "url": "/releases/5c27019bb69ddc78e888/scene.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"0ee2e9d0ab94ea9778edddb6ec5c31adab5992d88cd3bfa68adcf6774eb5e4f0\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 25372,
++      "sha256": "0ee2e9d0ab94ea9778edddb6ec5c31adab5992d88cd3bfa68adcf6774eb5e4f0",
++      "valid": true
++    },
++    {
++      "path": "/scenery-batch.js",
++      "url": "/releases/5c27019bb69ddc78e888/scenery-batch.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 2884,
++      "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca",
++      "valid": true
++    },
++    {
++      "path": "/score-contract.js",
++      "url": "/releases/5c27019bb69ddc78e888/score-contract.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 819,
++      "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
++      "valid": true
++    },
++    {
++      "path": "/sharing.js",
++      "url": "/releases/5c27019bb69ddc78e888/sharing.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"0fcd40dc10617afc37fe4a48522209c090fdeed3f6c4b308dd37ddba49023447\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 12202,
++      "sha256": "0fcd40dc10617afc37fe4a48522209c090fdeed3f6c4b308dd37ddba49023447",
++      "valid": true
++    },
++    {
++      "path": "/style.css",
++      "url": "/releases/5c27019bb69ddc78e888/style.css",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/css",
++        "cache-control": "public, max-age=300",
++        "etag": "\"7ba9028ffb13fec9e5a7dd7729b27ad2d711d545169b9a6a78fd26b07350deb6\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 38833,
++      "sha256": "7ba9028ffb13fec9e5a7dd7729b27ad2d711d545169b9a6a78fd26b07350deb6",
++      "valid": true
++    },
++    {
++      "path": "/vendor/qr.js",
++      "url": "/releases/5c27019bb69ddc78e888/vendor/qr.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 51907,
++      "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
++      "valid": true
++    },
++    {
++      "path": "/vendor/THREE-LICENSE.txt",
++      "url": "/releases/5c27019bb69ddc78e888/vendor/THREE-LICENSE.txt",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/plain",
++        "cache-control": null,
++        "etag": "\"bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1081,
++      "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
++      "valid": true
++    },
++    {
++      "path": "/vendor/three.core.min.js",
++      "url": "/releases/5c27019bb69ddc78e888/vendor/three.core.min.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 381124,
++      "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
++      "valid": true
++    },
++    {
++      "path": "/vendor/three.module.min.js",
++      "url": "/releases/5c27019bb69ddc78e888/vendor/three.module.min.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 338908,
++      "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
++      "valid": true
++    },
++    {
++      "path": "/victory-music.js",
++      "url": "/releases/5c27019bb69ddc78e888/victory-music.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 1331,
++      "sha256": "ce06bb21e1d7aeaa663a0d71a8f969f65fdc072f5850d81f8fcdbe4e5b9058fa",
++      "valid": true
++    },
++    {
++      "path": "/world-data.css",
++      "url": "/releases/5c27019bb69ddc78e888/world-data.css",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/css",
++        "cache-control": "public, max-age=300",
++        "etag": "\"4a37e7209ff51a4cd97e37442a33d04bfcd42562d723208e28768f7608d5b991\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 889,
++      "sha256": "4a37e7209ff51a4cd97e37442a33d04bfcd42562d723208e28768f7608d5b991",
++      "valid": true
++    },
++    {
++      "path": "/world-format.js",
++      "url": "/releases/5c27019bb69ddc78e888/world-format.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 2768,
++      "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
++      "valid": true
++    },
++    {
++      "path": "/world-identity.js",
++      "url": "/releases/5c27019bb69ddc78e888/world-identity.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"73a1fb9f99e9f6ef908eae2e230123b8ff8c311aa094461c60e57ab319d98905\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 953,
++      "sha256": "73a1fb9f99e9f6ef908eae2e230123b8ff8c311aa094461c60e57ab319d98905",
++      "valid": true
++    },
++    {
++      "path": "/world-schema.js",
++      "url": "/releases/5c27019bb69ddc78e888/world-schema.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"f62ba100f7f5d54cbfb3ca2ef952712e0f669f95efd5de4a9d31e33cfc11fa3b\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 12345,
++      "sha256": "f62ba100f7f5d54cbfb3ca2ef952712e0f669f95efd5de4a9d31e33cfc11fa3b",
++      "valid": true
++    },
++    {
++      "path": "/world-working-document.js",
++      "url": "/releases/5c27019bb69ddc78e888/world-working-document.js",
++      "status": 200,
++      "redirected": false,
++      "headers": {
++        "content-type": "text/javascript",
++        "cache-control": "public, max-age=300",
++        "etag": "\"04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542\"",
++        "service-worker-allowed": null,
++        "content-security-policy": null,
++        "x-content-type-options": null
++      },
++      "bytes": 2867,
++      "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
++      "valid": true
++    }
++  ],
++  "passed": true
++}
+diff --git a/audit/2026-10-29-engagement-release.md b/audit/2026-10-29-engagement-release.md
+index b474f9c..37e5bc2 100644
+--- a/audit/2026-10-29-engagement-release.md
++++ b/audit/2026-10-29-engagement-release.md
+@@ -22,3 +22,11 @@
+ - Collection, official Practice, caught-ball aiming/ordinary launch and Thunder instructions passed. All 40 dark/light dialog states across 320×640, 390×844, 844×390 and 1100×800 passed normal/doubled text, sampled text contrast, horizontal bounds and focused-control visibility. Feedback/reward disclosures are explicitly opened before layout inspection: the earlier focus failure measured controls in a closed disclosure, not an exposed unusable control. The fixture now exercises expanded content rather than incorrectly focusing hidden descendants. All 38 cinematic caption/action states passed.
+ - Four counterbalanced quiet renderer comparisons and 3600 sustained frames passed adopted budgets: sustained frame p95 17.3ms, CPU submission p95 2.7ms; all nineteen three-second sampled flash screens passed the conservative screen. Raw timings/resources/draw counts and scope limits remain in the JSON. Synchronous heavy flash batches briefly prevented diagnostic CDP reads; allowed them to finish, without rerunning or altering results.
+ - Documentation updated with actual evidence and explicit native-device/human-study limits. Existing public client opened before deployment: release `17efa40ae205c5a4b863`, offline ready, existing Prism Garden zero-point checkpoint, personal best 5,300; existing settings observed without changes. It will exercise the ordinary Update game action after deployment. No scores submitted or removed by this check. Final commit, gate, GitHub CI and publication remain pending.
++
++## ER-PUBLICATION — 2026-10-29T00:52:53Z
++
++- Actor: Codex. Reference: ER-PLAN. Final source commit `d389c63b49661114e0c1a757a8b39467c2346d36` passed the exact-source gate and was pushed with implementation `ccc9b71` in PR #15. Both push/PR checks passed; normal protected merge produced `ccc6fddab90b86146c03c42fc5f79c918fafcae7`. Main CI and a new exact-merged-source release gate passed; no administrator bypass or branch-control changes.
++- Owner publisher authenticated only in hidden memory, verified the authorized host, staged immutable dependencies with create-only conditions/readback, then conditionally promoted manifest/editor entries/index/worker with HTTP 200. Completed 2026-10-29T00:50:05.261Z: runtime `5c27019bb69ddc78e888`, 101 publication records. Scores, their policies, mutable world definitions, legacy root scripts/styles and old releases were preserved. Credentials cleared by quitting; no credential was stored in source/evidence.
++- `audit/2026-10-29-engagement-deployment.json` is an explicit allowlist of non-secret publication fields. Public live verification passed all 92 assets, root release marker and fullscreen manifest. Both public editor entries returned 200 and reference this release. An extra authoring-document URL probe returned 404: authoring HTML is deliberately not staged under immutable URLs. Retained that observation in the first editor receipt; the follow-up verifies the actual published `engagement-data.js` projection (200) and explains the corrected expectation. No runtime defect or code change was required.
++- Existing Chromium client release `17efa40ae205c5a4b863` detected the update through Check for updates, displayed Update game, and applied it through that ordinary button. New release became offline ready; existing Prism Garden zero-point checkpoint, visible personal best 5,300 and all six existing preference controls were retained. New cosmetics default to original/none and local notes off. Continued the legacy checkpoint successfully: ADVENTURE · ORIGINAL RULES, Launch ball available; returned through Pause / Back to start screen, preserving it. No score submission, leaderboard deletion or world edit performed. Live collection shows all sixteen worlds; browser error log empty. Receipt and screenshot are saved alongside the live checks.
++- Source/mirror reconciliation used guarded copies and preserved the outer README's pre-existing edits. Pre-publication source hashes/diff are historical; new publication evidence hashes/diff cover this append and receipts. Final evidence-only protected PR, main synchronization and final gate remain pending at the time of this entry; they do not change the deployed runtime. Native phone/OS, independent human balance/enjoyment and full accessibility certification remain unverified.

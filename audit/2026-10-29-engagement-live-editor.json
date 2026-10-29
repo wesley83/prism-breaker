@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-29T00:51:03.607Z",
+  "results": [
+    {
+      "path": "/editor/prism-garden",
+      "status": 200,
+      "releasePinned": true
+    },
+    {
+      "path": "/editor.html",
+      "status": 200,
+      "releasePinned": true
+    },
+    {
+      "path": "/releases/5c27019bb69ddc78e888/engagement.html",
+      "status": 404,
+      "releasePinned": false
+    }
+  ]
+}

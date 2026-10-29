@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-29T00:51:39.321Z",
+  "correction": "Authoring engagement.html is excluded from staging by design, like other schema-bearing source HTML; generated engagement-data.js is the published runtime projection. The earlier 404 probe is retained as observed.",
+  "results": [
+    {
+      "path": "/editor/prism-garden",
+      "status": 200,
+      "valid": true
+    },
+    {
+      "path": "/editor.html",
+      "status": 200,
+      "valid": true
+    },
+    {
+      "path": "/releases/5c27019bb69ddc78e888/engagement-data.js",
+      "status": 200,
+      "valid": true
+    }
+  ],
+  "passed": true
+}
