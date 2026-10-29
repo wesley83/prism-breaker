@@ -33,6 +33,12 @@ The browser runs the gameplay and creates the music and scorecards. Native Pagel
 - **Performance:** active play targets 60 FPS independently of the 120 Hz physics step. Crystal bodies, edges, count/crack artwork, scenery and bounded particles use shared GPU batches; resolution adapts to sustained load. Low effects uses simpler crystal lighting, gameplay uses glow sprites, and cinematic bloom stays in the cut scenes. Shaders/textures prepare before play, hidden pages stop rendering, and muted music stops scheduling new voices. See [rendering performance](RENDER-PERFORMANCE.md) for limits and reproducible measurements.
 - **Social artwork:** SVG/ICO/PNG favicons, touch icons, and landscape/square Open Graph and Twitter card images.
 
+## Mastery and engagement
+
+The new engagement implementation adds four independent medals per world, personal world records and next-goal feedback; paired power choices and three strategies; an earned aimed Precision catch for slow board endings; Citadel, Thunder Spire and Nexus core encounters; reachable score comparisons and shared official Practice challenges; authored barrier/music recovery periods; and cosmetic finishes, trails, restored artwork and soundtrack rewards. The proposed short-session mode is excluded.
+
+Goals, encounters, pacing and unlocks are authored in [engagement.html](public/engagement.html) and validated into an offline runtime projection. Old checkpoints retain their original rules; changed gameplay gets its own score revision. Progress can be exported/imported, while optional bounded play notes remain local. See [ENGAGEMENT.md](ENGAGEMENT.md) for controls, tuning, privacy, compatibility and validation limits. This source implementation has not yet been deployed or given new release acceptance evidence.
+
 ## Document-first architecture
 
 World metadata and formations are authoritative HTML documents. The catalog provides permanent IDs, campaign order and legacy mappings; the build produces the complete offline runtime snapshot without depending on its previous output. Practice reads the same model, including edited instructions, narratives, colors and scene/music presets.

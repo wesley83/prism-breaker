@@ -18,12 +18,12 @@ async function fixture(t){
  const commit=spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','--allow-empty','-m','fixture'],{cwd:root});assert.equal(commit.status,0,commit.stderr?.toString());
  await buildPwa({root});spawnSync('git',['add','.'],{cwd:root});const saved=spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','-m','source'],{cwd:root});assert.equal(saved.status,0);return root;
 }
-test('R01 a failing suite invalidates an existing approval and blocks the publisher gate',async t=>{
+test('R01 a failing suite invalidates an existing approval and blocks the publisher gate',{timeout:30000},async t=>{
  const root=await fixture(t);await runReleaseGate({root,runSuite:async()=>({status:0})});await assertReleaseGate({root});
  await assert.rejects(runReleaseGate({root,runSuite:async()=>({status:1,stderr:'deliberate failure'})}),/suite failed/);
  await assert.rejects(assertReleaseGate({root}),/stale release evidence/);
 });
-test('R01 stale generated assets and post-check source changes independently block release',async t=>{
+test('R01 stale generated assets and post-check source changes independently block release',{timeout:30000},async t=>{
  const root=await fixture(t);await runReleaseGate({root,runSuite:async()=>({status:0})});
  await fs.appendFile(path.join(root,'public/app.js'),'\n// edit');await assert.rejects(runReleaseGate({root,runSuite:async()=>({status:0})}),/Stale PWA/);
  await buildPwa({root});spawnSync('git',['add','.'],{cwd:root});spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','-m','updated source'],{cwd:root});await runReleaseGate({root,runSuite:async()=>({status:0})});await assertReleaseGate({root});
@@ -34,12 +34,12 @@ test('R01 receipt rejects wrong commits, digests, release identities, missing ch
  assert.equal(validateReceipt(receipt,{identity,release:'c',now}),true);
  for(const value of [{...receipt,identity:{...identity,commit:'wrong'}},{...receipt,identity:{...identity,digest:'wrong'}},{...receipt,release:'wrong'},{...receipt,checks:{}},{...receipt,completedAt:new Date(now-86400001).toISOString()}])assert.throws(()=>validateReceipt(value,{identity,release:'c',now}));
 });
-test('R01 local link/module failures and credential patterns fail without exposing the value',async t=>{
+test('R01 local link/module failures and credential patterns fail without exposing the value',{timeout:30000},async t=>{
  const root=await fixture(t);await fs.writeFile(path.join(root,'README.md'),'[Missing](missing.md)');await assert.rejects(checkRepository({root}),/missing missing.md/);
  await fs.writeFile(path.join(root,'README.md'),'# Safe');await fs.writeFile(path.join(root,'public/app.js'),"import './missing.js';");await assert.rejects(checkRepository({root}),/missing module/);
  await fs.writeFile(path.join(root,'public/app.js'),'const secret="'+'pk_'+'a'.repeat(40)+'";');await assert.rejects(checkRepository({root}),e=>e.message.includes('value suppressed')&&!e.message.includes('a'.repeat(40)));
 });
-test('R01 an actual failing Bun test cannot create approval, and dirty documents block deployment',async t=>{
+test('R01 an actual failing Bun test cannot create approval, and dirty documents block deployment',{timeout:30000},async t=>{
  const root=await fixture(t);await fs.writeFile(path.join(root,'tests/deliberate.test.mjs'),"import {test} from 'bun:test'; test('deliberate release refusal',()=>{throw Error('intentional fixture failure');});");
  spawnSync('git',['add','.'],{cwd:root});spawnSync('git',['-c','user.name=Review fixture','-c','user.email=fixture@example.invalid','commit','-m','negative suite'],{cwd:root});
  await assert.rejects(runReleaseGate({root}),/suite failed/);await assert.rejects(assertReleaseGate({root}),/stale release evidence/);

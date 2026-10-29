@@ -31,8 +31,9 @@ export function makePaddle(haloTexture,environment){
  const nozzles=[];for(const side of [-1,1]){const nozzle=new T.Mesh(new T.BoxGeometry(.10,.065,.04),new T.MeshBasicMaterial({color:new T.Color('#ff718a').multiplyScalar(2),toneMapped:false,fog:false}));nozzle.position.set(0,.16,.31);nozzle.visible=false;group.add(nozzle);nozzles.push({side,mesh:nozzle});}
  group.userData.art={body,face,rail,status,ends,nozzles,width:null,mode:null};updatePaddle(group,{x:0,w:3.3},{},false);return group;
 }
-export function updatePaddle(group,paddle,effects,lowEffects){
+export function updatePaddle(group,paddle,effects,lowEffects,finish='#536575'){
  const art=group.userData.art;group.position.set(paddle.x,-10.6,.1);
+ if(art.finish!==finish){art.body.material.color.set(finish);art.finish=finish;}
  if(art.width!==paddle.w){
   art.body.scale.x=paddle.w;art.face.scale.x=paddle.w-.34;art.rail.scale.x=paddle.w-.32;art.status.scale.x=paddle.w-.32;
   for(const {side,end,glow} of art.ends){end.position.x=side*(paddle.w/2-.15);glow.position.x=end.position.x;}

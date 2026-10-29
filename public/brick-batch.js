@@ -68,12 +68,13 @@ export class BrickBatch{
   const p=this.edges.geometry.getAttribute('placement');p.setXYZW(slot,0,0,0,0);p.needsUpdate=true;
  }
  update(record,b){
-  const slot=record.slot,dirty=record.dirty||record.hp!==b.hp||record.maxHp!==b.maxHp||record.color!==b.color||record.kind!==b.kind||record.w!==b.w||record.h!==b.h;
+  const slot=record.slot,dirty=record.dirty||record.hp!==b.hp||record.maxHp!==b.maxHp||record.color!==b.color||record.kind!==b.kind||record.w!==b.w||record.h!==b.h||record.protected!==b.protected;
   const moved=dirty||record.x!==b.x||record.y!==b.y,damage=crystalDamage(b),mark=brickMark(b);
   if(dirty){
    this.color.set(b.color);
    if(!this.classic){this.color.getHSL(this.hsl);this.color.setHSL(this.hsl.h,Math.min(.98,Math.max(.65,this.hsl.s*1.35)),Math.min(.53,this.hsl.l));}
    else if(damage)this.color.multiplyScalar(.75);
+   if(b.protected)this.color.multiplyScalar(.55);
    this.body.setColorAt(slot,this.color);this.body.instanceColor.needsUpdate=true;
    this.face.setColorAt(slot,new T.Color(b.color));this.face.instanceColor.needsUpdate=true;
    const tint=this.edges.geometry.getAttribute('tint');this.color.lerp(this.white,.65);tint.setXYZ(slot,this.color.r,this.color.g,this.color.b);tint.needsUpdate=true;
@@ -88,7 +89,7 @@ export class BrickBatch{
    if(mark!==null)this.matrix(this.markers,slot,b.x,b.y,.48,.67,.67);else{this.markers.setMatrixAt(slot,ZERO);this.markers.instanceMatrix.needsUpdate=true;}
    if(damage)this.matrix(this.cracks,slot,b.x,b.y,.403,b.w*.90,b.h*.82);else{this.cracks.setMatrixAt(slot,ZERO);this.cracks.instanceMatrix.needsUpdate=true;}
   }
-  record.x=b.x;record.y=b.y;record.w=b.w;record.h=b.h;record.hp=b.hp;record.maxHp=b.maxHp;record.color=b.color;record.kind=b.kind;record.dirty=false;
+  record.x=b.x;record.y=b.y;record.w=b.w;record.h=b.h;record.hp=b.hp;record.maxHp=b.maxHp;record.color=b.color;record.kind=b.kind;record.protected=b.protected;record.dirty=false;
  }
  sync(items,classic=false,low=false){
   if(this.items!==items){this.clear();this.items=items;}this.setAppearance(classic,low);const token=++this.token;

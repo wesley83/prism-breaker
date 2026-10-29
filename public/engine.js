@@ -1,6 +1,7 @@
 import {makeLevel,POWERS,rng,LAST_WORLD,formationCount} from './levels.js?v=3';
 import {WORLDS,RULESET_REVISION} from './levels.js';
-import {checkpointLevel,compatibleRuleset} from './world-identity.js';
+import {checkpointLevel,compatibleCheckpointRuleset,LEGACY_RULESET_REVISION} from './world-identity.js';
+import {EngagementRun} from './engagement.js';
 import {validateWorld} from './world-schema.js';
 import {BrickBehaviors} from './brick-events.js';
 export const LIMIT={left:-10,right:10,top:12,bottom:-13,paddleY:-10.6};
@@ -52,7 +53,7 @@ function validBoxes(items,bricks=false){
 // Check storage before touching live game state. Newer optional fields stay optional.
 export function isValidSnapshot(s){
  if(!s||![1,2].includes(s.version))return false;
- const level=checkpointLevel(s);if(level<0||!compatibleRuleset(s.version===2?s.ruleset:undefined))return false;
+ const level=checkpointLevel(s);if(level<0||!compatibleCheckpointRuleset(s.version===2?s.ruleset:undefined))return false;
  if(s.version===2){try{validateWorld(s.definition);if(s.definition.id!==s.worldId||typeof s.ruleset!=='string'||!/^[a-f0-9]{64}$/.test(s.ruleset)||typeof s.worldRevision!=='string'||!/^[a-f0-9]{64}$/.test(s.worldRevision))return false;}catch{return false;}}
  s={...s,level};
  if(!integerBetween(s.level,0,LAST_WORLD)||!integerBetween(s.lives,1,9)||!integerBetween(s.score,0,10000000)||!validBoxes(s.bricks,true)||!validBoxes(s.barriers??[]))return false;
@@ -68,15 +69,15 @@ export function isValidSnapshot(s){
 }
 export class Game {
  constructor(onEvent=()=>{}){this.emit=onEvent;this.uid=0;this.events=new EventTarget();this.behaviors=new BrickBehaviors();this.start('campaign',0,8399);}
- start(mode='campaign',level=0,seed=8399){this.pinnedWorld=null;this.mode=mode;this.seed=seed;this.level=level;this.score=0;this.lives=3;this.nextLife=12000;this.elapsed=0;this.phase=0;this.launchCount=0;this.bonusTotals={speed:0,pickups:0,clear:0};this.runId=globalThis.crypto?.randomUUID?.()||String(Date.now());this.loadLevel();}
+ start(mode='campaign',level=0,seed=8399,{legacy=false,official=false}={}){this.pinnedWorld=null;this.mode=mode;this.seed=seed;this.level=level;this.officialPractice=official;this.ruleset=legacy?LEGACY_RULESET_REVISION:RULESET_REVISION;this.engagement=new EngagementRun(this,!legacy);this.score=0;this.lives=3;this.nextLife=12000;this.elapsed=0;this.phase=0;this.launchCount=0;this.bonusTotals={speed:0,pickups:0,clear:0};this.runId=globalThis.crypto?.randomUUID?.()||String(Date.now());this.loadLevel();}
  loadLevel(){
    const stored=this.mode==='practice'&&this.catalog?.get(this.level+':'+this.phase);
    if(stored&&!Array.isArray(stored)){const {bricks,barriers,portals}=stored;Object.assign(this,structuredClone({bricks,barriers,portals}));}else{Object.assign(this,makeLevel(this.level,this.phase));if(Array.isArray(stored))this.bricks=structuredClone(stored);}
    this.world=this.pinnedWorld?.id===WORLDS[this.level].id?this.pinnedWorld:stored?.world||WORLDS[this.level];
    if(this.pinnedWorld===this.world)Object.assign(this,structuredClone(this.world.formations[this.phase]));
    this.behaviors.configure(this.world.types||stored?.types||[]);
-   this.resetRandom();
-   this.paddle={x:0,w:3.3};this.target=0;this.balls=[];this.drops=[];this.shots=[];this.effects={};this.shield=false;this.combo=0;this.time=0;this.boardElapsed=0;this.lastClear=null;this.lastShot=0;this.hits=0;this.total=this.bricks.length;this.state='ready';this.addBall(true);this.emit({type:'level'});
+   this.resetRandom();if(this.phase===0&&this.engagement.enabled)this.launchCount=0;
+   this.paddle={x:0,w:3.3};this.target=0;this.balls=[];this.drops=[];this.shots=[];this.effects={};this.shield=false;this.combo=0;this.time=0;this.boardElapsed=0;this.lastClear=null;this.lastShot=0;this.hits=0;this.total=this.bricks.length;this.state='ready';this.engagement.load();this.addBall(true);this.emit({type:'level'});
  }
  resetRandom(draws=0){const random=rng(this.seed+this.level*97+this.phase*541);this.randomDraws=0;this.random=function(){this.randomDraws++;return random();};for(let i=0;i<draws;i++)this.random();}
  addBall(held=false,x=this.paddle.x,y=LIMIT.paddleY+.58,vx=3,vy=14){const b={id:++this.uid,x,y,vx,vy,r:.23,held,holdOffset:held?x-this.paddle.x:0,holdHeight:y-LIMIT.paddleY,portal:0,hits:new Set()};this.balls.push(b);return b;}
@@ -84,7 +85,7 @@ export class Game {
  freshLaunchAngle(){
    // Separate from drop randomness; the daily challenge has a shared launch sequence.
    let seed=this.seed|0;
-   if(this.mode!=='daily')for(const char of String(this.runId))seed=Math.imul(seed^char.charCodeAt(0),16777619);
+   if(this.mode!=='daily'&&!this.engagement.profile)for(const char of String(this.runId))seed=Math.imul(seed^char.charCodeAt(0),16777619);
    const random=rng(seed^Math.imul(++this.launchCount,0x9e3779b9)^this.level*97^this.phase*541);
    return (random()<.5?-1:1)*(8+random()*10)*Math.PI/180;
  }
@@ -101,7 +102,7 @@ export class Game {
  move(x){this.target=Math.max(-10+this.paddle.w/2,Math.min(10-this.paddle.w/2,x));}
  power(kind,collected=false){
    const p=POWERS[kind];if(!p)return;
-   const points=collected?PICKUP_POINTS:0;if(points){this.bonusTotals.pickups+=points;this.award(points);}
+   const points=collected?PICKUP_POINTS:0;if(points){this.bonusTotals.pickups+=points;this.award(points);if(this.engagement.profile)this.engagement.stats.pickups++;}
    if(p.duration)this.effects[kind]=Math.min(p.duration*1.5,(this.effects[kind]||0)+p.duration);
    // Paddle width stacks with sticky/laser; sticky and laser remain alternatives.
    if(kind==='sticky')this.effects.laser=0;
@@ -117,10 +118,11 @@ export class Game {
  }
  award(n){this.score+=n;while(this.score>=this.nextLife){this.nextLife+=12000;this.lives=Math.min(9,this.lives+1);this.emit({type:'power',kind:'life'});}}
  damage(brick,chain=false){
-   if(brick.hp<=0||!this.behaviors.strike(this,brick,chain))return;brick.hp--;this.hits++;
+   if(brick.hp<=0||this.engagement.locked(brick)||!this.behaviors.strike(this,brick,chain))return;brick.hp--;this.hits++;
    this.events.dispatchEvent(new CustomEvent('brickdamage',{detail:{game:this,brick,chain}}));
    if(brick.hp>0){this.emit({type:'hit',x:brick.x,y:brick.y,color:brick.color});return;}
    this.combo++;this.award(100*Math.min(5,1+Math.floor(this.combo/6)));
+   this.engagement.broken(brick,chain);
    this.emit({type:'break',x:brick.x,y:brick.y,color:brick.color,kind:brick.kind});
    this.behaviors.broken(this,brick,chain);
    if(!chain&&(this.random()<.19||this.hits===4)){
@@ -138,17 +140,17 @@ export class Game {
  }
  tick(dt){
    if(this.state!=='playing'&&this.state!=='ready')return;
-   this.time+=dt;if(this.state==='playing'){this.elapsed+=dt;this.boardElapsed+=dt;for(const key in this.effects)this.effects[key]=Math.max(0,this.effects[key]-dt);}this.syncPaddleWidth();
+   this.time+=dt;if(this.state==='playing'){this.elapsed+=dt;this.boardElapsed+=dt;for(const key in this.effects)this.effects[key]=Math.max(0,this.effects[key]-dt);this.engagement.tick(dt);}this.syncPaddleWidth();
    const oldPaddleX=this.paddle.x;
    this.move(this.target);this.paddle.x+=(this.target-this.paddle.x)*Math.min(1,dt*25);
    for(const b of this.bricks)if(b.moving)b.x=b.baseX+Math.sin(this.time*.7+b.row)*.28;
-   for(const o of this.barriers)if(o.moving)o.x=Math.sin(this.time*(this.level===4?.88:.8)+o.id)*5.7;
+   for(const o of this.barriers)if(o.moving)o.x=Math.sin((this.engagement.profile?this.engagement.barrierClock:this.time)*(this.level===4?.88:.8)+o.id)*5.7;
    this.syncHeldBalls();
    if(this.state==='ready')return;
    if(this.effects.laser>0&&this.time-this.lastShot>.36){this.lastShot=this.time;for(const offset of [-1,1])this.shots.push({id:++this.uid,x:this.paddle.x+offset*this.paddle.w*.4,y:LIMIT.paddleY+.5});this.emit({type:'laser'});}
    for(const shot of this.shots){shot.y+=dt*28;for(const brick of this.bricks)if(brick.hp>0&&Math.abs(shot.x-brick.x)<brick.w/2&&Math.abs(shot.y-brick.y)<brick.h/2+.35){this.damage(brick);shot.y=99;break;}}
    retainBetween(this.shots,-Infinity,12);
-   for(const drop of this.drops){drop.y-=dt*4.6;if(Math.abs(drop.y-LIMIT.paddleY)<.48&&Math.abs(drop.x-this.paddle.x)<this.paddle.w/2+.35){this.power(drop.kind,true);drop.y=-99;}}
+   for(const drop of this.drops){if(drop.y<-13)continue;drop.y-=dt*4.6;if(Math.abs(drop.y-LIMIT.paddleY)<.48&&Math.abs(drop.x-this.paddle.x)<this.paddle.w/2+.35){this.power(drop.kind,true);drop.y=-99;if(drop.choice)for(const other of this.drops)if(other.choice===drop.choice)other.y=-99;}}
    retainBetween(this.drops,-13,Infinity);
    for(const b of this.balls){
      if(b.held)continue;
@@ -165,7 +167,7 @@ export class Game {
         const impactPaddleX=oldPaddleX+(this.paddle.x-oldPaddleX)*contact;
         b.x=impact.x;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
         const angle=offset*1.05;b.vx=Math.sin(angle)*speed;b.vy=Math.cos(angle)*speed;b.y=surface+.005;
-        this.combo=0;if(this.effects.sticky>0){b.held=true;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
+        this.engagement.paddle(offset);this.combo=0;if(this.effects.sticky>0||this.engagement.catchBall()){b.held=true;b.aimable=!!this.engagement.profile;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
      }
      if(this.shield&&b.y<-11.9&&b.vy<0){this.shield=false;b.y=-11.9;b.vy=Math.abs(b.vy);this.emit({type:'save'});}
      for(const o of this.barriers)this.reflectBox(b,o,oldX,oldY);
@@ -175,29 +177,29 @@ export class Game {
        if(!touching){b.hits.delete(brick.id);continue;}
        if(b.hits.has(brick.id))continue;b.hits.add(brick.id);
        if(!this.effects.pierce)this.reflectBox(b,brick,oldX,oldY);
-       this.damage(brick);if(!this.effects.pierce)break;
+       this.damage(brick);if(brick.hp>0&&this.engagement.synergy==='storm')this.damage(brick);if(!this.effects.pierce)break;
      }
-     if(b.portal<=0)for(let i=0;i<this.portals.length;i++){const p=this.portals[i];if(Math.hypot(b.x-p.x,b.y-p.y)<.7){const dest=this.portals[1-i];b.x=dest.x;b.y=dest.y;b.portal=1;this.emit({type:'portal',x:b.x,y:b.y});break;}}
+     if(b.portal<=0)for(let i=0;i<this.portals.length;i++){const p=this.portals[i];if(Math.hypot(b.x-p.x,b.y-p.y)<.7){const dest=this.portals[1-i];b.x=dest.x;b.y=dest.y;b.portal=1;this.engagement.portal();this.emit({type:'portal',x:b.x,y:b.y});break;}}
    }
    retainBetween(this.balls,-13.5,Infinity);
    if(!this.bricks.some(b=>b.hp>0)){
      const speedPoints=speedBonus(this.boardElapsed),clearPoints=this.phase<this.world.formations.length-1?500:750+this.lives*150;
      this.lastClear={seconds:Math.floor(this.boardElapsed),speedPoints,clearPoints};this.bonusTotals.speed+=speedPoints;this.bonusTotals.clear+=clearPoints;this.award(speedPoints+clearPoints);
      if(this.phase<this.world.formations.length-1){this.phase++;this.loadLevel();this.emit({type:'phase',phase:this.phase,speedPoints,clearPoints});}
-     else{this.state='cleared';this.emit({type:'clear',speedPoints,clearPoints});}return;
+     else{this.state='cleared';this.engagement.complete();this.emit({type:'clear',speedPoints,clearPoints});}return;
    }
-   if(!this.balls.length){this.lives--;this.effects={};this.drops=[];this.shots=[];this.combo=0;this.shield=false;
+   if(!this.balls.length){this.lives--;this.engagement.life();this.effects={};this.drops=[];this.shots=[];this.combo=0;this.shield=false;
      if(this.lives<=0){this.state='over';this.emit({type:'over'});}else{this.addBall(true);this.state='ready';this.emit({type:'life'});}}
  }
  next(){if(this.level===LAST_WORLD||this.mode!=='campaign'){this.state='won';return false;}this.level++;this.phase=0;this.loadLevel();return true;}
- snapshot(){return structuredClone({version:2,worldId:this.world.id,worldRevision:this.world.revision||WORLDS[this.level].revision,ruleset:RULESET_REVISION,definition:this.world,mode:this.mode,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,randomDraws:this.randomDraws,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits});}
+ snapshot(){return structuredClone({version:2,worldId:this.world.id,worldRevision:this.world.revision||WORLDS[this.level].revision,ruleset:this.ruleset,engagement:this.engagement.snapshot(),definition:this.world,mode:this.mode,officialPractice:this.officialPractice===true,seed:this.seed,level:this.level,phase:this.phase,score:this.score,lives:this.lives,nextLife:this.nextLife,elapsed:this.elapsed,boardElapsed:this.boardElapsed,bonusTotals:{...this.bonusTotals},lastClear:this.lastClear,runId:this.runId,launchCount:this.launchCount,randomDraws:this.randomDraws,bricks:this.bricks,barriers:this.barriers,time:this.time,hits:this.hits});}
  restore(s,{prepare=()=>{}}={}){
   try{
    if(!isValidSnapshot(s))return false;
-   const candidate=new Game();candidate.catalog=this.catalog;candidate.start(s.mode??'campaign',checkpointLevel(s),s.seed??8399);candidate.uid=Math.max(candidate.uid,this.uid);
+   const candidate=new Game();candidate.catalog=this.catalog;candidate.start(s.mode??'campaign',checkpointLevel(s),s.seed??8399,{legacy:(s.ruleset||LEGACY_RULESET_REVISION)!==RULESET_REVISION,official:s.officialPractice===true});candidate.uid=Math.max(candidate.uid,this.uid);
    candidate.restoreFields(structuredClone(s));candidate.behaviors.handlers=this.behaviors.handlers;
    const prepared=prepare(candidate);if(prepared?.then){prepared.catch?.(()=>{});throw Error('Restore preparation must be synchronous');}
-   candidate.emit=this.emit;candidate.events=this.events;Object.assign(this,candidate);return true;
+   candidate.emit=this.emit;candidate.events=this.events;Object.assign(this,candidate);this.engagement.game=this;return true;
   }catch{return false;}
  }
  restoreFields(s){
@@ -206,5 +208,5 @@ export class Game {
    this.boardElapsed=Number.isFinite(s.boardElapsed)&&s.boardElapsed>=0?s.boardElapsed:Math.max(0,Number(s.time)||0);
    this.launchCount=Number.isSafeInteger(s.launchCount)&&s.launchCount>=0?s.launchCount:0;
    for(const key of ['speed','pickups','clear'])this.bonusTotals[key]=Number.isFinite(s.bonusTotals?.[key])&&s.bonusTotals[key]>=0?s.bonusTotals[key]:0;
-   this.lastClear=s.lastClear||null;this.state='ready';}
+   this.lastClear=s.lastClear||null;this.engagement.load();this.engagement.restore(s.engagement);this.state='ready';}
 }

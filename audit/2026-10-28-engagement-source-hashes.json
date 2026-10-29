@@ -1,0 +1,153 @@
+{
+  "at": "2026-10-28T22:56:10.039Z",
+  "baseline": "b70a52bdb1ff658b0656b5f2a1c4b383beb373f2",
+  "candidate": "e5d13727ab8861c2ae8b",
+  "records": [
+    {
+      "file": "README.md",
+      "sha256": "3802aa05254dbf61e2515f0f8cb77d4c1db7b223486ccb6ec7513ddf16000e07",
+      "mirrorSha256": "499a89bad50f05a242ea1049bacc8a42ed24de1ac0926d0702feba338f9ab3c3",
+      "mirror": "surgical insertion preserving pre-existing edits"
+    },
+    {
+      "file": "package.json",
+      "bytes": 897,
+      "sha256": "ac3915c431fecdd2d5b9c56685fda61774142b431f7b5e810df5a1a0d818f511"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 61568,
+      "sha256": "eaf60c23ddbcbbb93a61eddf144c0a3ca935888156e0ab0702c8f0b4aae8763a"
+    },
+    {
+      "file": "public/audio.js",
+      "bytes": 8061,
+      "sha256": "be3ad967ac2336ec37889c19b141b9c9034d13e39ff539352048ccfcceeb5c3f"
+    },
+    {
+      "file": "public/brick-batch.js",
+      "bytes": 10222,
+      "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115"
+    },
+    {
+      "file": "public/brick-events.js",
+      "bytes": 3932,
+      "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee"
+    },
+    {
+      "file": "public/bundled-worlds.js",
+      "bytes": 127892,
+      "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 19159,
+      "sha256": "e72138b67e5f55fae5d4d3c856c24fcfbbf093a7222698bb9041095da95ab92a"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 30192,
+      "sha256": "077a637ca5042baf3ff79e3cf4a40c157b5df7fbb38ef46841b1abc124f7f6cf"
+    },
+    {
+      "file": "public/paddle-art.js",
+      "bytes": 4790,
+      "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97"
+    },
+    {
+      "file": "public/preferences.js",
+      "bytes": 1077,
+      "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "7638c893f54f2901d139d4b3c7c8cde56b9af88e929e3d9bcef84520ced59130"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 25372,
+      "sha256": "0ee2e9d0ab94ea9778edddb6ec5c31adab5992d88cd3bfa68adcf6774eb5e4f0"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 33287,
+      "sha256": "7c7e00bdf4a82cf0e57ccdab31df0fa709061e6674e61f7c8e158bb91d7be518"
+    },
+    {
+      "file": "public/world-identity.js",
+      "bytes": 923,
+      "sha256": "b8971f8196a82276662f34841c21f9cbce0110b57f825fbf4217777620191b6a"
+    },
+    {
+      "file": "tools/build-bundled-worlds.mjs",
+      "bytes": 1583,
+      "sha256": "883def080c22ce9fd122f3528940eb0736014ac3419b195778252f242e7a00cb"
+    },
+    {
+      "file": "ENGAGEMENT.md",
+      "bytes": 6985,
+      "sha256": "5dd4cbbb476e76038757b069c997705db346d71ce15797b211bb66363427cb59"
+    },
+    {
+      "file": "audit/2026-10-28-engagement-collection.png",
+      "bytes": 60371,
+      "sha256": "6621ef343181195d1837132b08e589cf4eeb8289a90e610503a0c2e19266737e"
+    },
+    {
+      "file": "audit/2026-10-28-engagement-encounter.png",
+      "bytes": 61839,
+      "sha256": "82d9948ac45e1fb28225dea4bbb00d98954579f9e61868e571bfad3c56dc93ae"
+    },
+    {
+      "file": "audit/2026-10-28-engagement.md",
+      "bytes": 7994,
+      "sha256": "104f29dab3ae2b01d0f2d49def5df898f838d6b94c148c5328e36944a69037d2"
+    },
+    {
+      "file": "public/engagement-art.js",
+      "bytes": 3268,
+      "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677"
+    },
+    {
+      "file": "public/engagement-data.js",
+      "bytes": 5547,
+      "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d"
+    },
+    {
+      "file": "public/engagement-ui.js",
+      "bytes": 12464,
+      "sha256": "f04aa060b7c4042433f92f01b630bacfc7da8cdb9c38ec355cc3db0cde67a15a"
+    },
+    {
+      "file": "public/engagement.css",
+      "bytes": 4128,
+      "sha256": "d21217427305f635e9e7b40b3a92a4b4958a2e3434976d73bebc310200a7f05d"
+    },
+    {
+      "file": "public/engagement.html",
+      "bytes": 13197,
+      "sha256": "2569e941d46b6e1d2f245a6277b964288de6d8bf517baef51045f646a10dddbb"
+    },
+    {
+      "file": "public/engagement.js",
+      "bytes": 5959,
+      "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d"
+    },
+    {
+      "file": "public/mastery.js",
+      "bytes": 3517,
+      "sha256": "0d49c0fa89890da60d6dcb8498b3ce999584f4862afc07f9caa4658d1f1d9fc5"
+    },
+    {
+      "file": "tools/build-engagement.mjs",
+      "bytes": 5055,
+      "sha256": "1feea50d3d4ef26c72a7b14aff85f83459861fae961a6a720ab21a542e39c881"
+    },
+    {
+      "file": "audit/2026-10-28-engagement-source.patch",
+      "bytes": 316308,
+      "sha256": "567b2bb5749fe98c26e8bfd6aa0f3e7fd2d98aa6a1f365b0a0c060b1288e6b53"
+    }
+  ]
+}
