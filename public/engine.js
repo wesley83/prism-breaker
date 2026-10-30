@@ -167,7 +167,7 @@ export class Game {
         const impactPaddleX=oldPaddleX+(this.paddle.x-oldPaddleX)*contact;
         b.x=impact.x;const catchOffset=b.x-impactPaddleX,offset=Math.max(-1,Math.min(1,catchOffset/(this.paddle.w/2)));
         const angle=offset*1.05;b.vx=Math.sin(angle)*speed;b.vy=Math.cos(angle)*speed;b.y=surface+.005;
-        this.engagement.paddle(offset);this.combo=0;if(this.effects.sticky>0||this.engagement.catchBall()){b.held=true;b.aimable=!!this.engagement.profile;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
+        this.engagement.paddle(offset);this.combo=0;const sticky=this.effects.sticky>0,precision=!sticky&&this.engagement.catchBall();if(sticky||precision){b.held=true;b.aimable=precision;b.holdOffset=catchOffset;b.holdHeight=b.y-LIMIT.paddleY;b.holdVX=b.vx;b.holdVY=b.vy;b.x=this.paddle.x+catchOffset;}this.emit({type:'paddle',x:b.x,y:b.y});if(b.held)continue;
      }
      if(this.shield&&b.y<-11.9&&b.vy<0){this.shield=false;b.y=-11.9;b.vy=Math.abs(b.vy);this.emit({type:'save'});}
      for(const o of this.barriers)this.reflectBox(b,o,oldX,oldY);

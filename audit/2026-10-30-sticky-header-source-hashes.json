@@ -1,0 +1,92 @@
+{
+  "at": "2026-10-30T03:09:41.441Z",
+  "baseline": "06c4c6134ae5f28409bfeedd56997f127eb6d086",
+  "runtime": "f97eba17529877eb0d67",
+  "records": [
+    {
+      "file": "AGENTS.md",
+      "bytes": 3019,
+      "sha256": "d7e16b801601e3654cd808dbb90b3fca65862d44e3939ad4e0aea0942dc290d4"
+    },
+    {
+      "file": "ENGAGEMENT.md",
+      "bytes": 8295,
+      "sha256": "01585944ff07dd0cad122adc74ef8935e4827ce48591178d8e80274077fa61fb"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 62313,
+      "sha256": "72010fd6a2066c7403a93e2d207f261102d3dd71ebf793a5e227245e2b0d2c14"
+    },
+    {
+      "file": "public/engagement-ui.js",
+      "bytes": 12498,
+      "sha256": "99102e0c851b2458a470cc8a9576fcb3631330d8eb66b119ba911c9df93b04eb"
+    },
+    {
+      "file": "public/engagement.css",
+      "bytes": 7128,
+      "sha256": "49f0abcc679281b47e2bcfd6201d3a06b104a808c2a2bb50c5f37e98695af605"
+    },
+    {
+      "file": "public/engine.js",
+      "bytes": 19273,
+      "sha256": "65b8de38f5aa7c8525f8386229c136066eb3eab5cd7e38248325de98898863ae"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 30274,
+      "sha256": "4c235569ac823056e0e2f2540da2a0352eded529fd2b0fd37956a2fc73b507a0"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "e00bd8b984fc39d6bf66177e30e8c1eb7ab7ad1f847d7def0c30f4b5813536c9"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 33084,
+      "sha256": "0bbae137ccae1e7c8ae54609985989469fcd763ccf32e631bcfca24e0c6d7787"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 166000,
+      "sha256": "b03947abc5b07678e698aea056bab41f90c46e97cafac25a443bf6d6be1063dc"
+    },
+    {
+      "file": "tests/engagement.test.mjs",
+      "bytes": 8648,
+      "sha256": "ba160d903a3674c915035a3e0cdf44f0a2f4e7cd143f54037d467debc1c60b12"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "bytes": 31098,
+      "sha256": "9bcf0ae75ce311ec8a4a5d4215cf352075a48e3472dd66b73a8a63968bc6a657"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-browser.json",
+      "bytes": 166000,
+      "sha256": "b03947abc5b07678e698aea056bab41f90c46e97cafac25a443bf6d6be1063dc"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-final.png",
+      "bytes": 40417,
+      "sha256": "f2352d5d9f090521ee0b9e0f818f847e5e015201cf75e86f4b26a968cf8b9fbd"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-preview.png",
+      "bytes": 41499,
+      "sha256": "b92a0f903cd8f3602c22408538875e039fea4cd383ce569841b2171cfcc7cd90"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header.md",
+      "bytes": 6867,
+      "sha256": "cc8a03c9ce70cc13b404be41752dbaaf0d8c7fd4c7d1d3db7e05a6848ce78620"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-source.patch",
+      "bytes": 268497,
+      "sha256": "f851df2fc0501ea97a81cae26dbd83bb8e0c7b0c2cf692147c4429bc3a767cc3"
+    }
+  ]
+}
