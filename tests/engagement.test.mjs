@@ -49,6 +49,14 @@ test('collecting a paired drop accepts exactly one strategy and one pickup award
  const g=start();g.launch();g.drops=[{id:100,x:0,y:LIMIT.paddleY+.02,kind:'wide',choice:99},{id:101,x:0,y:LIMIT.paddleY+.02,kind:'laser',choice:99}];g.tick(1/120);
  assert.ok(g.effects.wide>0);assert.ok(!g.effects.laser);assert.equal(g.bonusTotals.pickups,150);assert.equal(g.engagement.stats.pickups,1);
 });
+test('Sticky catches cannot select a launch angle and preserve their automatic bounce',()=>{
+ for(const wide of [false,true]){
+  const g=start();g.launch();g.power('sticky');if(wide)g.power('wide');const b=g.balls[0];Object.assign(b,{x:wide?2.3:.8,y:LIMIT.paddleY+.45,vx:0,vy:-18});g.tick(1/60);
+  assert.equal(b.held,true);assert.equal(b.aimable,false);const velocity=[b.holdVX,b.holdVY],offset=b.holdOffset;g.engagement.aim(-60);assert.deepEqual([b.holdVX,b.holdVY],velocity);
+  g.move(-3);g.tick(1/120);assert.equal(b.holdOffset,offset);
+  if(wide){g.effects.wide=.001;g.tick(1/120);}else g.launch();assert.equal(b.held,false);assert.ok(b.vy>0);assert.ok(Math.abs(b.vx/b.vy-velocity[0]/velocity[1])<1e-8);
+ }
+});
 test('official seeds reproduce launch/drop decisions independently of run IDs',()=>{
  const a=start(),b=start();a.runId='first';b.runId='second';assert.deepEqual(Array.from({length:8},()=>a.freshLaunchAngle()),Array.from({length:8},()=>b.freshLaunchAngle()));
  for(let i=0;i<12;i++){a.damage(a.bricks[i]);b.damage(b.bricks[i]);}assert.deepEqual(a.drops.map(({x,y,kind,choice})=>({x,y,kind,paired:!!choice})),b.drops.map(({x,y,kind,choice})=>({x,y,kind,paired:!!choice})));

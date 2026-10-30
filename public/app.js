@@ -96,7 +96,7 @@ function updatePlayTip(held){
  const tip=$('#play-tip');tip.hidden=$('#launch').hidden;
  if(tip.hidden)return;
  let text=game.world.note;
- if(game.effects.sticky>0)text=game.effects.wide>0?'Wide + sticky: catches beyond the normal paddle launch when it shrinks.':'Sticky paddle: move to aim, then launch from the catch point.';
+ if(game.effects.sticky>0)text=game.effects.wide>0?'Wide + sticky: catches beyond the normal paddle launch when it shrinks.':'Sticky paddle: launch from the catch point. Your return angle is set by the catch.';
  else if(game.effects.laser>0)text='Laser paddle: aim underneath bricks. The lasers fire automatically.';
  else if(game.effects.pierce>0)text='Piercing ball: launch through clusters while the power-up is active.';
  else if(game.effects.wide>0)text='Wide paddle: use the extra reach to set up your next shot.';
@@ -108,7 +108,7 @@ function updatePlayTip(held){
 }
 function handleEvent(e){
  sound.event(e);stage?.event(e);
- if(e.type==='precision-ready')toast('Precision catch earned. Arm it below the arena.');
+ if(e.type==='precision-ready')toast('Precision catch earned. Use the button above the arena.');
  if(e.type==='precision-catch')toast('Precision catch · aim your finishing shot.');
  if(e.type==='synergy')toast(SYNERGIES[e.kind]);
  if(e.type==='power-choice')toast(POWERS[e.kinds[0]].name+' or '+POWERS[e.kinds[1]].name+' · catch one.');
@@ -228,7 +228,11 @@ const graphicsRecovery=setupGraphicsRecovery(canvas,{
 paddleInput=setupPaddleInput(canvas,{enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed&&!!stage&&['ready','playing'].includes(game.state),move:e=>game.move(stage.screenX(e.clientX,e.clientY)),launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
 document.addEventListener('keydown',e=>{if(ownsKeyboard(e.target,e.code)||all('dialog[open]').length||appLoop.failed||graphicsRecovery.blocked)return;if(view==='cut'||view==='champion'){if(['Space','Enter','KeyP','Escape'].includes(e.code)){e.preventDefault();if(!e.repeat){if(e.code==='KeyP'||e.code==='Escape')toggleScenePause();else if(view==='champion')finishCelebration();else finishCut();}}return;}if(view!=='game')return;if(['KeyQ','KeyE'].includes(e.code)&&game.balls.some(b=>b.held&&b.aimable)){e.preventDefault();const held=game.balls.find(b=>b.held&&b.aimable),angle=Math.atan2(held.holdVX||0,Math.abs(held.holdVY)||1)*180/Math.PI;game.engagement.aim(angle+(e.code==='KeyQ'?-5:5));engagementUI.renderLive();return;}if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
 document.addEventListener('visibilitychange',()=>{keys.clear();if(document.hidden&&view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');});window.addEventListener('pagehide',()=>{if(view==='game')persist();});
-const ro=new ResizeObserver(()=>{paddleInput?.cancel();stage?.resize();});ro.observe($('#stage'));ro.observe(canvas);
+const ro=new ResizeObserver(entries=>{if(entries.some(entry=>entry.target===$('#stage')))paddleInput?.cancel();stage?.resize();reserveHeaderSpace();});ro.observe($('#stage'));ro.observe(canvas);
+// Reserve the actual wrapped header height, including font and viewport changes.
+let headerFrame=0;
+function reserveHeaderSpace(){if(headerFrame)return;headerFrame=requestAnimationFrame(()=>{headerFrame=0;const header=$('#play-header'),arena=$('#stage');if(!header.getClientRects().length)return;const height=Math.ceil(header.getBoundingClientRect().bottom-arena.getBoundingClientRect().top)+8,value=height+'px';if(arena.style.getPropertyValue('--play-header-height')!==value)arena.style.setProperty('--play-header-height',value);});}
+const headerObserver=new ResizeObserver(reserveHeaderSpace);headerObserver.observe($('#play-header'));
 document.addEventListener('click',async event=>{const link=event.target.closest('a[href]');if(!link||link.target==='_blank'||link.hasAttribute('download')||event.defaultPrevented||event.ctrlKey||event.metaKey||event.shiftKey||view==='home'||game.mode!=='campaign')return;const url=new URL(link.href,location.href);if(url.origin!==location.origin)return;event.preventDefault();if(view==='game'&&!$('dialog[open]'))openDialog('#pause-dialog');if(await preserveRun()){leaving=true;location.href=url.href;}});
 window.addEventListener('beforeunload',event=>{if(!leaving&&view==='game'&&!persist()){event.preventDefault();event.returnValue='';}});
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
