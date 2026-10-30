@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-30T03:16:12.293Z",
+  "before": {
+    "release": "5c27019bb69ddc78e888",
+    "checkpoint": "Continue adventure\nPrism Garden · 0 points",
+    "best": "5,300"
+  },
+  "after": {
+    "release": "f97eba17529877eb0d67",
+    "checkpoint": "Continue adventure\nPrism Garden · 0 points",
+    "best": "5,300",
+    "offline": "Ready to play offline"
+  },
+  "checkpointPreserved": true,
+  "bestPreserved": true,
+  "ordinaryCheckAndUpdate": true,
+  "legacyCheckpointResumed": true,
+  "geometry": {
+    "canvas": {
+      "height": 336.66668701171875,
+      "width": 1199.3333740234375,
+      "x": 32.66666793823242,
+      "y": 228.6666717529297
+    },
+    "header": {
+      "height": 109.22917175292967,
+      "width": 1167.3333740234375,
+      "x": 48.66666793823242,
+      "y": 110.66667175292967
+    },
+    "hud": {
+      "height": 83.22917175292969,
+      "width": 1167.3333740234375,
+      "x": 48.66666793823242,
+      "y": 136.6666717529297
+    }
+  },
+  "errors": [],
+  "limits": [
+    "Desktop Chromium update and normal gameplay layout; phone/focus/text-size and Sticky controls are covered separately by local acceptance."
+  ]
+}
