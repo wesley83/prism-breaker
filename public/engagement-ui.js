@@ -1,5 +1,6 @@
+import {MEDALS,medalToken} from './medal-ui.js';
 import {ENGAGEMENT} from './engagement-data.js';
-import {readMastery,counts,unlockedCosmetics,awardMastery,nextGoal,medalNames,observeRun} from './mastery.js';
+import {readMastery,counts,unlockedCosmetics,awardMastery,nextGoal,masteryCelebration,observeRun} from './mastery.js';
 import {WORLDS,RULESET_REVISION} from './levels.js';
 import {downloadRecovery} from './save-recovery.js';
 export const SYNERGIES={precision:'Precision rig · Wide + Sticky: wider catches, released from the catch point.',storm:'Prism storm · Multiball + Pierce: surviving armor takes a second hit.',fuse:'Chain conductor · Laser + Explosives: explosions reach farther.'};
@@ -23,7 +24,7 @@ export class EngagementUI{
   this.$('#mastery-dialog').addEventListener('close',()=>previewMusic(null));
   this.$('#precision-catch').onclick=()=>{if(game().engagement.arm())this.renderLive();};
   this.$('#aim-angle').oninput=e=>{game().engagement.aim(Number(e.target.value));this.renderLive();};
-  this.$('#mastery-retry').onclick=()=>practice(game().level,game().seed);
+  this.$('#mastery-retry').onclick=()=>practice(game().level,game().seed,{mastery:this.masteryIntent});
   this.$('#world-challenge-share').onclick=()=>share(this.challengeData());
   this.$('#play-shared-challenge').onclick=()=>{if(this.challenge&&!this.challenge.invalid)practice(this.challenge.world,this.challenge.seed);};
   for(const button of document.querySelectorAll('[data-play-feedback]'))button.onclick=()=>{this.feedback.push({world:game().world.id,note:button.dataset.playFeedback});this.feedback=this.feedback.slice(-30);const saved=storage.set('play-feedback',this.feedback);this.$('#feedback-status').textContent=saved?'Saved in your play notes.':'Saving is unavailable. Export your play notes to keep this feedback.';};
@@ -32,12 +33,12 @@ export class EngagementUI{
   this.syncCosmetics();this.renderCollection();
  }
  save(){const saved=this.storage.set('mastery',this.progress);this.$('#mastery-save-status').textContent=saved?'':'Progress saving is unavailable. Export your mastery to keep this session’s achievements.';return saved;}
+ start(mastery=false){this.masteryIntent=mastery;this.lastMedals=null;this.celebration=null;this.lastSave=true;text(this.$('#cut-mastery'),'');}
  complete(){
   const g=this.game();if(!g.engagement.profile||!g.engagement.report)return;
-  const before=new Set(unlockedCosmetics(this.progress).map(c=>c.id));this.lastMedals=awardMastery(this.progress,g.engagement.report);
-  if(this.settings.playNotes)observeRun(this.progress,g,true);this.save();this.syncCosmetics();this.renderCollection();
-  const unlocked=unlockedCosmetics(this.progress).filter(c=>!before.has(c.id));
-  text(this.$('#cut-mastery'),(this.lastMedals.newMedals.length?'Medals earned: '+medalNames(this.lastMedals.newMedals)+'. ':'')+(this.lastMedals.newBestTime?'A new personal clear time. ':'')+this.lastMedals.goal+(unlocked.length?' Unlocked: '+unlocked.map(c=>c.name).join(', ')+'.':''));
+  this.lastMedals=awardMastery(this.progress,g.engagement.report);if(!this.lastMedals)return;this.celebration=masteryCelebration(this.lastMedals);
+  if(this.settings.playNotes)observeRun(this.progress,g,true);this.lastSave=this.save();this.syncCosmetics();this.renderCollection();
+  text(this.$('#cut-mastery'),this.lastMedals.newBestTime?'A new personal clear time.':this.lastMedals.worldComplete?'All four medals collected.':this.lastMedals.goal);
  }
  observe(completed=false){if(!this.settings.playNotes)return;observeRun(this.progress,this.game(),completed);this.save();}
  renderLive(){
@@ -53,8 +54,13 @@ export class EngagementUI{
  }
  renderResult(){
   const g=this.game(),p=g.engagement.profile;this.$('#result-mastery').hidden=!p;this.$('#mastery-retry').hidden=!p;this.$('#world-challenge-share').hidden=!p;
+  this.$('#result-medals').hidden=!p;this.$('#result-collection').hidden=!this.masteryIntent;
   if(!p)return;
   const report=g.engagement.report,record=this.progress.worlds[g.world.id];
+  const medals=this.$('#result-medals');medals.replaceChildren();medals.hidden=!p;if(p)for(const kind of Object.keys(MEDALS))medals.append(medalToken(kind,{earned:!!record?.medals[kind],fresh:this.lastMedals?.newMedals.includes(kind)}));
+  this.$('#result-collection').hidden=!this.masteryIntent;
+  if(this.masteryIntent){text(this.$('#result-kicker'),'MASTERY RUN');text(this.$('#result-title'),this.lastMedals?.worldComplete?'World mastered.':this.lastMedals?.newMedals.length?'Your collection grew.':'Keep chasing your medals.');text(this.$('#result-description'),g.world.name+' · '+Object.values(record?.medals||{}).filter(Boolean).length+' of 4 medals collected.');}
+
   const challenge=this.challenge&&!this.challenge.invalid&&this.challenge.world===g.level&&this.challenge.seed===(g.seed>>>0)?this.challenge:null;
   const comparison=challenge&&report?(report.score>challenge.score?' Shared score beaten!':report.score===challenge.score?' Shared score matched.':(challenge.score-report.score).toLocaleString()+' points from the shared target.')+(challenge.seconds?' '+(report.seconds<challenge.seconds?'Faster than the shared clear time.':Math.ceil(report.seconds-challenge.seconds)+' seconds from the shared clear time.'):''):'';
   text(this.$('#result-mastery'),(report?'World clear: '+seconds(report.seconds)+' · '+report.score.toLocaleString()+' points. ':'')+nextGoal(this.progress,g.world.id,report)+(record?.bestScore?' Personal world best: '+record.bestScore.toLocaleString()+'.':'')+comparison);
@@ -68,11 +74,11 @@ export class EngagementUI{
   }
  }
  renderCollection(){
-  const c=counts(this.progress);text(this.$('#mastery-summary'),c.medals+' / 64 medals · '+c.restored+' / 16 worlds restored');
+  const c=counts(this.progress);this.$('#collection-complete').hidden=c.medals!==64;text(this.$('#mastery-summary'),c.medals+' / 64 medals · '+Object.values(this.progress.worlds).filter(r=>Object.values(r.medals).filter(Boolean).length===4).length+' / 16 worlds mastered');
   const grid=this.$('#mastery-grid');grid.replaceChildren();
   for(const [index,w]of WORLDS.entries()){
-   const p=ENGAGEMENT.profiles[w.id],record=this.progress.worlds[w.id],card=document.createElement('article'),title=document.createElement('h3'),badges=document.createElement('p'),goal=document.createElement('p'),play=document.createElement('button');card.className='mastery-world';title.textContent=String(index+1).padStart(2,'0')+' · '+w.name;
-   badges.textContent=['restored','swift','flawless','skill'].map(k=>(record?.medals[k]?'✓ ':'○ ')+({restored:'Restored',swift:'Swift',flawless:'Flawless',skill:'Skilled'}[k])).join(' · ');goal.textContent='Swift: '+seconds(p.swift)+' · '+p.skillLabel+(record?.bestTime?' · Best '+seconds(record.bestTime):'');play.className='button secondary';play.textContent='Master this world';play.onclick=()=>this.practice(index,8399);card.append(title,badges,goal,play);
+   const p=ENGAGEMENT.profiles[w.id],record=this.progress.worlds[w.id],card=document.createElement('article'),title=document.createElement('h3'),badges=document.createElement('div'),goal=document.createElement('p'),play=document.createElement('button');card.className='mastery-world';title.textContent=String(index+1).padStart(2,'0')+' · '+w.name;
+   const earned=Object.values(record?.medals||{}).filter(Boolean).length;card.dataset.mastered=String(earned===4);badges.className='medal-rack';for(const k of Object.keys(MEDALS))badges.append(medalToken(k,{earned:!!record?.medals[k]}));const stamp=document.createElement('span');stamp.className='mastery-stamp';stamp.textContent=earned===4?'WORLD MASTERED':earned+' / 4 MEDALS';card.append(stamp);goal.textContent='Swift: '+seconds(p.swift)+' · '+p.skillLabel+(record?.bestTime?' · Best '+seconds(record.bestTime):'');play.className='button secondary';play.textContent=earned===4?'Play mastered world':'Chase '+(4-earned)+' remaining medal'+(earned===3?'':'s');play.onclick=()=>this.practice(index,8399,{mastery:true});card.append(title,badges,goal,play);
    if(record?.medals.restored){const details=document.createElement('details'),summary=document.createElement('summary'),image=document.createElement('img'),listen=document.createElement('button');summary.textContent='Restored artwork & soundtrack';image.src='/assets/world-preview-'+String(index+1).padStart(2,'0')+'.png';image.alt=w.name+' restored';image.loading='lazy';image.width=800;image.height=420;listen.className='button secondary';listen.textContent='Listen to '+w.name;listen.onclick=()=>{this.previewMusic(index);text(this.$('#collection-music-status'),'Playing '+w.name+'. Close this collection to stop.');};details.append(summary,image,listen);card.append(details);}
    grid.append(card);
   }

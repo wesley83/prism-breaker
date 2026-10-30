@@ -50,6 +50,7 @@ export class Sound{
   if(e.type==='life'||e.type==='over')[350,277,196].forEach((f,i)=>this.tone(f,.25,'triangle',.13,i*.12));
   if(e.type==='clear'||e.type==='phase')[392,523,659,784,1046].forEach((f,i)=>this.tone(f,.45,'sine',.14,i*.11));
   if(e.type==='portal')this.tone(300,.25,'sine',.12,0,false,1200);
+  if(e.type==='medal'){const notes=[523,659,784,1046];this.tone(notes[Math.min(3,e.index||0)],.5,'triangle',.12);this.tone(notes[Math.min(3,e.index||0)]*2,.65,'sine',.06,.04);if(e.complete)[523,659,784,1046].forEach((f,i)=>this.tone(f,.9,'triangle',.07,.12+i*.09));}
   if(e.type==='champion'){[523,659,784,1046,1318,1568,2093].forEach((f,i)=>this.tone(f,.7,'triangle',.1,i*.14));[262,330,392].forEach(f=>this.tone(f,1.6,'sine',.09,1.05));}
   if(e.type==='launch')this.tone(380,.16,'sine',.09,0,false,650);
  }

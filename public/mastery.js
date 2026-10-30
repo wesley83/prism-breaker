@@ -14,10 +14,17 @@ export function counts(progress){const total={medals:0,swift:0,restored:0};for(c
 export function unlockedCosmetics(progress){const c=counts(progress);return ENGAGEMENT.cosmetics.filter(item=>c[item.requirement]>=item.count);}
 export function awardMastery(progress,report){
  const p=ENGAGEMENT.profiles[report?.id];if(!p||!Number.isFinite(report.seconds)||report.seconds<=0)return null;
+ const before=counts(progress),beforeRewards=new Set(unlockedCosmetics(progress).map(c=>c.id));
  const old=progress.worlds[report.id]||{revision:ENGAGEMENT_REVISION,medals:{},bestTime:null,bestScore:0};
  const earned={restored:true,swift:report.seconds<=p.swift,flawless:report.livesLost===0,skill:report[p.skillMetric]>=p.skillTarget},newMedals=Object.keys(earned).filter(k=>earned[k]&&!old.medals[k]);
  const next={revision:ENGAGEMENT_REVISION,medals:Object.fromEntries(Object.keys(labels).map(k=>[k,!!old.medals[k]||earned[k]])),bestTime:old.bestTime===null?report.seconds:Math.min(old.bestTime,report.seconds),bestScore:Math.max(old.bestScore,report.score)};
- progress.worlds[report.id]=next;return {newMedals,newBestTime:old.bestTime!==null&&report.seconds<old.bestTime,record:next,goal:nextGoal(progress,report.id,report)};
+ progress.worlds[report.id]=next;const total=counts(progress),worldComplete=Object.keys(labels).every(k=>next.medals[k]),worldCompleted=worldComplete&&!Object.keys(labels).every(k=>old.medals[k]),collectionCompleted=before.medals<64&&total.medals===64;
+ return {newMedals,newBestTime:old.bestTime!==null&&report.seconds<old.bestTime,record:next,goal:nextGoal(progress,report.id,report),worldComplete,worldCompleted,collectionCompleted,total:total.medals,unlocked:unlockedCosmetics(progress).filter(c=>!beforeRewards.has(c.id))};
+}
+export function masteryCelebration(award){
+ if(!award?.newMedals?.length)return null;
+ const tier=award.collectionCompleted?'collection':award.worldCompleted?'world':'medal';
+ return {tier,title:tier==='collection'?'You mastered the prism.':tier==='world'?'World mastered!':award.newMedals.length===1?labels[award.newMedals[0]]+' medal earned!':award.newMedals.length+' new medals!',medals:tier==='medal'?award.newMedals:Object.keys(labels),newMedals:award.newMedals,total:award.total,unlocked:award.unlocked};
 }
 export function nextGoal(progress,id,report){
  const p=ENGAGEMENT.profiles[id],r=progress.worlds[id],m=r?.medals||{};if(!p)return '';
