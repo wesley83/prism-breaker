@@ -1,0 +1,26 @@
+# Stable gameplay arena during notifications
+
+## NJ-PLAN — 2026-10-30T17:10:51.7087815Z
+
+- Actor: Codex. Request: investigate mobile screen hopping around power-up alerts and messages.
+- Baseline: clean main 2828b06f0dc9cd18c03bfd3412c0db6ea084d4e6, runtime f97eba17529877eb0d67. Honcho tools unavailable.
+- Finding: header ResizeObserver writes its changing content height into the canvas top/height. The previous fix explicitly allowed arena resize and only tested pointer ownership plus static non-overlap. That misses visual movement during message transitions.
+- Plan: reproduce notification-driven arena movement in an isolated browser fixture, replace content-driven canvas sizing with a stable responsive header reservation, preserve readable non-overlapping scrollable header rows and touch steering. Cover appearing/expiring/long alerts, power timers, context/Precision readiness and score wrapping across phone portrait/landscape, desktop, focus and enlarged text. Actual viewport/orientation changes must still resize normally. Refresh generated runtime and exact-source browser evidence, run required checks, record hashes/diff and mirror updates. Use existing protected release workflow if publishing; preserve records, worlds, policies and earlier releases.
+- Pending: reproduction, implementation, browser verification and release. Physical phone testing is not available here.
+
+## NJ-IMPLEMENT — 2026-10-30T17:15:13.0698612Z
+
+- Actor: Codex. Reference: NJ-PLAN. Reproduced on the prior runtime: short alert moved canvas y from 196 to 240 and reduced height from 428 to 384; Precision readiness moved it to 266. Expiry moved it back. Standalone probe entered a 1280x720 fullscreen viewport despite its nominal phone iframe; recorded bounds are desktop/fullscreen reproduction, not phone measurements.
+- Fix: public/engagement.css now reserves a content-independent header height of min(40% of stage, 260px) with shared safe-area offsets. Canvas placement uses that same CSS reservation. Header rows retain natural height, separate lanes and bounded scrolling, with scroll anchoring disabled. public/app.js no longer measures message height or writes canvas geometry; actual stage/canvas changes still update Three.js projection and stage changes cancel obsolete gestures.
+- Regression: tools/handbook-browser-fixture.mjs measures quiet, short/wrapped alerts, multiple powers, Precision readiness, score/combo growth, power expiry and the actual toast expiry frame path. Sixteen viewport/focus/text combinations assert unchanged x/y/width/height, page scroll and renderer dimensions through all eight states. Pointer test now requires both stable arena size and preserved ownership. Static text non-overlap/clearance tests remain.
+- Verification: 222 tests pass across 27 files. Browser recovery/editor/engagement/layout passes; all 128 transition samples retain exact arena geometry, including 320x640 and 390x844 fixtures. Synthetic pointer ownership is preserved. Required performance evidence pending.
+- Failed attempts: initial standalone probe did not wait for app readiness; added bounded readiness wait. Its timed toast-expiry observation did not execute a frame while backgrounded, so the fixture now invokes the ordinary frame path explicitly for expiry. A PowerShell observer-block replacement and then a patch with mismatched comment context failed without mutation; corrected with exact source context. No production changes at this point. Physical phone/OS acceptance is not claimed.
+
+## NJ-VALIDATED — 2026-10-30T17:17:00.8190108Z
+
+- Actor: Codex. Reference: NJ-PLAN. Candidate runtime 1079aff328abe5b4a569 (92 assets) passed the exact-source browser suite: save recovery, engagement controls, editor, 40 dialog layouts, 38 cinematic layouts, 16 busy header combinations and all 128 transition samples. Canvas and renderer dimensions and page scroll remain unchanged through each transition; notifications preserve synthetic pointer ownership. Enlarged content remains separately scrollable, without horizontal overflow or row overlap.
+- Required renderer evidence passed four controlled comparisons, 3600 sustained frames (frame p95 17.2ms, CPU p95 1.2ms) and 19 sampled flash screens. This is local Chromium, not native phone/OS or independent human acceptance. Full behavioral suite: 222/222 passed.
+- Files: public/app.js, engagement.css and generated index.html/pwa-release.js/sw.js; tools/handbook-browser-fixture.mjs; adopted/dated browser evidence and this audit. Baseline movement retained separately. Source hashes/diff and guarded authoring mirror synchronization precede commit. Sandbox GitHub config read was unavailable; read-only fetch via approved escalation succeeded and main was synchronized, no open PRs.
+- Next: normal protected CI/merge and release, preserving data/policies. No live changes at this timestamp.
+
+- Release preparation note: the pre-commit whitespace check flagged mixed line endings in this newly written log and the legitimate single-space context line in the evidence patch. Normalized the new log to LF; validate source whitespace excluding patch artifacts, whose context whitespace is intentional. No commit/deployment occurred in the failed attempt.

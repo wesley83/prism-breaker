@@ -1,0 +1,67 @@
+{
+  "at": "2026-10-30T17:17:40.133Z",
+  "baseline": "2828b06f0dc9cd18c03bfd3412c0db6ea084d4e6",
+  "runtime": "1079aff328abe5b4a569",
+  "records": [
+    {
+      "file": "audit/2026-10-30-notification-jump-before.json",
+      "bytes": 1418,
+      "sha256": "8186530b8ef4414b90a707d3cf42d920dc694bd46d5b0209cb705d86bcd9be46"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-browser.json",
+      "bytes": 207679,
+      "sha256": "328f16112cd5c1f06058033b5fb7e29f3e82c421d688f286f375761eeb620662"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-preview.png",
+      "bytes": 40384,
+      "sha256": "694c0cb48c5f74be73de96722a7e8511ec95e0ed01541a685c26a14ea5eaa0ec"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump.md",
+      "bytes": 5229,
+      "sha256": "b5c1498f13f33b95c0df7d9df09cb2762cd0e14cc19e7df755d0923d9b277eb8"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 61810,
+      "sha256": "b0cb4c6bb6d1f005add9d486f50f683a00c9d941730ff7186c2296ae6d3a34f3"
+    },
+    {
+      "file": "public/engagement.css",
+      "bytes": 7372,
+      "sha256": "3acbd24aa8bf0df450458d54f3ec84b5e101d44e1e8ec8bd7796698e74cfb297"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 30274,
+      "sha256": "65f19d78bc597f94afc82c288e2fcdb8b71470098214232be963746ecbcb50a1"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "e8818875cd975d265f891055b92109ed24b4368fa88cf75f5600c783776606f2"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 33084,
+      "sha256": "c4ed58d4c6bde8830e67ed96cd80da78655feb5095e6078e93edee8a83da57ab"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 207679,
+      "sha256": "328f16112cd5c1f06058033b5fb7e29f3e82c421d688f286f375761eeb620662"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "bytes": 32728,
+      "sha256": "651d0bc37f57666919e784467c5cacc6e8f434ff7509f15adae68be03569337d"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-source.patch",
+      "bytes": 269846,
+      "sha256": "1f408e3be51ccd69ff2924a040334e5e75e8980bbf9bb78ce638d0537d780409"
+    }
+  ]
+}
