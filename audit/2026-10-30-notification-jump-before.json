@@ -1,0 +1,82 @@
+[
+  {
+    "label": "quiet",
+    "x": 0,
+    "y": 196,
+    "width": 1280,
+    "height": 428,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 428
+  },
+  {
+    "label": "short notification",
+    "x": 0,
+    "y": 240,
+    "width": 1280,
+    "height": 384,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 384
+  },
+  {
+    "label": "wrapped notification",
+    "x": 0,
+    "y": 240,
+    "width": 1280,
+    "height": 384,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 384
+  },
+  {
+    "label": "multiple powers",
+    "x": 0,
+    "y": 240,
+    "width": 1280,
+    "height": 384,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 384
+  },
+  {
+    "label": "precision ready",
+    "x": 0,
+    "y": 266,
+    "width": 1280,
+    "height": 358,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 358
+  },
+  {
+    "label": "score wraps and combo",
+    "x": 0,
+    "y": 266,
+    "width": 1280,
+    "height": 358,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 358
+  },
+  {
+    "label": "powers expire",
+    "x": 0,
+    "y": 266,
+    "width": 1280,
+    "height": 358,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 358
+  },
+  {
+    "label": "notification expires",
+    "x": 0,
+    "y": 222,
+    "width": 1280,
+    "height": 402,
+    "scrollY": 0,
+    "rendererWidth": 1280,
+    "rendererHeight": 402
+  }
+]
