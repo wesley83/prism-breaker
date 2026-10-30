@@ -1,0 +1,42 @@
+{
+  "at": "2026-10-30T03:17:38.196Z",
+  "deployedSource": "f17077f74541d5899f530afb5fb4d55ff71288e4",
+  "runtime": "f97eba17529877eb0d67",
+  "records": [
+    {
+      "file": "audit/2026-10-30-sticky-header.md",
+      "bytes": 8897,
+      "sha256": "974b73dcdbccd47593d03cdebe9f5e1fa56a0f4a3463993e4e2d47556ded3364"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-deployment.json",
+      "bytes": 21314,
+      "sha256": "3e5cd4759b53792483955aeef684be7c50427c06ac5067838f76a36d7b6d464f"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-editor.json",
+      "bytes": 268,
+      "sha256": "c1d99dfa7a859dd1175ce057c3e3442e4c89c37b35455e8c9a4f1f8d342d82a8"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-live.json",
+      "bytes": 59100,
+      "sha256": "38957b86e4aa86c431ce955069859256720d4fb7d7f6d808afaf36f5b35bcb67"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-live.png",
+      "bytes": 54896,
+      "sha256": "ed864509d45263fed74c2dd0db04df609a3652d0bda54820cad91ae8ba8ddb91"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-update.json",
+      "bytes": 1146,
+      "sha256": "f10e888f34221347a36b229172affbb40a5d1cbbb45b82ed9849ef4ff613495e"
+    },
+    {
+      "file": "audit/2026-10-30-sticky-header-publication.patch",
+      "bytes": 142249,
+      "sha256": "e9ba0ebb37ca2e319e834ba0ab4cbd95eecef73e930c9e6784b7132509625bd3"
+    }
+  ]
+}
