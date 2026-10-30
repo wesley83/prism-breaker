@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-30T18:04:45.195Z",
+  "before": {
+    "at": "2026-10-30T17:50:58.971Z",
+    "version": "1079aff328abe5b4a569",
+    "resume": "Continue adventure\nPrism Garden · 0 points",
+    "best": "BREAK\nTHROUGH.\n\nSixteen colorful worlds. Catch powerups,\nchase the record, and bring the prism home.\n\nContinue adventure\nPrism Garden · 0 points\nStart adventure\nJourney through all sixteen worlds\nPlay the daily challenge\nCloud Carnival · 2026-10-30 UTC\nMastery & rewards\nYour personal best\n5,300",
+    "mastery": "0 / 64 medals · 0 / 16 worlds restored"
+  },
+  "after": {
+    "at": "2026-10-30T18:04:34.770Z",
+    "version": "682e3138c9c16e2c89bc",
+    "resume": "Continue adventure\nPrism Garden · 0 points",
+    "best": "BREAK\nTHROUGH.\n\nSixteen colorful worlds. Catch powerups,\nchase the record, and bring the prism home.\n\nContinue adventure\nPrism Garden · 0 points\nStart adventure\nJourney through all sixteen worlds\nPlay the daily challenge\nCloud Carnival · 2026-10-30 UTC\nMastery & rewards\nYour personal best\n5,300",
+    "offline": "Ready to play offline",
+    "mastery": "0 / 64 medals · 0 / 16 worlds mastered"
+  },
+  "checks": {
+    "sameResume": true,
+    "sameHomeCopy": true,
+    "renderedMedals": 64,
+    "offlineReady": true,
+    "explicitUpdateButton": true
+  },
+  "limits": [
+    "One existing desktop Chromium client; zero prior medals in this browser. Nonzero/repeated/imported awards are covered by local tests. No production scores or awards were fabricated."
+  ]
+}
