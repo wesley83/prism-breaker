@@ -1,0 +1,117 @@
+{
+  "at": "2026-10-30T17:49:46.302Z",
+  "baseline": "d9faa77113746c612afcc712d3ddbdc39c0a370d",
+  "runtime": "682e3138c9c16e2c89bc",
+  "records": [
+    {
+      "file": "ENGAGEMENT.md",
+      "bytes": 9546,
+      "sha256": "bb3487293e608c196a2a4c384002d3b74b7e9510b9ee4f47c36fc73b0b2b3d20"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 65526,
+      "sha256": "9965f63835e0fa2c22c768070cee82f86e3615bbca8640a59483db1071a14b48"
+    },
+    {
+      "file": "public/audio.js",
+      "bytes": 8328,
+      "sha256": "b13c8690fe232d99c64173e280030c1eaa092ccc43d19b05e2c8e6b235811d51"
+    },
+    {
+      "file": "public/engagement-ui.js",
+      "bytes": 13762,
+      "sha256": "09e84de0dc594d9ca48683e11cc1dd55a4750f1fbc9934bcc116738ccddec1de"
+    },
+    {
+      "file": "public/engagement.css",
+      "bytes": 14326,
+      "sha256": "06ba04982187d7d1aada2caffacce97f1fc383c90369824e6024196ceeb31621"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 32725,
+      "sha256": "376179a056c3c2e90e25be10899967de60c28180ae5f9b393758fca1d005dc7f"
+    },
+    {
+      "file": "public/mastery.js",
+      "bytes": 4488,
+      "sha256": "6cc7c42289e38b865fad846ac49ba505177c2919e71ab01293df4e69786b1527"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "67fc8e65ffaea4b7fae6678bd44a84786309df6554bdcccd689d3bd47c3ee533"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 26004,
+      "sha256": "09fbc96642ed5085b5a613b33d68b2bb3fc3df9619ba1f1fb76dfc85d2e23e9a"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 33488,
+      "sha256": "1a18363c698a77be058ca1af8cab225ca5de798340693816f877de6489d98578"
+    },
+    {
+      "file": "public/victory-music.js",
+      "bytes": 1486,
+      "sha256": "8ab4f00f99b49e1774e41314914719c5f02a0d96e1754503ae63a55881b41b7e"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 219653,
+      "sha256": "be8563d6eb173efa937f40b980dd7e018493df1027f1da5cc8fd44eb4766d656"
+    },
+    {
+      "file": "review/requirements.html",
+      "bytes": 4541,
+      "sha256": "262c17f632aee0700c9ed019633b7ca2a2e92db95ca2bcf2823f7a278b59f525"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "bytes": 38213,
+      "sha256": "73b99851d43e2a5555c3b1e976db808deecf274e33764a955a8f51f7d873ce55"
+    },
+    {
+      "file": "audit/2026-10-30-mastery-celebration-browser.json",
+      "bytes": 219653,
+      "sha256": "be8563d6eb173efa937f40b980dd7e018493df1027f1da5cc8fd44eb4766d656"
+    },
+    {
+      "file": "audit/2026-10-30-mastery-celebration.md",
+      "bytes": 8275,
+      "sha256": "9ba0d4040a7fcf759740b18420600ddb5577b03b0dc329622efd5309f1d9a2c2"
+    },
+    {
+      "file": "audit/2026-10-30-mastery-collection-preview.png",
+      "bytes": 40880,
+      "sha256": "208c0e4692ae4bdd41c1eb69bacd4c39d4edcfdf4c602619255f42928928d190"
+    },
+    {
+      "file": "audit/2026-10-30-mastery-world-preview.png",
+      "bytes": 41875,
+      "sha256": "ad79f3d99ed50f59da589187ad45d3d477eda1fabc003bdd375d38906411271e"
+    },
+    {
+      "file": "public/mastery-ceremony.js",
+      "bytes": 4218,
+      "sha256": "9f7aeb0c59f2846f2299c5c94a9bb82b40d823d346785e179902d9134aa5e4b3"
+    },
+    {
+      "file": "public/medal-ui.js",
+      "bytes": 679,
+      "sha256": "6839709f5756cddc1e0f12d74ba2e673b2d5df9326f0e982aa841324ff76cbb2"
+    },
+    {
+      "file": "tests/mastery-celebration.test.mjs",
+      "bytes": 3726,
+      "sha256": "0d37887208e63f34762555fae5e716a19beedbd4f9e21894ae4ac2ebb0db4281"
+    },
+    {
+      "file": "audit/2026-10-30-mastery-celebration-source.patch",
+      "bytes": 332948,
+      "sha256": "bbcec533d834e89f9d67ce83ef78ac79d278882ede641c9074880422560f24d0"
+    }
+  ]
+}
