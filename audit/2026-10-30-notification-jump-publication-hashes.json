@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-30T17:22:04.293Z",
+  "deployedSource": "f7544c37ac2e3b6b0d306052c02f31364c7f5f82",
+  "runtime": "1079aff328abe5b4a569",
+  "records": [
+    {
+      "file": "audit/2026-10-30-notification-jump.md",
+      "bytes": 6815,
+      "sha256": "b75c320746881c6c10564ab9b0acf29784186dc2e518048302084dc08c8e6f5f"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-deployment.json",
+      "bytes": 21314,
+      "sha256": "fc1775d790a65be05034d592c38e618520dd2f449d924246a0de831b44ab4859"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-live.json",
+      "bytes": 59100,
+      "sha256": "61714e7e9de8191b72f31387a45bd3fa1592f39893a2df5a4a3a923ff68df6de"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-live.png",
+      "bytes": 49105,
+      "sha256": "c1cb905e9b5d7e76b438c26e297f7d98aa9d60792cfa4f3f2dfbd1eb22aec024"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-update.json",
+      "bytes": 1216,
+      "sha256": "08de14ed831a943b15d546129ddf79e4e29ccbf2a9e929fdc9b7a2e8fddadcb7"
+    },
+    {
+      "file": "audit/2026-10-30-notification-jump-publication.patch",
+      "bytes": 132716,
+      "sha256": "5842894f845f1b0c960de92b269c047ebb0d0f98e9facc9766a335447512e85d"
+    }
+  ]
+}

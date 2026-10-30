@@ -1,0 +1,45 @@
+{
+  "at": "2026-10-30T17:21:48.584Z",
+  "before": {
+    "checkpoint": "Continue adventurePrism Garden · 0 points",
+    "release": "f97eba17529877eb0d67",
+    "best": "5,300"
+  },
+  "after": {
+    "best": "5,300",
+    "checkpoint": "Continue adventurePrism Garden · 0 points",
+    "release": "1079aff328abe5b4a569"
+  },
+  "ordinaryCheckAndUpdate": true,
+  "offlineReadyObserved": true,
+  "checkpointPreserved": true,
+  "bestPreserved": true,
+  "legacyCheckpointResumed": true,
+  "geometry": {
+    "game-canvas": {
+      "bottom": 565.3229370117188,
+      "height": 221.59375,
+      "left": 32.66666793823242,
+      "right": 1232.00004196167,
+      "top": 343.72918701171875,
+      "width": 1199.3333740234375,
+      "x": 32.66666793823242,
+      "y": 343.72918701171875
+    },
+    "play-header": {
+      "bottom": 335.7291717529297,
+      "height": 225.0625,
+      "left": 48.66666793823242,
+      "right": 1216.00004196167,
+      "top": 110.66667175292967,
+      "width": 1167.3333740234375,
+      "x": 48.66666793823242,
+      "y": 110.66667175292967
+    }
+  },
+  "errors": [],
+  "limits": [
+    "Live desktop Chromium; native phone acceptance remains separate.",
+    "No ball launched or score submitted."
+  ]
+}

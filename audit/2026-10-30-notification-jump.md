@@ -24,3 +24,10 @@
 - Next: normal protected CI/merge and release, preserving data/policies. No live changes at this timestamp.
 
 - Release preparation note: the pre-commit whitespace check flagged mixed line endings in this newly written log and the legitimate single-space context line in the evidence patch. Normalized the new log to LF; validate source whitespace excluding patch artifacts, whose context whitespace is intentional. No commit/deployment occurred in the failed attempt.
+
+## NJ-PUBLISHED — 2026-10-30T17:22:02.9073487Z
+
+- Actor: Codex. Reference: NJ-PLAN. Source commit d95ce561d860c1668c451692202f84c9755f4ba3 passed the exact committed gate. Protected PR #19 passed push and PR checks and merged normally as f7544c37ac2e3b6b0d306052c02f31364c7f5f82. Main CI run 41097738775 and merged-source release gate passed; no bypass or branch-policy changes.
+- Owner publisher verified console identity/DAV access, received credentials only through hidden stdin, deployed immutable runtime 1079aff328abe5b4a569 at 2026-10-30T17:20:29.786Z and conditionally promoted entry points after verified dependencies. 101 publication records; preserved scores/policies, mutable worlds, legacy scripts/styles and older releases. Publisher quit cleared its credential. Only allowlisted receipt fields were retained.
+- Public release verification passed all 92 runtime assets, root marker and fullscreen manifest. Existing live client f97eba17529877eb0d67 found and installed the release via Check for updates / Update game, returned offline ready and preserved the Prism Garden checkpoint and personal best 5,300. Resumed its legacy run, inspected live header/canvas, and returned to start without launching a ball or submitting a score. Browser error log empty.
+- Dated publication/readback/update receipts and screenshot retained. Source evidence remains historical. Evidence-only guarded mirror copies, hashes/diff and protected merge are next; they do not change the live runtime. Physical phone verification remains separate from the browser viewport regression matrix.
