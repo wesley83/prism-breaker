@@ -1,0 +1,37 @@
+{
+  "at": "2026-10-31T01:40:04.874Z",
+  "deployedSource": "8d54c824ed5c3a064d39ac2cc9f3cabaa1b30f11",
+  "runtime": "f6395c37345e39f49387",
+  "records": [
+    {
+      "file": "audit/2026-10-30-cutscene-playback.md",
+      "bytes": 15728,
+      "sha256": "cb3ced6654795258b86d130b7d5c78ed7420622660f42d9c9178136acdac2fba"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-client-update.json",
+      "bytes": 372,
+      "sha256": "ed11224ae1bdaddb4219e68bbe977150fd8109b84bf485c58d35543a3f49ddb1"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-deployment.json",
+      "bytes": 21718,
+      "sha256": "8f438cb7c080506c75341a8b795bf7b20ca0270d62f05c0332d4479c8388d3cb"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-live.json",
+      "bytes": 60320,
+      "sha256": "70c45302ae83e56b12b53814c5b9c21604aecdcb15195b2d27699f8572430a48"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-release-gate.json",
+      "bytes": 1415,
+      "sha256": "d3ff80a30ddb9c8100e450c08a1692eb112c1120db86a06f065f644a8de24bff"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-publication.patch",
+      "bytes": 90233,
+      "sha256": "66f8ef4933134d7f09cbbf5616834e948f6c68eb8adeb9972b28eede1c695313"
+    }
+  ]
+}
