@@ -35,6 +35,14 @@ export function nextGoal(progress,id,report){
  return 'All four medals earned. Improve your personal time or challenge a friend.';
 }
 export const medalNames=medals=>medals.map(k=>labels[k]).join(' · ');
+export function liveMasteryGoal(progress,id){
+ const p=ENGAGEMENT.profiles[id],m=progress.worlds[id]?.medals||{};if(!p)return '';
+ if(!m.restored)return 'Restore this world';
+ if(!m.swift)return 'Swift: '+Math.floor(p.swift/60)+'m '+String(p.swift%60).padStart(2,'0')+'s';
+ if(!m.flawless)return 'Flawless: keep every life';
+ if(!m.skill)return p.skillLabel;
+ return 'All 4 medals earned';
+}
 export function observeRun(progress,game,completed){
  const s=game.engagement?.stats;if(!s||!game.engagement.profile)return;
  progress.observations.push({world:s.id,seconds:Math.round(s.seconds),tailSeconds:Math.round(s.tailSeconds||0),livesAtEntry:s.livesAtEntry,livesLost:s.livesLost,completed});progress.observations=progress.observations.slice(-60);

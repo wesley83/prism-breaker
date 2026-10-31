@@ -1,0 +1,132 @@
+{
+  "at": "2026-10-31T01:33:43.710Z",
+  "baseline": "dfd44cab3ed53497eaf8d3cfcde0d2af09bd78a0",
+  "runtime": "f6395c37345e39f49387",
+  "records": [
+    {
+      "file": "README.md",
+      "bytes": 51214,
+      "sha256": "4f8bc5b351e6a587667ed9d7b49190bb27b6449ebb3c737b158952861f5d3013"
+    },
+    {
+      "file": "public/app.js",
+      "bytes": 66431,
+      "sha256": "4c33497abf9316be9f8f7e2560d3250a849ff67e1c3922760516eb50eddc7064"
+    },
+    {
+      "file": "public/engagement-ui.js",
+      "bytes": 13459,
+      "sha256": "75a5a4fc11b7a7c60cfc04bb515dddb2c17ea546721e7aa361e91650d937216b"
+    },
+    {
+      "file": "public/engagement.css",
+      "bytes": 17386,
+      "sha256": "a61525110dad9fd2b5ce5e525c4a08a468a0ec3de0fdcba6d561a955503849a6"
+    },
+    {
+      "file": "public/index.html",
+      "bytes": 33120,
+      "sha256": "cb8869322a39bf2289fb30f607dbaf4491f9ce7ac19b576b4354012547b02efd"
+    },
+    {
+      "file": "public/mastery.js",
+      "bytes": 4880,
+      "sha256": "9f25c93ec54c6276278b69fd7a8eae74be425070655fc3ece357c71d53dd50a5"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "bytes": 88,
+      "sha256": "39e01712ffe709a208d29fc88a7a39740629078c0465b87e4aa66851dc602281"
+    },
+    {
+      "file": "public/scene-playback.js",
+      "bytes": 667,
+      "sha256": "f75ef18f04547d6d1c9104e6496679fb7be22d136d9729a3f4e5db4f49fef773"
+    },
+    {
+      "file": "public/scene.js",
+      "bytes": 26148,
+      "sha256": "f37d44708584e59e8b1ca7f36d5808d1a88e22a1a983bdbabd8f8c20a76d1813"
+    },
+    {
+      "file": "public/sw.js",
+      "bytes": 33488,
+      "sha256": "585b98d3b15ffd142db7758cdf3b57428b5358a954126125f5ccdbd12ef6842e"
+    },
+    {
+      "file": "review/evidence/handbook-browser.json",
+      "bytes": 329858,
+      "sha256": "5944ba5bc6be6be7b0a86317be6eb80411de4a70d385041d4716ddf6c77f2de7"
+    },
+    {
+      "file": "review/requirements.html",
+      "bytes": 5125,
+      "sha256": "3f8dff182c76bbdb4146fab17e2c740e6f901f5c230d1ab8045622c25c7fc866"
+    },
+    {
+      "file": "tests/experience-review.test.mjs",
+      "bytes": 3357,
+      "sha256": "fb40593fd19216bf0a07e2297cf4aee92b5bffbc8f27c218cd5a854601643bce"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "bytes": 45132,
+      "sha256": "f6adf1e13c667a45cb7ea15421c43cf258631ac7a8ccb544c48782b46b68eb16"
+    },
+    {
+      "file": "audit/2026-10-30-compact-header.png",
+      "bytes": 29244,
+      "sha256": "3f189d7d5205688bf052290c4ab2af8f5c1bbd166a5e9c32dde7ebcad2b3e217"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-baseline.json",
+      "bytes": 120724,
+      "sha256": "7354cbbdb58d87368b41cd025de423af3b724a214fe25054f64c2b513527815d"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-browser.json",
+      "bytes": 329858,
+      "sha256": "5944ba5bc6be6be7b0a86317be6eb80411de4a70d385041d4716ddf6c77f2de7"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-foreground-cadence.json",
+      "bytes": 650,
+      "sha256": "5630420523ef78eeb327092a1baff04a2575a0ac0b50d4571a8b8803a503e139"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-idle-cadence.json",
+      "bytes": 639,
+      "sha256": "7d0d4fe7a5f0efc415c877db0c741dd5340cd00447aee4f6aa7fb6f96511fca6"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-native-cadence.json",
+      "bytes": 633,
+      "sha256": "535c265364c0ec478aa7fb2d84235a04f4bca96e6f0b3fbfdb78ae93d1beb400"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-native-pending.json",
+      "bytes": 116543,
+      "sha256": "e828155c5666ef8c717e7f915b71944be296c6ae9044c281bbc9f93431bb050c"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-performance-failure.json",
+      "bytes": 124357,
+      "sha256": "d89e84356a27f957b29648e1aeb8d7204bfef0bc1a5cf7066849183902b23d6f"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-performance-measured.json",
+      "bytes": 218232,
+      "sha256": "14ff56e467423d830ecc8daf2aa5c1e4333dc87605e7627fd348e7def8318292"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback.md",
+      "bytes": 13830,
+      "sha256": "00109d63a7c27b6a88f6f4f5ab5f42aa96790a0f67919dde61712cd445552987"
+    },
+    {
+      "file": "audit/2026-10-30-cutscene-playback-source.patch",
+      "bytes": 525284,
+      "sha256": "adfb0386e3b350ab4210641e4f3c4b0963664137432c7e0fa9079fcae267b30d"
+    }
+  ]
+}

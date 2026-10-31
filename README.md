@@ -298,6 +298,10 @@ The world workshop is available locally at `/editor/prism-garden`; local preview
 
 For local manual previews, generate `bun tools/make-qa.mjs`, start the local server, and open `/__qa/index.html`. Other tools extend that fixture with music, cinematic, record, paddle or typography preview controls. Read the relevant upgrade notes below for their required order. Generated files stay under ignored `test-results/` and are outside the deployed `public/` tree.
 
+Automatic cinematic playback is a required browser release check. Generate `bun tools/handbook-browser-fixture.mjs`, then run both acceptance controls at `/__qa/handbook.html`. The playback check observes rendered pixel changes while the real application clock runs through all sixteen world stories, both record endings, Daily completion and the three reward tiers, with full and low effects. It also checks the medal-to-story transition and interrupted playback. Rendering selected timestamps manually remains useful for visual inspection, but cannot establish that playback works. Retain the exact browser receipt in `review/evidence/handbook-browser.json`; changed source, fixture or requirements invalidate it.
+
+Cinematics deliberately hold their final readable frame until the player continues, with a **Replay scene** action. Reduced motion shows a still composition with an explicit **Play animation** option for that scene only; this does not change the saved accessibility preference. These states are labeled so a deliberate still does not look like unexplained stalled playback. Physical-device failures still require reproduction on the affected browser/device.
+
 For world thumbnails, copy `tools/world-preview.html` into `test-results/fixture/`, open `/__qa/world-preview.html`, select a world and capture its 800×420 canvas into `public/assets/world-preview-01.png` through `world-preview-16.png`. The preview uses a fixed seed and reduced motion for consistent scenery.
 
 ### Existing checks

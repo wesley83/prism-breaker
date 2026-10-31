@@ -13,6 +13,8 @@ import {readMastery as hiReadMastery} from '/mastery.js';
 // Styles requested before the network-client handshake can have been refused by
 // an existing worker. Reload them after the handshake before inspecting layout.
 await Promise.all([...document.querySelectorAll('link[rel="stylesheet"]')].map(link=>new Promise((resolve,reject)=>{const retry=link.cloneNode();retry.href=link.href+(link.href.includes('?')?'&':'?')+'fixture='+Date.now();retry.onload=resolve;retry.onerror=()=>reject(Error('Fixture stylesheet failed: '+retry.href));link.replaceWith(retry);})));
+// Static sprite references can also precede the QA network-client handshake.
+for(const use of document.querySelectorAll('use[href^="/"]')){const url=new URL(use.getAttribute('href'),location.href);url.searchParams.set('fixture',Date.now());use.setAttribute('href',url.href);}
 const hiSleep=ms=>new Promise(r=>setTimeout(r,ms));
 const hiWait=async test=>{for(let n=0;n<400;n++){if(test())return;await hiSleep(25);}throw Error('Timed out waiting for the ordinary UI');};
 const hiAssert=(condition,message)=>{if(!condition)throw Error(message);};
@@ -25,7 +27,45 @@ const hiFetch=globalThis.fetch.bind(globalThis);globalThis.fetch=(url,options)=>
 `+app+String.raw`
 globalThis.hi={
  ready:()=>!!stage,
+ dispose(){appLoop.dispose();graphicsRecovery.dispose();stage?.renderer.dispose();stage?.renderer.forceContextLoss();},
  home,begin,openDialog,
+ async playback(){
+  const rows=[],screen=document.createElement('canvas');screen.width=96;screen.height=64;const ctx=screen.getContext('2d',{willReadFrequently:true});
+  for(const low of [false,true])for(let index=0;index<22;index++){
+   home();settings.lowEffects=low;settings.reducedMotion=false;applyTheme();
+   const mode=index===17||index===18?'daily':'campaign',level=index<16?index:index===16?15:0;
+   await begin(mode,level,{official:true,mastery:index>=19});
+   if(index>=19){const worlds={};if(index===21)for(const w of WORLDS)worlds[w.id]={medals:{restored:true,swift:true,flawless:true,skill:true}};worlds[game.world.id]={medals:{restored:true,swift:false,flawless:index!==19,skill:true}};engagementUI.progress=hiReadMastery({version:1,worlds});}
+   else engagementUI.progress=hiReadMastery({version:1,worlds:Object.fromEntries(WORLDS.map(w=>[w.id,{medals:{restored:true,swift:true,flawless:true,skill:true}}]))});
+   game.engagement.report={id:game.world.id,seconds:10,score:5000,livesLost:index===19?1:0,peakCombo:99,precision:99,portals:99,chains:99};game.score=5000;game.state='cleared';
+   if(index===16||index===18){finish(true);await hiWait(()=>view==='champion');}else handleEvent({type:'clear'});
+   const expected=index>=19?'award':index===16||index===18?'champion':'cut';await hiWait(()=>view===expected&&cutReady);
+   const captures=[],original=stage.render;stage.render=function(...args){const result=original.apply(this,args);if(args[3]===expected&&args[4]>=(captures.length?2:1)&&captures.length<2){ctx.drawImage(canvas,0,0,96,64);captures.push({time:args[4],pixels:ctx.getImageData(0,0,96,64).data});}return result;};
+   try{await hiWait(()=>captures.length===2);}finally{stage.render=original;}
+   let changed=0,total=0;for(let i=0;i<captures[0].pixels.length;i+=4){let delta=0;for(let c=0;c<3;c++)delta+=Math.abs(captures[0].pixels[i+c]-captures[1].pixels[i+c]);if(delta>12)changed++;total+=delta;}
+   const row={index,lowEffects:low,mode:expected,times:captures.map(c=>c.time),changedPixels:changed,meanChannelDelta:total/(96*64*3)};rows.push(row);hiAssert(changed>10,'Static rendered scene '+JSON.stringify(row));parent.document.querySelector('#status').textContent='Automatic scene playback '+rows.length+'/44';
+  }
+  const lifecycle=[];
+  const sample=async(label,still=false)=>{
+   const captures=[],original=stage.render,expected=view,start=cutTime;
+   stage.render=function(...args){const result=original.apply(this,args);if(args[3]===expected&&captures.length<2&&performance.now()>=(captures[0]?.wall??0)+(captures.length?500:0)){ctx.drawImage(canvas,0,0,96,64);captures.push({time:cutTime,wall:performance.now(),pixels:ctx.getImageData(0,0,96,64).data});}return result;};
+   try{await hiWait(()=>captures.length===2);}finally{stage.render=original;}
+   let changed=0;for(let i=0;i<captures[0].pixels.length;i+=4){let delta=0;for(let c=0;c<3;c++)delta+=Math.abs(captures[0].pixels[i+c]-captures[1].pixels[i+c]);if(delta>12)changed++;}
+   hiAssert(still?changed===0:changed>10,label+' pixel changes '+changed);lifecycle.push({label,changedPixels:changed,times:captures.map(c=>c.time),start});
+  };
+  settings.lowEffects=true;settings.reducedMotion=false;applyTheme();await begin('campaign',0,{official:true});
+  engagementUI.progress=hiReadMastery(null);game.engagement.report={id:game.world.id,seconds:10,score:5000,livesLost:0,peakCombo:99,precision:99,portals:99,chains:99};game.state='cleared';handleEvent({type:'clear'});await hiWait(()=>view==='award'&&cutReady);
+  await sample('ordinary award');$('#award-continue').click();await hiWait(()=>view==='cut'&&cutReady);await sample('award to Prism Garden story');
+  document.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyP',bubbles:true}));await hiSleep(60);await sample('keyboard paused',true);hiAssert($('#cut-reading-hint').textContent.includes('paused'),'paused scene is not identified');
+  document.dispatchEvent(new KeyboardEvent('keydown',{code:'KeyP',bubbles:true}));await sample('keyboard resumed');
+  openDialog('#settings-dialog');await sample('dialog holds timeline',true);closeDialogs();await sample('dialog closed');
+  const hidden=Object.getOwnPropertyDescriptor(document,'hidden');try{Object.defineProperty(document,'hidden',{configurable:true,value:true});const before=cutTime;await hiSleep(250);hiAssert(cutTime===before,'hidden scene advanced');}finally{if(hidden)Object.defineProperty(document,'hidden',hidden);else delete document.hidden;}await sample('foreground resumes (synthetic visibility)');
+  stage.renderer.forceContextLoss();await hiWait(()=>graphicsRecovery.blocked);const interrupted=cutTime;await hiSleep(150);hiAssert(cutTime===interrupted,'lost context advanced scene');stage.renderer.forceContextRestore();await hiWait(()=>!graphicsRecovery.blocked&&!stage.preparing);await sample('WebGL context restored');
+  const warm=stage.prepareCut;try{stage.prepareCut=()=>Promise.reject(Error('Injected cinematic preparation failure'));beginCut();await hiWait(()=>cutReady);await sample('rejected preparation still renders');}finally{stage.prepareCut=warm;}
+  settings.reducedMotion=true;applyTheme();beginCut();await hiWait(()=>cutReady);await hiSleep(100);await sample('deliberate reduced motion',true);const button=$('#cutscene [data-scene-replay]');hiAssert(!button.hidden&&button.textContent==='Play animation','missing reduced-motion opt-in');button.click();await hiWait(()=>cutReady);await sample('explicit animation opt-in');hiAssert(settings.reducedMotion,'opt-in changed saved preference');
+  settings.reducedMotion=false;applyTheme();beginCut();await hiWait(()=>cutReady);const replayDeadline=performance.now()+40000;while(button.hidden&&performance.now()<replayDeadline)await hiSleep(100);hiAssert(!button.hidden&&button.textContent==='Replay scene','completed scene missing replay');await sample('completed composition holds',true);button.click();await hiWait(()=>cutReady);hiAssert(cutTime<1,'replay did not restart timeline');await sample('completed scene replays');
+  settings.reducedMotion=true;applyTheme();beginCut();await hiWait(()=>cutReady);hiAssert(!stage.playSceneMotion,'new scene inherited motion opt-in');settings.reducedMotion=false;applyTheme();home();return {rows,lifecycle};
+ },
  async reward(tier='world',intent=true,reduced=false,failSave=false,mode='practice',focus){
   home();settings.reducedMotion=reduced;applyTheme();await begin(mode,0,{official:true,mastery:intent,seed:8399});if(focus!==undefined)document.documentElement.classList.toggle('game-focus',focus);
   const worlds={};if(tier==='collection')for(const w of WORLDS)worlds[w.id]={medals:{restored:true,swift:true,flawless:true,skill:true}};
@@ -137,13 +177,15 @@ const $=s=>document.querySelector(s),sleep=ms=>new Promise(r=>setTimeout(r,ms)),
 const identity=await fetch('/__qa/handbook-identity.json').then(r=>r.json());Object.assign(receipt,identity);
 const download=document.createElement('button');download.textContent='Download evidence';download.id='download-evidence';$('#results').before(download);download.onclick=()=>{const url=URL.createObjectURL(new Blob([JSON.stringify(receipt,null,2)],{type:'application/json'})),link=document.createElement('a');link.href=url;link.download='handbook-browser.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),10000);};
 const show=()=>$('#results').textContent=JSON.stringify(receipt,null,2);
-async function frame(url,width=1100,height=800){const f=document.createElement('iframe');f.style.width=width+'px';f.style.height=height+'px';f.src=url;$('#frames').replaceChildren(f);await new Promise((r,j)=>{f.onload=r;f.onerror=j;});for(let n=0;n<600;n++){if(f.contentWindow.hi?.ready())return f;await sleep(25);}throw Error('Frame did not become ready');}
+function releaseFrames(){for(const frame of $('#frames').querySelectorAll('iframe'))frame.contentWindow.hi?.dispose?.();$('#frames').replaceChildren();}
+async function frame(url,width=1100,height=800){releaseFrames();const f=document.createElement('iframe');f.style.width=width+'px';f.style.height=height+'px';f.src=url;$('#frames').replaceChildren(f);await new Promise((r,j)=>{f.onload=r;f.onerror=j;});for(let n=0;n<600;n++){if(f.contentWindow.hi?.ready())return f;await sleep(25);}throw Error('Frame did not become ready');}
 const bounds=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height};};
 const rgb=s=>(s.match(/[\d.]+/g)||[]).map(Number),luma=c=>c.slice(0,3).map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0);
 function contrast(element,background){const style=getComputedStyle(element),fg=luma(rgb(style.color)),bg=luma(rgb(getComputedStyle(background).backgroundColor));return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);}
 function textContrast(element,win){let background=[255,255,255];const chain=[];for(let node=element;node;node=node.parentElement)chain.push(node);for(const node of chain.reverse()){const c=rgb(win.getComputedStyle(node).backgroundColor),alpha=c[3]??1;background=background.map((v,i)=>(c[i]??0)*alpha+v*(1-alpha));}const fg=rgb(win.getComputedStyle(element).color),alpha=fg[3]??1,color=background.map((v,i)=>(fg[i]??0)*alpha+v*(1-alpha)),a=luma(color),b=luma(background);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);}
 $('#run').onclick=async()=>{for(const b of document.querySelectorAll('button'))b.disabled=true;try{
  $('#status').textContent='Checking actual save-failure and editor paths…';let f=await frame('/__qa/handbook-app.html');receipt.cases.storage={passed:true,...await f.contentWindow.hi.storage()};
+ receipt.cases.playback={passed:true,...await f.contentWindow.hi.playback()};
  receipt.cases.engagement={passed:true,...await f.contentWindow.hi.engagement()};
  receipt.cases.rewards={passed:true,...await f.contentWindow.hi.rewards()};
  f=await frame('/__qa/handbook-editor.html?world=prism-garden');const edited=await f.contentWindow.hi.exercise();assert(!edited.errors.length,'Editor errors: '+edited.errors.join(';'));receipt.cases.editor={passed:true,...edited};
@@ -170,7 +212,7 @@ $('#run').onclick=async()=>{for(const b of document.querySelectorAll('button'))b
  }catch(error){receipt.failure=String(error.stack||error);$('#status').textContent='Check failed: '+error.message;}finally{show();for(const b of document.querySelectorAll('button'))b.disabled=false;}};
 const stats=values=>{const sorted=[...values].sort((a,b)=>a-b);return {count:values.length,mean:values.reduce((a,b)=>a+b,0)/values.length,p95:sorted[Math.ceil(sorted.length*.95)-1],p99:sorted[Math.ceil(sorted.length*.99)-1],max:sorted.at(-1)};};
 $('#performance').onclick=async()=>{for(const b of document.querySelectorAll('button'))b.disabled=true;try{
- $('#frames').replaceChildren();const {Stage:Before}=await import('/__qa/performance-baseline/scene.js');const settings={lowEffects:false,classicMode:false,reducedMotion:false},runs=[];
+ releaseFrames();const {Stage:Before}=await import('/__qa/performance-baseline/scene.js');const settings={lowEffects:false,classicMode:false,reducedMotion:false},runs=[];
  for(const version of ['before','after','after','before']){
   const canvas=document.createElement('canvas');canvas.style.width='900px';canvas.style.height='560px';$('#frames').replaceChildren(canvas);const game=new Game();game.start('practice',15,8399);const stage=new (version==='before'?Before:Stage)(canvas,settings);await stage.prepare(game);
   // Controlled body/edge batching attribution: same crystals, 46 scenery objects,
@@ -185,7 +227,7 @@ $('#performance').onclick=async()=>{for(const b of document.querySelectorAll('bu
   if(i%3===0)stage.particle((random()-.5)*12,4,'#79e6ff',26);const start=performance.now();stage.render(game,1/60,i/60,'game');stage.observeFrame(delta,true);cpu.push(performance.now()-start);gaps.push(delta);
   if(i%120===0)$('#status').textContent='Sustained renderer '+Math.round(i/60)+'/60 seconds';
  }
- const sustained={frameMS:stats(gaps),cpuMS:stats(cpu),resourceSamples:memory,particleCount:stage.particleBatch.count,rawFrameMS:gaps};assert(sustained.particleCount<=192,'particle capacity exceeded');assert(cpu.every(Number.isFinite),'nonfinite render timing');
+ const sustained={frameMS:stats(gaps),cpuMS:stats(cpu),resourceSamples:memory,particleCount:stage.particleBatch.count,rawFrameMS:gaps};receipt.performanceAttempt={controlled:runs,sustained};assert(sustained.particleCount<=192,'particle capacity exceeded');assert(cpu.every(Number.isFinite),'nonfinite render timing');
  const before=runs.filter(r=>r.version==='before').reduce((s,r)=>s+r.draws.mean,0)/2,after=runs.filter(r=>r.version==='after').reduce((s,r)=>s+r.draws.mean,0)/2;assert(after<before*.6,'Controlled batching failed drawing budget');assert(sustained.frameMS.p95<=25&&sustained.frameMS.max<=250&&sustained.cpuMS.p95<=12,'Sustained desktop frame budget exceeded');
  const screen=document.createElement('canvas');screen.width=160;screen.height=100;const context=screen.getContext('2d',{willReadFrequently:true}),flashes=[];
  for(let index=0;index<22;index++){const mode=index>=19?'award':index<16||index===17?'cut':'champion';game.start(index>=17&&index<19?'daily':'campaign',index<16?index:index===16?15:0);stage.awardTier=['medal','world','collection'][index-19];stage.reset();await stage.prepareCut(game,mode);let previous=null;const changes=[];for(let i=0;i<180;i++){stage.render(game,1/60,i/60,mode,(index>=19?0:5)+i/60);context.drawImage(canvas,0,0,160,100);const pixels=context.getImageData(0,0,160,100).data;if(previous)changes.push(flashDelta(previous,pixels));previous=pixels;}const summary=flashSummary(changes);flashes.push({index,...summary});assert(!summary.flagged,'Large-area flashing flagged in scene '+index);$('#status').textContent='Conservative scene flash screen '+(index+1)+'/22';await sleep(0);}

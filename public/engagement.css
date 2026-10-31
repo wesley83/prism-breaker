@@ -9,7 +9,7 @@
 @media(max-height:550px){:root.game-focus{--play-top:130px}.game-focus .engagement-strip{top:calc(90px + env(safe-area-inset-top,0px));max-height:38px;font-size:10px}.game-focus:has(#aim-controls:not([hidden])){--play-bottom:140px}.game-focus .aim-controls{bottom:calc(52px + env(safe-area-inset-bottom,0px));padding:2px 10px;width:220px}.aim-controls small{display:none}.game-focus #precision-catch{min-height:44px;font-size:11px}}
 
 /* A viewport-sized header keeps alerts from moving/rescaling the playfield. */
-.stage{--play-header-height:min(40%,260px);--play-header-top:calc(12px + env(safe-area-inset-top,0px));--play-arena-top:calc(var(--play-header-top) + var(--play-header-height) + 8px)}
+.stage{--play-header-height:min(32%,136px);--play-header-top:calc(6px + env(safe-area-inset-top,0px));--play-arena-top:calc(var(--play-header-top) + var(--play-header-height) + 6px)}
 .stage .play-header{position:absolute;z-index:5;top:var(--play-header-top);left:calc(16px + env(safe-area-inset-left,0px));right:calc(16px + env(safe-area-inset-right,0px));display:grid;align-content:start;grid-auto-rows:max-content;gap:8px;height:var(--play-header-height);overflow:auto;overflow-anchor:none;overscroll-behavior:contain;background:linear-gradient(#08201ff5,#08201fe8);color:#eef5e9;pointer-events:auto}
 .stage .play-header :is(.stage-top,.hud,.effects,.toast,.engagement-strip){position:relative;inset:auto;transform:none;width:100%;max-width:100%;min-width:0;margin:0}
 .stage .play-header .stage-top{align-items:flex-start;overflow-wrap:anywhere}.play-header .stage-top>span{min-width:0}.play-header .stage-number{flex-shrink:0;max-width:48%;overflow-wrap:anywhere}
@@ -21,6 +21,8 @@
 .home-mode .play-header,.cinematic-mode .play-header{display:none}
 @media(max-height:550px){.stage{--play-header-top:calc(6px + env(safe-area-inset-top,0px))}.stage .play-header{gap:4px}.stage .play-header .engagement-strip{font-size:11px}.stage .play-header .toast{min-height:28px;padding:4px 10px;font-size:11px}.stage .play-header .stage-top{font-size:10px}.stage .play-header .hud{gap:8px}}
 
+.scene-replay{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:4px 12px;margin:0 4px;background:transparent;color:#edf7ff;border:1px solid #70828d;border-radius:6px;font:inherit;cursor:pointer}
+.scene-replay:focus-visible{outline:2px solid #fff;outline-offset:3px}
 /* Medal cabinet: semantic tokens come from the authored page template. */
 .medal-symbols{position:absolute;width:0;height:0;overflow:hidden}
 .medal-token{--medal:#c6ff89;display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;text-align:center;color:var(--text);overflow-wrap:anywhere}
@@ -45,3 +47,18 @@
 @media(max-height:550px) and (min-width:601px){.mastery-celebration{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:20px;padding:max(16px,env(safe-area-inset-top,0px)) max(60px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(60px,env(safe-area-inset-left,0px))}.award-heading{padding:0}.award-heading h2{font-size:32px}.award-prize-space{display:none}.award-copy{padding:10px 12px}.award-medals{gap:12px;min-height:90px;margin:0}.award-medals .medal-face{width:52px;height:58px}.award-medals .medal-name{font-size:11px}.award-count{margin:8px 0;font-size:11px}.award-unlocks{margin:8px 0}.award-unlocks strong{font-size:15px}.award-hint{font-size:10px}}
 
 .award-heading h2{overflow-wrap:anywhere}.award-heading h2:focus{outline:none}
+
+/* Compact, fixed reservation: transient messages never resize the arena. */
+.stage .play-header{gap:2px}.stage .play-header .stage-top{font-size:10px;line-height:1.2}
+.play-message{display:flex;gap:6px;align-items:center;min-width:0}.stage .play-header .play-message>.toast{flex:1;width:auto}.stage .play-header .play-message>.engagement-strip{flex:1;width:auto}
+.stage .play-header .play-message:has(.toast.visible) .engagement-strip{flex:0 0 auto;display:block}.stage .play-header .play-message:has(.toast.visible) .engagement-strip:not(:has(button:not([hidden]))){display:none}
+.stage .play-header #precision-catch{font-size:11px;padding:6px 8px;max-width:120px;min-height:44px}
+.stage .play-header .hud{gap:6px;align-items:center}.stage .play-header .top-score{padding:2px 4px;border:0;background:transparent;min-height:44px}.stage .play-header .top-score strong{font-size:18px;line-height:1.1}.stage .play-header .top-score #top-player{margin-top:1px;font-size:10px}.stage .play-header .top-score>span:first-child{margin-bottom:1px}
+.stage .play-header .hud-player{padding:3px 6px;background:transparent;border:0}.stage .play-header .hud-player #score{font-size:28px}.stage .play-header #score-chase{display:none}.stage .play-header .hud-actions{flex-direction:row;align-items:center;gap:6px;padding:0}.stage .play-header .hud-lives{min-width:34px}.stage .play-header .hud-lives>span{display:none}.stage .play-header .hud-lives .icon{width:12px;height:16px}.stage .play-header #pause{min-width:44px;min-height:44px;padding:8px}
+.stage .play-header .top-score{line-height:1.1}.stage .play-header .hud-player>span{line-height:1.1;margin-bottom:1px}.stage .play-header .hud-player #score{line-height:1.1}
+.stage .play-header .effect{font-size:10px;padding:2px 6px;gap:3px;border-radius:4px}.stage .play-header .effect .icon{width:12px;height:12px}
+.stage .play-header .engagement-strip{font-size:11px;line-height:1.3;gap:0 6px}.stage .play-header .engagement-strip p:empty,.stage .play-header #synergy-live,.stage .play-header .engagement-strip[data-encounter=true] #mastery-live,.stage .play-header:has(.toast.visible) .engagement-strip p{display:none}
+.stage .play-header .engagement-strip:not(:has(p:not(:empty))):not(:has(button:not([hidden]))){display:none}
+.stage .play-header .toast{min-height:0;border:0;border-radius:0;background:transparent;text-align:left;padding:0 2px;font-size:11px;line-height:1.3}
+@media(max-width:359px){.stage .play-header .hud-player #score{font-size:23px}.stage .play-header .top-score strong{font-size:15px}.stage .play-header .hud-actions{gap:2px}}
+@media(max-height:550px){.stage{--play-header-height:min(30%,108px)}.stage .play-header .hud-player #score{font-size:24px}.stage .play-header .hud-combo{display:none}}
