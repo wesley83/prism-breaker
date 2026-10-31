@@ -1,6 +1,6 @@
 import {MEDALS,medalToken} from './medal-ui.js';
 import {ENGAGEMENT} from './engagement-data.js';
-import {readMastery,counts,unlockedCosmetics,awardMastery,nextGoal,masteryCelebration,observeRun} from './mastery.js';
+import {readMastery,counts,unlockedCosmetics,awardMastery,nextGoal,liveMasteryGoal,masteryCelebration,observeRun} from './mastery.js';
 import {WORLDS,RULESET_REVISION} from './levels.js';
 import {downloadRecovery} from './save-recovery.js';
 export const SYNERGIES={precision:'Precision rig · Wide + Sticky: wider catches, released from the catch point.',storm:'Prism storm · Multiball + Pierce: surviving armor takes a second hit.',fuse:'Chain conductor · Laser + Explosives: explosions reach farther.'};
@@ -42,13 +42,12 @@ export class EngagementUI{
  }
  observe(completed=false){if(!this.settings.playNotes)return;observeRun(this.progress,this.game(),completed);this.save();}
  renderLive(){
-  const g=this.game(),e=g.engagement,p=e.profile,record=this.progress.worlds[g.world.id];
+  const g=this.game(),e=g.engagement,p=e.profile;
   this.$('#engagement-strip').hidden=!p;this.$('#engagement-strip').dataset.encounter=String(!!e.encounter);this.$('#aim-controls').hidden=!p||!g.balls.some(b=>b.held&&b.aimable);
   if(!p)return;
-  const personal=record?.bestTime?' · Personal world best '+record.bestScore.toLocaleString()+' points / '+seconds(record.bestTime):'';
-  text(this.$('#mastery-live'),nextGoal(this.progress,g.world.id)+personal);
-  text(this.$('#encounter-live'),e.encounter?e.encounter.title+' · '+e.encounterState+(g.state==='ready'?'. '+e.encounter.instruction:''):(e.recovery?'Breathing space · moving barriers ease briefly.':p.skillLabel));
-  text(this.$('#synergy-live'),SYNERGIES[e.synergy]||'Paired power-ups: catch one to choose your strategy.');
+  text(this.$('#mastery-live'),this.masteryIntent?liveMasteryGoal(this.progress,g.world.id):'');
+  text(this.$('#encounter-live'),e.encounter?e.encounter.title+' · '+e.encounterState:e.recovery?'Barriers slowing briefly':'');
+  text(this.$('#synergy-live'),'');
   this.$('#precision-catch').hidden=!['ready','armed'].includes(e.finisher)||g.balls.some(b=>b.held);this.$('#precision-catch').disabled=e.finisher!=='ready';text(this.$('#precision-catch'),e.finisher==='armed'?'Precision catch armed':'Use precision catch');
   const ball=g.balls.find(b=>b.held&&b.aimable);if(ball){const angle=Math.round(Math.atan2(ball.holdVX||0,Math.abs(ball.holdVY)||1)*180/Math.PI);if(document.activeElement!==this.$('#aim-angle'))this.$('#aim-angle').value=String(angle);text(this.$('#aim-value'),angle+'°');}
  }

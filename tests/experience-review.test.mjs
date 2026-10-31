@@ -3,10 +3,18 @@ import assert from 'node:assert/strict';
 import * as T from '../public/vendor/three.module.min.js';
 import {Champion} from '../public/champion.js';
 import {WORLD_COUNT} from '../public/levels.js';
-import {advanceScene} from '../public/scene-playback.js';
+import {advanceScene,scenePlaybackStatus} from '../public/scene-playback.js';
 import {CINEMATICS,CHAMPION_DURATION,cameraFrame} from '../public/cinematic-score.js';
 import {DAILY_DURATION,DAILY_RECORD_DURATION,dailyFrame} from '../public/daily-score.js';
 import {BRICK_GUIDE} from '../public/brick-labels.js';
+
+test('scene status distinguishes deliberate stillness from playback, with replay only at the end',()=>{
+ assert.deepEqual(scenePlaybackStatus(0,20),{hint:'Continue when you’re ready.',action:''});
+ assert.equal(scenePlaybackStatus(18.8,20).action,'Replay scene');
+ assert.equal(scenePlaybackStatus(18,20).action,'');
+ assert.match(scenePlaybackStatus(2,20,{paused:true}).hint,/paused/);
+ assert.deepEqual(scenePlaybackStatus(2,20,{reducedMotion:true,paused:true}),{hint:'Reduced motion is on.',action:'Play animation'});
+});
 
 test('all world and ending timelines hold before fade until explicit navigation',()=>{
  for(const duration of [...CINEMATICS.map(c=>c.duration),CHAMPION_DURATION,DAILY_DURATION,DAILY_RECORD_DURATION,9]){
