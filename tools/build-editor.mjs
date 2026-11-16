@@ -5,8 +5,10 @@ const WORLD_SLUGS=(await readWorldCatalog()).entries.map(w=>w.slug);
 let shell=await fs.readFile('public/editor.html','utf8');
 const fingerprint=file=>fs.readFile(file).then(data=>createHash('sha256').update(data).digest('hex').slice(0,12));
 const bootstrap=(await fs.readFile('tools/editor-bootstrap.js','utf8')).replaceAll('__EDITOR_CODE__',await fingerprint('public/editor.js')).replaceAll('__EDITOR_STYLE__',await fingerprint('public/editor.css')),hash=createHash('sha256').update(bootstrap).digest('base64');
-shell=shell.replace(/script-src 'self'(?: 'sha256-[^']+')?;/,"script-src 'self' 'sha256-"+hash+"';");
-shell=shell.replace(/<script id="editor-bootstrap">[\s\S]*?<\/script>/,'<script id="editor-bootstrap">'+bootstrap+'</script>');
+// External bootstrap works under the same-origin CSP after Pagelove composition.
+await fs.writeFile('public/editor-bootstrap.js',bootstrap);
+shell=shell.replace(/script-src 'self'(?: 'sha256-[^']+')?;/,"script-src 'self';");
+shell=shell.replace(/<script id="editor-bootstrap"[^>]*>[\s\S]*?<\/script>/,'<script id="editor-bootstrap" src="/editor-bootstrap.js" defer></script>');
 await fs.writeFile('public/editor.html',shell);
 const body=shell.match(/<div id="editor-shell">[\s\S]*<\/div><!-- editor-shell-end -->/);
 if(!body)throw Error('Editor shell boundary missing');

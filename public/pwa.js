@@ -1,3 +1,4 @@
+import {APP_BASE,appPath} from './installation.js';
 import {PWA_RELEASE} from './pwa-release.js';
 
 // Installation is optional: a completely downloaded game also works offline in a tab.
@@ -54,7 +55,7 @@ export function setupOfflinePlay({isSafeToUpdate,openHelp,beforeUpdate=()=>{}}){
   if(!('serviceWorker' in navigator)||!isSecureContext){unavailable='unsupported';render();return;}
   // Local cinematic fixtures must never register or alter the production-scope worker.
   if(location.pathname.startsWith('/__qa/')){unavailable='preview';render();return;}
-  try{registration=await navigator.serviceWorker.register('/sw.js',{scope:'/',updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect({forceRepair});}
+  try{registration=await navigator.serviceWorker.register(appPath('sw.js'),{scope:APP_BASE,updateViaCache:'none'});lastCheck=Date.now();watch(registration.installing);registration.addEventListener('updatefound',()=>{failed=false;render();watch(registration.installing);});await inspect({forceRepair});}
   catch{failed=true;render();}
  }
  window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();prompt=e;render();});

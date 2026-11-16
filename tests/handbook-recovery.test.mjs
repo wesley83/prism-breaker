@@ -23,7 +23,7 @@ test('only the accepted pointer steers/releases; chords, capture loss and contex
  assert.equal(input.owner,1);assert.equal(moves,1);assert.equal(launches,1);
  surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2);surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(input.owner,null);
  surface.dispatchEvent(pointer('pointerdown',{pointerType:'mouse'}));surface.dispatchEvent(pointer('pointermove',{pointerType:'mouse',buttons:2}));assert.equal(input.owner,null);
- for(const type of ['blur','resize']){surface.dispatchEvent(pointer('pointerdown'));win.dispatchEvent(new Event(type));assert.equal(input.owner,null);}
+ for(const type of ['blur','orientationchange']){surface.dispatchEvent(pointer('pointerdown'));win.dispatchEvent(new Event(type));assert.equal(input.owner,null);}
  surface.dispatchEvent(pointer('pointerdown'));enabled=false;surface.dispatchEvent(pointer('pointermove'));assert.equal(input.owner,null);assert.ok(neutral>=5);input.dispose();
 });
 test('score reconciliation binds every canonical field and handles bounded retry headers',()=>{
@@ -52,4 +52,29 @@ test('late restore failure leaves active state, callbacks and random sequence in
  let prepared=false;assert.equal(active.restore(source.snapshot(),{prepare(candidate){prepared=true;assert.equal(candidate.score,1200);assert.equal(active.score,900);}}),true);assert.ok(prepared);
  const draws=active.randomDraws;assert.equal(active.random(),source.random());assert.equal(active.randomDraws,draws+1);assert.equal(active.events,events);
  active.launch();active.tick(1/120);assert.equal(active.state,'playing');
+});
+
+
+test('toolbar resizes keep the accepted drag; unexpected cancellation pauses once, normal release never does',()=>{
+ const surface=new Surface(),win=new EventTarget(),doc=new EventTarget();let moves=0,pauses=0;
+ const input=setupPaddleInput(surface,{win,doc,enabled:()=>true,move:()=>moves++,launch:()=>{},interrupted:()=>{pauses++;input.cancel();}});
+ surface.dispatchEvent(pointer('pointerdown'));win.dispatchEvent(new Event('resize'));
+ assert.equal(input.owner,1);surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2);
+ surface.dispatchEvent(pointer('pointercancel',{pointerId:2}));assert.equal(pauses,0);
+ surface.dispatchEvent(pointer('pointercancel'));surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(pauses,1);assert.equal(input.owner,null);
+ surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2);
+ surface.dispatchEvent(pointer('pointerdown'));surface.dispatchEvent(pointer('pointerup'));surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(pauses,1);
+ surface.dispatchEvent(pointer('pointerdown'));input.cancel();surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(pauses,1);
+ input.dispose();
+});
+
+test('stage controls keep their own gestures while non-control margins own steering',()=>{
+ const surface=new Surface(),win=new EventTarget(),doc=new EventTarget();let control=true,moves=0,launches=0;
+ surface.closest=selector=>control&&selector.includes('button')?{}:null;
+ const input=setupPaddleInput(surface,{win,doc,enabled:()=>true,move:()=>moves++,launch:()=>launches++,hover:()=>false});
+ surface.dispatchEvent(pointer('pointerdown'));assert.equal(input.owner,null);assert.equal(launches,0);
+ control=false;surface.dispatchEvent(pointer('pointerdown'));assert.equal(input.owner,1);assert.equal(launches,1);assert.equal(moves,1);
+ control=true;surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2,'accepted drag may cross a control');
+ surface.dispatchEvent(pointer('pointerup'));surface.dispatchEvent(pointer('pointermove',{pointerType:'mouse',buttons:0}));assert.equal(moves,2);
+ input.dispose();
 });

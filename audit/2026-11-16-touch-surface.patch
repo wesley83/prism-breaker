@@ -1,0 +1,956 @@
+diff --git a/FULLSCREEN-UPGRADE.md b/FULLSCREEN-UPGRADE.md
+index 06882df..87470d7 100644
+--- a/FULLSCREEN-UPGRADE.md
++++ b/FULLSCREEN-UPGRADE.md
+@@ -1,5 +1,13 @@
+ # Phone fullscreen
+ 
++## Touch ownership � November 16, 2026
++
++Phone gameplay now uses a fixed, non-scrolling stage independently of API fullscreen. Declined requests and explicit fullscreen exits retain that layout; an exit still pauses play and suppresses automatic re-entry. The former standard-layout toggle is no longer offered during phone play because it could restore page scrolling. Back to start screen restores the ordinary document layout.
++
++The entire non-control stage, including HUD and lower margins, accepts one steering contact. Buttons, inputs and dialogs keep their own actions. Browser toolbar/viewport resize does not release pointer capture. Unexpected capture loss, pointer cancellation, focus loss or orientation change during an active drag releases it and opens Pause. Normal release and intentional menu opening do not create a second pause. Layout-triggered drawing-buffer resizes run immediately before a render to avoid clearing the canvas between rendered frames. No global zoom restriction was added: dialogs and cinematic text keep native scrolling/zoom.
++
++Regression coverage and browser measurements: [touch surface audit](audit/2026-11-16-touch-surface.md). Physical Android browser/PWA finger gestures still need confirmation. This supersedes the standard-layout option described in the historical October 15 entry below.
++
+ ## Button gestures — October 31, 2026
+ 
+ On phones and in installed app windows, ordinary button actions also request API fullscreen, including navigation, settings, leaderboard and dynamically created world controls. The delegated handler runs after the button's action in the same trusted click task. It does not cancel, delay or replay that action. Keyboard activation of a button qualifies; synthetic clicks and ordinary desktop browser tabs do not.
+diff --git a/public/app.js b/public/app.js
+index 95aeda3..82441d7 100644
+--- a/public/app.js
++++ b/public/app.js
+@@ -263,12 +263,13 @@ const graphicsRecovery=setupGraphicsRecovery(canvas,{
+   else {$('#error-text').textContent=status==='recovering'?'Restoring the 3D arena. Your game is paused.':status==='failed'?'The 3D arena could not recover. Reload the game to try again. An unfinished Daily Challenge or Practice run will end.':'Graphics were interrupted. Your game is paused while the arena recovers. Reload if it does not return; an unfinished Daily Challenge or Practice run will end.';if($('#pause-dialog').open)$('#pause-description').textContent=$('#error-text').textContent;}
+  }
+ });
+-paddleInput=setupPaddleInput(canvas,{enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed&&!!stage&&['ready','playing'].includes(game.state),move:e=>game.move(stage.screenX(e.clientX,e.clientY)),launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
++paddleInput=setupPaddleInput($('#stage'),{hover:e=>e.target===canvas,interrupted:()=>{if(view==='game'&&['playing','ready'].includes(game.state)&&!$('dialog[open]'))openDialog('#pause-dialog');},enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed&&!!stage&&['ready','playing'].includes(game.state),move:e=>{const r=canvas.getBoundingClientRect();game.move(stage.screenX(e.clientX,Math.max(r.top,Math.min(r.bottom,e.clientY))));},launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
+ document.addEventListener('keydown',e=>{if(ownsKeyboard(e.target,e.code)||all('dialog[open]').length||appLoop.failed||graphicsRecovery.blocked)return;if(view==='cut'||view==='champion'||view==='award'){if(['Space','Enter','KeyP','Escape'].includes(e.code)){e.preventDefault();if(!e.repeat){if(e.code==='KeyP'||e.code==='Escape')toggleScenePause();else if(view==='champion')finishCelebration();else if(view==='award')finishAward();else finishCut();}}return;}if(view!=='game')return;if(['KeyQ','KeyE'].includes(e.code)&&game.balls.some(b=>b.held&&b.aimable)){e.preventDefault();const held=game.balls.find(b=>b.held&&b.aimable),angle=Math.atan2(held.holdVX||0,Math.abs(held.holdVY)||1)*180/Math.PI;game.engagement.aim(angle+(e.code==='KeyQ'?-5:5));engagementUI.renderLive();return;}if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
+ document.addEventListener('visibilitychange',()=>{keys.clear();if(document.hidden&&view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');});window.addEventListener('pagehide',()=>{if(view==='game')persist();});
+-// Notification content never sizes the canvas. Only real stage/canvas changes
+-// update projection; stage changes also cancel an obsolete steering gesture.
+-const ro=new ResizeObserver(entries=>{if(entries.some(entry=>entry.target===$('#stage')))paddleInput?.cancel();stage?.resize();});ro.observe($('#stage'));ro.observe(canvas);
++// Notification content never sizes the canvas. Keep capture across viewport
++// changes; resize drawing buffers only in a frame that will also draw them.
++let stageResizePending=false;
++const ro=new ResizeObserver(()=>{stageResizePending=true;});ro.observe($('#stage'));ro.observe(canvas);
+ document.addEventListener('click',async event=>{const link=event.target.closest('a[href]');if(!link||link.target==='_blank'||link.hasAttribute('download')||event.defaultPrevented||event.ctrlKey||event.metaKey||event.shiftKey||view==='home'||game.mode!=='campaign')return;const url=new URL(link.href,location.href);if(url.origin!==location.origin)return;event.preventDefault();if(view==='game'&&!$('dialog[open]'))openDialog('#pause-dialog');if(await preserveRun()){leaving=true;location.href=url.href;}});
+ window.addEventListener('beforeunload',event=>{if(!leaving&&view==='game'&&!persist()){event.preventDefault();event.returnValue='';}});
+ function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+@@ -451,7 +452,8 @@ const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['c
+ setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='campaign'&&$('#scores-dialog').open)updateScoreOutlines();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
+ armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);
+ const renderClock=new RenderClock();let last=performance.now(),saveTimer=0,sceneDelta=0,lastHudPoll=0;
+-function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing&&!graphicsRecovery.blocked){
++function frame(now){
++ const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing&&!graphicsRecovery.blocked){
+  if(view==='game'&&!document.hidden){if(keys.has('ArrowLeft')||keys.has('KeyA'))game.move(game.target-dt*22);if(keys.has('ArrowRight')||keys.has('KeyD'))game.move(game.target+dt*22);accumulator+=dt;while(accumulator>=1/120){game.tick(1/120);accumulator-=1/120;}saveTimer+=dt;if(saveTimer>10&&view==='game'){saveTimer=0;persist();}if(now-lastHudPoll>=100||lastHud===''){lastHudPoll=now;hud();}}
+  if(view==='home'&&!document.hidden){game.time+=dt;game.paddle.x=settings.reducedMotion?0:Math.sin(now*.0006)*3.3;game.balls[0].x=game.paddle.x;game.balls[0].y=-9.5+(settings.reducedMotion?0:Math.sin(now*.0007)*.2);}
+  if(['cut','award','champion'].includes(view)){
+@@ -461,6 +463,6 @@ function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
+   updateSceneStatus();
+  }
+  const victory=view==='award'?'mastery':endResult?.record&&['champion','result'].includes(view)?endResult.mode:null,dialogs=all('dialog[open]'),musicActive=!document.hidden&&((!dialogs.length&&['game','cut','champion','award'].includes(view)&&game.state!=='paused')||(view==='result'&&victory&&dialogs.length===1&&$('#result-dialog').open));
+- const listening=collectionMusic!==null&&$('#mastery-dialog').open&&!document.hidden;sound.update(listening||musicActive&&!(['cut','champion','award'].includes(view)&&scenePaused),listening?collectionMusic:THEMES.indexOf(game.world.music),view==='cut'||view==='champion'||view==='award'||view==='game'&&game.engagement.recovery,listening?null:victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderFPS=view==='home'||dialogs.length||game.state==='paused'?30:60;if(document.hidden)renderClock.reset();else if(renderClock.due(now,renderFPS)){stage.render(game,sceneDelta,now/1000,view,cutTime);stage.observeFrame(renderClock.elapsed,view==='game'&&game.state==='playing'&&!dialogs.length);sceneDelta=0;}
++ const listening=collectionMusic!==null&&$('#mastery-dialog').open&&!document.hidden;sound.update(listening||musicActive&&!(['cut','champion','award'].includes(view)&&scenePaused),listening?collectionMusic:THEMES.indexOf(game.world.music),view==='cut'||view==='champion'||view==='award'||view==='game'&&game.engagement.recovery,listening?null:victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderFPS=view==='home'||dialogs.length||game.state==='paused'?30:60;if(document.hidden)renderClock.reset();else if(renderClock.due(now,renderFPS)||stageResizePending){if(stageResizePending){stageResizePending=false;stage.resize();}stage.render(game,sceneDelta,now/1000,view,cutTime);stage.observeFrame(renderClock.elapsed,view==='game'&&game.state==='playing'&&!dialogs.length);sceneDelta=0;}
+  }if(toastUntil&&now>toastUntil){$('#toast').classList.remove('visible');toastUntil=0;}}
+ const appLoop=startFrameLoop(frame,{onError(error){keys.clear();paddleInput?.cancel();accumulator=0;sound.update(false,THEMES.indexOf(game.world.music));if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');persist();$('#unpause').disabled=true;$('#error').hidden=false;$('#error-text').textContent='The arena stopped unexpectedly. Reload the game to try again. Your Adventure checkpoint has been kept if saving is available; an unfinished Daily Challenge or Practice run will end.';console.error('Game frame failed:',error);}});
+diff --git a/public/display.css b/public/display.css
+index 4fa9124..eaba94a 100644
+--- a/public/display.css
++++ b/public/display.css
+@@ -24,3 +24,15 @@
+  :root.game-focus{--play-top:90px;--play-bottom:64px}.game-focus .hud{top:calc(24px + env(safe-area-inset-top,0px));gap:12px}.game-focus .hud strong{font-size:18px}.game-focus .hud>div>span,.game-focus .top-score>span:first-child{font-size:9px;margin-bottom:2px}.game-focus .top-score{padding:5px 10px}.game-focus .top-score #top-player{font-size:10px;margin-top:2px}.game-focus .hud #score-chase{display:none}.game-focus .effects{top:calc(79px + env(safe-area-inset-top,0px))}.game-focus .effect{font-size:10px;padding:3px 7px}.game-focus .toast{top:calc(96px + env(safe-area-inset-top,0px))}.game-focus .arena-progress{bottom:calc(58px + env(safe-area-inset-bottom,0px))}.game-focus .play-tip{display:none}.game-focus .launch-controls{display:flex;justify-content:center;gap:0}.game-focus .launch{min-height:44px;padding:10px 16px}
+ }
+ @media(max-height:550px){.game-focus .hud .hud-player{padding:4px 10px}.game-focus .hud .hud-player>span{font-size:9px;margin-bottom:2px}.game-focus .hud .hud-player #score{font-size:25px}.game-focus .hud .hud-actions{padding-top:4px;gap:14px}}
++
++/* Phone play owns a fixed viewport even when native fullscreen is declined or
++   exited. Only the stage is fixed; top-layer dialogs retain native scrolling. */
++:root.play-locked,:root.play-locked body{height:100%;width:100%;overflow:hidden;overscroll-behavior:none}
++.play-locked .shell{position:fixed;inset:0;width:100%;height:100%;overflow:hidden}
++.play-locked .stage{position:absolute;inset:0;width:100%;height:100%;min-width:0;min-height:0;max-width:100%;overflow:hidden;overflow-anchor:none}
++/* Gesture policy must exist before contact, including HUD and lower margins.
++   Cinematic copy and menus intentionally remain scrollable and zoomable. */
++.stage:not(.home-mode):not(.cinematic-mode){touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
++.play-locked dialog{touch-action:auto;overscroll-behavior:contain;overflow:auto;user-select:text;-webkit-user-select:text}
++
++.stage:not(.home-mode):not(.cinematic-mode) :is(.play-header,.effects){touch-action:none}
+diff --git a/public/display.js b/public/display.js
+index a3023b5..f9c4fa8 100644
+--- a/public/display.js
++++ b/public/display.js
+@@ -2,20 +2,23 @@
+ // available phone viewport when the browser or operating system declines it.
+ export function setupGameDisplay({isPlaying,onExit=()=>{},onError=()=>{},document:doc=globalThis.document,window:win=globalThis.window}){
+  const root=doc.documentElement,button=doc.querySelector('#fullscreen'),pauseButton=doc.querySelector('#pause-fullscreen'),layoutButton=doc.querySelector('#pause-layout');
+- let phoneFocus=false,previousFullscreen=!!doc.fullscreenElement,pending=false,requestEpoch=0,buttonFullscreen=false,autoSuppressed=false;
++ let previousFullscreen=!!doc.fullscreenElement,pending=false,requestEpoch=0,buttonFullscreen=false,autoSuppressed=false;
+  const phone=()=>win.matchMedia('(max-width: 650px)').matches||(win.matchMedia('(pointer: coarse)').matches&&win.matchMedia('(max-width: 1100px)').matches);
+  const installedFullscreen=()=>win.matchMedia('(display-mode: fullscreen)').matches;
+  const installed=()=>installedFullscreen()||win.matchMedia('(display-mode: standalone)').matches||win.matchMedia('(display-mode: minimal-ui)').matches||win.navigator?.standalone===true;
+  const canRequest=()=>typeof root.requestFullscreen==='function'&&doc.fullscreenEnabled!==false;
+  function refresh(){
+   const nativeFullscreen=!!doc.fullscreenElement;
+-  root.classList.toggle('game-focus',isPlaying()&&(nativeFullscreen||phoneFocus));
++  // Gameplay layout is independent of the browser's fullscreen permission.
++  const mobilePlay=isPlaying()&&phone();
++  root.classList.toggle('game-focus',isPlaying()&&(nativeFullscreen||mobilePlay));
++  root.classList.toggle('play-locked',mobilePlay);
+   const label=pending?'Opening fullscreen…':nativeFullscreen?'Exit fullscreen':canRequest()?'Enter fullscreen':'Fullscreen unavailable';
+   button.setAttribute('aria-label',label);button.title=label;
+   button.disabled=pauseButton.disabled=pending||(!nativeFullscreen&&!canRequest());
+   button.innerHTML='<svg class="icon" aria-hidden="true" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="'+(nativeFullscreen?'M4 9h5V4m6 0v5h5M4 15h5v5m6 0v-5h5':'M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5')+'"/></svg>';
+   pauseButton.textContent=label;
+-  if(layoutButton){layoutButton.hidden=!phone()||!isPlaying()||nativeFullscreen;layoutButton.disabled=pending;layoutButton.textContent=phoneFocus?'Use standard layout':'Use screen-filling layout';}
++  if(layoutButton)layoutButton.hidden=true;
+  }
+  function request(automatic=false,fromButton=false){
+   // Installed window mode and API fullscreen are independent. An explicit tap
+@@ -31,36 +34,31 @@ export function setupGameDisplay({isPlaying,onExit=()=>{},onError=()=>{},documen
+    }).catch(failed).finally(()=>{pending=false;refresh();});
+   }catch{pending=false;failed();refresh();}
+  }
+- function enterForPlay(){autoSuppressed=false;if(!phone())return;phoneFocus=true;refresh();request(true);}
++ function enterForPlay(){autoSuppressed=false;if(!phone())return;refresh();request(true);}
+  function leave(){
+   // A button-entered session stays immersive while navigating back home.
+-  if(buttonFullscreen){phoneFocus=false;refresh();return;}
+-  ++requestEpoch;phoneFocus=false;refresh();
++  if(buttonFullscreen){refresh();return;}
++  ++requestEpoch;refresh();
+   if(doc.fullscreenElement===root)try{Promise.resolve(doc.exitFullscreen()).catch(()=>{});}catch{}
+  }
+  function toggle(){
+   if(pending)return;
+   if(doc.fullscreenElement){autoSuppressed=true;buttonFullscreen=false;try{Promise.resolve(doc.exitFullscreen()).catch(onError);}catch{onError();}return;}
+   autoSuppressed=false;
+-  if(phone()&&isPlaying())phoneFocus=true;
+   refresh();request();
+  }
+- function toggleLayout(){
+-  if(pending||doc.fullscreenElement||!phone()||!isPlaying())return;
+-  phoneFocus=!phoneFocus;if(!phoneFocus)autoSuppressed=true;refresh();if(!phoneFocus)onExit();
+- }
+  // Bubble after the ordinary action, in the same activation task. Do not consume
+  // the gesture needed by native sharing, clipboard, downloads or installation.
+  doc.addEventListener('click',event=>{
+   if(!event.isTrusted||event.defaultPrevented||autoSuppressed||(!phone()&&!installed()))return;
+   const control=event.target?.closest?.('button');
+   if(!control||control.disabled||control.getAttribute('aria-disabled')==='true'||control===button||control===pauseButton||control===layoutButton||control.closest('[data-fullscreen-skip]'))return;
+-  buttonFullscreen=true;if(phone()&&isPlaying())phoneFocus=true;refresh();request(true,true);
++  buttonFullscreen=true;refresh();request(true,true);
+  });
+  doc.addEventListener('fullscreenchange',()=>{
+   const current=!!doc.fullscreenElement,exited=previousFullscreen&&!current;previousFullscreen=current;
+-  if(exited){phoneFocus=false;buttonFullscreen=false;autoSuppressed=true;}refresh();if(exited&&isPlaying())onExit();
++  if(exited){buttonFullscreen=false;autoSuppressed=true;}refresh();if(exited&&isPlaying())onExit();
+  });
+  win.addEventListener('resize',refresh);
+- button.onclick=toggle;pauseButton.onclick=toggle;if(layoutButton)layoutButton.onclick=toggleLayout;refresh();return {enterForPlay,refresh,leave};
++ button.onclick=toggle;pauseButton.onclick=toggle;refresh();return {enterForPlay,refresh,leave};
+ }
+diff --git a/public/index.html b/public/index.html
+index 38f97ff..a92d926 100644
+--- a/public/index.html
++++ b/public/index.html
+@@ -1,7 +1,7 @@
+ <!doctype html>
+ <html lang="en" prefix="og: https://ogp.me/ns#">
+ <head>
+- <meta name="prism-release" content="9344c61c6475cef32ae7">
++ <meta name="prism-release" content="59acc99f3f0bba0da1eb">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Break through sixteen colorful worlds in Prism Breaker. A Three.js arcade adventure with power-ups, cinematic transitions and a shared leaderboard. Play free on Pagelove.">
+  <meta name="theme-color" content="#111d20"><meta name="color-scheme" content="dark light">
+diff --git a/public/pointer-input.js b/public/pointer-input.js
+index 247f484..3691a31 100644
+--- a/public/pointer-input.js
++++ b/public/pointer-input.js
+@@ -1,14 +1,18 @@
+ // One accepted contact owns paddle steering. Additional contacts cannot release it.
+-export function setupPaddleInput(surface,{enabled,move,launch,neutral=()=>{},win=globalThis.window,doc=globalThis.document}){
++export function setupPaddleInput(surface,{enabled,move,launch,neutral=()=>{},interrupted=()=>{},accept=event=>!event.target?.closest?.('button,a,input,select,textarea,label,summary,[role="button"],[contenteditable],dialog,[data-paddle-ignore]'),hover=()=>true,win=globalThis.window,doc=globalThis.document}){
+  let owner=null;
+  const cancel=()=>{const old=owner;owner=null;try{if(old!==null&&surface.hasPointerCapture?.(old))surface.releasePointerCapture(old);}catch{}neutral();};
+- const down=event=>{if(!enabled()||owner!==null||event.button!==0)return;owner=event.pointerId;try{surface.setPointerCapture(owner);}catch{cancel();return;}move(event);launch(event);};
++ const interrupt=()=>{const active=owner!==null;cancel();if(active)interrupted();};
++ const down=event=>{if(!enabled()||owner!==null||event.button!==0||!accept(event))return;owner=event.pointerId;try{surface.setPointerCapture(owner);}catch{interrupt();return;}move(event);launch(event);};
+  const motion=event=>{if(!enabled()){cancel();return;}if(owner!==null){if(event.pointerId!==owner)return;if(event.pointerType==='mouse'&&(event.buttons&1)===0){cancel();return;}move(event);}
+-  else if(event.pointerType==='mouse'&&event.buttons===0)move(event);
++  else if(event.pointerType==='mouse'&&event.buttons===0&&accept(event)&&hover(event))move(event);
+  };
+  const up=event=>{if(event.pointerId===owner)cancel();};
+- const visibility=()=>{if(doc.hidden)cancel();};
+- const bindings=[[surface,'pointerdown',down],[surface,'pointermove',motion],[surface,'pointerup',up],[surface,'pointercancel',up],[surface,'lostpointercapture',up],[win,'blur',cancel],[win,'resize',cancel],[doc,'visibilitychange',visibility]];
++ const lost=event=>{if(event.pointerId===owner)interrupt();};
++ const visibility=()=>{if(doc.hidden)interrupt();};
++ // Browser toolbar/viewport resizes do not invalidate pointer capture. Genuine
++ // cancellation pauses play; a fresh contact is required after resuming.
++ const bindings=[[surface,'pointerdown',down],[surface,'pointermove',motion],[surface,'pointerup',up],[surface,'pointercancel',lost],[surface,'lostpointercapture',lost],[win,'blur',interrupt],[win,'orientationchange',interrupt],[win.screen?.orientation,'change',interrupt],[doc,'visibilitychange',visibility]];
+  for(const [target,type,handler]of bindings)target?.addEventListener(type,handler);
+  return {cancel,get owner(){return owner;},dispose(){cancel();for(const [target,type,handler]of bindings)target?.removeEventListener(type,handler);}};
+ }
+diff --git a/public/pwa-release.js b/public/pwa-release.js
+index cda7cb0..d5fbda4 100644
+--- a/public/pwa-release.js
++++ b/public/pwa-release.js
+@@ -1,2 +1,2 @@
+ // Generated by tools/build-pwa.mjs.
+-export const PWA_RELEASE = "9344c61c6475cef32ae7";
++export const PWA_RELEASE = "59acc99f3f0bba0da1eb";
+diff --git a/public/sw.js b/public/sw.js
+index a6470bf..389e59f 100644
+--- a/public/sw.js
++++ b/public/sw.js
+@@ -1,569 +1,569 @@
+ // Generated by tools/build-pwa.mjs. Keep runtime edits in this template.
+-const VERSION = "9344c61c6475cef32ae7";
++const VERSION = "59acc99f3f0bba0da1eb";
+ const PRECACHE = [
+   {
+     "path": "/app.js",
+-    "sha256": "290e4daa8174ac2ae4257e0d42e0bfe407d3b80e6680d92cbf21ab2168f166b2",
+-    "bytes": 66491,
+-    "url": "/releases/9344c61c6475cef32ae7/app.js"
++    "sha256": "6546d75cda7af47eb20dee68161da1cdf3bc3ad385197438e09bdae4371670b2",
++    "bytes": 67237,
++    "url": "/releases/59acc99f3f0bba0da1eb/app.js"
+   },
+   {
+     "path": "/apple-touch-icon.png",
+     "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+     "bytes": 3811,
+-    "url": "/releases/9344c61c6475cef32ae7/apple-touch-icon.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/apple-touch-icon.png"
+   },
+   {
+     "path": "/assets/display.woff2",
+     "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+     "bytes": 22288,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/display.woff2"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/display.woff2"
+   },
+   {
+     "path": "/assets/favicon-32.png",
+     "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+     "bytes": 791,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/favicon-32.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/favicon-32.png"
+   },
+   {
+     "path": "/assets/FONT-LICENSE.txt",
+     "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+     "bytes": 4401,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/FONT-LICENSE.txt"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/FONT-LICENSE.txt"
+   },
+   {
+     "path": "/assets/ICON-LICENSE.txt",
+     "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+     "bytes": 1073,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/ICON-LICENSE.txt"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/ICON-LICENSE.txt"
+   },
+   {
+     "path": "/assets/icons.svg",
+     "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+     "bytes": 10681,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/icons.svg"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/icons.svg"
+   },
+   {
+     "path": "/assets/og-prism-breaker-square.jpg",
+     "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+     "bytes": 420420,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/og-prism-breaker-square.jpg"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/og-prism-breaker-square.jpg"
+   },
+   {
+     "path": "/assets/og-prism-breaker.jpg",
+     "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+     "bytes": 222971,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/og-prism-breaker.jpg"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/og-prism-breaker.jpg"
+   },
+   {
+     "path": "/assets/prism-icon-192.png",
+     "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+     "bytes": 4055,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/prism-icon-192.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/prism-icon-192.png"
+   },
+   {
+     "path": "/assets/prism-icon-512.png",
+     "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+     "bytes": 27390,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/prism-icon-512.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/prism-icon-512.png"
+   },
+   {
+     "path": "/assets/prism-maskable-512.png",
+     "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+     "bytes": 13028,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/prism-maskable-512.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/prism-maskable-512.png"
+   },
+   {
+     "path": "/assets/prism-maskable.svg",
+     "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+     "bytes": 500,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/prism-maskable.svg"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/prism-maskable.svg"
+   },
+   {
+     "path": "/assets/prism-wordmark.svg",
+     "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+     "bytes": 1375,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/prism-wordmark.svg"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/prism-wordmark.svg"
+   },
+   {
+     "path": "/assets/QR-LICENSE.txt",
+     "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+     "bytes": 1094,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/QR-LICENSE.txt"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/QR-LICENSE.txt"
+   },
+   {
+     "path": "/assets/world-preview-01.png",
+     "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+     "bytes": 27953,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-01.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-01.png"
+   },
+   {
+     "path": "/assets/world-preview-02.png",
+     "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+     "bytes": 29205,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-02.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-02.png"
+   },
+   {
+     "path": "/assets/world-preview-03.png",
+     "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+     "bytes": 31118,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-03.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-03.png"
+   },
+   {
+     "path": "/assets/world-preview-04.png",
+     "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+     "bytes": 29656,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-04.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-04.png"
+   },
+   {
+     "path": "/assets/world-preview-05.png",
+     "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+     "bytes": 29165,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-05.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-05.png"
+   },
+   {
+     "path": "/assets/world-preview-06.png",
+     "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+     "bytes": 25415,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-06.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-06.png"
+   },
+   {
+     "path": "/assets/world-preview-07.png",
+     "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+     "bytes": 27961,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-07.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-07.png"
+   },
+   {
+     "path": "/assets/world-preview-08.png",
+     "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+     "bytes": 27056,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-08.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-08.png"
+   },
+   {
+     "path": "/assets/world-preview-09.png",
+     "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+     "bytes": 27537,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-09.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-09.png"
+   },
+   {
+     "path": "/assets/world-preview-10.png",
+     "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+     "bytes": 27226,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-10.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-10.png"
+   },
+   {
+     "path": "/assets/world-preview-11.png",
+     "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+     "bytes": 30170,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-11.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-11.png"
+   },
+   {
+     "path": "/assets/world-preview-12.png",
+     "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+     "bytes": 29931,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-12.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-12.png"
+   },
+   {
+     "path": "/assets/world-preview-13.png",
+     "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+     "bytes": 27592,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-13.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-13.png"
+   },
+   {
+     "path": "/assets/world-preview-14.png",
+     "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+     "bytes": 22221,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-14.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-14.png"
+   },
+   {
+     "path": "/assets/world-preview-15.png",
+     "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+     "bytes": 26493,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-15.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-15.png"
+   },
+   {
+     "path": "/assets/world-preview-16.png",
+     "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+     "bytes": 32667,
+-    "url": "/releases/9344c61c6475cef32ae7/assets/world-preview-16.png"
++    "url": "/releases/59acc99f3f0bba0da1eb/assets/world-preview-16.png"
+   },
+   {
+     "path": "/audio.js",
+     "sha256": "b13c8690fe232d99c64173e280030c1eaa092ccc43d19b05e2c8e6b235811d51",
+     "bytes": 8328,
+-    "url": "/releases/9344c61c6475cef32ae7/audio.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/audio.js"
+   },
+   {
+     "path": "/bootstrap.js",
+     "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+     "bytes": 1363,
+-    "url": "/releases/9344c61c6475cef32ae7/bootstrap.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/bootstrap.js"
+   },
+   {
+     "path": "/brick-batch.js",
+     "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115",
+     "bytes": 10222,
+-    "url": "/releases/9344c61c6475cef32ae7/brick-batch.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/brick-batch.js"
+   },
+   {
+     "path": "/brick-events.js",
+     "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee",
+     "bytes": 3932,
+-    "url": "/releases/9344c61c6475cef32ae7/brick-events.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/brick-events.js"
+   },
+   {
+     "path": "/brick-labels.js",
+     "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
+     "bytes": 2654,
+-    "url": "/releases/9344c61c6475cef32ae7/brick-labels.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/brick-labels.js"
+   },
+   {
+     "path": "/bundled-worlds.js",
+     "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0",
+     "bytes": 127892,
+-    "url": "/releases/9344c61c6475cef32ae7/bundled-worlds.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/bundled-worlds.js"
+   },
+   {
+     "path": "/champion.js",
+     "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d",
+     "bytes": 5979,
+-    "url": "/releases/9344c61c6475cef32ae7/champion.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/champion.js"
+   },
+   {
+     "path": "/cinematic-score.js",
+     "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+     "bytes": 1984,
+-    "url": "/releases/9344c61c6475cef32ae7/cinematic-score.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/cinematic-score.js"
+   },
+   {
+     "path": "/cinematics.js",
+     "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c",
+     "bytes": 15958,
+-    "url": "/releases/9344c61c6475cef32ae7/cinematics.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/cinematics.js"
+   },
+   {
+     "path": "/crystal-bricks.js",
+     "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2",
+     "bytes": 6307,
+-    "url": "/releases/9344c61c6475cef32ae7/crystal-bricks.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/crystal-bricks.js"
+   },
+   {
+     "path": "/daily-ending.js",
+     "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7",
+     "bytes": 6526,
+-    "url": "/releases/9344c61c6475cef32ae7/daily-ending.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/daily-ending.js"
+   },
+   {
+     "path": "/daily-score.js",
+     "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+     "bytes": 489,
+-    "url": "/releases/9344c61c6475cef32ae7/daily-score.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/daily-score.js"
+   },
+   {
+     "path": "/display.css",
+-    "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7",
+-    "bytes": 4199,
+-    "url": "/releases/9344c61c6475cef32ae7/display.css"
++    "sha256": "5a1504cd2dd28fdbf8e2c7151520c25c2336efd575d901bd6d300e6420c9ea2c",
++    "bytes": 5234,
++    "url": "/releases/59acc99f3f0bba0da1eb/display.css"
+   },
+   {
+     "path": "/display.js",
+-    "sha256": "649adc7cadc448a10c3964a62cf0531f7bc7c4d91f98e40bd8103efc5a35768a",
+-    "bytes": 4935,
+-    "url": "/releases/9344c61c6475cef32ae7/display.js"
++    "sha256": "19831eddcdc2c12e98ed4e8739d75f94bb533310cd22c55d42d8d4a85ab80614",
++    "bytes": 4604,
++    "url": "/releases/59acc99f3f0bba0da1eb/display.js"
+   },
+   {
+     "path": "/editor-drafts.js",
+     "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
+     "bytes": 1023,
+-    "url": "/releases/9344c61c6475cef32ae7/editor-drafts.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/editor-drafts.js"
+   },
+   {
+     "path": "/editor.css",
+-    "sha256": "e82189843ab2b707f05db015df999abe1dbcad1e341b96b0b2b8bed618bbfb15",
++    "sha256": "a8190f7bf031d7f5e2b0a970c2a3bdae9c99f414b1ecdff57625597b9c47193e",
+     "bytes": 15376,
+-    "url": "/releases/9344c61c6475cef32ae7/editor.css"
++    "url": "/releases/59acc99f3f0bba0da1eb/editor.css"
+   },
+   {
+     "path": "/editor.js",
+     "sha256": "50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a",
+     "bytes": 41010,
+-    "url": "/releases/9344c61c6475cef32ae7/editor.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/editor.js"
+   },
+   {
+     "path": "/engagement-art.js",
+     "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677",
+     "bytes": 3268,
+-    "url": "/releases/9344c61c6475cef32ae7/engagement-art.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/engagement-art.js"
+   },
+   {
+     "path": "/engagement-data.js",
+     "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d",
+     "bytes": 5547,
+-    "url": "/releases/9344c61c6475cef32ae7/engagement-data.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/engagement-data.js"
+   },
+   {
+     "path": "/engagement-ui.js",
+-    "sha256": "1f011e2e1e01e0839af9a2e658a3a3a19c494ad8c3877091d7108509f3750edf",
++    "sha256": "7cf4059b3b25ab23b3373a83b102fb6f6fa1f0bd028314b8850dd1b14896c2fa",
+     "bytes": 13489,
+-    "url": "/releases/9344c61c6475cef32ae7/engagement-ui.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/engagement-ui.js"
+   },
+   {
+     "path": "/engagement.css",
+     "sha256": "a61525110dad9fd2b5ce5e525c4a08a468a0ec3de0fdcba6d561a955503849a6",
+     "bytes": 17386,
+-    "url": "/releases/9344c61c6475cef32ae7/engagement.css"
++    "url": "/releases/59acc99f3f0bba0da1eb/engagement.css"
+   },
+   {
+     "path": "/engagement.js",
+     "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d",
+     "bytes": 5959,
+-    "url": "/releases/9344c61c6475cef32ae7/engagement.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/engagement.js"
+   },
+   {
+     "path": "/engine.js",
+     "sha256": "65b8de38f5aa7c8525f8386229c136066eb3eab5cd7e38248325de98898863ae",
+     "bytes": 19273,
+-    "url": "/releases/9344c61c6475cef32ae7/engine.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/engine.js"
+   },
+   {
+     "path": "/favicon.ico",
+     "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+     "bytes": 2456,
+-    "url": "/releases/9344c61c6475cef32ae7/favicon.ico"
++    "url": "/releases/59acc99f3f0bba0da1eb/favicon.ico"
+   },
+   {
+     "path": "/favicon.svg",
+     "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+     "bytes": 442,
+-    "url": "/releases/9344c61c6475cef32ae7/favicon.svg"
++    "url": "/releases/59acc99f3f0bba0da1eb/favicon.svg"
+   },
+   {
+     "path": "/frame-loop.js",
+     "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0",
+     "bytes": 627,
+-    "url": "/releases/9344c61c6475cef32ae7/frame-loop.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/frame-loop.js"
+   },
+   {
+     "path": "/graphics-recovery.js",
+     "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+     "bytes": 910,
+-    "url": "/releases/9344c61c6475cef32ae7/graphics-recovery.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/graphics-recovery.js"
+   },
+   {
+     "path": "/index.html",
+-    "sha256": "8740bd4de447f6907d7ee7b2d2181e084a8f43961cc23983d15af530e3e9054e",
++    "sha256": "7c375a5d79cc70cd6341bd2446144c257858418a13044fe33971f6ac6cdba823",
+     "bytes": 34446,
+-    "url": "/releases/9344c61c6475cef32ae7/index.html"
++    "url": "/releases/59acc99f3f0bba0da1eb/index.html"
+   },
+   {
+     "path": "/keyboard-input.js",
+     "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b",
+     "bytes": 357,
+-    "url": "/releases/9344c61c6475cef32ae7/keyboard-input.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/keyboard-input.js"
+   },
+   {
+     "path": "/leaderboard.js",
+     "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
+     "bytes": 1490,
+-    "url": "/releases/9344c61c6475cef32ae7/leaderboard.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/leaderboard.js"
+   },
+   {
+     "path": "/levels.js",
+     "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+     "bytes": 1660,
+-    "url": "/releases/9344c61c6475cef32ae7/levels.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/levels.js"
+   },
+   {
+     "path": "/manifest.webmanifest",
+-    "sha256": "f862c18fbf110e62b45bb04aa00ec3c77fab7ba55e03452f6e311f666205197e",
++    "sha256": "d24ec88072b63d6dbec55a405948117cef63e73b1a80278c40e5b0ab4074f3ad",
+     "bytes": 1301,
+-    "url": "/releases/9344c61c6475cef32ae7/manifest.webmanifest"
++    "url": "/releases/59acc99f3f0bba0da1eb/manifest.webmanifest"
+   },
+   {
+     "path": "/mastery-ceremony.js",
+     "sha256": "9f7aeb0c59f2846f2299c5c94a9bb82b40d823d346785e179902d9134aa5e4b3",
+     "bytes": 4218,
+-    "url": "/releases/9344c61c6475cef32ae7/mastery-ceremony.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/mastery-ceremony.js"
+   },
+   {
+     "path": "/mastery.js",
+     "sha256": "9f25c93ec54c6276278b69fd7a8eae74be425070655fc3ece357c71d53dd50a5",
+     "bytes": 4880,
+-    "url": "/releases/9344c61c6475cef32ae7/mastery.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/mastery.js"
+   },
+   {
+     "path": "/medal-ui.js",
+     "sha256": "6839709f5756cddc1e0f12d74ba2e673b2d5df9326f0e982aa841324ff76cbb2",
+     "bytes": 679,
+-    "url": "/releases/9344c61c6475cef32ae7/medal-ui.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/medal-ui.js"
+   },
+   {
+     "path": "/music.js",
+     "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+     "bytes": 6483,
+-    "url": "/releases/9344c61c6475cef32ae7/music.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/music.js"
+   },
+   {
+     "path": "/offline.js",
+     "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be",
+     "bytes": 11425,
+-    "url": "/releases/9344c61c6475cef32ae7/offline.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/offline.js"
+   },
+   {
+     "path": "/paddle-art.js",
+     "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97",
+     "bytes": 4790,
+-    "url": "/releases/9344c61c6475cef32ae7/paddle-art.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/paddle-art.js"
+   },
+   {
+     "path": "/particle-batch.js",
+     "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678",
+     "bytes": 3000,
+-    "url": "/releases/9344c61c6475cef32ae7/particle-batch.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/particle-batch.js"
+   },
+   {
+     "path": "/pointer-input.js",
+-    "sha256": "330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480",
+-    "bytes": 1420,
+-    "url": "/releases/9344c61c6475cef32ae7/pointer-input.js"
++    "sha256": "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f",
++    "bytes": 2020,
++    "url": "/releases/59acc99f3f0bba0da1eb/pointer-input.js"
+   },
+   {
+     "path": "/postprocessing.js",
+     "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+     "bytes": 19341,
+-    "url": "/releases/9344c61c6475cef32ae7/postprocessing.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/postprocessing.js"
+   },
+   {
+     "path": "/preferences.js",
+     "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2",
+     "bytes": 1077,
+-    "url": "/releases/9344c61c6475cef32ae7/preferences.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/preferences.js"
+   },
+   {
+     "path": "/publish-world.js",
+     "sha256": "53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b",
+     "bytes": 2314,
+-    "url": "/releases/9344c61c6475cef32ae7/publish-world.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/publish-world.js"
+   },
+   {
+     "path": "/pwa-release.js",
+-    "sha256": "ffeadd53781b5a5683259db148b795b756fd50169c6ef286b489e0115783b572",
++    "sha256": "57e6e739f3fcb3463f483fd2b3f18232004749edfae0944e69e9de99e39cfee3",
+     "bytes": 88,
+-    "url": "/releases/9344c61c6475cef32ae7/pwa-release.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/pwa-release.js"
+   },
+   {
+     "path": "/pwa.js",
+     "sha256": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
+     "bytes": 9057,
+-    "url": "/releases/9344c61c6475cef32ae7/pwa.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/pwa.js"
+   },
+   {
+     "path": "/render-budget.js",
+     "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2",
+     "bytes": 1698,
+-    "url": "/releases/9344c61c6475cef32ae7/render-budget.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/render-budget.js"
+   },
+   {
+     "path": "/save-recovery.js",
+     "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
+     "bytes": 3009,
+-    "url": "/releases/9344c61c6475cef32ae7/save-recovery.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/save-recovery.js"
+   },
+   {
+     "path": "/scene-playback.js",
+     "sha256": "f75ef18f04547d6d1c9104e6496679fb7be22d136d9729a3f4e5db4f49fef773",
+     "bytes": 667,
+-    "url": "/releases/9344c61c6475cef32ae7/scene-playback.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/scene-playback.js"
+   },
+   {
+     "path": "/scene.js",
+     "sha256": "f37d44708584e59e8b1ca7f36d5808d1a88e22a1a983bdbabd8f8c20a76d1813",
+     "bytes": 26148,
+-    "url": "/releases/9344c61c6475cef32ae7/scene.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/scene.js"
+   },
+   {
+     "path": "/scenery-batch.js",
+     "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca",
+     "bytes": 2884,
+-    "url": "/releases/9344c61c6475cef32ae7/scenery-batch.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/scenery-batch.js"
+   },
+   {
+     "path": "/score-contract.js",
+     "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
+     "bytes": 819,
+-    "url": "/releases/9344c61c6475cef32ae7/score-contract.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/score-contract.js"
+   },
+   {
+     "path": "/sharing.js",
+-    "sha256": "2b6bd0a4f840e23bf56a77356869ce7efe270e5b6b43f9927223f1cd7e154134",
++    "sha256": "0c0ba13dda6ff519ef17370afb822b2cb7e85300763bbf5b52d5fadb149b11d6",
+     "bytes": 12202,
+-    "url": "/releases/9344c61c6475cef32ae7/sharing.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/sharing.js"
+   },
+   {
+     "path": "/style.css",
+-    "sha256": "784a3f55f30d72c52af6741c0db4e817e24226187215d2f29b3cbf8caa0f50ee",
++    "sha256": "0edd87bdee684fbeb3c0006110f971944c32015b3c73dbcfa8a991feb3906441",
+     "bytes": 38833,
+-    "url": "/releases/9344c61c6475cef32ae7/style.css"
++    "url": "/releases/59acc99f3f0bba0da1eb/style.css"
+   },
+   {
+     "path": "/vendor/qr.js",
+     "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+     "bytes": 51907,
+-    "url": "/releases/9344c61c6475cef32ae7/vendor/qr.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/vendor/qr.js"
+   },
+   {
+     "path": "/vendor/THREE-LICENSE.txt",
+     "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+     "bytes": 1081,
+-    "url": "/releases/9344c61c6475cef32ae7/vendor/THREE-LICENSE.txt"
++    "url": "/releases/59acc99f3f0bba0da1eb/vendor/THREE-LICENSE.txt"
+   },
+   {
+     "path": "/vendor/three.core.min.js",
+     "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+     "bytes": 381124,
+-    "url": "/releases/9344c61c6475cef32ae7/vendor/three.core.min.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/vendor/three.core.min.js"
+   },
+   {
+     "path": "/vendor/three.module.min.js",
+     "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+     "bytes": 338908,
+-    "url": "/releases/9344c61c6475cef32ae7/vendor/three.module.min.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/vendor/three.module.min.js"
+   },
+   {
+     "path": "/victory-music.js",
+     "sha256": "8ab4f00f99b49e1774e41314914719c5f02a0d96e1754503ae63a55881b41b7e",
+     "bytes": 1486,
+-    "url": "/releases/9344c61c6475cef32ae7/victory-music.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/victory-music.js"
+   },
+   {
+     "path": "/world-data.css",
+-    "sha256": "3f36980557563c89e1a700d275bea9eca1cce1305f32b2e6dbc51d600d33fe9d",
++    "sha256": "e4b34d6dbcef4fd7534d14f5845588dd51d522148b9a4a3b76a2ba5e2a299cd8",
+     "bytes": 889,
+-    "url": "/releases/9344c61c6475cef32ae7/world-data.css"
++    "url": "/releases/59acc99f3f0bba0da1eb/world-data.css"
+   },
+   {
+     "path": "/world-format.js",
+     "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
+     "bytes": 2768,
+-    "url": "/releases/9344c61c6475cef32ae7/world-format.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/world-format.js"
+   },
+   {
+     "path": "/world-identity.js",
+-    "sha256": "abcb9f3099b738030db2b3f94e82a0067259fdac6a6deba06c0fb743963517c9",
++    "sha256": "4e2d60349e853e2468850f83e11cea2d0020ab9d0e3cecf2960bb906a10424bd",
+     "bytes": 953,
+-    "url": "/releases/9344c61c6475cef32ae7/world-identity.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/world-identity.js"
+   },
+   {
+     "path": "/world-schema.js",
+-    "sha256": "25cf56a883f29bb6c83eb917c3f8405da967c9fb68af4d9053618031808e0ca7",
++    "sha256": "16ed14022dae1dbdb5c626f6c490cfb62d8b77f8d14b21692244882ec56c7b23",
+     "bytes": 12345,
+-    "url": "/releases/9344c61c6475cef32ae7/world-schema.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/world-schema.js"
+   },
+   {
+     "path": "/world-working-document.js",
+     "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
+     "bytes": 2867,
+-    "url": "/releases/9344c61c6475cef32ae7/world-working-document.js"
++    "url": "/releases/59acc99f3f0bba0da1eb/world-working-document.js"
+   }
+ ];
+ const CACHE_PREFIX = 'prism-breaker-release-';
+diff --git a/tests/display.test.mjs b/tests/display.test.mjs
+index fb5c870..9691ded 100644
+--- a/tests/display.test.mjs
++++ b/tests/display.test.mjs
+@@ -15,17 +15,17 @@ function fixture({phone=true,allowed=true,reject=false,installed=false,standalon
+ test('phone start requests fullscreen synchronously on the document root, including dialogs',()=>{
+  const f=fixture();f.display.enterForPlay();assert.equal(f.requests,1);assert.equal(f.doc.fullscreenElement,f.root);assert.equal(f.classes.has('game-focus'),true);
+ });
+-test('denied phone fullscreen retains the viewport layout with a separate layout exit',async()=>{
+- const f=fixture({reject:true});f.display.enterForPlay();await new Promise(resolve=>setImmediate(resolve));assert.equal(f.classes.has('game-focus'),true);assert.equal(f.errors,0);f.layoutButton.onclick();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.paused,1);
++test('denied phone fullscreen retains a locked viewport until returning home',async()=>{
++ const f=fixture({reject:true});f.display.enterForPlay();await new Promise(resolve=>setImmediate(resolve));assert.equal(f.classes.has('game-focus'),true);assert.equal(f.errors,0);assert.equal(f.classes.has('play-locked'),true);assert.equal(f.layoutButton.hidden,true);f.home();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.classes.has('play-locked'),false);
+ });
+ test('ordinary desktop starts never request fullscreen automatically',()=>{
+- const f=fixture({phone:false});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),false);f.button.onclick();assert.equal(f.doc.fullscreenElement,f.root);
++ const f=fixture({phone:false});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),false);assert.equal(f.classes.has('play-locked'),false);f.button.onclick();assert.equal(f.doc.fullscreenElement,f.root);
+ });
+ test('an installed fullscreen app uses the screen layout without an unnecessary API request',()=>{
+  const f=fixture({installed:true});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),true);
+ });
+ test('system exit pauses active play and does not automatically request fullscreen again',()=>{
+- const f=fixture();f.display.enterForPlay();f.doc.fullscreenElement=null;f.listeners.fullscreenchange();f.display.refresh();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.paused,1);assert.equal(f.requests,1);
++ const f=fixture();f.display.enterForPlay();f.doc.fullscreenElement=null;f.listeners.fullscreenchange();f.display.refresh();assert.equal(f.classes.has('game-focus'),true);assert.equal(f.classes.has('play-locked'),true);assert.equal(f.paused,1);assert.equal(f.requests,1);
+ });
+ test('returning home exits owned browser fullscreen without a pause callback',()=>{
+  const f=fixture();f.display.enterForPlay();f.home();assert.equal(f.exits,1);assert.equal(f.paused,0);assert.equal(f.classes.has('game-focus'),false);
+diff --git a/tests/handbook-recovery.test.mjs b/tests/handbook-recovery.test.mjs
+index 7cafe8e..0dec538 100644
+--- a/tests/handbook-recovery.test.mjs
++++ b/tests/handbook-recovery.test.mjs
+@@ -23,7 +23,7 @@ test('only the accepted pointer steers/releases; chords, capture loss and contex
+  assert.equal(input.owner,1);assert.equal(moves,1);assert.equal(launches,1);
+  surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2);surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(input.owner,null);
+  surface.dispatchEvent(pointer('pointerdown',{pointerType:'mouse'}));surface.dispatchEvent(pointer('pointermove',{pointerType:'mouse',buttons:2}));assert.equal(input.owner,null);
+- for(const type of ['blur','resize']){surface.dispatchEvent(pointer('pointerdown'));win.dispatchEvent(new Event(type));assert.equal(input.owner,null);}
++ for(const type of ['blur','orientationchange']){surface.dispatchEvent(pointer('pointerdown'));win.dispatchEvent(new Event(type));assert.equal(input.owner,null);}
+  surface.dispatchEvent(pointer('pointerdown'));enabled=false;surface.dispatchEvent(pointer('pointermove'));assert.equal(input.owner,null);assert.ok(neutral>=5);input.dispose();
+ });
+ test('score reconciliation binds every canonical field and handles bounded retry headers',()=>{
+@@ -53,3 +53,28 @@ test('late restore failure leaves active state, callbacks and random sequence in
+  const draws=active.randomDraws;assert.equal(active.random(),source.random());assert.equal(active.randomDraws,draws+1);assert.equal(active.events,events);
+  active.launch();active.tick(1/120);assert.equal(active.state,'playing');
+ });
++
++
++test('toolbar resizes keep the accepted drag; unexpected cancellation pauses once, normal release never does',()=>{
++ const surface=new Surface(),win=new EventTarget(),doc=new EventTarget();let moves=0,pauses=0;
++ const input=setupPaddleInput(surface,{win,doc,enabled:()=>true,move:()=>moves++,launch:()=>{},interrupted:()=>{pauses++;input.cancel();}});
++ surface.dispatchEvent(pointer('pointerdown'));win.dispatchEvent(new Event('resize'));
++ assert.equal(input.owner,1);surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2);
++ surface.dispatchEvent(pointer('pointercancel',{pointerId:2}));assert.equal(pauses,0);
++ surface.dispatchEvent(pointer('pointercancel'));surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(pauses,1);assert.equal(input.owner,null);
++ surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2);
++ surface.dispatchEvent(pointer('pointerdown'));surface.dispatchEvent(pointer('pointerup'));surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(pauses,1);
++ surface.dispatchEvent(pointer('pointerdown'));input.cancel();surface.dispatchEvent(pointer('lostpointercapture'));assert.equal(pauses,1);
++ input.dispose();
++});
++
++test('stage controls keep their own gestures while non-control margins own steering',()=>{
++ const surface=new Surface(),win=new EventTarget(),doc=new EventTarget();let control=true,moves=0,launches=0;
++ surface.closest=selector=>control&&selector.includes('button')?{}:null;
++ const input=setupPaddleInput(surface,{win,doc,enabled:()=>true,move:()=>moves++,launch:()=>launches++,hover:()=>false});
++ surface.dispatchEvent(pointer('pointerdown'));assert.equal(input.owner,null);assert.equal(launches,0);
++ control=false;surface.dispatchEvent(pointer('pointerdown'));assert.equal(input.owner,1);assert.equal(launches,1);assert.equal(moves,1);
++ control=true;surface.dispatchEvent(pointer('pointermove'));assert.equal(moves,2,'accepted drag may cross a control');
++ surface.dispatchEvent(pointer('pointerup'));surface.dispatchEvent(pointer('pointermove',{pointerType:'mouse',buttons:0}));assert.equal(moves,2);
++ input.dispose();
++});

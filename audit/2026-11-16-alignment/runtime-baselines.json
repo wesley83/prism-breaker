@@ -1,0 +1,542 @@
+[
+  {
+    "name": "apple-touch-icon.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/apple-touch-icon.png",
+    "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092"
+  },
+  {
+    "name": "assets/favicon-32.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/favicon-32.png",
+    "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783"
+  },
+  {
+    "name": "assets/ICON-LICENSE.txt",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/ICON-LICENSE.txt",
+    "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db"
+  },
+  {
+    "name": "assets/FONT-LICENSE.txt",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/FONT-LICENSE.txt",
+    "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943"
+  },
+  {
+    "name": "assets/display.woff2",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/display.woff2",
+    "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d"
+  },
+  {
+    "name": "app.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/app.js",
+    "sha256": "cb66bab6667fabe9119f594ee9b36ebbc8f094a2713f70468e2bc86066fb69c5"
+  },
+  {
+    "name": "assets/icons.svg",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/icons.svg",
+    "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088"
+  },
+  {
+    "name": "assets/prism-icon-192.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/prism-icon-192.png",
+    "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02"
+  },
+  {
+    "name": "assets/prism-maskable.svg",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/prism-maskable.svg",
+    "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9"
+  },
+  {
+    "name": "assets/prism-icon-512.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/prism-icon-512.png",
+    "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19"
+  },
+  {
+    "name": "assets/prism-wordmark.svg",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/prism-wordmark.svg",
+    "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3"
+  },
+  {
+    "name": "assets/QR-LICENSE.txt",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/QR-LICENSE.txt",
+    "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827"
+  },
+  {
+    "name": "assets/prism-maskable-512.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/prism-maskable-512.png",
+    "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8"
+  },
+  {
+    "name": "assets/world-preview-01.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-01.png",
+    "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e"
+  },
+  {
+    "name": "assets/og-prism-breaker-square.jpg",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/og-prism-breaker-square.jpg",
+    "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3"
+  },
+  {
+    "name": "assets/og-prism-breaker.jpg",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/og-prism-breaker.jpg",
+    "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb"
+  },
+  {
+    "name": "assets/world-preview-02.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-02.png",
+    "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c"
+  },
+  {
+    "name": "assets/world-preview-04.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-04.png",
+    "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5"
+  },
+  {
+    "name": "assets/world-preview-05.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-05.png",
+    "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f"
+  },
+  {
+    "name": "assets/world-preview-03.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-03.png",
+    "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40"
+  },
+  {
+    "name": "assets/world-preview-09.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-09.png",
+    "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376"
+  },
+  {
+    "name": "assets/world-preview-08.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-08.png",
+    "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631"
+  },
+  {
+    "name": "assets/world-preview-06.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-06.png",
+    "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf"
+  },
+  {
+    "name": "assets/world-preview-07.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-07.png",
+    "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f"
+  },
+  {
+    "name": "assets/world-preview-10.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-10.png",
+    "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185"
+  },
+  {
+    "name": "assets/world-preview-11.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-11.png",
+    "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b"
+  },
+  {
+    "name": "assets/world-preview-14.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-14.png",
+    "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d"
+  },
+  {
+    "name": "assets/world-preview-15.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-15.png",
+    "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb"
+  },
+  {
+    "name": "assets/world-preview-13.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-13.png",
+    "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289"
+  },
+  {
+    "name": "assets/world-preview-12.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-12.png",
+    "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7"
+  },
+  {
+    "name": "audio.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/audio.js",
+    "sha256": "b13c8690fe232d99c64173e280030c1eaa092ccc43d19b05e2c8e6b235811d51"
+  },
+  {
+    "name": "assets/world-preview-16.png",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/assets/world-preview-16.png",
+    "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539"
+  },
+  {
+    "name": "brick-batch.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/brick-batch.js",
+    "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115"
+  },
+  {
+    "name": "bootstrap.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/bootstrap.js",
+    "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e"
+  },
+  {
+    "name": "brick-events.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/brick-events.js",
+    "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee"
+  },
+  {
+    "name": "brick-labels.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/brick-labels.js",
+    "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716"
+  },
+  {
+    "name": "champion.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/champion.js",
+    "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d"
+  },
+  {
+    "name": "cinematic-score.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/cinematic-score.js",
+    "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b"
+  },
+  {
+    "name": "collection-finder.mjs",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/collection-finder.mjs",
+    "sha256": "4bffad5d14868e593709af85817124c5e59ae18b7b39bd3ca4937c61aa765c0a"
+  },
+  {
+    "name": "cinematics.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/cinematics.js",
+    "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c"
+  },
+  {
+    "name": "crystal-bricks.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/crystal-bricks.js",
+    "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2"
+  },
+  {
+    "name": "daily-ending.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/daily-ending.js",
+    "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7"
+  },
+  {
+    "name": "daily-score.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/daily-score.js",
+    "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912"
+  },
+  {
+    "name": "bundled-worlds.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/bundled-worlds.js",
+    "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0"
+  },
+  {
+    "name": "display.css",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/display.css",
+    "sha256": "3ad128e779c5e3787c5f5187572795ba726ae9422b1b89feb2de35e23ed188e7"
+  },
+  {
+    "name": "display.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/display.js",
+    "sha256": "649adc7cadc448a10c3964a62cf0531f7bc7c4d91f98e40bd8103efc5a35768a"
+  },
+  {
+    "name": "editor-drafts.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/editor-drafts.js",
+    "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b"
+  },
+  {
+    "name": "engagement-data.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/engagement-data.js",
+    "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d"
+  },
+  {
+    "name": "engagement-art.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/engagement-art.js",
+    "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677"
+  },
+  {
+    "name": "editor.css",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/editor.css",
+    "sha256": "3aaedf8a3058b8082f40beb548cfcb1e0f459fe2527e30f03c65985fbf757811"
+  },
+  {
+    "name": "engagement-ui.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/engagement-ui.js",
+    "sha256": "940a7508988d22adfe91a3ea9652684836295060904b2273edbb57f92b8daff4"
+  },
+  {
+    "name": "editor.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/editor.js",
+    "sha256": "ba89999c995277447dd61aa16d96495a7c2d64c005d084ff1bc001d7c389a529"
+  },
+  {
+    "name": "engagement.css",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/engagement.css",
+    "sha256": "a61525110dad9fd2b5ce5e525c4a08a468a0ec3de0fdcba6d561a955503849a6"
+  },
+  {
+    "name": "engagement.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/engagement.js",
+    "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d"
+  },
+  {
+    "name": "favicon.ico",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/favicon.ico",
+    "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728"
+  },
+  {
+    "name": "engine.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/engine.js",
+    "sha256": "65b8de38f5aa7c8525f8386229c136066eb3eab5cd7e38248325de98898863ae"
+  },
+  {
+    "name": "favicon.svg",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/favicon.svg",
+    "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d"
+  },
+  {
+    "name": "frame-loop.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/frame-loop.js",
+    "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0"
+  },
+  {
+    "name": "graphics-recovery.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/graphics-recovery.js",
+    "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8"
+  },
+  {
+    "name": "keyboard-input.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/keyboard-input.js",
+    "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b"
+  },
+  {
+    "name": "leaderboard.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/leaderboard.js",
+    "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97"
+  },
+  {
+    "name": "index.html",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/index.html",
+    "sha256": "1ecbe784fab4455b1a1c459f8c7694fd4f090e01eddf288e40d65aaf08100bb7"
+  },
+  {
+    "name": "levels.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/levels.js",
+    "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6"
+  },
+  {
+    "name": "manifest.webmanifest",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/manifest.webmanifest",
+    "sha256": "535f04eebbf3c77dd6ef8ee3239ddfa7b92766513cb9c441641095b88db7bcf4"
+  },
+  {
+    "name": "mastery-ceremony.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/mastery-ceremony.js",
+    "sha256": "9f7aeb0c59f2846f2299c5c94a9bb82b40d823d346785e179902d9134aa5e4b3"
+  },
+  {
+    "name": "mastery.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/mastery.js",
+    "sha256": "9f25c93ec54c6276278b69fd7a8eae74be425070655fc3ece357c71d53dd50a5"
+  },
+  {
+    "name": "offline.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/offline.js",
+    "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be"
+  },
+  {
+    "name": "music.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/music.js",
+    "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e"
+  },
+  {
+    "name": "paddle-art.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/paddle-art.js",
+    "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97"
+  },
+  {
+    "name": "particle-batch.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/particle-batch.js",
+    "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678"
+  },
+  {
+    "name": "pointer-input.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/pointer-input.js",
+    "sha256": "330809db368402dbcd2b19d8fa57d99cf9fa69a4a36e422f891b04c2f5f28480"
+  },
+  {
+    "name": "medal-ui.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/medal-ui.js",
+    "sha256": "6839709f5756cddc1e0f12d74ba2e673b2d5df9326f0e982aa841324ff76cbb2"
+  },
+  {
+    "name": "postprocessing.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/postprocessing.js",
+    "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a"
+  },
+  {
+    "name": "preferences.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/preferences.js",
+    "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2"
+  },
+  {
+    "name": "publish-world.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/publish-world.js",
+    "sha256": "094997227a2e31a3270141c579c361f08782d208832bee4d86982709c75a5fa6"
+  },
+  {
+    "name": "pwa-release.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/pwa-release.js",
+    "sha256": "4e71c8c768cdadb95c9d7547404421180a32e2a86e89505a6c47b88dee6f5955"
+  },
+  {
+    "name": "render-budget.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/render-budget.js",
+    "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2"
+  },
+  {
+    "name": "pwa.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/pwa.js",
+    "sha256": "85d550438399568ae8303d99a0a42fa4b4cc8ec7fbbfec20c6e220a1b152f1d7"
+  },
+  {
+    "name": "scene-playback.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/scene-playback.js",
+    "sha256": "f75ef18f04547d6d1c9104e6496679fb7be22d136d9729a3f4e5db4f49fef773"
+  },
+  {
+    "name": "scene.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/scene.js",
+    "sha256": "f37d44708584e59e8b1ca7f36d5808d1a88e22a1a983bdbabd8f8c20a76d1813"
+  },
+  {
+    "name": "save-recovery.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/save-recovery.js",
+    "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b"
+  },
+  {
+    "name": "scenery-batch.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/scenery-batch.js",
+    "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca"
+  },
+  {
+    "name": "score-contract.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/score-contract.js",
+    "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f"
+  },
+  {
+    "name": "sharing.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/sharing.js",
+    "sha256": "3ecc5e7972bccaba9e2b60cf94b70aee60a70e23eee34b1ecfa2193a683efa29"
+  },
+  {
+    "name": "vendor/THREE-LICENSE.txt",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/vendor/THREE-LICENSE.txt",
+    "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+  },
+  {
+    "name": "vendor/qr.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/vendor/qr.js",
+    "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0"
+  },
+  {
+    "name": "style.css",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/style.css",
+    "sha256": "75be98b577455e0bb110c7c73ac08e558816299fe433f522bdb921407ddc83ae"
+  },
+  {
+    "name": "victory-music.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/victory-music.js",
+    "sha256": "8ab4f00f99b49e1774e41314914719c5f02a0d96e1754503ae63a55881b41b7e"
+  },
+  {
+    "name": "world-data.css",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/world-data.css",
+    "sha256": "9a2358dd6f87fd67bbf9b7296f6f8710d07473ade34f4a20f1f24c4d7166da3d"
+  },
+  {
+    "name": "world-format.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/world-format.js",
+    "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9"
+  },
+  {
+    "name": "world-identity.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/world-identity.js",
+    "sha256": "f49b2d10686ceb2e776def6c592558bbee3e5f62b7d42827f03afada7c713073"
+  },
+  {
+    "name": "vendor/three.module.min.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/vendor/three.module.min.js",
+    "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6"
+  },
+  {
+    "name": "world-schema.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/world-schema.js",
+    "sha256": "98216581e3ffcd3c5e3746cb06ba06199321fd4dedf8b89920d7ae270528626b"
+  },
+  {
+    "name": "world-working-document.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/world-working-document.js",
+    "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542"
+  },
+  {
+    "name": "vendor/three.core.min.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/vendor/three.core.min.js",
+    "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de"
+  },
+  {
+    "name": "extension/app-functionality-3ebf1577a149.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/app-functionality-3ebf1577a149.js",
+    "sha256": "3ebf1577a149151d3d05076c7e51d19896fdc4657d3a2e5242cdc52d7c4b3f06"
+  },
+  {
+    "name": "extension/bootstrap-functionality-10d0f0c457af.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/bootstrap-functionality-10d0f0c457af.js",
+    "sha256": "10d0f0c457af93c6930de3c0d0751999f83867c3d138e75b6a70aadc916b4432"
+  },
+  {
+    "name": "extension/bootstrap-functionality-ef4b7fadd300.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/bootstrap-functionality-ef4b7fadd300.js",
+    "sha256": "ef4b7fadd30013f44b9c571eb31f75bf2d5c84797c676faa5f07a0ec0e9990d8"
+  },
+  {
+    "name": "extension/editor-functionality-7b990fb0f981.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/editor-functionality-7b990fb0f981.js",
+    "sha256": "7b990fb0f98181c57cdb5decc8edffe389dbb5a7f2299d84fd3096fd80bcde3d"
+  },
+  {
+    "name": "extension/bootstrap-functionality-07d1f484ba40.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/editor/bootstrap-functionality-07d1f484ba40.js",
+    "sha256": "07d1f484ba4076e91c5ef338025270bf93a9403d5d66ebab03b0273c97a85def"
+  },
+  {
+    "name": "extension/bootstrap-functionality-4c2c470113a3.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/editor/bootstrap-functionality-4c2c470113a3.js",
+    "sha256": "4c2c470113a3765272f4754fd355d959a65368a378c125c119164f50a612cd90"
+  },
+  {
+    "name": "extension/editor-functionality-1e4cf9759fef.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/editor-functionality-1e4cf9759fef.js",
+    "sha256": "1e4cf9759fefdb59fc5eaa2ed8275e5f45d03013637f7f02fdc343b30bd80d07"
+  },
+  {
+    "name": "extension/app-functionality-98ee9268d607.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/app-functionality-98ee9268d607.js",
+    "sha256": "98ee9268d6079cc7a94a8f58dc0944bd62965df1ad5ef756ab870af66547e0af"
+  },
+  {
+    "name": "extension/bootstrap-functionality-1b5485c212ab.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/editor/bootstrap-functionality-1b5485c212ab.js",
+    "sha256": "1b5485c212ab068a23f06867a7edce042bad80254a2caa734e2d2e55b1698af0"
+  },
+  {
+    "name": "extension/publish-world-functionality-f2601d02a839.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/publish-world-functionality-f2601d02a839.js",
+    "sha256": "f2601d02a839b2edd09e1bd3aa1eb3984d4b344054157b763610d2cd812e0e89"
+  },
+  {
+    "name": "extension/bootstrap-functionality-27fdfa2b3b02.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/bootstrap-functionality-27fdfa2b3b02.js",
+    "sha256": "27fdfa2b3b0213e242c1aa4a7152c15be9af3b8d0a8b9b07d7452b00c42420f5"
+  },
+  {
+    "name": "extension/app-functionality-94225a637450.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/app-functionality-94225a637450.js",
+    "sha256": "94225a6374505220e7e6254386a26869c09c7ba0a5216cd9e0913e42e35b2160"
+  },
+  {
+    "name": "extension/editor-functionality-0456ea11b485.js",
+    "url": "/onboarding/after/demos/product-ready-20261106/prism/releases/6f5e9ab760f73887f45d/editor-functionality-0456ea11b485.js",
+    "sha256": "0456ea11b4858a00a6da7bc7759242495cfc8b7a8af8e67ef411a62f7d53fcb4"
+  }
+]

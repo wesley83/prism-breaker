@@ -24,3 +24,15 @@
  :root.game-focus{--play-top:90px;--play-bottom:64px}.game-focus .hud{top:calc(24px + env(safe-area-inset-top,0px));gap:12px}.game-focus .hud strong{font-size:18px}.game-focus .hud>div>span,.game-focus .top-score>span:first-child{font-size:9px;margin-bottom:2px}.game-focus .top-score{padding:5px 10px}.game-focus .top-score #top-player{font-size:10px;margin-top:2px}.game-focus .hud #score-chase{display:none}.game-focus .effects{top:calc(79px + env(safe-area-inset-top,0px))}.game-focus .effect{font-size:10px;padding:3px 7px}.game-focus .toast{top:calc(96px + env(safe-area-inset-top,0px))}.game-focus .arena-progress{bottom:calc(58px + env(safe-area-inset-bottom,0px))}.game-focus .play-tip{display:none}.game-focus .launch-controls{display:flex;justify-content:center;gap:0}.game-focus .launch{min-height:44px;padding:10px 16px}
 }
 @media(max-height:550px){.game-focus .hud .hud-player{padding:4px 10px}.game-focus .hud .hud-player>span{font-size:9px;margin-bottom:2px}.game-focus .hud .hud-player #score{font-size:25px}.game-focus .hud .hud-actions{padding-top:4px;gap:14px}}
+
+/* Phone play owns a fixed viewport even when native fullscreen is declined or
+   exited. Only the stage is fixed; top-layer dialogs retain native scrolling. */
+:root.play-locked,:root.play-locked body{height:100%;width:100%;overflow:hidden;overscroll-behavior:none}
+.play-locked .shell{position:fixed;inset:0;width:100%;height:100%;overflow:hidden}
+.play-locked .stage{position:absolute;inset:0;width:100%;height:100%;min-width:0;min-height:0;max-width:100%;overflow:hidden;overflow-anchor:none}
+/* Gesture policy must exist before contact, including HUD and lower margins.
+   Cinematic copy and menus intentionally remain scrollable and zoomable. */
+.stage:not(.home-mode):not(.cinematic-mode){touch-action:none;overscroll-behavior:none;user-select:none;-webkit-user-select:none}
+.play-locked dialog{touch-action:auto;overscroll-behavior:contain;overflow:auto;user-select:text;-webkit-user-select:text}
+
+.stage:not(.home-mode):not(.cinematic-mode) :is(.play-header,.effects){touch-action:none}

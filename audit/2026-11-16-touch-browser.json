@@ -1,0 +1,36 @@
+{
+  "canvas": {
+    "bottom": 755,
+    "height": 607,
+    "left": 0,
+    "right": 393,
+    "top": 148,
+    "width": 393,
+    "x": 0,
+    "y": 148
+  },
+  "canvasBuffer": [
+    393,
+    607
+  ],
+  "classes": "game-focus play-locked",
+  "release": "59acc99f3f0bba0da1eb",
+  "scroll": [
+    0,
+    0
+  ],
+  "stage": {
+    "bottom": 851,
+    "height": 851,
+    "left": 0,
+    "right": 393,
+    "top": 0,
+    "width": 393,
+    "x": 0,
+    "y": 0
+  },
+  "viewport": [
+    393,
+    851
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "utc": "2026-11-16T15:23:48.288865+00:00",
+  "actor": "Codex",
+  "runtime": "59acc99f3f0bba0da1eb",
+  "sha256": {
+    "FULLSCREEN-UPGRADE.md": "f92f4ae841e82f7d972884438ca96f2daf838e88c1654762e148c33f80346335",
+    "public/app.js": "d6ecf5e4f4f6fb786d1a967f43e0d893cacfa5696ed5a7392c37d5d08238446f",
+    "public/display.css": "5a1504cd2dd28fdbf8e2c7151520c25c2336efd575d901bd6d300e6420c9ea2c",
+    "public/display.js": "19831eddcdc2c12e98ed4e8739d75f94bb533310cd22c55d42d8d4a85ab80614",
+    "public/index.html": "813bc513ed6feda2750d9a397c4be3d40a794a3591ca6357069752d47ea6d96c",
+    "public/pointer-input.js": "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f",
+    "public/pwa-release.js": "57e6e739f3fcb3463f483fd2b3f18232004749edfae0944e69e9de99e39cfee3",
+    "public/sw.js": "072f0737535ef31e762f53765b367e26c2c90c8a82b3b9fb842c49bd74fcdbd0",
+    "tests/display.test.mjs": "d6c4d333fb89b9faa782afe899d400258e96f2efe5d716c0f04821c7fd6b5547",
+    "tests/handbook-recovery.test.mjs": "e870f9e3f20fab2b0ac3e88ce8f3b28b50586c5d50eba5aae86a50e5e93931d3",
+    "audit/2026-11-16-touch-surface.md": "d0e207cf6d7243a722aba2c4ee9cc34094b956d61932ebec221dcbd5556a3353",
+    "audit/2026-11-16-touch-surface.patch": "1e900725242116e58a6baa590d833a894d3583a97abd81f447cd59b797abfc5b",
+    "audit/2026-11-16-touch-browser.json": "3cdf2461f411c6a3fa9bea136dd6b7546c001ad5d1612c083b1c2804df456b6a",
+    "audit/2026-11-16-touch-tests.txt": "46cc8a57eaeebc82a89ce17665784e068ba5cb38770423eace0df53c5b63d1d3",
+    "test-results/touch-phone-layout.jpg": "b605d48ef5c997cedf577521b792cc6a98353e1de018001ab8bf87388c1c47fe"
+  }
+}

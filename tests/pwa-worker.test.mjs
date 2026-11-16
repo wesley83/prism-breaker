@@ -29,24 +29,24 @@ class MemoryCacheStorage {
   async delete(name) { return this.entries.delete(name); }
 }
 
-function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = '', immutable = false} = {}) {
+function worker({version = versionA, caches = new MemoryCacheStorage(), missing = '', broken = '', windows = [], removedLazy = false, hanging = '', immutable = false,base='/',legacyReleases={}} = {}) {
   const index = '<!doctype html><html><head><meta name="prism-release" content="' + version + '"></head></html>';
   const resources = new Map([['/index.html', index], ['/app.js', 'export const release = "' + version + '";'], ...(removedLazy ? [] : [['/lazy.js', 'export const lazy = "' + version + '";']])]);
   if (immutable) resources.set('/assets/font.woff2','fixture font');
-  const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body),...(immutable?{url:'/releases/'+version+path}:{})}));
+  const assets = [...resources].map(([path, body]) => ({path, sha256: sha256(body),...(immutable?{url:base+'releases/'+version+path}:{})}));
   const listeners = new Map(), fetched = [], timers = new Map(); let timerId = 0;
   let skipped = 0, claimed = 0;
-  const self = {location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {get: async id => windows.find(client => client.id === id), matchAll: async () => windows, claim: async () => { claimed++; }}};
+  const self = {registration:{scope:origin+base},location: {origin}, addEventListener: (type, callback) => listeners.set(type, callback), skipWaiting: async () => { skipped++; }, clients: {get: async id => windows.find(client => client.id === id), matchAll: async () => windows, claim: async () => { claimed++; }}};
   const fetch = async (request, options = {}) => {
     const pathname = new URL(typeof request === 'string' ? request : request.url).pathname; fetched.push(pathname);
     if (pathname === missing) throw new TypeError('Offline');
     if (pathname === hanging) return new Promise((resolve, reject) => { if (options.signal?.aborted) reject(options.signal.reason); else options.signal?.addEventListener('abort', () => reject(options.signal.reason), {once:true}); });
-    const resource = pathname === '/' ? '/index.html' : immutable ? pathname.replace('/releases/'+version,'') : pathname;
+    const logical='/'+pathname.slice(base.length);const resource = logical === '/' ? '/index.html' : immutable ? logical.replace('/releases/'+version,'') : logical;
     const body = pathname === broken ? 'wrong deployment bytes' : resources.get(resource);
     return new Response(body ?? 'Missing', {status: resources.has(resource) ? 200 : 404, headers: {'Content-Type': resource.endsWith('.html') ? 'text/html; charset=utf-8' : 'text/javascript'}});
   };
   class Channel { constructor() { this.port1 = {close(){}, onmessage:null}; this.port2 = {postMessage:data => this.port1.onmessage?.({data})}; } }
-  vm.runInNewContext(template.replace('// __PWA_CONSTANTS__', 'const VERSION = ' + JSON.stringify(version) + '; const PRECACHE = ' + JSON.stringify(assets) + ';'), {self, caches, fetch, crypto: webcrypto, URL, Response, Uint8Array, console, AbortController, MessageChannel:Channel, setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,ms});return id;}, clearTimeout:id=>timers.delete(id)});
+  vm.runInNewContext(template.replace('// __PWA_CONSTANTS__', 'const LEGACY_RELEASES = '+JSON.stringify(legacyReleases)+'; const VERSION = ' + JSON.stringify(version) + '; const PRECACHE = ' + JSON.stringify(assets) + ';'), {self, caches, fetch, crypto: webcrypto, URL, Response, Uint8Array, console, AbortController, MessageChannel:Channel, setTimeout:(fn,ms)=>{const id=++timerId;timers.set(id,{fn,ms});return id;}, clearTimeout:id=>timers.delete(id)});
   return {
     caches, fetched, resources, get skipped() { return skipped; }, get claimed() { return claimed; },
     timeout(ms) { for(const [id,timer] of [...timers]) if(timer.ms===ms){timers.delete(id);timer.fn();} },
@@ -291,4 +291,28 @@ test('builds are deterministic and deployment validation catches edits made afte
     if (path.dirname(path.resolve(root)) !== path.resolve(os.tmpdir()) || !path.basename(root).startsWith('prism-pwa-')) throw new Error('Refusing to delete outside the test temporary directory');
     await fs.rm(root, {recursive: true, force: true});
   }
+});
+
+
+test('nested installation serves offline launch and immutable assets while leaving siblings and native data alone',async()=>{
+ const base='/demos/prism/',instance=worker({base,immutable:true});await instance.dispatch('install');
+ const before=instance.fetched.length;
+ assert.match(await (await instance.request(base+'?source=installed',{navigation:true,resultingClientId:'tab-a'})).text(),new RegExp(versionA));
+ assert.match(await (await instance.request(base+'releases/'+versionA+'/app.js')).text(),new RegExp(versionA));
+ assert.equal(instance.fetched.length,before);
+ for(const p of ['/','/other/app.js',base+'scores.html',base+'worlds/prism-garden/definition.html',base+'editor/example'])assert.equal(await instance.request(p),undefined,p);
+ const ready=await instance.message('GET_STATUS');assert.equal(ready.ready,true);
+});
+
+test('nested upgrade retains a pinned legacy demo core and integrity-checked extension cache',async()=>{
+ const old=worker();await old.dispatch('install');
+ const legacyName='old-demo-'+versionA;old.caches.entries.set(legacyName,old.caches.entries.get(cachePrefix+versionA));
+ const base='/demos/prism/',extensionPrefix='old-design:',extension=await old.caches.open(extensionPrefix+'approved');
+ const url=origin+base+'releases/'+versionA+'/app-correction.js';await extension.put(url,new Response('verified old correction'));
+ const next=worker({version:versionB,base,immutable:true,caches:old.caches,legacyReleases:{[versionA]:{cacheName:legacyName,extensionPrefix}}});
+ await next.dispatch('install');await next.message('CLIENT_VERSION',{version:versionA});
+ assert.match(await (await next.request(base+'releases/'+versionA+'/app.js')).text(),new RegExp(versionA));
+ assert.equal(await (await next.request(base+'releases/'+versionA+'/app-correction.js')).text(),'verified old correction');
+ assert.equal((await next.message('GET_STATUS',{version:versionA})).ready,true);
+ assert.ok((await next.caches.keys()).includes(legacyName));
 });

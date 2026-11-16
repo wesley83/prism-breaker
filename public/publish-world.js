@@ -1,8 +1,9 @@
+import {appPath,authoringOrigin} from './installation.js';
 import {normalizeWorld,parseWorld,worldHTML,worldDocument} from './world-format.js';
 // Pin the reviewed baseline across every await. DAV is trusted authoring;
 // strong ETags and readback protect against conflicting edits, not invalid authors.
 export async function publishWorld({world,baseline,currentBaseline,key,fetch:send=globalThis.fetch}){
- const snapshot=normalizeWorld(world),html=worldHTML(snapshot),url='https://dav-sane-guild-8399.onpagelove.com/worlds/'+snapshot.slug+'/definition.html';
+ const snapshot=normalizeWorld(world),html=worldHTML(snapshot),url=authoringOrigin()+appPath('worlds/'+snapshot.slug+'/definition.html');
  const options=()=>({headers:{Authorization:'Bearer '+key},cache:'no-store',redirect:'error',signal:AbortSignal.timeout(15000)});
  const unchanged=()=>{if(currentBaseline()!==baseline)throw Error('The workshop loaded a different shared revision. Reload published and review it before publishing again.');};
  unchanged();

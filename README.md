@@ -418,3 +418,14 @@ The tracked Web Game Development Handbook now matches the identified authoring e
 [Release requirements](review/requirements.html) independently enumerate required exports, behavioral contracts and exact-runtime browser evidence. The release gate rejects missing, failed or stale required receipts. Browser fixtures cover save failure followed by ordinary actions, DOM editing/preview isolation, layout/text enlargement and controlled/sustained rendering. Evidence is scoped to its recorded engine and conditions. See [public data and recovery operations](PUBLIC-DATA-OPERATIONS.md) and the [implementation audit](audit/2026-10-17-handbook-implementation.md).
 
 Local diagnostic tools include a bounded checkpoint/input trace with compatibility checks and first-divergence replay; traces do not establish score authenticity or upload themselves. The original physical-device/human procedures remain separate and uncompleted where no evidence exists.
+
+
+## Shared installations
+
+The main game and the onboarding demo are built from this repository's same `public/` source. `deployments.json` declares each installation's origin, mount and bounded legacy-cache migration. `bun tools/build-installations.mjs` emits separate immutable packages whose hashes include that configuration. Their release IDs differ because their URLs differ; their gameplay, sixteen worlds, cinematics, rewards, touch controls and presentation are shared.
+
+The demo's approved presentation lives in `public/assets/presentation/`, including the Inter/Source Serif licenses. Do not patch a deployed game fork or regenerate it from the frozen November 6 onboarding ZIPs. Those ZIPs remain historical snapshots; they do not receive these updates. Build future copies from the maintained source and add a reviewed installation target instead.
+
+Each manifest's ID, scope, installed launch URL and leaderboard shortcuts point to its own mount. Canonical/OG/share links, the world workshop and trusted authoring destination use that installation. Phone play owns a fixed non-scrolling touch surface independently of native fullscreen. Interactive controls and modal scrolling retain their ordinary behavior. Viewport resizing preserves contact; unexpected pointer loss pauses play.
+
+After the exact-source release gate passes, `bun tools/publish-installations.mjs publish <path-to-existing-private-config>` publishes both configured targets with create-only immutable assets and conditional entry replacement. The private config supplies the existing named `pagelove_api_token`; never pass the token as a command argument. The publisher verifies host identity, package hashes, live install URLs and that score/world resources are unchanged. `bun tools/publish-installations.mjs verify` repeats public readback without credentials. Neither operation migrates scores, combines leaderboards, changes permission policies or replaces world authoring documents.

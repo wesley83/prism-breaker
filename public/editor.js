@@ -1,3 +1,4 @@
+import {APP_BASE,appPath,editorPath} from './installation.js';
 import {editorSlug} from './world-identity.js';
 import {RenderClock} from './render-budget.js';
 import {THEMES} from './world-schema.js';
@@ -31,11 +32,11 @@ const previewGraphics=setupGraphicsRecovery(document.querySelector('#preview-can
 const message=text=>$('#editor-status').textContent=text;
 const safeStorage={get(key){try{return JSON.parse(localStorage.getItem(key));}catch{return null;}},set(key,value){try{return writeJSON(localStorage,key,value).saved;}catch{return false;}}};
 const current=()=>world.formations[phase];
-const slugFromPath=editorSlug(location.pathname,location.search);
+const slugFromPath=editorSlug('/'+location.pathname.slice(APP_BASE.length),location.search);
 const index=WORLD_SLUGS.indexOf(slugFromPath);
 WORLDS.forEach((w,i)=>$('#edit-world').add(new Option(w.name,WORLD_SLUGS[i])));
 if(index<0){const missing=new Option('Choose a world','');missing.disabled=true;$('#edit-world').add(missing,0);}$('#edit-world').value=index>=0?slugFromPath:'';
-$('#edit-world').onchange=async()=>{const target=$('#edit-world').value;$('#edit-world').value=slugFromPath;if(await preserveDraft()){leaving=true;location.href='/editor/'+target;}};
+$('#edit-world').onchange=async()=>{const target=$('#edit-world').value;$('#edit-world').value=slugFromPath;if(await preserveDraft()){leaving=true;location.href=editorPath(target);}};
 
 const GRID_X=1.93,GRID_Y=1.05;
 const selection=new Set(),nodes=new Map();
@@ -258,7 +259,7 @@ $('#export').onclick=()=>{finishColorEdit();if(finishDetails())downloadRecovery(
 $('#import').onclick=()=>$('#import-file').click();
 $('#import-file').onchange=async()=>{const file=$('#import-file').files[0];$('#import-file').value='';if(!file)return;const generation=working?.generation;try{if(file.size>1000000)throw Error('World file is too large');const imported=parseWorld(await file.text(),{expectedSlug:world.slug});if(generation!==working.generation)throw Error('The world changed while importing. Choose the file again.');if(await preserveDraft())commit(()=>{world=imported;selection.clear();});}catch(e){message(e.message);}};
 $('#restore').onclick=()=>commit(()=>{world=originalWorld(world.index);selection.clear();});
-async function published(slug){const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Could not load the published world ('+response.status+').');const fresh=parseWorld(await response.text(),{expectedSlug:slug});safeStorage.set('prism.world-published.'+slug,{world:fresh,savedAt:Date.now()});return fresh;}
+async function published(slug){const response=await fetch(appPath('worlds/'+slug+'/definition.html?cb='+Date.now()),{cache:'no-store',signal:AbortSignal.timeout(10000)});if(!response.ok)throw Error('Could not load the published world ('+response.status+').');const fresh=parseWorld(await response.text(),{expectedSlug:slug});safeStorage.set('prism.world-published.'+slug,{world:fresh,savedAt:Date.now()});return fresh;}
 $('#reload').onclick=async()=>{if(!await preserveDraft())return;const generation=working.generation;try{const fresh=await published(slugFromPath);if(generation!==working.generation||detailsDirty)throw Error('Your world changed while loading. Reload published again when ready.');const html=worldHTML(fresh);if(working.serialize()!==html)commit(()=>{world=fresh;selection.clear();phase=0;});if(working.serialize()!==html)throw Error('The shared world could not be opened. Your draft is retained.');baseHTML=html;populatePhases();await saveDraft();}catch(e){message(e.message);}};
 
 $('#publish').onclick=()=>{if(!world||!baseHTML||publishing)return;finishColorEdit();cancelDrag();if(!finishDetails())return;$('#publish-status').textContent='';$('#owner-key').value='';$('#publish-dialog').showModal();};

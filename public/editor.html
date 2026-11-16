@@ -1,17 +1,7 @@
 <!doctype html><html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-DVm7X21AcJcr6sqPXFvGi0ThR9U9lid+LgqWaYitpEA='; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
-<title>World workshop · Prism Breaker</title><link rel="icon" href="/favicon.svg"><script id="editor-bootstrap">(async()=>{
- const controller=navigator.serviceWorker?.controller;
- if(controller)await new Promise((resolve,reject)=>{
-  const channel=new MessageChannel(),timer=setTimeout(()=>reject(Error('The installed game did not respond.')),5000);
-  channel.port1.onmessage=()=>{clearTimeout(timer);channel.port1.close();resolve();};
-  controller.postMessage({type:'CLIENT_VERSION',version:'network'},[channel.port2]);
- });
- const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=6fb24c742edd';document.head.append(stylesheet);
- await import('/editor.js?v=50e352e36ecf');
-})().catch(error=>{console.error('Workshop startup:',error);document.querySelector('#editor-status').textContent='The workshop could not load. Return to the start screen, apply Update game, then reopen the workshop.';});
-</script></head><body>
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://dav-sane-guild-8399.onpagelove.com; object-src 'none'; base-uri 'self'">
+<title>World workshop · Prism Breaker</title><link rel="icon" href="/favicon.svg"><script id="editor-bootstrap" src="/editor-bootstrap.js" defer></script></head><body>
 <div id="editor-shell">
 <header class="workshop-header">
   <a href="/" aria-label="Prism Breaker start screen"><img src="/assets/prism-wordmark.svg" width="170" height="61" alt="Prism Breaker"></a>
