@@ -1,0 +1,1157 @@
+{
+  "schema": 1,
+  "utc": "2026-11-16T15:56:01.563Z",
+  "environment": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+  "cases": {
+    "storage": {
+      "passed": true,
+      "failedWriteUnconfirmed": true,
+      "stayPreservesRun": true,
+      "retryThenLeave": true,
+      "actualIDBPayloadConflict": true,
+      "gameKeyboardAfterButton": true,
+      "actualFrameFailurePausedAndSaved": true
+    },
+    "playback": {
+      "passed": true,
+      "rows": [
+        {
+          "index": 0,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0069999999999997,
+            2.0069999999999997
+          ],
+          "changedPixels": 2163,
+          "meanChannelDelta": 11.706380208333334
+        },
+        {
+          "index": 1,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0165000000000002,
+            2.016599999999999
+          ],
+          "changedPixels": 3076,
+          "meanChannelDelta": 19.529296875
+        },
+        {
+          "index": 2,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0165000000000013,
+            2.016600000000001
+          ],
+          "changedPixels": 5451,
+          "meanChannelDelta": 22.41091579861111
+        },
+        {
+          "index": 3,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0173999999999999,
+            2.016699999999999
+          ],
+          "changedPixels": 2979,
+          "meanChannelDelta": 20.36865234375
+        },
+        {
+          "index": 4,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0167000000000008,
+            2.016800000000001
+          ],
+          "changedPixels": 2669,
+          "meanChannelDelta": 16.911024305555557
+        },
+        {
+          "index": 5,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0167999999999995,
+            2.017099999999998
+          ],
+          "changedPixels": 1438,
+          "meanChannelDelta": 10.696126302083334
+        },
+        {
+          "index": 6,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0165,
+            2.016500000000002
+          ],
+          "changedPixels": 2010,
+          "meanChannelDelta": 13.64453125
+        },
+        {
+          "index": 7,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.017,
+            2.0168999999999975
+          ],
+          "changedPixels": 1849,
+          "meanChannelDelta": 11.241319444444445
+        },
+        {
+          "index": 8,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0167000000000002,
+            2.0168000000000017
+          ],
+          "changedPixels": 3040,
+          "meanChannelDelta": 21.86431206597222
+        },
+        {
+          "index": 9,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0165999999999982,
+            2.0165999999999977
+          ],
+          "changedPixels": 1600,
+          "meanChannelDelta": 9.896918402777779
+        },
+        {
+          "index": 10,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.016699999999997,
+            2.016799999999999
+          ],
+          "changedPixels": 3280,
+          "meanChannelDelta": 17.93429904513889
+        },
+        {
+          "index": 11,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0000999999999944,
+            2.0333999999999977
+          ],
+          "changedPixels": 1951,
+          "meanChannelDelta": 22.162217881944443
+        },
+        {
+          "index": 12,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0166999999999973,
+            2.016799999999999
+          ],
+          "changedPixels": 3451,
+          "meanChannelDelta": 18.08327907986111
+        },
+        {
+          "index": 13,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0167000000000004,
+            2.0165999999999977
+          ],
+          "changedPixels": 2154,
+          "meanChannelDelta": 10.720052083333334
+        },
+        {
+          "index": 14,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0167000000000006,
+            2.0168000000000035
+          ],
+          "changedPixels": 1386,
+          "meanChannelDelta": 12.11599392361111
+        },
+        {
+          "index": 15,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.033399999999994,
+            2.033299999999996
+          ],
+          "changedPixels": 1818,
+          "meanChannelDelta": 12.6015625
+        },
+        {
+          "index": 16,
+          "lowEffects": false,
+          "mode": "champion",
+          "times": [
+            1.0000999999999984,
+            2.0000000000000004
+          ],
+          "changedPixels": 4015,
+          "meanChannelDelta": 21.954481336805557
+        },
+        {
+          "index": 17,
+          "lowEffects": false,
+          "mode": "cut",
+          "times": [
+            1.0003000000000029,
+            2.0002000000000044
+          ],
+          "changedPixels": 1874,
+          "meanChannelDelta": 11.417100694444445
+        },
+        {
+          "index": 18,
+          "lowEffects": false,
+          "mode": "champion",
+          "times": [
+            1.000000000000007,
+            2.000000000000007
+          ],
+          "changedPixels": 2274,
+          "meanChannelDelta": 12.739800347222221
+        },
+        {
+          "index": 19,
+          "lowEffects": false,
+          "mode": "award",
+          "times": [
+            1.016699999999997,
+            2.0167999999999964
+          ],
+          "changedPixels": 3954,
+          "meanChannelDelta": 12.557291666666666
+        },
+        {
+          "index": 20,
+          "lowEffects": false,
+          "mode": "award",
+          "times": [
+            1.0165999999999984,
+            2.0167000000000046
+          ],
+          "changedPixels": 407,
+          "meanChannelDelta": 3.4357096354166665
+        },
+        {
+          "index": 21,
+          "lowEffects": false,
+          "mode": "award",
+          "times": [
+            1.0000999999999984,
+            2.000099999999999
+          ],
+          "changedPixels": 4638,
+          "meanChannelDelta": 12.971082899305555
+        },
+        {
+          "index": 0,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0332999999999954,
+            2.0336999999999974
+          ],
+          "changedPixels": 1618,
+          "meanChannelDelta": 9.039388020833334
+        },
+        {
+          "index": 1,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.033,
+            2.032900000000002
+          ],
+          "changedPixels": 2134,
+          "meanChannelDelta": 17.37944878472222
+        },
+        {
+          "index": 2,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0332999999999954,
+            2.000099999999999
+          ],
+          "changedPixels": 1818,
+          "meanChannelDelta": 9.734483506944445
+        },
+        {
+          "index": 3,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.016599999999991,
+            2.0166999999999975
+          ],
+          "changedPixels": 1913,
+          "meanChannelDelta": 13.462782118055555
+        },
+        {
+          "index": 4,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.016899999999994,
+            2.016799999999996
+          ],
+          "changedPixels": 2218,
+          "meanChannelDelta": 15.308268229166666
+        },
+        {
+          "index": 5,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.017,
+            2.0169000000000024
+          ],
+          "changedPixels": 1494,
+          "meanChannelDelta": 10.74343532986111
+        },
+        {
+          "index": 6,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.000000000000007,
+            2.0001000000000055
+          ],
+          "changedPixels": 1514,
+          "meanChannelDelta": 10.73459201388889
+        },
+        {
+          "index": 7,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0166000000000057,
+            2.0168000000000026
+          ],
+          "changedPixels": 1507,
+          "meanChannelDelta": 12.403266059027779
+        },
+        {
+          "index": 8,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0001000000000058,
+            2.0001000000000064
+          ],
+          "changedPixels": 2073,
+          "meanChannelDelta": 15.65011935763889
+        },
+        {
+          "index": 9,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0000999999999913,
+            2.0001999999999835
+          ],
+          "changedPixels": 1573,
+          "meanChannelDelta": 8.439398871527779
+        },
+        {
+          "index": 10,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0168000000000028,
+            2.0168000000000026
+          ],
+          "changedPixels": 2155,
+          "meanChannelDelta": 14.479329427083334
+        },
+        {
+          "index": 11,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.016199999999997,
+            2.0163000000000033
+          ],
+          "changedPixels": 1540,
+          "meanChannelDelta": 14.834798177083334
+        },
+        {
+          "index": 12,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0167999999999886,
+            2.016599999999992
+          ],
+          "changedPixels": 1908,
+          "meanChannelDelta": 14.898111979166666
+        },
+        {
+          "index": 13,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0168999999999941,
+            2.0168000000000035
+          ],
+          "changedPixels": 1563,
+          "meanChannelDelta": 8.981065538194445
+        },
+        {
+          "index": 14,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0167999999999882,
+            2.0167999999999884
+          ],
+          "changedPixels": 1456,
+          "meanChannelDelta": 10.724500868055555
+        },
+        {
+          "index": 15,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0336000000000058,
+            2.0331999999999972
+          ],
+          "changedPixels": 1555,
+          "meanChannelDelta": 11.916069878472221
+        },
+        {
+          "index": 16,
+          "lowEffects": true,
+          "mode": "champion",
+          "times": [
+            1.034,
+            2.033399999999994
+          ],
+          "changedPixels": 1633,
+          "meanChannelDelta": 15.501627604166666
+        },
+        {
+          "index": 17,
+          "lowEffects": true,
+          "mode": "cut",
+          "times": [
+            1.0002999999999884,
+            2.0001999999999827
+          ],
+          "changedPixels": 1413,
+          "meanChannelDelta": 8.944498697916666
+        },
+        {
+          "index": 18,
+          "lowEffects": true,
+          "mode": "champion",
+          "times": [
+            1.016800000000003,
+            2.0170000000000003
+          ],
+          "changedPixels": 1460,
+          "meanChannelDelta": 10.131022135416666
+        },
+        {
+          "index": 19,
+          "lowEffects": true,
+          "mode": "award",
+          "times": [
+            1.0164999999999857,
+            2.016599999999992
+          ],
+          "changedPixels": 467,
+          "meanChannelDelta": 2.3755967881944446
+        },
+        {
+          "index": 20,
+          "lowEffects": true,
+          "mode": "award",
+          "times": [
+            1.033399999999994,
+            2
+          ],
+          "changedPixels": 378,
+          "meanChannelDelta": 2.077907986111111
+        },
+        {
+          "index": 21,
+          "lowEffects": true,
+          "mode": "award",
+          "times": [
+            1.0000999999999913,
+            2.000099999999992
+          ],
+          "changedPixels": 672,
+          "meanChannelDelta": 2.8764105902777777
+        }
+      ],
+      "lifecycle": [
+        {
+          "label": "ordinary award",
+          "changedPixels": 875,
+          "times": [
+            0.1,
+            0.600699999999997
+          ],
+          "start": 0.0666999999999971
+        },
+        {
+          "label": "award to Prism Garden story",
+          "changedPixels": 481,
+          "times": [
+            0.09920000000001164,
+            0.5997000000000117
+          ],
+          "start": 0.06590000000000873
+        },
+        {
+          "label": "keyboard paused",
+          "changedPixels": 0,
+          "times": [
+            0.5997000000000117,
+            0.5997000000000117
+          ],
+          "start": 0.5997000000000117
+        },
+        {
+          "label": "keyboard resumed",
+          "changedPixels": 698,
+          "times": [
+            0.6332000000000116,
+            1.1663000000000174
+          ],
+          "start": 0.5997000000000117
+        },
+        {
+          "label": "dialog holds timeline",
+          "changedPixels": 0,
+          "times": [
+            1.1663000000000174,
+            1.1663000000000174
+          ],
+          "start": 1.1663000000000174
+        },
+        {
+          "label": "dialog closed",
+          "changedPixels": 962,
+          "times": [
+            1.1996000000000204,
+            1.7000000000000295
+          ],
+          "start": 1.1663000000000174
+        },
+        {
+          "label": "foreground resumes (synthetic visibility)",
+          "changedPixels": 1197,
+          "times": [
+            1.7332000000000265,
+            2.2665000000000295
+          ],
+          "start": 1.7000000000000295
+        },
+        {
+          "label": "WebGL context restored",
+          "changedPixels": 1352,
+          "times": [
+            2.2665000000000295,
+            2.816900000000023
+          ],
+          "start": 2.2665000000000295
+        },
+        {
+          "label": "rejected preparation still renders",
+          "changedPixels": 459,
+          "times": [
+            0.06640000000000873,
+            0.566699999999997
+          ],
+          "start": 0.03319999999999709
+        },
+        {
+          "label": "deliberate reduced motion",
+          "changedPixels": 0,
+          "times": [
+            0.24980000000001748,
+            0.7497000000000117
+          ],
+          "start": 0.2171000000000204
+        },
+        {
+          "label": "explicit animation opt-in",
+          "changedPixels": 484,
+          "times": [
+            0.0666999999999971,
+            0.600199999999997
+          ],
+          "start": 0.0335
+        },
+        {
+          "label": "completed composition holds",
+          "changedPixels": 0,
+          "times": [
+            15.51,
+            15.51
+          ],
+          "start": 15.51
+        },
+        {
+          "label": "completed scene replays",
+          "changedPixels": 459,
+          "times": [
+            0.0666999999999971,
+            0.566699999999997
+          ],
+          "start": 0.03339999999999418
+        }
+      ]
+    },
+    "engagement": {
+      "passed": true,
+      "collectionHasSixteenWorlds": true,
+      "officialPracticeStarts": true,
+      "stickyHasNoAngleSelection": true,
+      "precisionAimControlsAndLaunch": true,
+      "thunderInstructions": true
+    },
+    "rewards": {
+      "passed": true,
+      "masteryEntry": true,
+      "worldSet": true,
+      "collectionFinale": true,
+      "retryIntent": true,
+      "collectionReturn": true,
+      "ordinaryStory": true,
+      "failedSaveRetry": true
+    }
+  },
+  "limits": [
+    "Local Chromium iframe sizes are CSS viewport fixtures, not physical phone/OS or trusted touch evidence.",
+    "Synthetic form/click dispatch checks application paths, not native fullscreen/share activation.",
+    "Accessibility observations are scoped; no blanket WCAG or nonvisual gameplay claim."
+  ],
+  "runtimeDigest": "4ecedcab846eed919a15c35936d3417a8d9ef74ebffdf053f8938cf1d247e8b2",
+  "inputs": [
+    [
+      "public/app.js",
+      "5da59769deb826d3373692f94c3e115b41c03ac65283c80a9a753665d2436a67"
+    ],
+    [
+      "public/apple-touch-icon.png",
+      "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092"
+    ],
+    [
+      "public/assets/FONT-LICENSE.txt",
+      "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943"
+    ],
+    [
+      "public/assets/ICON-LICENSE.txt",
+      "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db"
+    ],
+    [
+      "public/assets/QR-LICENSE.txt",
+      "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827"
+    ],
+    [
+      "public/assets/display.woff2",
+      "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d"
+    ],
+    [
+      "public/assets/favicon-32.png",
+      "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783"
+    ],
+    [
+      "public/assets/icons.svg",
+      "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088"
+    ],
+    [
+      "public/assets/og-prism-breaker-square.jpg",
+      "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3"
+    ],
+    [
+      "public/assets/og-prism-breaker.jpg",
+      "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb"
+    ],
+    [
+      "public/assets/presentation/design.css",
+      "c03707ac0953fdf0df58c0f655f4d109303a78b00840425ba31b918d13be3dad"
+    ],
+    [
+      "public/assets/presentation/fonts/inter-400.woff2",
+      "d1a20563ae7e08801c3ecb213f504453d1ce79bff1bd4412ecc30247e1201556"
+    ],
+    [
+      "public/assets/presentation/fonts/inter-600.woff2",
+      "daae5f013158a850421029f366034c619d183e704fbb3a77d746ac7d6fb1a52a"
+    ],
+    [
+      "public/assets/presentation/fonts/inter-OFL.txt",
+      "78c5db5075157265b6c50efe8532587adfc6f5f2ea7bae40acfa067e2e684a7c"
+    ],
+    [
+      "public/assets/presentation/fonts/sourceserif4-400.woff2",
+      "80ae4e9165e405a08e066555bd4af7d0fd76f7152477eba4737bac92fe8580bd"
+    ],
+    [
+      "public/assets/presentation/fonts/sourceserif4-OFL.txt",
+      "bf6b2ac206a3ebafe68bfea53b83a4982af4c65a071b401a32fe1103477a487f"
+    ],
+    [
+      "public/assets/prism-icon-192.png",
+      "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02"
+    ],
+    [
+      "public/assets/prism-icon-512.png",
+      "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19"
+    ],
+    [
+      "public/assets/prism-maskable-512.png",
+      "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8"
+    ],
+    [
+      "public/assets/prism-maskable.svg",
+      "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9"
+    ],
+    [
+      "public/assets/prism-wordmark.svg",
+      "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3"
+    ],
+    [
+      "public/assets/world-preview-01.png",
+      "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e"
+    ],
+    [
+      "public/assets/world-preview-02.png",
+      "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c"
+    ],
+    [
+      "public/assets/world-preview-03.png",
+      "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40"
+    ],
+    [
+      "public/assets/world-preview-04.png",
+      "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5"
+    ],
+    [
+      "public/assets/world-preview-05.png",
+      "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f"
+    ],
+    [
+      "public/assets/world-preview-06.png",
+      "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf"
+    ],
+    [
+      "public/assets/world-preview-07.png",
+      "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f"
+    ],
+    [
+      "public/assets/world-preview-08.png",
+      "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631"
+    ],
+    [
+      "public/assets/world-preview-09.png",
+      "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376"
+    ],
+    [
+      "public/assets/world-preview-10.png",
+      "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185"
+    ],
+    [
+      "public/assets/world-preview-11.png",
+      "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b"
+    ],
+    [
+      "public/assets/world-preview-12.png",
+      "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7"
+    ],
+    [
+      "public/assets/world-preview-13.png",
+      "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289"
+    ],
+    [
+      "public/assets/world-preview-14.png",
+      "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d"
+    ],
+    [
+      "public/assets/world-preview-15.png",
+      "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb"
+    ],
+    [
+      "public/assets/world-preview-16.png",
+      "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539"
+    ],
+    [
+      "public/audio.js",
+      "b13c8690fe232d99c64173e280030c1eaa092ccc43d19b05e2c8e6b235811d51"
+    ],
+    [
+      "public/bootstrap.js",
+      "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e"
+    ],
+    [
+      "public/brick-batch.js",
+      "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115"
+    ],
+    [
+      "public/brick-events.js",
+      "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee"
+    ],
+    [
+      "public/brick-labels.js",
+      "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716"
+    ],
+    [
+      "public/bundled-worlds.js",
+      "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0"
+    ],
+    [
+      "public/champion.js",
+      "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d"
+    ],
+    [
+      "public/cinematic-score.js",
+      "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b"
+    ],
+    [
+      "public/cinematics.js",
+      "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c"
+    ],
+    [
+      "public/crystal-bricks.js",
+      "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2"
+    ],
+    [
+      "public/daily-ending.js",
+      "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7"
+    ],
+    [
+      "public/daily-score.js",
+      "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912"
+    ],
+    [
+      "public/display.css",
+      "5a1504cd2dd28fdbf8e2c7151520c25c2336efd575d901bd6d300e6420c9ea2c"
+    ],
+    [
+      "public/display.js",
+      "19831eddcdc2c12e98ed4e8739d75f94bb533310cd22c55d42d8d4a85ab80614"
+    ],
+    [
+      "public/editor-bootstrap.js",
+      "8a12926c1e60cb2f398fb5db3773ed494bcc56fbba4394474b9a2d98589de9d2"
+    ],
+    [
+      "public/editor-drafts.js",
+      "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b"
+    ],
+    [
+      "public/editor-route.html",
+      "7a0affff455dc4983030b4968909049e2b13ae768b77c2e7af7b65c8d657056d"
+    ],
+    [
+      "public/editor-template.html",
+      "57e98a841aa29ecf722b3fb6dbf4e957dd01a7a50f380912a3398d4fae890cca"
+    ],
+    [
+      "public/editor.css",
+      "6fb24c742eddf1801a6880d508bc3ecee2b60fe38fad48f62c7312f4623e1ab7"
+    ],
+    [
+      "public/editor.html",
+      "08509b2b38d9c74788a45defb7d1aea7b1f8efe1787ecda7f8aa254b0e5dd5b2"
+    ],
+    [
+      "public/editor.js",
+      "5c2a06b9ca515feee265ca4fd66e01b10ecdcab384bffc552d9d3cb1f2f76b8b"
+    ],
+    [
+      "public/engagement-art.js",
+      "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677"
+    ],
+    [
+      "public/engagement-data.js",
+      "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d"
+    ],
+    [
+      "public/engagement-ui.js",
+      "75a5a4fc11b7a7c60cfc04bb515dddb2c17ea546721e7aa361e91650d937216b"
+    ],
+    [
+      "public/engagement.css",
+      "a61525110dad9fd2b5ce5e525c4a08a468a0ec3de0fdcba6d561a955503849a6"
+    ],
+    [
+      "public/engagement.html",
+      "2569e941d46b6e1d2f245a6277b964288de6d8bf517baef51045f646a10dddbb"
+    ],
+    [
+      "public/engagement.js",
+      "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d"
+    ],
+    [
+      "public/engine.js",
+      "65b8de38f5aa7c8525f8386229c136066eb3eab5cd7e38248325de98898863ae"
+    ],
+    [
+      "public/favicon.ico",
+      "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728"
+    ],
+    [
+      "public/favicon.svg",
+      "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d"
+    ],
+    [
+      "public/frame-loop.js",
+      "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0"
+    ],
+    [
+      "public/graphics-recovery.js",
+      "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8"
+    ],
+    [
+      "public/index.html",
+      "77ba6b12dea2272d6b4c3751f48bccd7fd14bec2ec06bc19d765a17ef2ed269a"
+    ],
+    [
+      "public/installation.js",
+      "16a1db97dadd78a82fd9a16676fd59613e24b2268736bffadfdb83170d0308a6"
+    ],
+    [
+      "public/keyboard-input.js",
+      "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b"
+    ],
+    [
+      "public/leaderboard.js",
+      "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97"
+    ],
+    [
+      "public/levels.js",
+      "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6"
+    ],
+    [
+      "public/manifest.webmanifest",
+      "cd9bcd8219b7a1125e7b2f5ccedd40cc819aa9d911f3604d9096f33bc115b2fd"
+    ],
+    [
+      "public/mastery-ceremony.js",
+      "9f7aeb0c59f2846f2299c5c94a9bb82b40d823d346785e179902d9134aa5e4b3"
+    ],
+    [
+      "public/mastery.js",
+      "9f25c93ec54c6276278b69fd7a8eae74be425070655fc3ece357c71d53dd50a5"
+    ],
+    [
+      "public/medal-ui.js",
+      "6839709f5756cddc1e0f12d74ba2e673b2d5df9326f0e982aa841324ff76cbb2"
+    ],
+    [
+      "public/music.js",
+      "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e"
+    ],
+    [
+      "public/offline.js",
+      "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be"
+    ],
+    [
+      "public/paddle-art.js",
+      "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97"
+    ],
+    [
+      "public/particle-batch.js",
+      "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678"
+    ],
+    [
+      "public/pointer-input.js",
+      "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f"
+    ],
+    [
+      "public/postprocessing.js",
+      "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a"
+    ],
+    [
+      "public/preferences.js",
+      "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2"
+    ],
+    [
+      "public/publish-world.js",
+      "cb211c2fbeff80c592e2355a26acf42d51ed00e3ee53df2a595739f2f4130df7"
+    ],
+    [
+      "public/pwa-release.js",
+      "61a4232cf0f31cfeaa9dab1829e7e8768db16908d6ef353aa2f561483be7e224"
+    ],
+    [
+      "public/pwa.js",
+      "156d6a09a8c7fcba7c8a562e63b3da761acc0666200be39b69b58a1119f18233"
+    ],
+    [
+      "public/render-budget.js",
+      "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2"
+    ],
+    [
+      "public/save-recovery.js",
+      "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b"
+    ],
+    [
+      "public/scene-playback.js",
+      "f75ef18f04547d6d1c9104e6496679fb7be22d136d9729a3f4e5db4f49fef773"
+    ],
+    [
+      "public/scene.js",
+      "f37d44708584e59e8b1ca7f36d5808d1a88e22a1a983bdbabd8f8c20a76d1813"
+    ],
+    [
+      "public/scenery-batch.js",
+      "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca"
+    ],
+    [
+      "public/score-contract.js",
+      "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f"
+    ],
+    [
+      "public/scores.html",
+      "14302fea38504e70816ad3f6a13ef0072433edd3969e64d25760964c3f94668d"
+    ],
+    [
+      "public/sharing.js",
+      "b6d3d17bf4ca4db6754d5e8bf7e536579a18bec77deaac8f60337f9844e38e46"
+    ],
+    [
+      "public/style.css",
+      "2bb75230fdb6503064cdd3d0f9a2098cda2da28a9cccd0db932c58dcc7ffb934"
+    ],
+    [
+      "public/sw.js",
+      "13707e48902a0da330c58d7d167cf6a46bd3d863feb5f3f6c808f9750954966a"
+    ],
+    [
+      "public/vendor/THREE-LICENSE.txt",
+      "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601"
+    ],
+    [
+      "public/vendor/qr.js",
+      "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0"
+    ],
+    [
+      "public/vendor/three.core.min.js",
+      "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de"
+    ],
+    [
+      "public/vendor/three.module.min.js",
+      "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6"
+    ],
+    [
+      "public/victory-music.js",
+      "8ab4f00f99b49e1774e41314914719c5f02a0d96e1754503ae63a55881b41b7e"
+    ],
+    [
+      "public/world-catalog.html",
+      "b8523df347366596add13b1c870568d37c643b21365043a22733d125478e78d4"
+    ],
+    [
+      "public/world-data.css",
+      "f84402f80042657f4624eee1245db099f4f1b42ca6e0206769ebe97bf36db1b2"
+    ],
+    [
+      "public/world-format.js",
+      "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9"
+    ],
+    [
+      "public/world-identity.js",
+      "b8971f8196a82276662f34841c21f9cbce0110b57f825fbf4217777620191b6a"
+    ],
+    [
+      "public/world-schema.js",
+      "a10129d9ed7d412a18ca0cfc6e8c586c3c0d63f6210c2d5a375ff1a501972387"
+    ],
+    [
+      "public/world-working-document.js",
+      "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542"
+    ],
+    [
+      "public/worlds.html",
+      "7ecb9bde68feadf2b639bb259dae67be8e3567f855e601d5e800cc7744b916a0"
+    ],
+    [
+      "public/worlds/aurora-passage/definition.html",
+      "687ad37573d28e032d4033e50c1acfe137701220c083a5bdbb511c258d2423ed"
+    ],
+    [
+      "public/worlds/clockwork-canopy/definition.html",
+      "40239798a8314835233ca1109293c89534660c9f22a46d62b38d1e6dd53b0bb0"
+    ],
+    [
+      "public/worlds/cloud-carnival/definition.html",
+      "385391cd58b520ac2ad2892a12e4220f05fa561d6a251f158f34256ee2f473c2"
+    ],
+    [
+      "public/worlds/cosmic-reef/definition.html",
+      "435f2875d34f6de5e48b3873a52214a2078f81d91f2df3fa07f5b82579063200"
+    ],
+    [
+      "public/worlds/crystal-caverns/definition.html",
+      "1e329673512564e9c45bb9638bd04db8a1cce64c1dad32c50af250dc0db351e6"
+    ],
+    [
+      "public/worlds/dawn-nexus/definition.html",
+      "e43ff38b88e7b9bf31bab96f0d50771c13817b8bec028f35d38b7e6e57cf9c8a"
+    ],
+    [
+      "public/worlds/electric-city/definition.html",
+      "d0f37bf5b3e1c3c9f5e0649f24d0ec3e09a181483c1353eab7d5fbe2465cfa45"
+    ],
+    [
+      "public/worlds/ember-foundry/definition.html",
+      "9faa20887d415d702a7238149d79d7f10c18de694c22fbf6dee18ef70770f6d6"
+    ],
+    [
+      "public/worlds/event-horizon/definition.html",
+      "88964cc41cc65da132047243b36c2e52b6d2767619e5456c8cb36b4a5ec5a76a"
+    ],
+    [
+      "public/worlds/frost-observatory/definition.html",
+      "1b48fbe25d990df59b04a1b7df24300ffd39983d0a3fa5cffce30947ed3ce13f"
+    ],
+    [
+      "public/worlds/lunar-harbor/definition.html",
+      "7f73dc712a697a4e1c343752c0aa1ac2ccd8bd57e96671caa979b4cf1b404e18"
+    ],
+    [
+      "public/worlds/mirage-dunes/definition.html",
+      "23961bb1e1763173cf87a117cb26abfcc3e95117d345c746da2eed6fdb75766c"
+    ],
+    [
+      "public/worlds/prism-citadel/definition.html",
+      "477dc0e0b16990f35971f6268107ee24e71b1ed8e1ffaec0d6dbb1b87571fd5f"
+    ],
+    [
+      "public/worlds/prism-garden/definition.html",
+      "548f6485b96274b847780dcc06b954292a6b1540cc5200f16e23ad8e6b2d1f6e"
+    ],
+    [
+      "public/worlds/sunken-archive/definition.html",
+      "12701120048870a19104c81acc2b99a7b114dfe105b318420a196588ff92356a"
+    ],
+    [
+      "public/worlds/thunder-spire/definition.html",
+      "5d0d81608c9de0e42c83e47c9ddac13b923f1d034d857f1b07bc2ec8e2ce555f"
+    ]
+  ],
+  "fixtureSha256": "2e9dfe47708143b71d999cd4f1937c1bcc4d38704c8e62fd097fd87e08de3fbf",
+  "planSha256": "3f8dff182c76bbdb4146fab17e2c740e6f901f5c230d1ab8045622c25c7fc866",
+  "failure": "Error: Frame did not become ready\n    at frame (http://127.0.0.1:52839/__qa/handbook-lab.js:8:338)\n    at async $.onclick (http://127.0.0.1:52839/__qa/handbook-lab.js:18:4)"
+}

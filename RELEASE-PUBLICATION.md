@@ -36,3 +36,10 @@ Rollback requires the package to exist locally. Preserve needed package director
 - Owner DAV is trusted authoring. Create-only conditions prevent this publisher from overwriting a release; they do not revoke the owner's ability to modify files with another authoring tool.
 - Runtime publication does not publish new score authorization/trigger rules. Changed native score policies are rejected by `migrateScoreRules` until a supported safe activation procedure is established. Low-level owner authoring remains an owner capability.
 - Device and independent human acceptance remain separate from deterministic package and automation results. See the [acceptance procedure](review/acceptance-plan.html).
+
+
+## Aligned root and nested deployments
+
+Use `deployments.json` and `bun tools/build-installations.mjs` for the two maintained installations. Complete the same committed-source gate above; the deployment configuration is part of that identity. `tools/publish-installations.mjs` provides the gated two-target operation and public verification documented in the README. The nested deployment promotes its game entry, manifest, worker and standalone workshop; it preserves its existing native catalog, policy and world documents. Root parameterized routes remain available; both interfaces link to the portable `editor.html?world=...` workshop.
+
+Do not rewrite immutable old release paths or reuse historical demo correction scripts. Updated dependencies go under new release IDs. The nested worker recognizes the exact old demo cache and verified extension prefix while older clients are open. Old cache data is neither broadly deleted nor used to claim the new release is complete. Real Android/iOS installation, native gestures and OS eviction remain separate device acceptance.

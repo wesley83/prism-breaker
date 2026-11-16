@@ -1,0 +1,13 @@
+{
+  "main": {"origin":"https://sane-guild-8399.onpagelove.com","base":"/"},
+  "demo": {
+    "origin":"https://kayak-draw-9549.onpagelove.com",
+    "base":"/onboarding/after/demos/product-ready-20261106/prism/",
+    "legacyReleases": {
+      "6f5e9ab760f73887f45d": {
+        "cacheName":"prism-breaker-review-20261106-6f5e9ab760f73887f45d",
+        "extensionPrefix":"prism-design:https://kayak-draw-9549.onpagelove.com/onboarding/after/demos/product-ready-20261106/prism/:"
+      }
+    }
+  }
+}

@@ -1,5 +1,13 @@
 # Phone fullscreen
 
+## Touch ownership — November 16, 2026
+
+Phone gameplay now uses a fixed, non-scrolling stage independently of API fullscreen. Declined requests and explicit fullscreen exits retain that layout; an exit still pauses play and suppresses automatic re-entry. The former standard-layout toggle is no longer offered during phone play because it could restore page scrolling. Back to start screen restores the ordinary document layout.
+
+The entire non-control stage, including HUD and lower margins, accepts one steering contact. Buttons, inputs and dialogs keep their own actions. Browser toolbar/viewport resize does not release pointer capture. Unexpected capture loss, pointer cancellation, focus loss or orientation change during an active drag releases it and opens Pause. Normal release and intentional menu opening do not create a second pause. Layout-triggered drawing-buffer resizes run immediately before a render to avoid clearing the canvas between rendered frames. No global zoom restriction was added: dialogs and cinematic text keep native scrolling/zoom.
+
+Regression coverage and browser measurements: [touch surface audit](audit/2026-11-16-touch-surface.md). Physical Android browser/PWA finger gestures still need confirmation. This supersedes the standard-layout option described in the historical October 15 entry below.
+
 ## Button gestures â€” October 31, 2026
 
 On phones and in installed app windows, ordinary button actions also request API fullscreen, including navigation, settings, leaderboard and dynamically created world controls. The delegated handler runs after the button's action in the same trusted click task. It does not cancel, delay or replay that action. Keyboard activation of a button qualifies; synthetic clicks and ordinary desktop browser tabs do not.

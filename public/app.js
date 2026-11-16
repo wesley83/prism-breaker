@@ -1,3 +1,4 @@
+import {appPath,editorPath} from './installation.js';
 import{mountCollectionFinder}from'./collection-finder.mjs';
 import {EngagementUI,SYNERGIES} from './engagement-ui.js';
 import {medalToken} from './medal-ui.js';
@@ -60,7 +61,7 @@ game.emit=handleEvent;
 function toast(message){$('#toast').textContent=message;$('#toast').classList.add('visible');toastUntil=performance.now()+2600;}
 function updateWorldCards(){
  const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(LAST_WORLD,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
- $('#world-editor-link').href='/editor/'+worldSlug(activeWorld);
+ $('#world-editor-link').href=editorPath(worldSlug(activeWorld));
  all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.dataset.completed=String(completed);card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
  $('#journey-summary').textContent=highest?'Adventure: '+highest+' of '+WORLD_COUNT+' worlds completed.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
 }
@@ -264,18 +265,19 @@ const graphicsRecovery=setupGraphicsRecovery(canvas,{
   else {$('#error-text').textContent=status==='recovering'?'Restoring the 3D arena. Your game is paused.':status==='failed'?'The 3D arena could not recover. Reload the game to try again. An unfinished Daily Challenge or Practice run will end.':'Graphics were interrupted. Your game is paused while the arena recovers. Reload if it does not return; an unfinished Daily Challenge or Practice run will end.';if($('#pause-dialog').open)$('#pause-description').textContent=$('#error-text').textContent;}
  }
 });
-paddleInput=setupPaddleInput(canvas,{enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed&&!!stage&&['ready','playing'].includes(game.state),move:e=>game.move(stage.screenX(e.clientX,e.clientY)),launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
+paddleInput=setupPaddleInput($('#stage'),{hover:e=>e.target===canvas,interrupted:()=>{if(view==='game'&&['playing','ready'].includes(game.state)&&!$('dialog[open]'))openDialog('#pause-dialog');},enabled:()=>view==='game'&&!all('dialog[open]').length&&!graphicsRecovery.blocked&&!appLoop.failed&&!!stage&&['ready','playing'].includes(game.state),move:e=>{const r=canvas.getBoundingClientRect();game.move(stage.screenX(e.clientX,Math.max(r.top,Math.min(r.bottom,e.clientY))));},launch:()=>{sound.unlock();game.launch();},neutral:()=>{if(game.paddle)game.target=game.paddle.x;}});
 document.addEventListener('keydown',e=>{if(ownsKeyboard(e.target,e.code)||all('dialog[open]').length||appLoop.failed||graphicsRecovery.blocked)return;if(view==='cut'||view==='champion'||view==='award'){if(['Space','Enter','KeyP','Escape'].includes(e.code)){e.preventDefault();if(!e.repeat){if(e.code==='KeyP'||e.code==='Escape')toggleScenePause();else if(view==='champion')finishCelebration();else if(view==='award')finishAward();else finishCut();}}return;}if(view!=='game')return;if(['KeyQ','KeyE'].includes(e.code)&&game.balls.some(b=>b.held&&b.aimable)){e.preventDefault();const held=game.balls.find(b=>b.held&&b.aimable),angle=Math.atan2(held.holdVX||0,Math.abs(held.holdVY)||1)*180/Math.PI;game.engagement.aim(angle+(e.code==='KeyQ'?-5:5));engagementUI.renderLive();return;}if(['ArrowLeft','ArrowRight','Space','KeyA','KeyD','KeyP','Escape'].includes(e.code))e.preventDefault();keys.add(e.code);if(e.code==='Space'&&!e.repeat){sound.unlock();game.launch();}if((e.code==='KeyP'||e.code==='Escape')&&!e.repeat)openDialog('#pause-dialog');});document.addEventListener('keyup',e=>keys.delete(e.code));window.addEventListener('blur',()=>keys.clear());
 document.addEventListener('visibilitychange',()=>{keys.clear();if(document.hidden&&view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');});window.addEventListener('pagehide',()=>{if(view==='game')persist();});
-// Notification content never sizes the canvas. Only real stage/canvas changes
-// update projection; stage changes also cancel an obsolete steering gesture.
-const ro=new ResizeObserver(entries=>{if(entries.some(entry=>entry.target===$('#stage')))paddleInput?.cancel();stage?.resize();});ro.observe($('#stage'));ro.observe(canvas);
+// Notification content never sizes the canvas. Keep capture across viewport
+// changes; resize drawing buffers only in a frame that will also draw them.
+let stageResizePending=false;
+const ro=new ResizeObserver(()=>{stageResizePending=true;});ro.observe($('#stage'));ro.observe(canvas);
 document.addEventListener('click',async event=>{const link=event.target.closest('a[href]');if(!link||link.target==='_blank'||link.hasAttribute('download')||event.defaultPrevented||event.ctrlKey||event.metaKey||event.shiftKey||view==='home'||game.mode!=='campaign')return;const url=new URL(link.href,location.href);if(url.origin!==location.origin)return;event.preventDefault();if(view==='game'&&!$('dialog[open]'))openDialog('#pause-dialog');if(await preserveRun()){leaving=true;location.href=url.href;}});
 window.addEventListener('beforeunload',event=>{if(!leaving&&view==='game'&&!persist()){event.preventDefault();event.returnValue='';}});
 function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 export function scoreHTML(r,name){const props={runKey:r.id,player:name,score:r.score,level:r.level,mode:r.mode,day:r.day,seconds:r.seconds,submittedAt:r.submittedAt,ruleset:r.ruleset||LEGACY_RULESET_REVISION};return '<li itemscope itemtype="https://sane-guild-8399.onpagelove.com/Run">'+Object.entries(props).map(([key,value])=>'<meta itemprop="'+key+'" content="'+escapeHTML(value)+'">').join('')+'</li>';}
 async function sendQueuedScore(run,player){
- const response=await fetch('/scores.html',{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:scoreHTML(run,player),signal:AbortSignal.timeout(12000)});
+ const response=await fetch(appPath('scores.html'),{method:'POST',headers:{'Content-Type':'text/html',Range:'selector=#scores'},body:scoreHTML(run,player),signal:AbortSignal.timeout(12000)});
  if(response.ok)return {submittedAt:run.submittedAt};
  if(response.status===422){
   // A previous attempt may have arrived even if its response was lost.
@@ -337,13 +339,13 @@ let expiryCleanup=null;
 function cleanExpiredScores(rows){
  if(expiryCleanup||!navigator.onLine||!rows.some(r=>Number.isSafeInteger(Number(r.expiresAt))&&Number(r.expiresAt)<=boardNow()))return;
  const range='selector=#scores > li:has(meta[itemprop="expiresAt"]:value-less-than("'+Math.floor(boardNow())+'"))';
- expiryCleanup=fetch('/scores.html',{method:'DELETE',headers:{Range:range},cache:'no-store',signal:AbortSignal.timeout(10000)}).catch(()=>{}).finally(()=>{expiryCleanup=null;});
+ expiryCleanup=fetch(appPath('scores.html'),{method:'DELETE',headers:{Range:range},cache:'no-store',signal:AbortSignal.timeout(10000)}).catch(()=>{}).finally(()=>{expiryCleanup=null;});
 }
 async function fetchScores(){
  if(scoresRequest)return scoresRequest;
  // A browser connectivity hint can be false while Pagelove is reachable. The
  // bounded request is authoritative, including duplicate-score confirmation.
- scoresRequest=(async()=>{const r=await fetch('/scores.html?cb='+Date.now(),{headers:{Range:'selector=#scores'},cache:'no-store',signal:AbortSignal.timeout(10000)});if(!r.ok)throw Error('Score board unavailable');
+ scoresRequest=(async()=>{const r=await fetch(appPath('scores.html?cb='+Date.now()),{headers:{Range:'selector=#scores'},cache:'no-store',signal:AbortSignal.timeout(10000)});if(!r.ok)throw Error('Score board unavailable');
  const serverDate=Date.parse(r.headers.get('Date'));if(Number.isFinite(serverDate)){clockOffset=serverDate-Date.now();armDayRollover();}
  const doc=new DOMParser().parseFromString(await r.text(),'text/html');if(!doc.querySelector('#scores'))throw Error('Invalid leaderboard response');sharedScores=[...doc.querySelectorAll('li[itemtype$="/Run"]')].map(li=>{const v={};li.querySelectorAll('meta[itemprop]').forEach(m=>v[m.getAttribute('itemprop')]=m.getAttribute('content'));return v;}).filter(r=>r.player&&Number.isFinite(Number(r.score)));cleanExpiredScores(sharedScores);sharedScores=activeScores(sharedScores,boardNow());scoresUnavailable=false;scoresFetchedAt=Date.now();offlineStore.writeBoard({scores:sharedScores,fetchedAt:scoresFetchedAt,clockOffset}).catch(()=>{});rolloverDay();updateTopScore();return sharedScores;
  })();try{return await scoresRequest;}catch(error){scoresUnavailable=true;updateTopScore();throw error;}finally{scoresRequest=null;}
@@ -430,7 +432,7 @@ async function loadPracticeWorld(level){
  const slug=worldSlug(level),key='prism.world-published.'+slug;
  try{
   if(!navigator.onLine)throw Error('Offline');
-  const response=await fetch('/worlds/'+slug+'/definition.html?cb='+Date.now(),{cache:'no-store',signal:AbortSignal.timeout(6000)});if(!response.ok)throw Error('World unavailable');
+  const response=await fetch(appPath('worlds/'+slug+'/definition.html?cb='+Date.now()),{cache:'no-store',signal:AbortSignal.timeout(6000)});if(!response.ok)throw Error('World unavailable');
   const world=parseWorld(await response.text(),{expectedSlug:slug});try{localStorage.setItem(key,JSON.stringify({world,savedAt:Date.now()}));}catch{}
   return {world};
  }catch{
@@ -452,7 +454,8 @@ const sharedBoard=new URLSearchParams(location.search).get('leaderboard');if(['c
 setInterval(()=>{if(document.hidden)return;rolloverDay();if(sharedScores){const current=activeScores(sharedScores,boardNow());if(current.length!==sharedScores.length){cleanExpiredScores(sharedScores);sharedScores=current;updateTopScore();if($('#scores-dialog').open)renderScores(rankedScores(current,leaderMode,currentDay()));}}if(leaderMode==='campaign'&&$('#scores-dialog').open)updateScoreOutlines();if(leaderMode==='daily'&&$('#scores-dialog').open)all('td[data-score-time]').forEach(td=>{const age=scoreAge({submittedAt:td.dataset.scoreTime},boardNow());td.textContent=age===null?'—':age.toLocaleString();});},1000);
 armDayRollover();setInterval(()=>{if(document.hidden)return;rolloverDay();if($('#scores-dialog').open){renderPendingScores();loadScores();}else refreshTopScore();},60000);
 const renderClock=new RenderClock();let last=performance.now(),saveTimer=0,sceneDelta=0,lastHudPoll=0;
-function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing&&!graphicsRecovery.blocked){
+function frame(now){
+ const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;if(stage&&!stage.preparing&&!graphicsRecovery.blocked){
  if(view==='game'&&!document.hidden){if(keys.has('ArrowLeft')||keys.has('KeyA'))game.move(game.target-dt*22);if(keys.has('ArrowRight')||keys.has('KeyD'))game.move(game.target+dt*22);accumulator+=dt;while(accumulator>=1/120){game.tick(1/120);accumulator-=1/120;}saveTimer+=dt;if(saveTimer>10&&view==='game'){saveTimer=0;persist();}if(now-lastHudPoll>=100||lastHud===''){lastHudPoll=now;hud();}}
  if(view==='home'&&!document.hidden){game.time+=dt;game.paddle.x=settings.reducedMotion?0:Math.sin(now*.0006)*3.3;game.balls[0].x=game.paddle.x;game.balls[0].y=-9.5+(settings.reducedMotion?0:Math.sin(now*.0007)*.2);}
  if(['cut','award','champion'].includes(view)){
@@ -462,7 +465,7 @@ function frame(now){const dt=Math.min(.05,Math.max(0,(now-last)/1000));last=now;
   updateSceneStatus();
  }
  const victory=view==='award'?'mastery':endResult?.record&&['champion','result'].includes(view)?endResult.mode:null,dialogs=all('dialog[open]'),musicActive=!document.hidden&&((!dialogs.length&&['game','cut','champion','award'].includes(view)&&game.state!=='paused')||(view==='result'&&victory&&dialogs.length===1&&$('#result-dialog').open));
- const listening=collectionMusic!==null&&$('#mastery-dialog').open&&!document.hidden;sound.update(listening||musicActive&&!(['cut','champion','award'].includes(view)&&scenePaused),listening?collectionMusic:THEMES.indexOf(game.world.music),view==='cut'||view==='champion'||view==='award'||view==='game'&&game.engagement.recovery,listening?null:victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderFPS=view==='home'||dialogs.length||game.state==='paused'?30:60;if(document.hidden)renderClock.reset();else if(renderClock.due(now,renderFPS)){stage.render(game,sceneDelta,now/1000,view,cutTime);stage.observeFrame(renderClock.elapsed,view==='game'&&game.state==='playing'&&!dialogs.length);sceneDelta=0;}
+ const listening=collectionMusic!==null&&$('#mastery-dialog').open&&!document.hidden;sound.update(listening||musicActive&&!(['cut','champion','award'].includes(view)&&scenePaused),listening?collectionMusic:THEMES.indexOf(game.world.music),view==='cut'||view==='champion'||view==='award'||view==='game'&&game.engagement.recovery,listening?null:victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderFPS=view==='home'||dialogs.length||game.state==='paused'?30:60;if(document.hidden)renderClock.reset();else if(renderClock.due(now,renderFPS)||stageResizePending){if(stageResizePending){stageResizePending=false;stage.resize();}stage.render(game,sceneDelta,now/1000,view,cutTime);stage.observeFrame(renderClock.elapsed,view==='game'&&game.state==='playing'&&!dialogs.length);sceneDelta=0;}
  }if(toastUntil&&now>toastUntil){$('#toast').classList.remove('visible');toastUntil=0;}}
 const appLoop=startFrameLoop(frame,{onError(error){keys.clear();paddleInput?.cancel();accumulator=0;sound.update(false,THEMES.indexOf(game.world.music));if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');persist();$('#unpause').disabled=true;$('#error').hidden=false;$('#error-text').textContent='The arena stopped unexpectedly. Reload the game to try again. Your Adventure checkpoint has been kept if saving is available; an unfinished Daily Challenge or Practice run will end.';console.error('Game frame failed:',error);}});
 

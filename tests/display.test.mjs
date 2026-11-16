@@ -15,17 +15,17 @@ function fixture({phone=true,allowed=true,reject=false,installed=false,standalon
 test('phone start requests fullscreen synchronously on the document root, including dialogs',()=>{
  const f=fixture();f.display.enterForPlay();assert.equal(f.requests,1);assert.equal(f.doc.fullscreenElement,f.root);assert.equal(f.classes.has('game-focus'),true);
 });
-test('denied phone fullscreen retains the viewport layout with a separate layout exit',async()=>{
- const f=fixture({reject:true});f.display.enterForPlay();await new Promise(resolve=>setImmediate(resolve));assert.equal(f.classes.has('game-focus'),true);assert.equal(f.errors,0);f.layoutButton.onclick();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.paused,1);
+test('denied phone fullscreen retains a locked viewport until returning home',async()=>{
+ const f=fixture({reject:true});f.display.enterForPlay();await new Promise(resolve=>setImmediate(resolve));assert.equal(f.classes.has('game-focus'),true);assert.equal(f.errors,0);assert.equal(f.classes.has('play-locked'),true);assert.equal(f.layoutButton.hidden,true);f.home();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.classes.has('play-locked'),false);
 });
 test('ordinary desktop starts never request fullscreen automatically',()=>{
- const f=fixture({phone:false});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),false);f.button.onclick();assert.equal(f.doc.fullscreenElement,f.root);
+ const f=fixture({phone:false});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),false);assert.equal(f.classes.has('play-locked'),false);f.button.onclick();assert.equal(f.doc.fullscreenElement,f.root);
 });
 test('an installed fullscreen app uses the screen layout without an unnecessary API request',()=>{
  const f=fixture({installed:true});f.display.enterForPlay();assert.equal(f.requests,0);assert.equal(f.classes.has('game-focus'),true);
 });
 test('system exit pauses active play and does not automatically request fullscreen again',()=>{
- const f=fixture();f.display.enterForPlay();f.doc.fullscreenElement=null;f.listeners.fullscreenchange();f.display.refresh();assert.equal(f.classes.has('game-focus'),false);assert.equal(f.paused,1);assert.equal(f.requests,1);
+ const f=fixture();f.display.enterForPlay();f.doc.fullscreenElement=null;f.listeners.fullscreenchange();f.display.refresh();assert.equal(f.classes.has('game-focus'),true);assert.equal(f.classes.has('play-locked'),true);assert.equal(f.paused,1);assert.equal(f.requests,1);
 });
 test('returning home exits owned browser fullscreen without a pause callback',()=>{
  const f=fixture();f.display.enterForPlay();f.home();assert.equal(f.exits,1);assert.equal(f.paused,0);assert.equal(f.classes.has('game-focus'),false);

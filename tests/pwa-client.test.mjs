@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import vm from 'node:vm';
-const source=(await fs.readFile(new URL('../public/pwa.js',import.meta.url),'utf8')).replace(/import .*?;\s*/,"const PWA_RELEASE='aaaaaaaaaaaaaaaaaaaa';\n").replace('export function','function');
+const source=(await fs.readFile(new URL('../public/pwa.js',import.meta.url),'utf8')).replace(/^import .*?;\s*/gm,'').replace("// Installation is optional", "const APP_BASE='/',appPath=p=>'/'+p; const PWA_RELEASE='aaaaaaaaaaaaaaaaaaaa';\n// Installation is optional").replace('export function','function');
 const flush=async()=>{for(let i=0;i<20;i++)await Promise.resolve();};
 function emitter(obj={}){const handlers=new Map();return Object.assign(obj,{addEventListener(type,fn){if(!handlers.has(type))handlers.set(type,[]);handlers.get(type).push(fn);},emit(type,event){for(const fn of handlers.get(type)||[])fn(event);}});}
 function fixture({waiting=true,online=true,safe=true,version='aaaaaaaaaaaaaaaaaaaa',pageVersion,ready=true,throwSkip=false,failRegister=false,unsupported=false,beforeUpdate=()=>{}}={}){

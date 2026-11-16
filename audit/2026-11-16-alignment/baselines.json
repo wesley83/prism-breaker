@@ -1,0 +1,114 @@
+[
+  {
+    "name": "index.html",
+    "owner": false,
+    "status": 200,
+    "etag": "\"163f02a0d91c70ea10599b788f8b63492de3ff96917c9aaced9b95882770952b\"",
+    "sha256": "bbcae0bf692ff5eecff90e5ca4367bb7324b06e287a24cc20bea45d3cf97b563",
+    "bytes": 37846
+  },
+  {
+    "name": "index.html",
+    "owner": true,
+    "status": 200,
+    "etag": "\"163f02a0d91c70ea10599b788f8b63492de3ff96917c9aaced9b95882770952b\"",
+    "sha256": "163f02a0d91c70ea10599b788f8b63492de3ff96917c9aaced9b95882770952b",
+    "bytes": 37087
+  },
+  {
+    "name": "manifest.webmanifest",
+    "owner": false,
+    "status": 200,
+    "etag": "\"535f04eebbf3c77dd6ef8ee3239ddfa7b92766513cb9c441641095b88db7bcf4\"",
+    "sha256": "535f04eebbf3c77dd6ef8ee3239ddfa7b92766513cb9c441641095b88db7bcf4",
+    "bytes": 1938
+  },
+  {
+    "name": "manifest.webmanifest",
+    "owner": true,
+    "status": 200,
+    "etag": "\"535f04eebbf3c77dd6ef8ee3239ddfa7b92766513cb9c441641095b88db7bcf4\"",
+    "sha256": "535f04eebbf3c77dd6ef8ee3239ddfa7b92766513cb9c441641095b88db7bcf4",
+    "bytes": 1938
+  },
+  {
+    "name": "sw.js",
+    "owner": false,
+    "status": 200,
+    "etag": "\"d63f5e852bea4fcce8cf863d0d4682ca730d62d2a7e7eb8a5f5dbb705a0d6c3e\"",
+    "sha256": "d63f5e852bea4fcce8cf863d0d4682ca730d62d2a7e7eb8a5f5dbb705a0d6c3e",
+    "bytes": 44746
+  },
+  {
+    "name": "sw.js",
+    "owner": true,
+    "status": 200,
+    "etag": "\"d63f5e852bea4fcce8cf863d0d4682ca730d62d2a7e7eb8a5f5dbb705a0d6c3e\"",
+    "sha256": "d63f5e852bea4fcce8cf863d0d4682ca730d62d2a7e7eb8a5f5dbb705a0d6c3e",
+    "bytes": 44746
+  },
+  {
+    "name": "editor.html",
+    "owner": false,
+    "status": 200,
+    "etag": "\"aa82566818057f378018ea1062aa95c60f4940cf9eefd2d35493d14f36e3e011\"",
+    "sha256": "40b976f38b7e4658fad5eb971df3f3753811af65f5285b0ef9174fbb15c57db6",
+    "bytes": 12900
+  },
+  {
+    "name": "editor.html",
+    "owner": true,
+    "status": 200,
+    "etag": "\"aa82566818057f378018ea1062aa95c60f4940cf9eefd2d35493d14f36e3e011\"",
+    "sha256": "aa82566818057f378018ea1062aa95c60f4940cf9eefd2d35493d14f36e3e011",
+    "bytes": 12141
+  },
+  {
+    "name": "worlds.html",
+    "owner": false,
+    "status": 404,
+    "etag": null,
+    "sha256": "9f871647adba929337fb28f0cdeb6ff2239bf8ebf8b4931289863f6a477c3a87",
+    "bytes": 313
+  },
+  {
+    "name": "worlds.html",
+    "owner": true,
+    "status": 200,
+    "etag": "\"cd7f648f5f559c3f6463b9bf6565ed0524640802a999fd23f90d12cce0486267\"",
+    "sha256": "cd7f648f5f559c3f6463b9bf6565ed0524640802a999fd23f90d12cce0486267",
+    "bytes": 1690
+  },
+  {
+    "name": "world-catalog.html",
+    "owner": false,
+    "status": 200,
+    "etag": "\"43e15272a6d92ba5c6830de926d3217c2000f35e207a154dca2bdea112acfe67\"",
+    "sha256": "533912e836fe94a66f6e171523127d6cd3c902c4b4b68fee9b322c2165282286",
+    "bytes": 6572
+  },
+  {
+    "name": "world-catalog.html",
+    "owner": true,
+    "status": 200,
+    "etag": "\"43e15272a6d92ba5c6830de926d3217c2000f35e207a154dca2bdea112acfe67\"",
+    "sha256": "43e15272a6d92ba5c6830de926d3217c2000f35e207a154dca2bdea112acfe67",
+    "bytes": 5813
+  },
+  {
+    "name": "scores.html",
+    "owner": false,
+    "status": 200,
+    "etag": "\"92751eecdea01dff793a07cc45a82a7b86855bb1cddb2a33ef8772aa2d09f34b\"",
+    "sha256": "210aecb3cca9dbe7c302e7aa02e81a5d1cb100fbaa487c0e1b0f424dc4a6d91e",
+    "bytes": 9250
+  },
+  {
+    "name": "scores.html",
+    "owner": true,
+    "status": 200,
+    "etag": "\"92751eecdea01dff793a07cc45a82a7b86855bb1cddb2a33ef8772aa2d09f34b\"",
+    "sha256": "92751eecdea01dff793a07cc45a82a7b86855bb1cddb2a33ef8772aa2d09f34b",
+    "bytes": 8491
+  }
+]

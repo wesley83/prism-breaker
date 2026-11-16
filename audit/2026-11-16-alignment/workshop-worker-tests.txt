@@ -1,0 +1,33 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests\pwa-worker.test.mjs:
+(pass) an incomplete or mismatched download never becomes offline-ready and leaves the previous release intact [8.48ms]
+(pass) offline deep-link navigation and versioned/unversioned lazy imports come from the complete release [2.13ms]
+(pass) selector requests, score reads, writes and cross-origin requests never enter the static cache handler [5.39ms]
+(pass) a live workshop can opt its own client into network assets without unpinning an active game [1.80ms]
+(pass) updates wait for explicit consent, then retain old client assets across worker restarts [4.06ms]
+(pass) missing cached modules fail without mixing a newer network module into a running game [0.78ms]
+(pass) storage eviction permits a fresh online navigation and repairs the unchanged worker release [1.40ms]
+(pass) concurrent repair requests share one complete download [1.02ms]
+(pass) readiness checks the asset inventory even if the completion marker survived eviction [0.90ms]
+(pass) a restarted newer worker never repins an old tab whose entire release was evicted [2.26ms]
+(pass) unknown client identity fails closed; a responsive page can restore its exact release pin [1.59ms]
+(pass) a partial entry cache uses fresh network navigation rather than booting a broken release [0.84ms]
+(pass) malformed pin and completion metadata cannot prevent worker activation or report readiness [1.19ms]
+(pass) cache storage failure still permits online navigation without claiming offline readiness [0.65ms]
+(pass) a stalled asset aborts the download and removes the incomplete cache [3.35ms]
+(pass) fresh network pages keep loading network modules until repair is complete [1.39ms]
+(pass) activation repairs a waiting release that lost an asset, but refuses it if repair fails [1.08ms]
+(pass) cleanup retains live and previous releases and never touches unrelated caches [5.49ms]
+(pass) an unknown optional static request cannot invalidate a complete game cache [0.85ms]
+(pass) quota failure cannot leave a new ready marker or delete a previous release [1.42ms]
+(pass) legacy count-only completion markers still detect lost assets [1.21ms]
+(pass) immutable downloads and font requests use logical caches without aliasing a different release [4.44ms]
+(pass) builds are deterministic and deployment validation catches edits made after the build [38.03ms]
+(pass) nested installation serves offline launch and immutable assets while leaving siblings and native data alone [3.66ms]
+(pass) nested upgrade retains a pinned legacy demo core and integrity-checked extension cache [3.17ms]
+(pass) workshop navigation identifies its new client before the external bootstrap loads [3.19ms]
+
+ 26 pass
+ 0 fail
+Ran 26 tests across 1 file. [2.59s]

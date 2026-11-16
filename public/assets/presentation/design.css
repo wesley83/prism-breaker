@@ -1,0 +1,186 @@
+/* Approved demo design: prism-breaker. An arcade cabinet, with the game in view. Approved review palette. */
+@font-face{font-family:Review Sans;src:url('fonts/inter-400.woff2')}
+@font-face{font-family:Review Sans;src:url('fonts/inter-600.woff2');font-weight:600}
+@font-face{font-family:Review Serif;src:url('fonts/sourceserif4-400.woff2')}
+html[data-demo-design]{--design-body-family:'Review Sans',sans-serif!important;--design-heading-family:'Review Serif',Georgia,serif!important;--design-title-size:64px!important;--design-title-size-mobile:40px!important;--design-content-width:1184px!important;--design-heading-tracking:-.045em!important;--design-radius-card:0px!important;--design-radius-button:4px!important;--design-radius-input:4px!important;font-synthesis:none}
+html[data-demo-design] body{font-family:'Review Sans',sans-serif}
+html[data-demo-design] :is(input,select,button,textarea){font-family:inherit}
+
+
+
+
+
+
+
+
+
+
+html[data-demo-design] .sample-note{display:block!important;max-width:65ch!important;color:inherit!important;opacity:.8;margin-block:0!important;font-size:12px!important}
+
+
+
+
+
+
+
+html[data-demo-design] .record .record-copy{line-height:1.7}
+html[data-demo-design] .record :is(h2,h3){letter-spacing:-.025em}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+html[data-demo-design=prism-breaker] .topbar{background:#102825!important}
+html[data-demo-design=prism-breaker] .home-panel h1{font-size:clamp(58px,6.5vw,84px)!important;line-height:.9!important;letter-spacing:-.065em!important}
+html[data-demo-design=prism-breaker] .home-panel>p{font-size:16px!important;line-height:1.6!important;max-width:28ch}
+html[data-demo-design=prism-breaker] .start-choice{border-radius:5px!important;min-height:64px!important}
+html[data-demo-design=prism-breaker] #daily{background:#173c32!important;color:#eff6dc!important;border:1px solid #819a76!important}
+html[data-demo-design=prism-breaker] .collection-link{margin-top:14px!important;border-radius:5px!important}
+html[data-demo-design=prism-breaker] .home-best{padding-top:20px!important}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media(max-width:700px){
+
+
+
+
+
+
+
+
+
+}
+@media(max-width:700px){
+
+
+}

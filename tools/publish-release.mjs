@@ -3,7 +3,7 @@ import path from 'node:path';
 import {DOMParser} from 'linkedom';
 import {sha256, releasePrefix} from './immutable-release.mjs';
 
-const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.webmanifest':'application/manifest+json','.json':'application/json'};
+const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.webmanifest':'application/manifest+json','.json':'application/json'};
 export function htmlIdentity(bytes) {
   const doc = new DOMParser().parseFromString(bytes.toString('utf8'), 'text/html');
   if (!doc.documentElement) return sha256('unparsed:' + bytes.toString('utf8'));
@@ -25,7 +25,7 @@ export const sameFile = (name, expected, actual) => name.endsWith('.html') || na
 // The caller supplies a pinned authoring endpoint and an in-memory owner header.
 // No persistent score, policy, world source or legacy root script is written here.
 export async function publishRelease({root, packageDirectory, version, dav, headers, fetch:request=globalThis.fetch, beforePromote=async()=>{}, progress=()=>{}, onCheckpoint=async()=>{}}) {
-  const prefix = releasePrefix(version), manifest = JSON.parse(await fs.readFile(path.join(packageDirectory,'release.json'),'utf8'));
+  const manifest = JSON.parse(await fs.readFile(path.join(packageDirectory,'release.json'),'utf8')),base=manifest.installation?.base||'/',prefix=releasePrefix(version,base);
   if (manifest.version !== version || manifest.schema !== 1 || !Array.isArray(manifest.files) || !manifest.files.length) throw Error('Release package identity mismatch');
   for(const record of manifest.files){
     if(!/^\/[A-Za-z0-9_./-]+$/.test(record.path)||record.path.includes('..')||record.url!==prefix+record.path)throw Error('Unsafe package inventory');
@@ -35,7 +35,7 @@ export async function publishRelease({root, packageDirectory, version, dav, head
     ['manifest.webmanifest','/manifest.webmanifest'], ['worlds.html','/worlds.html'], ['world-catalog.html','/world-catalog.html'],
     ['editor.html','/editor.html'], ['editor.html','/editor/index.html'], ['editor-route.html','/editor/:worldname'],
     ['index.html','/index.html'], ['@worker','/sw.js']
-  ].filter(([name])=>name==='@worker'||manifest.files.some(f=>f.path==='/'+name));
+  ].filter(([name])=>(name==='@worker'||manifest.files.some(f=>f.path==='/'+name))&&(base==='/'||!['worlds.html','world-catalog.html','editor-route.html'].includes(name))).map(([name,target])=>[name,base+target.slice(1)]);
   const read = async (target, requireEtag=false) => {
     const response = await request(dav+target,{headers,cache:'no-store',signal:AbortSignal.timeout(20000)});
     const bytes = Buffer.from(await response.arrayBuffer());
@@ -46,7 +46,7 @@ export async function publishRelease({root, packageDirectory, version, dav, head
   // Save the exact pre-promotion state, allowing conditional retry/rollback decisions.
   const baselines = new Map();
   for (const [,target] of entries) baselines.set(target,await read(target,true));
-  const folders = new Set(['/releases/',prefix+'/', '/editor/']);
+  const folders = new Set([base+'releases/',prefix+'/', base+'editor/']);
   for (const record of manifest.files.filter(f=>f.stage!==false)) {
     if (!record.url.startsWith(prefix+'/') || record.path.includes('..') || record.url !== prefix+record.path) throw Error('Unsafe package inventory');
     let folder = path.posix.dirname(record.url);

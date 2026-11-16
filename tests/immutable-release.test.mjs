@@ -27,7 +27,7 @@ test('immutable package isolates every runtime reference while preserving live r
  const f=await fixture(),html=await fs.readFile(path.join(f.package,'index.html'),'utf8'),app=await fs.readFile(path.join(f.package,'app.js'),'utf8');
  assert.match(html,new RegExp('/releases/'+f.version+'/app.js'));assert.match(html,/href="\/manifest.webmanifest"/);
  assert.match(app,/import '.\/lazy.js'/);assert.match(app,new RegExp('/releases/'+f.version+'/assets/preview.png'));assert.match(app,/'\/scores.html'/);
- const manifest=JSON.parse(await fs.readFile(path.join(f.package,'manifest.webmanifest'),'utf8'));assert.equal(manifest.start_url,'/');assert.equal(manifest.scope,'/');assert.equal(manifest.icons[0].src,'/releases/'+f.version+'/assets/preview.png');
+ const manifest=JSON.parse(await fs.readFile(path.join(f.package,'manifest.webmanifest'),'utf8'));assert.equal(manifest.start_url,'/?source=installed');assert.equal(manifest.scope,'/');assert.equal(manifest.icons[0].src,'/releases/'+f.version+'/assets/preview.png');
  const inventory=JSON.parse((await fs.readFile(path.join(f.root,'public/sw.js'),'utf8')).match(/const PRECACHE = (\[[\s\S]*?\]);/)[1]);
  for(const a of inventory){assert.equal(a.url,'/releases/'+f.version+a.path);assert.equal(sha256(await fs.readFile(path.join(f.package,a.path.slice(1)))),a.sha256);}
 });
@@ -65,4 +65,14 @@ test('live verification fails mixed entries and stale root manifest even when im
 test('a damaged local package is refused before any provider requests',async()=>{
  const f=await fixture(),s=dav();await fs.appendFile(path.join(f.package,'index.html'),'<!-- unreviewed change -->');
  await assert.rejects(publish(f,s),/Package changed after build/);assert.equal(s.events.length,0);
+});
+
+test('mounted publication stays inside its installation and preserves sibling and live authoring resources',async()=>{
+ const initial=await fixture(),base='/onboarding/after/demos/prism/',installation={base,origin:'https://kayak-draw-9549.onpagelove.com'},f={root:initial.root,...await buildPwa({root:initial.root,installation,emit:false})},s=dav();
+ s.put('/index.html','other application');s.put(base+'scores.html','scores');s.put(base+'worlds/prism-garden/definition.html','edited world');s.put(base+'world-catalog.html','native catalog');
+ await publish(f,s);
+ assert.equal(s.files.get('/index.html').bytes.toString(),'other application');assert.equal(s.files.get(base+'scores.html').bytes.toString(),'scores');assert.equal(s.files.get(base+'worlds/prism-garden/definition.html').bytes.toString(),'edited world');assert.equal(s.files.get(base+'world-catalog.html').bytes.toString(),'native catalog');
+ assert.ok(s.events.filter(e=>['PUT','MKCOL'].includes(e.method)).every(e=>e.name.startsWith(base)));
+ assert.equal(JSON.parse(s.files.get(base+'manifest.webmanifest').bytes).start_url,base+'?source=installed');
+ assert.ok(s.files.has(base+'releases/'+f.version+'/app.js'));
 });

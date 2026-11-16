@@ -27,3 +27,23 @@ Required GitHub CI exposed physical CRLF runtime inputs although Git normalizes 
 
 ## PRODUCT-READINESS-CROSS-PLATFORM-VERIFIED — 2026-11-06T14:37:00.2390414Z — Codex
 Normalized LF build matches Linux CI release 6f5e9ab760f73887f45d. Fresh browser storage/playback/engagement/rewards/editor/layout/performance cases all passed, runtime digest e0ed665b188d42cd1d6460317624731fbe09d182262531ecfce1d32096e78f20. This supersedes only the final release identity; earlier true receipts retained centrally.
+
+
+## ALIGN-RECONCILE — 2026-11-16T16:09:24.263112+00:00
+Actor: Codex. User requests both live installations aligned and published. See 2026-11-16-alignment/PLAN.md and verification.md. Fetched current main and found six newer commits introducing world collection search/filtering and document-first records. Preserve those additions alongside touch/mount changes; resolve generated-file conflicts by rebuilding. Add .mjs MIME support to mounted preview and publisher for the restored collection finder. Rerun browser/runtime checks on the combined candidate. The earlier IAB rendering attempt measured a stable ~30 Hz (p95 34 ms; CPU p95 2.7 ms), failing the unchanged 25 ms desktop interval budget. Preserve raw result; use native browser for timing, not fabricated pass. No publication yet.
+
+
+## ALIGN-RELEASE-RETRY — 2026-11-16T16:19:09.057825+00:00
+Actor: Codex. User renewed deployment request. Native browser controls recovered using the observed Chrome window. Previous turn stopped on browser URL safety check; no writes to either host occurred. An initial final-source fixture failed to load the upstream minified collection-finder import because the harness rewriting assumed a space after from; corrected the import rewriter without changing application logic. Normalized release inputs to the repository LF policy before final builds; restored historical audit bytes unchanged. Final candidate IDs: main 481b08e95765230413f9; nested demo 5344091206045dc48430. Existing 247 unit tests passed on the merged implementation. Final browser acceptance and exact-commit gate pending.
+
+
+## ALIGN-WORKSHOP-BOOT — 2026-11-16T16:27:49.984223+00:00
+Actor: Codex. Hosted-equivalent nested package navigation exposed an unpinned workshop document loading an external immutable bootstrap before its network handshake. The old inline bootstrap could handshake first; the external one cannot load while the worker is waiting for client identity. Plan: mark only workshop navigation clients as network before their external dependencies, preserve game release pins, add root/nested regression and retest exact candidate. No live promotion yet.
+
+
+## ALIGN-WORKSHOP-ROUTE — 2026-11-16T16:30:19.560483+00:00
+Actor: Codex. Retesting the nested workshop now executes startup but reports Unknown world. Package inspection identifies a second cause: the generic asset rewrite treated /editor.html in the route parser as a static dependency, so the portable query route stopped matching. Exclude application HTML entry routes from asset rewriting while retaining editor-template pinning; add behavioral regression executing the packaged route parser. Retest both installed transition and world loading before release.
+
+
+## ALIGN-ROLLBACK-RECORD — 2026-11-16T16:35:39.778271+00:00
+Actor: Codex. Before live promotion, retain exact existing entry documents and ETags in ignored .private installation backups, matching the established owner publisher recovery contract. This supplements conditional writes and old immutable retention; it does not back up or publish player data. Publisher-only change; runtime candidate unchanged.

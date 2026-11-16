@@ -1,0 +1,229 @@
+{
+  "utc": "2026-11-16T16:34:55.022524+00:00",
+  "actor": "Codex",
+  "reference": "ALIGN-PLAN",
+  "files": [
+    {
+      "file": "DOCUMENT-FIRST-REVIEW.md",
+      "before": null,
+      "after": "6ffc3a521a6f45153ba6b45de978e514cebd2f029968b693c0276028a5e52488"
+    },
+    {
+      "file": "FULLSCREEN-UPGRADE.md",
+      "before": "f92f4ae841e82f7d972884438ca96f2daf838e88c1654762e148c33f80346335",
+      "after": "8cbc728ec96a21a26a4644a89041cd43ee4ad5df4c8f3cb3008f49e6397cc6cf"
+    },
+    {
+      "file": "RELEASE-PUBLICATION.md",
+      "before": "50680b6a2a275694b21591ba01ee8cf15ba0604175ea6e1a6ab458a381ad5fd4",
+      "after": "5d45e1861aacfd34bb4d7528875002e3b9825d6e13ff519ec68838354a79bd3a"
+    },
+    {
+      "file": "deployments.json",
+      "before": null,
+      "after": "b893d8e9196c0ee863f60896ce7745ed2ff1cd01552512eb342c2bc5c0ecbe60"
+    },
+    {
+      "file": "public/app.js",
+      "before": "d6ecf5e4f4f6fb786d1a967f43e0d893cacfa5696ed5a7392c37d5d08238446f",
+      "after": "fe4e69837b88ed15d71d7356f1439976e3b55209d528de3fd6d38088c275937d"
+    },
+    {
+      "file": "public/assets/presentation/design.css",
+      "before": null,
+      "after": "c03707ac0953fdf0df58c0f655f4d109303a78b00840425ba31b918d13be3dad"
+    },
+    {
+      "file": "public/assets/presentation/fonts/inter-400.woff2",
+      "before": null,
+      "after": "d1a20563ae7e08801c3ecb213f504453d1ce79bff1bd4412ecc30247e1201556"
+    },
+    {
+      "file": "public/assets/presentation/fonts/inter-600.woff2",
+      "before": null,
+      "after": "daae5f013158a850421029f366034c619d183e704fbb3a77d746ac7d6fb1a52a"
+    },
+    {
+      "file": "public/assets/presentation/fonts/inter-OFL.txt",
+      "before": null,
+      "after": "78c5db5075157265b6c50efe8532587adfc6f5f2ea7bae40acfa067e2e684a7c"
+    },
+    {
+      "file": "public/assets/presentation/fonts/sourceserif4-400.woff2",
+      "before": null,
+      "after": "80ae4e9165e405a08e066555bd4af7d0fd76f7152477eba4737bac92fe8580bd"
+    },
+    {
+      "file": "public/assets/presentation/fonts/sourceserif4-OFL.txt",
+      "before": null,
+      "after": "bf6b2ac206a3ebafe68bfea53b83a4982af4c65a071b401a32fe1103477a487f"
+    },
+    {
+      "file": "public/collection-finder.mjs",
+      "before": null,
+      "after": "4bffad5d14868e593709af85817124c5e59ae18b7b39bd3ca4937c61aa765c0a"
+    },
+    {
+      "file": "public/display.css",
+      "before": "5a1504cd2dd28fdbf8e2c7151520c25c2336efd575d901bd6d300e6420c9ea2c",
+      "after": "52239dd9dbb768f869a565e20c3435dda61c0915c65f08110d894fd5b7fb4fcd"
+    },
+    {
+      "file": "public/display.js",
+      "before": "19831eddcdc2c12e98ed4e8739d75f94bb533310cd22c55d42d8d4a85ab80614",
+      "after": "b1fca1cb021724e160a0590cad09a03ad9a29f0739ff0d20198e21847f2fbd6d"
+    },
+    {
+      "file": "public/editor-bootstrap.js",
+      "before": null,
+      "after": "993454e15c9104ea12aafb9a937a455a46d6081df7f002a335a5a101675ec101"
+    },
+    {
+      "file": "public/editor-route.html",
+      "before": "242a6e528d115ae82b7179c4aa80b4c9c24e94c9cd8694e515c90b9535793b71",
+      "after": "7a0affff455dc4983030b4968909049e2b13ae768b77c2e7af7b65c8d657056d"
+    },
+    {
+      "file": "public/editor.html",
+      "before": "761c4bc7f1772e23a4986d59fbda31db77e02ce2e74216d2eff45c805ac851a7",
+      "after": "08509b2b38d9c74788a45defb7d1aea7b1f8efe1787ecda7f8aa254b0e5dd5b2"
+    },
+    {
+      "file": "public/editor.js",
+      "before": "50e352e36ecf93582911419fe14eca05a859463d661cd90b74e8af35fca9368a",
+      "after": "c9ed6bf19d0f10eaaa082aa04bcfd450bcff63aa45373572be44e08bd6b0dfc6"
+    },
+    {
+      "file": "public/index.html",
+      "before": "813bc513ed6feda2750d9a397c4be3d40a794a3591ca6357069752d47ea6d96c",
+      "after": "ba09abc7d84a2f69cbeddf53e90f016623b31a1cede96a44cfda70d8c63485a0"
+    },
+    {
+      "file": "public/installation.js",
+      "before": null,
+      "after": "9618963b1fe4041c1bde7a4ba242dbe23fcd5123dd118ae90935eae42f49e944"
+    },
+    {
+      "file": "public/pointer-input.js",
+      "before": "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f",
+      "after": "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f"
+    },
+    {
+      "file": "public/publish-world.js",
+      "before": "53c895ec6280913e98816fc771c9849ae326333603744f6642b691b05260072b",
+      "after": "cfc8f9d23c0478ea06a7aff3d31118b58745bb740a791d0eea968a696ea42b34"
+    },
+    {
+      "file": "public/pwa-release.js",
+      "before": "57e6e739f3fcb3463f483fd2b3f18232004749edfae0944e69e9de99e39cfee3",
+      "after": "187686477210e8ac97c875e96cadb5d2d537377b000fb39c34e9c6bdd333fc43"
+    },
+    {
+      "file": "public/pwa.js",
+      "before": "c4085582173d9166353d931b3443af4061c2db90e27e6ca1941386b8fb4452fd",
+      "after": "d5b7b1128d2e0634e1520d93901bc518e1ddb4aa91f80d2a604892c1c10467ae"
+    },
+    {
+      "file": "public/style.css",
+      "before": "2bb75230fdb6503064cdd3d0f9a2098cda2da28a9cccd0db932c58dcc7ffb934",
+      "after": "5de336b1d1eb125305852c8ba3bf46bd4655fada5e0ace250f1e7c649c79158e"
+    },
+    {
+      "file": "public/sw.js",
+      "before": "072f0737535ef31e762f53765b367e26c2c90c8a82b3b9fb842c49bd74fcdbd0",
+      "after": "77d90d66a00dac9b948ce7138ba0319d1c2abf34c7aeddc04d1711660dbdf29a"
+    },
+    {
+      "file": "tests/collection-finder.test.mjs",
+      "before": null,
+      "after": "949dbdf3ebe6c948945e8c8a378287470a8c0d4417ce103156e11ccc82557833"
+    },
+    {
+      "file": "tests/display.test.mjs",
+      "before": "d6c4d333fb89b9faa782afe899d400258e96f2efe5d716c0f04821c7fd6b5547",
+      "after": "bd91fbd570d6130aa0c05e8e88305b7e2fb0ff3a7752156965b712065c873f1d"
+    },
+    {
+      "file": "tests/handbook-recovery.test.mjs",
+      "before": "e870f9e3f20fab2b0ac3e88ce8f3b28b50586c5d50eba5aae86a50e5e93931d3",
+      "after": "54be30aca2f6c622b1150e399512eaf8cdc604644599be155b17112564e2af0a"
+    },
+    {
+      "file": "tests/immutable-release.test.mjs",
+      "before": "b29b5bd5784b75bcc8ebc4905a0932fb01350d33fcf15fed44d5e456c73ae395",
+      "after": "3c701af460141e375abfd16396e2c9910f8c8091123203eec961b12c835b6f73"
+    },
+    {
+      "file": "tests/installation.test.mjs",
+      "before": null,
+      "after": "b69ed6feb2b1fc01e5af000bb47d0fbeba3b9b5b7ddcabf7a50ef5be428ec754"
+    },
+    {
+      "file": "tests/pwa-client.test.mjs",
+      "before": "b8e05bcb2ef7743b3e41cc224bf849bdb158483cf41afddfe180124f592f29e7",
+      "after": "5f11a1523bdf2bb37f282a2940bf57056098f4757e46d8cded0ffa65bf91ac6e"
+    },
+    {
+      "file": "tests/pwa-worker.test.mjs",
+      "before": "3065140efeb7caa2e5bb4dda7096421c94fa6d73c265e0acfd15e17aada7a017",
+      "after": "fcc59be2b7e09591ca3b9af6e090cce30c6886354c6b448369b0d6ad75c343fe"
+    },
+    {
+      "file": "tools/build-editor.mjs",
+      "before": "b74e26430adfb8bf74535cd9a67233be71cc05c9905aa475602a00e850884c1d",
+      "after": "42ee7fff20757873e6d5b96de0d524feb2c2210af5402e745cdec8f750cf4472"
+    },
+    {
+      "file": "tools/build-installations.mjs",
+      "before": null,
+      "after": "525e9bb12cc1e6bc32c7a64397063c03f1d0ca26e1dabfb4167fd657b28f0ea9"
+    },
+    {
+      "file": "tools/build-pwa.mjs",
+      "before": "820d05627c6a8419f2c759592c75a02a8ccdf2bfae53aec1b258170275ea9898",
+      "after": "12ee0620c50a2e581d05a7f3316366dceb08234577ff937cad8a305610755b9b"
+    },
+    {
+      "file": "tools/handbook-browser-fixture.mjs",
+      "before": "f6adf1e13c667a45cb7ea15421c43cf258631ac7a8ccb544c48782b46b68eb16",
+      "after": "7ec35a5b9b6c6313a5d1b3337371c4009ae96501d0529a48fd6335472f668b7d"
+    },
+    {
+      "file": "tools/immutable-release.mjs",
+      "before": "f2a7f34bb5ce5c38807cdfcf2da1cae835e8a015252f031d3e4d9f74d0b73540",
+      "after": "631f85e92b56345c8f4d663c761f850d9974cef45be146f111aabf77022624da"
+    },
+    {
+      "file": "tools/publish-installations.mjs",
+      "before": null,
+      "after": "a179de9cd41d040a39abacefbd271af91d74041bea389cdeac979d68fd7c720e"
+    },
+    {
+      "file": "tools/publish-release.mjs",
+      "before": "76d19a08f349c87d8cae39d278804279f21bc11dd1bde64ee269932bca37824b",
+      "after": "1f0e92e642edf82803c2f6dd7313063d61e6fbf8685fb324aad73afe47a5692d"
+    },
+    {
+      "file": "tools/release-gate.mjs",
+      "before": "1a7e38177e861b1a008edc099969b84e0d703b2be80209d9fdde21bae98e561b",
+      "after": "d5760a5605d22b303e95f7f2afa46b3b553d4182469be8162f905c6ebe58fb2a"
+    },
+    {
+      "file": "tools/serve-installation.mjs",
+      "before": null,
+      "after": "70c6bdf8d6f0c6ab883b73c4acdeecdf63e5b3c62b72e26ccc3f8e12cb81b2fa"
+    },
+    {
+      "file": "tools/serve.mjs",
+      "before": "d810335bc650f195f4c6b943705a611669744f489bb4dfbfb19e5248140945e0",
+      "after": "569ac510ce3628373e924159af190da204199471b3e895d574f1e9cad417d851"
+    },
+    {
+      "file": "tools/service-worker.template.js",
+      "before": "2aeb34db7331eb19ef2185aeb461882166bb03a25442daa16abbabdad9a46f1c",
+      "after": "a42ebf684b7272c93e7f41ccf48419fc902d29b7957b8c67098294e4f962c69f"
+    }
+  ],
+  "readme": "Appended missing shared-installations and document-first sections, preserved earlier mirror content",
+  "status": "Source synchronized; live release pending"
+}
