@@ -3,7 +3,7 @@ import path from 'node:path';
 import {DOMParser} from 'linkedom';
 import {sha256, releasePrefix} from './immutable-release.mjs';
 
-const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.webmanifest':'application/manifest+json','.json':'application/json'};
+const types = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.ico':'image/vnd.microsoft.icon','.woff2':'font/woff2','.webmanifest':'application/manifest+json','.json':'application/json'};
 export function htmlIdentity(bytes) {
   const doc = new DOMParser().parseFromString(bytes.toString('utf8'), 'text/html');
   if (!doc.documentElement) return sha256('unparsed:' + bytes.toString('utf8'));

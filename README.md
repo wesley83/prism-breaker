@@ -429,3 +429,9 @@ The demo's approved presentation lives in `public/assets/presentation/`, includi
 Each manifest's ID, scope, installed launch URL and leaderboard shortcuts point to its own mount. Canonical/OG/share links, the world workshop and trusted authoring destination use that installation. Phone play owns a fixed non-scrolling touch surface independently of native fullscreen. Interactive controls and modal scrolling retain their ordinary behavior. Viewport resizing preserves contact; unexpected pointer loss pauses play.
 
 After the exact-source release gate passes, `bun tools/publish-installations.mjs publish <path-to-existing-private-config>` publishes both configured targets with create-only immutable assets and conditional entry replacement. The private config supplies the existing named `pagelove_api_token`; never pass the token as a command argument. The publisher verifies host identity, package hashes, live install URLs and that score/world resources are unchanged. `bun tools/publish-installations.mjs verify` repeats public readback without credentials. Neither operation migrates scores, combines leaderboards, changes permission policies or replaces world authoring documents.
+
+## Document-first development review
+
+Read [the edition2.4 project record](DOCUMENT-FIRST-REVIEW.md) for source authority, operation/recovery contracts, justified runtime exceptions and current acceptance limits. Plans and verification are recorded in audit/CHANGELOG.md. Local tests do not establish live privacy, authorization or physical-device acceptance.
+
+The collection finder searches actual names/descriptions and filters completed or unplayed content; Racing also filters available circuits without unlocking locked events. Clear filters restores the collection. View state never changes game records.

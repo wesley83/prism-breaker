@@ -18,3 +18,6 @@ Wesley relayed Pagelove support confirmation: WebDAV is only an authoring mechan
 ## Approved project trust boundaries — October 15, 2026
 
 Wesley explicitly chose to retain owner DAV publishing only and the current casual leaderboard. Do not add an authenticated application-write grant or a separate verified-run board without a new user decision. Keep historical world-policy activation disabled. Routine game publication preserves score rules and records; changed native policies need a supported safe activation procedure. Immutable runtime packages are derived deployment representations; world documents remain the editing sources.
+
+## Document-first maintenance
+Read DOCUMENT-FIRST-REVIEW.md before changing domain information or persistence. Apply edition2.4 W1–W8/R01–R12 proportionately. Preserve semantic HTML/DOM authorship, stable identities and source records, or retain a concrete justified runtime exception. Every meaningful batch needs a plan/result with UTC, actor, affected files, rationale, hashes and actual verification in audit/CHANGELOG.md. Keep unverified provider/private/device checks explicit. Do not add external services or broaden approved game trust boundaries.

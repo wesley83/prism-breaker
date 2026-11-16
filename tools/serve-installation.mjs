@@ -1,7 +1,7 @@
 import http from 'node:http';import fs from 'node:fs/promises';import path from 'node:path';
 const name=process.argv[2]||'demo',port=Number(process.argv[3]||52840),targets=JSON.parse(await fs.readFile('test-results/installations.json','utf8')),target=targets[name];if(!target)throw Error('Unknown installation');
 const base=target.installation.base,packageRoot=path.resolve(target.package),publicRoot=path.resolve('public');
-const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.woff2':'font/woff2','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon'};
+const types={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css','.json':'application/json','.webmanifest':'application/manifest+json','.woff2':'font/woff2','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.ico':'image/x-icon'};
 http.createServer(async(req,res)=>{try{if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405);res.end();return;}const url=new URL(req.url,'http://localhost');if(!url.pathname.startsWith(base))throw Error('Outside mount');let name=decodeURIComponent(url.pathname.slice(base.length)),root=packageRoot;
  if(name.startsWith('releases/'+target.version+'/'))name=name.slice(('releases/'+target.version+'/').length);
  else if(name==='sw.js')name='service-worker.js';else if(!name)name='index.html';else if(name==='editor/'||name==='editor/index.html')name='editor.html';else if(name.startsWith('worlds/')||name==='scores.html')root=publicRoot;

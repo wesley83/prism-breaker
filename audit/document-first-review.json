@@ -1,0 +1,37 @@
+{
+  "utc": "2026-11-06T02:46:41.807Z",
+  "actor": "Codex",
+  "guideEdition": "2.4",
+  "sourceBase": "7ac0c984658bec1a1c317a2cf0de321aa45f14d2",
+  "checks": [
+    {
+      "name": "repository checks",
+      "code": 0
+    },
+    {
+      "name": "237 tests",
+      "code": 0
+    }
+  ],
+  "browser": "No new runtime changes; prior browser tasks remain historical.",
+  "limits": [
+    "Live private policy and physical-device/AT acceptance not established by these checks."
+  ],
+  "files": [
+    {
+      "file": "DOCUMENT-FIRST-REVIEW.md",
+      "sha256": "6ffc3a521a6f45153ba6b45de978e514cebd2f029968b693c0276028a5e52488",
+      "bytes": 3416
+    },
+    {
+      "file": "AGENTS.md",
+      "sha256": "4dcd11689383eb493a80201efe6fefd8e62c725c646d31d1300be55dabfd1dc0",
+      "bytes": 3580
+    },
+    {
+      "file": "README.md",
+      "sha256": "69f9bfd5aa1badeb390c176e12307e6947b7a23761e0099e9fb3c0eab8335f45",
+      "bytes": 51575
+    }
+  ]
+}

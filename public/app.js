@@ -1,4 +1,5 @@
 import {appPath,editorPath} from './installation.js';
+import{mountCollectionFinder}from'./collection-finder.mjs';
 import {EngagementUI,SYNERGIES} from './engagement-ui.js';
 import {medalToken} from './medal-ui.js';
 import {ENGAGEMENT} from './engagement-data.js';
@@ -61,7 +62,7 @@ function toast(message){$('#toast').textContent=message;$('#toast').classList.ad
 function updateWorldCards(){
  const checkpoint=storage.get('save'),activeWorld=view==='home'?Math.min(LAST_WORLD,(checkpoint?.game.level??0)+(checkpoint?.pendingNext?1:0)):game.level;
  $('#world-editor-link').href=editorPath(worldSlug(activeWorld));
- all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
+ all('.world-card').forEach(card=>{const index=Number(card.dataset.world),current=index===activeWorld,completed=index<highest;card.dataset.completed=String(completed);card.classList.toggle('current',current);card.querySelector('.world-current').hidden=!current;card.querySelector('.world-completed').hidden=!completed||current;if(current)card.setAttribute('aria-current','step');else card.removeAttribute('aria-current');});
  $('#journey-summary').textContent=highest?'Adventure: '+highest+' of '+WORLD_COUNT+' worlds completed.':'Your adventure starts in Prism Garden. Completed worlds will be marked here.';
 }
 function updateWorld(){
@@ -467,3 +468,5 @@ function frame(now){
  const listening=collectionMusic!==null&&$('#mastery-dialog').open&&!document.hidden;sound.update(listening||musicActive&&!(['cut','champion','award'].includes(view)&&scenePaused),listening?collectionMusic:THEMES.indexOf(game.world.music),view==='cut'||view==='champion'||view==='award'||view==='game'&&game.engagement.recovery,listening?null:victory);if(!document.hidden)sceneDelta+=dt;else sceneDelta=0;const renderFPS=view==='home'||dialogs.length||game.state==='paused'?30:60;if(document.hidden)renderClock.reset();else if(renderClock.due(now,renderFPS)||stageResizePending){if(stageResizePending){stageResizePending=false;stage.resize();}stage.render(game,sceneDelta,now/1000,view,cutTime);stage.observeFrame(renderClock.elapsed,view==='game'&&game.state==='playing'&&!dialogs.length);sceneDelta=0;}
  }if(toastUntil&&now>toastUntil){$('#toast').classList.remove('visible');toastUntil=0;}}
 const appLoop=startFrameLoop(frame,{onError(error){keys.clear();paddleInput?.cancel();accumulator=0;sound.update(false,THEMES.indexOf(game.world.music));if(view==='game'&&['playing','ready'].includes(game.state))openDialog('#pause-dialog');persist();$('#unpause').disabled=true;$('#error').hidden=false;$('#error-text').textContent='The arena stopped unexpectedly. Reload the game to try again. Your Adventure checkpoint has been kept if saving is available; an unfinished Daily Challenge or Practice run will end.';console.error('Game frame failed:',error);}});
+
+mountCollectionFinder({root:'#world-grid',card:'.world-card',label:'Find a world',status:card=>({completed:card.dataset.completed==='true',available:!card.disabled})});

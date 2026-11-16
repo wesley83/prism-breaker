@@ -1,0 +1,23 @@
+diff --git a/AGENTS.md b/AGENTS.md
+index 0702d1e..494c051 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -18,3 +18,6 @@ Wesley relayed Pagelove support confirmation: WebDAV is only an authoring mechan
+ ## Approved project trust boundaries — October 15, 2026
+ 
+ Wesley explicitly chose to retain owner DAV publishing only and the current casual leaderboard. Do not add an authenticated application-write grant or a separate verified-run board without a new user decision. Keep historical world-policy activation disabled. Routine game publication preserves score rules and records; changed native policies need a supported safe activation procedure. Immutable runtime packages are derived deployment representations; world documents remain the editing sources.
++
++## Document-first maintenance
++Read DOCUMENT-FIRST-REVIEW.md before changing domain information or persistence. Apply edition2.4 W1–W8/R01–R12 proportionately. Preserve semantic HTML/DOM authorship, stable identities and source records, or retain a concrete justified runtime exception. Every meaningful batch needs a plan/result with UTC, actor, affected files, rationale, hashes and actual verification in audit/CHANGELOG.md. Keep unverified provider/private/device checks explicit. Do not add external services or broaden approved game trust boundaries.
+diff --git a/README.md b/README.md
+index 3b01620..91fd9a8 100644
+--- a/README.md
++++ b/README.md
+@@ -418,3 +418,7 @@ The tracked Web Game Development Handbook now matches the identified authoring e
+ [Release requirements](review/requirements.html) independently enumerate required exports, behavioral contracts and exact-runtime browser evidence. The release gate rejects missing, failed or stale required receipts. Browser fixtures cover save failure followed by ordinary actions, DOM editing/preview isolation, layout/text enlargement and controlled/sustained rendering. Evidence is scoped to its recorded engine and conditions. See [public data and recovery operations](PUBLIC-DATA-OPERATIONS.md) and the [implementation audit](audit/2026-10-17-handbook-implementation.md).
+ 
+ Local diagnostic tools include a bounded checkpoint/input trace with compatibility checks and first-divergence replay; traces do not establish score authenticity or upload themselves. The original physical-device/human procedures remain separate and uncompleted where no evidence exists.
++
++## Document-first development review
++
++Read [the edition2.4 project record](DOCUMENT-FIRST-REVIEW.md) for source authority, operation/recovery contracts, justified runtime exceptions and current acceptance limits. Plans and verification are recorded in audit/CHANGELOG.md. Local tests do not establish live privacy, authorization or physical-device acceptance.
