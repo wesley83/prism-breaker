@@ -35,3 +35,15 @@ Actor: Codex. User requests both live installations aligned and published. See 2
 
 ## ALIGN-RELEASE-RETRY — 2026-11-16T16:19:09.057825+00:00
 Actor: Codex. User renewed deployment request. Native browser controls recovered using the observed Chrome window. Previous turn stopped on browser URL safety check; no writes to either host occurred. An initial final-source fixture failed to load the upstream minified collection-finder import because the harness rewriting assumed a space after from; corrected the import rewriter without changing application logic. Normalized release inputs to the repository LF policy before final builds; restored historical audit bytes unchanged. Final candidate IDs: main 481b08e95765230413f9; nested demo 5344091206045dc48430. Existing 247 unit tests passed on the merged implementation. Final browser acceptance and exact-commit gate pending.
+
+
+## ALIGN-WORKSHOP-BOOT — 2026-11-16T16:27:49.984223+00:00
+Actor: Codex. Hosted-equivalent nested package navigation exposed an unpinned workshop document loading an external immutable bootstrap before its network handshake. The old inline bootstrap could handshake first; the external one cannot load while the worker is waiting for client identity. Plan: mark only workshop navigation clients as network before their external dependencies, preserve game release pins, add root/nested regression and retest exact candidate. No live promotion yet.
+
+
+## ALIGN-WORKSHOP-ROUTE — 2026-11-16T16:30:19.560483+00:00
+Actor: Codex. Retesting the nested workshop now executes startup but reports Unknown world. Package inspection identifies a second cause: the generic asset rewrite treated /editor.html in the route parser as a static dependency, so the portable query route stopped matching. Exclude application HTML entry routes from asset rewriting while retaining editor-template pinning; add behavioral regression executing the packaged route parser. Retest both installed transition and world loading before release.
+
+
+## ALIGN-ROLLBACK-RECORD — 2026-11-16T16:35:39.778271+00:00
+Actor: Codex. Before live promotion, retain exact existing entry documents and ETags in ignored .private installation backups, matching the established owner publisher recovery contract. This supplements conditional writes and old immutable retention; it does not back up or publish player data. Publisher-only change; runtime candidate unchanged.

@@ -316,3 +316,19 @@ test('nested upgrade retains a pinned legacy demo core and integrity-checked ext
  assert.equal((await next.message('GET_STATUS',{version:versionA})).ready,true);
  assert.ok((await next.caches.keys()).includes(legacyName));
 });
+
+
+test('workshop navigation identifies its new client before the external bootstrap loads',async()=>{
+ for(const base of ['/', '/onboarding/after/demos/product-ready-20261106/prism/']){
+  const instance=worker({base,immutable:true});await instance.dispatch('install');
+  for(const route of ['editor.html?world=prism-garden','editor/prism-garden']){
+   const id='workshop-'+route;
+   await instance.request(base+route,{navigation:true,resultingClientId:id});
+   const response=await instance.request(base+'releases/'+versionA+'/app.js',{id});
+   assert.equal(response.status,200);
+   assert.equal((await instance.message('GET_STATUS',{id})).clientVersion,'network');
+  }
+  await instance.request(base,{navigation:true,resultingClientId:'game'});
+  assert.equal((await instance.message('GET_STATUS',{id:'game'})).clientVersion,versionA);
+ }
+});

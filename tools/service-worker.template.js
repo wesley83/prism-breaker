@@ -212,6 +212,10 @@ self.addEventListener('fetch', event => {
   // Selector responses, score reads and writes remain exclusively owned by Pagelove.
   if(!url.pathname.startsWith(APP_BASE))return;
   const pathname='/'+url.pathname.slice(APP_BASE.length);
+  // The external workshop bootstrap needs its document identity before loading.
+  if(request.method==='GET'&&url.origin===self.location.origin&&request.mode==='navigate'&&(pathname==='/editor.html'||pathname==='/editor'||pathname.startsWith('/editor/'))){
+    event.respondWith((async()=>{await rememberClient(event.resultingClientId,'network');return fetch(request,{cache:'no-store'});})());return;
+  }
   if (request.method !== 'GET' || url.origin !== self.location.origin || request.headers.has('range') || pathname.startsWith('/__qa/') || pathname.startsWith('/worlds/') || pathname.startsWith('/editor/') || pathname === '/scores.html' || pathname === '/worlds.html') return;
   const navigation = request.mode === 'navigate' && (pathname === '/' || pathname === '/index.html');
   const immutable = pathname.match(/^\/releases\/([a-f0-9]{20})(\/.*)$/);

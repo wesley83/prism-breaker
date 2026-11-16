@@ -16,7 +16,7 @@ export function releaseBytes(bytes, name, version, names, installation={base:'/'
   const prefix = releasePrefix(version);
   let text = bytes.toString('utf8').replace(/(["'(])\/(assets|vendor)\//g, '$1' + prefix + '/$2/');
   text = text.replace(/https:\/\/sane-guild-8399\.onpagelove\.com\/(assets|vendor)\//g, 'https://sane-guild-8399.onpagelove.com' + prefix + '/$1/');
-  const files = names.filter(n => !n.includes('/') && n !== 'manifest.webmanifest');
+  const files = names.filter(n => !n.includes('/') && !['manifest.webmanifest','index.html','editor.html','editor-route.html','worlds.html','world-catalog.html'].includes(n));
   if (files.length) text = text.replace(new RegExp('(["\'(])\\/(' + files.map(escape).join('|') + ')(?=[?#["\')]|$)', 'g'), '$1' + prefix + '/$2');
   const {base,origin}=installation;
   if(name.endsWith('.html'))text=text.replaceAll('https://dav-sane-guild-8399.onpagelove.com',origin.replace('https://','https://dav-'));

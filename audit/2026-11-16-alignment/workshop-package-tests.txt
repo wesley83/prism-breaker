@@ -1,0 +1,22 @@
+bun test v1.4.3 (c6da4a4d3)
+
+tests\immutable-release.test.mjs:
+(pass) immutable package isolates every runtime reference while preserving live routes and installed identity [33.60ms]
+(pass) editor immutable composition updates its CSP hash and preserves mutable world includes [0.35ms]
+(pass) failed immutable staging never promotes entries and never writes live scores/worlds/legacy scripts [31.20ms]
+(pass) successful promotion retains prior immutable graph and can roll back using its own saved worker [56.84ms]
+(pass) immutable collisions and concurrent root publication refuse overwrite [30.33ms]
+(pass) HTML readback tolerates harmless serialization but rejects changed executable sources [1.79ms]
+(pass) live verification fails mixed entries and stale root manifest even when immutable assets are valid [30.83ms]
+(pass) a damaged local package is refused before any provider requests [28.68ms]
+(pass) mounted publication stays inside its installation and preserves sibling and live authoring resources [62.00ms]
+
+tests\installation.test.mjs:
+(pass) all installation entry points resolve the same mount and the owner destination is host-bound [0.46ms]
+(pass) mounted install identity, launch, shortcuts and icons stay inside the exact installation [0.97ms]
+(pass) mounted metadata, workshop CSP, manifest and static references never escape or double-prefix [0.48ms]
+(pass) packaged world identity still recognizes standalone editor query routes [2.18ms]
+
+ 13 pass
+ 0 fail
+Ran 13 tests across 2 files. [639.00ms]

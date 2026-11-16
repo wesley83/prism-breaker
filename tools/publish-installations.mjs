@@ -40,6 +40,10 @@ async function main(){
   const snapshot=async()=>Object.fromEntries(await Promise.all(protectedPaths.map(async name=>{const r=await fetch(dav+base+name,{headers,redirect:'error',signal:AbortSignal.timeout(25000)});if(!r.ok)throw Error('Protected resource unavailable '+name);return[name,sha256(Buffer.from(await r.arrayBuffer()))];})));
   let receipt={utc:new Date().toISOString(),name,installation,version:built.version};
   if(mode==='publish'){
+   const backupDirectory=path.join(root,'.private','installation-backups',name+'-'+Date.now());await fs.mkdir(backupDirectory,{recursive:true});
+   const entryNames=['index.html','manifest.webmanifest','sw.js','editor.html','editor/index.html',...(base==='/'?['worlds.html','world-catalog.html','editor/:worldname']:[])],backup=[];
+   for(const entry of entryNames){const response=await fetch(dav+base+entry,{headers,redirect:'error',cache:'no-store',signal:AbortSignal.timeout(25000)});if(!response.ok&&response.status!==404)throw Error('Entry backup unavailable: '+entry);const bytes=Buffer.from(await response.arrayBuffer()),file=entry.replaceAll('/','_').replaceAll(':','_');if(response.ok)await fs.writeFile(path.join(backupDirectory,file),bytes);backup.push({path:base+entry,status:response.status,etag:response.headers.get('etag'),file,sha256:sha256(bytes)});}
+   await fs.writeFile(path.join(backupDirectory,'entries.json'),JSON.stringify(backup,null,2));receipt.backup={files:backup.length,privateDirectory:path.relative(root,backupDirectory)};
    const before=await snapshot();
    receipt.approval=await assertReleaseGate({root});
    receipt.publication=await publishRelease({root,version:built.version,packageDirectory:built.package,dav,headers,beforePromote:async()=>{await assertReleaseGate({root});},progress:e=>console.log(name+' '+JSON.stringify(e)),onCheckpoint:async checkpoint=>fs.writeFile(path.join(directory,name+'-checkpoint.json'),JSON.stringify(checkpoint,null,2))});

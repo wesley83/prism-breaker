@@ -25,3 +25,13 @@ test('mounted metadata, workshop CSP, manifest and static references never escap
  assert.ok(out.includes('https://dav-kayak-draw-9549.onpagelove.com'));assert.ok(out.includes('src="'+base+'releases/'+version+'/app.js"'));
  assert.ok(!out.includes(base+base));assert.ok(!out.includes('sane-guild'));
 });
+
+
+test('packaged world identity still recognizes standalone editor query routes',async()=>{
+ const source=await fs.readFile(new URL('../public/world-identity.js',import.meta.url));
+ const packaged=releaseBytes(source,'world-identity.js',version,['editor.html','editor-template.html','index.html'],target).toString();
+ const parse=new Function('WORLDS','RULESET_REVISION',packaged.replace(/^import[^;]+;/,'').replaceAll('export ','')+';return editorSlug;')([{slug:'prism-garden'}],'test');
+ assert.equal(parse('/editor.html','?world=thunder-spire'),'thunder-spire');
+ assert.equal(parse('/editor/prism-garden'),'prism-garden');
+ assert.equal(parse('/editor/index.html','?world=dawn-nexus'),'dawn-nexus');
+});
