@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "passed": true,
+  "completedAt": "2026-11-16T16:39:17.723Z",
+  "identity": {
+    "commit": "5fe305d3af94cd9b286fe20687cbbbaab7165677",
+    "digest": "7330608613ddd170ddd37dcb7c3965d94ae74a3a30663e72f523ded10ea26166",
+    "files": 263,
+    "dirty": false
+  },
+  "release": "ee47aa0a3a18a0cbc810",
+  "checks": {
+    "suite": true,
+    "pwa": true,
+    "repository": true,
+    "requirements": true
+  },
+  "repository": {
+    "documents": 40,
+    "localLinks": 312,
+    "scannedFiles": 643,
+    "secretScan": "limited high-confidence credential patterns"
+  },
+  "requirements": {
+    "requirements": 9,
+    "browser": [
+      "storage",
+      "editor",
+      "layout",
+      "performance",
+      "rewards",
+      "playback"
+    ],
+    "runtimeDigest": "0a1cc8d2d710623480fa6207f0a79f1c753100232adfed5ce7843d8ef7e1bd94",
+    "receiptSha256": "94980f91775f7f07654d13d772c643cb083258cf7b8ec0c4d489f4d75afffb0d",
+    "limits": [
+      "Local Chromium iframe sizes are CSS viewport fixtures, not physical phone/OS or trusted touch evidence.",
+      "Synthetic form/click dispatch checks application paths, not native fullscreen/share activation.",
+      "Accessibility observations are scoped; no blanket WCAG or nonvisual gameplay claim."
+    ]
+  },
+  "limits": [
+    "Automated local evidence only; physical devices, independent review and platform contracts require separate acceptance records."
+  ]
+}
