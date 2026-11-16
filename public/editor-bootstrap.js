@@ -6,5 +6,5 @@
   controller.postMessage({type:'CLIENT_VERSION',version:'network'},[channel.port2]);
  });
  const stylesheet=document.createElement('link');stylesheet.rel='stylesheet';stylesheet.href='/editor.css?v=6fb24c742edd';document.head.append(stylesheet);
- await import('/editor.js?v=5c2a06b9ca51');
+ await import('/editor.js?v=c9ed6bf19d0f');
 })().catch(error=>{console.error('Workshop startup:',error);document.querySelector('#editor-status').textContent='The workshop could not load. Return to the start screen, apply Update game, then reopen the workshop.';});

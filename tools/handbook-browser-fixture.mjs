@@ -21,7 +21,7 @@ const hiAssert=(condition,message)=>{if(!condition)throw Error(message);};
 const hiErrors=[];addEventListener('error',e=>hiErrors.push(e.message));addEventListener('unhandledrejection',e=>hiErrors.push(String(e.reason)));
 `;
 let app=await fs.readFile('public/app.js','utf8');
-app=app.replaceAll("from './","from '/").replaceAll("import('./","import('/").replace(/import \{setupOfflinePlay\} from '[^']+';/,"const setupOfflinePlay=()=>({refresh(){}});");
+app=app.replace(/from\s*(['"])\.\//g,"from $1/").replaceAll("import('./","import('/").replace(/import \{setupOfflinePlay\} from '[^']+';/,"const setupOfflinePlay=()=>({refresh(){}});");
 await fs.writeFile(dir+'/handbook-app.js',prefix+String.raw`
 const hiFetch=globalThis.fetch.bind(globalThis);globalThis.fetch=(url,options)=>String(url).startsWith('/scores.html')?Promise.resolve(new Response('<ul id="scores"></ul>',{headers:{Date:new Date().toUTCString()}})):hiFetch(url,options);
 `+app+String.raw`
