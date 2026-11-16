@@ -47,3 +47,7 @@ Actor: Codex. Retesting the nested workshop now executes startup but reports Unk
 
 ## ALIGN-ROLLBACK-RECORD — 2026-11-16T16:35:39.778271+00:00
 Actor: Codex. Before live promotion, retain exact existing entry documents and ETags in ignored .private installation backups, matching the established owner publisher recovery contract. This supplements conditional writes and old immutable retention; it does not back up or publish player data. Publisher-only change; runtime candidate unchanged.
+
+
+## ALIGN-DEPLOYED — 2026-11-16T16:45:29.425978+00:00
+Actor: Codex. User authorized deployment to both sites. Main source 5fe305d3af94cd9b286fe20687cbbbaab7165677, PR29 merged with required CI. Published main ee47aa0a3a18a0cbc810 and demo a013731d4815e534572f using gated immutable/conditional publication and private entry backups. All 104 staged runtime resources verified at each public origin; install destinations, workers and editor links pass. Score documents and all sixteen world documents unchanged at each host. Both previously offline-ready clients applied Update game and returned offline-ready on new versions; main progress preserved, both workshops restore drafts without errors. Final runtime acceptance and249 tests passed. Audit evidence in audit/2026-11-16-alignment/deployed-*.json and live-browser.json. No claim of physical mobile verification.

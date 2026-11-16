@@ -19,3 +19,9 @@ User requested publishing both installations. Preserve their score/world resourc
 
 
 2026-11-16T16:37:41.907625+00:00 — FINAL candidate ee47aa0a3a18a0cbc810 / a013731d4815e534572f: all required native Chrome cases pass on runtime 0a1cc8d2d710623480fa6207f0a79f1c753100232adfed5ce7843d8ef7e1bd94. Sustained frame stats {"mean": 16.662305555558042, "p95": 17.100000000034925, "max": 18}. 249 unit tests pass. Workshop and installed update regression receipts recorded above. Publication/hosted verification pending.
+
+
+2026-11-16T16:43:14.414701+00:00 — BOTH installations published from main commit 5fe305d3af94cd9b286fe20687cbbbaab7165677 (PR29, required GitHub CI passed). Public asset hashes, entry versions, canonical links, install manifest identity/scope/start/shortcuts, exact workers and workshop bootstraps verified. Owner score and sixteen world hashes unchanged on both hosts. Private entry backups retained before conditional promotion. Full receipts: deployed-main.json and deployed-demo.json. Main existing client applied Update game, retained its saved Adventure checkpoint/personal best, became offline-ready, and restored the existing workshop draft. Demo browser update verification pending.
+
+
+2026-11-16T16:45:29.425978+00:00 — Completion: live demo old installed client discovered the new release through Check for updates, applied Update game once, loaded a013731d4815e534572f and reported Ready to play offline. Workshop restored its draft without console errors; main similarly verified ee47aa0a3a18a0cbc810. See live-browser.json for before/after versions. Both start screens restored. Physical Android/iOS OS installation and gestures remain unverified; desktop browser results are not that certification.

@@ -1,0 +1,31 @@
+{
+  "utc": "2026-11-16T16:44:22.521Z",
+  "before": {
+    "utc": "2026-11-16T16:31:06.279Z",
+    "main": {
+      "version": "9344c61c6475cef32ae7",
+      "offline": "Ready to play offline"
+    },
+    "demo": {
+      "version": "6f5e9ab760f73887f45d",
+      "offline": "Ready to play offline"
+    }
+  },
+  "main": {
+    "url": "https://sane-guild-8399.onpagelove.com/",
+    "version": "ee47aa0a3a18a0cbc810",
+    "offline": "Ready to play offline",
+    "checkpointPreserved": true,
+    "personalBestPreserved": true,
+    "workshop": "Existing draft restored; no console errors"
+  },
+  "demo": {
+    "url": "https://kayak-draw-9549.onpagelove.com/onboarding/after/demos/product-ready-20261106/prism/",
+    "version": "a013731d4815e534572f",
+    "offline": "Ready to play offline",
+    "workshop": "Existing draft restored; no console errors"
+  },
+  "limits": [
+    "Desktop Chromium; no physical Android or iOS certification."
+  ]
+}

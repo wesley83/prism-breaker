@@ -1,0 +1,1390 @@
+{
+  "utc": "2026-11-16T16:40:57.715Z",
+  "name": "demo",
+  "installation": {
+    "origin": "https://kayak-draw-9549.onpagelove.com",
+    "base": "/onboarding/after/demos/product-ready-20261106/prism/",
+    "legacyReleases": {
+      "6f5e9ab760f73887f45d": {
+        "cacheName": "prism-breaker-review-20261106-6f5e9ab760f73887f45d",
+        "extensionPrefix": "prism-design:https://kayak-draw-9549.onpagelove.com/onboarding/after/demos/product-ready-20261106/prism/:"
+      }
+    }
+  },
+  "version": "a013731d4815e534572f",
+  "backup": {
+    "files": 5,
+    "privateDirectory": ".private\\installation-backups\\demo-1794847257715"
+  },
+  "approval": {
+    "commit": "5fe305d3af94cd9b286fe20687cbbbaab7165677",
+    "sourceDigest": "7330608613ddd170ddd37dcb7c3965d94ae74a3a30663e72f523ded10ea26166",
+    "release": "ee47aa0a3a18a0cbc810",
+    "completedAt": "2026-11-16T16:39:17.723Z"
+  },
+  "publication": {
+    "version": "a013731d4815e534572f",
+    "files": [
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/app.js",
+        "status": 201,
+        "sha256": "ce3f96cc5fd6e705bb9a60a2490292ed8fe35d53cc6f5d2aeaa32b710b9d9460",
+        "bytes": 67231
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/apple-touch-icon.png",
+        "status": 201,
+        "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+        "bytes": 3811
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/FONT-LICENSE.txt",
+        "status": 201,
+        "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+        "bytes": 4401
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/ICON-LICENSE.txt",
+        "status": 201,
+        "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+        "bytes": 1073
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/QR-LICENSE.txt",
+        "status": 201,
+        "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+        "bytes": 1094
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/display.woff2",
+        "status": 201,
+        "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+        "bytes": 22288
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/favicon-32.png",
+        "status": 201,
+        "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+        "bytes": 791
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/icons.svg",
+        "status": 201,
+        "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+        "bytes": 10681
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/og-prism-breaker-square.jpg",
+        "status": 201,
+        "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+        "bytes": 420420
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/og-prism-breaker.jpg",
+        "status": 201,
+        "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+        "bytes": 222971
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/design.css",
+        "status": 201,
+        "sha256": "c03707ac0953fdf0df58c0f655f4d109303a78b00840425ba31b918d13be3dad",
+        "bytes": 2205
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/inter-400.woff2",
+        "status": 201,
+        "sha256": "d1a20563ae7e08801c3ecb213f504453d1ce79bff1bd4412ecc30247e1201556",
+        "bytes": 108188
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/inter-600.woff2",
+        "status": 201,
+        "sha256": "daae5f013158a850421029f366034c619d183e704fbb3a77d746ac7d6fb1a52a",
+        "bytes": 112216
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/inter-OFL.txt",
+        "status": 201,
+        "sha256": "78c5db5075157265b6c50efe8532587adfc6f5f2ea7bae40acfa067e2e684a7c",
+        "bytes": 4344
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/sourceserif4-400.woff2",
+        "status": 201,
+        "sha256": "80ae4e9165e405a08e066555bd4af7d0fd76f7152477eba4737bac92fe8580bd",
+        "bytes": 54880
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/sourceserif4-OFL.txt",
+        "status": 201,
+        "sha256": "bf6b2ac206a3ebafe68bfea53b83a4982af4c65a071b401a32fe1103477a487f",
+        "bytes": 4353
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-icon-192.png",
+        "status": 201,
+        "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+        "bytes": 4055
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-icon-512.png",
+        "status": 201,
+        "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+        "bytes": 27390
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-maskable-512.png",
+        "status": 201,
+        "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+        "bytes": 13028
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-maskable.svg",
+        "status": 201,
+        "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+        "bytes": 500
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-wordmark.svg",
+        "status": 201,
+        "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+        "bytes": 1375
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-01.png",
+        "status": 201,
+        "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+        "bytes": 27953
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-02.png",
+        "status": 201,
+        "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+        "bytes": 29205
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-03.png",
+        "status": 201,
+        "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+        "bytes": 31118
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-04.png",
+        "status": 201,
+        "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+        "bytes": 29656
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-05.png",
+        "status": 201,
+        "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+        "bytes": 29165
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-06.png",
+        "status": 201,
+        "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+        "bytes": 25415
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-07.png",
+        "status": 201,
+        "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+        "bytes": 27961
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-08.png",
+        "status": 201,
+        "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+        "bytes": 27056
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-09.png",
+        "status": 201,
+        "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+        "bytes": 27537
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-10.png",
+        "status": 201,
+        "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+        "bytes": 27226
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-11.png",
+        "status": 201,
+        "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+        "bytes": 30170
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-12.png",
+        "status": 201,
+        "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+        "bytes": 29931
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-13.png",
+        "status": 201,
+        "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+        "bytes": 27592
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-14.png",
+        "status": 201,
+        "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+        "bytes": 22221
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-15.png",
+        "status": 201,
+        "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+        "bytes": 26493
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-16.png",
+        "status": 201,
+        "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+        "bytes": 32667
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/audio.js",
+        "status": 201,
+        "sha256": "b13c8690fe232d99c64173e280030c1eaa092ccc43d19b05e2c8e6b235811d51",
+        "bytes": 8328
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/bootstrap.js",
+        "status": 201,
+        "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+        "bytes": 1363
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/brick-batch.js",
+        "status": 201,
+        "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115",
+        "bytes": 10222
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/brick-events.js",
+        "status": 201,
+        "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee",
+        "bytes": 3932
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/brick-labels.js",
+        "status": 201,
+        "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
+        "bytes": 2654
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/bundled-worlds.js",
+        "status": 201,
+        "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0",
+        "bytes": 127892
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/champion.js",
+        "status": 201,
+        "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d",
+        "bytes": 5979
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/cinematic-score.js",
+        "status": 201,
+        "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+        "bytes": 1984
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/cinematics.js",
+        "status": 201,
+        "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c",
+        "bytes": 15958
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/collection-finder.mjs",
+        "status": 201,
+        "sha256": "4bffad5d14868e593709af85817124c5e59ae18b7b39bd3ca4937c61aa765c0a",
+        "bytes": 2596
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/crystal-bricks.js",
+        "status": 201,
+        "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2",
+        "bytes": 6307
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/daily-ending.js",
+        "status": 201,
+        "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7",
+        "bytes": 6526
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/daily-score.js",
+        "status": 201,
+        "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+        "bytes": 489
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/display.css",
+        "status": 201,
+        "sha256": "52239dd9dbb768f869a565e20c3435dda61c0915c65f08110d894fd5b7fb4fcd",
+        "bytes": 5196
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/display.js",
+        "status": 201,
+        "sha256": "b1fca1cb021724e160a0590cad09a03ad9a29f0739ff0d20198e21847f2fbd6d",
+        "bytes": 4540
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor-bootstrap.js",
+        "status": 201,
+        "sha256": "9646207b93845a73e6b064ad815e04ee6fe25f595a2f5286f4acadd72de76c12",
+        "bytes": 999
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor-drafts.js",
+        "status": 201,
+        "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
+        "bytes": 1023
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor-template.html",
+        "status": 201,
+        "sha256": "0feded0c95a036997bcead2890640c1132c37963484915d5ceb609ad8cf4c344",
+        "bytes": 11271
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor.css",
+        "status": 201,
+        "sha256": "5cfa943f3ca25339a3a948bb32f83adeaf3ec06e4cd2c04ddb62d938b02c41df",
+        "bytes": 15428
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor.js",
+        "status": 201,
+        "sha256": "c9ed6bf19d0f10eaaa082aa04bcfd450bcff63aa45373572be44e08bd6b0dfc6",
+        "bytes": 41109
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement-art.js",
+        "status": 201,
+        "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677",
+        "bytes": 3268
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement-data.js",
+        "status": 201,
+        "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d",
+        "bytes": 5547
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement-ui.js",
+        "status": 201,
+        "sha256": "cccc11887ecb695d3b2b4ce214c76c67fd35c75033eda98a82c9407aa835edc1",
+        "bytes": 13541
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement.css",
+        "status": 201,
+        "sha256": "a61525110dad9fd2b5ce5e525c4a08a468a0ec3de0fdcba6d561a955503849a6",
+        "bytes": 17386
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement.js",
+        "status": 201,
+        "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d",
+        "bytes": 5959
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engine.js",
+        "status": 201,
+        "sha256": "65b8de38f5aa7c8525f8386229c136066eb3eab5cd7e38248325de98898863ae",
+        "bytes": 19273
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/favicon.ico",
+        "status": 201,
+        "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+        "bytes": 2456
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/favicon.svg",
+        "status": 201,
+        "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+        "bytes": 442
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/frame-loop.js",
+        "status": 201,
+        "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0",
+        "bytes": 627
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/graphics-recovery.js",
+        "status": 201,
+        "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+        "bytes": 910
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/index.html",
+        "status": 201,
+        "sha256": "aac7b9309ac195da189ef01d4455b49a29b9ddffa2c783a44034b1e09ca88086",
+        "bytes": 37167
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/installation.js",
+        "status": 201,
+        "sha256": "9618963b1fe4041c1bde7a4ba242dbe23fcd5123dd118ae90935eae42f49e944",
+        "bytes": 1001
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/keyboard-input.js",
+        "status": 201,
+        "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b",
+        "bytes": 357
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/leaderboard.js",
+        "status": 201,
+        "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
+        "bytes": 1490
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/levels.js",
+        "status": 201,
+        "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+        "bytes": 1660
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/manifest.webmanifest",
+        "status": 201,
+        "sha256": "f14428c34d500a669ea6a85bd59f27a6f89cbaf0bdefbe900c357515571cb010",
+        "bytes": 2095
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/mastery-ceremony.js",
+        "status": 201,
+        "sha256": "9f7aeb0c59f2846f2299c5c94a9bb82b40d823d346785e179902d9134aa5e4b3",
+        "bytes": 4218
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/mastery.js",
+        "status": 201,
+        "sha256": "9f25c93ec54c6276278b69fd7a8eae74be425070655fc3ece357c71d53dd50a5",
+        "bytes": 4880
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/medal-ui.js",
+        "status": 201,
+        "sha256": "6839709f5756cddc1e0f12d74ba2e673b2d5df9326f0e982aa841324ff76cbb2",
+        "bytes": 679
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/music.js",
+        "status": 201,
+        "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+        "bytes": 6483
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/offline.js",
+        "status": 201,
+        "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be",
+        "bytes": 11425
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/paddle-art.js",
+        "status": 201,
+        "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97",
+        "bytes": 4790
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/particle-batch.js",
+        "status": 201,
+        "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678",
+        "bytes": 3000
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/pointer-input.js",
+        "status": 201,
+        "sha256": "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f",
+        "bytes": 2020
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/postprocessing.js",
+        "status": 201,
+        "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+        "bytes": 19341
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/preferences.js",
+        "status": 201,
+        "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2",
+        "bytes": 1077
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/publish-world.js",
+        "status": 201,
+        "sha256": "cfc8f9d23c0478ea06a7aff3d31118b58745bb740a791d0eea968a696ea42b34",
+        "bytes": 2357
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/pwa.js",
+        "status": 201,
+        "sha256": "d5b7b1128d2e0634e1520d93901bc518e1ddb4aa91f80d2a604892c1c10467ae",
+        "bytes": 9122
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/render-budget.js",
+        "status": 201,
+        "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2",
+        "bytes": 1698
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/save-recovery.js",
+        "status": 201,
+        "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
+        "bytes": 3009
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/scene-playback.js",
+        "status": 201,
+        "sha256": "f75ef18f04547d6d1c9104e6496679fb7be22d136d9729a3f4e5db4f49fef773",
+        "bytes": 667
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/scene.js",
+        "status": 201,
+        "sha256": "f37d44708584e59e8b1ca7f36d5808d1a88e22a1a983bdbabd8f8c20a76d1813",
+        "bytes": 26148
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/scenery-batch.js",
+        "status": 201,
+        "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca",
+        "bytes": 2884
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/score-contract.js",
+        "status": 201,
+        "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
+        "bytes": 819
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/sharing.js",
+        "status": 201,
+        "sha256": "1d55cfd880867f6ee0f4b094456e0d8c43a5f4b3ad74bfa487843c4ade1a682b",
+        "bytes": 12306
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/style.css",
+        "status": 201,
+        "sha256": "f75452d81b232d7a4902b20af59bd070b83a6667027cd67d9347780343413804",
+        "bytes": 40019
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/THREE-LICENSE.txt",
+        "status": 201,
+        "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+        "bytes": 1081
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/qr.js",
+        "status": 201,
+        "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+        "bytes": 51907
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/three.core.min.js",
+        "status": 201,
+        "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+        "bytes": 381124
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/three.module.min.js",
+        "status": 201,
+        "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+        "bytes": 338908
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/victory-music.js",
+        "status": 201,
+        "sha256": "8ab4f00f99b49e1774e41314914719c5f02a0d96e1754503ae63a55881b41b7e",
+        "bytes": 1486
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-data.css",
+        "status": 201,
+        "sha256": "1d0a7239416e3d0cb4d3bdceec8cd59d3f5a87ee11955ffe9896c1901488c81c",
+        "bytes": 941
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-format.js",
+        "status": 201,
+        "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
+        "bytes": 2768
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-identity.js",
+        "status": 201,
+        "sha256": "b8971f8196a82276662f34841c21f9cbce0110b57f825fbf4217777620191b6a",
+        "bytes": 923
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-schema.js",
+        "status": 201,
+        "sha256": "97db7cb7a095486d4ed74dd40fddc553c66e8bddd094e5cdb603c62c228f17ac",
+        "bytes": 12397
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-working-document.js",
+        "status": 201,
+        "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
+        "bytes": 2867
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/pwa-release.js",
+        "status": 201,
+        "sha256": "c725e6c8db8d24a7aa318731eafc5d4494fce528922e54c206f8225453f939d4",
+        "bytes": 88
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/service-worker.js",
+        "status": 201,
+        "sha256": "74b6ea2c6e690f0d09e796a361f0619fe2a13e37446e5a7af581fc50a550502e",
+        "bytes": 42603
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/release.json",
+        "status": 201,
+        "sha256": "ca5dfc50cb63c9b5f57781a0fb7dc611ea27aafee08725df1f9fbed9a007ad70",
+        "bytes": 32966
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/manifest.webmanifest",
+        "status": 200,
+        "sha256": "f14428c34d500a669ea6a85bd59f27a6f89cbaf0bdefbe900c357515571cb010",
+        "bytes": 2095
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/editor.html",
+        "status": 200,
+        "sha256": "393ce12017b66ae6c2daa6fc691b5809e0d7e43f2f2f1abf4d48297cb737339e",
+        "bytes": 12015
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/editor/index.html",
+        "status": 201,
+        "sha256": "393ce12017b66ae6c2daa6fc691b5809e0d7e43f2f2f1abf4d48297cb737339e",
+        "bytes": 12015
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/index.html",
+        "status": 200,
+        "sha256": "aac7b9309ac195da189ef01d4455b49a29b9ddffa2c783a44034b1e09ca88086",
+        "bytes": 37167
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/sw.js",
+        "status": 200,
+        "sha256": "74b6ea2c6e690f0d09e796a361f0619fe2a13e37446e5a7af581fc50a550502e",
+        "bytes": 42603
+      }
+    ],
+    "cache": {
+      "assets": 103,
+      "bytes": 2865605
+    },
+    "publication": "immutable dependencies before conditional entry promotion",
+    "preserved": [
+      "scores",
+      "world definitions",
+      "legacy root scripts/styles",
+      "older release directories"
+    ]
+  },
+  "protectedResources": {
+    "before": {
+      "scores.html": "92751eecdea01dff793a07cc45a82a7b86855bb1cddb2a33ef8772aa2d09f34b",
+      "worlds/prism-garden/definition.html": "6721812d6c891a557409cb202bd6a254badbba216c8005d60a7aa7585f35b73b",
+      "worlds/cloud-carnival/definition.html": "0118cad102e817b9af3c80a52401bcf7d63a4be1ed2d96f862b4aabfaa41da7a",
+      "worlds/electric-city/definition.html": "15af40d41e154a273d36d9a791c20a15def82919a415e974c460c5e36ced4ea5",
+      "worlds/crystal-caverns/definition.html": "8e8c74e4da363849ca90986dac32a347042d708456ebd9cb88e49da5fbc27706",
+      "worlds/ember-foundry/definition.html": "935babe99fad9f69ee8a61c687c4d044d168c5ae84a434fae85bcff7bc3cf178",
+      "worlds/frost-observatory/definition.html": "0d5508d4b5700db56e363ae07b1b1c9325fe1da44fab9ef2a147545a7ab96191",
+      "worlds/cosmic-reef/definition.html": "38c412eed4fb4156df0bcd9a227ae9ce8e0df7b5cafd27b90628965a118b3f07",
+      "worlds/prism-citadel/definition.html": "8cc62ad907570d33fb9dab0de778ec10335c761d4421ff0acb6ef6ac9d7948f7",
+      "worlds/sunken-archive/definition.html": "5e9b26e629bd6455ba0fba6a8c9ec588f0046696843f459bb66e0654e48dbf6e",
+      "worlds/aurora-passage/definition.html": "c43d0a68dc2926a63c6b91fb8eec34aa17055e19fbc10d29c38be758b6299186",
+      "worlds/clockwork-canopy/definition.html": "bcb63bc8db0224e43c6812744f882ea78fafefc15649428c739992d0513a5ff1",
+      "worlds/mirage-dunes/definition.html": "5526ffc14e8ee0db8244555cd38dc3f89c51c63e3ff42632bb2794f63256a077",
+      "worlds/thunder-spire/definition.html": "b96b47a7098d186c10b7d58daf73ed63aa20328ed99ffbd55edb5e7acb7c93f6",
+      "worlds/lunar-harbor/definition.html": "9d687e5981f8809d656a906cd97e111dde08413209fab80b4362296fb7dc78a8",
+      "worlds/event-horizon/definition.html": "98265520322eb502631963c5c382847d92c488a52ee72d1bb727354a9169a4e4",
+      "worlds/dawn-nexus/definition.html": "abbbd0bde99bc4729f3dbf27a57017c7a52ffd3a97cd9885edf60f66a81bb922"
+    },
+    "after": {
+      "scores.html": "92751eecdea01dff793a07cc45a82a7b86855bb1cddb2a33ef8772aa2d09f34b",
+      "worlds/prism-garden/definition.html": "6721812d6c891a557409cb202bd6a254badbba216c8005d60a7aa7585f35b73b",
+      "worlds/cloud-carnival/definition.html": "0118cad102e817b9af3c80a52401bcf7d63a4be1ed2d96f862b4aabfaa41da7a",
+      "worlds/electric-city/definition.html": "15af40d41e154a273d36d9a791c20a15def82919a415e974c460c5e36ced4ea5",
+      "worlds/crystal-caverns/definition.html": "8e8c74e4da363849ca90986dac32a347042d708456ebd9cb88e49da5fbc27706",
+      "worlds/ember-foundry/definition.html": "935babe99fad9f69ee8a61c687c4d044d168c5ae84a434fae85bcff7bc3cf178",
+      "worlds/frost-observatory/definition.html": "0d5508d4b5700db56e363ae07b1b1c9325fe1da44fab9ef2a147545a7ab96191",
+      "worlds/cosmic-reef/definition.html": "38c412eed4fb4156df0bcd9a227ae9ce8e0df7b5cafd27b90628965a118b3f07",
+      "worlds/prism-citadel/definition.html": "8cc62ad907570d33fb9dab0de778ec10335c761d4421ff0acb6ef6ac9d7948f7",
+      "worlds/sunken-archive/definition.html": "5e9b26e629bd6455ba0fba6a8c9ec588f0046696843f459bb66e0654e48dbf6e",
+      "worlds/aurora-passage/definition.html": "c43d0a68dc2926a63c6b91fb8eec34aa17055e19fbc10d29c38be758b6299186",
+      "worlds/clockwork-canopy/definition.html": "bcb63bc8db0224e43c6812744f882ea78fafefc15649428c739992d0513a5ff1",
+      "worlds/mirage-dunes/definition.html": "5526ffc14e8ee0db8244555cd38dc3f89c51c63e3ff42632bb2794f63256a077",
+      "worlds/thunder-spire/definition.html": "b96b47a7098d186c10b7d58daf73ed63aa20328ed99ffbd55edb5e7acb7c93f6",
+      "worlds/lunar-harbor/definition.html": "9d687e5981f8809d656a906cd97e111dde08413209fab80b4362296fb7dc78a8",
+      "worlds/event-horizon/definition.html": "98265520322eb502631963c5c382847d92c488a52ee72d1bb727354a9169a4e4",
+      "worlds/dawn-nexus/definition.html": "abbbd0bde99bc4729f3dbf27a57017c7a52ffd3a97cd9885edf60f66a81bb922"
+    },
+    "unchanged": true
+  },
+  "public": {
+    "utc": "2026-11-16T16:42:17.013Z",
+    "origin": "https://kayak-draw-9549.onpagelove.com",
+    "base": "/onboarding/after/demos/product-ready-20261106/prism/",
+    "version": "a013731d4815e534572f",
+    "checks": {
+      "assets": true,
+      "entry": true,
+      "canonical": true,
+      "manifestLink": true,
+      "install": true,
+      "worker": true,
+      "editor": true
+    },
+    "passed": true,
+    "records": [
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/app.js",
+        "status": 200,
+        "sha256": "ce3f96cc5fd6e705bb9a60a2490292ed8fe35d53cc6f5d2aeaa32b710b9d9460",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/apple-touch-icon.png",
+        "status": 200,
+        "sha256": "6f3099dc0feaba5a3d3fc5f7bf5fdfdfcb84b68ab0eb8f18fc49cbd727482092",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/FONT-LICENSE.txt",
+        "status": 200,
+        "sha256": "18a4de52385f6b988782639d5d0cc1326e5a8c2de9a7f01d7b20d9aedcc60943",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/ICON-LICENSE.txt",
+        "status": 200,
+        "sha256": "b740a1d46122672da62833e97f7e7c8a13fa85cbc7445b584b297cc00dde93db",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/QR-LICENSE.txt",
+        "status": 200,
+        "sha256": "51e9a131e168e6c90797df6eb1f3711f00e7a9c0b8257e3cd77a105677325827",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/display.woff2",
+        "status": 200,
+        "sha256": "0640890476fc1198ab4de571fb658de443c4d85b66466ec09534a8737ab1ce9d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/favicon-32.png",
+        "status": 200,
+        "sha256": "680e6bdf735e9728f70231abbbec5160deabb8b6d484fdf23f7b15cd2812e783",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/icons.svg",
+        "status": 200,
+        "sha256": "51cfeef01c610a3f7ed5cb8d5e8b5763ea022b33bff924986a9efad2b5f84088",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/og-prism-breaker-square.jpg",
+        "status": 200,
+        "sha256": "bed585ab10f991afe8f6206ead168a05231095be281838105d886b78f7fab7b3",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/og-prism-breaker.jpg",
+        "status": 200,
+        "sha256": "5a8a0efa807a3c798f316814356cc41259f76b1ff6dc2bb62c9c3dee1b907fcb",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/design.css",
+        "status": 200,
+        "sha256": "c03707ac0953fdf0df58c0f655f4d109303a78b00840425ba31b918d13be3dad",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/inter-400.woff2",
+        "status": 200,
+        "sha256": "d1a20563ae7e08801c3ecb213f504453d1ce79bff1bd4412ecc30247e1201556",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/inter-600.woff2",
+        "status": 200,
+        "sha256": "daae5f013158a850421029f366034c619d183e704fbb3a77d746ac7d6fb1a52a",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/inter-OFL.txt",
+        "status": 200,
+        "sha256": "78c5db5075157265b6c50efe8532587adfc6f5f2ea7bae40acfa067e2e684a7c",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/sourceserif4-400.woff2",
+        "status": 200,
+        "sha256": "80ae4e9165e405a08e066555bd4af7d0fd76f7152477eba4737bac92fe8580bd",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/presentation/fonts/sourceserif4-OFL.txt",
+        "status": 200,
+        "sha256": "bf6b2ac206a3ebafe68bfea53b83a4982af4c65a071b401a32fe1103477a487f",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-icon-192.png",
+        "status": 200,
+        "sha256": "59f06d7f54fbd35394375f9167c8c5297d0efcf3c3de3f691966ec69c2245a02",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-icon-512.png",
+        "status": 200,
+        "sha256": "02fc69e93d50d59d9bedc057c450e3c76d9f87be53fa6b18ae47026df0fb1b19",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-maskable-512.png",
+        "status": 200,
+        "sha256": "fdd83a754dd4d2592b3a9bd62de3d85f035f313229ba2d4f12d1ae719a3964e8",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-maskable.svg",
+        "status": 200,
+        "sha256": "d88d9e4fbc2a7baf7e28d1d004b7d2d0b3df0614b5c1f9d89916d43d2995f3a9",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/prism-wordmark.svg",
+        "status": 200,
+        "sha256": "974dbdd2db0e60a2c91a96e65b4172629fe326dd616d2418340381c8458be6b3",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-01.png",
+        "status": 200,
+        "sha256": "723714a7ab22d82a808730a8a19c41973949b984837784ebc955c87722dbd84e",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-02.png",
+        "status": 200,
+        "sha256": "a177c415539a26ba72eab802a88f1391575b6e79cf0c7b59e2f0d263b376302c",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-03.png",
+        "status": 200,
+        "sha256": "495e4ed278099f360ae44998dd4448e7ac490f66c3bd6994c395c7548de7ef40",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-04.png",
+        "status": 200,
+        "sha256": "2877d831886976f9a979a53454f8c9aee3ba8197c6c27e14dcf3e40673e65bd5",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-05.png",
+        "status": 200,
+        "sha256": "e9dd0e0fd6f0653ac2946c8f0b0214fb1a97f869eba53ce430ff8acb7e85919f",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-06.png",
+        "status": 200,
+        "sha256": "d6d02288d04df5fca12ca0ba5e9166464a4a05e5fce29398bb264a545f412abf",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-07.png",
+        "status": 200,
+        "sha256": "d25a4883493731dd6016c7f1520f9b50b70f66510740ab9c69ee3e810404e79f",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-08.png",
+        "status": 200,
+        "sha256": "b0e453e7b82ce715bb3bd2f9e7c90d0cc43ed6ac42b0025a8ef4a930ab5ed631",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-09.png",
+        "status": 200,
+        "sha256": "78947042e99d833e15e42247b6b831a4e5311b52dde63a0104ac605e7fe56376",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-10.png",
+        "status": 200,
+        "sha256": "cd58c03984e72c027bd1fc4c3c36ba61cec0c4cb636cf1393d6804617ef77185",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-11.png",
+        "status": 200,
+        "sha256": "bbb6e77f793019a4f7e5f698707c8361beaf8888bb029c57ad2c6eb28486e31b",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-12.png",
+        "status": 200,
+        "sha256": "815994fd037b1a61391281711d07f0a4c8ddba553f22cc78da346ac5a34ddbe7",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-13.png",
+        "status": 200,
+        "sha256": "7e9fc9f26a68135029572b03d042fb320b09947148214862d05069dd62256289",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-14.png",
+        "status": 200,
+        "sha256": "fbeb3a2a13a67823e4da1ac795f6fe5e8974817ae4c589b3964511c54f23f33d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-15.png",
+        "status": 200,
+        "sha256": "0ce471a1f499454e5a682f4416bc0a2400b7d44dfd1c1dbfdb3d2601a13285cb",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/assets/world-preview-16.png",
+        "status": 200,
+        "sha256": "a0a5b3433e17e31e8b51b158f9a70899a40c1fb98110f12daf8f92f4c1d06539",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/audio.js",
+        "status": 200,
+        "sha256": "b13c8690fe232d99c64173e280030c1eaa092ccc43d19b05e2c8e6b235811d51",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/bootstrap.js",
+        "status": 200,
+        "sha256": "222c6223e6c6c3a54397b17ea46b647ea2af55e5104e4a25e7195be7ea6a8d0e",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/brick-batch.js",
+        "status": 200,
+        "sha256": "644f4fb555f6805e5239db67f5479b4a76f7ed94d0fa2b1f0b49068dc1318115",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/brick-events.js",
+        "status": 200,
+        "sha256": "48578bc9a381d7dd6191fee3a413e78ec5c1310337b29273da6db62abf53e3ee",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/brick-labels.js",
+        "status": 200,
+        "sha256": "aea68f79fd1389fabd472d7a6ff63d42fb8fccea2dd94cf9fa683ae212bd6716",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/bundled-worlds.js",
+        "status": 200,
+        "sha256": "3639105c83f147bab4577201ebd99aeb42beed307c06597fa1772c77ecf25bc0",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/champion.js",
+        "status": 200,
+        "sha256": "9e5c111b8b6dd435f85ad878744ae25e6f2edae01b8de5008dc9820670fe967d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/cinematic-score.js",
+        "status": 200,
+        "sha256": "83a63d80c8c483d76f1f3e7916502ede59a437a69ebedd8c16c24dada03e760b",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/cinematics.js",
+        "status": 200,
+        "sha256": "c0e45ddc38c3858452d01f3b772b077b8ee58e7bc577a2cf9c85bcadd3f9458c",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/collection-finder.mjs",
+        "status": 200,
+        "sha256": "4bffad5d14868e593709af85817124c5e59ae18b7b39bd3ca4937c61aa765c0a",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/crystal-bricks.js",
+        "status": 200,
+        "sha256": "26eb949a7bbec2d217683b64a269ba77e87b0195cd355501bf840523368140f2",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/daily-ending.js",
+        "status": 200,
+        "sha256": "793eef0571f681c2450902d8e3e8338d4a97cc32e63bb6eb7bc392032ffd64b7",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/daily-score.js",
+        "status": 200,
+        "sha256": "c1265a32cfe622a49b89b6ba84517a89a8b1da15fa3665e9cc5bd0f525d10912",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/display.css",
+        "status": 200,
+        "sha256": "52239dd9dbb768f869a565e20c3435dda61c0915c65f08110d894fd5b7fb4fcd",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/display.js",
+        "status": 200,
+        "sha256": "b1fca1cb021724e160a0590cad09a03ad9a29f0739ff0d20198e21847f2fbd6d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor-bootstrap.js",
+        "status": 200,
+        "sha256": "9646207b93845a73e6b064ad815e04ee6fe25f595a2f5286f4acadd72de76c12",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor-drafts.js",
+        "status": 200,
+        "sha256": "aea7ed001d164f2e3fdd1df6831097f481544878f9a6f1036245ac5245a3bd8b",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor-template.html",
+        "status": 200,
+        "sha256": "f5701ab7c63a7cfada9620a79ed487b325e341612c8894284ce1746d86645c47",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor.css",
+        "status": 200,
+        "sha256": "5cfa943f3ca25339a3a948bb32f83adeaf3ec06e4cd2c04ddb62d938b02c41df",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/editor.js",
+        "status": 200,
+        "sha256": "c9ed6bf19d0f10eaaa082aa04bcfd450bcff63aa45373572be44e08bd6b0dfc6",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement-art.js",
+        "status": 200,
+        "sha256": "bdeb0fe0b29310204367d4a821868665aab5a240491906d26844577ccff40677",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement-data.js",
+        "status": 200,
+        "sha256": "905305da83279af4ac25a2770d2e305a29ed6e21a839d2ce5e1a3dfdebfce50d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement-ui.js",
+        "status": 200,
+        "sha256": "cccc11887ecb695d3b2b4ce214c76c67fd35c75033eda98a82c9407aa835edc1",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement.css",
+        "status": 200,
+        "sha256": "a61525110dad9fd2b5ce5e525c4a08a468a0ec3de0fdcba6d561a955503849a6",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engagement.js",
+        "status": 200,
+        "sha256": "490c8ef601830b8acf396c81e81750c692132c3f16a1a62a050a779ec778e49d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/engine.js",
+        "status": 200,
+        "sha256": "65b8de38f5aa7c8525f8386229c136066eb3eab5cd7e38248325de98898863ae",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/favicon.ico",
+        "status": 200,
+        "sha256": "d1b9e08caed906f8f32c9e6de2fbd03e2fc2e3829bdb94778514051fce867728",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/favicon.svg",
+        "status": 200,
+        "sha256": "9a4aece1f75634e9147a1e5c931c25a93a85aa6e92633146764ee2259986ce9d",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/frame-loop.js",
+        "status": 200,
+        "sha256": "d213d49c5f44df52f60970421494950cef3cee5a08c9b565e7aaef4ba6eeddb0",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/graphics-recovery.js",
+        "status": 200,
+        "sha256": "9982401bd6ecdec700c393b5ae9f8f4c27bd47bdfeb0ed8d6701d78cc61491c8",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/index.html",
+        "status": 200,
+        "sha256": "5612897ff63dc814b51ed488a36a2bf05cc6df9b7c7f307cf6c7f33f82eeafed",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/installation.js",
+        "status": 200,
+        "sha256": "9618963b1fe4041c1bde7a4ba242dbe23fcd5123dd118ae90935eae42f49e944",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/keyboard-input.js",
+        "status": 200,
+        "sha256": "72b477647855c20b046a8f4416c8cd6a47568bca3971bae4bca6c2e9066b6a2b",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/leaderboard.js",
+        "status": 200,
+        "sha256": "7ab41b727c3a51868da5f8e25b32aaddc307b055185290c8351100be5c045c97",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/levels.js",
+        "status": 200,
+        "sha256": "3e77280d1e67623623244a3d9a337d6e9b0e3510e64a642dd6d577529e388fe6",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/manifest.webmanifest",
+        "status": 200,
+        "sha256": "f14428c34d500a669ea6a85bd59f27a6f89cbaf0bdefbe900c357515571cb010",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/mastery-ceremony.js",
+        "status": 200,
+        "sha256": "9f7aeb0c59f2846f2299c5c94a9bb82b40d823d346785e179902d9134aa5e4b3",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/mastery.js",
+        "status": 200,
+        "sha256": "9f25c93ec54c6276278b69fd7a8eae74be425070655fc3ece357c71d53dd50a5",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/medal-ui.js",
+        "status": 200,
+        "sha256": "6839709f5756cddc1e0f12d74ba2e673b2d5df9326f0e982aa841324ff76cbb2",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/music.js",
+        "status": 200,
+        "sha256": "fe6391fa3dac908403eabbd8e8526e54c60f2fbbe067b96aaaef286ca3199e4e",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/offline.js",
+        "status": 200,
+        "sha256": "0c2fee334c9a8cf398f8d527132b196da46a9d54ce4bca69a06ba625cd7fc5be",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/paddle-art.js",
+        "status": 200,
+        "sha256": "1600e4740f30cac2d140c28679be2a794e8022608dd22394e8450c2eb2d5da97",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/particle-batch.js",
+        "status": 200,
+        "sha256": "52ce4da7c6a60bb690a82d93ca738b9004e2ebe94d12ffe636cc72dc134c4678",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/pointer-input.js",
+        "status": 200,
+        "sha256": "6e9c81685a4d45dad3a25bf6058ee9d3c258fa3090a0690b46a2d3cb966c684f",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/postprocessing.js",
+        "status": 200,
+        "sha256": "6bf13187afddb24a0981e83cab06b8a36d6ecaeab48da2e487457502314fa04a",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/preferences.js",
+        "status": 200,
+        "sha256": "9823421e9d0ebc865bd04ea077d12ac5294d1d85ee2a2ce79e3f4c8beca12fb2",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/publish-world.js",
+        "status": 200,
+        "sha256": "cfc8f9d23c0478ea06a7aff3d31118b58745bb740a791d0eea968a696ea42b34",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/pwa.js",
+        "status": 200,
+        "sha256": "d5b7b1128d2e0634e1520d93901bc518e1ddb4aa91f80d2a604892c1c10467ae",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/render-budget.js",
+        "status": 200,
+        "sha256": "7368f9429d54c3ab90dc3db1639bf14df9bab034b4c7ed6d8d26a4d94859bcf2",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/save-recovery.js",
+        "status": 200,
+        "sha256": "387ae17446f6168fa65245309d8160407b16ece50ca4efc7d95365bae2d53f4b",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/scene-playback.js",
+        "status": 200,
+        "sha256": "f75ef18f04547d6d1c9104e6496679fb7be22d136d9729a3f4e5db4f49fef773",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/scene.js",
+        "status": 200,
+        "sha256": "f37d44708584e59e8b1ca7f36d5808d1a88e22a1a983bdbabd8f8c20a76d1813",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/scenery-batch.js",
+        "status": 200,
+        "sha256": "5ad6495e4ea0e68b59f6e82e994b9819ade9d4ef12c8d6a5538c8decfab63aca",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/score-contract.js",
+        "status": 200,
+        "sha256": "e64a07eee78201e2c1a2d0df0942a0314a3f416801a7002b10ce364502d1c63f",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/sharing.js",
+        "status": 200,
+        "sha256": "1d55cfd880867f6ee0f4b094456e0d8c43a5f4b3ad74bfa487843c4ade1a682b",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/style.css",
+        "status": 200,
+        "sha256": "f75452d81b232d7a4902b20af59bd070b83a6667027cd67d9347780343413804",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/THREE-LICENSE.txt",
+        "status": 200,
+        "sha256": "bfe119ea4fd413f5f7ca3fcd63adb0c4a073ed39daa2fe7d3e6b769e21272601",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/qr.js",
+        "status": 200,
+        "sha256": "ea91d7118a5395289170da848b7c6758b996163bfbccf312591ab65a4911b7c0",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/three.core.min.js",
+        "status": 200,
+        "sha256": "61ba0df005b05991361d040d8ff670e1aadfd0ce7aeebd1fdb0725957a8957de",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/vendor/three.module.min.js",
+        "status": 200,
+        "sha256": "e2b5ee6bccd38fd6d8a2428546b83c5f2426d84b152ef82be8055556e3b40eb6",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/victory-music.js",
+        "status": 200,
+        "sha256": "8ab4f00f99b49e1774e41314914719c5f02a0d96e1754503ae63a55881b41b7e",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-data.css",
+        "status": 200,
+        "sha256": "1d0a7239416e3d0cb4d3bdceec8cd59d3f5a87ee11955ffe9896c1901488c81c",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-format.js",
+        "status": 200,
+        "sha256": "977c3aa76d4821191acb3a30a04385e1bcf51191aeb24bac898fea17afaa4cb9",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-identity.js",
+        "status": 200,
+        "sha256": "b8971f8196a82276662f34841c21f9cbce0110b57f825fbf4217777620191b6a",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-schema.js",
+        "status": 200,
+        "sha256": "97db7cb7a095486d4ed74dd40fddc553c66e8bddd094e5cdb603c62c228f17ac",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/world-working-document.js",
+        "status": 200,
+        "sha256": "04b9fa06d6ddc8e227e309314af8ad6fbcc8538d9b3e8b8897ffe7c623825542",
+        "valid": true
+      },
+      {
+        "path": "/onboarding/after/demos/product-ready-20261106/prism/releases/a013731d4815e534572f/pwa-release.js",
+        "status": 200,
+        "sha256": "c725e6c8db8d24a7aa318731eafc5d4494fce528922e54c206f8225453f939d4",
+        "valid": true
+      }
+    ]
+  }
+}
